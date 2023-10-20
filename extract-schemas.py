@@ -21,6 +21,7 @@ def parse_attr_name(raw_url):
     return os.path.splitext(original_filename)[0]
 
 def convert_to_nickel(raw_schema, dest_file_name):
+    os.makedirs(os.path.dirname(dest_file_name), exist_ok = True)
     with open(dest_file_name, "w+") as out:
         js2n = subprocess.run(["json-schema-to-nickel"],
             input = raw_schema,
@@ -30,7 +31,7 @@ def convert_to_nickel(raw_schema, dest_file_name):
 
 def process_one_schema(schema_descr):
     name = schema_descr["name"]
-    attr_name = parse_attr_name(schema_descr["url"])
+    attr_name = schema_descr["name"]
     dest_file_name = os.path.join(out_path, attr_name + ".ncl")
     try:
         raw_schema = fetch_schema(schema_descr)
