@@ -1,6 +1,7 @@
 {
   inputs.nixpkgs.url = "nixpkgs/nixos-unstable";
   inputs.organist.url = "github:nickel-lang/organist";
+  inputs.json-schema-to-nickel.url = "github:nickel-lang/json-schema-to-nickel";
 
   nixConfig = {
     extra-substituters = ["https://organist.cachix.org"];

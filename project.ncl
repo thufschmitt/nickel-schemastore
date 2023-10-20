@@ -5,7 +5,8 @@ let organist = inputs.organist in
   shells = organist.shells.Bash,
 
   shells.build = {
-    packages = {},
+    packages.json-schema-to-nickel = organist.import_nix "json-schema-to-nickel#default",
+    packages.python = organist.import_nix "nixpkgs#python3",
   },
 
   shells.dev = {
