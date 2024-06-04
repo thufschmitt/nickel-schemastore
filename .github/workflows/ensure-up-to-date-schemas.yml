@@ -6,6 +6,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Install Nix
       uses: cachix/install-nix-action@v26
+      with:
+        extra_nix_config: accept-flake-config = true
     - name: Ensure that schema files don't need a rebuild
       run: |-
         nix develop --command python3 ./extract-schemas.py

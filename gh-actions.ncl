@@ -7,7 +7,8 @@ let setup = [
   },
   {
     name = "Install Nix",
-    uses = "cachix/install-nix-action@v26"
+    uses = "cachix/install-nix-action@v26",
+    with.extra_nix_config = "accept-flake-config = true",
   }
 ]
 in
