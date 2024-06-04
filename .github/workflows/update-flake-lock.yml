@@ -1,0 +1,9 @@
+jobs:
+  update-flake-lock:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Nix
+      uses: cachix/install-nix-action@v26
+    - name: Update flake.lock
+      uses: DeterminateSystems/update-flake-lock@v21
+on: push

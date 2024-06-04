@@ -12,5 +12,18 @@ let organist = inputs.organist in
   shells.dev = {
     packages.hello = organist.import_nix "nixpkgs#hello",
   },
+
+  files =
+    (import "./gh-actions.ncl")
+    |> std.record.to_array
+    |> std.array.map
+      (
+        fun { field = workflow_name, value = workflow } =>
+          {
+            field = ".github/workflows/%{workflow_name}.yml",
+            value.content = std.serialize 'Yaml workflow
+          }
+      )
+    |> std.record.from_array,
 }
   | organist.OrganistExpression

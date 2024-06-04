@@ -1,0 +1,11 @@
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Nix
+      uses: cachix/install-nix-action@v26
+    - name: Ensure that schema files don't need a rebuild
+      run: |-
+        nix develop --command python3 ./extract-schemas.py
+        git diff --exit-code
+on: push
