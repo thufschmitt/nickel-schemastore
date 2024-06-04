@@ -9,7 +9,12 @@ let setup = [
     name = "Install Nix",
     uses = "cachix/install-nix-action@v26",
     with.extra_nix_config = "accept-flake-config = true",
-  }
+  },
+  {
+    uses = "cachix/cachix-action@v14",
+    with.name = "nickel-schemastore",
+    with.authToken = "${{ secrets.CACHIX_AUTH_TOKEN }}",
+  },
 ]
 in
 

@@ -8,6 +8,10 @@ jobs:
       uses: cachix/install-nix-action@v26
       with:
         extra_nix_config: accept-flake-config = true
+    - uses: cachix/cachix-action@v14
+      with:
+        authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        name: nickel-schemastore
     - name: Ensure that schema files don't need a rebuild
       run: |-
         nix develop --command python3 ./extract-schemas.py
