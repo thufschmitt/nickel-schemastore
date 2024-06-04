@@ -4,8 +4,8 @@
   inputs.json-schema-to-nickel.url = "github:nickel-lang/json-schema-to-nickel";
 
   nixConfig = {
-    extra-substituters = ["https://organist.cachix.org"];
-    extra-trusted-public-keys = ["organist.cachix.org-1:GB9gOx3rbGl7YEh6DwOscD1+E/Gc5ZCnzqwObNH2Faw="];
+    extra-substituters = ["https://tweag-nickel.cachix.org"];
+    extra-trusted-public-keys = ["tweag-nickel.cachix.org-1:GIthuiK4LRgnW64ALYEoioVUQBWs0jexyoYVeLDBwRA="];
   };
 
   outputs = {organist, ...} @ inputs:
