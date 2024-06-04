@@ -1,3004 +1,1682 @@
 # DO NOT EDIT
 # This file was automatically generated using json-schema-to-nickel
-let predicates =
-{
+let _js2n__-prdslib
+  = {
     allOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `allOf preds` succeeds if all of the predicates in `preds` succeed
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
+        `allOf preds` succeeds if all of the predicates in `preds` succeed
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
       "%
-      = fun preds x => std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if !result.success then result else acc)
-          { error = "", success = true, }
-          preds,
-    always : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "", success = true, },
+      = fun
+          preds
+          x
+          =>
+          std.array.fold_right
+            (fun pred acc => (match { 'Ok => acc, 'Err s => 'Err s, }) (pred x))
+            'Ok preds,
+    always : Dyn -> [| 'Ok, 'Err String |] = std.function.const 'Ok,
     anyOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
+        `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
       "%
-      = fun preds x => (fun result => if result.success then
-            { error = "", success = true, }
-            else
-            {
-              error = m%"
-                  anyOf: none of the options matched%{std.string.join "\n"
-                  result.errors}
-                  "%,
-              success = false,
-            })
-          (std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if result.success || acc.success then
-            { errors = [  ], success = true, }
-            else
-            {
-              errors = [
-                      m%"
-                      - %{result.error}
-                      "%
-                    ] @
-                    acc.errors,
-              success = false,
-            })
-          { errors = [  ], success = false, }
-          preds),
-    arrays = {
+      = fun
+          preds
+          x
+          =>
+          (match {
+            'Ok =>
+              'Ok,
+            'Errs
+              msgs =>
+              'Err
+                m%"
+                  anyOf: none of the options matched
+                  %{std.string.join
+                    m%"
+                      
+                      
+                    "% msgs}
+                "%,
+          })
+            (std.array.fold_right
+              (fun
+                pred
+                acc
+                =>
+                (match {
+                  'Ok =>
+                    'Ok,
+                  'Errs
+                    msgs =>
+                    (match {
+                      'Ok =>
+                        'Ok,
+                      'Err
+                        msg =>
+                        'Errs ([ "  - %{msg}" ] @ msgs),
+                    }) (pred x),
+                }) acc) ('Errs [  ]) preds),
+    arrays =
+      {
           additionalItems
-            : (Dyn -> { success: Bool, error: String }) -> Number -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]
-            "%
-            = fun pred start x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |])
+            -> Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]"
+            = fun
+                pred
+                start
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let value_length = std.array.length x in
-                if start >= value_length then
-                { error = "", success = true, }
-                else
-                (arrayOf pred ((std.array.slice start value_length x) | Dyn))),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let value_length
+                      = std.array.length x
+                      in
+                    if start >= value_length then
+                        'Ok
+                      else
+                        arrayOf pred
+                          ((std.array.slice start value_length x)
+                          | Dyn),
           arrayOf
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Apply a predicate to all elements of an array, succeeding if all
-            applications succeed. If the value isn't an array, fail.
+              Apply a predicate to all elements of an array, succeeding if all
+              applications succeed.
             "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                x),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  std.array.fold_right
+                      (fun
+                        x
+                        acc
+                        =>
+                        (match { 'Ok => acc, 'Err msg => 'Err msg, }) (pred x))
+                      'Ok x,
           contains
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]
-            "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                (fun result => if result.success then
-                  { error = "", success = true, }
-                  else
-                  {
-                    error = m%"
-                        contains: no elements matched%{std.string.join "\n"
-                        result.errors}
-                        "%,
-                    success = false,
-                  })
-                (std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if result.success || acc.success then
-                  { errors = [  ], success = true, }
-                  else
-                  {
-                    errors = [
-                            m%"
-                            - %{result.error}
-                            "%
-                          ] @
-                          acc.errors,
-                    success = false,
-                  })
-                { errors = [  ], success = false, }
-                x)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  (match {
+                      'Ok =>
+                        'Ok,
+                      'Errs
+                        msgs =>
+                        'Err
+                          m%"
+                            contains: no elements matched
+                            %{std.string.join
+                              m%"
+                                
+                                
+                              "% msgs}
+                          "%,
+                    })
+                      (std.array.fold_right
+                        (fun
+                          x
+                          acc
+                          =>
+                          (match {
+                            'Ok =>
+                              'Ok,
+                            'Errs
+                              msgs =>
+                              (match {
+                                'Ok =>
+                                  'Ok,
+                                'Err
+                                  msg =>
+                                  'Errs ([ "  - %{msg}" ] @ msgs),
+                              }) (pred x),
+                          }) acc) ('Errs [  ]) x),
           items
-            : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]
-            "%
-            = fun preds x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : Array (Dyn -> [| 'Ok, 'Err String |])
+            -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]"
+            = fun
+                preds
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let length_to_check =
-                std.number.min (std.array.length preds) (std.array.length x)
-                in
-                
-                std.array.fold_right
-                (fun i acc => let result =
-                  std.array.at i preds (std.array.at i x)
-                  in
-                  
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                (std.array.range 0 length_to_check)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let length_to_check
+                      = std.number.min (std.array.length preds)
+                        (std.array.length x)
+                      in
+                    std.array.fold_right
+                        (fun
+                          i
+                          acc
+                          =>
+                          (match { 'Err msg => 'Err msg, 'Ok => acc, })
+                            (std.array.at i preds (std.array.at i x))) 'Ok
+                        (std.array.range 0 length_to_check),
           maxItems
-            : Number -> Dyn -> { success: Bool, error: String }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
+              `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
             "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (if (std.array.length (x | Array Dyn)) > n then
-                {
-                    error = m%"
-                        array is longer than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minItems
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
-            "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
-                else
-                (if (std.array.length (x | Array Dyn)) < n then
-                {
-                    error = m%"
-                        array is shorter than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          uniqueItems
-            : Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Succeeds for any array if its elements are pairwise distinct.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
-            "%
-            = let find_duplicate 
-                : Array Dyn -> {
-                  has_duplicate: Bool,
-                  duplicate: Dyn,
-                  seen: { _ : Bool }
-                } =
-              std.array.fold_right
-                (fun elt acc => if acc.has_duplicate then acc else
-                  (let index = std.serialize 'Json elt in
-                  if std.record.has_field index acc.seen then
-                  { duplicate = elt, has_duplicate = true, seen = acc.seen, }
+                  if (std.array.length (x | Array Dyn)) > n then
+                    'Err
+                      "array is longer than %{std.string.from_number n} items"
                   else
-                  {
-                    duplicate = null,
-                    has_duplicate = false,
-                    seen = std.record.insert index true acc.seen,
-                  }))
-                { duplicate = null, has_duplicate = false, seen = {  }, }
-              in
-              
-              fun x => if !(std.is_array x) then
-                { error = "", success = true, }
+                    'Ok,
+          minItems
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let {has_duplicate  | Dyn, duplicate  | Dyn, ..} =
-                find_duplicate (x | Array Dyn)
+                  if (std.array.length (x | Array Dyn)) < n then
+                    'Err
+                      "array is shorter than %{std.string.from_number n} items"
+                  else
+                    'Ok,
+          uniqueItems
+            : Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              Succeeds for any array if its elements are pairwise distinct.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
+            "%
+            = let find_duplicate
+                : Array Dyn
+                -> {
+                  has_duplicate : Bool,
+                  duplicate : Dyn,
+                  seen : { _ : Bool }
+                }
+                = std.array.fold_right
+                  (fun
+                    elt
+                    acc
+                    =>
+                    if acc.has_duplicate then
+                      acc
+                    else
+                      let index
+                        = std.serialize 'Json elt
+                        in
+                      if std.record.has_field index acc.seen then
+                          {
+                            duplicate = elt,
+                            has_duplicate = true,
+                            seen = acc.seen,
+                          }
+                        else
+                          {
+                            duplicate = null,
+                            has_duplicate = false,
+                            seen = std.record.insert index true acc.seen,
+                          })
+                  { duplicate = null, has_duplicate = false, seen = {}, }
                 in
-                
-                if has_duplicate then
-                {
-                    error = m%"
-                        duplicate found: %{std.serialize 'Json duplicate}
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
+              fun
+                  x
+                  =>
+                  if !(std.is_array x) then
+                    'Ok
+                  else
+                    let { has_duplicate, duplicate, .. }
+                      = find_duplicate (x | Array Dyn)
+                      in
+                    if has_duplicate then
+                        'Err "duplicate found: %{std.serialize 'Json duplicate}"
+                      else
+                        'Ok,
         },
     const
-      : Dyn -> Dyn -> { success: Bool, error: String }
+      : Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `const value x` succeeds if and only if `x` is equalt to `value`
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
+        `const value x` succeeds if and only if `x` is equal to `value`
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
       "%
-      = fun value x => if x == value then { error = "", success = true, } else
-          {
-            error = m%"
-                expected %{std.serialize 'Json value}
-                "%,
-            success = false,
-          },
+      = fun
+          value
+          x
+          =>
+          if x == value then
+            'Ok
+          else
+            'Err "expected %{std.serialize 'Json value}",
     contract_from_predicate
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> Dyn -> Dyn
-      = fun predicate label value => let {success  | Dyn, error  | Dyn} =
-          predicate value
-          in
-          
-          if success then value else
-          ((std.contract.blame_with_message error label) | Dyn),
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> Dyn -> Dyn
+      = fun
+          predicate
+          label
+          value
+          =>
+          (match {
+            'Ok =>
+              value,
+            'Err
+              msg =>
+              (std.contract.blame_with_message msg label)
+              | Dyn,
+          }) (predicate value),
     enum
-      : Array Dyn -> Dyn -> { success: Bool, error: String }
+      : Array Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
+        `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
       "%
-      = let checkEqual =
-        fun input variant => (input == variant) ||
-            ((std.is_enum input) &&
-            (((std.string.from_enum input) == variant) | Bool))
-        in
-        
-        fun values x => std.array.fold_right
-          (fun value acc => if checkEqual x value then
-            { error = "", success = true, }
-            else
-            acc)
-          {
-            error = m%"
-                expected one of %{std.serialize 'Json (values | Dyn)}
-                "%,
-            success = false,
-          }
-          values,
+      = let checkEqual
+          = fun
+            input
+            variant
+            =>
+            (input == variant)
+            || ((std.is_enum input)
+            && (((std.string.from_enum input) == variant)
+            | Bool))
+          in
+        fun
+            values
+            x
+            =>
+            std.array.fold_right
+              (fun value acc => if checkEqual x value then 'Ok else acc)
+              ('Err "expected one of %{std.serialize 'Json (values | Dyn)}")
+              values,
     from_simple_predicate
-      : String -> (Dyn -> Bool) -> Dyn -> { success: Bool, error: String }
-      | doc m%"
-      Convert a simple boolean predicate into a predicate supporting error messages
-      "%
-      = fun error' pred x => { error = error', success = pred x, },
+      : String -> (Dyn -> Bool) -> Dyn -> [| 'Ok, 'Err String |]
+      | doc "Convert a simple boolean predicate into a predicate supporting error messages"
+      = fun error' pred x => if pred x then 'Ok else 'Err error',
     ifThenElse
-      : (Dyn -> { success: Bool, error: String }) -> (Dyn -> {
-        success: Bool,
-        error: String
-      }) -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
+        `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
       "%
-      = fun i t e x => let {success  | Dyn, ..} = i x in
-          if success then t x else (e x),
+      = fun i t e x => (match { 'Ok => t x, 'Err msg => e x, }) (i x),
     isType
       : [| '"Array", '"Bool", 'Integer, 'Null, '"Number", 'Record, '"String" |]
-      -> Dyn -> { success: Bool, error: String }
-      = fun t => (match {'Integer => from_simple_predicate "expected an integer"
-            (fun x => (std.is_number x) &&
-              (std.number.is_integer (x | Number))),
-            'Null => from_simple_predicate "expected `null`"
-            (fun x => x == null),
-            _ => from_simple_predicate
-            m%"
-            value is not of type %{std.string.from_enum t}
-            "%
-            (fun x => (std.typeof x) == t)
-          })
-          t,
-    never : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "never", success = false, },
+      -> Dyn -> [| 'Ok, 'Err String |]
+      = fun
+          t
+          =>
+          (match {
+            'Null =>
+              from_simple_predicate "expected `null`" (fun x => x == null),
+            'Integer =>
+              from_simple_predicate "expected an integer"
+                (fun
+                  x
+                  =>
+                  (std.is_number x) && (std.number.is_integer (x | Number))),
+            _ =>
+              from_simple_predicate
+                "value is not of type %{std.string.from_enum t}"
+                (fun x => (std.typeof x) == t),
+          }) t,
+    never : Dyn -> [| 'Ok, 'Err String |] = std.function.const ('Err "never"),
     not
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `not pred` succeeds if and only if `pred` fails
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
+        `not pred` succeeds if and only if `pred` fails
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
       "%
-      = fun pred x => let result = pred x in
-          if result.success then
-          {
-              error = "Inverted predicate succeeded unexpectedly",
-              success = false,
-            }
-          else
-          { error = "", success = true, },
-    numbers = {
+      = fun
+          pred
+          x
+          =>
+          (match {
+            'Ok =>
+              'Err "Inverted predicate succeeded unexpectedly",
+            'Err
+              msg =>
+              'Ok,
+          }) (pred x),
+    numbers =
+      {
           exclusiveMaximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) < limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive maximum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) < limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive maximum of %{std.string.from_number
+                        limit}",
           exclusiveMinimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) > limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive minimum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) > limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive minimum of %{std.string.from_number
+                        limit}",
           maximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a maximum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a maximum of %{std.string.from_number limit}",
           minimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a minimum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a minimum of %{std.string.from_number limit}",
           multipleOf
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]
-            "%
-            = fun mult x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]"
+            = fun
+                mult
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if std.number.is_integer ((x | Number) / mult) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a multiple of %{std.string.from_number mult}
-                      "%,
-                  success = false,
-                }),
+                  if std.number.is_integer ((x | Number) / mult) then
+                    'Ok
+                  else
+                    'Err
+                      "expected a multiple of %{std.string.from_number mult}",
         },
     oneOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
+        `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
       "%
-      = fun preds x => let count_true 
-            : Array { success: Bool, error: String } -> Number =
-          fun results => std.array.fold_left
-              (fun n b => if b.success then n + 1 else n)
-              0
+      = fun
+          preds
+          x
+          =>
+          let count_ok
+            : Array [| 'Ok, 'Err String |] -> Number
+            = fun
               results
-          in
-          
-          let results = std.array.map (fun pred => pred x) preds in
-          let count = count_true results in
-          if count == 0 then
-          let errors =
-            std.array.map
-              (fun result => m%"
-                - %{result.error}
-                "%)
-              results
+              =>
+              std.array.fold_left (fun n b => if b == 'Ok then n + 1 else n) 0
+                results
             in
-            
-            {
-              error = m%"
-                  oneOf: none of the options matched%{std.string.join "\n"
-                  errors}
-                  "%,
-              success = false,
-            }
-          else
-          (if count > 1 then
-          {
-              error = "oneOf: more than one of the options matched",
-              success = false,
-            }
-          else
-          { error = "", success = true, }),
-    records = {
-          dependencies
-            : { _ : Dyn } -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]
-            "%
-            = let mustHaveFields 
-                : Array String -> { _ : Dyn } -> {
-                  success: Bool,
-                  error: String
-                } =
-              fun fields x => std.array.fold_right
-                  (fun field acc => if !(std.record.has_field field x) then
-                    {
-                        error = m%"
-                            expected field `%{field}`
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc)
-                  { error = "", success = true, }
-                  fields
+          let results
+              = std.array.map (fun pred => pred x) preds
               in
-              
-              fun deps x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (let x  | { _ : Dyn } = x in
-                std.array.fold_right
-                (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                  if !(std.record.has_field field x) then acc else
-                    (let result =
-                    if std.is_array value then
-                      mustHaveFields (value | Array String) x
-                      else
-                      (let pred  | Dyn -> { success: Bool, error: String } =
-                      value
-                      in
-                      
-                      pred (x | Dyn))
+            let count
+                = count_ok results
+                in
+              if count == 0 then
+                  let errors
+                    = std.array.flat_map
+                      (fun
+                        result
+                        =>
+                        (match { 'Ok => [  ], 'Err s => [ "  - %{s}" ], })
+                          result) results
                     in
-                    
-                    if !result.success then
-                    {
-                        error = m%"
-                            dependency of `%{field}` failed: %{result.error}
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc))
-                { error = "", success = true, }
-                (std.record.to_array deps)),
-          maxProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
+                  'Err
+                      m%"
+                        oneOf: none of the options matched
+                        %{std.string.join
+                          m%"
+                            
+                            
+                          "% errors}
+                      "%
                 else
-                (if (std.record.length (x | { _ : Dyn })) > n then
-                {
-                    error = m%"
-                        record contains more than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (if (std.record.length (x | { _ : Dyn })) < n then
-                {
-                    error = m%"
-                        record contains fewer than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          propertyNames
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]
-            "%
-            = fun pred x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => let result = pred (field | Dyn) in
-                  if !result.success then
-                  {
-                      error = m%"
-                          field `%{field}` did not validate against `propertyNames` schema
-                          "%,
-                      success = false,
-                    }
+                  if count > 1 then
+                    'Err "oneOf: more than one of the options matched"
                   else
-                  acc)
-                { error = "", success = true, }
-                (std.record.fields (x | { _ : Dyn }))),
-          record
-            : { _ : Dyn -> { success: Bool, error: String } } -> { _ : Dyn -> {
-              success: Bool,
-              error: String
-            } } -> Bool -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            `record properties patternProperties additionalAllowed
-            additionalProperties x` is a combination of the `properties`,
-            `patternProperties` and `additionalProperties` validation keywords in
-            JSON schema.
-            
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
-            "%
-            =
-            fun properties patternProperties additionalAllowed additionalProperties x =>
-              if !(std.is_record x) then { error = "", success = true, } else
-                (let x  | { _ : Dyn } = x in
-                let check_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                    if !(std.record.has_field field x) then acc else
-                      (let result = value x."%{field}" in
-                      if !result.success then
-                      {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
-                      else
-                      {
-                        checked = std.record.insert field true acc.checked,
-                        error = acc.error,
-                        success = acc.success,
-                      }))
-                  { checked = {  }, error = "", success = true, }
-                  (std.record.to_array properties)
-                in
-                
-                let matching_fields  : String -> { _ : Dyn } =
-                fun pattern => let matcher = std.string.is_match pattern in
-                    std.array.fold_left
-                    (fun acc => fun {field  | Dyn, value  | Dyn} => if matcher
-                        field then
-                        std.record.insert field value acc
-                        else
-                        acc)
-                    {  }
-                    (std.record.to_array x)
-                in
-                
-                let check_pattern_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn = pattern, value  | Dyn = pred} =>
-                  fun acc => let result =
-                      std.array.fold_right
-                        (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                          let result = pred value in
-                            if !result.success then
-                            {
-                                checked : { _ : Bool }
-                                  = {  },
-                                error = m%"
-                                    field `%{field}` didn't validate: %{result.error}
-                                    "%,
-                                success = false,
-                              }
-                            else
-                            {
-                              checked = std.record.insert field true
-                                  acc.checked,
-                              error = acc.error,
-                              success = acc.success,
-                            })
-                        {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = "",
-                          success = true,
-                        }
-                        (std.record.to_array (matching_fields pattern))
-                      in
-                      
-                      if !result.success then result else
-                      {
-                        checked = std.array.fold_left
-                            (fun r field => if !(std.record.has_field field
-                              r) then
-                              std.record.insert field true r
-                              else
-                              r)
-                            acc.checked
-                            (std.record.fields result.checked),
-                        error = acc.error,
-                        success = acc.success,
-                      })
-                  { checked : { _ : Bool } = {  }, error = "", success = true, }
-                  (std.record.to_array patternProperties)
-                in
-                
-                let remaining_fields =
-                std.array.fold_left
-                  (fun acc field => if !(std.record.has_field field acc) then
-                    acc
-                    else
-                    (std.record.remove field acc))
+                    'Ok,
+    records =
+      {
+          dependencies
+            : { _ : Dyn } -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]"
+            = let mustHaveFields
+                : Array String -> { _ : Dyn } -> [| 'Ok, 'Err String |]
+                = fun
+                  fields
                   x
-                  ((std.record.fields check_properties.checked) @
-                    (std.record.fields check_pattern_properties.checked))
-                in
-                
-                let check_additional_properties 
-                  : { success: Bool, error: String } =
-                if (!additionalAllowed) &&
-                  (!(std.record.is_empty remaining_fields)) then
-                  {
-                      error = m%"
-                          extra fields %{std.serialize 'Json
-                          ((std.record.fields remaining_fields) | Dyn)}
-                          "%,
-                      success = false,
-                    }
-                  else
-                  (std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc => let result =
-                      additionalProperties value
-                      in
-                      
-                      if !result.success then
-                      {
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
+                  =>
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field x) then
+                        'Err "expected field `%{field}`"
                       else
-                      acc)
-                  { error = "", success = true, }
-                  (std.record.to_array remaining_fields))
+                        acc) 'Ok fields
                 in
-                
-                if !check_properties.success then
-                { error = check_properties.error, success = false, }
-                else
-                (if !check_pattern_properties.success then
-                { error = check_pattern_properties.error, success = false, }
-                else
-                check_additional_properties)),
-          required
-            : Array String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]
-            "%
-            = fun fields x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => if !(std.record.has_field field
-                  (x | { _ : Dyn })) then
-                  {
-                      error = m%"
-                          missing required field %{field}
-                          "%,
-                      success = false,
-                    }
+              fun
+                  deps
+                  x
+                  =>
+                  if !(std.is_record x) then
+                    'Ok
                   else
-                  acc)
-                { error = "", success = true, }
-                fields),
-        },
-    strings = {
-          maxLength
-            : Number -> Dyn -> { success: Bool, error: String }
+                    let x
+                      | { _ : Dyn }
+                      = x
+                      in
+                    std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              let result
+                                = if std.is_array value then
+                                  mustHaveFields (value | Array String) x
+                                else
+                                  let pred
+                                    | Dyn -> [| 'Ok, 'Err String |]
+                                    = value
+                                    in
+                                  pred (x | Dyn)
+                                in
+                              (match {
+                                  'Err
+                                    msg =>
+                                    'Err
+                                      "dependency of `%{field}` failed: %{msg}",
+                                  'Ok =>
+                                    acc,
+                                }) result) 'Ok (std.record.to_array deps),
+          maxProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]
+              `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
             "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no larger than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
-          minLength
-            : Number -> Dyn -> { success: Bool, error: String }
+                  if (std.record.length (x | { _ : Dyn })) > n then
+                    'Err
+                      "record contains more than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          minProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]
+              `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
             "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) >= limit then
-                { error = "", success = true, }
+                  if (std.record.length (x | { _ : Dyn })) < n then
+                    'Err
+                      "record contains fewer than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          propertyNames
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
                 else
-                {
-                  error = m%"
-                      expected a string of length no smaller than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
-          pattern
-            : String -> Dyn -> { success: Bool, error: String }
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      (match {
+                        'Err
+                          msg =>
+                          'Err
+                            "field `%{field}` did not validate against `propertyNames` schema",
+                        'Ok =>
+                          acc,
+                      }) (pred (field | Dyn))) 'Ok
+                    (std.record.fields (x | { _ : Dyn })),
+          record
+            : { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> Bool
+            -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]
+              `record properties patternProperties additionalAllowed
+              additionalProperties x` is a combination of the `properties`,
+              `patternProperties` and `additionalProperties` validation keywords in
+              JSON schema.
+              
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
             "%
-            = fun pattern x => if !(std.is_string x) then
-                { error = "", success = true, }
-                else
-                (if std.string.is_match pattern (x | String) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string matching the pattern `%{pattern}`
-                      "%,
-                  success = false,
-                }),
-        },
-  }
-in
-
-let rec definitions =
-{
-    contract = {
-          CodeGeneration
-            | doc m%"
-            The 'CodeGeneration' object defines global properties that are used to drive the underlying entity-driven code generation.
-            "%
-            = {
-                appBasedAgentArgs | Bool | optional,
-                cosmosName
-                  | String
-                  | doc m%"
-                  Defaults to 'ICosmosDb'. This can be overridden within the 'Entity'(s).
-                  "%
-                  | optional,
-                cosmosUsingNamespace | String | optional,
-                dataUsingNamespace | String | optional,
-                databaseName
-                  | String
-                  | doc m%"
-                  Defaults to 'IDatabase'. This can be overridden within the 'Entity'(s).
-                  "%
-                  | optional,
-                databaseSchema
-                  | String
-                  | doc m%"
-                  Defaults to 'dbo'.
-                  "%
-                  | optional,
-                databaseUsingNamespace | String | optional,
-                entities
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Entity
-                  ])
-                  | optional,
-                entityFrameworkName
-                  | String
-                  | doc m%"
-                  Defaults to 'IEfDb'. This can be overridden within the 'Entity'(s).
-                  "%
-                  | optional,
-                entityFrameworkUsingNamespace | String | optional,
-                entityScope
-                  | std.enum.TagOrString
-                  | [| 'Autonomous, 'Business, 'Common |]
-                  | doc m%"
-                  Defaults to 'Common' for backwards compatibility; 'Autonomous' is **recommended**. Determines where the entity is scoped/defined, being 'Common' or 'Business' (i.e. not externally visible). Additionally, there is the special case of 'Autonomous' where both a 'Common' and 'Business' entity are generated (where only the latter inherits from 'EntityBase', etc).
-                  "%
-                  | optional,
-                entityUsing
-                  | std.enum.TagOrString
-                  | [| 'None, 'All, 'Business, 'Common |]
-                  | doc m%"
-                  Defaults to 'Common' (unless 'EntityScope' is 'Autonomous' and then it will default to 'Business') which will add '.Common.Entities'. Additionally, 'Business' to add '.Business.Entities', 'All' to add both, and 'None' to exclude any. This can be overridden for each 'Entity'.
-                  "%
-                  | optional,
-                etagJsonName
-                  | std.enum.TagOrString
-                  | [| 'ETAG, 'ETag, '_eTag, '_etag, 'eTag, 'etag |]
-                  | doc m%"
-                  Defaults to 'etag'. Note that the 'JsonName' can be set individually per property where required.
-                  "%
-                  | optional,
-                eventActionFormat
-                  | std.enum.TagOrString
-                  | [| 'PastTense, 'None |]
-                  | doc m%"
-                  Defaults to 'None' (no formatting required, i.e. as-is)'.
-                  "%
-                  | optional,
-                eventCasing
-                  | std.enum.TagOrString
-                  | [| 'Upper, 'Lower, 'None |]
-                  | doc m%"
-                  Defaults to 'None' (no casing required, i.e. as-is)'.
-                  "%
-                  | optional,
-                eventOutbox
-                  | std.enum.TagOrString
-                  | [| 'Database, 'None |]
-                  | doc m%"
-                  Defaults to 'None'. A value of 'Database' will result in the 'DatabaseEventOutboxInvoker' being used to orchestrate.
-                  "%
-                  | optional,
-                eventPublish
-                  | std.enum.TagOrString
-                  | [| 'Data, 'DataSvc, 'None |]
-                  | doc m%"
-                  Defaults to 'DataSvc'; unless the 'EventOutbox' is not 'None' where it will default to 'Data'. Used to enable the sending of messages to the likes of EventHub, Service Broker, SignalR, etc. This can be overridden within the 'Entity'(s).
-                  "%
-                  | optional,
-                eventSourceKind
-                  | std.enum.TagOrString
-                  | [| 'RelativeOrAbsolute, 'Relative, 'Absolute, 'None |]
-                  | doc m%"
-                  Defaults to 'None' (being the event source is not updated).
-                  "%
-                  | optional,
-                eventSourceRoot
-                  | String
-                  | doc m%"
-                  The event source is only updated where an 'EventSourceKind' is not 'None'. This can be extended within the 'Entity'(s).
-                  "%
-                  | optional,
-                eventSubjectFormat
-                  | std.enum.TagOrString
-                  | [| 'NameAndKey, 'NameOnly |]
-                  | doc m%"
-                  Defaults to 'NameAndKey' (being the event subject name appended with the corresponding unique key.)'.
-                  "%
-                  | optional,
-                eventSubjectRoot
-                  | String
-                  | doc m%"
-                  Used to enable the sending of messages to the likes of EventHub, Service Broker, SignalR, etc. This can be overridden within the 'Entity'(s).
-                  "%
-                  | optional,
-                eventSubjectSeparator
-                  | String
-                  | doc m%"
-                  Defaults to '.'. Used only where the subject is automatically inferred.
-                  "%
-                  | optional,
-                eventTransaction
-                  | Bool
-                  | doc m%"
-                  Usage will force a rollback of any underlying data transaction (where the provider supports TransactionScope) on failure, such as an 'EventPublish' error. This is by no means implying a Distributed Transaction (DTC) should be invoked; this is only intended for a single data source that supports a TransactionScope to guarantee reliable event publishing. Defaults to 'false'. This essentially defaults the 'Entity.EventTransaction' where not otherwise specified. This should only be used where 'EventPublish' is 'DataSvc' and a transactionally-aware data source is being used.
-                  "%
-                  | optional,
-                grpc
-                  | Bool
-                  | doc m%"
-                  gRPC support is an explicit opt-in model. Must be set to 'true' for any of the subordinate gRPC capabilities to be code-generated. Will require each 'Entity', and corresponding 'Property' and 'Operation' to be opted-in specifically.
-                  "%
-                  | optional,
-                httpAgentName
-                  | String
-                  | doc m%"
-                  Defaults to 'IHttpAgent'. This can be overridden within the 'Entity'(s).
-                  "%
-                  | optional,
-                jsonSerializer
-                  | std.enum.TagOrString
-                  | [| 'Newtonsoft, 'None |]
-                  | doc m%"
-                  Defaults to 'Newtonsoft'. This can be overridden within the 'Entity'(s).
-                  "%
-                  | optional,
-                namespaceApi
-                  | String
-                  | doc m%"
-                  Defaults to 'NamespaceBase' + '.' + 'ApiName' (runtime parameter). For example 'Beef.Demo.Api'.
-                  "%
-                  | optional,
-                namespaceBase
-                  | String
-                  | doc m%"
-                  Defaults to 'Company' (runtime parameter) + '.' + 'AppName' (runtime parameter). For example 'Beef.Demo'.
-                  "%
-                  | optional,
-                namespaceBusiness
-                  | String
-                  | doc m%"
-                  Defaults to 'NamespaceBase' + '.Business' (literal). For example 'Beef.Demo.Business'.
-                  "%
-                  | optional,
-                namespaceCommon
-                  | String
-                  | doc m%"
-                  Defaults to 'NamespaceBase' + '.Common' (literal). For example 'Beef.Demo.Common'.
-                  "%
-                  | optional,
-                odataName
-                  | String
-                  | doc m%"
-                  Defaults to 'IOData'. This can be overridden within the 'Entity'(s).
-                  "%
-                  | optional,
-                odataUsingNamespace | String | optional,
-                pathApi
-                  | String
-                  | doc m%"
-                  Defaults to 'PathBase' + '.' + 'ApiName' (runtime parameter). For example 'Beef.Demo.Api'.
-                  "%
-                  | optional,
-                pathBase
-                  | String
-                  | doc m%"
-                  Defaults to 'Company' (runtime parameter) + '.' + 'AppName' (runtime parameter). For example 'Beef.Demo'.
-                  "%
-                  | optional,
-                pathBusiness
-                  | String
-                  | doc m%"
-                  Defaults to 'PathBase' + '.Business' (literal). For example 'Beef.Demo.Business'.
-                  "%
-                  | optional,
-                pathCommon
-                  | String
-                  | doc m%"
-                  Defaults to 'PathBase' + '.Common' (literal). For example 'Beef.Demo.Common'.
-                  "%
-                  | optional,
-                refDataAppendToNamespace
-                  | String
-                  | doc m%"
-                  Defaults to 'null'; being nothing to append.
-                  "%
-                  | optional,
-                refDataBusNamespace | String | optional,
-                refDataCache
-                  | std.enum.TagOrString
-                  | [| 'ReferenceDataMultiTenantCache, 'ReferenceDataCache |]
-                  | doc m%"
-                  Defaults to 'ReferenceDataCache'. A value of 'ReferenceDataCache' specifies a single-tenant cache; otherwise, 'ReferenceDataMultiTenantCache' for a multi-tenant cache leverageing the 'ExecutionContext.TenantId'.
-                  "%
-                  | optional,
-                refDataCommonNamespace
-                  | String
-                  | doc m%"
-                  Defaults to 'Company' + '.' (literal) + AppName + '.Common.Entities' (literal).
-                  "%
-                  | optional,
-                refDataDefaultMapperConverter
-                  | std.enum.TagOrString
-                  | [|
-                    '"ReferenceDataNullableGuidIdConverter<T>",
-                    '"ReferenceDataNullableGuidIdConverter{T}",
-                    'ReferenceDataNullableGuidIdConverter,
-                    '"ReferenceDataGuidIdConverter<T>",
-                    '"ReferenceDataGuidIdConverter{T}",
-                    'ReferenceDataGuidIdConverter,
-                    '"ReferenceDataNullableInt64IdConverter<T>",
-                    '"ReferenceDataNullableInt64IdConverter{T}",
-                    'ReferenceDataNullableInt64IdConverter,
-                    '"ReferenceDataInt64IdConverter<T>",
-                    '"ReferenceDataInt64IdConverter{T}",
-                    'ReferenceDataInt64IdConverter,
-                    '"ReferenceDataNullableInt32IdConverter<T>",
-                    '"ReferenceDataNullableInt32IdConverter{T}",
-                    'ReferenceDataNullableInt32IdConverter,
-                    '"ReferenceDataInt32IdConverter<T>",
-                    '"ReferenceDataInt32IdConverter{T}",
-                    'ReferenceDataInt32IdConverter,
-                    '"ReferenceDataCodeConverter<T>",
-                    '"ReferenceDataCodeConverter{T}",
-                    'ReferenceDataCodeConverter
-                  |]
-                  | doc m%"
-                  Defaults to 'ReferenceDataCodeConverter<T>'. Where this value is suffixed by '<T>' or '{T}' this will automatically set 'Property.DataConverterIsGeneric' to 'true'.
-                  "%
-                  | optional,
-                refDataNamespace
-                  | String
-                  | doc m%"
-                  Defaults to 'Company' + '.' (literal) + AppName + '.' (literal) + 'EntityUsing' + '.Entities' (literal).
-                  "%
-                  | optional,
-                refDataText
-                  | Bool
-                  | doc m%"
-                  This is used where serializing within the Web API 'Controller' and the 'ExecutionContext.IsRefDataTextSerializationEnabled' is set to 'true' (which is automatically set where the url contains '$text=true').
-                  "%
-                  | optional,
-                refDataWebApiRoute | String | optional,
-                usingNamespace1
-                  | String
-                  | doc m%"
-                  Typically used where referening a 'Type' from a Namespace that is not generated by default.
-                  "%
-                  | optional,
-                usingNamespace2
-                  | String
-                  | doc m%"
-                  Typically used where referening a 'Type' from a Namespace that is not generated by default.
-                  "%
-                  | optional,
-                usingNamespace3
-                  | String
-                  | doc m%"
-                  Typically used where referening a 'Type' from a Namespace that is not generated by default.
-                  "%
-                  | optional,
-                validatorLayer
-                  | std.enum.TagOrString
-                  | [| 'Common, 'Business |]
-                  | doc m%"
-                  Defaults to 'Business'. A value of 'Business' indicates that the Validators will be defined within the 'Business' namespace/assembly; otherwise, defined within the 'Common' namespace/assembly.
-                  "%
-                  | optional,
-                webApiAuthorize
-                  | String
-                  | doc m%"
-                  This can be overridden within the 'Entity'(s) and/or their corresponding 'Operation'(s).
-                  "%
-                  | optional,
-                webApiAutoLocation
-                  | Bool
-                  | doc m%"
-                  This will automatically set the 'Operation.WebApiLocation' for an 'Operation' named 'Create' where there is a corresponding named 'Get'. This can be overridden within the 'Entity'(s).
-                  "%
-                  | optional,
-                webApiRoutePrefix
-                  | String
-                  | doc m%"
-                  This is the base (prefix) 'URI' prepended to all entity and underlying 'Operation'(s).
-                  "%
-                  | optional,
-                ..
-              },
-          Const
-            | doc m%"
-            The 'Const' object is used to define a .NET (C#) constant value for an 'Entity'.
-            "%
-            = {
-                name | String,
-                text
-                  | String
-                  | doc m%"
-                  By default the 'Text' will be the 'Name' reformatted as sentence casing. It will be formatted as: 'Represents a {text} constant value.' To create a '<see cref="XXX"/>' within use moustache shorthand (e.g. '{{Xxx}}').
-                  "%
-                  | optional,
-                value
-                  | String
-                  | doc m%"
-                  The code generation will ensure the value is delimited properly to output correctly formed (delimited) .NET (C#) code.
-                  "%,
-                ..
-              },
-          Entity
-            | doc m%"
-            The 'Entity' is used as the primary configuration for driving the entity-driven code generation.
-            "%
-            = {
-                abstract | Bool | optional,
-                argumentName
-                  | String
-                  | doc m%"
-                  Overrides the 'Name' to be used for argument parameters. By default reformatted from 'Name'; e.g. 'FirstName' as 'firstName'.
-                  "%
-                  | optional,
-                authRole
-                  | String
-                  | doc m%"
-                  Used where not overridden specifically for an 'Operation'; i.e. acts as the default.
-                  "%
-                  | optional,
-                autoImplement
-                  | std.enum.TagOrString
-                  | [|
-                    'None,
-                    'HttpAgent,
-                    'OData,
-                    'Cosmos,
-                    'EntityFramework,
-                    'Database
-                  |]
-                  | doc m%"
-                  Defaults to 'None'. Indicates that the implementation for the underlying 'Operations' will be auto-implemented using the selected data source (unless explicity overridden). When selected some of the related attributes will also be required (as documented). Additionally, the 'AutoImplement' indicator must be selected for each underlying 'Operation' that is to be auto-implemented.
-                  "%
-                  | optional,
-                collection | Bool | optional,
-                collectionInherits
-                  | String
-                  | doc m%"
-                  Defaults to 'EntityBaseCollection' or 'EntityBaseKeyedCollection' depending on 'CollectionKeyed'. For Reference Data it will default to 'ReferenceDataCollectionBase'.
-                  "%
-                  | optional,
-                collectionKeyed | Bool | optional,
-                collectionResult
-                  | Bool
-                  | doc m%"
-                  Enables the likes of additional paging state to be stored with the underlying collection.
-                  "%
-                  | optional,
-                collectionResultInherits
-                  | String
-                  | doc m%"
-                  Defaults to 'EntityCollectionResult'.
-                  "%
-                  | optional,
-                constType
-                  | std.enum.TagOrString
-                  | [| 'string, 'Guid, 'long, 'int |]
-                  | doc m%"
-                  The .NET Type to be used for the 'const' values. Defaults to 'string'.
-                  "%
-                  | optional,
-                consts
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Const
-                  ])
-                  | optional,
-                cosmosContainerId | String | optional,
-                cosmosCustomMapper
-                  | Bool
-                  | doc m%"
-                  Otherwise, by default, a 'Mapper' will be generated.
-                  "%
-                  | optional,
-                cosmosMapperInheritsFrom | String | optional,
-                cosmosModel | String | optional,
-                cosmosName
-                  | String
-                  | doc m%"
-                  Defaults to the 'CodeGeneration.CosmosName' configuration property (its default value is 'ICosmosDb').
-                  "%
-                  | optional,
-                cosmosPartitionKey
-                  | String
-                  | doc m%"
-                  Defaults to 'PartitionKey.None'.
-                  "%
-                  | optional,
-                cosmosValueContainer | Bool | optional,
-                create | Bool | optional,
-                dataCtor
-                  | std.enum.TagOrString
-                  | [| 'Protected, 'Private, 'Public |]
-                  | doc m%"
-                  Defaults to 'Public'.
-                  "%
-                  | optional,
-                dataCtorParams
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | doc m%"
-                  Each constructor parameter should be formatted as 'Type' + '^' + 'Name'; e.g. 'IConfiguration^Config'. Where the 'Name' portion is not specified it will be inferred. Where the 'Type' matches an already inferred value it will be ignored.
-                  "%
-                  | optional,
-                dataExtensions
-                  | Bool
-                  | doc m%"
-                  This can be overridden using 'Operation.DataExtensions'.
-                  "%
-                  | optional,
-                dataModel
-                  | Bool
-                  | doc m%"
-                  The model will be generated with 'OmitEntityBase = true'. Any reference data properties will be defined using their 'RefDataType' intrinsic 'Type' versus their corresponding (actual) reference data 'Type'.
-                  "%
-                  | optional,
-                dataSvcCaching
-                  | Bool
-                  | doc m%"
-                  Defaults to 'true'.
-                  "%
-                  | optional,
-                dataSvcCtor
-                  | std.enum.TagOrString
-                  | [| 'Protected, 'Private, 'Public |]
-                  | doc m%"
-                  Defaults to 'Public'.
-                  "%
-                  | optional,
-                dataSvcCtorParams
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | doc m%"
-                  Each constructor parameter should be formatted as 'Type' + '^' + 'Name'; e.g. 'IConfiguration^Config'. Where the 'Name' portion is not specified it will be inferred. Where the 'Type' matches an already inferred value it will be ignored.
-                  "%
-                  | optional,
-                dataSvcExtensions
-                  | Bool
-                  | doc m%"
-                  This can be overridden using 'Operation.DataSvcExtensions'.
-                  "%
-                  | optional,
-                databaseCustomerMapper
-                  | Bool
-                  | doc m%"
-                  Otherwise, by default, a 'Mapper' will be generated.
-                  "%
-                  | optional,
-                databaseMapperInheritsFrom | String | optional,
-                databaseName
-                  | String
-                  | doc m%"
-                  Defaults to the 'CodeGeneration.DatabaseName' configuration property (its default value is 'IDatabase').
-                  "%
-                  | optional,
-                databaseSchema
-                  | String
-                  | doc m%"
-                  Defaults to 'dbo'.
-                  "%
-                  | optional,
-                delete | Bool | optional,
-                entityFrameworkCustomMapper
-                  | Bool
-                  | doc m%"
-                  Otherwise, by default, a 'Mapper' will be generated.
-                  "%
-                  | optional,
-                entityFrameworkMapperInheritsFrom
-                  | String
-                  | doc m%"
-                  Defaults to 'Model.{Name}'; i.e. an entity with the same name in the 'Model' namespace.
-                  "%
-                  | optional,
-                entityFrameworkModel | String | optional,
-                entityFrameworkName
-                  | String
-                  | doc m%"
-                  Defaults to the 'CodeGeneration.EntityFrameworkName' configuration property (its default value is 'IEfDb').
-                  "%
-                  | optional,
-                entityScope
-                  | std.enum.TagOrString
-                  | [| 'Autonomous, 'Business, 'Common |]
-                  | doc m%"
-                  Defaults to the 'CodeGeneration.EntityScope'. Determines where the entity is scoped/defined, being 'Common' or 'Business' (i.e. not externally visible). Additionally, there is a special case of 'Autonomous' where both a 'Common' and 'Business' entity are generated (where only the latter inherits from 'EntityBase', etc).
-                  "%
-                  | optional,
-                entityUsing
-                  | std.enum.TagOrString
-                  | [| 'None, 'All, 'Business, 'Common |]
-                  | doc m%"
-                  Defaults to 'EntityScope' ('Autonomous' will result in 'Business'). A value of 'Common' will add '.Common.Entities', 'Business' will add '.Business.Entities', 'All' to add both, and 'None' to exclude any.
-                  "%
-                  | optional,
-                eventCasing
-                  | std.enum.TagOrString
-                  | [| 'Upper, 'Lower, 'None |]
-                  | doc m%"
-                  Defaults to 'CodeGeneration.EventCasing'.
-                  "%
-                  | optional,
-                eventOutbox
-                  | std.enum.TagOrString
-                  | [| 'Database, 'None |]
-                  | doc m%"
-                  Defaults to 'CodeGeneration.EventOutbox' configuration property (inherits) where not specified. A value of 'Database' will result in the 'DatabaseEventOutboxInvoker' being used to orchestrate.
-                  "%
-                  | optional,
-                eventPublish
-                  | std.enum.TagOrString
-                  | [| 'Data, 'DataSvc, 'None |]
-                  | doc m%"
-                  Defaults to the 'CodeGeneration.EventPublish' configuration property (inherits) where not specified. Used to enable the sending of messages to the likes of EventGrid, Service Broker, SignalR, etc. This can be overridden within the 'Operation'(s).
-                  "%
-                  | optional,
-                eventSource
-                  | String
-                  | doc m%"
-                  Defaults to 'Name' (as lowercase) appended with the '/{$key}' placeholder. Note: when used in code-generation the 'CodeGeneration.EventSourceRoot' will be prepended where specified. To include the entity id/key include a '{$key}' placeholder ('Create', 'Update' or 'Delete' operation only); for example: 'person/{$key}'. This can be overridden for the 'Operation'.
-                  "%
-                  | optional,
-                eventSubjectFormat
-                  | std.enum.TagOrString
-                  | [| 'NameAndKey, 'NameOnly |]
-                  | doc m%"
-                  Defaults to 'CodeGeneration.EventSubjectFormat'.
-                  "%
-                  | optional,
-                eventTransaction
-                  | Bool
-                  | doc m%"
-                  Usage will force a rollback of any underlying data transaction (where the provider supports TransactionScope) on failure, such as an 'EventPublish' error. This is by no means implying a Distributed Transaction (DTC) should be invoked; this is only intended for a single data source that supports a TransactionScope to guarantee reliable event publishing. Defaults to 'CodeGeneration.EventTransaction'. This essentially defaults the 'Operation.DataSvcTransaction' where not otherwise specified. This should only be used where 'EventPublish' is 'DataSvc' and a transactionally-aware data source is being used.
-                  "%
-                  | optional,
-                excludeAll
-                  | Bool
-                  | doc m%"
-                  Is a shorthand means for setting all of the other 'Exclude*' properties (with the exception of 'ExcludeEntity') to exclude.
-                  "%
-                  | optional,
-                excludeData
-                  | std.enum.TagOrString
-                  | [| 'RequiresMapper, 'Exclude, 'Include |]
-                  | doc m%"
-                  Defaults to 'Include' indicating _not_ to exlude. A value of 'Exclude' indicates to exclude all output; alternatively, 'RequiresMapper' indicates to at least output the corresponding 'Mapper' class.
-                  "%
-                  | optional,
-                excludeDataSvc | Bool | optional,
-                excludeEntity | Bool | optional,
-                excludeGrpcAgent | Bool | optional,
-                excludeIData | Bool | optional,
-                excludeIDataSvc | Bool | optional,
-                excludeIManager | Bool | optional,
-                excludeManager | Bool | optional,
-                excludeWebApi | Bool | optional,
-                excludeWebApiAgent | Bool | optional,
-                fileName
-                  | String
-                  | doc m%"
-                  Overrides the Name as the code-generated file name.
-                  "%
-                  | optional,
-                genericWithT | Bool | optional,
-                get | Bool | optional,
-                getAll | Bool | optional,
-                grpc
-                  | Bool
-                  | doc m%"
-                  gRPC support is an explicit opt-in model (see 'CodeGeneration.Grpc' configuration); therefore, each corresponding 'Property' and 'Operation' will also need to be opted-in specifically.
-                  "%
-                  | optional,
-                httpAgentModel
-                  | String
-                  | doc m%"
-                  This can be overridden within the 'Operation'(s).
-                  "%
-                  | optional,
-                httpAgentName
-                  | String
-                  | doc m%"
-                  Defaults to 'CodeGeneration.HttpAgentName' configuration property (its default value is 'IHttpAgent').
-                  "%
-                  | optional,
-                httpAgentReturnModel
-                  | String
-                  | doc m%"
-                  This can be overridden within the 'Operation'(s).
-                  "%
-                  | optional,
-                httpAgentRoutePrefix
-                  | String
-                  | doc m%"
-                  This is the base (prefix) 'URI' for the HTTP Agent endpoint and can be further extended when defining the underlying 'Operation'(s).
-                  "%
-                  | optional,
-                iValidator
-                  | String
-                  | doc m%"
-                  Only used for defaulting the 'Create' and 'Update' operation types ('Operation.Type') where not specified explicitly.
-                  "%
-                  | optional,
-                implements | String | optional,
-                implementsAutoInfer
-                  | Bool
-                  | doc m%"
-                  Will attempt to infer the following: 'IGuidIdentifier', 'IInt32Identifier', 'IInt64Identifier', 'IStringIdentifier', 'IETag' and 'IChangeLog'. Defaults to 'true'.
-                  "%
-                  | optional,
-                inherits
-                  | String
-                  | doc m%"
-                  Defaults to 'EntityBase' for a standard entity. For Reference Data it will default to 'ReferenceDataBaseXxx' depending on the corresponding 'RefDataType' value. See 'OmitEntityBase' if the desired outcome is to not inherit from any of the aforementioned base classes.
-                  "%
-                  | optional,
-                isInitialOverride
-                  | Bool
-                  | doc m%"
-                  Set to either 'true' or 'false' to override as specified; otherwise, 'null' to check each property. Defaults to 'null'.
-                  "%
-                  | optional,
-                jsonSerializer
-                  | std.enum.TagOrString
-                  | [| 'Newtonsoft, 'None |]
-                  | doc m%"
-                  Defaults to the 'CodeGeneration.JsonSerializer' configuration property where specified; otherwise, 'Newtonsoft'.
-                  "%
-                  | optional,
-                managerCtor
-                  | std.enum.TagOrString
-                  | [| 'Protected, 'Private, 'Public |]
-                  | doc m%"
-                  Defaults to 'Public'.
-                  "%
-                  | optional,
-                managerCtorParams
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | doc m%"
-                  Each constructor parameter should be formatted as 'Type' + '^' + 'Name'; e.g. 'IConfiguration^Config'. Where the 'Name' portion is not specified it will be inferred. Where the 'Type' matches an already inferred value it will be ignored.
-                  "%
-                  | optional,
-                managerExtensions
-                  | Bool
-                  | doc m%"
-                  This can be overridden using 'Operation.ManagerExtensions'.
-                  "%
-                  | optional,
-                name | String,
-                namespace
-                  | String
-                  | doc m%"
-                  Appended to the end of the standard structure as follows: '{Company}.{AppName}.Common.Entities.{Namespace}'.
-                  "%
-                  | optional,
-                odataCollectionName
-                  | String
-                  | doc m%"
-                  The underlying 'Simple.OData.Client' will attempt to infer.
-                  "%
-                  | optional,
-                odataCustomMapper
-                  | Bool
-                  | doc m%"
-                  Otherwise, by default, a 'Mapper' will be generated.
-                  "%
-                  | optional,
-                odataMapperInheritsFrom | String | optional,
-                odataModel | String | optional,
-                odataName
-                  | String
-                  | doc m%"
-                  Defaults to the 'CodeGeneration.ODataName' configuration property (its default value is 'IOData').
-                  "%
-                  | optional,
-                omitEntityBase
-                  | Bool
-                  | doc m%"
-                  As such any of the 'EntityBase' related capabilites are not supported (are omitted from generation). The intention for this is more for the generation of simple internal entities.
-                  "%
-                  | optional,
-                operations
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Operation
-                  ])
-                  | optional,
-                patch | Bool | optional,
-                privateName
-                  | String
-                  | doc m%"
-                  Overrides the 'Name' to be used for private fields. By default reformatted from 'Name'; e.g. 'FirstName' as '_firstName'.
-                  "%
-                  | optional,
+            = fun
                 properties
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Property
-                  ])
-                  | optional,
-                refDataSortOrder
-                  | std.enum.TagOrString
-                  | [| 'Text, 'Code, 'Id, 'SortOrder |]
-                  | doc m%"
-                  Specifies the default sort order for the underlying Reference Data collection. Defaults to 'SortOrder'.
-                  "%
-                  | optional,
-                refDataStringFormat
-                  | String
-                  | doc m%"
-                  The string format supports the standard composite formatting; where the following indexes are used: '{0}' for 'Id', '{1}' for 'Code' and '{2}' for 'Text'. Defaults to '{2}'.
-                  "%
-                  | optional,
-                refDataText
-                  | Bool
-                  | doc m%"
-                  This is used where serializing within the Web API'Controller' and the 'ExecutionContext.IsRefDataTextSerializationEnabled' is set to 'true' (which is automatically set where the url contains '$text=true').
-                  "%
-                  | optional,
-                refDataType
-                  | std.enum.TagOrString
-                  | [| 'string, 'Guid, 'long, 'int |]
-                  | doc m%"
-                  Required to identify an entity as being Reference Data. Specifies the underlying .NET Type used for the Reference Data identifier.
-                  "%
-                  | optional,
-                text
-                  | String
-                  | doc m%"
-                  Overrides the Name (as sentence text) for the summary comments. It will be formatted as: 'Represents the {Text} entity.'. To create a '<see cref="XXX"/>' within use moustache shorthand (e.g. {{Xxx}}).
-                  "%
-                  | optional,
-                update | Bool | optional,
-                validator
-                  | String
-                  | doc m%"
-                  Only used for defaulting the 'Create' and 'Update' operation types ('Operation.Type') where not specified explicitly.
-                  "%
-                  | optional,
-                webApiAuthorize
-                  | String
-                  | doc m%"
-                  Defaults to the 'CodeGeneration.WebApiAuthorize' configuration property (inherits) where not specified; can be overridden at the 'Operation' level also.
-                  "%
-                  | optional,
-                webApiAutoLocation
-                  | Bool
-                  | doc m%"
-                  This will automatically set the 'Operation.WebApiLocation' for an 'Operation' named 'Create' where there is a corresponding named 'Get'. This is defaulted from the 'CodeGen.WebApiAutoLocation'.
-                  "%
-                  | optional,
-                webApiConcurrency
-                  | Bool
-                  | doc m%"
-                  This provides an alternative where the underlying data source does not natively support optimistic concurrency (native support should always be leveraged as a priority). Where the 'Operation.Type' is 'Update' or 'Patch', the request ETag will be matched against the response for a corresponding 'Get' operation to verify no changes have been made prior to updating. For this to function correctly the .NET response Type for the 'Get' must be the same as that returned from the corresponding 'Create', 'Update' and 'Patch' (where applicable) as the generated ETag is a SHA256 hash of the resulting JSON. This defaults the 'Operation.WebApiConcurrency'.
-                  "%
-                  | optional,
-                webApiCtor
-                  | std.enum.TagOrString
-                  | [| 'Protected, 'Private, 'Public |]
-                  | doc m%"
-                  Defaults to 'Public'.
-                  "%
-                  | optional,
-                webApiCtorParams
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | doc m%"
-                  Each constructor parameter should be formatted as 'Type' + '^' + 'Name'; e.g. 'IConfiguration^Config'. Where the 'Name' portion is not specified it will be inferred. Where the 'Type' matches an already inferred value it will be ignored.
-                  "%
-                  | optional,
-                webApiGetOperation
-                  | String
-                  | doc m%"
-                  Defaults to 'Get'. Specify either just the method name (e.g. 'OperationName') or, interface and method name (e.g. 'IXxxManager.OperationName') to be invoked where in a different 'YyyManager.OperationName'.
-                  "%
-                  | optional,
-                webApiRoutePrefix
-                  | String
-                  | doc m%"
-                  This is the base (prefix) 'URI' for the entity and can be further extended when defining the underlying 'Operation'(s). The 'CodeGeneration.WebApiRoutePrefix' will be prepended where specified.
-                  "%
-                  | optional,
-                ..
-              },
-          Operation
-            | doc m%"
-            The code generation for an 'Operation' is primarily driven by the 'Type' property. This encourages (enforces) a consistent implementation for the standardised **CRUD** (Create, Read, Update and Delete) actions, as well as supporting fully customised operations as required.
-            "%
-            = {
-                authPermission | String | optional,
-                authRole | String | optional,
-                autoImplement
-                  | std.enum.TagOrString
-                  | [|
-                    'None,
-                    'HttpAgent,
-                    'OData,
-                    'Cosmos,
-                    'EntityFramework,
-                    'Database
-                  |]
-                  | doc m%"
-                  Defaults to 'Entity.AutoImplement'. The corresponding 'Entity.AutoImplement' must be defined for this to be enacted. Auto-implementation is applicable for all 'Operation.Type' options with the exception of 'Custom'.
-                  "%
-                  | optional,
-                cosmosContainerId
-                  | String
-                  | doc m%"
-                  Overrides the 'Entity.CosmosContainerId'.
-                  "%
-                  | optional,
-                cosmosPartitionKey
-                  | String
-                  | doc m%"
-                  Overrides the 'Entity.CosmosPartitionKey'.
-                  "%
-                  | optional,
-                dataEntityMapper
-                  | String
-                  | doc m%"
-                  Used where the default generated 'Mapper' is not applicable.
-                  "%
-                  | optional,
-                dataExtensions
-                  | Bool
-                  | doc m%"
-                  Defaults to 'Entity.DataExtensions'.
-                  "%
-                  | optional,
-                dataSvcCustom | Bool | optional,
-                dataSvcExtensions
-                  | Bool
-                  | doc m%"
-                  Defaults to 'Entity.ManagerExtensions'.
-                  "%
-                  | optional,
-                dataSvcTransaction | Bool | optional,
-                dataTransaction
-                  | Bool
-                  | doc m%"
-                  Where using an 'EventOutbox' this is ignored as it is implied through its usage.
-                  "%
-                  | optional,
-                databaseStoredProc
-                  | String
-                  | doc m%"
-                  Defaults to 'sp' + 'Entity.Name' + 'Operation.Name'; e.g. 'spPersonCreate'.
-                  "%
-                  | optional,
-                eventOutbox
-                  | std.enum.TagOrString
-                  | [| 'Database, 'None |]
-                  | doc m%"
-                  Defaults to 'Entity.EventOutbox' configuration property (inherits) where not specified and 'EventPublish' is 'Data'; otherwise, 'None'. A value of 'Database' will result in the 'DatabaseEventOutboxInvoker' being used to orchestrate.
-                  "%
-                  | optional,
-                eventPublish
-                  | std.enum.TagOrString
-                  | [| 'Data, 'DataSvc, 'None |]
-                  | doc m%"
-                  Defaults to the 'Entity.EventPublish' configuration property (inherits) where not specified. Used to enable the sending of messages to the likes of EventGrid, Service Broker, SignalR, etc.
-                  "%
-                  | optional,
-                eventSource
-                  | String
-                  | doc m%"
-                  Defaults to 'Entity.EventSource'. Note: when used in code-generation the 'CodeGeneration.EventSourceRoot' will be prepended where specified. To include the entity id/key include a '{$key}' placeholder ('Create', 'Update' or 'Delete' operation only); for example: 'person/{$key}'.
-                  "%
-                  | optional,
-                eventSubject
-                  | String
-                  | doc m%"
-                  The event subject template defaults to '{AppName}.{Entity.Name}', plus each of the unique key placeholders comma separated; e.g. 'Domain.Entity.{id1},{id2}' (depending on whether 'Entity.EventSubjectFormat' is 'NameAndKey' or 'NameOnly'). The event action defaults to 'WebApiOperationType' or 'Operation.Type' where not specified. Multiple events can be raised by specifying more than one subject/action pair separated by a semicolon. E.g. 'Demo.Person.{id}:Create;Demo.Other.{id}:Update'.
-                  "%
-                  | optional,
-                excludeAll
-                  | Bool
-                  | doc m%"
-                  Is a shorthand means for setting all of the other 'Exclude*' properties to 'true'.
-                  "%
-                  | optional,
-                excludeData | Bool | optional,
-                excludeDataSvc | Bool | optional,
-                excludeGrpcAgent | Bool | optional,
-                excludeIData | Bool | optional,
-                excludeIDataSvc | Bool | optional,
-                excludeIManager | Bool | optional,
-                excludeManager | Bool | optional,
-                excludeWebApi | Bool | optional,
-                excludeWebApiAgent | Bool | optional,
-                grpc
-                  | Bool
-                  | doc m%"
-                  gRPC support is an explicit opt-in model (see 'CodeGeneration.Grpc' configuration); therefore, each corresponding 'Entity', 'Property' and 'Operation' will also need to be opted-in specifically.
-                  "%
-                  | optional,
-                httpAgentMethod
-                  | std.enum.TagOrString
-                  | [| 'HttpPatch, 'HttpDelete, 'HttpPut, 'HttpPost, 'HttpGet |]
-                  | doc m%"
-                  Defaults to 'Operation.WebApiMethod'.
-                  "%
-                  | optional,
-                httpAgentModel
-                  | String
-                  | doc m%"
-                  This can be overridden within the 'Operation'(s).
-                  "%
-                  | optional,
-                httpAgentReturnModel
-                  | String
-                  | doc m%"
-                  Defaults to 'Operation.HttpAgentModel' where the 'Operation.ReturnType' is equal to 'Entity.Name' (same type). This can be overridden within the 'Operation'(s).
-                  "%
-                  | optional,
-                httpAgentRoute
-                  | String
-                  | doc m%"
-                  This is appended to the 'Entity.HttpAgentRoutePrefix'.
-                  "%
-                  | optional,
-                iValidator
-                  | String
-                  | doc m%"
-                  Defaults to the 'Entity.IValidator' where specified; otherwise, defaults to 'IValidator<{Type}>' where the '{Type}' is 'ValueType'. Only used 'Operation.Type' options 'Create' or 'Update'.
-                  "%
-                  | optional,
-                managerCustom | Bool | optional,
-                managerExtensions
-                  | Bool
-                  | doc m%"
-                  Defaults to 'Entity.ManagerExtensions'.
-                  "%
-                  | optional,
-                managerOperationType
-                  | std.enum.TagOrString
-                  | [| 'Unspecified, 'Delete, 'Update, 'Read, 'Create |]
-                  | doc m%"
-                  The default will be inferred from the 'Operation.Type'; however, where the 'Operation.Type' is 'Custom' it will default to 'Unspecified'.
-                  "%
-                  | optional,
-                managerTransaction | Bool | optional,
-                name | String,
-                odataCollectionName
-                  | String
-                  | doc m%"
-                  Overriddes the 'Entity.ODataCollectionName'; otherwise, the underlying 'Simple.OData.Client' will attempt to infer.
-                  "%
-                  | optional,
-                paging | Bool | optional,
-                parameters
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Parameter
-                  ])
-                  | optional,
-                privateName
-                  | String
-                  | doc m%"
-                  Overrides the 'Name' to be used for private usage. By default reformatted from 'Name'; e.g. 'GetByArgs' as '_getByArgs'.
-                  "%
-                  | optional,
-                returnText
-                  | String
-                  | doc m%"
-                  A default will be created where not specified. To create a '<see cref="XXX"/>' within use moustache shorthand (e.g. {{Xxx}}).
-                  "%
-                  | optional,
-                returnType
-                  | String
-                  | doc m%"
-                  Defaults to the parent 'Entity.Name' where the 'Operation.Type' options are 'Get', 'GetColl', 'Create' or 'Update'; otherwise, defaults to 'void'.
-                  "%
-                  | optional,
-                returnTypeNullable
-                  | Bool
-                  | doc m%"
-                  This is only applicable for an 'Operation.Type' of 'Custom'. Will be inferred where the 'ReturnType' is denoted as nullable; i.e. suffixed by a '?'.
-                  "%
-                  | optional,
-                text
-                  | String
-                  | doc m%"
-                  The 'Text' will be defaulted for all the 'Operation.Type' options with the exception of 'Custom'. To create a '<see cref="XXX"/>' within use moustache shorthand (e.g. {{Xxx}}).
-                  "%
-                  | optional,
-                type
-                  | std.enum.TagOrString
-                  | [|
-                    'Custom,
-                    'Delete,
-                    'Patch,
-                    'Update,
-                    'Create,
-                    'GetColl,
-                    'Get
-                  |]
-                  | optional,
-                uniqueKey
-                  | Bool
-                  | doc m%"
-                  This simplifies the specification of these properties versus having to declare each specifically.
-                  "%
-                  | optional,
-                validator
-                  | String
-                  | doc m%"
-                  Defaults to the 'Entity.Validator' where not specified explicitly. Only used for 'Operation.Type' options 'Create' or 'Update'.
-                  "%
-                  | optional,
-                valueType
-                  | String
-                  | doc m%"
-                  Defaults to the parent 'Entity.Name' where the 'Operation.Type' options are 'Create' or 'Update'.
-                  "%
-                  | optional,
-                webApiAlternateStatus
-                  | std.enum.TagOrString
-                  | [|
-                    'ThrowException,
-                    'NotFound,
-                    'NoContent,
-                    'Created,
-                    'Accepted,
-                    'OK
-                  |]
-                  | doc m%"
-                  The value defaults as follows: 'NotFound' for 'Operation.Type' value 'Get', 'NoContent' for 'Operation.Type' value 'GetColl', 'Create', 'Update' or 'Patch'; otherwise, 'ThrowException' which will result in an 'InvalidOperationException'.
-                  "%
-                  | optional,
-                webApiAuthorize
-                  | String
-                  | doc m%"
-                  Where not specified no attribute output will occur; it will then inherit as supported by .NET.
-                  "%
-                  | optional,
-                webApiConcurrency
-                  | Bool
-                  | doc m%"
-                  This provides an alternative where the underlying data source does not natively support optimistic concurrency (native support should always be leveraged as a priority). Where the 'Operation.Type' is 'Update' or 'Patch', the request ETag will be matched against the response for a corresponding 'Get' operation to verify no changes have been made prior to updating. For this to function correctly the .NET response Type for the 'Get' must be the same as that returned from the corresponding 'Create', 'Update' and 'Patch' (where applicable) as the generated ETag is a SHA256 hash of the resulting JSON. Defaults to 'Entity.WebApiConcurrency'.
-                  "%
-                  | optional,
-                webApiGetOperation
-                  | String
-                  | doc m%"
-                  Defaults to 'Get'. Specify either just the method name (e.g. 'OperationName') or, interface and method name (e.g. 'IXxxManager.OperationName') to be invoked where in a different 'YyyManager.OperationName'.
-                  "%
-                  | optional,
-                webApiLocation
-                  | String
-                  | doc m%"
-                  This uses similar formatting to the 'WebApiRoute'. The response value is accessed using 'r.' notation to access underlying properties; for example '{r.Id}' or 'person/{r.Id}'. The 'Entity.WebApiRoutePrefix' will be prepended automatically; however, to disable set the first character to '!', e.g. '!person/{r.Id}'. The URI can be inferred from another 'Operation' by using a lookup '^'; for example '^Get' indicates to infer from the named 'Get' operation (where only '^' is specified this is shorthand for '^Get' as this is the most common value). The Location URI will ensure the first character is a '/' so it acts a 'relative URL absolute path'.
-                  "%
-                  | optional,
-                webApiMethod
-                  | std.enum.TagOrString
-                  | [| 'HttpDelete, 'HttpPut, 'HttpPost, 'HttpGet |]
-                  | doc m%"
-                  The value defaults as follows: 'HttpGet' for 'Operation.Type' value 'Get' or 'GetColl', 'HttpPost' for 'Operation.Type' value 'Create' or 'Custom', 'HttpPut' for 'Operation.Type' value 'Update', and 'HttpDelete' for 'Operation.Type' value 'Delete'. An 'Operation.Type' value 'Patch' can not be specified and will always default to 'HttpPatch'.
-                  "%
-                  | optional,
-                webApiRoute | String | optional,
-                webApiStatus
-                  | std.enum.TagOrString
-                  | [| 'NotFound, 'NoContent, 'Created, 'Accepted, 'OK |]
-                  | doc m%"
-                  The value defaults as follows: 'OK' for 'Operation.Type' value 'Get', 'GetColl', 'Update', 'Delete' or 'Custom', 'Created' for 'Operation.Type' value 'Create'.
-                  "%
-                  | optional,
-                webApiUpdateOperation
-                  | String
-                  | doc m%"
-                  Defaults to 'Update'. Specify either just the method name (e.g. 'OperationName') or, interface and method name (e.g. 'IXxxManager.OperationName') to be invoked where in a different 'YyyManager.OperationName'.
-                  "%
-                  | optional,
-                ..
-              },
-          Parameter
-            | doc m%"
-            The 'Parameter' object defines an 'Operation' parameter and its charateristics.
-            "%
-            = {
-                argumentName
-                  | String
-                  | doc m%"
-                  Overrides the 'Name' to be used for argument parameters. By default reformatted from 'Name'; e.g. 'FirstName' as 'firstName'.
-                  "%
-                  | optional,
-                dataConverter
-                  | String
-                  | doc m%"
-                  A 'Converter' is used to convert a data source value to/from a .NET 'Type' where the standard data type conversion is not applicable.
-                  "%
-                  | optional,
-                dataConverterIsGeneric | Bool | optional,
-                "default"
-                  | String
-                  | doc m%"
-                  Where the 'Type' is 'string' then the specified default value will need to be delimited. Any valid value assignment C# code can be used.
-                  "%
-                  | optional,
-                grpcType | String | optional,
-                iValidator
-                  | String
-                  | doc m%"
-                  Defaults to 'IValidator<{Type}>' where the '{Type}' is 'Type'.
-                  "%
-                  | optional,
-                isMandatory | Bool | optional,
-                layerPassing
-                  | std.enum.TagOrString
-                  | [| 'ToManagerCollSet, 'ToManagerSet, 'All |]
-                  | doc m%"
-                  Defaults to 'All'. To further describe, 'All' passes the parameter through all layeys, 'ToManagerSet' only passes the parameter to the 'Manager' layer and overrides the same named property within the corresponding 'value' parameter, 'ToManagerCollSet' only passes the parameter to the 'Manager' layer and overrides the same named property within the corresponding 'value' collection parameter. Where using the 'UniqueKey' option to automatically set 'Parameters', and the 'Operation.Type' is 'Create' or 'Update' it will default to 'ToManagerSet'.
-                  "%
-                  | optional,
-                name | String,
-                nullable | Bool | optional,
-                privateName
-                  | String
-                  | doc m%"
-                  Overrides the 'Name' to be used for private fields. By default reformatted from 'Name'; e.g. 'FirstName' as '_firstName'.
-                  "%
-                  | optional,
-                property | String | optional,
-                refDataList
-                  | Bool
-                  | doc m%"
-                  This is required to enable a list of Reference Data values (as per 'RefDataType') to be passed as an argument for example.
-                  "%
-                  | optional,
-                refDataType
-                  | std.enum.TagOrString
-                  | [| 'Guid, 'int, 'string |]
-                  | doc m%"
-                  Defaults to 'string' where not specified and the corresponding 'Type' starts with (prefix) 'RefDataNamespace.'.
-                  "%
-                  | optional,
-                text
-                  | String
-                  | doc m%"
-                  By default the 'Text' will be the 'Name' reformatted as sentence casing.
-                  "%
-                  | optional,
-                type
-                  | String
-                  | doc m%"
-                  Defaults to 'string'. To reference a Reference Data 'Type' always prefix with 'RefDataNamespace' (e.g. 'RefDataNamespace.Gender') or shortcut '^' (e.g. '^Gender'). This will ensure that the appropriate Reference Data 'using' statement is used. _Shortcut:_ Where the 'Type' starts with (prefix) 'RefDataNamespace.' or '^', and the correspondong 'RefDataType' attribute is not specified it will automatically default the 'RefDataType' to 'string.'
-                  "%
-                  | optional,
-                validator | String | optional,
-                validatorCode | String | optional,
-                webApiFrom
-                  | std.enum.TagOrString
-                  | [|
-                    'FromEntityProperties,
-                    'FromRoute,
-                    'FromBody,
-                    'FromQuery
-                  |]
-                  | doc m%"
-                  Defaults to 'FromQuery'; unless the parameter 'Type' has also been defined as an 'Entity' within the code-gen config file then it will default to 'FromEntityProperties'. Specifies that the parameter will be declared with corresponding 'FromQueryAttribute', 'FromBodyAttribute' or 'FromRouteAttribute' for the Web API method. The 'FromEntityProperties' will declare all properties of the 'Entity' as query parameters.
-                  "%
-                  | optional,
-                ..
-              },
-          Property
-            | doc m%"
-            The 'Property' object defines an 'Entity' property and its charateristics.
-            "%
-            = {
-                annotation1 | String | optional,
-                annotation2 | String | optional,
-                annotation3 | String | optional,
-                argumentName
-                  | String
-                  | doc m%"
-                  Overrides the 'Name' to be used for argument parameters. By default reformatted from 'Name'; e.g. 'FirstName' as 'firstName'.
-                  "%
-                  | optional,
-                autoCreate | Bool | optional,
-                bubblePropertyChanges
-                  | Bool
-                  | doc m%"
-                  Note that the 'IsEntity' property is also required to enable.
-                  "%
-                  | optional,
-                cosmosMapper
-                  | std.enum.TagOrString
-                  | [| 'Skip, 'Ignore, 'Map |]
-                  | doc m%"
-                  Defaults to 'Map' which indicates the property will be explicitly mapped. A value of 'Ignore' will explicitly 'Ignore', whilst a value of 'Skip' will skip code-generated mapping altogether.
-                  "%
-                  | optional,
-                dataAutoGenerated | Bool | optional,
-                dataConverter
-                  | String
-                  | doc m%"
-                  A 'Converter' is used to convert a data source value to/from a .NET 'Type' where no standard data conversion can be applied. Where this value is suffixed by '<T>' or '{T}' this will automatically set 'DataConverterIsGeneric' to 'true'.
-                  "%
-                  | optional,
-                dataConverterIsGeneric | Bool | optional,
-                dataMapperIgnore
-                  | Bool
-                  | doc m%"
-                  All properties are included by default.
-                  "%
-                  | optional,
-                dataModelJsonName
-                  | String
-                  | doc m%"
-                  Defaults to 'JsonName' where not specified.
-                  "%
-                  | optional,
-                dataName
-                  | String
-                  | doc m%"
-                  Defaults to the property 'Name'. Represents the column name for a 'Database', or the correspinding property name for the other options.
-                  "%
-                  | optional,
-                dataOperationTypes
-                  | std.enum.TagOrString
-                  | [|
-                    'Delete,
-                    'Update,
-                    'Create,
-                    'Get,
-                    'AnyExceptGet,
-                    'AnyExceptUpdate,
-                    'AnyExceptCreate,
-                    'Any
-                  |]
-                  | doc m%"
-                  Defaults to 'Any'.
-                  "%
-                  | optional,
-                databaseDbType
-                  | String
-                  | doc m%"
-                  Overrides the inferred database type; i.e. can specify 'Date' or 'DateTime2', for .NET Type 'System.DateTime'.
-                  "%
-                  | optional,
-                databaseIgnore | Bool | optional,
-                databaseMapper
-                  | String
-                  | doc m%"
-                  A 'Mapper' is used to map a data source value to/from a .NET complex 'Type' (i.e. class with one or more properties).
-                  "%
-                  | optional,
-                dateTimeTransform
-                  | std.enum.TagOrString
-                  | [|
-                    'DateTimeUnspecified,
-                    'DateTimeUtc,
-                    'DateTimeLocal,
-                    'DateOnly,
-                    'None,
-                    'UseDefault
-                  |]
-                  | doc m%"
-                  Defaults to 'UseDefault'. This is only applied where the 'Type' is 'DateTime'.
-                  "%
-                  | optional,
-                "default"
-                  | String
-                  | doc m%"
-                  Where the 'Type' is 'string' then the specified default value will need to be delimited. Any valid value assignment C# code can be used.
-                  "%
-                  | optional,
-                displayName
-                  | String
-                  | doc m%"
-                  Defaults to the 'Name' as sentence case.
-                  "%
-                  | optional,
-                entityFrameworkMapper
-                  | std.enum.TagOrString
-                  | [| 'Skip, 'Ignore, 'Map |]
-                  | doc m%"
-                  Defaults to 'Map' which indicates the property will be explicitly mapped. A value of 'Ignore' will explicitly 'Ignore', whilst a value of 'Skip' will skip code-generated mapping altogether.
-                  "%
-                  | optional,
-                excludeCleanup | Bool | optional,
-                grpcFieldNo | std.number.Integer | optional,
-                grpcType | String | optional,
-                httpAgentMapper
-                  | std.enum.TagOrString
-                  | [| 'Skip, 'Ignore, 'Map |]
-                  | doc m%"
-                  Defaults to 'Map' which indicates the property will be explicitly mapped. A value of 'Ignore' will explicitly 'Ignore', whilst a value of 'Skip' will skip code-generated mapping altogether.
-                  "%
-                  | optional,
-                identifierGenerator
-                  | String
-                  | doc m%"
-                  Should be formatted as 'Type' + '^' + 'Name'; e.g. 'IGuidIdentifierGenerator^GuidIdGen'. Where the 'Name' portion is not specified it will be inferred. Where the 'Type' matches an already inferred value it will be ignored. See 'Beef.Entities.IInt32IdentifierGenerator', 'Beef.Entities.IInt64IdentifierGenerator', 'Beef.Entities.IGuidIdentifierGenerator' or 'Beef.Entities.IStringIdentifierGenerator' for underlying implementation requirements.
-                  "%
-                  | optional,
-                immutable | Bool | optional,
-                inherited | Bool | optional,
-                internalOnly
-                  | Bool
-                  | doc m%"
-                  This is only applicable where the 'Entity.EntityScope' is 'Autonomous'. In this instance the 'Property' will be excluded from the 'Common' entity declaration.
-                  "%
-                  | optional,
-                isEntity
-                  | Bool
-                  | doc m%"
-                  Will be inferred (default to 'true') where the 'Type' is 'ChangeLog' or the 'Type' is found as another 'Entity' within the code-generation configuration file.
-                  "%
-                  | optional,
-                jsonDataModelName
-                  | String
-                  | doc m%"
-                  Defaults to 'JsonName' where not specified.
-                  "%
-                  | optional,
-                jsonName
-                  | String
-                  | doc m%"
-                  Defaults to 'ArgumentName' where not specified (i.e. camelCase); however, where the property is 'ETag' it will default to the 'Config.ETagJsonName'.
-                  "%
-                  | optional,
-                modelText
-                  | String
-                  | doc m%"
-                  By default the 'ModelText' will be the 'Name' reformatted as sentence casing. Depending on whether the 'Type' is 'bool', will appear in one of the two generated sentences. Where not 'bool' it will be: Gets or sets a value indicating whether {text}.'. Otherwise, it will be: Gets or sets the {text}.'. To create a '<see cref="XXX"/>' within use moustache shorthand (e.g. {{Xxx}}).
-                  "%
-                  | optional,
-                name | String,
-                nullable | Bool | optional,
-                odataMapper
-                  | std.enum.TagOrString
-                  | [| 'Skip, 'Ignore, 'Map |]
-                  | doc m%"
-                  Defaults to 'Map' which indicates the property will be explicitly mapped. A value of 'Ignore' will explicitly 'Ignore', whilst a value of 'Skip' will skip code-generated mapping altogether.
-                  "%
-                  | optional,
-                partitionKey
-                  | Bool
-                  | doc m%"
-                  This will implement 'IPartitionKey' for the generated entity.
-                  "%
-                  | optional,
-                privateName
-                  | String
-                  | doc m%"
-                  Overrides the 'Name' to be used for private fields. By default reformatted from 'Name'; e.g. 'FirstName' as '_firstName'.
-                  "%
-                  | optional,
-                refDataList
-                  | Bool
-                  | doc m%"
-                  This is required to enable a list of Reference Data values (as per 'RefDataType') to be passed as an argument for example.
-                  "%
-                  | optional,
-                refDataMapping
-                  | Bool
-                  | doc m%"
-                  Mapped properties are a special Reference Data property type that ensure value uniqueness; this allows the likes of additional to/from mappings to occur between systems where applicable.
-                  "%
-                  | optional,
-                refDataText
-                  | Bool
-                  | doc m%"
-                  This is used where serializing within the Web API 'Controller' and the 'ExecutionContext.IsRefDataTextSerializationEnabled' is set to 'true' (which is automatically set where the url contains '$text=true').
-                  "%
-                  | optional,
-                refDataType
-                  | std.enum.TagOrString
-                  | [| 'Guid, 'int, 'string |]
-                  | doc m%"
-                  Defaults to 'string' (being the 'ReferenceDataBase.Code') where not specified and the corresponding 'Type' starts with (prefix) 'RefDataNamespace.' or '^'. Note: an 'Id' of type 'string' is currently not supported; the use of the 'Code' is the recommended approach.
-                  "%
-                  | optional,
-                secondaryPropertyChanged | String | optional,
-                serializationEmitDefault | Bool | optional,
-                serializationIgnore
-                  | Bool
-                  | doc m%"
-                  All properties are serialized by default.
-                  "%
-                  | optional,
-                stringTransform
-                  | std.enum.TagOrString
-                  | [| 'EmptyToNull, 'NullToEmpty, 'None, 'UseDefault |]
-                  | doc m%"
-                  Defaults to 'UseDefault'. This is only applied where the 'Type' is 'string'.
-                  "%
-                  | optional,
-                stringTrim
-                  | std.enum.TagOrString
-                  | [| 'Both, 'End, 'Start, 'None, 'UseDefault |]
-                  | doc m%"
-                  Defaults to 'UseDefault'. This is only applied where the 'Type' is 'string'.
-                  "%
-                  | optional,
-                text
-                  | String
-                  | doc m%"
-                  By default the 'Text' will be the 'Name' reformatted as sentence casing. Depending on whether the 'Type' is 'bool', will appear in one of the two generated sentences. Where not 'bool' it will be: Gets or sets a value indicating whether {text}.'. Otherwise, it will be: Gets or sets the {text}.'. To create a '<see cref="XXX"/>' within use moustache shorthand (e.g. {{Xxx}}).
-                  "%
-                  | optional,
-                type
-                  | String
-                  | doc m%"
-                  Defaults to 'string'. To reference a Reference Data 'Type' always prefix with 'RefDataNamespace' (e.g. 'RefDataNamespace.Gender') or shortcut '^' (e.g. '^Gender'). This will ensure that the appropriate Reference Data 'using' statement is used. _Shortcut:_ Where the 'Type' starts with (prefix) 'RefDataNamespace.' or '^', and the correspondong 'RefDataType' attribute is not specified it will automatically default the 'RefDataType' to 'string.'
-                  "%
-                  | optional,
-                uniqueKey
-                  | Bool
-                  | doc m%"
-                  This is also used to simplify the parameter specification for an Entity Operation by inferrence.
-                  "%
-                  | optional,
-                webApiQueryStringConverter | String | optional,
-                ..
-              },
+                patternProperties
+                additionalAllowed
+                additionalProperties
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  let x
+                    | { _ : Dyn }
+                    = x
+                    in
+                  let check_properties
+                      : {
+                        result : [| 'Ok, 'Err String |],
+                        checked : { _ : Bool }
+                      }
+                      = std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              (match {
+                                'Err
+                                  msg =>
+                                  {
+                                    checked : { _ : Bool } = {},
+                                    result =
+                                      'Err
+                                          "field `%{field}` didn't validate: %{msg}",
+                                  },
+                                'Ok =>
+                                  {
+                                    checked =
+                                      std.record.insert field true acc.checked,
+                                    result = acc.result,
+                                  },
+                              }) (value x."%{field}"))
+                        { checked = {}, result = 'Ok, }
+                        (std.record.to_array properties)
+                      in
+                    let matching_fields
+                        : String -> { _ : Dyn }
+                        = fun
+                          pattern
+                          =>
+                          let matcher
+                            = std.string.is_match pattern
+                            in
+                          std.array.fold_left
+                              (fun
+                                acc
+                                =>
+                                fun
+                                  { field, value, }
+                                  =>
+                                  if matcher field then
+                                    std.record.insert field value acc
+                                  else
+                                    acc) {} (std.record.to_array x)
+                        in
+                      let check_pattern_properties
+                          : {
+                            result : [| 'Ok, 'Err String |],
+                            checked : { _ : Bool }
+                          }
+                          = std.array.fold_right
+                            (fun
+                              { field = pattern, value = pred, }
+                              =>
+                              fun
+                                acc
+                                =>
+                                (match {
+                                  r @ { result = 'Err msg, .. } =>
+                                    r,
+                                  { result = 'Ok, checked = ch, } =>
+                                    {
+                                      checked =
+                                        std.array.fold_left
+                                            (fun
+                                              r
+                                              field
+                                              =>
+                                              if !(std.record.has_field field
+                                                r) then
+                                                std.record.insert field true r
+                                              else
+                                                r) acc.checked
+                                            (std.record.fields ch),
+                                      result = acc.result,
+                                    },
+                                })
+                                  (std.array.fold_right
+                                    (fun
+                                      { field, value, }
+                                      =>
+                                      fun
+                                        acc
+                                        =>
+                                        (match {
+                                          'Err
+                                            msg =>
+                                            {
+                                              checked : { _ : Bool } = {},
+                                              result =
+                                                'Err
+                                                    "field `%{field}` didn't validate: %{msg}",
+                                            },
+                                          'Ok =>
+                                            {
+                                              checked =
+                                                std.record.insert field true
+                                                    acc.checked,
+                                              result = acc.result,
+                                            },
+                                        }) (pred value))
+                                    {
+                                      checked : { _ : Bool } = {},
+                                      result = 'Ok,
+                                    }
+                                    (std.record.to_array
+                                      (matching_fields pattern))))
+                            { checked : { _ : Bool } = {}, result = 'Ok, }
+                            (std.record.to_array patternProperties)
+                          in
+                        let remaining_fields
+                            = std.array.fold_left
+                              (fun
+                                acc
+                                field
+                                =>
+                                if !(std.record.has_field field acc) then
+                                  acc
+                                else
+                                  std.record.remove field acc) x
+                              ((std.record.fields check_properties.checked)
+                              @ (std.record.fields
+                                check_pattern_properties.checked))
+                            in
+                          let check_additional_properties
+                              : [| 'Ok, 'Err String |]
+                              = if (!additionalAllowed)
+                              && (!(std.record.is_empty remaining_fields)) then
+                                'Err
+                                  "extra fields %{std.serialize 'Json
+                                    ((std.record.fields remaining_fields)
+                                    | Dyn)}"
+                              else
+                                std.array.fold_right
+                                  (fun
+                                    { field, value, }
+                                    =>
+                                    fun
+                                      acc
+                                      =>
+                                      (match {
+                                        'Err
+                                          msg =>
+                                          'Err
+                                            "field `%{field}` didn't validate: %{msg}",
+                                        'Ok =>
+                                          acc,
+                                      }) (additionalProperties value)) 'Ok
+                                  (std.record.to_array remaining_fields)
+                              in
+                            (match {
+                                'Err
+                                  msg =>
+                                  check_properties.result,
+                                'Ok =>
+                                  (match {
+                                    'Err
+                                      msg =>
+                                      check_pattern_properties.result,
+                                    'Ok =>
+                                      check_additional_properties,
+                                  }) check_pattern_properties.result,
+                              }) check_properties.result,
+          required
+            : Array String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]"
+            = fun
+                fields
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field (x | { _ : Dyn })) then
+                        'Err "missing required field %{field}"
+                      else
+                        acc) 'Ok fields,
         },
-    predicate = {
-          CodeGeneration
-            | doc m%"
-            The 'CodeGeneration' object defines global properties that are used to drive the underlying entity-driven code generation.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  appBasedAgentArgs = predicates.isType '"Bool",
-                  cosmosName = predicates.isType '"String",
-                  cosmosUsingNamespace = predicates.isType '"String",
-                  dataUsingNamespace = predicates.isType '"String",
-                  databaseName = predicates.isType '"String",
-                  databaseSchema = predicates.isType '"String",
-                  databaseUsingNamespace = predicates.isType '"String",
-                  entities = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Entity
-                      ],
-                  entityFrameworkName = predicates.isType '"String",
-                  entityFrameworkUsingNamespace = predicates.isType '"String",
-                  entityScope = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Common", "Business", "Autonomous" ]
-                      ],
-                  entityUsing = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Common", "Business", "All", "None" ]
-                      ],
-                  etagJsonName = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [ "etag", "eTag", "_etag", "_eTag", "ETag", "ETAG" ]
-                      ],
-                  eventActionFormat = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "None", "PastTense" ]
-                      ],
-                  eventCasing = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "None", "Lower", "Upper" ]
-                      ],
-                  eventOutbox = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "None", "Database" ]
-                      ],
-                  eventPublish = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "None", "DataSvc", "Data" ]
-                      ],
-                  eventSourceKind = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [ "None", "Absolute", "Relative", "RelativeOrAbsolute" ]
-                      ],
-                  eventSourceRoot = predicates.isType '"String",
-                  eventSubjectFormat = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "NameOnly", "NameAndKey" ]
-                      ],
-                  eventSubjectRoot = predicates.isType '"String",
-                  eventSubjectSeparator = predicates.isType '"String",
-                  eventTransaction = predicates.isType '"Bool",
-                  grpc = predicates.isType '"Bool",
-                  httpAgentName = predicates.isType '"String",
-                  jsonSerializer = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "None", "Newtonsoft" ]
-                      ],
-                  namespaceApi = predicates.isType '"String",
-                  namespaceBase = predicates.isType '"String",
-                  namespaceBusiness = predicates.isType '"String",
-                  namespaceCommon = predicates.isType '"String",
-                  odataName = predicates.isType '"String",
-                  odataUsingNamespace = predicates.isType '"String",
-                  pathApi = predicates.isType '"String",
-                  pathBase = predicates.isType '"String",
-                  pathBusiness = predicates.isType '"String",
-                  pathCommon = predicates.isType '"String",
-                  refDataAppendToNamespace = predicates.isType '"String",
-                  refDataBusNamespace = predicates.isType '"String",
-                  refDataCache = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [
-                          "ReferenceDataCache",
-                          "ReferenceDataMultiTenantCache"
-                        ]
-                      ],
-                  refDataCommonNamespace = predicates.isType '"String",
-                  refDataDefaultMapperConverter = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [
-                          "ReferenceDataCodeConverter",
-                          "ReferenceDataCodeConverter{T}",
-                          "ReferenceDataCodeConverter<T>",
-                          "ReferenceDataInt32IdConverter",
-                          "ReferenceDataInt32IdConverter{T}",
-                          "ReferenceDataInt32IdConverter<T>",
-                          "ReferenceDataNullableInt32IdConverter",
-                          "ReferenceDataNullableInt32IdConverter{T}",
-                          "ReferenceDataNullableInt32IdConverter<T>",
-                          "ReferenceDataInt64IdConverter",
-                          "ReferenceDataInt64IdConverter{T}",
-                          "ReferenceDataInt64IdConverter<T>",
-                          "ReferenceDataNullableInt64IdConverter",
-                          "ReferenceDataNullableInt64IdConverter{T}",
-                          "ReferenceDataNullableInt64IdConverter<T>",
-                          "ReferenceDataGuidIdConverter",
-                          "ReferenceDataGuidIdConverter{T}",
-                          "ReferenceDataGuidIdConverter<T>",
-                          "ReferenceDataNullableGuidIdConverter",
-                          "ReferenceDataNullableGuidIdConverter{T}",
-                          "ReferenceDataNullableGuidIdConverter<T>"
-                        ]
-                      ],
-                  refDataNamespace = predicates.isType '"String",
-                  refDataText = predicates.isType '"Bool",
-                  refDataWebApiRoute = predicates.isType '"String",
-                  usingNamespace1 = predicates.isType '"String",
-                  usingNamespace2 = predicates.isType '"String",
-                  usingNamespace3 = predicates.isType '"String",
-                  validatorLayer = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Business", "Common" ]
-                      ],
-                  webApiAuthorize = predicates.isType '"String",
-                  webApiAutoLocation = predicates.isType '"Bool",
-                  webApiRoutePrefix = predicates.isType '"String",
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          Const
-            | doc m%"
-            The 'Const' object is used to define a .NET (C#) constant value for an 'Entity'.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "name", "value" ],
-                predicates.records.record
-                {
-                  name = predicates.isType '"String",
-                  text = predicates.isType '"String",
-                  value = predicates.isType '"String",
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          Entity
-            | doc m%"
-            The 'Entity' is used as the primary configuration for driving the entity-driven code generation.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "name" ],
-                predicates.records.record
-                {
-                  abstract = predicates.isType '"Bool",
-                  argumentName = predicates.isType '"String",
-                  authRole = predicates.isType '"String",
-                  autoImplement = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [
-                          "Database",
-                          "EntityFramework",
-                          "Cosmos",
-                          "OData",
-                          "HttpAgent",
-                          "None"
-                        ]
-                      ],
-                  collection = predicates.isType '"Bool",
-                  collectionInherits = predicates.isType '"String",
-                  collectionKeyed = predicates.isType '"Bool",
-                  collectionResult = predicates.isType '"Bool",
-                  collectionResultInherits = predicates.isType '"String",
-                  constType = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "int", "long", "Guid", "string" ]
-                      ],
-                  consts = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Const
-                      ],
-                  cosmosContainerId = predicates.isType '"String",
-                  cosmosCustomMapper = predicates.isType '"Bool",
-                  cosmosMapperInheritsFrom = predicates.isType '"String",
-                  cosmosModel = predicates.isType '"String",
-                  cosmosName = predicates.isType '"String",
-                  cosmosPartitionKey = predicates.isType '"String",
-                  cosmosValueContainer = predicates.isType '"Bool",
-                  create = predicates.isType '"Bool",
-                  dataCtor = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Public", "Private", "Protected" ]
-                      ],
-                  dataCtorParams = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  dataExtensions = predicates.isType '"Bool",
-                  dataModel = predicates.isType '"Bool",
-                  dataSvcCaching = predicates.isType '"Bool",
-                  dataSvcCtor = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Public", "Private", "Protected" ]
-                      ],
-                  dataSvcCtorParams = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  dataSvcExtensions = predicates.isType '"Bool",
-                  databaseCustomerMapper = predicates.isType '"Bool",
-                  databaseMapperInheritsFrom = predicates.isType '"String",
-                  databaseName = predicates.isType '"String",
-                  databaseSchema = predicates.isType '"String",
-                  delete = predicates.isType '"Bool",
-                  entityFrameworkCustomMapper = predicates.isType '"Bool",
-                  entityFrameworkMapperInheritsFrom = predicates.isType
-                      '"String",
-                  entityFrameworkModel = predicates.isType '"String",
-                  entityFrameworkName = predicates.isType '"String",
-                  entityScope = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Common", "Business", "Autonomous" ]
-                      ],
-                  entityUsing = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Common", "Business", "All", "None" ]
-                      ],
-                  eventCasing = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "None", "Lower", "Upper" ]
-                      ],
-                  eventOutbox = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "None", "Database" ]
-                      ],
-                  eventPublish = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "None", "DataSvc", "Data" ]
-                      ],
-                  eventSource = predicates.isType '"String",
-                  eventSubjectFormat = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "NameOnly", "NameAndKey" ]
-                      ],
-                  eventTransaction = predicates.isType '"Bool",
-                  excludeAll = predicates.isType '"Bool",
-                  excludeData = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [ "Include", "Exclude", "RequiresMapper" ]
-                      ],
-                  excludeDataSvc = predicates.isType '"Bool",
-                  excludeEntity = predicates.isType '"Bool",
-                  excludeGrpcAgent = predicates.isType '"Bool",
-                  excludeIData = predicates.isType '"Bool",
-                  excludeIDataSvc = predicates.isType '"Bool",
-                  excludeIManager = predicates.isType '"Bool",
-                  excludeManager = predicates.isType '"Bool",
-                  excludeWebApi = predicates.isType '"Bool",
-                  excludeWebApiAgent = predicates.isType '"Bool",
-                  fileName = predicates.isType '"String",
-                  genericWithT = predicates.isType '"Bool",
-                  get = predicates.isType '"Bool",
-                  getAll = predicates.isType '"Bool",
-                  grpc = predicates.isType '"Bool",
-                  httpAgentModel = predicates.isType '"String",
-                  httpAgentName = predicates.isType '"String",
-                  httpAgentReturnModel = predicates.isType '"String",
-                  httpAgentRoutePrefix = predicates.isType '"String",
-                  iValidator = predicates.isType '"String",
-                  implements = predicates.isType '"String",
-                  implementsAutoInfer = predicates.isType '"Bool",
-                  inherits = predicates.isType '"String",
-                  isInitialOverride = predicates.isType '"Bool",
-                  jsonSerializer = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "None", "Newtonsoft" ]
-                      ],
-                  managerCtor = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Public", "Private", "Protected" ]
-                      ],
-                  managerCtorParams = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  managerExtensions = predicates.isType '"Bool",
-                  name = predicates.isType '"String",
-                  namespace = predicates.isType '"String",
-                  odataCollectionName = predicates.isType '"String",
-                  odataCustomMapper = predicates.isType '"Bool",
-                  odataMapperInheritsFrom = predicates.isType '"String",
-                  odataModel = predicates.isType '"String",
-                  odataName = predicates.isType '"String",
-                  omitEntityBase = predicates.isType '"Bool",
-                  operations = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.Operation
-                      ],
-                  patch = predicates.isType '"Bool",
-                  privateName = predicates.isType '"String",
-                  properties = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Property
-                      ],
-                  refDataSortOrder = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "SortOrder", "Id", "Code", "Text" ]
-                      ],
-                  refDataStringFormat = predicates.isType '"String",
-                  refDataText = predicates.isType '"Bool",
-                  refDataType = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "int", "long", "Guid", "string" ]
-                      ],
-                  text = predicates.isType '"String",
-                  update = predicates.isType '"Bool",
-                  validator = predicates.isType '"String",
-                  webApiAuthorize = predicates.isType '"String",
-                  webApiAutoLocation = predicates.isType '"Bool",
-                  webApiConcurrency = predicates.isType '"Bool",
-                  webApiCtor = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Public", "Private", "Protected" ]
-                      ],
-                  webApiCtorParams = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  webApiGetOperation = predicates.isType '"String",
-                  webApiRoutePrefix = predicates.isType '"String",
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          Operation
-            | doc m%"
-            The code generation for an 'Operation' is primarily driven by the 'Type' property. This encourages (enforces) a consistent implementation for the standardised **CRUD** (Create, Read, Update and Delete) actions, as well as supporting fully customised operations as required.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "name" ],
-                predicates.records.record
-                {
-                  authPermission = predicates.isType '"String",
-                  authRole = predicates.isType '"String",
-                  autoImplement = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [
-                          "Database",
-                          "EntityFramework",
-                          "Cosmos",
-                          "OData",
-                          "HttpAgent",
-                          "None"
-                        ]
-                      ],
-                  cosmosContainerId = predicates.isType '"String",
-                  cosmosPartitionKey = predicates.isType '"String",
-                  dataEntityMapper = predicates.isType '"String",
-                  dataExtensions = predicates.isType '"Bool",
-                  dataSvcCustom = predicates.isType '"Bool",
-                  dataSvcExtensions = predicates.isType '"Bool",
-                  dataSvcTransaction = predicates.isType '"Bool",
-                  dataTransaction = predicates.isType '"Bool",
-                  databaseStoredProc = predicates.isType '"String",
-                  eventOutbox = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "None", "Database" ]
-                      ],
-                  eventPublish = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "None", "DataSvc", "Data" ]
-                      ],
-                  eventSource = predicates.isType '"String",
-                  eventSubject = predicates.isType '"String",
-                  excludeAll = predicates.isType '"Bool",
-                  excludeData = predicates.isType '"Bool",
-                  excludeDataSvc = predicates.isType '"Bool",
-                  excludeGrpcAgent = predicates.isType '"Bool",
-                  excludeIData = predicates.isType '"Bool",
-                  excludeIDataSvc = predicates.isType '"Bool",
-                  excludeIManager = predicates.isType '"Bool",
-                  excludeManager = predicates.isType '"Bool",
-                  excludeWebApi = predicates.isType '"Bool",
-                  excludeWebApiAgent = predicates.isType '"Bool",
-                  grpc = predicates.isType '"Bool",
-                  httpAgentMethod = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [
-                          "HttpGet",
-                          "HttpPost",
-                          "HttpPut",
-                          "HttpDelete",
-                          "HttpPatch"
-                        ]
-                      ],
-                  httpAgentModel = predicates.isType '"String",
-                  httpAgentReturnModel = predicates.isType '"String",
-                  httpAgentRoute = predicates.isType '"String",
-                  iValidator = predicates.isType '"String",
-                  managerCustom = predicates.isType '"Bool",
-                  managerExtensions = predicates.isType '"Bool",
-                  managerOperationType = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [ "Create", "Read", "Update", "Delete", "Unspecified" ]
-                      ],
-                  managerTransaction = predicates.isType '"Bool",
-                  name = predicates.isType '"String",
-                  odataCollectionName = predicates.isType '"String",
-                  paging = predicates.isType '"Bool",
-                  parameters = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.Parameter
-                      ],
-                  privateName = predicates.isType '"String",
-                  returnText = predicates.isType '"String",
-                  returnType = predicates.isType '"String",
-                  returnTypeNullable = predicates.isType '"Bool",
-                  text = predicates.isType '"String",
-                  type = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [
-                          "Get",
-                          "GetColl",
-                          "Create",
-                          "Update",
-                          "Patch",
-                          "Delete",
-                          "Custom"
-                        ]
-                      ],
-                  uniqueKey = predicates.isType '"Bool",
-                  validator = predicates.isType '"String",
-                  valueType = predicates.isType '"String",
-                  webApiAlternateStatus = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [
-                          "OK",
-                          "Accepted",
-                          "Created",
-                          "NoContent",
-                          "NotFound",
-                          "ThrowException"
-                        ]
-                      ],
-                  webApiAuthorize = predicates.isType '"String",
-                  webApiConcurrency = predicates.isType '"Bool",
-                  webApiGetOperation = predicates.isType '"String",
-                  webApiLocation = predicates.isType '"String",
-                  webApiMethod = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [ "HttpGet", "HttpPost", "HttpPut", "HttpDelete" ]
-                      ],
-                  webApiRoute = predicates.isType '"String",
-                  webApiStatus = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [ "OK", "Accepted", "Created", "NoContent", "NotFound" ]
-                      ],
-                  webApiUpdateOperation = predicates.isType '"String",
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          Parameter
-            | doc m%"
-            The 'Parameter' object defines an 'Operation' parameter and its charateristics.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "name" ],
-                predicates.records.record
-                {
-                  argumentName = predicates.isType '"String",
-                  dataConverter = predicates.isType '"String",
-                  dataConverterIsGeneric = predicates.isType '"Bool",
-                  "default" = predicates.isType '"String",
-                  grpcType = predicates.isType '"String",
-                  iValidator = predicates.isType '"String",
-                  isMandatory = predicates.isType '"Bool",
-                  layerPassing = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [ "All", "ToManagerSet", "ToManagerCollSet" ]
-                      ],
-                  name = predicates.isType '"String",
-                  nullable = predicates.isType '"Bool",
-                  privateName = predicates.isType '"String",
-                  property = predicates.isType '"String",
-                  refDataList = predicates.isType '"Bool",
-                  refDataType = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "string", "int", "Guid" ]
-                      ],
-                  text = predicates.isType '"String",
-                  type = predicates.isType '"String",
-                  validator = predicates.isType '"String",
-                  validatorCode = predicates.isType '"String",
-                  webApiFrom = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [
-                          "FromQuery",
-                          "FromBody",
-                          "FromRoute",
-                          "FromEntityProperties"
-                        ]
-                      ],
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          Property
-            | doc m%"
-            The 'Property' object defines an 'Entity' property and its charateristics.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "name" ],
-                predicates.records.record
-                {
-                  annotation1 = predicates.isType '"String",
-                  annotation2 = predicates.isType '"String",
-                  annotation3 = predicates.isType '"String",
-                  argumentName = predicates.isType '"String",
-                  autoCreate = predicates.isType '"Bool",
-                  bubblePropertyChanges = predicates.isType '"Bool",
-                  cosmosMapper = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Map", "Ignore", "Skip" ]
-                      ],
-                  dataAutoGenerated = predicates.isType '"Bool",
-                  dataConverter = predicates.isType '"String",
-                  dataConverterIsGeneric = predicates.isType '"Bool",
-                  dataMapperIgnore = predicates.isType '"Bool",
-                  dataModelJsonName = predicates.isType '"String",
-                  dataName = predicates.isType '"String",
-                  dataOperationTypes = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [
-                          "Any",
-                          "AnyExceptCreate",
-                          "AnyExceptUpdate",
-                          "AnyExceptGet",
-                          "Get",
-                          "Create",
-                          "Update",
-                          "Delete"
-                        ]
-                      ],
-                  databaseDbType = predicates.isType '"String",
-                  databaseIgnore = predicates.isType '"Bool",
-                  databaseMapper = predicates.isType '"String",
-                  dateTimeTransform = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [
-                          "UseDefault",
-                          "None",
-                          "DateOnly",
-                          "DateTimeLocal",
-                          "DateTimeUtc",
-                          "DateTimeUnspecified"
-                        ]
-                      ],
-                  "default" = predicates.isType '"String",
-                  displayName = predicates.isType '"String",
-                  entityFrameworkMapper = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Map", "Ignore", "Skip" ]
-                      ],
-                  excludeCleanup = predicates.isType '"Bool",
-                  grpcFieldNo = predicates.isType 'Integer,
-                  grpcType = predicates.isType '"String",
-                  httpAgentMapper = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Map", "Ignore", "Skip" ]
-                      ],
-                  identifierGenerator = predicates.isType '"String",
-                  immutable = predicates.isType '"Bool",
-                  inherited = predicates.isType '"Bool",
-                  internalOnly = predicates.isType '"Bool",
-                  isEntity = predicates.isType '"Bool",
-                  jsonDataModelName = predicates.isType '"String",
-                  jsonName = predicates.isType '"String",
-                  modelText = predicates.isType '"String",
-                  name = predicates.isType '"String",
-                  nullable = predicates.isType '"Bool",
-                  odataMapper = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "Map", "Ignore", "Skip" ]
-                      ],
-                  partitionKey = predicates.isType '"Bool",
-                  privateName = predicates.isType '"String",
-                  refDataList = predicates.isType '"Bool",
-                  refDataMapping = predicates.isType '"Bool",
-                  refDataText = predicates.isType '"Bool",
-                  refDataType = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "string", "int", "Guid" ]
-                      ],
-                  secondaryPropertyChanged = predicates.isType '"String",
-                  serializationEmitDefault = predicates.isType '"Bool",
-                  serializationIgnore = predicates.isType '"Bool",
-                  stringTransform = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [ "UseDefault", "None", "NullToEmpty", "EmptyToNull" ]
-                      ],
-                  stringTrim = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [ "UseDefault", "None", "Start", "End", "Both" ]
-                      ],
-                  text = predicates.isType '"String",
-                  type = predicates.isType '"String",
-                  uniqueKey = predicates.isType '"Bool",
-                  webApiQueryStringConverter = predicates.isType '"String",
-                }
-                {  }
-                true
-                predicates.always
-              ],
+    strings =
+      {
+          maxLength
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
+                else
+                  if (std.string.length (x | String)) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no larger than %{std.string.from_number
+                        limit}",
+          minLength
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
+                else
+                  if (std.string.length (x | String)) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no smaller than %{std.string.from_number
+                        limit}",
+          pattern
+            : String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]"
+            = fun
+                pattern
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
+                else
+                  if std.string.is_match pattern (x | String) then
+                    'Ok
+                  else
+                    'Err "expected a string matching the pattern `%{pattern}`",
         },
   }
-in
-
-predicates.contract_from_predicate definitions.predicate.CodeGeneration
+  in
+let rec _js2n__-refsenv
+    = {
+      "_js2n__-:definitions/CodeGeneration!predicate"
+        | doc "The 'CodeGeneration' object defines global properties that are used to drive the underlying entity-driven code generation."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  appBasedAgentArgs = _js2n__-prdslib.isType '"Bool",
+                  cosmosName = _js2n__-prdslib.isType '"String",
+                  cosmosUsingNamespace = _js2n__-prdslib.isType '"String",
+                  dataUsingNamespace = _js2n__-prdslib.isType '"String",
+                  databaseName = _js2n__-prdslib.isType '"String",
+                  databaseSchema = _js2n__-prdslib.isType '"String",
+                  databaseUsingNamespace = _js2n__-prdslib.isType '"String",
+                  entities =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Entity!predicate"
+                        ],
+                  entityFrameworkName = _js2n__-prdslib.isType '"String",
+                  entityFrameworkUsingNamespace =
+                    _js2n__-prdslib.isType '"String",
+                  entityScope =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "Common", "Business", "Autonomous" ]
+                        ],
+                  entityUsing =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "Common", "Business", "All", "None" ]
+                        ],
+                  etagJsonName =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "etag", "eTag", "_etag", "_eTag", "ETag", "ETAG" ]
+                        ],
+                  eventActionFormat =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "None", "PastTense" ]
+                        ],
+                  eventCasing =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "None", "Lower", "Upper" ]
+                        ],
+                  eventOutbox =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "None", "Database" ]
+                        ],
+                  eventPublish =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "None", "DataSvc", "Data" ]
+                        ],
+                  eventSourceKind =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "None",
+                              "Absolute",
+                              "Relative",
+                              "RelativeOrAbsolute"
+                            ]
+                        ],
+                  eventSourceRoot = _js2n__-prdslib.isType '"String",
+                  eventSubjectFormat =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "NameOnly", "NameAndKey" ]
+                        ],
+                  eventSubjectRoot = _js2n__-prdslib.isType '"String",
+                  eventSubjectSeparator = _js2n__-prdslib.isType '"String",
+                  eventTransaction = _js2n__-prdslib.isType '"Bool",
+                  grpc = _js2n__-prdslib.isType '"Bool",
+                  httpAgentName = _js2n__-prdslib.isType '"String",
+                  jsonSerializer =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "None", "Newtonsoft" ]
+                        ],
+                  namespaceApi = _js2n__-prdslib.isType '"String",
+                  namespaceBase = _js2n__-prdslib.isType '"String",
+                  namespaceBusiness = _js2n__-prdslib.isType '"String",
+                  namespaceCommon = _js2n__-prdslib.isType '"String",
+                  odataName = _js2n__-prdslib.isType '"String",
+                  odataUsingNamespace = _js2n__-prdslib.isType '"String",
+                  pathApi = _js2n__-prdslib.isType '"String",
+                  pathBase = _js2n__-prdslib.isType '"String",
+                  pathBusiness = _js2n__-prdslib.isType '"String",
+                  pathCommon = _js2n__-prdslib.isType '"String",
+                  refDataAppendToNamespace = _js2n__-prdslib.isType '"String",
+                  refDataBusNamespace = _js2n__-prdslib.isType '"String",
+                  refDataCache =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "ReferenceDataCache",
+                              "ReferenceDataMultiTenantCache"
+                            ]
+                        ],
+                  refDataCommonNamespace = _js2n__-prdslib.isType '"String",
+                  refDataDefaultMapperConverter =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "ReferenceDataCodeConverter",
+                              "ReferenceDataCodeConverter{T}",
+                              "ReferenceDataCodeConverter<T>",
+                              "ReferenceDataInt32IdConverter",
+                              "ReferenceDataInt32IdConverter{T}",
+                              "ReferenceDataInt32IdConverter<T>",
+                              "ReferenceDataNullableInt32IdConverter",
+                              "ReferenceDataNullableInt32IdConverter{T}",
+                              "ReferenceDataNullableInt32IdConverter<T>",
+                              "ReferenceDataInt64IdConverter",
+                              "ReferenceDataInt64IdConverter{T}",
+                              "ReferenceDataInt64IdConverter<T>",
+                              "ReferenceDataNullableInt64IdConverter",
+                              "ReferenceDataNullableInt64IdConverter{T}",
+                              "ReferenceDataNullableInt64IdConverter<T>",
+                              "ReferenceDataGuidIdConverter",
+                              "ReferenceDataGuidIdConverter{T}",
+                              "ReferenceDataGuidIdConverter<T>",
+                              "ReferenceDataNullableGuidIdConverter",
+                              "ReferenceDataNullableGuidIdConverter{T}",
+                              "ReferenceDataNullableGuidIdConverter<T>"
+                            ]
+                        ],
+                  refDataNamespace = _js2n__-prdslib.isType '"String",
+                  refDataText = _js2n__-prdslib.isType '"Bool",
+                  refDataWebApiRoute = _js2n__-prdslib.isType '"String",
+                  usingNamespace1 = _js2n__-prdslib.isType '"String",
+                  usingNamespace2 = _js2n__-prdslib.isType '"String",
+                  usingNamespace3 = _js2n__-prdslib.isType '"String",
+                  validatorLayer =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "Business", "Common" ]
+                        ],
+                  webApiAuthorize = _js2n__-prdslib.isType '"String",
+                  webApiAutoLocation = _js2n__-prdslib.isType '"Bool",
+                  webApiRoutePrefix = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/Const!predicate"
+        | doc "The 'Const' object is used to define a .NET (C#) constant value for an 'Entity'."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name", "value" ],
+              _js2n__-prdslib.records.record
+                {
+                  name = _js2n__-prdslib.isType '"String",
+                  text = _js2n__-prdslib.isType '"String",
+                  value = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/Entity!predicate"
+        | doc "The 'Entity' is used as the primary configuration for driving the entity-driven code generation."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  abstract = _js2n__-prdslib.isType '"Bool",
+                  argumentName = _js2n__-prdslib.isType '"String",
+                  authRole = _js2n__-prdslib.isType '"String",
+                  autoImplement =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "Database",
+                              "EntityFramework",
+                              "Cosmos",
+                              "OData",
+                              "HttpAgent",
+                              "None"
+                            ]
+                        ],
+                  collection = _js2n__-prdslib.isType '"Bool",
+                  collectionInherits = _js2n__-prdslib.isType '"String",
+                  collectionKeyed = _js2n__-prdslib.isType '"Bool",
+                  collectionResult = _js2n__-prdslib.isType '"Bool",
+                  collectionResultInherits = _js2n__-prdslib.isType '"String",
+                  constType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "int", "long", "Guid", "string" ]
+                        ],
+                  consts =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Const!predicate"
+                        ],
+                  cosmosContainerId = _js2n__-prdslib.isType '"String",
+                  cosmosCustomMapper = _js2n__-prdslib.isType '"Bool",
+                  cosmosMapperInheritsFrom = _js2n__-prdslib.isType '"String",
+                  cosmosModel = _js2n__-prdslib.isType '"String",
+                  cosmosName = _js2n__-prdslib.isType '"String",
+                  cosmosPartitionKey = _js2n__-prdslib.isType '"String",
+                  cosmosValueContainer = _js2n__-prdslib.isType '"Bool",
+                  create = _js2n__-prdslib.isType '"Bool",
+                  dataCtor =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "Public", "Private", "Protected" ]
+                        ],
+                  dataCtorParams =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  dataExtensions = _js2n__-prdslib.isType '"Bool",
+                  dataModel = _js2n__-prdslib.isType '"Bool",
+                  dataSvcCaching = _js2n__-prdslib.isType '"Bool",
+                  dataSvcCtor =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "Public", "Private", "Protected" ]
+                        ],
+                  dataSvcCtorParams =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  dataSvcExtensions = _js2n__-prdslib.isType '"Bool",
+                  databaseCustomerMapper = _js2n__-prdslib.isType '"Bool",
+                  databaseMapperInheritsFrom = _js2n__-prdslib.isType '"String",
+                  databaseName = _js2n__-prdslib.isType '"String",
+                  databaseSchema = _js2n__-prdslib.isType '"String",
+                  delete = _js2n__-prdslib.isType '"Bool",
+                  entityFrameworkCustomMapper = _js2n__-prdslib.isType '"Bool",
+                  entityFrameworkMapperInheritsFrom =
+                    _js2n__-prdslib.isType '"String",
+                  entityFrameworkModel = _js2n__-prdslib.isType '"String",
+                  entityFrameworkName = _js2n__-prdslib.isType '"String",
+                  entityScope =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "Common", "Business", "Autonomous" ]
+                        ],
+                  entityUsing =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "Common", "Business", "All", "None" ]
+                        ],
+                  eventCasing =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "None", "Lower", "Upper" ]
+                        ],
+                  eventOutbox =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "None", "Database" ]
+                        ],
+                  eventPublish =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "None", "DataSvc", "Data" ]
+                        ],
+                  eventSource = _js2n__-prdslib.isType '"String",
+                  eventSubjectFormat =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "NameOnly", "NameAndKey" ]
+                        ],
+                  eventTransaction = _js2n__-prdslib.isType '"Bool",
+                  excludeAll = _js2n__-prdslib.isType '"Bool",
+                  excludeData =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "Include", "Exclude", "RequiresMapper" ]
+                        ],
+                  excludeDataSvc = _js2n__-prdslib.isType '"Bool",
+                  excludeEntity = _js2n__-prdslib.isType '"Bool",
+                  excludeGrpcAgent = _js2n__-prdslib.isType '"Bool",
+                  excludeIData = _js2n__-prdslib.isType '"Bool",
+                  excludeIDataSvc = _js2n__-prdslib.isType '"Bool",
+                  excludeIManager = _js2n__-prdslib.isType '"Bool",
+                  excludeManager = _js2n__-prdslib.isType '"Bool",
+                  excludeWebApi = _js2n__-prdslib.isType '"Bool",
+                  excludeWebApiAgent = _js2n__-prdslib.isType '"Bool",
+                  fileName = _js2n__-prdslib.isType '"String",
+                  genericWithT = _js2n__-prdslib.isType '"Bool",
+                  get = _js2n__-prdslib.isType '"Bool",
+                  getAll = _js2n__-prdslib.isType '"Bool",
+                  grpc = _js2n__-prdslib.isType '"Bool",
+                  httpAgentModel = _js2n__-prdslib.isType '"String",
+                  httpAgentName = _js2n__-prdslib.isType '"String",
+                  httpAgentReturnModel = _js2n__-prdslib.isType '"String",
+                  httpAgentRoutePrefix = _js2n__-prdslib.isType '"String",
+                  iValidator = _js2n__-prdslib.isType '"String",
+                  implements = _js2n__-prdslib.isType '"String",
+                  implementsAutoInfer = _js2n__-prdslib.isType '"Bool",
+                  inherits = _js2n__-prdslib.isType '"String",
+                  isInitialOverride = _js2n__-prdslib.isType '"Bool",
+                  jsonSerializer =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "None", "Newtonsoft" ]
+                        ],
+                  managerCtor =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "Public", "Private", "Protected" ]
+                        ],
+                  managerCtorParams =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  managerExtensions = _js2n__-prdslib.isType '"Bool",
+                  name = _js2n__-prdslib.isType '"String",
+                  namespace = _js2n__-prdslib.isType '"String",
+                  odataCollectionName = _js2n__-prdslib.isType '"String",
+                  odataCustomMapper = _js2n__-prdslib.isType '"Bool",
+                  odataMapperInheritsFrom = _js2n__-prdslib.isType '"String",
+                  odataModel = _js2n__-prdslib.isType '"String",
+                  odataName = _js2n__-prdslib.isType '"String",
+                  omitEntityBase = _js2n__-prdslib.isType '"Bool",
+                  operations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Operation!predicate"
+                        ],
+                  patch = _js2n__-prdslib.isType '"Bool",
+                  privateName = _js2n__-prdslib.isType '"String",
+                  properties =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Property!predicate"
+                        ],
+                  refDataSortOrder =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "SortOrder", "Id", "Code", "Text" ]
+                        ],
+                  refDataStringFormat = _js2n__-prdslib.isType '"String",
+                  refDataText = _js2n__-prdslib.isType '"Bool",
+                  refDataType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "int", "long", "Guid", "string" ]
+                        ],
+                  text = _js2n__-prdslib.isType '"String",
+                  update = _js2n__-prdslib.isType '"Bool",
+                  validator = _js2n__-prdslib.isType '"String",
+                  webApiAuthorize = _js2n__-prdslib.isType '"String",
+                  webApiAutoLocation = _js2n__-prdslib.isType '"Bool",
+                  webApiConcurrency = _js2n__-prdslib.isType '"Bool",
+                  webApiCtor =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "Public", "Private", "Protected" ]
+                        ],
+                  webApiCtorParams =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  webApiGetOperation = _js2n__-prdslib.isType '"String",
+                  webApiRoutePrefix = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/Operation!predicate"
+        | doc "The code generation for an 'Operation' is primarily driven by the 'Type' property. This encourages (enforces) a consistent implementation for the standardised **CRUD** (Create, Read, Update and Delete) actions, as well as supporting fully customised operations as required."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  authPermission = _js2n__-prdslib.isType '"String",
+                  authRole = _js2n__-prdslib.isType '"String",
+                  autoImplement =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "Database",
+                              "EntityFramework",
+                              "Cosmos",
+                              "OData",
+                              "HttpAgent",
+                              "None"
+                            ]
+                        ],
+                  cosmosContainerId = _js2n__-prdslib.isType '"String",
+                  cosmosPartitionKey = _js2n__-prdslib.isType '"String",
+                  dataEntityMapper = _js2n__-prdslib.isType '"String",
+                  dataExtensions = _js2n__-prdslib.isType '"Bool",
+                  dataSvcCustom = _js2n__-prdslib.isType '"Bool",
+                  dataSvcExtensions = _js2n__-prdslib.isType '"Bool",
+                  dataSvcTransaction = _js2n__-prdslib.isType '"Bool",
+                  dataTransaction = _js2n__-prdslib.isType '"Bool",
+                  databaseStoredProc = _js2n__-prdslib.isType '"String",
+                  eventOutbox =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "None", "Database" ]
+                        ],
+                  eventPublish =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "None", "DataSvc", "Data" ]
+                        ],
+                  eventSource = _js2n__-prdslib.isType '"String",
+                  eventSubject = _js2n__-prdslib.isType '"String",
+                  excludeAll = _js2n__-prdslib.isType '"Bool",
+                  excludeData = _js2n__-prdslib.isType '"Bool",
+                  excludeDataSvc = _js2n__-prdslib.isType '"Bool",
+                  excludeGrpcAgent = _js2n__-prdslib.isType '"Bool",
+                  excludeIData = _js2n__-prdslib.isType '"Bool",
+                  excludeIDataSvc = _js2n__-prdslib.isType '"Bool",
+                  excludeIManager = _js2n__-prdslib.isType '"Bool",
+                  excludeManager = _js2n__-prdslib.isType '"Bool",
+                  excludeWebApi = _js2n__-prdslib.isType '"Bool",
+                  excludeWebApiAgent = _js2n__-prdslib.isType '"Bool",
+                  grpc = _js2n__-prdslib.isType '"Bool",
+                  httpAgentMethod =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "HttpGet",
+                              "HttpPost",
+                              "HttpPut",
+                              "HttpDelete",
+                              "HttpPatch"
+                            ]
+                        ],
+                  httpAgentModel = _js2n__-prdslib.isType '"String",
+                  httpAgentReturnModel = _js2n__-prdslib.isType '"String",
+                  httpAgentRoute = _js2n__-prdslib.isType '"String",
+                  iValidator = _js2n__-prdslib.isType '"String",
+                  managerCustom = _js2n__-prdslib.isType '"Bool",
+                  managerExtensions = _js2n__-prdslib.isType '"Bool",
+                  managerOperationType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "Create",
+                              "Read",
+                              "Update",
+                              "Delete",
+                              "Unspecified"
+                            ]
+                        ],
+                  managerTransaction = _js2n__-prdslib.isType '"Bool",
+                  name = _js2n__-prdslib.isType '"String",
+                  odataCollectionName = _js2n__-prdslib.isType '"String",
+                  paging = _js2n__-prdslib.isType '"Bool",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Parameter!predicate"
+                        ],
+                  privateName = _js2n__-prdslib.isType '"String",
+                  returnText = _js2n__-prdslib.isType '"String",
+                  returnType = _js2n__-prdslib.isType '"String",
+                  returnTypeNullable = _js2n__-prdslib.isType '"Bool",
+                  text = _js2n__-prdslib.isType '"String",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "Get",
+                              "GetColl",
+                              "Create",
+                              "Update",
+                              "Patch",
+                              "Delete",
+                              "Custom"
+                            ]
+                        ],
+                  uniqueKey = _js2n__-prdslib.isType '"Bool",
+                  validator = _js2n__-prdslib.isType '"String",
+                  valueType = _js2n__-prdslib.isType '"String",
+                  webApiAlternateStatus =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "OK",
+                              "Accepted",
+                              "Created",
+                              "NoContent",
+                              "NotFound",
+                              "ThrowException"
+                            ]
+                        ],
+                  webApiAuthorize = _js2n__-prdslib.isType '"String",
+                  webApiConcurrency = _js2n__-prdslib.isType '"Bool",
+                  webApiGetOperation = _js2n__-prdslib.isType '"String",
+                  webApiLocation = _js2n__-prdslib.isType '"String",
+                  webApiMethod =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "HttpGet", "HttpPost", "HttpPut", "HttpDelete" ]
+                        ],
+                  webApiRoute = _js2n__-prdslib.isType '"String",
+                  webApiStatus =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "OK",
+                              "Accepted",
+                              "Created",
+                              "NoContent",
+                              "NotFound"
+                            ]
+                        ],
+                  webApiUpdateOperation = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/Parameter!predicate"
+        | doc "The 'Parameter' object defines an 'Operation' parameter and its charateristics."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  argumentName = _js2n__-prdslib.isType '"String",
+                  dataConverter = _js2n__-prdslib.isType '"String",
+                  dataConverterIsGeneric = _js2n__-prdslib.isType '"Bool",
+                  "default" = _js2n__-prdslib.isType '"String",
+                  grpcType = _js2n__-prdslib.isType '"String",
+                  iValidator = _js2n__-prdslib.isType '"String",
+                  isMandatory = _js2n__-prdslib.isType '"Bool",
+                  layerPassing =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "All", "ToManagerSet", "ToManagerCollSet" ]
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  nullable = _js2n__-prdslib.isType '"Bool",
+                  privateName = _js2n__-prdslib.isType '"String",
+                  property = _js2n__-prdslib.isType '"String",
+                  refDataList = _js2n__-prdslib.isType '"Bool",
+                  refDataType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "string", "int", "Guid" ]
+                        ],
+                  text = _js2n__-prdslib.isType '"String",
+                  type = _js2n__-prdslib.isType '"String",
+                  validator = _js2n__-prdslib.isType '"String",
+                  validatorCode = _js2n__-prdslib.isType '"String",
+                  webApiFrom =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "FromQuery",
+                              "FromBody",
+                              "FromRoute",
+                              "FromEntityProperties"
+                            ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/Property!predicate"
+        | doc "The 'Property' object defines an 'Entity' property and its charateristics."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  annotation1 = _js2n__-prdslib.isType '"String",
+                  annotation2 = _js2n__-prdslib.isType '"String",
+                  annotation3 = _js2n__-prdslib.isType '"String",
+                  argumentName = _js2n__-prdslib.isType '"String",
+                  autoCreate = _js2n__-prdslib.isType '"Bool",
+                  bubblePropertyChanges = _js2n__-prdslib.isType '"Bool",
+                  cosmosMapper =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "Map", "Ignore", "Skip" ]
+                        ],
+                  dataAutoGenerated = _js2n__-prdslib.isType '"Bool",
+                  dataConverter = _js2n__-prdslib.isType '"String",
+                  dataConverterIsGeneric = _js2n__-prdslib.isType '"Bool",
+                  dataMapperIgnore = _js2n__-prdslib.isType '"Bool",
+                  dataModelJsonName = _js2n__-prdslib.isType '"String",
+                  dataName = _js2n__-prdslib.isType '"String",
+                  dataOperationTypes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "Any",
+                              "AnyExceptCreate",
+                              "AnyExceptUpdate",
+                              "AnyExceptGet",
+                              "Get",
+                              "Create",
+                              "Update",
+                              "Delete"
+                            ]
+                        ],
+                  databaseDbType = _js2n__-prdslib.isType '"String",
+                  databaseIgnore = _js2n__-prdslib.isType '"Bool",
+                  databaseMapper = _js2n__-prdslib.isType '"String",
+                  dateTimeTransform =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "UseDefault",
+                              "None",
+                              "DateOnly",
+                              "DateTimeLocal",
+                              "DateTimeUtc",
+                              "DateTimeUnspecified"
+                            ]
+                        ],
+                  "default" = _js2n__-prdslib.isType '"String",
+                  displayName = _js2n__-prdslib.isType '"String",
+                  entityFrameworkMapper =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "Map", "Ignore", "Skip" ]
+                        ],
+                  excludeCleanup = _js2n__-prdslib.isType '"Bool",
+                  grpcFieldNo = _js2n__-prdslib.isType 'Integer,
+                  grpcType = _js2n__-prdslib.isType '"String",
+                  httpAgentMapper =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "Map", "Ignore", "Skip" ]
+                        ],
+                  identifierGenerator = _js2n__-prdslib.isType '"String",
+                  immutable = _js2n__-prdslib.isType '"Bool",
+                  inherited = _js2n__-prdslib.isType '"Bool",
+                  internalOnly = _js2n__-prdslib.isType '"Bool",
+                  isEntity = _js2n__-prdslib.isType '"Bool",
+                  jsonDataModelName = _js2n__-prdslib.isType '"String",
+                  jsonName = _js2n__-prdslib.isType '"String",
+                  modelText = _js2n__-prdslib.isType '"String",
+                  name = _js2n__-prdslib.isType '"String",
+                  nullable = _js2n__-prdslib.isType '"Bool",
+                  odataMapper =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "Map", "Ignore", "Skip" ]
+                        ],
+                  partitionKey = _js2n__-prdslib.isType '"Bool",
+                  privateName = _js2n__-prdslib.isType '"String",
+                  refDataList = _js2n__-prdslib.isType '"Bool",
+                  refDataMapping = _js2n__-prdslib.isType '"Bool",
+                  refDataText = _js2n__-prdslib.isType '"Bool",
+                  refDataType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "string", "int", "Guid" ]
+                        ],
+                  secondaryPropertyChanged = _js2n__-prdslib.isType '"String",
+                  serializationEmitDefault = _js2n__-prdslib.isType '"Bool",
+                  serializationIgnore = _js2n__-prdslib.isType '"Bool",
+                  stringTransform =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "UseDefault",
+                              "None",
+                              "NullToEmpty",
+                              "EmptyToNull"
+                            ]
+                        ],
+                  stringTrim =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "UseDefault", "None", "Start", "End", "Both" ]
+                        ],
+                  text = _js2n__-prdslib.isType '"String",
+                  type = _js2n__-prdslib.isType '"String",
+                  uniqueKey = _js2n__-prdslib.isType '"Bool",
+                  webApiQueryStringConverter = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+    }
+    in
+  _js2n__-prdslib.contract_from_predicate
+      _js2n__-refsenv."_js2n__-:definitions/CodeGeneration!predicate"

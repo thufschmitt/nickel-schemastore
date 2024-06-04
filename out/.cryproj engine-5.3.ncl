@@ -1,3488 +1,908 @@
 # DO NOT EDIT
 # This file was automatically generated using json-schema-to-nickel
-let predicates =
-{
+let _js2n__-prdslib
+  = {
     allOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `allOf preds` succeeds if all of the predicates in `preds` succeed
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
+        `allOf preds` succeeds if all of the predicates in `preds` succeed
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
       "%
-      = fun preds x => std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if !result.success then result else acc)
-          { error = "", success = true, }
-          preds,
-    always : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "", success = true, },
+      = fun
+          preds
+          x
+          =>
+          std.array.fold_right
+            (fun pred acc => (match { 'Ok => acc, 'Err s => 'Err s, }) (pred x))
+            'Ok preds,
+    always : Dyn -> [| 'Ok, 'Err String |] = std.function.const 'Ok,
     anyOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
+        `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
       "%
-      = fun preds x => (fun result => if result.success then
-            { error = "", success = true, }
-            else
-            {
-              error = m%"
-                  anyOf: none of the options matched%{std.string.join "\n"
-                  result.errors}
-                  "%,
-              success = false,
-            })
-          (std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if result.success || acc.success then
-            { errors = [  ], success = true, }
-            else
-            {
-              errors = [
-                      m%"
-                      - %{result.error}
-                      "%
-                    ] @
-                    acc.errors,
-              success = false,
-            })
-          { errors = [  ], success = false, }
-          preds),
-    arrays = {
+      = fun
+          preds
+          x
+          =>
+          (match {
+            'Ok =>
+              'Ok,
+            'Errs
+              msgs =>
+              'Err
+                m%"
+                  anyOf: none of the options matched
+                  %{std.string.join
+                    m%"
+                      
+                      
+                    "% msgs}
+                "%,
+          })
+            (std.array.fold_right
+              (fun
+                pred
+                acc
+                =>
+                (match {
+                  'Ok =>
+                    'Ok,
+                  'Errs
+                    msgs =>
+                    (match {
+                      'Ok =>
+                        'Ok,
+                      'Err
+                        msg =>
+                        'Errs ([ "  - %{msg}" ] @ msgs),
+                    }) (pred x),
+                }) acc) ('Errs [  ]) preds),
+    arrays =
+      {
           additionalItems
-            : (Dyn -> { success: Bool, error: String }) -> Number -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]
-            "%
-            = fun pred start x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |])
+            -> Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]"
+            = fun
+                pred
+                start
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let value_length = std.array.length x in
-                if start >= value_length then
-                { error = "", success = true, }
-                else
-                (arrayOf pred ((std.array.slice start value_length x) | Dyn))),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let value_length
+                      = std.array.length x
+                      in
+                    if start >= value_length then
+                        'Ok
+                      else
+                        arrayOf pred
+                          ((std.array.slice start value_length x)
+                          | Dyn),
           arrayOf
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Apply a predicate to all elements of an array, succeeding if all
-            applications succeed. If the value isn't an array, fail.
+              Apply a predicate to all elements of an array, succeeding if all
+              applications succeed.
             "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                x),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  std.array.fold_right
+                      (fun
+                        x
+                        acc
+                        =>
+                        (match { 'Ok => acc, 'Err msg => 'Err msg, }) (pred x))
+                      'Ok x,
           contains
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]
-            "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                (fun result => if result.success then
-                  { error = "", success = true, }
-                  else
-                  {
-                    error = m%"
-                        contains: no elements matched%{std.string.join "\n"
-                        result.errors}
-                        "%,
-                    success = false,
-                  })
-                (std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if result.success || acc.success then
-                  { errors = [  ], success = true, }
-                  else
-                  {
-                    errors = [
-                            m%"
-                            - %{result.error}
-                            "%
-                          ] @
-                          acc.errors,
-                    success = false,
-                  })
-                { errors = [  ], success = false, }
-                x)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  (match {
+                      'Ok =>
+                        'Ok,
+                      'Errs
+                        msgs =>
+                        'Err
+                          m%"
+                            contains: no elements matched
+                            %{std.string.join
+                              m%"
+                                
+                                
+                              "% msgs}
+                          "%,
+                    })
+                      (std.array.fold_right
+                        (fun
+                          x
+                          acc
+                          =>
+                          (match {
+                            'Ok =>
+                              'Ok,
+                            'Errs
+                              msgs =>
+                              (match {
+                                'Ok =>
+                                  'Ok,
+                                'Err
+                                  msg =>
+                                  'Errs ([ "  - %{msg}" ] @ msgs),
+                              }) (pred x),
+                          }) acc) ('Errs [  ]) x),
           items
-            : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]
-            "%
-            = fun preds x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : Array (Dyn -> [| 'Ok, 'Err String |])
+            -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]"
+            = fun
+                preds
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let length_to_check =
-                std.number.min (std.array.length preds) (std.array.length x)
-                in
-                
-                std.array.fold_right
-                (fun i acc => let result =
-                  std.array.at i preds (std.array.at i x)
-                  in
-                  
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                (std.array.range 0 length_to_check)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let length_to_check
+                      = std.number.min (std.array.length preds)
+                        (std.array.length x)
+                      in
+                    std.array.fold_right
+                        (fun
+                          i
+                          acc
+                          =>
+                          (match { 'Err msg => 'Err msg, 'Ok => acc, })
+                            (std.array.at i preds (std.array.at i x))) 'Ok
+                        (std.array.range 0 length_to_check),
           maxItems
-            : Number -> Dyn -> { success: Bool, error: String }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
+              `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
             "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (if (std.array.length (x | Array Dyn)) > n then
-                {
-                    error = m%"
-                        array is longer than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minItems
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
-            "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
-                else
-                (if (std.array.length (x | Array Dyn)) < n then
-                {
-                    error = m%"
-                        array is shorter than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          uniqueItems
-            : Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Succeeds for any array if its elements are pairwise distinct.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
-            "%
-            = let find_duplicate 
-                : Array Dyn -> {
-                  has_duplicate: Bool,
-                  duplicate: Dyn,
-                  seen: { _ : Bool }
-                } =
-              std.array.fold_right
-                (fun elt acc => if acc.has_duplicate then acc else
-                  (let index = std.serialize 'Json elt in
-                  if std.record.has_field index acc.seen then
-                  { duplicate = elt, has_duplicate = true, seen = acc.seen, }
+                  if (std.array.length (x | Array Dyn)) > n then
+                    'Err
+                      "array is longer than %{std.string.from_number n} items"
                   else
-                  {
-                    duplicate = null,
-                    has_duplicate = false,
-                    seen = std.record.insert index true acc.seen,
-                  }))
-                { duplicate = null, has_duplicate = false, seen = {  }, }
-              in
-              
-              fun x => if !(std.is_array x) then
-                { error = "", success = true, }
+                    'Ok,
+          minItems
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let {has_duplicate  | Dyn, duplicate  | Dyn, ..} =
-                find_duplicate (x | Array Dyn)
+                  if (std.array.length (x | Array Dyn)) < n then
+                    'Err
+                      "array is shorter than %{std.string.from_number n} items"
+                  else
+                    'Ok,
+          uniqueItems
+            : Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              Succeeds for any array if its elements are pairwise distinct.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
+            "%
+            = let find_duplicate
+                : Array Dyn
+                -> {
+                  has_duplicate : Bool,
+                  duplicate : Dyn,
+                  seen : { _ : Bool }
+                }
+                = std.array.fold_right
+                  (fun
+                    elt
+                    acc
+                    =>
+                    if acc.has_duplicate then
+                      acc
+                    else
+                      let index
+                        = std.serialize 'Json elt
+                        in
+                      if std.record.has_field index acc.seen then
+                          {
+                            duplicate = elt,
+                            has_duplicate = true,
+                            seen = acc.seen,
+                          }
+                        else
+                          {
+                            duplicate = null,
+                            has_duplicate = false,
+                            seen = std.record.insert index true acc.seen,
+                          })
+                  { duplicate = null, has_duplicate = false, seen = {}, }
                 in
-                
-                if has_duplicate then
-                {
-                    error = m%"
-                        duplicate found: %{std.serialize 'Json duplicate}
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
+              fun
+                  x
+                  =>
+                  if !(std.is_array x) then
+                    'Ok
+                  else
+                    let { has_duplicate, duplicate, .. }
+                      = find_duplicate (x | Array Dyn)
+                      in
+                    if has_duplicate then
+                        'Err "duplicate found: %{std.serialize 'Json duplicate}"
+                      else
+                        'Ok,
         },
     const
-      : Dyn -> Dyn -> { success: Bool, error: String }
+      : Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `const value x` succeeds if and only if `x` is equalt to `value`
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
+        `const value x` succeeds if and only if `x` is equal to `value`
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
       "%
-      = fun value x => if x == value then { error = "", success = true, } else
-          {
-            error = m%"
-                expected %{std.serialize 'Json value}
-                "%,
-            success = false,
-          },
+      = fun
+          value
+          x
+          =>
+          if x == value then
+            'Ok
+          else
+            'Err "expected %{std.serialize 'Json value}",
     contract_from_predicate
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> Dyn -> Dyn
-      = fun predicate label value => let {success  | Dyn, error  | Dyn} =
-          predicate value
-          in
-          
-          if success then value else
-          ((std.contract.blame_with_message error label) | Dyn),
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> Dyn -> Dyn
+      = fun
+          predicate
+          label
+          value
+          =>
+          (match {
+            'Ok =>
+              value,
+            'Err
+              msg =>
+              (std.contract.blame_with_message msg label)
+              | Dyn,
+          }) (predicate value),
     enum
-      : Array Dyn -> Dyn -> { success: Bool, error: String }
+      : Array Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
+        `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
       "%
-      = let checkEqual =
-        fun input variant => (input == variant) ||
-            ((std.is_enum input) &&
-            (((std.string.from_enum input) == variant) | Bool))
-        in
-        
-        fun values x => std.array.fold_right
-          (fun value acc => if checkEqual x value then
-            { error = "", success = true, }
-            else
-            acc)
-          {
-            error = m%"
-                expected one of %{std.serialize 'Json (values | Dyn)}
-                "%,
-            success = false,
-          }
-          values,
+      = let checkEqual
+          = fun
+            input
+            variant
+            =>
+            (input == variant)
+            || ((std.is_enum input)
+            && (((std.string.from_enum input) == variant)
+            | Bool))
+          in
+        fun
+            values
+            x
+            =>
+            std.array.fold_right
+              (fun value acc => if checkEqual x value then 'Ok else acc)
+              ('Err "expected one of %{std.serialize 'Json (values | Dyn)}")
+              values,
     from_simple_predicate
-      : String -> (Dyn -> Bool) -> Dyn -> { success: Bool, error: String }
-      | doc m%"
-      Convert a simple boolean predicate into a predicate supporting error messages
-      "%
-      = fun error' pred x => { error = error', success = pred x, },
+      : String -> (Dyn -> Bool) -> Dyn -> [| 'Ok, 'Err String |]
+      | doc "Convert a simple boolean predicate into a predicate supporting error messages"
+      = fun error' pred x => if pred x then 'Ok else 'Err error',
     ifThenElse
-      : (Dyn -> { success: Bool, error: String }) -> (Dyn -> {
-        success: Bool,
-        error: String
-      }) -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
+        `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
       "%
-      = fun i t e x => let {success  | Dyn, ..} = i x in
-          if success then t x else (e x),
+      = fun i t e x => (match { 'Ok => t x, 'Err msg => e x, }) (i x),
     isType
       : [| '"Array", '"Bool", 'Integer, 'Null, '"Number", 'Record, '"String" |]
-      -> Dyn -> { success: Bool, error: String }
-      = fun t => (match {'Integer => from_simple_predicate "expected an integer"
-            (fun x => (std.is_number x) &&
-              (std.number.is_integer (x | Number))),
-            'Null => from_simple_predicate "expected `null`"
-            (fun x => x == null),
-            _ => from_simple_predicate
-            m%"
-            value is not of type %{std.string.from_enum t}
-            "%
-            (fun x => (std.typeof x) == t)
-          })
-          t,
-    never : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "never", success = false, },
+      -> Dyn -> [| 'Ok, 'Err String |]
+      = fun
+          t
+          =>
+          (match {
+            'Null =>
+              from_simple_predicate "expected `null`" (fun x => x == null),
+            'Integer =>
+              from_simple_predicate "expected an integer"
+                (fun
+                  x
+                  =>
+                  (std.is_number x) && (std.number.is_integer (x | Number))),
+            _ =>
+              from_simple_predicate
+                "value is not of type %{std.string.from_enum t}"
+                (fun x => (std.typeof x) == t),
+          }) t,
+    never : Dyn -> [| 'Ok, 'Err String |] = std.function.const ('Err "never"),
     not
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `not pred` succeeds if and only if `pred` fails
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
+        `not pred` succeeds if and only if `pred` fails
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
       "%
-      = fun pred x => let result = pred x in
-          if result.success then
-          {
-              error = "Inverted predicate succeeded unexpectedly",
-              success = false,
-            }
-          else
-          { error = "", success = true, },
-    numbers = {
+      = fun
+          pred
+          x
+          =>
+          (match {
+            'Ok =>
+              'Err "Inverted predicate succeeded unexpectedly",
+            'Err
+              msg =>
+              'Ok,
+          }) (pred x),
+    numbers =
+      {
           exclusiveMaximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) < limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive maximum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) < limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive maximum of %{std.string.from_number
+                        limit}",
           exclusiveMinimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) > limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive minimum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) > limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive minimum of %{std.string.from_number
+                        limit}",
           maximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a maximum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a maximum of %{std.string.from_number limit}",
           minimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a minimum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a minimum of %{std.string.from_number limit}",
           multipleOf
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]
-            "%
-            = fun mult x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]"
+            = fun
+                mult
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if std.number.is_integer ((x | Number) / mult) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a multiple of %{std.string.from_number mult}
-                      "%,
-                  success = false,
-                }),
+                  if std.number.is_integer ((x | Number) / mult) then
+                    'Ok
+                  else
+                    'Err
+                      "expected a multiple of %{std.string.from_number mult}",
         },
     oneOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
+        `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
       "%
-      = fun preds x => let count_true 
-            : Array { success: Bool, error: String } -> Number =
-          fun results => std.array.fold_left
-              (fun n b => if b.success then n + 1 else n)
-              0
+      = fun
+          preds
+          x
+          =>
+          let count_ok
+            : Array [| 'Ok, 'Err String |] -> Number
+            = fun
               results
-          in
-          
-          let results = std.array.map (fun pred => pred x) preds in
-          let count = count_true results in
-          if count == 0 then
-          let errors =
-            std.array.map
-              (fun result => m%"
-                - %{result.error}
-                "%)
-              results
+              =>
+              std.array.fold_left (fun n b => if b == 'Ok then n + 1 else n) 0
+                results
             in
-            
-            {
-              error = m%"
-                  oneOf: none of the options matched%{std.string.join "\n"
-                  errors}
-                  "%,
-              success = false,
-            }
-          else
-          (if count > 1 then
-          {
-              error = "oneOf: more than one of the options matched",
-              success = false,
-            }
-          else
-          { error = "", success = true, }),
-    records = {
-          dependencies
-            : { _ : Dyn } -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]
-            "%
-            = let mustHaveFields 
-                : Array String -> { _ : Dyn } -> {
-                  success: Bool,
-                  error: String
-                } =
-              fun fields x => std.array.fold_right
-                  (fun field acc => if !(std.record.has_field field x) then
-                    {
-                        error = m%"
-                            expected field `%{field}`
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc)
-                  { error = "", success = true, }
-                  fields
+          let results
+              = std.array.map (fun pred => pred x) preds
               in
-              
-              fun deps x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (let x  | { _ : Dyn } = x in
-                std.array.fold_right
-                (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                  if !(std.record.has_field field x) then acc else
-                    (let result =
-                    if std.is_array value then
-                      mustHaveFields (value | Array String) x
-                      else
-                      (let pred  | Dyn -> { success: Bool, error: String } =
-                      value
-                      in
-                      
-                      pred (x | Dyn))
+            let count
+                = count_ok results
+                in
+              if count == 0 then
+                  let errors
+                    = std.array.flat_map
+                      (fun
+                        result
+                        =>
+                        (match { 'Ok => [  ], 'Err s => [ "  - %{s}" ], })
+                          result) results
                     in
-                    
-                    if !result.success then
-                    {
-                        error = m%"
-                            dependency of `%{field}` failed: %{result.error}
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc))
-                { error = "", success = true, }
-                (std.record.to_array deps)),
-          maxProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
+                  'Err
+                      m%"
+                        oneOf: none of the options matched
+                        %{std.string.join
+                          m%"
+                            
+                            
+                          "% errors}
+                      "%
                 else
-                (if (std.record.length (x | { _ : Dyn })) > n then
-                {
-                    error = m%"
-                        record contains more than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (if (std.record.length (x | { _ : Dyn })) < n then
-                {
-                    error = m%"
-                        record contains fewer than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          propertyNames
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]
-            "%
-            = fun pred x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => let result = pred (field | Dyn) in
-                  if !result.success then
-                  {
-                      error = m%"
-                          field `%{field}` did not validate against `propertyNames` schema
-                          "%,
-                      success = false,
-                    }
+                  if count > 1 then
+                    'Err "oneOf: more than one of the options matched"
                   else
-                  acc)
-                { error = "", success = true, }
-                (std.record.fields (x | { _ : Dyn }))),
-          record
-            : { _ : Dyn -> { success: Bool, error: String } } -> { _ : Dyn -> {
-              success: Bool,
-              error: String
-            } } -> Bool -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            `record properties patternProperties additionalAllowed
-            additionalProperties x` is a combination of the `properties`,
-            `patternProperties` and `additionalProperties` validation keywords in
-            JSON schema.
-            
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
-            "%
-            =
-            fun properties patternProperties additionalAllowed additionalProperties x =>
-              if !(std.is_record x) then { error = "", success = true, } else
-                (let x  | { _ : Dyn } = x in
-                let check_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                    if !(std.record.has_field field x) then acc else
-                      (let result = value x."%{field}" in
-                      if !result.success then
-                      {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
-                      else
-                      {
-                        checked = std.record.insert field true acc.checked,
-                        error = acc.error,
-                        success = acc.success,
-                      }))
-                  { checked = {  }, error = "", success = true, }
-                  (std.record.to_array properties)
-                in
-                
-                let matching_fields  : String -> { _ : Dyn } =
-                fun pattern => let matcher = std.string.is_match pattern in
-                    std.array.fold_left
-                    (fun acc => fun {field  | Dyn, value  | Dyn} => if matcher
-                        field then
-                        std.record.insert field value acc
-                        else
-                        acc)
-                    {  }
-                    (std.record.to_array x)
-                in
-                
-                let check_pattern_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn = pattern, value  | Dyn = pred} =>
-                  fun acc => let result =
-                      std.array.fold_right
-                        (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                          let result = pred value in
-                            if !result.success then
-                            {
-                                checked : { _ : Bool }
-                                  = {  },
-                                error = m%"
-                                    field `%{field}` didn't validate: %{result.error}
-                                    "%,
-                                success = false,
-                              }
-                            else
-                            {
-                              checked = std.record.insert field true
-                                  acc.checked,
-                              error = acc.error,
-                              success = acc.success,
-                            })
-                        {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = "",
-                          success = true,
-                        }
-                        (std.record.to_array (matching_fields pattern))
-                      in
-                      
-                      if !result.success then result else
-                      {
-                        checked = std.array.fold_left
-                            (fun r field => if !(std.record.has_field field
-                              r) then
-                              std.record.insert field true r
-                              else
-                              r)
-                            acc.checked
-                            (std.record.fields result.checked),
-                        error = acc.error,
-                        success = acc.success,
-                      })
-                  { checked : { _ : Bool } = {  }, error = "", success = true, }
-                  (std.record.to_array patternProperties)
-                in
-                
-                let remaining_fields =
-                std.array.fold_left
-                  (fun acc field => if !(std.record.has_field field acc) then
-                    acc
-                    else
-                    (std.record.remove field acc))
+                    'Ok,
+    records =
+      {
+          dependencies
+            : { _ : Dyn } -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]"
+            = let mustHaveFields
+                : Array String -> { _ : Dyn } -> [| 'Ok, 'Err String |]
+                = fun
+                  fields
                   x
-                  ((std.record.fields check_properties.checked) @
-                    (std.record.fields check_pattern_properties.checked))
-                in
-                
-                let check_additional_properties 
-                  : { success: Bool, error: String } =
-                if (!additionalAllowed) &&
-                  (!(std.record.is_empty remaining_fields)) then
-                  {
-                      error = m%"
-                          extra fields %{std.serialize 'Json
-                          ((std.record.fields remaining_fields) | Dyn)}
-                          "%,
-                      success = false,
-                    }
-                  else
-                  (std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc => let result =
-                      additionalProperties value
-                      in
-                      
-                      if !result.success then
-                      {
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
+                  =>
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field x) then
+                        'Err "expected field `%{field}`"
                       else
-                      acc)
-                  { error = "", success = true, }
-                  (std.record.to_array remaining_fields))
+                        acc) 'Ok fields
                 in
-                
-                if !check_properties.success then
-                { error = check_properties.error, success = false, }
-                else
-                (if !check_pattern_properties.success then
-                { error = check_pattern_properties.error, success = false, }
-                else
-                check_additional_properties)),
-          required
-            : Array String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]
-            "%
-            = fun fields x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => if !(std.record.has_field field
-                  (x | { _ : Dyn })) then
-                  {
-                      error = m%"
-                          missing required field %{field}
-                          "%,
-                      success = false,
-                    }
+              fun
+                  deps
+                  x
+                  =>
+                  if !(std.is_record x) then
+                    'Ok
                   else
-                  acc)
-                { error = "", success = true, }
-                fields),
+                    let x
+                      | { _ : Dyn }
+                      = x
+                      in
+                    std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              let result
+                                = if std.is_array value then
+                                  mustHaveFields (value | Array String) x
+                                else
+                                  let pred
+                                    | Dyn -> [| 'Ok, 'Err String |]
+                                    = value
+                                    in
+                                  pred (x | Dyn)
+                                in
+                              (match {
+                                  'Err
+                                    msg =>
+                                    'Err
+                                      "dependency of `%{field}` failed: %{msg}",
+                                  'Ok =>
+                                    acc,
+                                }) result) 'Ok (std.record.to_array deps),
+          maxProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) > n then
+                    'Err
+                      "record contains more than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          minProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) < n then
+                    'Err
+                      "record contains fewer than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          propertyNames
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      (match {
+                        'Err
+                          msg =>
+                          'Err
+                            "field `%{field}` did not validate against `propertyNames` schema",
+                        'Ok =>
+                          acc,
+                      }) (pred (field | Dyn))) 'Ok
+                    (std.record.fields (x | { _ : Dyn })),
+          record
+            : { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> Bool
+            -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `record properties patternProperties additionalAllowed
+              additionalProperties x` is a combination of the `properties`,
+              `patternProperties` and `additionalProperties` validation keywords in
+              JSON schema.
+              
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
+            "%
+            = fun
+                properties
+                patternProperties
+                additionalAllowed
+                additionalProperties
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  let x
+                    | { _ : Dyn }
+                    = x
+                    in
+                  let check_properties
+                      : {
+                        result : [| 'Ok, 'Err String |],
+                        checked : { _ : Bool }
+                      }
+                      = std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              (match {
+                                'Err
+                                  msg =>
+                                  {
+                                    checked : { _ : Bool } = {},
+                                    result =
+                                      'Err
+                                          "field `%{field}` didn't validate: %{msg}",
+                                  },
+                                'Ok =>
+                                  {
+                                    checked =
+                                      std.record.insert field true acc.checked,
+                                    result = acc.result,
+                                  },
+                              }) (value x."%{field}"))
+                        { checked = {}, result = 'Ok, }
+                        (std.record.to_array properties)
+                      in
+                    let matching_fields
+                        : String -> { _ : Dyn }
+                        = fun
+                          pattern
+                          =>
+                          let matcher
+                            = std.string.is_match pattern
+                            in
+                          std.array.fold_left
+                              (fun
+                                acc
+                                =>
+                                fun
+                                  { field, value, }
+                                  =>
+                                  if matcher field then
+                                    std.record.insert field value acc
+                                  else
+                                    acc) {} (std.record.to_array x)
+                        in
+                      let check_pattern_properties
+                          : {
+                            result : [| 'Ok, 'Err String |],
+                            checked : { _ : Bool }
+                          }
+                          = std.array.fold_right
+                            (fun
+                              { field = pattern, value = pred, }
+                              =>
+                              fun
+                                acc
+                                =>
+                                (match {
+                                  r @ { result = 'Err msg, .. } =>
+                                    r,
+                                  { result = 'Ok, checked = ch, } =>
+                                    {
+                                      checked =
+                                        std.array.fold_left
+                                            (fun
+                                              r
+                                              field
+                                              =>
+                                              if !(std.record.has_field field
+                                                r) then
+                                                std.record.insert field true r
+                                              else
+                                                r) acc.checked
+                                            (std.record.fields ch),
+                                      result = acc.result,
+                                    },
+                                })
+                                  (std.array.fold_right
+                                    (fun
+                                      { field, value, }
+                                      =>
+                                      fun
+                                        acc
+                                        =>
+                                        (match {
+                                          'Err
+                                            msg =>
+                                            {
+                                              checked : { _ : Bool } = {},
+                                              result =
+                                                'Err
+                                                    "field `%{field}` didn't validate: %{msg}",
+                                            },
+                                          'Ok =>
+                                            {
+                                              checked =
+                                                std.record.insert field true
+                                                    acc.checked,
+                                              result = acc.result,
+                                            },
+                                        }) (pred value))
+                                    {
+                                      checked : { _ : Bool } = {},
+                                      result = 'Ok,
+                                    }
+                                    (std.record.to_array
+                                      (matching_fields pattern))))
+                            { checked : { _ : Bool } = {}, result = 'Ok, }
+                            (std.record.to_array patternProperties)
+                          in
+                        let remaining_fields
+                            = std.array.fold_left
+                              (fun
+                                acc
+                                field
+                                =>
+                                if !(std.record.has_field field acc) then
+                                  acc
+                                else
+                                  std.record.remove field acc) x
+                              ((std.record.fields check_properties.checked)
+                              @ (std.record.fields
+                                check_pattern_properties.checked))
+                            in
+                          let check_additional_properties
+                              : [| 'Ok, 'Err String |]
+                              = if (!additionalAllowed)
+                              && (!(std.record.is_empty remaining_fields)) then
+                                'Err
+                                  "extra fields %{std.serialize 'Json
+                                    ((std.record.fields remaining_fields)
+                                    | Dyn)}"
+                              else
+                                std.array.fold_right
+                                  (fun
+                                    { field, value, }
+                                    =>
+                                    fun
+                                      acc
+                                      =>
+                                      (match {
+                                        'Err
+                                          msg =>
+                                          'Err
+                                            "field `%{field}` didn't validate: %{msg}",
+                                        'Ok =>
+                                          acc,
+                                      }) (additionalProperties value)) 'Ok
+                                  (std.record.to_array remaining_fields)
+                              in
+                            (match {
+                                'Err
+                                  msg =>
+                                  check_properties.result,
+                                'Ok =>
+                                  (match {
+                                    'Err
+                                      msg =>
+                                      check_pattern_properties.result,
+                                    'Ok =>
+                                      check_additional_properties,
+                                  }) check_pattern_properties.result,
+                              }) check_properties.result,
+          required
+            : Array String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]"
+            = fun
+                fields
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field (x | { _ : Dyn })) then
+                        'Err "missing required field %{field}"
+                      else
+                        acc) 'Ok fields,
         },
-    strings = {
+    strings =
+      {
           maxLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no larger than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no larger than %{std.string.from_number
+                        limit}",
           minLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no smaller than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no smaller than %{std.string.from_number
+                        limit}",
           pattern
-            : String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]
-            "%
-            = fun pattern x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]"
+            = fun
+                pattern
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if std.string.is_match pattern (x | String) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string matching the pattern `%{pattern}`
-                      "%,
-                  success = false,
-                }),
+                  if std.string.is_match pattern (x | String) then
+                    'Ok
+                  else
+                    'Err "expected a string matching the pattern `%{pattern}`",
         },
   }
-in
-
-let rec definitions =
-{
-    contract = {
-          commands
-            | doc m%"
-            Console command name
-            "%
-            = std.contract.Sequence
-              [
-                std.enum.TagOrString,
-                [|
-                  'wait_seconds,
-                  'wait_frames,
-                  'voice_mute,
-                  'VisRegTest,
-                  'version,
-                  'v_reload_system,
-                  'v_exit_player,
-                  'v_dump_classes,
-                  'unload,
-                  'test_reset,
-                  'test_profile,
-                  'test_playersBounds,
-                  'test_delegate,
-                  'sys_threads_dump_thread_config_list,
-                  'sys_StroboscopeStop,
-                  'sys_StroboscopeStart,
-                  'sys_StroboscopeDumpResults,
-                  'sys_RestoreSpec,
-                  'sys_reload_plugin,
-                  'sys_LvlRes_findunused,
-                  'sys_LvlRes_finalstep,
-                  'sys_job_system_dump_job_list,
-                  'sys_crashtest_thread,
-                  'sys_crashtest,
-                  'sys_crashrpt_generate,
-                  'stoprecording,
-                  'stopdemo,
-                  'status,
-                  'so_reload,
-                  'sensor_SetOctreeDepth,
-                  'sensor_SetOctreeBounds,
-                  'Screenshot,
-                  'sc_SaveAllScriptFiles,
-                  'sc_rpcShow,
-                  'sc_FatalError,
-                  'sc_CriticalError,
-                  'SaveLevelStats,
-                  'save_genstrings,
-                  'save,
-                  's_StopTrigger,
-                  's_SetSwitchState,
-                  's_SetRtpc,
-                  's_ExecuteTrigger,
-                  'RunUnitTests,
-                  'ReloadDialogData,
-                  'RecordClip,
-                  'record,
-                  'readabilityReload,
-                  'rcon_stopserver,
-                  'rcon_startserver,
-                  'rcon_disconnect,
-                  'rcon_connect,
-                  'rcon_command,
-                  'r_StatsShaderList,
-                  'r_ShowRenderTarget,
-                  'r_setposteffectparamf,
-                  'r_PrecacheShaderList,
-                  'r_OverscanBorders,
-                  'r_OptimiseShaders,
-                  'r_getposteffectparamf,
-                  'r_DumpFontTexture,
-                  'r_DumpFontNames,
-                  'r_ColorGradingChartImage,
-                  'q_Quality,
-                  'py,
-                  'play,
-                  'osm_setFBScale,
-                  'open_url,
-                  'net_setChannelPerformanceMetrics,
-                  'net_set_cdkey,
-                  'net_pb_sv_enable,
-                  'net_pb_cl_enable,
-                  'net_netMsgDispatcherClearStats,
-                  'net_getChannelPerformanceMetrics,
-                  'net_DumpMessageApproximations,
-                  'net_dump_object_state,
-                  'mov_goToFrameEditor,
-                  'mono_reload,
-                  'mn_reload,
-                  'mn_listAssets,
-                  'mn_DebugAI,
-                  'mfx_ReloadFGEffects,
-                  'mfx_Reload,
-                  'memResetAllocs,
-                  'memReplayStop,
-                  'memReplayResume,
-                  'memReplayPause,
-                  'memReplayLabel,
-                  'memReplayInfo,
-                  'memReplayDumpSymbols,
-                  'memReplayAddSizerTree,
-                  'memDumpAllocs,
-                  'map,
-                  'lua_reload_script,
-                  'lua_garbagecollect,
-                  'lua_dump_state,
-                  'lua_dump_coverage,
-                  'lua_debugger_show,
-                  'LocalizationDumpLoadedInfo,
-                  'LoadConfig,
-                  'load,
-                  'kickid,
-                  'kick,
-                  'i_saveweaponposition,
-                  'i_reloadActionMaps,
-                  'i_listitems,
-                  'i_giveitem,
-                  'i_givedebugitems,
-                  'i_giveammo,
-                  'i_giveallitems,
-                  'i_dropitem,
-                  'http_stopserver,
-                  'http_startserver,
-                  'hmd_recenter_pose,
-                  'gt_RemoveFromDebugList,
-                  'gt_AddToDebugList,
-                  'gfx_reload_all,
-                  'gamedata_stop_record_or_playback,
-                  'gamedata_record,
-                  'gamedata_playback,
-                  'g_saveLoadDumpEntity,
-                  'g_dumpClassRegistry,
-                  'g_dump_stats,
-                  'fg_writeDocumentation,
-                  'fg_reloadClasses,
-                  'fg_Inspector,
-                  'fg_InspectEntity,
-                  'fg_InspectAction,
-                  'ffs_StopAllEffects,
-                  'ffs_Reload,
-                  'ffs_PlayEffect,
-                  'exec,
-                  'es_dump_entity_classes_in_use,
-                  'es_dump_entities,
-                  'es_debugAnim,
-                  'es_compile_area_grid,
-                  'es_AudioListenerOffset,
-                  'eqp_DumpPacks,
-                  'ed_randomize_variations,
-                  'ed_killmemory,
-                  'ed_goto,
-                  'ed_disable_game_mode,
-                  'e_StatoscopeAddUserMarker,
-                  'e_ReloadSurfaces,
-                  'e_ParticleMemory,
-                  'e_ParticleListEmitters,
-                  'e_ParticleListEffects,
-                  'e_DebugDrawListCMD,
-                  'DumpVars,
-                  'DumpCommandsVars,
-                  'dump_stats,
-                  'dump_maps,
-                  'dump_action_maps,
-                  'ds_Reload,
-                  'ds_DumpSessions,
-                  'ds_Dump,
-                  'drs_sendSignal,
-                  'disconnectchannel,
-                  'disconnect,
-                  'demo_StartDemoLevel,
-                  'demo_StartDemoChain,
-                  'demo,
-                  'ConsoleShow,
-                  'ConsoleHide,
-                  'connect_repeatedly,
-                  'connect,
-                  'ca_DefaultTransitionInterpolationType,
-                  'ca_DebugText,
-                  'Bind,
-                  'ban_status,
-                  'ban_remove,
-                  'ban,
-                  'audit_cvars,
-                  'ai_writeCommStats,
-                  'ai_resetCommStats,
-                  'ai_reload,
-                  'ai_Recorder_Stop,
-                  'ai_Recorder_Start,
-                  'ai_NavigationReloadConfig,
-                  'ai_MNMComputeConnectedIslands,
-                  'ai_MNMCalculateAccessibility,
-                  'ai_dumpCheckpoints,
-                  'ai_debugMNMAgentType,
-                  'ai_DebugAgent,
-                  'ai_commTestStop,
-                  'ai_commTest,
-                  'ai_CheckGoalpipes,
-                  '_TestFormatMessage
-                |]
-              ],
-          cvars
-            | doc m%"
-            CVar name
-            "%
-            = std.contract.Sequence
-              [
-                std.enum.TagOrString,
-                [|
-                  'v_vehicle_quality,
-                  'v_transitionAnimations,
-                  'v_testClientPredict,
-                  'v_staticTreadDeform,
-                  'v_slipSlopeRear,
-                  'v_slipSlopeFront,
-                  'v_slipFrictionModRear,
-                  'v_slipFrictionModFront,
-                  'v_show_all,
-                  'v_set_passenger_tm,
-                  'v_serverControlled,
-                  'v_ragdollPassengers,
-                  'v_playerTransitions,
-                  'v_lights_enable_always,
-                  'v_lights,
-                  'v_independentMountedGuns,
-                  'v_goliathMode,
-                  'v_FlippedExplosionTimeToExplode,
-                  'v_FlippedExplosionRetryTimeMS,
-                  'v_FlippedExplosionPlayerMinDistance,
-                  'v_enableMannequin,
-                  'v_driverControlledMountedGuns,
-                  'v_draw_tm,
-                  'v_draw_seats,
-                  'v_draw_passengers,
-                  'v_draw_helpers,
-                  'v_draw_components,
-                  'v_disableEntry,
-                  'v_disable_hull,
-                  'v_debugViewDetach,
-                  'v_debugViewAboveH,
-                  'v_debugViewAbove,
-                  'v_debugVehicle,
-                  'v_debugSuspensionIK,
-                  'v_debugdraw,
-                  'v_debugCollisionDamage,
-                  'v_debug_reorient,
-                  'v_debug_mem,
-                  'v_debug_flip_over,
-                  'v_clientPredictSmoothingConst,
-                  'v_clientPredictSmoothing,
-                  'v_clientPredictMaxTime,
-                  'v_clientPredictAdditionalTime,
-                  'v_clientPredict,
-                  'v_autoDisable,
-                  't_Smoothing,
-                  't_Scale,
-                  't_MaxStep,
-                  't_FixedStep,
-                  't_Debug,
-                  'sys_WER,
-                  'sys_warnings,
-                  'sys_vtune,
-                  'sys_vr_support,
-                  'sys_version,
-                  'sys_UserAnalyticsServerAddress,
-                  'sys_UserAnalyticsLogging,
-                  'sys_UserAnalyticsCollect,
-                  'sys_user_folder,
-                  'sys_usePlatformSavingAPIEncryption,
-                  'sys_usePlatformSavingAPI,
-                  'sys_use_mono,
-                  'sys_update_profile_time,
-                  'sys_UncachedStreamReads,
-                  'sys_trackview,
-                  'sys_target_platforms,
-                  'sys_streaming_use_optical_drive_thread,
-                  'sys_streaming_resetstats,
-                  'sys_streaming_requests_grouping_time_period,
-                  'sys_streaming_memory_budget,
-                  'sys_streaming_max_finalize_per_frame,
-                  'sys_streaming_max_bandwidth,
-                  'sys_streaming_in_blocks,
-                  'sys_streaming_debug_filter_min_time,
-                  'sys_streaming_debug_filter_file_name,
-                  'sys_streaming_debug_filter,
-                  'sys_streaming_debug,
-                  'sys_SSInfo,
-                  'sys_spec_water,
-                  'sys_spec_volumetriceffects,
-                  'sys_spec_textureresolution,
-                  'sys_spec_texture,
-                  'sys_spec_sound,
-                  'sys_spec_shadows,
-                  'sys_spec_shading,
-                  'sys_spec_quality,
-                  'sys_spec_postprocessing,
-                  'sys_spec_physics,
-                  'sys_spec_particles,
-                  'sys_spec_objectdetail,
-                  'sys_spec_light,
-                  'sys_spec_gameeffects,
-                  'sys_spec_full,
-                  'sys_spec,
-                  'sys_SimulateTask,
-                  'sys_simple_http_base_port,
-                  'sys_screensaver_allowed,
-                  'sys_Scale3DMouseYPR,
-                  'sys_scale3DMouseTranslation,
-                  'sys_root,
-                  'sys_resource_cache_folder,
-                  'sys_rendersplashscreen,
-                  'sys_ProfileLevelLoadingDump,
-                  'sys_ProfileLevelLoading,
-                  'sys_preload,
-                  'sys_physics_enable_MT,
-                  'sys_physics,
-                  'sys_perfhud_pause,
-                  'sys_perfhud_fpsBucketsExclusive,
-                  'sys_perfhud,
-                  'sys_PakValidateFileHash,
-                  'sys_PakTotalInMemorySizeLimit,
-                  'sys_PakStreamCache,
-                  'sys_PakSaveTotalResourceList,
-                  'sys_PakSaveMenuCommonResourceList,
-                  'sys_PakSaveLevelResourceList,
-                  'sys_PakSaveFastLoadResourceList,
-                  'sys_PakReadSlice,
-                  'sys_PakPriority,
-                  'sys_PakMessageInvalidFileAccess,
-                  'sys_PakLogMissingFiles,
-                  'sys_PakLogInvalidFileAccess,
-                  'sys_PakLogAllFileAccess,
-                  'sys_PakLoadModePaks,
-                  'sys_PakLoadCache,
-                  'sys_PakInMemorySizeLimit,
-                  'sys_PakDisableNonLevelRelatedPaks,
-                  'sys_noupdate,
-                  'sys_no_crash_dialog,
-                  'sys_min_step,
-                  'sys_menupreloadpacks,
-                  'sys_MemoryDeadListSize,
-                  'sys_memory_debug,
-                  'sys_maxTimeStepForMovieSystem,
-                  'sys_MaxFPS,
-                  'sys_max_step,
-                  'sys_logallocations,
-                  'sys_log_asserts,
-                  'sys_LocalMemoryWarningRatio,
-                  'sys_LocalMemoryTextureStreamingSpeedLimit,
-                  'sys_LocalMemoryTextureLimit,
-                  'sys_LocalMemoryStreamingSpeedObjectWidth,
-                  'sys_LocalMemoryStreamingSpeedObjectLength,
-                  'sys_LocalMemoryOuterViewDistance,
-                  'sys_LocalMemoryOptimalMSecPerSec,
-                  'sys_LocalMemoryObjectWidth,
-                  'sys_LocalMemoryObjectHeight,
-                  'sys_LocalMemoryObjectAlpha,
-                  'sys_LocalMemoryMaxMSecBetweenCalls,
-                  'sys_LocalMemoryLogText,
-                  'sys_LocalMemoryInnerViewDistance,
-                  'sys_LocalMemoryGeometryStreamingSpeedLimit,
-                  'sys_LocalMemoryGeometryLimit,
-                  'sys_LocalMemoryDrawText,
-                  'sys_LocalMemoryDiagramWidth,
-                  'sys_LocalMemoryDiagramStreamingSpeedRadius,
-                  'sys_LocalMemoryDiagramStreamingSpeedDistance,
-                  'sys_LocalMemoryDiagramRadius,
-                  'sys_LocalMemoryDiagramDistance,
-                  'sys_LocalMemoryDiagramAlpha,
-                  'sys_localization_folder,
-                  'sys_localization_encode,
-                  'sys_localization_debug,
-                  'sys_LoadFrontendShaderCache,
-                  'sys_livecreate,
-                  'sys_limit_phys_thread_count,
-                  'sys_keyboard_break,
-                  'sys_keyboard,
-                  'sys_job_system_profiler,
-                  'sys_job_system_max_worker,
-                  'sys_job_system_filter,
-                  'sys_job_system_enable,
-                  'sys_intromoviesduringinit,
-                  'sys_initpreloadpacks,
-                  'sys_ime,
-                  'sys_highrestimer,
-                  'sys_game_name,
-                  'sys_game_folder,
-                  'sys_force_installtohdd_mode,
-                  'sys_float_exceptions,
-                  'sys_flash_warning_level,
-                  'sys_flash_video_subaudiovolume,
-                  'sys_flash_video_soundvolume,
-                  'sys_flash_use_arenas,
-                  'sys_flash_stereo_maxparallax,
-                  'sys_flash_static_pool_size,
-                  'sys_flash_reset_mesh_cache,
-                  'sys_flash_log_options,
-                  'sys_flash_info_peak_tolerance,
-                  'sys_flash_info_peak_exclude,
-                  'sys_flash_info_histo_scale,
-                  'sys_flash_info,
-                  'sys_flash_edgeaa,
-                  'sys_flash_debuglog,
-                  'sys_flash_debugdraw_depth,
-                  'sys_flash_debugdraw,
-                  'sys_flash_curve_tess_error,
-                  'sys_flash_check_filemodtime,
-                  'sys_flash_allow_reset_mesh_cache,
-                  'sys_flash_address_space,
-                  'sys_flash,
-                  'sys_firstlaunch,
-                  'sys_filesystemCaseSensitivity,
-                  'sys_error_debugbreak,
-                  'sys_entities,
-                  'sys_enable_crash_handler,
-                  'sys_enable_budgetmonitoring,
-                  'sys_dump_type,
-                  'sys_dump_aux_threads,
-                  'sys_dll_response_system,
-                  'sys_dll_game,
-                  'sys_dll_ai,
-                  'sys_display_threads,
-                  'sys_deferAudioUpdateOptim,
-                  'sys_DeactivateConsole,
-                  'sys_crashrpt_server,
-                  'sys_crashrpt_privacypolicy,
-                  'sys_crashrpt_email,
-                  'sys_crashrpt_appversion,
-                  'sys_crashrpt_appname,
-                  'sys_crashrpt,
-                  'sys_build_folder,
-                  'sys_budget_videomem,
-                  'sys_budget_sysmem,
-                  'sys_budget_streamingthroughput,
-                  'sys_budget_soundmem,
-                  'sys_budget_soundCPU,
-                  'sys_budget_soundchannels,
-                  'sys_budget_numpolys,
-                  'sys_budget_numdrawcalls,
-                  'sys_budget_frametime,
-                  'sys_bp_time_threshold,
-                  'sys_bp_frames_threshold,
-                  'sys_bp_frames,
-                  'sys_audio_disable,
-                  'sys_asserts,
-                  'sys_AI,
-                  'sys_affinity,
-                  'sw_gridSize,
-                  'sw_draw_bbox,
-                  'sw_debugInfo,
-                  'sv_timeout_disconnect,
-                  'sv_timeofdaystart,
-                  'sv_timeofdaylength,
-                  'sv_timeofdayenable,
-                  'sv_servername,
-                  'sv_requireinputdevice,
-                  'sv_ranked,
-                  'sv_port,
-                  'sv_password,
-                  'sv_packetRate,
-                  'sv_maxspectators,
-                  'sv_maxplayers,
-                  'sv_maxmemoryusage,
-                  'sv_map,
-                  'sv_LoadAllLayersForResList,
-                  'sv_levelrotation,
-                  'sv_lanonly,
-                  'sv_gamerulesdefault,
-                  'sv_gamerules,
-                  'sv_dumpstatsperiod,
-                  'sv_dumpstats,
-                  'sv_DedicatedMaxRate,
-                  'sv_DedicatedCPUVariance,
-                  'sv_DedicatedCPUPercent,
-                  'sv_bind,
-                  'sv_bandwidth,
-                  'sv_autoconfigurl,
-                  'sv_AISystem,
-                  'stats_Warnings,
-                  'stats_RenderSummary,
-                  'stats_RenderBatchStats,
-                  'stats_Particles,
-                  'stats_PakFile,
-                  'stats_FpsBuckets,
-                  'STAP_TRANSLATION_FUDGE,
-                  'STAP_TRANSLATION_FEATHER,
-                  'STAP_OVERRIDE_TRACK_FACTOR,
-                  'STAP_LOCK_EFFECTOR,
-                  'STAP_DISABLE,
-                  'STAP_DEBUG,
-                  'sensor_DebugRange,
-                  'sensor_Debug,
-                  'sc_RunUnitTests,
-                  'sc_RootFolder,
-                  'sc_LogToFile,
-                  'sc_LogFileStreams,
-                  'sc_LogFileMessageTypes,
-                  'sc_IgnoreUnderscoredFolders,
-                  'sc_IgnorePAKFiles,
-                  'sc_ExperimentalFeatures,
-                  'sc_EntityDebugTextPos,
-                  'sc_EntityDebugFilter,
-                  'sc_EntityDebugConfig,
-                  'sc_EnableScriptPartitioning,
-                  'sc_DisplayCriticalErrors,
-                  's_VelocityTrackingThreshold,
-                  's_TickWithMainThread,
-                  's_ShowActiveAudioObjectsOnly,
-                  's_SDLMixerStandaloneFileExtension,
-                  's_SDLMixerPrimaryPoolSize,
-                  's_PositionUpdateThreshold,
-                  's_OcclusionRayLengthOffset,
-                  's_OcclusionMediumDistance,
-                  's_OcclusionMaxSyncDistance,
-                  's_OcclusionMaxDistance,
-                  's_OcclusionHighDistance,
-                  's_IgnoreWindowFocus,
-                  's_FullObstructionMaxDistance,
-                  's_FileCacheManagerSize,
-                  's_FileCacheManagerDebugFilter,
-                  's_DrawAudioDebug,
-                  's_DefaultStandaloneFilesAudioTrigger,
-                  's_AudioTriggersDebugFilter,
-                  's_AudioStandaloneFilePoolSize,
-                  's_AudioProxiesInitType,
-                  's_AudioPrimaryPoolSize,
-                  's_AudioObjectsRayType,
-                  's_AudioObjectsDebugFilter,
-                  's_AudioObjectPoolSize,
-                  's_AudioLoggingOptions,
-                  's_AudioImplName,
-                  's_AudioEventPoolSize,
-                  'rcon_password,
-                  'rc_debugVerboseLevel,
-                  'r_ZPrepassMaxDist,
-                  'r_ZPassOnly,
-                  'r_ZPassDepthSorting,
-                  'r_ZFightingExtrude,
-                  'r_ZFightingDepthScale,
-                  'r_wireframe,
-                  'r_WindowIconTexture,
-                  'r_Width,
-                  'r_WaterVolumeCausticsSnapFactor,
-                  'r_WaterVolumeCausticsRes,
-                  'r_WaterVolumeCausticsMaxDist,
-                  'r_WaterVolumeCausticsDensity,
-                  'r_WaterVolumeCaustics,
-                  'r_WaterUpdateThread,
-                  'r_WaterUpdateFactor,
-                  'r_WaterUpdateDistance,
-                  'r_WaterTessellationHW,
-                  'r_WaterReflectionsUseMinOffset,
-                  'r_WaterReflectionsQuality,
-                  'r_WaterReflectionsMinVisUpdateFactorMul,
-                  'r_WaterReflectionsMinVisUpdateDistanceMul,
-                  'r_WaterReflectionsMinVisiblePixelsUpdate,
-                  'r_WaterReflectionsMGPU,
-                  'r_WaterReflections,
-                  'r_WaterGodRaysDistortion,
-                  'r_WaterGodRays,
-                  'r_WaterCausticsDistance,
-                  'r_WaterCausticsDeferred,
-                  'r_WaterCaustics,
-                  'r_VSync,
-                  'r_VrProjectionType,
-                  'r_VrProjectionPreset,
-                  'r_VolumetricFogTexScale,
-                  'r_VolumetricFogTexDepth,
-                  'r_VolumetricFogSunLightCorrection,
-                  'r_VolumetricFogShadow,
-                  'r_VolumetricFogSample,
-                  'r_VolumetricFogReprojectionMode,
-                  'r_VolumetricFogReprojectionBlendFactor,
-                  'r_VolumetricFogMinimumLightBulbSize,
-                  'r_VolumetricFogDownscaledSunShadowRatio,
-                  'r_VolumetricFogDownscaledSunShadow,
-                  'r_VolumetricCloudsTemporalReprojection,
-                  'r_VolumetricCloudsStereoReprojection,
-                  'r_VolumetricCloudsShadowResolution,
-                  'r_VolumetricCloudsRaymarchStepNum,
-                  'r_VolumetricCloudsPipeline,
-                  'r_VolumetricClouds,
-                  'r_VisAreaClipLightsPerPixel,
-                  'r_VegetationSpritesTexRes,
-                  'r_VegetationSpritesNoGen,
-                  'r_VegetationSpritesMaxLightingUpdates,
-                  'r_VegetationSpritesGenAlways,
-                  'r_VegetationSpritesDebug,
-                  'r_ValidateDraw,
-                  'r_UseZPass,
-                  'r_UseShadowsPool,
-                  'r_UsePersistentRTForModelHUD,
-                  'r_UseMergedPosts,
-                  'r_UseMaterialLayers,
-                  'r_UseHWSkinning,
-                  'r_UseESRAM,
-                  'r_UseDisplacementFactor,
-                  'r_UpdateInstances,
-                  'r_Unlit,
-                  'r_TranspDepthFixup,
-                  'r_TransparentPasses,
-                  'r_transient_pool_size,
-                  'r_ThermalVisionViewDistance,
-                  'r_ThermalVisionViewCloakFrequencySecondary,
-                  'r_ThermalVisionViewCloakFrequencyPrimary,
-                  'r_ThermalVisionViewCloakFlickerMinIntensity,
-                  'r_ThermalVisionViewCloakFlickerMaxIntensity,
-                  'r_ThermalVision,
-                  'r_TexturesStreamPoolSize,
-                  'r_TexturesStreamPoolSecondarySize,
-                  'r_TexturesStreamingUpdateType,
-                  'r_TexturesStreamingSync,
-                  'r_TexturesStreamingSuppress,
-                  'r_texturesstreamingSkipMips,
-                  'r_TexturesStreamingPrecacheRounds,
-                  'r_texturesstreamingPostponeThresholdMip,
-                  'r_TexturesStreamingPostponeThresholdKB,
-                  'r_TexturesStreamingPostponeMips,
-                  'r_TexturesStreamingOnlyVideo,
-                  'r_TexturesStreamingNoUpload,
-                  'r_TexturesStreamingMipFading,
-                  'r_TexturesStreamingMipClampDVD,
-                  'r_TexturesStreamingMipBias,
-                  'r_texturesstreamingMinUsableMips,
-                  'r_TexturesStreamingMinReadSizeKB,
-                  'r_TexturesStreamingMaxRequestedMB,
-                  'r_TexturesStreamingMaxRequestedJobs,
-                  'r_texturesstreamingJobUpdate,
-                  'r_TexturesStreamingDisableNoStreamDuringLoad,
-                  'r_texturesstreamingDeferred,
-                  'r_TexturesStreamingDebugMinSize,
-                  'r_TexturesStreamingDebugMinMip,
-                  'r_TexturesStreamingDebugFilter,
-                  'r_TexturesStreamingDebugDumpIntoLog,
-                  'r_TexturesStreamingDebug,
-                  'r_TexturesStreaming,
-                  'r_texturesskiplowermips,
-                  'r_TextureLodDistanceRatio,
-                  'r_TextureCompressor,
-                  'r_TextureCompilingIndicator,
-                  'r_TextureCompiling,
-                  'r_TexPreallocateAtlases,
-                  'r_TexPostponeLoading,
-                  'r_TexNoLoad,
-                  'r_TexNoAnisoAlphaTest,
-                  'r_TexMinAnisotropy,
-                  'r_TexMaxAnisotropy,
-                  'r_TexLog,
-                  'r_TexelsPerMeter,
-                  'r_TexBindMode,
-                  'r_TexAtlasSize,
-                  'r_TessellationTriangleSize,
-                  'r_TessellationDebug,
-                  'r_SyncToFrameFence,
-                  'r_SupersamplingFilter,
-                  'r_Supersampling,
-                  'r_sunshafts,
-                  'r_StereoStrength,
-                  'r_StereoScreenDist,
-                  'r_stereoScaleCoefficient,
-                  'r_StereoOutput,
-                  'r_StereoNearGeoScale,
-                  'r_StereoMode,
-                  'r_stereoMirrorProjection,
-                  'r_StereoHudScreenDist,
-                  'r_StereoGammaAdjustment,
-                  'r_StereoFlipEyes,
-                  'r_StereoEyeDist,
-                  'r_StereoEnableMgpu,
-                  'r_StereoDevice,
-                  'r_StencilBits,
-                  'r_statsMinDrawCalls,
-                  'r_Stats,
-                  'r_SSReflHalfRes,
-                  'r_SSReflections,
-                  'r_ssdoRadiusMin,
-                  'r_ssdoRadiusMax,
-                  'r_ssdoRadius,
-                  'r_ssdoHalfRes,
-                  'r_ssdoColorBleeding,
-                  'r_ssdoAmountReflection,
-                  'r_ssdoAmountDirect,
-                  'r_ssdoAmountAmbient,
-                  'r_ssdo,
-                  'r_SonarVision,
-                  'r_SoftAlphaTest,
-                  'r_SnowHalfRes,
-                  'r_SnowFlakeClusters,
-                  'r_SnowDisplacement,
-                  'r_Snow,
-                  'r_SkipAlphaTested,
-                  'r_SilhouettePOM,
-                  'r_ShowVideoMemoryStats,
-                  'r_ShowTimeGraph,
-                  'r_ShowTexture,
-                  'r_ShowTangents,
-                  'r_ShowNormals,
-                  'r_ShowLines,
-                  'r_ShowLightBounds,
-                  'r_ShowDynTexturesMaxCount,
-                  'r_ShowDynTexturesFilter,
-                  'r_ShowDynTextures,
-                  'r_ShowBufferUsage,
-                  'r_Sharpening,
-                  'r_ShadowTexFormat,
-                  'r_ShadowsUseClipVolume,
-                  'r_ShadowsStencilPrePass,
-                  'r_ShadowsScreenSpace,
-                  'r_ShadowsPCFiltering,
-                  'r_ShadowsParticleNormalEffect,
-                  'r_ShadowsParticleKernelSize,
-                  'r_ShadowsParticleJitterAmount,
-                  'r_ShadowsParticleAnimJitterAmount,
-                  'r_ShadowsNearestMapResolution,
-                  'r_ShadowsMaskResolution,
-                  'r_ShadowsMaskDownScale,
-                  'r_ShadowsGridAligned,
-                  'r_ShadowsDepthBoundNV,
-                  'r_ShadowsCacheResolutions,
-                  'r_ShadowsCacheFormat,
-                  'r_ShadowsCache,
-                  'r_ShadowsBias,
-                  'r_ShadowsAdaptionSize,
-                  'r_ShadowsAdaptionRangeClamp,
-                  'r_ShadowsAdaptionMin,
-                  'r_ShadowPoolMaxTimeslicedUpdatesPerFrame,
-                  'r_ShadowPoolMaxFrames,
-                  'r_ShadowPass,
-                  'r_ShadowMaskStencilPrepass,
-                  'r_ShadowJittering,
-                  'r_ShadowGenMode,
-                  'r_ShadowGenDepthClip,
-                  'r_ShadowGen,
-                  'r_ShadowCastingLightsMaxCount,
-                  'r_ShadowBluriness,
-                  'r_ShadersSubmitRequestline,
-                  'r_ShadersRemoteCompiler,
-                  'r_ShadersPrecacheAllLights,
-                  'r_ShadersOrbis,
-                  'r_ShadersLogCacheMisses,
-                  'r_ShadersLazyUnload,
-                  'r_ShadersImport,
-                  'r_ShadersIgnoreIncludesChanging,
-                  'r_ShadersGLES3,
-                  'r_ShadersGL4,
-                  'r_ShadersExport,
-                  'r_ShadersEditing,
-                  'r_ShadersDX11,
-                  'r_ShadersDurango,
-                  'r_ShadersDebug,
-                  'r_ShadersCompileStrict,
-                  'r_ShadersCompileCompatible,
-                  'r_ShadersCompileAutoActivate,
-                  'r_ShadersCacheDeterministic,
-                  'r_ShadersAsyncMaxThreads,
-                  'r_ShadersAsyncCompiling,
-                  'r_ShadersAsyncActivation,
-                  'r_ShadersAllowCompilation,
-                  'r_ShaderEmailTags,
-                  'r_ShaderEmailCCs,
-                  'r_ShaderCompilerServer,
-                  'r_ShaderCompilerPort,
-                  'r_ShaderCompilerFolderSuffix,
-                  'r_ShaderCompilerFolderName,
-                  'r_ShaderCompilerDontCache,
-                  'r_Scissor,
-                  'r_ReverseDepth,
-                  'r_ReprojectOnlyStaticObjects,
-                  'r_RenderTargetPoolSize,
-                  'r_RenderMeshHashGridUnitSize,
-                  'r_ReloadShaders,
-                  'r_ReleaseAllResourcesOnExit,
-                  'r_RefractionPartialResolvesDebug,
-                  'r_RefractionPartialResolves,
-                  'r_Refraction,
-                  'r_ReflectTextureSlots,
-                  'r_ReflectionsQuality,
-                  'r_ReflectionsOffset,
-                  'r_Reflections,
-                  'r_ReadZBufferDirectlyFromVMEM,
-                  'r_RC_AutoInvoke,
-                  'r_RainOccluderSizeTreshold,
-                  'r_RainMaxViewDist_Deferred,
-                  'r_RainMaxViewDist,
-                  'r_RainIgnoreNearest,
-                  'r_RainDropsEffect,
-                  'r_RainDistMultiplier,
-                  'r_RainAmount,
-                  'r_Rain,
-                  'r_profilerTargetFPS,
-                  'r_profiler,
-                  'r_PrintMemoryLeaks,
-                  'r_PredicatedTiling,
-                  'r_PostProcessReset,
-                  'r_PostprocessParamsBlendingTimeScale,
-                  'r_PostProcessParamsBlending,
-                  'r_PostProcessNanoGlassDebugView,
-                  'r_PostProcessHUD3DStencilClear,
-                  'r_PostProcessHUD3DShadowAmount,
-                  'r_PostProcessHUD3DGlowAmount,
-                  'r_PostProcessHUD3DDebugView,
-                  'r_PostProcessHUD3DCache,
-                  'r_PostProcessHUD3D,
-                  'r_PostProcessGameFx,
-                  'r_PostProcessFilters,
-                  'r_PostProcessEffects,
-                  'r_ParticleVerticePoolSize,
-                  'r_ParticlesTessellationTriSize,
-                  'r_ParticlesTessellation,
-                  'r_ParticlesSoftIsec,
-                  'r_ParticlesRefraction,
-                  'r_ParticlesInstanceVertices,
-                  'r_ParticlesHalfResBlendMode,
-                  'r_ParticlesHalfResAmount,
-                  'r_ParticlesHalfRes,
-                  'r_ParticlesDebug,
-                  'r_ParticlesAmountGI,
-                  'r_OverscanBordersDrawDebugView,
-                  'r_OverscanBorderScaleY,
-                  'r_OverscanBorderScaleX,
-                  'r_overrideScanlineOrder,
-                  'r_overrideRefreshRate,
-                  'r_overrideDXGIOutputFS,
-                  'r_overrideDXGIOutput,
-                  'r_overrideDXGIAdapter,
-                  'r_NormalsLength,
-                  'r_NoHWGamma,
-                  'r_NoDrawShaders,
-                  'r_NoDrawNear,
-                  'r_NoDraw,
-                  'r_NightVisionSonarRadius,
-                  'r_NightVisionSonarMultiplier,
-                  'r_NightVisionSonarLifetime,
-                  'r_NightVisionFinalMul,
-                  'r_NightVisionCamMovNoiseBlendSpeed,
-                  'r_NightVisionCamMovNoiseAmount,
-                  'r_NightVisionBrightLevel,
-                  'r_NightVision,
-                  'r_MultiThreadedDrawingMinJobSize,
-                  'r_MultiThreadedDrawing,
-                  'r_MultiThreaded,
-                  'r_MultiGPU,
-                  'r_MSAA_threshold_normal,
-                  'r_MSAA_threshold_depth,
-                  'r_MSAA_samples,
-                  'r_MSAA_quality,
-                  'r_MSAA_debug,
-                  'r_MSAA,
-                  'r_MouseCursorTexture,
-                  'r_MotionVectors,
-                  'r_MotionBlurThreshold,
-                  'r_MotionBlurShutterSpeed,
-                  'r_MotionBlurQuality,
-                  'r_MotionBlurMaxViewDist,
-                  'r_MotionBlurGBufferVelocity,
-                  'r_MotionBlurCameraMotionScale,
-                  'r_MotionBlur,
-                  'r_minimizeLatency,
-                  'r_MeshPrecache,
-                  'r_MeshPoolSize,
-                  'r_MeshInstancePoolSize,
-                  'r_MergeShadowDrawcalls,
-                  'r_MeasureOverdrawScale,
-                  'r_MaxSuitPulseSpeedMultiplier,
-                  'r_MaterialsBatching,
-                  'r_LogVidMem,
-                  'r_LogVBuffers,
-                  'r_LogTexStreaming,
-                  'r_LogShaders,
-                  'r_Log,
-                  'r_LightsSinglePass,
-                  'r_ImpostersUpdatePerFrame,
-                  'r_ImpostersDraw,
-                  'r_ImposterRatio,
-                  'r_HideSunInCubemaps,
-                  'r_HeightMapAOResolution,
-                  'r_HeightMapAORange,
-                  'r_HeightMapAOAmount,
-                  'r_HeightMapAO,
-                  'r_Height,
-                  'r_HDRVignetting,
-                  'r_HDRTexFormat,
-                  'r_HDRRendering,
-                  'r_HDRRangeAdaptMaxRange,
-                  'r_HDRRangeAdaptMax,
-                  'r_HDRRangeAdaptLBufferMaxRange,
-                  'r_HDRRangeAdaptLBufferMax,
-                  'r_HDRRangeAdaptationSpeed,
-                  'r_HDRRangeAdapt,
-                  'r_HDRGrainAmount,
-                  'r_HDREyeAdaptationSpeed,
-                  'r_HDREyeAdaptationMode,
-                  'r_HDRDebug,
-                  'r_HDRBloomQuality,
-                  'r_HDRBloom,
-                  'r_GraphStyle,
-                  'r_GraphicsPipeline,
-                  'r_GpuPhysicsFluidDynamicsDebug,
-                  'r_GpuParticlesConstantRadiusBoundingBoxes,
-                  'r_GpuParticles,
-                  'r_GetScreenShot,
-                  'r_GeomInstancingThreshold,
-                  'r_GeomInstancingDebug,
-                  'r_GeomInstancing,
-                  'r_GeomCacheInstanceThreshold,
-                  'r_Gamma,
-                  'r_FullscreenWindow,
-                  'r_FullscreenPreemption,
-                  'r_FullscreenNativeRes,
-                  'r_Fullscreen,
-                  'r_FogShadowsWater,
-                  'r_FogShadowsMode,
-                  'r_FogShadows,
-                  'r_FogDepthTest,
-                  'r_FlashMatTexResQuality,
-                  'r_FlaresTessellationRatio,
-                  'r_FlaresIrisShaftMaxPolyNum,
-                  'r_FlaresChromaShift,
-                  'r_Flares,
-                  'r_FlareHqShafts,
-                  'r_ExcludeShader,
-                  'r_ExcludeMesh,
-                  'r_EnvTexUpdateInterval,
-                  'r_EnvTexResolution,
-                  'r_EnvCMResolution,
-                  'r_EnableDebugLayer,
-                  'r_enableAuxGeom,
-                  'r_enableAltTab,
-                  'r_enable_full_gpu_sync,
-                  'r_DynTexSourceUseSharedRT,
-                  'r_DynTexSourceSharedRTWidth,
-                  'r_DynTexSourceSharedRTHeight,
-                  'r_DynTexMaxSize,
-                  'r_DynTexAtlasVoxTerrainMaxSize,
-                  'r_DynTexAtlasSpritesMaxSize,
-                  'r_DynTexAtlasDynTexSrcSize,
-                  'r_DynTexAtlasCloudsMaxSize,
-                  'r_durango_async_dips_sync,
-                  'r_durango_async_dips,
-                  'r_Driver,
-                  'r_DrawNearZRange,
-                  'r_DrawNearShadows,
-                  'r_DrawNearFoV,
-                  'r_DrawNearFarPlane,
-                  'r_dofMinZScale,
-                  'r_dofMinZBlendMult,
-                  'r_dofMinZ,
-                  'r_displayinfoTargetFPS,
-                  'r_DisplayInfo,
-                  'r_DetailTextures,
-                  'r_DetailDistance,
-                  'r_DepthOfFieldMode,
-                  'r_DepthOfFieldDilation,
-                  'r_DepthOfFieldBokehQuality,
-                  'r_DepthOfField,
-                  'r_DepthBits,
-                  'r_DeferredShadingTiledHairQuality,
-                  'r_DeferredShadingTiledDebug,
-                  'r_DeferredShadingTiled,
-                  'r_DeferredShadingStencilPrepass,
-                  'r_DeferredShadingSSS,
-                  'r_DeferredShadingSortLights,
-                  'r_DeferredShadingScissor,
-                  'r_DeferredShadingLightVolumes,
-                  'r_DeferredShadingLightStencilRatio,
-                  'r_DeferredShadingLights,
-                  'r_DeferredShadingLightLodRatio,
-                  'r_DeferredShadingLBuffersFmt,
-                  'r_DeferredShadingFilterGBuffer,
-                  'r_DeferredShadingEnvProbes,
-                  'r_DeferredShadingDepthBoundsTest,
-                  'r_DeferredShadingDebug,
-                  'r_DeferredShadingDBTstencil,
-                  'r_DeferredShadingAreaLights,
-                  'r_DeferredShadingAmbientSClear,
-                  'r_DeferredShadingAmbientLights,
-                  'r_DeferredShadingAmbient,
-                  'r_deferredDecalsDebug,
-                  'r_DeferredDecals,
-                  'r_DebugRenderMode,
-                  'r_DebugRefraction,
-                  'r_DebugLightVolumes,
-                  'r_DebugLights,
-                  'r_DebugLayerEffect,
-                  'r_DebugGBuffer,
-                  'r_DebugFontRendering,
-                  'r_D3D12WaitableSwapChain,
-                  'r_D3D12SubmissionThread,
-                  'r_D3D12HardwareCopyQueue,
-                  'r_D3D12HardwareComputeQueue,
-                  'r_D3D12EarlyResourceBarriers,
-                  'r_D3D12BatchResourceBarriers,
-                  'r_D3D12AsynchronousCompute,
-                  'r_CustomVisions,
-                  'r_CustomResWidth,
-                  'r_CustomResPreview,
-                  'r_CustomResMaxSize,
-                  'r_CustomResHeight,
-                  'r_Contrast,
-                  'r_constantbuffer_watermarm,
-                  'r_constantbuffer_banksize,
-                  'r_ConsoleBackbufferWidth,
-                  'r_ConsoleBackbufferHeight,
-                  'r_ConditionalRendering,
-                  'r_ComputeSkinningTangents,
-                  'r_ComputeSkinningMorphs,
-                  'r_ComputeSkinningDebugDraw,
-                  'r_ComputeSkinning,
-                  'r_ColorRangeCompression,
-                  'r_ColorGradingSelectiveColor,
-                  'r_ColorGradingLevels,
-                  'r_ColorGradingFilters,
-                  'r_ColorGradingChartsCache,
-                  'r_ColorGradingCharts,
-                  'r_ColorGrading,
-                  'r_ColorBits,
-                  'r_CloudsUpdateAlways,
-                  'r_CloudsDebug,
-                  'r_CloakTransitionLightScale,
-                  'r_CloakSparksAlpha,
-                  'r_CloakRenderInThermalVision,
-                  'r_CloakRefractionFadeMinValue,
-                  'r_CloakRefractionFadeMinDistSq,
-                  'r_CloakRefractionFadeMaxDistSq,
-                  'r_CloakRefractionFadeByDist,
-                  'r_CloakMinLightValue,
-                  'r_CloakMinAmbientOutdoors,
-                  'r_CloakMinAmbientIndoors,
-                  'r_CloakLightScale,
-                  'r_CloakInterferenceSparksAlpha,
-                  'r_cloakHighlightStrength,
-                  'r_CloakHeatScale,
-                  'r_CloakFadeMinValue,
-                  'r_CloakFadeMinDistSq,
-                  'r_CloakFadeMaxDistSq,
-                  'r_CloakFadeLightScale,
-                  'r_CloakFadeByDist,
-                  'r_ChromaticAberration,
-                  'r_Character_NoDeform,
-                  'r_CBufferUseNativeDepth,
-                  'r_buffer_sli_workaround,
-                  'r_buffer_pool_max_allocs,
-                  'r_buffer_pool_defrag_static,
-                  'r_buffer_pool_defrag_max_moves,
-                  'r_buffer_pool_defrag_dynamic,
-                  'r_buffer_enable_lockless_updates,
-                  'r_buffer_banksize,
-                  'r_Brightness,
-                  'r_BreakOnError,
-                  'r_Beams,
-                  'r_BatchType,
-                  'r_Batching,
-                  'r_auxGeom,
-                  'r_ArmourPulseSpeedMultiplier,
-                  'r_AntialiasingTAASharpening,
-                  'r_AntialiasingTAAPattern,
-                  'r_AntialiasingTAAFalloffLowFreq,
-                  'r_AntialiasingTAAFalloffHiFreq,
-                  'r_AntialiasingModeSCull,
-                  'r_AntialiasingModeEditor,
-                  'r_AntialiasingModeDebug,
-                  'r_AntialiasingMode,
-                  'r_AllowLiveMoCap,
-                  'r_3MonHackRightCGFOffsetX,
-                  'r_3MonHackLeftCGFOffsetX,
-                  'r_3MonHackHUDFOVY,
-                  'r_3MonHackHUDFOVX,
-                  'r_3MonHack,
-                  'q_ShaderWater,
-                  'q_ShaderVegetation,
-                  'q_ShaderTerrain,
-                  'q_ShaderSky,
-                  'q_ShaderShadow,
-                  'q_ShaderPostProcess,
-                  'q_ShaderMetal,
-                  'q_ShaderIce,
-                  'q_ShaderHDR,
-                  'q_ShaderGlass,
-                  'q_ShaderGeneral,
-                  'q_ShaderFX,
-                  'q_Renderer,
-                  'profileStreaming,
-                  'profile_weighting,
-                  'profile_smooth,
-                  'profile_sampler_max_samples,
-                  'profile_sampler,
-                  'profile_peak_display,
-                  'profile_peak,
-                  'profile_pagefaults,
-                  'profile_network,
-                  'profile_log,
-                  'profile_graphScale,
-                  'profile_graph,
-                  'profile_filter_thread,
-                  'profile_filter,
-                  'profile_disk_type_filter,
-                  'profile_disk_timeframe,
-                  'profile_disk_max_items,
-                  'profile_disk_max_draw_items,
-                  'profile_disk_budget,
-                  'profile_disk,
-                  'profile_deep,
-                  'profile_callstack,
-                  'profile_allthreads,
-                  'profile_additionalsub,
-                  'profile,
-                  'pp_RSFDebugWriteOnLoad,
-                  'pp_RSFDebugWrite,
-                  'pp_RichSaveGames,
-                  'pp_LoadOnlineAttributes,
-                  'p_wireframe_distance,
-                  'p_use_unproj_vel,
-                  'p_use_distance_contacts,
-                  'p_unproj_vel_scale,
-                  'p_time_granularity,
-                  'p_tick_breakable,
-                  'p_splash_vel1,
-                  'p_splash_vel0,
-                  'p_splash_force1,
-                  'p_splash_force0,
-                  'p_splash_dist1,
-                  'p_splash_dist0,
-                  'p_skip_redundant_colldet,
-                  'p_single_step_mode,
-                  'p_rope_collider_size_limit,
-                  'p_ray_peak_time,
-                  'p_ray_fadeout,
-                  'p_proxy_highlight_threshold,
-                  'p_proxy_highlight_range,
-                  'p_prohibit_unprojection,
-                  'p_profile_functions,
-                  'p_profile_entities,
-                  'p_profile,
-                  'p_players_can_break,
-                  'p_physics_library,
-                  'p_penalty_scale,
-                  'p_num_threads,
-                  'p_num_startup_overload_checks,
-                  'p_num_bodies_large_group,
-                  'p_net_sequencefrequency,
-                  'p_net_interp,
-                  'p_net_extrapmax,
-                  'p_net_debugDraw,
-                  'p_min_separation_speed,
-                  'p_min_MC_iters,
-                  'p_min_LCPCG_improvement,
-                  'p_max_world_step,
-                  'p_max_velocity,
-                  'p_max_unproj_vel,
-                  'p_max_substeps_large_group,
-                  'p_max_substeps,
-                  'p_max_player_velocity,
-                  'p_max_plane_contacts_distress,
-                  'p_max_plane_contacts,
-                  'p_max_object_splashes,
-                  'p_max_MC_vel,
-                  'p_max_MC_mass_ratio,
-                  'p_max_MC_iters,
-                  'p_max_LCPCG_subiters_final,
-                  'p_max_LCPCG_subiters,
-                  'p_max_LCPCG_microiters_final,
-                  'p_max_LCPCG_microiters,
-                  'p_max_LCPCG_iters,
-                  'p_max_LCPCG_fruitless_iters,
-                  'p_max_LCPCG_contacts,
-                  'p_max_entity_cells,
-                  'p_max_debris_mass,
-                  'p_max_contacts,
-                  'p_max_contact_gap_simple,
-                  'p_max_contact_gap_player,
-                  'p_max_contact_gap,
-                  'p_max_bone_velocity,
-                  'p_max_approx_caps,
-                  'p_log_lattice_tension,
-                  'p_list_active_objects,
-                  'p_limit_simple_solver_energy,
-                  'p_lattice_max_iters,
-                  'p_jump_to_profile_ent,
-                  'p_joint_gravity_step,
-                  'p_joint_damage_accum_threshold,
-                  'p_joint_damage_accum,
-                  'p_group_damping,
-                  'p_gravity_z,
-                  'p_GEB_max_cells,
-                  'p_force_sync,
-                  'p_fly_mode,
-                  'p_fixed_timestep,
-                  'p_ent_grid_use_obb,
-                  'p_enforce_contacts,
-                  'p_draw_helpers_opacity,
-                  'p_draw_helpers_num,
-                  'p_draw_helpers,
-                  'p_do_step,
-                  'p_debug_joints,
-                  'p_debug_explosions,
-                  'p_damping_group_size,
-                  'p_cull_distance,
-                  'p_collision_mode,
-                  'p_check_out_of_bounds,
-                  'p_CharacterIK,
-                  'p_break_on_validation,
-                  'p_approx_caps_len,
-                  'p_accuracy_MC,
-                  'p_accuracy_LCPCG_no_improvement,
-                  'p_accuracy_LCPCG,
-                  'osm_targetFPSTolerance,
-                  'osm_targetFPS,
-                  'osm_stress,
-                  'osm_historyLength,
-                  'osm_fbScaleDeltaUp,
-                  'osm_fbScaleDeltaDown,
-                  'osm_fbMinScale,
-                  'osm_enabled,
-                  'osm_debug,
-                  'net_stats_pass,
-                  'net_stats_login,
-                  'net_socketMaxTimeoutMultiplayer,
-                  'net_socketMaxTimeout,
-                  'net_socketBoostTimeout,
-                  'net_SimUseProfile,
-                  'net_sim_loadprofiles,
-                  'net_sendQueueSize,
-                  'net_scheduler_expiration_period,
-                  'net_scheduler_debug_mode,
-                  'net_scheduler_debug,
-                  'net_safetysleeps,
-                  'net_remotetimeestimationwarning,
-                  'net_receiveQueueSize,
-                  'net_profile_worst_num_channels,
-                  'net_profile_untouched_delay,
-                  'net_profile_show_socket_measurements,
-                  'net_profile_logname,
-                  'net_profile_logging,
-                  'net_profile_enable,
-                  'net_profile_deep_bandwidth_logname,
-                  'net_profile_deep_bandwidth_logging,
-                  'net_profile_budget_logname,
-                  'net_profile_budget_logging,
-                  'net_ping_time,
-                  'net_phys_pingsmooth,
-                  'net_phys_lagsmooth,
-                  'net_phys_debug,
-                  'net_PacketLossRate,
-                  'net_PacketLagMin,
-                  'net_PacketLagMax,
-                  'net_packetfragmentlossrate,
-                  'net_packet_read_debug_output,
-                  'net_numNetIDMediumBitBits,
-                  'net_numNetIDLowBitBits,
-                  'net_numNetIDHighBitBits,
-                  'net_new_queue_behaviour,
-                  'net_netMsgDispatcherWarnThreshold,
-                  'net_netMsgDispatcherLogging,
-                  'net_netMsgDispatcherDebug,
-                  'net_minTCPFriendlyBitRate,
-                  'net_meminfo,
-                  'net_maxpacketsize,
-                  'net_max_fragmented_packets_per_source,
-                  'net_log_remote_methods,
-                  'net_log,
-                  'net_lobbyUpdateFrequency,
-                  'net_lanbrowser,
-                  'net_lan_scanport_num,
-                  'net_lan_scanport_first,
-                  'net_keepalive_time,
-                  'net_inactivitytimeoutDevmode,
-                  'net_inactivitytimeout,
-                  'net_highlatencytimelimit,
-                  'net_highlatencythreshold,
-                  'net_fragment_expiration_time,
-                  'net_enable_watchdog_timer,
-                  'net_enable_voice_chat,
-                  'net_enable_tfrc,
-                  'net_disconnect_on_rmi_error,
-                  'net_defaultPacketRateIdle,
-                  'net_defaultPacketRate,
-                  'net_defaultBandwidthShares,
-                  'net_dedi_scheduler_server_port,
-                  'net_dedi_scheduler_client_base_port,
-                  'net_debugVerboseLevel,
-                  'net_debugInfo,
-                  'net_debugEntityInfoClassName,
-                  'net_debugEntityInfo,
-                  'net_debugChannelIndex,
-                  'net_debug_draw_scale,
-                  'net_connectivity_detection_interval,
-                  'net_channelstats,
-                  'net_bw_aggressiveness,
-                  'net_breakage_sync_entities,
-                  'net_backofftimeout,
-                  'net_availableBandwidthServer,
-                  'net_availableBandwidthClient,
-                  'movie_timeJumpTransitionTime,
-                  'movie_physicalentity_animation_lerp,
-                  'mov_overrideCam,
-                  'mov_NoCutscenes,
-                  'mov_debugSequences,
-                  'mov_cameraPrecacheTime,
-                  'mn_sequence_path,
-                  'mn_override_preview_file,
-                  'mn_LogToFile,
-                  'mn_allowEditableDatabasesInPureGame,
-                  'mi_lazyLodGeneration,
-                  'mi_defaultMaterial,
-                  'mfx_Timeout,
-                  'mfx_SoundImpactThresh,
-                  'mfx_SerializeFGEffects,
-                  'mfx_RaisedSoundImpactThresh,
-                  'mfx_pfx_minScale,
-                  'mfx_pfx_maxScale,
-                  'mfx_pfx_maxDist,
-                  'mfx_ParticleImpactThresh,
-                  'mfx_EnableFGEffects,
-                  'mfx_EnableAttachedEffects,
-                  'mfx_Enable,
-                  'mfx_DebugVisualFilter,
-                  'mfx_DebugVisual,
-                  'mfx_DebugFlowGraphFX,
-                  'mfx_Debug,
-                  'MemStatsThreshold,
-                  'MemStatsMaxDepth,
-                  'MemStats,
-                  'MemInfo,
-                  'lua_StopOnError,
-                  'lua_stackonmalloc,
-                  'lua_debugger,
-                  'lua_CodeCoverage,
-                  'log_WriteToFileVerbosity,
-                  'log_WriteToFile,
-                  'log_VerbosityOverridesWriteToFile,
-                  'log_Verbosity,
-                  'log_tick,
-                  'log_SpamDelay,
-                  'log_Module,
-                  'log_IncludeTime,
-                  'log_EnableRemoteConsole,
-                  'i_xinput_poll_time,
-                  'i_xinput_deadzone_handling,
-                  'i_xinput,
-                  'i_useKinect,
-                  'i_seatedTracking,
-                  'i_precache,
-                  'i_mouse_smooth,
-                  'i_mouse_sensitivity,
-                  'i_mouse_inertia,
-                  'i_mouse_buffered,
-                  'i_mouse_accel_max,
-                  'i_mouse_accel,
-                  'i_lying_item_limit_sp,
-                  'i_lying_item_limit_mp,
-                  'i_listActionMaps,
-                  'i_kinSkeletonSmoothType,
-                  'i_kinSkeletonMovedDistance,
-                  'i_kinGlobalExpSmoothFactor,
-                  'i_kinGlobalExpPredictionFactor,
-                  'i_kinGlobalExpJitterRadius,
-                  'i_kinGlobalExpDeviationRadius,
-                  'i_kinGlobalExpCorrectionFactor,
-                  'i_kinectXboxConnectPort,
-                  'i_kinectXboxConnectIP,
-                  'i_kinectXboxConnect,
-                  'i_kinectDebug,
-                  'i_itemSystemDebugMemStats,
-                  'i_inventory_capacity,
-                  'i_forcefeedback,
-                  'i_debugDigitalButtons,
-                  'i_debug,
-                  'i_bufferedkeys,
-                  'http_password,
-                  'hmd_tracking_origin,
-                  'hmd_social_screen_keep_aspect,
-                  'hmd_social_screen,
-                  'hmd_resolution_scale,
-                  'hmd_info,
-                  'hmd_device,
-                  'gt_showPosY,
-                  'gt_showPosX,
-                  'gt_showLines,
-                  'gt_showFilter,
-                  'gt_show,
-                  'gpu_particle_physics,
-                  'gfx_uievents_editorenabled,
-                  'gfx_uiaction_log_filter,
-                  'gfx_uiaction_log,
-                  'gfx_uiaction_folder,
-                  'gfx_uiaction_enable,
-                  'gfx_reloadonlanguagechange,
-                  'gfx_loadtimethread,
-                  'gfx_inputevents_triggerstart,
-                  'gfx_inputevents_triggerrepeat,
-                  'gfx_FlashReloadTime,
-                  'gfx_FlashReloadEnabled,
-                  'gfx_enabled,
-                  'gfx_draw,
-                  'gfx_debugdraw,
-                  'gfx_ampserver,
-                  'g_XMLCPBUseExtraZLibCompression,
-                  'g_XMLCPBSizeReportThreshold,
-                  'g_XMLCPBGenerateXmlDebugFiles,
-                  'g_XMLCPBBlockQueueLimit,
-                  'g_XMLCPBAddExtraDebugInfoToXmlDebugFiles,
-                  'g_waterHitOnly,
-                  'g_visibilityTimeoutTime,
-                  'g_visibilityTimeout,
-                  'g_useXMLCPBinForSaveLoad,
-                  'g_useSinglePosition,
-                  'g_userNeverAutoSignsIn,
-                  'g_tree_cut_reuse_dist,
-                  'g_syncClassRegistry,
-                  'g_statisticsMode,
-                  'g_spectatorCollisions,
-                  'g_showUpdateState,
-                  'g_saveLoadUseExportedEntityList,
-                  'g_saveLoadExtendedLog,
-                  'g_saveLoadBasicEntityOptimization,
-                  'g_procedural_breaking,
-                  'g_playerInteractorRadius,
-                  'g_no_secondary_breaking,
-                  'g_no_breaking_by_objects,
-                  'g_multiplayerEnableVehicles,
-                  'g_manualFrameStepFrequency,
-                  'g_localPacketRate,
-                  'g_languageAudio,
-                  'g_language,
-                  'g_landingBobTimeFactor,
-                  'g_landingBobLandTimeFactor,
-                  'g_joint_breaking,
-                  'g_immersive,
-                  'g_hostMigrationServerDelay,
-                  'g_handleEvents,
-                  'g_groundeffectsdebug,
-                  'g_groundAlignAll,
-                  'g_glassSystemEnable,
-                  'g_glassNoDecals,
-                  'g_glassMaxPanesToBreakPerFrame,
-                  'g_glassForceTimeoutSpread,
-                  'g_glassForceTimeout,
-                  'g_glassAutoShatterOnExplosions,
-                  'g_glassAutoShatterMinArea,
-                  'g_glassAutoShatter,
-                  'g_gameplayAnalyst,
-                  'g_forceFastUpdate,
-                  'g_enableMergedMeshRuntimeAreas,
-                  'g_EnableLoadSave,
-                  'g_enableloadingscreen,
-                  'g_enableitems,
-                  'g_distanceForceNoLegRaycasts,
-                  'g_distanceForceNoIk,
-                  'g_displayCheckpointName,
-                  'g_disableWinKeys,
-                  'g_disableSequencePlayback,
-                  'g_disableInputKeyFlowNodeInDevMode,
-                  'g_debugSaveLoadMemory,
-                  'g_debugRMI,
-                  'g_debugHardwareMouse,
-                  'g_debugDialogBuffers,
-                  'g_debugAspectTrapCount,
-                  'g_debugAspectTrap,
-                  'g_debugAspectFilterEntity,
-                  'g_debugAspectFilterClass,
-                  'g_debugAspectChanges,
-                  'g_debug_stats,
-                  'g_breaktimeoutframes,
-                  'g_breakImpulseScale,
-                  'g_breakageTreeMax,
-                  'g_breakageTreeIncGlass,
-                  'g_breakageTreeInc,
-                  'g_breakageTreeDec,
-                  'g_breakageNoDebrisCollisions,
-                  'g_breakageMinAxisInertia,
-                  'g_breakagelog,
-                  'g_breakageFadeTime,
-                  'g_breakageFadeDelay,
-                  'g_breakage_particles_limit,
-                  'g_breakage_mem_limit,
-                  'g_breakage_debug,
-                  'g_asynclevelload,
-                  'g_allowSaveLoadInEditor,
-                  'g_allowDisconnectIfUpdateFails,
-                  'g_aimdebug,
-                  'fg_SystemEnable,
-                  'fg_profile,
-                  'fg_noDebugText,
-                  'fg_inspectorLog,
-                  'fg_iEnableFlowgraphNodeDebugging,
-                  'fg_iDebugNextStep,
-                  'fg_debugmodules_filter,
-                  'fg_debugmodules,
-                  'fg_abortOnLoadError,
-                  'ffs_debug,
-                  'ExitOnQuit,
-                  'es_VisCheckForUpdate,
-                  'es_UsePhysVisibilityChecks,
-                  'es_UpdateTimer,
-                  'es_UpdateScript,
-                  'es_UpdatePhysics,
-                  'es_UpdateEntities,
-                  'es_UpdateContainer,
-                  'es_UpdateCollisionScript,
-                  'es_UpdateCollision,
-                  'es_UpdateAI,
-                  'es_SplashTimeout,
-                  'es_SplashThreshold,
-                  'es_SortUpdatesByClass,
-                  'es_SaveLoadUseLUANoSaveFlag,
-                  'es_removeEntity,
-                  'es_profileentities,
-                  'es_not_seen_timeout,
-                  'es_MinImpulseVel,
-                  'es_MaxPhysDistInvisible,
-                  'es_MaxPhysDistCloth,
-                  'es_MaxPhysDist,
-                  'es_MaxJointFx,
-                  'es_MaxImpulseAdjMass,
-                  'es_log_collisions,
-                  'es_LayerSaveLoadSerialization,
-                  'es_LayerDebugInfo,
-                  'es_ImpulseScale,
-                  'es_HitDeadBodies,
-                  'es_HitCharacters,
-                  'es_helpers,
-                  'es_FarPhysTimeout,
-                  'es_EntityUpdatePosDelta,
-                  'es_enable_full_script_save,
-                  'es_DrawProximityTriggers,
-                  'es_DrawAudioProxyZRay,
-                  'es_DrawAreas,
-                  'es_DrawAreaGrid,
-                  'es_DrawAreaDebug,
-                  'es_DisableTriggers,
-                  'es_DebugTimers,
-                  'es_DebugFindEntity,
-                  'es_DebugEvents,
-                  'es_DebugEntityUsageFilter,
-                  'es_DebugEntityUsage,
-                  'es_debugEntityLifetime,
-                  'es_debugDrawEntityIDs,
-                  'es_debug_not_seen_timeout,
-                  'es_debug,
-                  'es_DebrisLifetimeScale,
-                  'es_deactivateEntity,
-                  'es_CharZOffsetSpeed,
-                  'es_bboxes,
-                  'es_activateEntity,
-                  'ed_useDevManager,
-                  'ed_PhysToolHitVelMin,
-                  'ed_PhysToolHitVelMax,
-                  'ed_PhysToolHitProjVel1,
-                  'ed_PhysToolHitProjVel0,
-                  'ed_PhysToolHitProjMass,
-                  'ed_PhysToolHitExplR,
-                  'ed_PhysToolHitExplPress1,
-                  'ed_PhysToolHitExplPress0,
-                  'ed_logFileChanges,
-                  'ed_killmemory_size,
-                  'ed_keepEditorActive,
-                  'ed_indexfiles,
-                  'ed_enableAssetPickers,
-                  'e_WindBendingStrength,
-                  'e_WindBendingDistRatio,
-                  'e_WindBendingAreaStrength,
-                  'e_WindAreas,
-                  'e_Wind,
-                  'e_WaterWavesTessellationAmount,
-                  'e_WaterWaves,
-                  'e_WaterVolumes,
-                  'e_WaterTessellationSwathWidth,
-                  'e_WaterTessellationAmountY,
-                  'e_WaterTessellationAmountX,
-                  'e_WaterTessellationAmount,
-                  'e_WaterRipplesDebug,
-                  'e_WaterOceanFFT,
-                  'e_WaterOceanBottom,
-                  'e_WaterOcean,
-                  'e_VolumetricFog,
-                  'e_VolObjShadowStrength,
-                  'e_ViewDistRatioVegetation,
-                  'e_ViewDistRatioPortals,
-                  'e_ViewDistRatioLights,
-                  'e_ViewDistRatioDetail,
-                  'e_ViewDistRatioCustom,
-                  'e_ViewDistRatio,
-                  'e_ViewDistMin,
-                  'e_ViewDistCompMaxSize,
-                  'e_VegetationUseTerrainColorDistance,
-                  'e_VegetationUseTerrainColor,
-                  'e_VegetationSpritesScaleFactor,
-                  'e_VegetationSpritesMinDistance,
-                  'e_VegetationSpritesDistanceRatio,
-                  'e_VegetationSpritesDistanceCustomRatioMin,
-                  'e_VegetationSpritesBatching,
-                  'e_VegetationSprites,
-                  'e_VegetationMinSize,
-                  'e_VegetationBoneInfo,
-                  'e_VegetationBending,
-                  'e_Vegetation,
-                  'e_UseConsoleMtl,
-                  'e_TimeOfDaySpeed,
-                  'e_TimeOfDayDebug,
-                  'e_TimeOfDay,
-                  'e_texeldensity,
-                  'e_TessellationMaxDistance,
-                  'e_Tessellation,
-                  'e_TerrainTextureStreamingPoolItemsNum,
-                  'e_TerrainTextureStreamingDebug,
-                  'e_TerrainTextureLodRatio,
-                  'e_TerrainOcclusionCullingStepSizeDelta,
-                  'e_TerrainOcclusionCullingStepSize,
-                  'e_TerrainOcclusionCullingPrecisionDistRatio,
-                  'e_TerrainOcclusionCullingPrecision,
-                  'e_TerrainOcclusionCullingMaxSteps,
-                  'e_TerrainOcclusionCullingMaxDist,
-                  'e_TerrainOcclusionCullingDebug,
-                  'e_TerrainOcclusionCulling,
-                  'e_TerrainMeshInstancingShadowLodRatio,
-                  'e_TerrainMeshInstancingShadowBias,
-                  'e_TerrainMeshInstancingMinLod,
-                  'e_TerrainLodRatioHolesMin,
-                  'e_TerrainLodRatio,
-                  'e_TerrainLodDistRatio,
-                  'e_TerrainDrawThisSectorOnly,
-                  'e_TerrainDetailMaterialsViewDistZ,
-                  'e_TerrainDetailMaterialsViewDistXY,
-                  'e_TerrainDetailMaterialsDebug,
-                  'e_TerrainDetailMaterials,
-                  'e_TerrainDeformations,
-                  'e_TerrainBBoxes,
-                  'e_Terrain,
-                  'e_svoVoxNodeRatio,
-                  'e_svoVoxGenRes,
-                  'e_svoVoxelPoolResolution,
-                  'e_svoVoxDistRatio,
-                  'e_svoTI_VoxelOpacityMultiplier,
-                  'e_svoTI_VoxelizeUnderTerrain,
-                  'e_svoTI_VoxelizeHiddenObjects,
-                  'e_svoTI_VoxelizaionPostpone,
-                  'e_svoTI_VoxelizaionLODRatio,
-                  'e_svoTI_VegetationMaxOpacity,
-                  'e_svoTI_UseTODSkyColor,
-                  'e_svoTI_UseLightProbes,
-                  'e_svoTI_UpdateLighting,
-                  'e_svoTI_UpdateGeometry,
-                  'e_svoTI_Troposphere_Subdivide,
-                  'e_svoTI_Troposphere_Snow_Height,
-                  'e_svoTI_Troposphere_Layer1_Rand,
-                  'e_svoTI_Troposphere_Layer1_Height,
-                  'e_svoTI_Troposphere_Layer1_Dens,
-                  'e_svoTI_Troposphere_Layer0_Rand,
-                  'e_svoTI_Troposphere_Layer0_Height,
-                  'e_svoTI_Troposphere_Layer0_Dens,
-                  'e_svoTI_Troposphere_Ground_Height,
-                  'e_svoTI_Troposphere_Density,
-                  'e_svoTI_Troposphere_CloudGenTurb_Scale,
-                  'e_svoTI_Troposphere_CloudGenTurb_Freq,
-                  'e_svoTI_Troposphere_CloudGen_Scale,
-                  'e_svoTI_Troposphere_CloudGen_Height,
-                  'e_svoTI_Troposphere_CloudGen_FreqStep,
-                  'e_svoTI_Troposphere_CloudGen_Freq,
-                  'e_svoTI_Troposphere_Brightness,
-                  'e_svoTI_Troposphere_Active,
-                  'e_svoTI_TranslucentBrightness,
-                  'e_svoTI_TraceVoxels,
-                  'e_svoTI_TemporalFilteringBase,
-                  'e_svoTI_SunRSMInject,
-                  'e_svoTI_SSDepthTrace,
-                  'e_svoTI_SSAOAmount,
-                  'e_svoTI_SpecularAmplifier,
-                  'e_svoTI_Specular_Sev,
-                  'e_svoTI_Specular_Reproj,
-                  'e_svoTI_Specular_FromDiff,
-                  'e_svoTI_SkyLightBottomMultiplier,
-                  'e_svoTI_SkyColorMultiplier,
-                  'e_svoTI_SkipNonGILights,
-                  'e_svoTI_Shadow_Sev,
-                  'e_svoTI_Saturation,
-                  'e_svoTI_RT_MaxDist,
-                  'e_svoTI_RsmUseColors,
-                  'e_svoTI_RsmConeMaxLength,
-                  'e_svoTI_ResScaleBase,
-                  'e_svoTI_ResScaleAir,
-                  'e_svoTI_Reflect_Vox_MaxEdit,
-                  'e_svoTI_Reflect_Vox_Max_Overhead,
-                  'e_svoTI_Reflect_Vox_Max,
-                  'e_svoTI_PropagationBooster,
-                  'e_svoTI_PortalsInject,
-                  'e_svoTI_PortalsDeform,
-                  'e_svoTI_PointLightsMultiplier,
-                  'e_svoTI_ObjectsMaxViewDistance,
-                  'e_svoTI_ObjectsLod,
-                  'e_svoTI_NumberOfBounces,
-                  'e_svoTI_MinVoxelOpacity,
-                  'e_svoTI_MinReflectance,
-                  'e_svoTI_LowSpecMode,
-                  'e_svoTI_IntegrationMode,
-                  'e_svoTI_InjectionMultiplier,
-                  'e_svoTI_HighGlossOcclusion,
-                  'e_svoTI_HalfresKernelSecondary,
-                  'e_svoTI_HalfresKernelPrimary,
-                  'e_svoTI_GsmCascadeLod,
-                  'e_svoTI_ForceGIForAllLights,
-                  'e_svoTI_EmissiveMultiplier,
-                  'e_svoTI_DynLights,
-                  'e_svoTI_DualTracing,
-                  'e_svoTI_DiffuseConeWidth,
-                  'e_svoTI_DiffuseBias,
-                  'e_svoTI_DiffuseAmplifier,
-                  'e_svoTI_Diffuse_Spr,
-                  'e_svoTI_Diffuse_Cache,
-                  'e_svoTI_ConstantAmbientDebug,
-                  'e_svoTI_ConeMaxLength,
-                  'e_svoTI_AsyncCompute,
-                  'e_svoTI_Apply,
-                  'e_svoTI_AnalyticalOccludersSoftness,
-                  'e_svoTI_AnalyticalOccludersRange,
-                  'e_svoTI_AnalyticalOccluders,
-                  'e_svoTI_AnalyticalGI,
-                  'e_svoTI_Active,
-                  'e_svoRootSize,
-                  'e_svoRender,
-                  'e_svoMinNodeSize,
-                  'e_svoMaxStreamRequests,
-                  'e_svoMaxNodeSize,
-                  'e_svoMaxBrickUpdates,
-                  'e_svoMaxBricksOnCPU,
-                  'e_svoMaxAreaSize,
-                  'e_svoLoadTree,
-                  'e_svoEnabled,
-                  'e_svoDVR_DistRatio,
-                  'e_svoDVR,
-                  'e_svoDispatchY,
-                  'e_svoDispatchX,
-                  'e_svoDebug,
-                  'e_SunAngleSnapSec,
-                  'e_SunAngleSnapDot,
-                  'e_Sun,
-                  'e_StreamSaveStartupResultsIntoXML,
-                  'e_StreamPredictionUpdateTimeSlice,
-                  'e_StreamPredictionTexelDensity,
-                  'e_StreamPredictionMinReportDistance,
-                  'e_StreamPredictionMinFarZoneDistance,
-                  'e_StreamPredictionMaxVisAreaRecursion,
-                  'e_StreamPredictionDistanceNear,
-                  'e_StreamPredictionDistanceFar,
-                  'e_StreamPredictionBoxRadius,
-                  'e_StreamPredictionAlwaysIncludeOutside,
-                  'e_StreamPredictionAheadDebug,
-                  'e_StreamPredictionAhead,
-                  'e_StreamInstancesMaxTasks,
-                  'e_StreamInstancesDistRatio,
-                  'e_StreamInstances,
-                  'e_StreamCgfVisObjPriority,
-                  'e_StreamCgfUpdatePerNodeDistance,
-                  'e_StreamCgfPoolSize,
-                  'e_StreamCgfMaxTasksInProgress,
-                  'e_StreamCgfMaxNewTasksPerUpdate,
-                  'e_StreamCgfGridUpdateDistance,
-                  'e_StreamCgfFastUpdateMaxDistance,
-                  'e_StreamCgfDebugMinObjSize,
-                  'e_StreamCgfDebugHeatMap,
-                  'e_StreamCgfDebugFilter,
-                  'e_StreamCgfDebug,
-                  'e_StreamCgf,
-                  'e_StreamAutoMipFactorSpeedThreshold,
-                  'e_StreamAutoMipFactorMin,
-                  'e_StreamAutoMipFactorMaxDVD,
-                  'e_StreamAutoMipFactorMax,
-                  'e_StatoscopeWriteTimeout,
-                  'e_StatoscopeScreenshotCapturePeriod,
-                  'e_StatoscopeScreenCapWhenGPULimited,
-                  'e_StatoscopeMinFuncLengthMs,
-                  'e_StatoscopeMaxNumFuncsPerFrame,
-                  'e_StatoscopeLogDestination,
-                  'e_StatoscopeIvDataGroups,
-                  'e_StatoscopeFilenameUseTime,
-                  'e_StatoscopeFilenameUseTag,
-                  'e_StatoscopeFilenameUseMap,
-                  'e_StatoscopeFilenameUseDatagroups,
-                  'e_StatoscopeFilenameUseBuildInfo,
-                  'e_StatoscopeEnabled,
-                  'e_StatoscopeDumpAll,
-                  'e_StatoscopeDataGroups,
-                  'e_StatoscopeCreateLogFilePerLevel,
-                  'e_StatoscopeConnectTimeout,
-                  'e_StatoscopeAllowFpsOverride,
-                  'e_StatObjValidate,
-                  'e_StatObjTessellationMode,
-                  'e_StatObjStoreMesh,
-                  'e_StatObjRenderFilterMode,
-                  'e_StatObjRenderFilter,
-                  'e_StatObjPreload,
-                  'e_StatObjMergeMaxTrisPerDrawCall,
-                  'e_StatObjMerge,
-                  'e_StatObjBufferRenderTasks,
-                  'e_StaticInstancingMinInstNum,
-                  'e_StaticInstancing,
-                  'e_SQTestTextureName,
-                  'e_SQTestMoveSpeed,
-                  'e_SQTestMip,
-                  'e_SQTestExitOnFinish,
-                  'e_SQTestDistance,
-                  'e_SQTestDelay,
-                  'e_SQTestCount,
-                  'e_SQTestBegin,
-                  'e_Sleep,
-                  'e_SkyUpdateRate,
-                  'e_SkyType,
-                  'e_SkyQuality,
-                  'e_SkyBox,
-                  'e_sketch_mode,
-                  'e_ShadowsUpdateViewDistRatio,
-                  'e_ShadowsTessellateDLights,
-                  'e_ShadowsTessellateCascades,
-                  'e_ShadowsSlopeBiasHQ,
-                  'e_ShadowsSlopeBias,
-                  'e_ShadowsResScale,
-                  'e_ShadowsPoolSize,
-                  'e_ShadowsPerObjectResolutionScale,
-                  'e_ShadowsPerObject,
-                  'e_ShadowsMaxTexRes,
-                  'e_ShadowsMasksLimit,
-                  'e_ShadowsLodBiasInvis,
-                  'e_ShadowsLodBiasFixed,
-                  'e_ShadowsFrustums,
-                  'e_ShadowsDebug,
-                  'e_ShadowsConstBiasHQ,
-                  'e_ShadowsConstBias,
-                  'e_ShadowsClouds,
-                  'e_ShadowsCastViewDistRatioLights,
-                  'e_ShadowsCastViewDistRatio,
-                  'e_ShadowsCascadesDebug,
-                  'e_ShadowsCascadesCentered,
-                  'e_ShadowsCacheUpdate,
-                  'e_ShadowsCacheRenderCharacters,
-                  'e_ShadowsCacheObjectLod,
-                  'e_ShadowsBlendCascadesVal,
-                  'e_ShadowsBlendCascades,
-                  'e_ShadowsAdaptScale,
-                  'e_Shadows,
-                  'e_ScreenShotWidth,
-                  'e_ScreenShotQuality,
-                  'e_ScreenShotMinSlices,
-                  'e_ScreenShotMapSizeY,
-                  'e_ScreenShotMapSizeX,
-                  'e_ScreenShotMapOrientation,
-                  'e_ScreenShotMapCenterY,
-                  'e_ScreenShotMapCenterX,
-                  'e_ScreenShotMapCamHeight,
-                  'e_ScreenShotHeight,
-                  'e_ScreenShotFileFormat,
-                  'e_ScreenShotDebug,
-                  'e_ScreenShot,
-                  'e_ScissorDebug,
-                  'e_Ropes,
-                  'e_Roads,
-                  'e_RNTmpDataPoolMaxFrames,
-                  'e_RenderMeshUpdateAsync,
-                  'e_RenderMeshCollisionTolerance,
-                  'e_Render,
-                  'e_RecursionViewDistRatio,
-                  'e_Recursion,
-                  'e_ProcVegetationMaxViewDistance,
-                  'e_ProcVegetationMaxSectorsInCache,
-                  'e_ProcVegetationMaxObjectsInChunk,
-                  'e_ProcVegetationMaxChunksInCache,
-                  'e_ProcVegetationMaxCacheLevels,
-                  'e_ProcVegetation,
-                  'e_PrepareDeformableObjectsAtLoadTime,
-                  'e_PreloadMaterials,
-                  'e_PreloadDecals,
-                  'e_PrecacheLevel,
-                  'e_PortalsMaxRecursion,
-                  'e_PortalsBlend,
-                  'e_PortalsBigEntitiesFix,
-                  'e_Portals,
-                  'e_PhysProxyTriLimit,
-                  'e_PhysOceanCell,
-                  'e_PhysMinCellSize,
-                  'e_PhysFoliage,
-                  'e_PermanentRenderObjects,
-                  'e_ParticlesVertexPoolSize,
-                  'e_ParticlesUseLevelSpecificLibs,
-                  'e_ParticlesThread,
-                  'e_ParticlesSortQuality,
-                  'e_ParticlesSoftIntersect,
-                  'e_ParticlesShadows,
-                  'e_ParticlesSerializeNamedFields,
-                  'e_ParticlesQuality,
-                  'e_ParticlesProfilerTimingBudget,
-                  'e_ParticlesProfilerOutputName,
-                  'e_ParticlesProfilerOutputFolder,
-                  'e_ParticlesProfilerCountBudget,
-                  'e_ParticlesProfiler,
-                  'e_ParticlesProfile,
-                  'e_ParticlesPreload,
-                  'e_ParticlesPoolSize,
-                  'e_ParticlesObjectCollisions,
-                  'e_ParticlesMotionBlur,
-                  'e_ParticlesMinPhysicsDynamicBounds,
-                  'e_ParticlesMinDrawPixels,
-                  'e_ParticlesMinDrawAlpha,
-                  'e_ParticlesMaxScreenFill,
-                  'e_ParticlesMaxDrawScreen,
-                  'e_ParticlesLod,
-                  'e_ParticlesLightsViewDistRatio,
-                  'e_ParticlesLights,
-                  'e_ParticlesLightMinRadiusThreshold,
-                  'e_ParticlesLightMinColorThreshold,
-                  'e_ParticlesIndexPoolSize,
-                  'e_ParticleShadowsNumGSMs,
-                  'e_ParticlesGI,
-                  'e_ParticlesForceSeed,
-                  'e_ParticlesDumpMemoryAfterMapLoad,
-                  'e_ParticlesDebug,
-                  'e_ParticlesCullAgainstViewFrustum,
-                  'e_ParticlesCullAgainstOcclusionBuffer,
-                  'e_ParticlesConvertPfx1,
-                  'e_ParticlesAudio,
-                  'e_ParticlesAnimBlend,
-                  'e_ParticlesAllowRuntimeLoad,
-                  'e_Particles,
-                  'e_OnDemandPhysics,
-                  'e_OnDemandMaxSize,
-                  'e_OcclusionVolumesViewDistRatio,
-                  'e_OcclusionVolumes,
-                  'e_OcclusionLazyHideFrames,
-                  'e_OcclusionCullingViewDistRatio,
-                  'e_ObjStats,
-                  'e_ObjShadowCastSpec,
-                  'e_ObjQuality,
-                  'e_ObjFastRegister,
-                  'e_ObjectsTreeNodeSizeRatio,
-                  'e_ObjectsTreeNodeMinSize,
-                  'e_ObjectsTreeBBoxes,
-                  'e_Objects,
-                  'e_ObjectLayersActivationPhysics,
-                  'e_ObjectLayersActivation,
-                  'e_MergedMeshesViewDistRatio,
-                  'e_MergedMeshesUseSpines,
-                  'e_MergedMeshesTesselationSupport,
-                  'e_MergedMeshesPoolSpines,
-                  'e_MergedMeshesPool,
-                  'e_MergedMeshesOutdoorOnly,
-                  'e_MergedMeshesLodRatio,
-                  'e_MergedMeshesInstanceDist,
-                  'e_MergedMeshesDeformViewDistMod,
-                  'e_MergedMeshesDebug,
-                  'e_MergedMeshesClusterVisualizationDimension,
-                  'e_MergedMeshesClusterVisualization,
-                  'e_MergedMeshesBulletSpeedFactor,
-                  'e_MergedMeshesBulletScale,
-                  'e_MergedMeshesBulletLifetime,
-                  'e_MergedMeshesActiveDist,
-                  'e_MergedMeshes,
-                  'e_MaxViewDistSpecLerp,
-                  'e_MaxViewDistFullDistCamHeight,
-                  'e_MaxViewDistance,
-                  'e_MaxDrawCalls,
-                  'e_LodTransitionTime,
-                  'e_LodTransitionSpriteMinDist,
-                  'e_LodTransitionSpriteDistRatio,
-                  'e_LodsForceUse,
-                  'e_Lods,
-                  'e_LodRatio,
-                  'e_LodMinTtris,
-                  'e_LodMin,
-                  'e_LodMax,
-                  'e_LodFaceAreaTargetSize,
-                  'e_LodFaceArea,
-                  'e_LodCompMaxSize,
-                  'e_LightVolumesDebug,
-                  'e_LightVolumes,
-                  'e_levelStartupFrameNum,
-                  'e_levelStartupFrameDelay,
-                  'e_JointStrengthScale,
-                  'e_HwOcclusionCullingWater,
-                  'e_GsmStats,
-                  'e_GsmRangeStep,
-                  'e_GsmRange,
-                  'e_GsmLodsNum,
-                  'e_GsmDepthBoundsDebug,
-                  'e_GsmCastFromTerrain,
-                  'e_GI,
-                  'e_GeomCaches,
-                  'e_GeomCachePreferredDiskRequestSize,
-                  'e_GeomCacheMinBufferAheadTime,
-                  'e_GeomCacheMaxPlaybackFromMemorySize,
-                  'e_GeomCacheMaxBufferAheadTime,
-                  'e_GeomCacheLerpBetweenFrames,
-                  'e_GeomCacheDecodeAheadTime,
-                  'e_GeomCacheDebugFilter,
-                  'e_GeomCacheDebugDrawMode,
-                  'e_GeomCacheDebug,
-                  'e_GeomCacheBufferSize,
-                  'e_ForceDetailLevelForScreenRes,
-                  'e_FoliageWindActivationDist,
-                  'e_FoliageStiffness,
-                  'e_FoliageBrokenBranchesDamping,
-                  'e_FoliageBranchesTimeout,
-                  'e_FoliageBranchesStiffness,
-                  'e_FoliageBranchesDamping,
-                  'e_FogVolumes,
-                  'e_Fog,
-                  'e_EntitySuppressionLevel,
-                  'e_Entities,
-                  'e_DynamicLightsMaxEntityLights,
-                  'e_DynamicLightsMaxCount,
-                  'e_DynamicLightsFrameIdVisTest,
-                  'e_DynamicLightsForceDeferred,
-                  'e_DynamicLightsConsistentSortOrder,
-                  'e_DynamicLights,
-                  'e_DynamicDistanceShadows,
-                  'e_DisplayMemoryUsageIcon,
-                  'e_DeformableObjects,
-                  'e_DeferredPhysicsEvents,
-                  'e_DefaultMaterial,
-                  'e_DecalsScissor,
-                  'e_DecalsRange,
-                  'e_DecalsPreCreate,
-                  'e_DecalsPlacementTestMinDepth,
-                  'e_DecalsPlacementTestAreaSize,
-                  'e_DecalsOverlapping,
-                  'e_DecalsNeighborMaxLifeTime,
-                  'e_DecalsMerge,
-                  'e_DecalsMaxValidFrames,
-                  'e_DecalsMaxUpdatesPerFrame,
-                  'e_DecalsMaxTrisInObject,
-                  'e_DecalsLifeTimeScale,
-                  'e_DecalsHitCache,
-                  'e_DecalsForceDeferred,
-                  'e_DecalsDeferredStatic,
-                  'e_DecalsDeferredDynamicMinSize,
-                  'e_DecalsDeferredDynamicDepthScale,
-                  'e_DecalsDeferredDynamic,
-                  'e_DecalsClip,
-                  'e_DecalsAllowGameDecals,
-                  'e_Decals,
-                  'e_DebugLights,
-                  'e_DebugGeomPrep,
-                  'e_DebugDrawShowOnlyLod,
-                  'e_DebugDrawShowOnlyCompound,
-                  'e_DebugDrawListSize,
-                  'e_DebugDrawListFilter,
-                  'e_DebugDrawListBBoxIndex,
-                  'e_DebugDrawFilter,
-                  'e_DebugDraw,
-                  'e_CullVegActivation,
-                  'e_CoverCgfDebug,
-                  'e_CoverageBufferTerrainExpand,
-                  'e_CoverageBufferTerrain,
-                  'e_CoverageBufferShowOccluder,
-                  'e_CoverageBufferReproj,
-                  'e_CoverageBufferRastPolyLimit,
-                  'e_CoverageBufferOccludersViewDistRatio,
-                  'e_CoverageBufferEarlyOutDelay,
-                  'e_CoverageBufferEarlyOut,
-                  'e_CoverageBufferDrawOccluders,
-                  'e_CoverageBufferDebugFreeze,
-                  'e_CoverageBufferDebug,
-                  'e_CoverageBufferCullIndividualBrushesMaxNodeSize,
-                  'e_CoverageBufferBias,
-                  'e_CoverageBufferAABBExpand,
-                  'e_CoverageBuffer,
-                  'e_Clouds,
-                  'e_CheckOctreeObjectsBoxSize,
-                  'e_CheckOcclusionQueueSize,
-                  'e_CheckOcclusionOutputQueueSize,
-                  'e_CheckOcclusion,
-                  'e_CharLodMin,
-                  'e_CGFMaxFileSize,
-                  'e_CameraRotationSpeed,
-                  'e_CameraGoto,
-                  'e_CameraFreeze,
-                  'e_CacheNearestCubePicking,
-                  'e_BrushUseTerrainColor,
-                  'e_Brushes,
-                  'e_BBoxes,
-                  'e_AutoPrecacheTexturesAndShaders,
-                  'e_AutoPrecacheTerrainAndProcVeget,
-                  'e_AutoPrecacheCgf,
-                  'e_AutoPrecacheCameraJumpDist,
-                  'e_3dEngineTempPoolSize,
-                  'e_3dEngineLogAlways,
-                  'ds_WarnOnMissingLoc,
-                  'ds_PrecacheSounds,
-                  'ds_LogLevel,
-                  'ds_LoadSoundsSync,
-                  'ds_LoadExcelScripts,
-                  'ds_LevelNameOverride,
-                  'ds_AutoReloadScripts,
-                  'drs_loggingOptions,
-                  'drs_fileFormat,
-                  'drs_dialogSubtitles,
-                  'drs_dialogsSamePriorityCancels,
-                  'drs_dialogsDefaultPauseAfterLines,
-                  'drs_dialogsDefaultMaxQueueTime,
-                  'drs_dialogGlobalRtpcName,
-                  'drs_dialogEntityRtpcName,
-                  'drs_dialogBinaryFileFormat,
-                  'drs_dialogAudio,
-                  'doc_validate_surface_types,
-                  'doc_use_subfolder_for_crash_backup,
-                  'dlc_directory,
-                  'demo_vtune,
-                  'demo_use_hmd_rotation,
-                  'demo_time_of_day,
-                  'demo_scroll_pause,
-                  'demo_screenshot_frame,
-                  'demo_savestats,
-                  'demo_save_every_frame,
-                  'demo_restart_level,
-                  'demo_quit,
-                  'demo_profile,
-                  'demo_panoramic,
-                  'demo_num_runs,
-                  'demo_num_orientations,
-                  'demo_noinfo,
-                  'demo_max_frames,
-                  'demo_game_state,
-                  'demo_fixed_timestep,
-                  'demo_finish_memreplay_stop,
-                  'demo_finish_memreplay_sizer,
-                  'demo_finish_cmd,
-                  'demo_file,
-                  'demo_ai,
-                  'd3d11_preventDriverThreading,
-                  'd3d11_forcedFeatureLevel,
-                  'd3d11_debugruntime,
-                  'd3d11_debugMuteSeverity,
-                  'd3d11_debugMuteMsgID,
-                  'd3d11_debugBreakOnMsgID,
-                  'd3d11_debugBreakOnce,
-                  'd3d11_CBUpdateStats,
-                  'cvDoVerboseWindowTitle,
-                  'connect_repeatedly_time_between_attempts,
-                  'connect_repeatedly_num_attempts,
-                  'con_showonload,
-                  'con_restricted,
-                  'con_line_buffer_size,
-                  'con_display_last_messages,
-                  'con_debug,
-                  'co_usenewcoopanimsystem,
-                  'co_slideWhileStreaming,
-                  'co_coopAnimDebug,
-                  'cl_voice_volume,
-                  'cl_voice_recording,
-                  'cl_ViewSystemDebug,
-                  'cl_ViewApplyHmdOffset,
-                  'cl_useCurrentUserNameAsDefault,
-                  'cl_tokenid,
-                  'cl_serverport,
-                  'cl_serverpassword,
-                  'cl_serveraddr,
-                  'cl_packetRate,
-                  'cl_nickname,
-                  'cl_ETMaxDisplayDistance,
-                  'cl_ETLog,
-                  'cl_ETHideScriptBind,
-                  'cl_ETHideReadability,
-                  'cl_ETHideFlowgraph,
-                  'cl_ETHideBehaviour,
-                  'cl_ETHideAll,
-                  'cl_ETHideAIDebug,
-                  'cl_ETFontSizeMultiplier,
-                  'cl_ETColorOverrideR,
-                  'cl_ETColorOverrideG,
-                  'cl_ETColorOverrideEnable,
-                  'cl_ETColorOverrideB,
-                  'cl_DisableHUDText,
-                  'cl_DefaultNearPlane,
-                  'cl_comment,
-                  'cl_camera_noise_freq,
-                  'cl_camera_noise,
-                  'cl_bandwidth,
-                  'cl_AISystem,
-                  'capture_frames,
-                  'capture_frame_once,
-                  'capture_folder,
-                  'capture_file_prefix,
-                  'capture_file_name,
-                  'capture_file_format,
-                  'ca_vaUpdateTangents,
-                  'ca_vaSkipVertexAnimationLOD,
-                  'ca_vaScaleFactor,
-                  'ca_vaProfile,
-                  'ca_Validate,
-                  'ca_vaEnable,
-                  'ca_vaBlendPostSkinning,
-                  'ca_vaBlendEnable,
-                  'ca_vaBlendCullingThreshold,
-                  'ca_vaBlendCullingDebug,
-                  'ca_UseScaling,
-                  'ca_UseRecoil,
-                  'ca_UsePhysics,
-                  'ca_UseMorph,
-                  'ca_UseLookIK,
-                  'ca_UseJointMasking,
-                  'ca_UseIMG_CAF,
-                  'ca_UseIMG_AIM,
-                  'ca_UseFacialAnimation,
-                  'ca_UseDecals,
-                  'ca_UseAssetDefinedLod,
-                  'ca_UseAimIK,
-                  'ca_useADIKTargets,
-                  'ca_UnloadAnimationDBA,
-                  'ca_UnloadAnimationCAF,
-                  'ca_thread1Affinity,
-                  'ca_thread0Affinity,
-                  'ca_thread,
-                  'ca_StreamDBAInPlace,
-                  'ca_StreamCHR,
-                  'ca_StoreAnimNamesOnLoad,
-                  'ca_SnapToVGrid,
-                  'ca_SerializeSkeletonAnim,
-                  'ca_SaveAABB,
-                  'ca_SampleQuatHemisphereFromCurrentPose,
-                  'ca_ReloadAllCHRPARAMS,
-                  'ca_PreloadAllCAFs,
-                  'ca_PrecacheAnimationSets,
-                  'ca_physicsProcessImpact,
-                  'ca_ParametricPoolSize,
-                  'ca_NoAnim,
-                  'ca_MotionBlurMovementThreshold,
-                  'ca_MinInPlaceCAFStreamSize,
-                  'ca_MemoryUsageLog,
-                  'ca_MemoryDefragPoolSize,
-                  'ca_MemoryDefragEnabled,
-                  'ca_LockFeetWithIK,
-                  'ca_LoadUncompressedChunks,
-                  'ca_lipsync_vertex_drag,
-                  'ca_lipsync_phoneme_strength,
-                  'ca_lipsync_phoneme_offset,
-                  'ca_lipsync_phoneme_crossfade,
-                  'ca_lipsync_debug,
-                  'ca_KeepModels,
-                  'ca_ForceUpdateSkeletons,
-                  'ca_FilterJoints,
-                  'ca_FacialAnimationRadius,
-                  'ca_eyes_procedural,
-                  'ca_DumpUsedAnims,
-                  'ca_DrawWireframe,
-                  'ca_DrawVEGInfo,
-                  'ca_DrawTangents,
-                  'ca_DrawSkeleton,
-                  'ca_DrawPositionPost,
-                  'ca_DrawPose,
-                  'ca_DrawNormals,
-                  'ca_DrawLookIK,
-                  'ca_DrawLocator,
-                  'ca_DrawEmptyAttachments,
-                  'ca_DrawDecalsBBoxes,
-                  'ca_DrawCloth,
-                  'ca_DrawCHR,
-                  'ca_DrawCGA,
-                  'ca_DrawCC,
-                  'ca_DrawBinormals,
-                  'ca_DrawBBox,
-                  'ca_DrawBaseMesh,
-                  'ca_DrawAttachmentsMergedForShadows,
-                  'ca_DrawAttachments,
-                  'ca_DrawAttachmentProjection,
-                  'ca_DrawAttachmentOBB,
-                  'ca_DrawAllSimulatedSockets,
-                  'ca_DrawAimPoses,
-                  'ca_DrawAimIKVEGrid,
-                  'ca_DisableAuxPhysics,
-                  'ca_DisableAnimationUnloading,
-                  'ca_disable_thread,
-                  'ca_DecalSizeMultiplier,
-                  'ca_DebugSWSkinning,
-                  'ca_DebugSkeletonEffects,
-                  'ca_DebugSegmentation,
-                  'ca_DebugModelCache,
-                  'ca_DebugFacialEyes,
-                  'ca_DebugFacial,
-                  'ca_DebugCriticalErrors,
-                  'ca_DebugCommandBuffer,
-                  'ca_DebugAnimUsageOnFileAccess,
-                  'ca_DebugAnimUsage,
-                  'ca_DebugAnimUpdates,
-                  'ca_DebugAnimMemTracking,
-                  'ca_DebugAnimationStreaming,
-                  'ca_DebugADIKTargets,
-                  'ca_DeathBlendTime,
-                  'ca_DBAUnloadUnregisterTime,
-                  'ca_DBAUnloadRemoveTime,
-                  'ca_ClothMaxChars,
-                  'ca_ClothBypassSimulation,
-                  'ca_ClothBlending,
-                  'ca_cloth_vars_reset,
-                  'ca_cloth_thickness,
-                  'ca_cloth_stiffness_tang,
-                  'ca_cloth_stiffness_norm,
-                  'ca_cloth_stiffness,
-                  'ca_cloth_max_timestep,
-                  'ca_cloth_max_safe_step,
-                  'ca_cloth_friction,
-                  'ca_cloth_damping,
-                  'ca_cloth_air_resistance,
-                  'ca_CharEditModel,
-                  'ca_AttachmentTextureMemoryBudget,
-                  'ca_AttachmentMergingMemoryBudget,
-                  'ca_AttachmentCullingRationMP,
-                  'ca_AttachmentCullingRation,
-                  'ca_ApplyJointVelocitiesMode,
-                  'ca_AnimWarningLevel,
-                  'ca_AllowMultipleEffectsOfSameName,
-                  'c_shakeMult,
-                  'br_breakworldoffsety,
-                  'br_breakworldoffsetx,
-                  'br_breakmaxworldsize,
-                  'ban_timeout,
-                  'ai_WaterOcclusion,
-                  'ai_VisionMapNumberOfVisibilityUpdatesPerFrame,
-                  'ai_VisionMapNumberOfPVSUpdatesPerFrame,
-                  'ai_UseSmartPathFollower_LookAheadDistance,
-                  'ai_UseSmartPathFollower_AABB_based,
-                  'ai_UseSmartPathFollower,
-                  'ai_UseSimplePathfindingHeuristic,
-                  'ai_UseCalculationStopperCounter,
-                  'ai_UpdateProxy,
-                  'ai_UpdateInterval,
-                  'ai_UpdateAllAlways,
-                  'ai_TargetTracks_GlobalTargetLimit,
-                  'ai_TargetTracking,
-                  'ai_TacticalPointUpdateTime,
-                  'ai_TacticalPointsWarnings,
-                  'ai_TacticalPointsDebugTime,
-                  'ai_TacticalPointsDebugScaling,
-                  'ai_TacticalPointsDebugFadeMode,
-                  'ai_TacticalPointsDebugDrawMode,
-                  'ai_SystemUpdate,
-                  'ai_SteepSlopeUpValue,
-                  'ai_SteepSlopeAcrossValue,
-                  'ai_StatsTarget,
-                  'ai_StatsDisplayMode,
-                  'ai_SoundPerception,
-                  'ai_SOMSpeedRelaxed,
-                  'ai_SOMSpeedCombat,
-                  'ai_SmartPathFollower_useAdvancedPathShortcutting_debug,
-                  'ai_SmartPathFollower_useAdvancedPathShortcutting,
-                  'ai_SmartPathFollower_LookAheadPredictionTimeForMovingAlongPathWalk,
-                  'ai_SmartPathFollower_LookAheadPredictionTimeForMovingAlongPathRunAndSprint,
-                  'ai_SmartPathFollower_decelerationVehicle,
-                  'ai_SmartPathFollower_decelerationHuman,
-                  'ai_SimpleWayptPassability,
-                  'ai_SightRangeSuperDarkIllumMod,
-                  'ai_SightRangeMediumIllumMod,
-                  'ai_SightRangeDarkIllumMod,
-                  'ai_ShowNavAreas,
-                  'ai_ShowBehaviorCalls,
-                  'ai_RODStanceInc,
-                  'ai_RODReactionTime,
-                  'ai_RODReactionSuperDarkIllumInc,
-                  'ai_RODReactionMediumIllumInc,
-                  'ai_RODReactionLeanInc,
-                  'ai_RODReactionDistInc,
-                  'ai_RODReactionDirInc,
-                  'ai_RODReactionDarkIllumInc,
-                  'ai_RODMoveInc,
-                  'ai_RODLowHealthMercyTime,
-                  'ai_RODKillZoneInc,
-                  'ai_RODKillRangeMod,
-                  'ai_RODFakeHitChance,
-                  'ai_RODDirInc,
-                  'ai_RODCoverFireTimeMod,
-                  'ai_RODCombatRangeMod,
-                  'ai_RODAmbientFireInc,
-                  'ai_RODAliveTime,
-                  'ai_RecordLog,
-                  'ai_Recorder_Buffer,
-                  'ai_Recorder_Auto,
-                  'ai_Recorder,
-                  'ai_RecordCommunicationStats,
-                  'ai_RayCasterQuota,
-                  'ai_RadiusForAutoForbidden,
-                  'ai_ProneVisibleRange,
-                  'ai_ProfileGoals,
-                  'ai_PredictivePathFollowing,
-                  'ai_PlayerAffectedByLight,
-                  'ai_PathStringPullingIterations,
-                  'ai_PathfindTimeLimit,
-                  'ai_PathfinderUpdateTime,
-                  'ai_PathfinderGroupMatesAvoidanceRadius,
-                  'ai_PathfinderExplosiveDangerRadius,
-                  'ai_PathfinderExplosiveDangerMaxThreatDistance,
-                  'ai_PathfinderDangerCostForExplosives,
-                  'ai_PathfinderDangerCostForAttentionTarget,
-                  'ai_PathfinderAvoidanceCostForGroupMates,
-                  'ai_OverlayMessageDuration,
-                  'ai_OutputPersonalLogToConsole,
-                  'ai_ObstacleSizeThreshold,
-                  'ai_NoUpdate,
-                  'ai_NetworkDebug,
-                  'ai_NavigationSystemMT,
-                  'ai_NavGenThreadJobs,
-                  'ai_MovementSystemPathReplanningEnabled,
-                  'ai_ModularBehaviorTree,
-                  'ai_MNMRaycastImplementation,
-                  'ai_MNMProfileMemory,
-                  'ai_MNMPathFinderQuota,
-                  'ai_MNMPathfinderPositionInTrianglePredictionType,
-                  'ai_MNMPathfinderMT,
-                  'ai_MNMPathFinderDebug,
-                  'ai_MNMPathfinderConcurrentRequests,
-                  'ai_MNMEditorBackgroundUpdate,
-                  'ai_MNMDebugAccessibility,
-                  'ai_MNMAllowDynamicRegenInEditor,
-                  'ai_MinActorDynamicObstacleAvoidanceRadius,
-                  'ai_LogSignals,
-                  'ai_LogModularBehaviorTreeExecutionStacks,
-                  'ai_LogFileVerbosity,
-                  'ai_LogConsoleVerbosity,
-                  'ai_Locate,
-                  'ai_LobThrowUseRandomForInaccuracySimulation,
-                  'ai_LobThrowTimePredictionForFriendPositions,
-                  'ai_LobThrowPercentageOfDistanceToTargetUsedForInaccuracySimulation,
-                  'ai_LobThrowMinAllowedDistanceFromFriends,
-                  'ai_LayerSwitchDynamicLinkBumpDuration,
-                  'ai_LayerSwitchDynamicLinkBump,
-                  'ai_IslandConnectionsSystemProfileMemory,
-                  'ai_IntersectionTesterQuota,
-                  'ai_InterestSystemCastRays,
-                  'ai_InterestSystem,
-                  'ai_IncludeNonColEntitiesInNavigation,
-                  'ai_IgnoreVisualStimulus,
-                  'ai_IgnoreVisibilityChecks,
-                  'ai_IgnoreSoundStimulus,
-                  'ai_IgnorePlayer,
-                  'ai_IgnoreBulletRainStimulus,
-                  'ai_ForceStance,
-                  'ai_ForceSerializeAllObjects,
-                  'ai_ForcePosture,
-                  'ai_ForceLookAimTarget,
-                  'ai_ForceAllowStrafing,
-                  'ai_ForceAGSignal,
-                  'ai_ForceAGAction,
-                  'ai_FlowNodeAlertnessCheck,
-                  'ai_FilterAgentName,
-                  'ai_ExtraVehicleAvoidanceRadiusSmall,
-                  'ai_ExtraVehicleAvoidanceRadiusBig,
-                  'ai_ExtraRadiusDuringBeautification,
-                  'ai_ExtraForbiddenRadiusDuringBeautification,
-                  'ai_EnableWaterOcclusion,
-                  'ai_EnableWarningsErrors,
-                  'ai_EnablePerceptionStanceVisibleRange,
-                  'ai_EnableORCA,
-                  'ai_EnableCoolMisses,
-                  'ai_DynamicWaypointUpdateTime,
-                  'ai_DynamicVolumeUpdateTime,
-                  'ai_DynamicHidespotsEnabled,
-                  'ai_DrawUpdate,
-                  'ai_DrawType,
-                  'ai_DrawTrajectory,
-                  'ai_DrawTargets,
-                  'ai_DrawStats,
-                  'ai_DrawSoundEvents,
-                  'ai_DrawSmartObjects,
-                  'ai_DrawShooting,
-                  'ai_DrawSelectedTargets,
-                  'ai_DrawRefPoints,
-                  'ai_DrawReadibilities,
-                  'ai_DrawRadarDist,
-                  'ai_DrawRadar,
-                  'ai_DrawProbableTarget,
-                  'ai_DrawPlayerRanges,
-                  'ai_DrawPerceptionModifiers,
-                  'ai_DrawPerceptionIndicators,
-                  'ai_DrawPerceptionHandlerModifiers,
-                  'ai_DrawPerceptionDebugging,
-                  'ai_DrawPathFollower,
-                  'ai_DrawPathAdjustment,
-                  'ai_DrawPath,
-                  'ai_DrawOffset,
-                  'ai_DrawNodeLinkType,
-                  'ai_DrawNodeLinkCutoff,
-                  'ai_DrawNode,
-                  'ai_DrawModularBehaviorTreeStatistics,
-                  'ai_DrawModifiers,
-                  'ai_DrawHidespots,
-                  'ai_DrawGroupTactic,
-                  'ai_DrawGrenadeEvents,
-                  'ai_DrawGoals,
-                  'ai_DrawGetEnclosingFailures,
-                  'ai_DrawFormations,
-                  'ai_DrawFireEffectTimeScale,
-                  'ai_DrawFireEffectMinTargetFOV,
-                  'ai_DrawFireEffectMinDistance,
-                  'ai_DrawFireEffectMaxAngle,
-                  'ai_DrawFireEffectEnabled,
-                  'ai_DrawFireEffectDecayRange,
-                  'ai_DrawFakeTracers,
-                  'ai_DrawFakeHitEffects,
-                  'ai_DrawFakeDamageInd,
-                  'ai_DrawExplosions,
-                  'ai_DrawDistanceLUT,
-                  'ai_DrawCollisionEvents,
-                  'ai_DrawBulletEvents,
-                  'ai_DrawBadAnchors,
-                  'ai_DrawAttentionTargetPositions,
-                  'ai_DrawAreas,
-                  'ai_DrawAgentStatsGroupFilter,
-                  'ai_DrawAgentStats,
-                  'ai_DrawAgentFOV,
-                  'ai_DebugWalkabilityCache,
-                  'ai_DebugTimestamps,
-                  'ai_DebugTargetTracksTarget,
-                  'ai_DebugTargetTracksConfig_Filter,
-                  'ai_DebugTargetTracksConfig,
-                  'ai_DebugTargetTracksAgent,
-                  'ai_DebugTargetSilhouette,
-                  'ai_DebugTacticalPointsBlocked,
-                  'ai_DebugTacticalPoints,
-                  'ai_DebugSignalTimers,
-                  'ai_DebugRangeSignaling,
-                  'ai_DebugPerceptionManager,
-                  'ai_DebugPathfinding,
-                  'ai_DebugMovementSystemActorRequests,
-                  'ai_DebugMovementSystem,
-                  'ai_DebugInterestSystem,
-                  'ai_DebugHideSpotName,
-                  'ai_DebugGlobalPerceptionScale,
-                  'ai_DebugDrawVolumeVoxels,
-                  'ai_DebugDrawVisionMapVisibilityChecks,
-                  'ai_DebugDrawVisionMapStats,
-                  'ai_DebugDrawVisionMapObserversFOV,
-                  'ai_DebugDrawVisionMapObservers,
-                  'ai_DebugDrawVisionMapObservables,
-                  'ai_DebugDrawVisionMap,
-                  'ai_DebugDrawVegetationCollisionDist,
-                  'ai_DebugDrawStanceSize,
-                  'ai_DebugDrawReinforcements,
-                  'ai_DebugDrawPlayerActions,
-                  'ai_DebugDrawPhysicsAccess,
-                  'ai_DebugDrawNavigationWorldMonitor,
-                  'ai_DebugDrawNavigation,
-                  'ai_DebugDrawLightLevel,
-                  'ai_DebugDrawHideSpotSearchRays,
-                  'ai_DebugDrawHidespotRange,
-                  'ai_DebugDrawGroups,
-                  'ai_DebugDrawFlight2,
-                  'ai_DebugDrawFireCommand,
-                  'ai_DebugDrawExpensiveAccessoryQuota,
-                  'ai_DebugDrawEnabledPlayers,
-                  'ai_DebugDrawEnabledActors,
-                  'ai_DebugDrawDynamicHideObjectsRange,
-                  'ai_DebugDrawDynamicCoverSampler,
-                  'ai_DebugDrawDamageParts,
-                  'ai_DebugDrawDamageControl,
-                  'ai_DebugDrawCrowdControl,
-                  'ai_DebugDrawCoverSampler,
-                  'ai_DebugDrawCoverPlanes,
-                  'ai_DebugDrawCoverOccupancy,
-                  'ai_DebugDrawCoverLocations,
-                  'ai_DebugDrawCover,
-                  'ai_DebugDrawCoolMisses,
-                  'ai_DebugDrawCommunicationHistoryDepth,
-                  'ai_DebugDrawCommunication,
-                  'ai_DebugDrawCollisionAvoidanceAgentName,
-                  'ai_DebugDrawCollisionAvoidance,
-                  'ai_DebugDrawBannedNavsos,
-                  'ai_DebugDrawAStarOpenListTime,
-                  'ai_DebugDrawAStarOpenList,
-                  'ai_DebugDrawArrowLabelsVisibilityDistance,
-                  'ai_DebugDrawAmbientFire,
-                  'ai_DebugDrawAdaptiveUrgency,
-                  'ai_DebugDraw,
-                  'ai_DebugCollisionAvoidanceForceSpeed,
-                  'ai_DebugCheckWalkabilityRadius,
-                  'ai_DebugCheckWalkability,
-                  'ai_DebugBehaviorSelection,
-                  'ai_CrowdControlInPathfind,
-                  'ai_CrouchVisibleRange,
-                  'ai_CoverSystem,
-                  'ai_CoverSpacing,
-                  'ai_CoverPredictTarget,
-                  'ai_CoverMaxEyeCount,
-                  'ai_CoverExactPositioning,
-                  'ai_CoolMissesProbability,
-                  'ai_CoolMissesMinMissDistance,
-                  'ai_CoolMissesMaxLightweightEntityMass,
-                  'ai_CoolMissesCooldown,
-                  'ai_CoolMissesBoxSize,
-                  'ai_CoolMissesBoxHeight,
-                  'ai_CompatibilityMode,
-                  'ai_CommunicationManagerHeighThresholdForTargetPosition,
-                  'ai_CommunicationForceTestVoicePack,
-                  'ai_CollisionAvoidanceUpdateVelocities,
-                  'ai_CollisionAvoidanceTimestep,
-                  'ai_CollisionAvoidanceTargetCutoffRange,
-                  'ai_CollisionAvoidanceSmartObjectCutoffRange,
-                  'ai_CollisionAvoidanceRange,
-                  'ai_CollisionAvoidanceRadiusIncrementIncreaseRate,
-                  'ai_CollisionAvoidanceRadiusIncrementDecreaseRate,
-                  'ai_CollisionAvoidancePathEndCutoffRange,
-                  'ai_CollisionAvoidanceObstacleTimeHorizon,
-                  'ai_CollisionAvoidanceMinSpeed,
-                  'ai_CollisionAvoidanceEnableRadiusIncrement,
-                  'ai_CollisionAvoidanceClampVelocitiesWithNavigationMesh,
-                  'ai_CollisionAvoidanceAgentTimeHorizon,
-                  'ai_CollisionAvoidanceAgentExtraFat,
-                  'ai_CodeCoverageMode,
-                  'ai_CheckWalkabilityOptimalSectionLength,
-                  'ai_BurstWhileMovingDestinationRange,
-                  'ai_BubblesSystemUseDepthTest,
-                  'ai_BubblesSystemNameFilter,
-                  'ai_BubblesSystemFontSize,
-                  'ai_BubblesSystemDecayTime,
-                  'ai_BubblesSystemAllowPrototypeDialogBubbles,
-                  'ai_BubblesSystemAlertnessFilter,
-                  'ai_BubblesSystem,
-                  'ai_BigBrushCheckLimitSize,
-                  'ai_BeautifyPath,
-                  'ai_BannedNavSoTime,
-                  'ai_AttemptStraightPath,
-                  'ai_AmbientFireUpdateInterval,
-                  'ai_AmbientFireQuota,
-                  'ai_AmbientFireEnable,
-                  'ai_AllTime,
-                  'ai_AllowedToHitPlayer,
-                  'ai_AllowedToHit,
-                  'ai_AgentStatsDist,
-                  'ai_AdjustPathsAroundDynamicObstacles,
-                  'ag_turnSpeedSmoothing,
-                  'ag_turnSpeedParamScale,
-                  'ag_turnAngleSmoothing,
-                  'ag_travelSpeedSmoothing,
-                  'ag_defaultAIStance,
-                  'ag_debugExactPos,
-                  'ac_useQueuedRotation,
-                  'ac_useMovementPrediction,
-                  'ac_templateMCMs,
-                  'ac_movementControlMethodVer,
-                  'ac_movementControlMethodHor,
-                  'ac_movementControlMethodFilter,
-                  'ac_frametime,
-                  'ac_forceSimpleMovement,
-                  'ac_entityAnimClamp,
-                  'ac_enableExtraSolidCollider,
-                  'ac_disableSlidingContactEvents,
-                  'ac_debugXXXValues,
-                  'ac_debugText,
-                  'ac_debugMovementControlMethods,
-                  'ac_debugMotionParams,
-                  'ac_debugLocationsGraphs,
-                  'ac_debugLocations,
-                  'ac_DebugFilter,
-                  'ac_debugEntityParams,
-                  'ac_debugColliderMode,
-                  'ac_debugAnimTarget,
-                  'ac_debugAnimEffects,
-                  'ac_ColliderModePlayer,
-                  'ac_ColliderModeAI,
-                  'a_poseAlignerForceWeightOne,
-                  'a_poseAlignerForceTargetSmoothing,
-                  'a_poseAlignerForceNoRootOffset,
-                  'a_poseAlignerForceNoIntersections,
-                  'a_poseAlignerForceLock,
-                  'a_poseAlignerEnable,
-                  'a_poseAlignerDebugDraw
-                |]
-              ],
-        },
-    predicate = {
-          commands
-            | doc m%"
-            Console command name
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.enum
+  in
+let rec _js2n__-refsenv
+    = {
+      "_js2n__-:definitions/commands!predicate"
+        | doc "Console command name"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
                 [
                   "_TestFormatMessage",
                   "ai_CheckGoalpipes",
@@ -3673,15 +1093,13 @@ let rec definitions =
                   "wait_frames",
                   "wait_seconds"
                 ]
-              ],
-          cvars
-            | doc m%"
-            CVar name
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.enum
+            ],
+      "_js2n__-:definitions/cvars!predicate"
+        | doc "CVar name"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
                 [
                   "a_poseAlignerDebugDraw",
                   "a_poseAlignerEnable",
@@ -6134,178 +3552,192 @@ let rec definitions =
                   "v_transitionAnimations",
                   "v_vehicle_quality"
                 ]
-              ],
-        },
-  }
-in
-
-predicates.contract_from_predicate
-(predicates.allOf
-[
-  predicates.isType 'Record,
-  predicates.records.required [ "content", "info", "require", "version" ],
-  predicates.records.record
-  {
-    console_commands = predicates.allOf
+            ],
+    }
+    in
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.allOf
         [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf
-          (predicates.allOf
-          [
-            predicates.isType 'Record,
-            predicates.records.required [ "name", "value" ],
-            predicates.records.record
+          _js2n__-prdslib.isType 'Record,
+          _js2n__-prdslib.records.required
+            [ "content", "info", "require", "version" ],
+          _js2n__-prdslib.records.record
             {
-              name = definitions.predicate.commands,
-              value = predicates.isType '"String",
-            }
-            {  }
-            true
-            predicates.always
-          ]),
-          predicates.arrays.uniqueItems
-        ],
-    console_variables = predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf
-          (predicates.allOf
-          [
-            predicates.isType 'Record,
-            predicates.records.required [ "name", "value" ],
-            predicates.records.record
-            {
-              name = definitions.predicate.cvars,
-              value = predicates.isType '"String",
-            }
-            {  }
-            true
-            predicates.always
-          ]),
-          predicates.arrays.uniqueItems
-        ],
-    content = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.required [ "code" ],
-          predicates.records.record
-          {
-            assets = predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf (predicates.isType '"String")
-                ],
-            code = predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf (predicates.isType '"String")
-                ],
-            libs = predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.record
-                    {
-                      name = predicates.isType '"String",
-                      shared = predicates.allOf
+              console_commands =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.allOf
                           [
-                            predicates.isType 'Record,
-                            predicates.records.record
-                            {
-                              any = predicates.isType '"String",
-                              win_x64 = predicates.isType '"String",
-                              win_x86 = predicates.isType '"String",
-                            }
-                            {  }
-                            true
-                            predicates.always
-                          ],
-                    }
-                    {  }
-                    true
-                    predicates.always
-                  ])
-                ],
-          }
-          {  }
-          true
-          predicates.always
-        ],
-    info = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.required [ "name" ],
-          predicates.records.record
-          {
-            guid = predicates.allOf
-                [
-                  predicates.isType '"String",
-                  predicates.strings.pattern
-                  "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
-                ],
-            name = predicates.isType '"String",
-          }
-          {  }
-          true
-          predicates.always
-        ],
-    require = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.required [ "engine" ],
-          predicates.records.record
-          {
-            engine = predicates.allOf
-                [
-                  predicates.isType '"String",
-                  predicates.enum [ "engine-5.3" ]
-                ],
-            plugins = predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.required [ "path", "type" ],
-                    predicates.records.record
-                    {
-                      path = predicates.isType '"String",
-                      platforms = predicates.allOf
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required
+                              [ "name", "value" ],
+                            _js2n__-prdslib.records.record
+                              {
+                                name =
+                                  _js2n__-refsenv."_js2n__-:definitions/commands!predicate",
+                                value = _js2n__-prdslib.isType '"String",
+                              } {} true _js2n__-prdslib.always
+                          ]),
+                      _js2n__-prdslib.arrays.uniqueItems
+                    ],
+              console_variables =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.allOf
                           [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.allOf
-                            [
-                              predicates.isType '"String",
-                              predicates.enum
-                              [ "pc", "ps4", "xboxone", "linux" ]
-                            ])
-                          ],
-                      type = predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.enum
-                            [ "EPluginType::Native", "EPluginType::Managed" ]
-                          ],
-                    }
-                    {  }
-                    true
-                    predicates.always
-                  ])
-                ],
-          }
-          {  }
-          true
-          predicates.always
-        ],
-    type = predicates.isType '"String",
-    version = predicates.isType 'Integer,
-  }
-  {  }
-  true
-  predicates.always
-])
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required
+                              [ "name", "value" ],
+                            _js2n__-prdslib.records.record
+                              {
+                                name =
+                                  _js2n__-refsenv."_js2n__-:definitions/cvars!predicate",
+                                value = _js2n__-prdslib.isType '"String",
+                              } {} true _js2n__-prdslib.always
+                          ]),
+                      _js2n__-prdslib.arrays.uniqueItems
+                    ],
+              content =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "code" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          assets =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          code =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          libs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Record,
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            name =
+                                              _js2n__-prdslib.isType '"String",
+                                            shared =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        any =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        win_x64 =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        win_x86 =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                      } {} true
+                                                      _js2n__-prdslib.always
+                                                  ],
+                                          } {} true _js2n__-prdslib.always
+                                      ])
+                                ],
+                        } {} true _js2n__-prdslib.always
+                    ],
+              info =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "name" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          guid =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
+                                ],
+                          name = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
+                    ],
+              require =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "engine" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          engine =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum [ "engine-5.3" ]
+                                ],
+                          plugins =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Record,
+                                        _js2n__-prdslib.records.required
+                                          [ "path", "type" ],
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            path =
+                                              _js2n__-prdslib.isType '"String",
+                                            platforms =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [
+                                                              "pc",
+                                                              "ps4",
+                                                              "xboxone",
+                                                              "linux"
+                                                            ]
+                                                        ])
+                                                  ],
+                                            type =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [
+                                                        "EPluginType::Native",
+                                                        "EPluginType::Managed"
+                                                      ]
+                                                  ],
+                                          } {} true _js2n__-prdslib.always
+                                      ])
+                                ],
+                        } {} true _js2n__-prdslib.always
+                    ],
+              type = _js2n__-prdslib.isType '"String",
+              version = _js2n__-prdslib.isType 'Integer,
+            } {} true _js2n__-prdslib.always
+        ])

@@ -1,4863 +1,1262 @@
 # DO NOT EDIT
 # This file was automatically generated using json-schema-to-nickel
-let predicates =
-{
+let _js2n__-prdslib
+  = {
     allOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `allOf preds` succeeds if all of the predicates in `preds` succeed
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
+        `allOf preds` succeeds if all of the predicates in `preds` succeed
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
       "%
-      = fun preds x => std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if !result.success then result else acc)
-          { error = "", success = true, }
-          preds,
-    always : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "", success = true, },
+      = fun
+          preds
+          x
+          =>
+          std.array.fold_right
+            (fun pred acc => (match { 'Ok => acc, 'Err s => 'Err s, }) (pred x))
+            'Ok preds,
+    always : Dyn -> [| 'Ok, 'Err String |] = std.function.const 'Ok,
     anyOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
+        `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
       "%
-      = fun preds x => (fun result => if result.success then
-            { error = "", success = true, }
-            else
-            {
-              error = m%"
-                  anyOf: none of the options matched%{std.string.join "\n"
-                  result.errors}
-                  "%,
-              success = false,
-            })
-          (std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if result.success || acc.success then
-            { errors = [  ], success = true, }
-            else
-            {
-              errors = [
-                      m%"
-                      - %{result.error}
-                      "%
-                    ] @
-                    acc.errors,
-              success = false,
-            })
-          { errors = [  ], success = false, }
-          preds),
-    arrays = {
+      = fun
+          preds
+          x
+          =>
+          (match {
+            'Ok =>
+              'Ok,
+            'Errs
+              msgs =>
+              'Err
+                m%"
+                  anyOf: none of the options matched
+                  %{std.string.join
+                    m%"
+                      
+                      
+                    "% msgs}
+                "%,
+          })
+            (std.array.fold_right
+              (fun
+                pred
+                acc
+                =>
+                (match {
+                  'Ok =>
+                    'Ok,
+                  'Errs
+                    msgs =>
+                    (match {
+                      'Ok =>
+                        'Ok,
+                      'Err
+                        msg =>
+                        'Errs ([ "  - %{msg}" ] @ msgs),
+                    }) (pred x),
+                }) acc) ('Errs [  ]) preds),
+    arrays =
+      {
           additionalItems
-            : (Dyn -> { success: Bool, error: String }) -> Number -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]
-            "%
-            = fun pred start x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |])
+            -> Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]"
+            = fun
+                pred
+                start
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let value_length = std.array.length x in
-                if start >= value_length then
-                { error = "", success = true, }
-                else
-                (arrayOf pred ((std.array.slice start value_length x) | Dyn))),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let value_length
+                      = std.array.length x
+                      in
+                    if start >= value_length then
+                        'Ok
+                      else
+                        arrayOf pred
+                          ((std.array.slice start value_length x)
+                          | Dyn),
           arrayOf
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Apply a predicate to all elements of an array, succeeding if all
-            applications succeed. If the value isn't an array, fail.
+              Apply a predicate to all elements of an array, succeeding if all
+              applications succeed.
             "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                x),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  std.array.fold_right
+                      (fun
+                        x
+                        acc
+                        =>
+                        (match { 'Ok => acc, 'Err msg => 'Err msg, }) (pred x))
+                      'Ok x,
           contains
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]
-            "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                (fun result => if result.success then
-                  { error = "", success = true, }
-                  else
-                  {
-                    error = m%"
-                        contains: no elements matched%{std.string.join "\n"
-                        result.errors}
-                        "%,
-                    success = false,
-                  })
-                (std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if result.success || acc.success then
-                  { errors = [  ], success = true, }
-                  else
-                  {
-                    errors = [
-                            m%"
-                            - %{result.error}
-                            "%
-                          ] @
-                          acc.errors,
-                    success = false,
-                  })
-                { errors = [  ], success = false, }
-                x)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  (match {
+                      'Ok =>
+                        'Ok,
+                      'Errs
+                        msgs =>
+                        'Err
+                          m%"
+                            contains: no elements matched
+                            %{std.string.join
+                              m%"
+                                
+                                
+                              "% msgs}
+                          "%,
+                    })
+                      (std.array.fold_right
+                        (fun
+                          x
+                          acc
+                          =>
+                          (match {
+                            'Ok =>
+                              'Ok,
+                            'Errs
+                              msgs =>
+                              (match {
+                                'Ok =>
+                                  'Ok,
+                                'Err
+                                  msg =>
+                                  'Errs ([ "  - %{msg}" ] @ msgs),
+                              }) (pred x),
+                          }) acc) ('Errs [  ]) x),
           items
-            : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]
-            "%
-            = fun preds x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : Array (Dyn -> [| 'Ok, 'Err String |])
+            -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]"
+            = fun
+                preds
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let length_to_check =
-                std.number.min (std.array.length preds) (std.array.length x)
-                in
-                
-                std.array.fold_right
-                (fun i acc => let result =
-                  std.array.at i preds (std.array.at i x)
-                  in
-                  
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                (std.array.range 0 length_to_check)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let length_to_check
+                      = std.number.min (std.array.length preds)
+                        (std.array.length x)
+                      in
+                    std.array.fold_right
+                        (fun
+                          i
+                          acc
+                          =>
+                          (match { 'Err msg => 'Err msg, 'Ok => acc, })
+                            (std.array.at i preds (std.array.at i x))) 'Ok
+                        (std.array.range 0 length_to_check),
           maxItems
-            : Number -> Dyn -> { success: Bool, error: String }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
+              `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
             "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (if (std.array.length (x | Array Dyn)) > n then
-                {
-                    error = m%"
-                        array is longer than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minItems
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
-            "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
-                else
-                (if (std.array.length (x | Array Dyn)) < n then
-                {
-                    error = m%"
-                        array is shorter than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          uniqueItems
-            : Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Succeeds for any array if its elements are pairwise distinct.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
-            "%
-            = let find_duplicate 
-                : Array Dyn -> {
-                  has_duplicate: Bool,
-                  duplicate: Dyn,
-                  seen: { _ : Bool }
-                } =
-              std.array.fold_right
-                (fun elt acc => if acc.has_duplicate then acc else
-                  (let index = std.serialize 'Json elt in
-                  if std.record.has_field index acc.seen then
-                  { duplicate = elt, has_duplicate = true, seen = acc.seen, }
+                  if (std.array.length (x | Array Dyn)) > n then
+                    'Err
+                      "array is longer than %{std.string.from_number n} items"
                   else
-                  {
-                    duplicate = null,
-                    has_duplicate = false,
-                    seen = std.record.insert index true acc.seen,
-                  }))
-                { duplicate = null, has_duplicate = false, seen = {  }, }
-              in
-              
-              fun x => if !(std.is_array x) then
-                { error = "", success = true, }
+                    'Ok,
+          minItems
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let {has_duplicate  | Dyn, duplicate  | Dyn, ..} =
-                find_duplicate (x | Array Dyn)
+                  if (std.array.length (x | Array Dyn)) < n then
+                    'Err
+                      "array is shorter than %{std.string.from_number n} items"
+                  else
+                    'Ok,
+          uniqueItems
+            : Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              Succeeds for any array if its elements are pairwise distinct.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
+            "%
+            = let find_duplicate
+                : Array Dyn
+                -> {
+                  has_duplicate : Bool,
+                  duplicate : Dyn,
+                  seen : { _ : Bool }
+                }
+                = std.array.fold_right
+                  (fun
+                    elt
+                    acc
+                    =>
+                    if acc.has_duplicate then
+                      acc
+                    else
+                      let index
+                        = std.serialize 'Json elt
+                        in
+                      if std.record.has_field index acc.seen then
+                          {
+                            duplicate = elt,
+                            has_duplicate = true,
+                            seen = acc.seen,
+                          }
+                        else
+                          {
+                            duplicate = null,
+                            has_duplicate = false,
+                            seen = std.record.insert index true acc.seen,
+                          })
+                  { duplicate = null, has_duplicate = false, seen = {}, }
                 in
-                
-                if has_duplicate then
-                {
-                    error = m%"
-                        duplicate found: %{std.serialize 'Json duplicate}
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
+              fun
+                  x
+                  =>
+                  if !(std.is_array x) then
+                    'Ok
+                  else
+                    let { has_duplicate, duplicate, .. }
+                      = find_duplicate (x | Array Dyn)
+                      in
+                    if has_duplicate then
+                        'Err "duplicate found: %{std.serialize 'Json duplicate}"
+                      else
+                        'Ok,
         },
     const
-      : Dyn -> Dyn -> { success: Bool, error: String }
+      : Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `const value x` succeeds if and only if `x` is equalt to `value`
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
+        `const value x` succeeds if and only if `x` is equal to `value`
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
       "%
-      = fun value x => if x == value then { error = "", success = true, } else
-          {
-            error = m%"
-                expected %{std.serialize 'Json value}
-                "%,
-            success = false,
-          },
+      = fun
+          value
+          x
+          =>
+          if x == value then
+            'Ok
+          else
+            'Err "expected %{std.serialize 'Json value}",
     contract_from_predicate
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> Dyn -> Dyn
-      = fun predicate label value => let {success  | Dyn, error  | Dyn} =
-          predicate value
-          in
-          
-          if success then value else
-          ((std.contract.blame_with_message error label) | Dyn),
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> Dyn -> Dyn
+      = fun
+          predicate
+          label
+          value
+          =>
+          (match {
+            'Ok =>
+              value,
+            'Err
+              msg =>
+              (std.contract.blame_with_message msg label)
+              | Dyn,
+          }) (predicate value),
     enum
-      : Array Dyn -> Dyn -> { success: Bool, error: String }
+      : Array Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
+        `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
       "%
-      = let checkEqual =
-        fun input variant => (input == variant) ||
-            ((std.is_enum input) &&
-            (((std.string.from_enum input) == variant) | Bool))
-        in
-        
-        fun values x => std.array.fold_right
-          (fun value acc => if checkEqual x value then
-            { error = "", success = true, }
-            else
-            acc)
-          {
-            error = m%"
-                expected one of %{std.serialize 'Json (values | Dyn)}
-                "%,
-            success = false,
-          }
-          values,
+      = let checkEqual
+          = fun
+            input
+            variant
+            =>
+            (input == variant)
+            || ((std.is_enum input)
+            && (((std.string.from_enum input) == variant)
+            | Bool))
+          in
+        fun
+            values
+            x
+            =>
+            std.array.fold_right
+              (fun value acc => if checkEqual x value then 'Ok else acc)
+              ('Err "expected one of %{std.serialize 'Json (values | Dyn)}")
+              values,
     from_simple_predicate
-      : String -> (Dyn -> Bool) -> Dyn -> { success: Bool, error: String }
-      | doc m%"
-      Convert a simple boolean predicate into a predicate supporting error messages
-      "%
-      = fun error' pred x => { error = error', success = pred x, },
+      : String -> (Dyn -> Bool) -> Dyn -> [| 'Ok, 'Err String |]
+      | doc "Convert a simple boolean predicate into a predicate supporting error messages"
+      = fun error' pred x => if pred x then 'Ok else 'Err error',
     ifThenElse
-      : (Dyn -> { success: Bool, error: String }) -> (Dyn -> {
-        success: Bool,
-        error: String
-      }) -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
+        `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
       "%
-      = fun i t e x => let {success  | Dyn, ..} = i x in
-          if success then t x else (e x),
+      = fun i t e x => (match { 'Ok => t x, 'Err msg => e x, }) (i x),
     isType
       : [| '"Array", '"Bool", 'Integer, 'Null, '"Number", 'Record, '"String" |]
-      -> Dyn -> { success: Bool, error: String }
-      = fun t => (match {'Integer => from_simple_predicate "expected an integer"
-            (fun x => (std.is_number x) &&
-              (std.number.is_integer (x | Number))),
-            'Null => from_simple_predicate "expected `null`"
-            (fun x => x == null),
-            _ => from_simple_predicate
-            m%"
-            value is not of type %{std.string.from_enum t}
-            "%
-            (fun x => (std.typeof x) == t)
-          })
-          t,
-    never : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "never", success = false, },
+      -> Dyn -> [| 'Ok, 'Err String |]
+      = fun
+          t
+          =>
+          (match {
+            'Null =>
+              from_simple_predicate "expected `null`" (fun x => x == null),
+            'Integer =>
+              from_simple_predicate "expected an integer"
+                (fun
+                  x
+                  =>
+                  (std.is_number x) && (std.number.is_integer (x | Number))),
+            _ =>
+              from_simple_predicate
+                "value is not of type %{std.string.from_enum t}"
+                (fun x => (std.typeof x) == t),
+          }) t,
+    never : Dyn -> [| 'Ok, 'Err String |] = std.function.const ('Err "never"),
     not
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `not pred` succeeds if and only if `pred` fails
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
+        `not pred` succeeds if and only if `pred` fails
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
       "%
-      = fun pred x => let result = pred x in
-          if result.success then
-          {
-              error = "Inverted predicate succeeded unexpectedly",
-              success = false,
-            }
-          else
-          { error = "", success = true, },
-    numbers = {
+      = fun
+          pred
+          x
+          =>
+          (match {
+            'Ok =>
+              'Err "Inverted predicate succeeded unexpectedly",
+            'Err
+              msg =>
+              'Ok,
+          }) (pred x),
+    numbers =
+      {
           exclusiveMaximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) < limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive maximum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) < limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive maximum of %{std.string.from_number
+                        limit}",
           exclusiveMinimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) > limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive minimum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) > limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive minimum of %{std.string.from_number
+                        limit}",
           maximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a maximum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a maximum of %{std.string.from_number limit}",
           minimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a minimum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a minimum of %{std.string.from_number limit}",
           multipleOf
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]
-            "%
-            = fun mult x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]"
+            = fun
+                mult
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if std.number.is_integer ((x | Number) / mult) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a multiple of %{std.string.from_number mult}
-                      "%,
-                  success = false,
-                }),
+                  if std.number.is_integer ((x | Number) / mult) then
+                    'Ok
+                  else
+                    'Err
+                      "expected a multiple of %{std.string.from_number mult}",
         },
     oneOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
+        `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
       "%
-      = fun preds x => let count_true 
-            : Array { success: Bool, error: String } -> Number =
-          fun results => std.array.fold_left
-              (fun n b => if b.success then n + 1 else n)
-              0
+      = fun
+          preds
+          x
+          =>
+          let count_ok
+            : Array [| 'Ok, 'Err String |] -> Number
+            = fun
               results
-          in
-          
-          let results = std.array.map (fun pred => pred x) preds in
-          let count = count_true results in
-          if count == 0 then
-          let errors =
-            std.array.map
-              (fun result => m%"
-                - %{result.error}
-                "%)
-              results
+              =>
+              std.array.fold_left (fun n b => if b == 'Ok then n + 1 else n) 0
+                results
             in
-            
-            {
-              error = m%"
-                  oneOf: none of the options matched%{std.string.join "\n"
-                  errors}
-                  "%,
-              success = false,
-            }
-          else
-          (if count > 1 then
-          {
-              error = "oneOf: more than one of the options matched",
-              success = false,
-            }
-          else
-          { error = "", success = true, }),
-    records = {
-          dependencies
-            : { _ : Dyn } -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]
-            "%
-            = let mustHaveFields 
-                : Array String -> { _ : Dyn } -> {
-                  success: Bool,
-                  error: String
-                } =
-              fun fields x => std.array.fold_right
-                  (fun field acc => if !(std.record.has_field field x) then
-                    {
-                        error = m%"
-                            expected field `%{field}`
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc)
-                  { error = "", success = true, }
-                  fields
+          let results
+              = std.array.map (fun pred => pred x) preds
               in
-              
-              fun deps x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (let x  | { _ : Dyn } = x in
-                std.array.fold_right
-                (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                  if !(std.record.has_field field x) then acc else
-                    (let result =
-                    if std.is_array value then
-                      mustHaveFields (value | Array String) x
-                      else
-                      (let pred  | Dyn -> { success: Bool, error: String } =
-                      value
-                      in
-                      
-                      pred (x | Dyn))
+            let count
+                = count_ok results
+                in
+              if count == 0 then
+                  let errors
+                    = std.array.flat_map
+                      (fun
+                        result
+                        =>
+                        (match { 'Ok => [  ], 'Err s => [ "  - %{s}" ], })
+                          result) results
                     in
-                    
-                    if !result.success then
-                    {
-                        error = m%"
-                            dependency of `%{field}` failed: %{result.error}
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc))
-                { error = "", success = true, }
-                (std.record.to_array deps)),
-          maxProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
+                  'Err
+                      m%"
+                        oneOf: none of the options matched
+                        %{std.string.join
+                          m%"
+                            
+                            
+                          "% errors}
+                      "%
                 else
-                (if (std.record.length (x | { _ : Dyn })) > n then
-                {
-                    error = m%"
-                        record contains more than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (if (std.record.length (x | { _ : Dyn })) < n then
-                {
-                    error = m%"
-                        record contains fewer than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          propertyNames
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]
-            "%
-            = fun pred x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => let result = pred (field | Dyn) in
-                  if !result.success then
-                  {
-                      error = m%"
-                          field `%{field}` did not validate against `propertyNames` schema
-                          "%,
-                      success = false,
-                    }
+                  if count > 1 then
+                    'Err "oneOf: more than one of the options matched"
                   else
-                  acc)
-                { error = "", success = true, }
-                (std.record.fields (x | { _ : Dyn }))),
-          record
-            : { _ : Dyn -> { success: Bool, error: String } } -> { _ : Dyn -> {
-              success: Bool,
-              error: String
-            } } -> Bool -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            `record properties patternProperties additionalAllowed
-            additionalProperties x` is a combination of the `properties`,
-            `patternProperties` and `additionalProperties` validation keywords in
-            JSON schema.
-            
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
-            "%
-            =
-            fun properties patternProperties additionalAllowed additionalProperties x =>
-              if !(std.is_record x) then { error = "", success = true, } else
-                (let x  | { _ : Dyn } = x in
-                let check_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                    if !(std.record.has_field field x) then acc else
-                      (let result = value x."%{field}" in
-                      if !result.success then
-                      {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
-                      else
-                      {
-                        checked = std.record.insert field true acc.checked,
-                        error = acc.error,
-                        success = acc.success,
-                      }))
-                  { checked = {  }, error = "", success = true, }
-                  (std.record.to_array properties)
-                in
-                
-                let matching_fields  : String -> { _ : Dyn } =
-                fun pattern => let matcher = std.string.is_match pattern in
-                    std.array.fold_left
-                    (fun acc => fun {field  | Dyn, value  | Dyn} => if matcher
-                        field then
-                        std.record.insert field value acc
-                        else
-                        acc)
-                    {  }
-                    (std.record.to_array x)
-                in
-                
-                let check_pattern_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn = pattern, value  | Dyn = pred} =>
-                  fun acc => let result =
-                      std.array.fold_right
-                        (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                          let result = pred value in
-                            if !result.success then
-                            {
-                                checked : { _ : Bool }
-                                  = {  },
-                                error = m%"
-                                    field `%{field}` didn't validate: %{result.error}
-                                    "%,
-                                success = false,
-                              }
-                            else
-                            {
-                              checked = std.record.insert field true
-                                  acc.checked,
-                              error = acc.error,
-                              success = acc.success,
-                            })
-                        {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = "",
-                          success = true,
-                        }
-                        (std.record.to_array (matching_fields pattern))
-                      in
-                      
-                      if !result.success then result else
-                      {
-                        checked = std.array.fold_left
-                            (fun r field => if !(std.record.has_field field
-                              r) then
-                              std.record.insert field true r
-                              else
-                              r)
-                            acc.checked
-                            (std.record.fields result.checked),
-                        error = acc.error,
-                        success = acc.success,
-                      })
-                  { checked : { _ : Bool } = {  }, error = "", success = true, }
-                  (std.record.to_array patternProperties)
-                in
-                
-                let remaining_fields =
-                std.array.fold_left
-                  (fun acc field => if !(std.record.has_field field acc) then
-                    acc
-                    else
-                    (std.record.remove field acc))
+                    'Ok,
+    records =
+      {
+          dependencies
+            : { _ : Dyn } -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]"
+            = let mustHaveFields
+                : Array String -> { _ : Dyn } -> [| 'Ok, 'Err String |]
+                = fun
+                  fields
                   x
-                  ((std.record.fields check_properties.checked) @
-                    (std.record.fields check_pattern_properties.checked))
-                in
-                
-                let check_additional_properties 
-                  : { success: Bool, error: String } =
-                if (!additionalAllowed) &&
-                  (!(std.record.is_empty remaining_fields)) then
-                  {
-                      error = m%"
-                          extra fields %{std.serialize 'Json
-                          ((std.record.fields remaining_fields) | Dyn)}
-                          "%,
-                      success = false,
-                    }
-                  else
-                  (std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc => let result =
-                      additionalProperties value
-                      in
-                      
-                      if !result.success then
-                      {
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
+                  =>
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field x) then
+                        'Err "expected field `%{field}`"
                       else
-                      acc)
-                  { error = "", success = true, }
-                  (std.record.to_array remaining_fields))
+                        acc) 'Ok fields
                 in
-                
-                if !check_properties.success then
-                { error = check_properties.error, success = false, }
-                else
-                (if !check_pattern_properties.success then
-                { error = check_pattern_properties.error, success = false, }
-                else
-                check_additional_properties)),
-          required
-            : Array String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]
-            "%
-            = fun fields x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => if !(std.record.has_field field
-                  (x | { _ : Dyn })) then
-                  {
-                      error = m%"
-                          missing required field %{field}
-                          "%,
-                      success = false,
-                    }
+              fun
+                  deps
+                  x
+                  =>
+                  if !(std.is_record x) then
+                    'Ok
                   else
-                  acc)
-                { error = "", success = true, }
-                fields),
+                    let x
+                      | { _ : Dyn }
+                      = x
+                      in
+                    std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              let result
+                                = if std.is_array value then
+                                  mustHaveFields (value | Array String) x
+                                else
+                                  let pred
+                                    | Dyn -> [| 'Ok, 'Err String |]
+                                    = value
+                                    in
+                                  pred (x | Dyn)
+                                in
+                              (match {
+                                  'Err
+                                    msg =>
+                                    'Err
+                                      "dependency of `%{field}` failed: %{msg}",
+                                  'Ok =>
+                                    acc,
+                                }) result) 'Ok (std.record.to_array deps),
+          maxProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) > n then
+                    'Err
+                      "record contains more than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          minProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) < n then
+                    'Err
+                      "record contains fewer than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          propertyNames
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      (match {
+                        'Err
+                          msg =>
+                          'Err
+                            "field `%{field}` did not validate against `propertyNames` schema",
+                        'Ok =>
+                          acc,
+                      }) (pred (field | Dyn))) 'Ok
+                    (std.record.fields (x | { _ : Dyn })),
+          record
+            : { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> Bool
+            -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `record properties patternProperties additionalAllowed
+              additionalProperties x` is a combination of the `properties`,
+              `patternProperties` and `additionalProperties` validation keywords in
+              JSON schema.
+              
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
+            "%
+            = fun
+                properties
+                patternProperties
+                additionalAllowed
+                additionalProperties
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  let x
+                    | { _ : Dyn }
+                    = x
+                    in
+                  let check_properties
+                      : {
+                        result : [| 'Ok, 'Err String |],
+                        checked : { _ : Bool }
+                      }
+                      = std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              (match {
+                                'Err
+                                  msg =>
+                                  {
+                                    checked : { _ : Bool } = {},
+                                    result =
+                                      'Err
+                                          "field `%{field}` didn't validate: %{msg}",
+                                  },
+                                'Ok =>
+                                  {
+                                    checked =
+                                      std.record.insert field true acc.checked,
+                                    result = acc.result,
+                                  },
+                              }) (value x."%{field}"))
+                        { checked = {}, result = 'Ok, }
+                        (std.record.to_array properties)
+                      in
+                    let matching_fields
+                        : String -> { _ : Dyn }
+                        = fun
+                          pattern
+                          =>
+                          let matcher
+                            = std.string.is_match pattern
+                            in
+                          std.array.fold_left
+                              (fun
+                                acc
+                                =>
+                                fun
+                                  { field, value, }
+                                  =>
+                                  if matcher field then
+                                    std.record.insert field value acc
+                                  else
+                                    acc) {} (std.record.to_array x)
+                        in
+                      let check_pattern_properties
+                          : {
+                            result : [| 'Ok, 'Err String |],
+                            checked : { _ : Bool }
+                          }
+                          = std.array.fold_right
+                            (fun
+                              { field = pattern, value = pred, }
+                              =>
+                              fun
+                                acc
+                                =>
+                                (match {
+                                  r @ { result = 'Err msg, .. } =>
+                                    r,
+                                  { result = 'Ok, checked = ch, } =>
+                                    {
+                                      checked =
+                                        std.array.fold_left
+                                            (fun
+                                              r
+                                              field
+                                              =>
+                                              if !(std.record.has_field field
+                                                r) then
+                                                std.record.insert field true r
+                                              else
+                                                r) acc.checked
+                                            (std.record.fields ch),
+                                      result = acc.result,
+                                    },
+                                })
+                                  (std.array.fold_right
+                                    (fun
+                                      { field, value, }
+                                      =>
+                                      fun
+                                        acc
+                                        =>
+                                        (match {
+                                          'Err
+                                            msg =>
+                                            {
+                                              checked : { _ : Bool } = {},
+                                              result =
+                                                'Err
+                                                    "field `%{field}` didn't validate: %{msg}",
+                                            },
+                                          'Ok =>
+                                            {
+                                              checked =
+                                                std.record.insert field true
+                                                    acc.checked,
+                                              result = acc.result,
+                                            },
+                                        }) (pred value))
+                                    {
+                                      checked : { _ : Bool } = {},
+                                      result = 'Ok,
+                                    }
+                                    (std.record.to_array
+                                      (matching_fields pattern))))
+                            { checked : { _ : Bool } = {}, result = 'Ok, }
+                            (std.record.to_array patternProperties)
+                          in
+                        let remaining_fields
+                            = std.array.fold_left
+                              (fun
+                                acc
+                                field
+                                =>
+                                if !(std.record.has_field field acc) then
+                                  acc
+                                else
+                                  std.record.remove field acc) x
+                              ((std.record.fields check_properties.checked)
+                              @ (std.record.fields
+                                check_pattern_properties.checked))
+                            in
+                          let check_additional_properties
+                              : [| 'Ok, 'Err String |]
+                              = if (!additionalAllowed)
+                              && (!(std.record.is_empty remaining_fields)) then
+                                'Err
+                                  "extra fields %{std.serialize 'Json
+                                    ((std.record.fields remaining_fields)
+                                    | Dyn)}"
+                              else
+                                std.array.fold_right
+                                  (fun
+                                    { field, value, }
+                                    =>
+                                    fun
+                                      acc
+                                      =>
+                                      (match {
+                                        'Err
+                                          msg =>
+                                          'Err
+                                            "field `%{field}` didn't validate: %{msg}",
+                                        'Ok =>
+                                          acc,
+                                      }) (additionalProperties value)) 'Ok
+                                  (std.record.to_array remaining_fields)
+                              in
+                            (match {
+                                'Err
+                                  msg =>
+                                  check_properties.result,
+                                'Ok =>
+                                  (match {
+                                    'Err
+                                      msg =>
+                                      check_pattern_properties.result,
+                                    'Ok =>
+                                      check_additional_properties,
+                                  }) check_pattern_properties.result,
+                              }) check_properties.result,
+          required
+            : Array String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]"
+            = fun
+                fields
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field (x | { _ : Dyn })) then
+                        'Err "missing required field %{field}"
+                      else
+                        acc) 'Ok fields,
         },
-    strings = {
+    strings =
+      {
           maxLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no larger than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no larger than %{std.string.from_number
+                        limit}",
           minLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no smaller than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no smaller than %{std.string.from_number
+                        limit}",
           pattern
-            : String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]
-            "%
-            = fun pattern x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]"
+            = fun
+                pattern
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if std.string.is_match pattern (x | String) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string matching the pattern `%{pattern}`
-                      "%,
-                  success = false,
-                }),
+                  if std.string.is_match pattern (x | String) then
+                    'Ok
+                  else
+                    'Err "expected a string matching the pattern `%{pattern}`",
         },
   }
-in
-
-let rec definitions =
-{
-    contract = {
-          BuildSpec
-            | doc m%"
-            An object containing the details necessary for Architect to build the service via Docker. Whenever a service that specifies a build field is registered with Architect, the CLI will trigger a docker build and replace the build field with a resolvable image.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.BuildSpec,
-          ComponentInterfaceSpec
-            | doc m%"
-            Component Interfaces are the primary means by which components advertise their resolvable addresses to others. Interfaces are the only means by which other components can communicate with your component.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.ComponentInterfaceSpec,
-          ComponentSpec
-            | doc m%"
-            The top level object of the `architect.yml`; defines a deployable Architect Component.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.ComponentSpec,
-          DatabaseSpec
-            | doc m%"
-            Component databases let you quickly spin up a database for your service
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.DatabaseSpec,
-          DependencySpec
-            | doc m%"
-            An empty object that optionally supports specifying a tag for backwards compatibility.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.DependencySpec,
-          DeploySpec
-            | doc m%"
-            Configuration that dictates the deploy overrides.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.DeploySpec,
-          IngressSpec
-            | doc m%"
-            An ingress exposes an interface to external network traffic through an architect-deployed gateway.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.IngressSpec,
-          IngressTlsSpec
-            | doc m%"
-            Configuration for custom certificate.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.IngressTlsSpec,
-          KubernetesDeploySpec
-            | doc m%"
-            Configuration that dictates the kubernetes deploy overrides.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.KubernetesDeploySpec,
-          LivenessProbeSpec
-            | doc m%"
-            Configuration for service health checks. Architect uses health checks are used for load balancing and rolling updates.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.LivenessProbeSpec,
-          OutputDefinitionSpec
-            | doc m%"
-            Components can define output fields that can be used to share configuration with consuming components.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.OutputDefinitionSpec,
-          ScalingMetricsSpec
-            | doc m%"
-            Scaling metrics define the upper bound of resource consumption before spinning up an additional replica.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.ScalingMetricsSpec,
-          ScalingSpec
-            | doc m%"
-            Configuration that dictates the scaling behavior of a service.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.ScalingSpec,
-          SecretDefinitionSpec
-            | doc m%"
-            Components can define configurable secrets that can be used to enrich the contained services with environment-specific information (i.e. environment variables).
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.SecretDefinitionSpec,
-          ServiceInterfaceSpec
-            | doc m%"
-            A service interface exposes service functionality over the network to other services within the same component. If you would like to expose services on the network to external components, see the ComponentInterfaceSpec
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.ServiceInterfaceSpec,
-          ServiceSpec
-            | doc m%"
-            A runtimes (e.g. daemons, servers, etc.). Each service is independently deployable and scalable. Services are 1:1 with a docker image.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.ServiceSpec,
-          TaskSpec
-            | doc m%"
-            A Task represents a recurring and/or exiting runtime (e.g. crons, schedulers, triggered jobs). Each task will run on its specified schedule and/or be triggerable via the Architect CLI. Tasks are 1:1 with a docker image.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.TaskSpec,
-          VolumeSpec
-            | doc m%"
-            Architect can mount volumes onto your services and tasks to store data that should be shared between running containers or that should persist beyond the lifetime of a container.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.VolumeSpec,
-          _DebugBuildSpec
-            | doc m%"
-            An object containing the details necessary for Architect to build the service via Docker. Whenever a service that specifies a build field is registered with Architect, the CLI will trigger a docker build and replace the build field with a resolvable image.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugBuildSpec,
-          _DebugComponentInterfaceSpec
-            | doc m%"
-            Component Interfaces are the primary means by which components advertise their resolvable addresses to others. Interfaces are the only means by which other components can communicate with your component.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugComponentInterfaceSpec,
-          _DebugComponentSpec
-            | doc m%"
-            The top level object of the `architect.yml`; defines a deployable Architect Component.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugComponentSpec,
-          _DebugDatabaseSpec
-            | doc m%"
-            Component databases let you quickly spin up a database for your service
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugDatabaseSpec,
-          _DebugDependencySpec
-            | doc m%"
-            An empty object that optionally supports specifying a tag for backwards compatibility.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugDependencySpec,
-          _DebugDeploySpec
-            | doc m%"
-            Configuration that dictates the deploy overrides.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugDeploySpec,
-          _DebugIngressSpec
-            | doc m%"
-            An ingress exposes an interface to external network traffic through an architect-deployed gateway.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugIngressSpec,
-          _DebugIngressTlsSpec
-            | doc m%"
-            Configuration for custom certificate.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugIngressTlsSpec,
-          _DebugKubernetesDeploySpec
-            | doc m%"
-            Configuration that dictates the kubernetes deploy overrides.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugKubernetesDeploySpec,
-          _DebugLivenessProbeSpec
-            | doc m%"
-            Configuration for service health checks. Architect uses health checks are used for load balancing and rolling updates.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugLivenessProbeSpec,
-          _DebugOutputDefinitionSpec
-            | doc m%"
-            Components can define output fields that can be used to share configuration with consuming components.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugOutputDefinitionSpec,
-          _DebugScalingMetricsSpec
-            | doc m%"
-            Scaling metrics define the upper bound of resource consumption before spinning up an additional replica.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugScalingMetricsSpec,
-          _DebugScalingSpec
-            | doc m%"
-            Configuration that dictates the scaling behavior of a service.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugScalingSpec,
-          _DebugSecretDefinitionSpec
-            | doc m%"
-            Components can define configurable secrets that can be used to enrich the contained services with environment-specific information (i.e. environment variables).
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugSecretDefinitionSpec,
-          _DebugServiceInterfaceSpec
-            | doc m%"
-            A service interface exposes service functionality over the network to other services within the same component. If you would like to expose services on the network to external components, see the ComponentInterfaceSpec
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugServiceInterfaceSpec,
-          _DebugServiceSpec
-            | doc m%"
-            A runtimes (e.g. daemons, servers, etc.). Each service is independently deployable and scalable. Services are 1:1 with a docker image.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugServiceSpec,
-          _DebugTaskSpec
-            | doc m%"
-            A Task represents a recurring and/or exiting runtime (e.g. crons, schedulers, triggered jobs). Each task will run on its specified schedule and/or be triggerable via the Architect CLI. Tasks are 1:1 with a docker image.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugTaskSpec,
-          _DebugVolumeSpec
-            | doc m%"
-            Architect can mount volumes onto your services and tasks to store data that should be shared between running containers or that should persist beyond the lifetime of a container.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate._DebugVolumeSpec,
-        },
-    predicate = {
-          BuildSpec
-            | doc m%"
-            An object containing the details necessary for Architect to build the service via Docker. Whenever a service that specifies a build field is registered with Architect, the CLI will trigger a docker build and replace the build field with a resolvable image.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.not
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "buildpack", "dockerfile" ],
-                  predicates.records.record {  } {  } true predicates.always
-                ]),
-                predicates.records.record
-                {
-                  args = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.isType 'Null
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        predicates.isType 'Null
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  buildpack = predicates.isType '"Bool",
-                  context = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  dockerfile = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  target = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.not
-                        (predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.required
-                          [ "buildpack", "dockerfile" ],
-                          predicates.records.record {  } {  } true
-                          predicates.always
-                        ]),
-                        predicates.records.record
-                        {
-                          args = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        predicates.isType 'Null
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                              [
-                                                predicates.isType '"String",
-                                                predicates.isType 'Null
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          buildpack = predicates.isType '"Bool",
-                          context = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          dockerfile = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          target = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          ComponentInterfaceSpec
-            | doc m%"
-            Component Interfaces are the primary means by which components advertise their resolvable addresses to others. Interfaces are the only means by which other components can communicate with your component.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "url" ],
-                predicates.records.record
-                {
-                  description = predicates.isType '"String",
-                  host = predicates.isType '"String",
-                  ingress = definitions.predicate.IngressSpec,
-                  password = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  port = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  protocol = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  sticky = predicates.anyOf
-                      [
-                        predicates.isType '"Bool",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  url = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  username = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.required [ "url" ],
-                        predicates.records.record
-                        {
-                          description = predicates.isType '"String",
-                          host = predicates.isType '"String",
-                          ingress = definitions.predicate.IngressSpec,
-                          password = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          port = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          protocol = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          sticky = predicates.anyOf
-                              [
-                                predicates.isType '"Bool",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          url = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          username = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          ComponentSpec
-            | doc m%"
-            The top level object of the `architect.yml`; defines a deployable Architect Component.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "name" ],
-                predicates.records.record
-                {
-                  artifact_image = predicates.isType '"String",
-                  author = predicates.isType '"String",
-                  databases = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            definitions.predicate.DatabaseSpec,
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate.DatabaseSpec,
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  dependencies = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$" =
-                            predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "^[\\w][\\w\\.-]{0,127}$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ],
-                                definitions.predicate.DependencySpec
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  description = predicates.isType '"String",
-                  homepage = predicates.isType '"String",
-                  interfaces = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                definitions.predicate.ComponentInterfaceSpec
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        definitions.predicate.ComponentInterfaceSpec
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  keywords = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  name = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.strings.pattern
-                        "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$"
-                      ],
-                  outputs = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.isType '"Number",
-                                predicates.isType '"Bool",
-                                definitions.predicate.OutputDefinitionSpec,
-                                predicates.isType 'Null
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        predicates.isType '"Number",
-                                        predicates.isType '"Bool",
-                                        definitions.predicate.OutputDefinitionSpec,
-                                        predicates.isType 'Null
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  secrets = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.isType '"Number",
-                                predicates.isType '"Bool",
-                                definitions.predicate.SecretDefinitionSpec,
-                                predicates.isType 'Null
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  services = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            definitions.predicate.ServiceSpec,
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate.ServiceSpec,
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  tasks = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            definitions.predicate.TaskSpec,
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate.TaskSpec,
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.required [ "name" ],
-                        predicates.records.record
-                        {
-                          artifact_image = predicates.isType '"String",
-                          author = predicates.isType '"String",
-                          databases = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate.DatabaseSpec,
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            definitions.predicate.DatabaseSpec,
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          dependencies = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "^[\\w][\\w\\.-]{0,127}$"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ],
-                                        definitions.predicate.DependencySpec
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          description = predicates.isType '"String",
-                          homepage = predicates.isType '"String",
-                          interfaces = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        definitions.predicate.ComponentInterfaceSpec
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            predicates.anyOf
-                                              [
-                                                predicates.isType '"String",
-                                                definitions.predicate.ComponentInterfaceSpec
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          keywords = predicates.allOf
-                              [
-                                predicates.isType '"Array",
-                                predicates.arrays.arrayOf
-                                (predicates.isType '"String")
-                              ],
-                          name = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.strings.pattern
-                                "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$"
-                              ],
-                          outputs = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        predicates.isType '"Number",
-                                        predicates.isType '"Bool",
-                                        definitions.predicate.OutputDefinitionSpec,
-                                        predicates.isType 'Null
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                                              [
-                                                predicates.isType '"String",
-                                                predicates.isType '"Number",
-                                                predicates.isType '"Bool",
-                                                definitions.predicate.OutputDefinitionSpec,
-                                                predicates.isType 'Null
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          secrets = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        predicates.isType '"Number",
-                                        predicates.isType '"Bool",
-                                        definitions.predicate.SecretDefinitionSpec,
-                                        predicates.isType 'Null
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          services = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate.ServiceSpec,
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            definitions.predicate.ServiceSpec,
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          tasks = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate.TaskSpec,
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            definitions.predicate.TaskSpec,
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          DatabaseSpec
-            | doc m%"
-            Component databases let you quickly spin up a database for your service
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "type" ],
-                predicates.records.record
-                {
-                  connection_string = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.isType 'Null,
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  description = predicates.isType '"String",
-                  type = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.anyOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.enum
-                            [
-                              "postgres:10",
-                              "postgres:11",
-                              "postgres:12",
-                              "postgres:13",
-                              "postgres:14",
-                              "postgres:15",
-                              "mysql:5",
-                              "mysql:6",
-                              "mysql:7",
-                              "mysql:8",
-                              "mariadb:10"
-                            ]
-                          ],
-                          predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                          ]
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.required [ "type" ],
-                        predicates.records.record
-                        {
-                          connection_string = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.isType 'Null,
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          description = predicates.isType '"String",
-                          type = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.anyOf
-                                [
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"String",
-                                    predicates.enum
-                                    [
-                                      "postgres:10",
-                                      "postgres:11",
-                                      "postgres:12",
-                                      "postgres:13",
-                                      "postgres:14",
-                                      "postgres:15",
-                                      "mysql:5",
-                                      "mysql:6",
-                                      "mysql:7",
-                                      "mysql:8",
-                                      "mariadb:10"
-                                    ]
-                                  ],
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"String",
-                                    predicates.strings.pattern
-                                    "\\${{\\s*(.*?)\\s*}}"
-                                  ]
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          DependencySpec
-            | doc m%"
-            An empty object that optionally supports specifying a tag for backwards compatibility.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  tag = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^[\\w][\\w\\.-]{0,127}$"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          tag = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "^[\\w][\\w\\.-]{0,127}$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          DeploySpec
-            | doc m%"
-            Configuration that dictates the deploy overrides.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "kubernetes" ],
-                predicates.records.record
-                { kubernetes = definitions.predicate.KubernetesDeploySpec, }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.required [ "kubernetes" ],
-                        predicates.records.record
-                        {
-                          kubernetes =
-                            definitions.predicate.KubernetesDeploySpec,
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          IngressSpec
-            | doc m%"
-            An ingress exposes an interface to external network traffic through an architect-deployed gateway.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  enabled = predicates.isType '"Bool",
-                  ip_whitelist = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.anyOf
-                          [
-                            predicates.isType '"String",
-                            predicates.allOf
-                            [
-                              predicates.isType '"String",
-                              predicates.strings.pattern
-                              "\\${{\\s*secrets\\.[\\w-]+\\s*}}"
-                            ]
-                          ])
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern
-                          "\\${{\\s*(.*?)\\s*}}|(?:\\d{1,3}\\.){3}\\d{1,3}(?:\\/\\d\\d?)?,?"
-                        ]
-                      ],
-                  path = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\/.*$"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  private = predicates.anyOf
-                      [
-                        predicates.isType '"Bool",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  subdomain = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern
-                          "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])|[^\\W\\D\\s\\t\\n\\r\\/]+|[\\@\\*]?)$"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  tls = definitions.predicate.IngressTlsSpec,
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          enabled = predicates.isType '"Bool",
-                          ip_whitelist = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"Array",
-                                  predicates.arrays.arrayOf
-                                  (predicates.anyOf
-                                  [
-                                    predicates.isType '"String",
-                                    predicates.allOf
-                                    [
-                                      predicates.isType '"String",
-                                      predicates.strings.pattern
-                                      "\\${{\\s*secrets\\.[\\w-]+\\s*}}"
-                                    ]
-                                  ])
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}|(?:\\d{1,3}\\.){3}\\d{1,3}(?:\\/\\d\\d?)?,?"
-                                ]
-                              ],
-                          path = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern "^\\/.*$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          private = predicates.anyOf
-                              [
-                                predicates.isType '"Bool",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          subdomain = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])|[^\\W\\D\\s\\t\\n\\r\\/]+|[\\@\\*]?)$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          tls = definitions.predicate.IngressTlsSpec,
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          IngressTlsSpec
-            | doc m%"
-            Configuration for custom certificate.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "crt", "key" ],
-                predicates.records.record
-                {
-                  ca = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  crt = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.anyOf
-                        [
-                          predicates.isType '"String",
-                          predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                          ]
-                        ]
-                      ],
-                  key = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.anyOf
-                        [
-                          predicates.isType '"String",
-                          predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                          ]
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.required [ "crt", "key" ],
-                        predicates.records.record
-                        {
-                          ca = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          crt = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.anyOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"String",
-                                    predicates.strings.pattern
-                                    "\\${{\\s*(.*?)\\s*}}"
-                                  ]
-                                ]
-                              ],
-                          key = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.anyOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"String",
-                                    predicates.strings.pattern
-                                    "\\${{\\s*(.*?)\\s*}}"
-                                  ]
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          KubernetesDeploySpec
-            | doc m%"
-            Configuration that dictates the kubernetes deploy overrides.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "deployment" ],
-                predicates.records.record { deployment = predicates.always, }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.required [ "deployment" ],
-                        predicates.records.record
-                        { deployment = predicates.always, }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          LivenessProbeSpec
-            | doc m%"
-            Configuration for service health checks. Architect uses health checks are used for load balancing and rolling updates.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.allOf
-                [
-                  predicates.oneOf
+  in
+let rec _js2n__-refsenv
+    = {
+      "_js2n__-:definitions/BuildSpec!predicate"
+        | doc "An object containing the details necessary for Architect to build the service via Docker. Whenever a service that specifies a build field is registered with Architect, the CLI will trigger a docker build and replace the build field with a resolvable image."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.not
+                (_js2n__-prdslib.allOf
                   [
-                    predicates.allOf
-                    [
-                      predicates.isType 'Record,
-                      predicates.records.required [ "command" ],
-                      predicates.records.record {  } {  } true predicates.always
-                    ],
-                    predicates.allOf
-                    [
-                      predicates.isType 'Record,
-                      predicates.records.required [ "path", "port" ],
-                      predicates.records.record {  } {  } true predicates.always
-                    ]
-                  ],
-                  predicates.not
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.required [ "command", "port" ],
-                    predicates.records.record {  } {  } true predicates.always
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required
+                      [ "buildpack", "dockerfile" ],
+                    _js2n__-prdslib.records.record {} {} true
+                      _js2n__-prdslib.always
                   ]),
-                  predicates.not
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.required [ "command", "path" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ])
-                ],
-                predicates.records.record
+              _js2n__-prdslib.records.record
                 {
-                  command = predicates.anyOf
-                      [
-                        predicates.allOf
+                  args =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^[a-zA-Z0-9_]+$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.isType 'Null
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.isType 'Null
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
                         ],
-                        predicates.isType '"String"
-                      ],
-                  failure_threshold = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
+                  buildpack = _js2n__-prdslib.isType '"Bool",
+                  context =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  initial_delay = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  interval = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  path = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\/.*$"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  port = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  success_threshold = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  timeout = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.allOf
-                        [
-                          predicates.oneOf
-                          [
-                            predicates.allOf
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
                             [
-                              predicates.isType 'Record,
-                              predicates.records.required [ "command" ],
-                              predicates.records.record {  } {  } true
-                              predicates.always
-                            ],
-                            predicates.allOf
-                            [
-                              predicates.isType 'Record,
-                              predicates.records.required [ "path", "port" ],
-                              predicates.records.record {  } {  } true
-                              predicates.always
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
                             ]
-                          ],
-                          predicates.not
-                          (predicates.allOf
-                          [
-                            predicates.isType 'Record,
-                            predicates.records.required [ "command", "port" ],
-                            predicates.records.record {  } {  } true
-                            predicates.always
-                          ]),
-                          predicates.not
-                          (predicates.allOf
-                          [
-                            predicates.isType 'Record,
-                            predicates.records.required [ "command", "path" ],
-                            predicates.records.record {  } {  } true
-                            predicates.always
-                          ])
                         ],
-                        predicates.records.record
-                        {
-                          command = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"Array",
-                                  predicates.arrays.arrayOf
-                                  (predicates.isType '"String")
-                                ],
-                                predicates.isType '"String"
-                              ],
-                          failure_threshold = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          initial_delay = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          interval = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          path = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern "^\\/.*$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          port = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          success_threshold = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          timeout = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          OutputDefinitionSpec
-            | doc m%"
-            Components can define output fields that can be used to share configuration with consuming components.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "value" ],
-                predicates.records.record
-                {
-                  description = predicates.isType '"String",
-                  value = predicates.always,
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.required [ "value" ],
-                        predicates.records.record
-                        {
-                          description = predicates.isType '"String",
-                          value = predicates.always,
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          ScalingMetricsSpec
-            | doc m%"
-            Scaling metrics define the upper bound of resource consumption before spinning up an additional replica.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.anyOf
-                [
-                  predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.required [ "cpu" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ],
-                  predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.required [ "memory" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ]
-                ],
-                predicates.records.record
-                {
-                  cpu = predicates.anyOf
-                      [
-                        predicates.allOf
+                  dockerfile =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType 'Integer,
-                          predicates.numbers.maximum 100,
-                          predicates.numbers.minimum 0
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  memory = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType 'Integer,
-                          predicates.numbers.maximum 100,
-                          predicates.numbers.minimum 0
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.anyOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType 'Record,
-                            predicates.records.required [ "cpu" ],
-                            predicates.records.record {  } {  } true
-                            predicates.always
-                          ],
-                          predicates.allOf
-                          [
-                            predicates.isType 'Record,
-                            predicates.records.required [ "memory" ],
-                            predicates.records.record {  } {  } true
-                            predicates.always
-                          ]
-                        ],
-                        predicates.records.record
-                        {
-                          cpu = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType 'Integer,
-                                  predicates.numbers.maximum 100,
-                                  predicates.numbers.minimum 0
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          memory = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType 'Integer,
-                                  predicates.numbers.maximum 100,
-                                  predicates.numbers.minimum 0
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          ScalingSpec
-            | doc m%"
-            Configuration that dictates the scaling behavior of a service.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required
-                [ "max_replicas", "metrics", "min_replicas" ],
-                predicates.records.record
-                {
-                  max_replicas = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType 'Integer,
-                          predicates.numbers.minimum 0
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  metrics = definitions.predicate.ScalingMetricsSpec,
-                  min_replicas = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType 'Integer,
-                          predicates.numbers.minimum 0
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.required
-                        [ "max_replicas", "metrics", "min_replicas" ],
-                        predicates.records.record
-                        {
-                          max_replicas = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType 'Integer,
-                                  predicates.numbers.minimum 0
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          metrics = definitions.predicate.ScalingMetricsSpec,
-                          min_replicas = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType 'Integer,
-                                  predicates.numbers.minimum 0
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          SecretDefinitionSpec
-            | doc m%"
-            Components can define configurable secrets that can be used to enrich the contained services with environment-specific information (i.e. environment variables).
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  "default" = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.isType '"Bool",
-                          predicates.isType '"Number",
-                          predicates.isType 'Record,
-                          predicates.isType '"String",
-                          predicates.isType 'Null
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  description = predicates.isType '"String",
-                  required = predicates.isType '"Bool",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ServiceInterfaceSpec
-            | doc m%"
-            A service interface exposes service functionality over the network to other services within the same component. If you would like to expose services on the network to external components, see the ComponentInterfaceSpec
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.oneOf
-                [
-                  predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.required [ "port" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ],
-                  predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.required [ "url" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ]
-                ],
-                predicates.records.required [ "port" ],
-                predicates.records.record
-                {
-                  description = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  host = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.isType 'Null,
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  ingress = definitions.predicate.IngressSpec,
-                  password = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.isType 'Null,
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  path = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\/.*$"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  port = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  protocol = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  sticky = predicates.anyOf
-                      [
-                        predicates.isType '"Bool",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  url = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  username = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.isType 'Null,
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.oneOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType 'Record,
-                            predicates.records.required [ "port" ],
-                            predicates.records.record {  } {  } true
-                            predicates.always
-                          ],
-                          predicates.allOf
-                          [
-                            predicates.isType 'Record,
-                            predicates.records.required [ "url" ],
-                            predicates.records.record {  } {  } true
-                            predicates.always
-                          ]
-                        ],
-                        predicates.records.required [ "port" ],
-                        predicates.records.record
-                        {
-                          description = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          host = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.isType 'Null,
-                                  predicates.isType '"String"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          ingress = definitions.predicate.IngressSpec,
-                          password = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.isType 'Null,
-                                  predicates.isType '"String"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          path = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern "^\\/.*$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          port = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          protocol = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          sticky = predicates.anyOf
-                              [
-                                predicates.isType '"Bool",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          url = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          username = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.isType 'Null,
-                                  predicates.isType '"String"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          ServiceSpec
-            | doc m%"
-            A runtimes (e.g. daemons, servers, etc.). Each service is independently deployable and scalable. Services are 1:1 with a docker image.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.not
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "build", "image" ],
-                  predicates.records.record {  } {  } true predicates.always
-                ]),
-                predicates.records.record
-                {
-                  build = definitions.predicate.BuildSpec,
-                  command = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.isType '"String")
-                          ],
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  cpu = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  debug = definitions.predicate._DebugServiceSpec,
-                  depends_on = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  deploy = definitions.predicate.DeploySpec,
-                  description = predicates.isType '"String",
-                  enabled = predicates.isType '"Bool",
-                  entrypoint = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.isType '"String")
-                          ],
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  environment = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                              [
-                                predicates.isType '"Array",
-                                predicates.isType '"Bool",
-                                predicates.isType 'Null,
-                                predicates.isType '"Number",
-                                predicates.isType '"String"
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"Array",
-                                        predicates.isType '"Bool",
-                                        predicates.isType 'Null,
-                                        predicates.isType '"Number",
-                                        predicates.isType '"String"
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  image = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  interfaces = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  definitions.predicate.ServiceInterfaceSpec,
-                                  predicates.isType '"Number"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.anyOf
-                                        [
-                                          definitions.predicate.ServiceInterfaceSpec,
-                                          predicates.isType '"Number"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ]
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  labels = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                            predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ]
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  language = predicates.isType '"String",
-                  liveness_probe = definitions.predicate.LivenessProbeSpec,
-                  memory = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  replicas = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType 'Integer,
-                          predicates.numbers.minimum 0
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  reserved_name = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.strings.pattern
-                        "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
-                      ],
-                  scaling = definitions.predicate.ScalingSpec,
-                  termination_grace_period = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  volumes = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            predicates.anyOf
-                              [
-                                definitions.predicate.VolumeSpec,
-                                predicates.isType '"String"
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        definitions.predicate.VolumeSpec,
-                                        predicates.isType '"String"
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.not
-                        (predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.required [ "build", "image" ],
-                          predicates.records.record {  } {  } true
-                          predicates.always
-                        ]),
-                        predicates.records.record
-                        {
-                          build = definitions.predicate.BuildSpec,
-                          command = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"Array",
-                                    predicates.arrays.arrayOf
-                                    (predicates.isType '"String")
-                                  ],
-                                  predicates.isType '"String"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          cpu = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          debug = definitions.predicate._DebugServiceSpec,
-                          depends_on = predicates.allOf
-                              [
-                                predicates.isType '"Array",
-                                predicates.arrays.arrayOf
-                                (predicates.isType '"String")
-                              ],
-                          deploy = definitions.predicate.DeploySpec,
-                          description = predicates.isType '"String",
-                          enabled = predicates.isType '"Bool",
-                          entrypoint = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"Array",
-                                    predicates.arrays.arrayOf
-                                    (predicates.isType '"String")
-                                  ],
-                                  predicates.isType '"String"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          environment = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"Array",
-                                        predicates.isType '"Bool",
-                                        predicates.isType 'Null,
-                                        predicates.isType '"Number",
-                                        predicates.isType '"String"
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                              [
-                                                predicates.isType '"Array",
-                                                predicates.isType '"Bool",
-                                                predicates.isType 'Null,
-                                                predicates.isType '"Number",
-                                                predicates.isType '"String"
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          image = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          interfaces = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.anyOf
-                                        [
-                                          definitions.predicate.ServiceInterfaceSpec,
-                                          predicates.isType '"Number"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ]
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            predicates.anyOf
-                                              [
-                                                predicates.anyOf
-                                                [
-                                                  definitions.predicate.ServiceInterfaceSpec,
-                                                  predicates.isType '"Number"
-                                                ],
-                                                predicates.allOf
-                                                [
-                                                  predicates.isType '"String",
-                                                  predicates.strings.pattern
-                                                  "\\${{\\s*(.*?)\\s*}}"
-                                                ]
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          labels = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ]
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                            predicates.anyOf
-                                              [
-                                                predicates.allOf
-                                                [
-                                                  predicates.isType '"String",
-                                                  predicates.strings.pattern
-                                                  "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                                ],
-                                                predicates.allOf
-                                                [
-                                                  predicates.isType '"String",
-                                                  predicates.strings.pattern
-                                                  "\\${{\\s*(.*?)\\s*}}"
-                                                ]
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          language = predicates.isType '"String",
-                          liveness_probe =
-                            definitions.predicate.LivenessProbeSpec,
-                          memory = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          replicas = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType 'Integer,
-                                  predicates.numbers.minimum 0
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          reserved_name = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.strings.pattern
-                                "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
-                              ],
-                          scaling = definitions.predicate.ScalingSpec,
-                          termination_grace_period = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          volumes = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        definitions.predicate.VolumeSpec,
-                                        predicates.isType '"String"
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            predicates.anyOf
-                                              [
-                                                definitions.predicate.VolumeSpec,
-                                                predicates.isType '"String"
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          TaskSpec
-            | doc m%"
-            A Task represents a recurring and/or exiting runtime (e.g. crons, schedulers, triggered jobs). Each task will run on its specified schedule and/or be triggerable via the Architect CLI. Tasks are 1:1 with a docker image.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.not
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "build", "image" ],
-                  predicates.records.record {  } {  } true predicates.always
-                ]),
-                predicates.records.record
-                {
-                  build = definitions.predicate.BuildSpec,
-                  command = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.isType '"String")
-                          ],
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  cpu = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  debug = definitions.predicate._DebugTaskSpec,
-                  depends_on = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  description = predicates.isType '"String",
-                  entrypoint = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.isType '"String")
-                          ],
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  environment = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                              [
-                                predicates.isType '"Array",
-                                predicates.isType '"Bool",
-                                predicates.isType 'Null,
-                                predicates.isType '"Number",
-                                predicates.isType '"String"
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"Array",
-                                        predicates.isType '"Bool",
-                                        predicates.isType 'Null,
-                                        predicates.isType '"Number",
-                                        predicates.isType '"String"
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  image = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  labels = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                            predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ]
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  language = predicates.isType '"String",
-                  memory = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  reserved_name = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.strings.pattern
-                        "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
-                      ],
-                  schedule = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.not
-                        (predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.required [ "build", "image" ],
-                          predicates.records.record {  } {  } true
-                          predicates.always
-                        ]),
-                        predicates.records.record
-                        {
-                          build = definitions.predicate.BuildSpec,
-                          command = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"Array",
-                                    predicates.arrays.arrayOf
-                                    (predicates.isType '"String")
-                                  ],
-                                  predicates.isType '"String"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          cpu = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          debug = definitions.predicate._DebugTaskSpec,
-                          depends_on = predicates.allOf
-                              [
-                                predicates.isType '"Array",
-                                predicates.arrays.arrayOf
-                                (predicates.isType '"String")
-                              ],
-                          description = predicates.isType '"String",
-                          entrypoint = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"Array",
-                                    predicates.arrays.arrayOf
-                                    (predicates.isType '"String")
-                                  ],
-                                  predicates.isType '"String"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          environment = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"Array",
-                                        predicates.isType '"Bool",
-                                        predicates.isType 'Null,
-                                        predicates.isType '"Number",
-                                        predicates.isType '"String"
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                              [
-                                                predicates.isType '"Array",
-                                                predicates.isType '"Bool",
-                                                predicates.isType 'Null,
-                                                predicates.isType '"Number",
-                                                predicates.isType '"String"
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          image = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          labels = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ]
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                            predicates.anyOf
-                                              [
-                                                predicates.allOf
-                                                [
-                                                  predicates.isType '"String",
-                                                  predicates.strings.pattern
-                                                  "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                                ],
-                                                predicates.allOf
-                                                [
-                                                  predicates.isType '"String",
-                                                  predicates.strings.pattern
-                                                  "\\${{\\s*(.*?)\\s*}}"
-                                                ]
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          language = predicates.isType '"String",
-                          memory = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          reserved_name = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.strings.pattern
-                                "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
-                              ],
-                          schedule = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          VolumeSpec
-            | doc m%"
-            Architect can mount volumes onto your services and tasks to store data that should be shared between running containers or that should persist beyond the lifetime of a container.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.not
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "host_path", "key" ],
-                  predicates.records.record {  } {  } true predicates.always
-                ]),
-                predicates.records.record
-                {
-                  description = predicates.isType '"String",
-                  host_path = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  key = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  mount_path = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  readonly = predicates.anyOf
-                      [
-                        predicates.isType '"Bool",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.not
-                        (predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.required [ "host_path", "key" ],
-                          predicates.records.record {  } {  } true
-                          predicates.always
-                        ]),
-                        predicates.records.record
-                        {
-                          description = predicates.isType '"String",
-                          host_path = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          key = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          mount_path = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          readonly = predicates.anyOf
-                              [
-                                predicates.isType '"Bool",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugBuildSpec
-            | doc m%"
-            An object containing the details necessary for Architect to build the service via Docker. Whenever a service that specifies a build field is registered with Architect, the CLI will trigger a docker build and replace the build field with a resolvable image.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.not
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "buildpack", "dockerfile" ],
-                  predicates.records.record {  } {  } true predicates.always
-                ]),
-                predicates.records.record
-                {
-                  args = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.isType 'Null
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        predicates.isType 'Null
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  buildpack = predicates.isType '"Bool",
-                  context = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  dockerfile = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  target = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.not
-                        (predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.required
-                          [ "buildpack", "dockerfile" ],
-                          predicates.records.record {  } {  } true
-                          predicates.always
-                        ]),
-                        predicates.records.record
-                        {
-                          args = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        predicates.isType 'Null
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                              [
-                                                predicates.isType '"String",
-                                                predicates.isType 'Null
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          buildpack = predicates.isType '"Bool",
-                          context = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          dockerfile = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          target = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugComponentInterfaceSpec
-            | doc m%"
-            Component Interfaces are the primary means by which components advertise their resolvable addresses to others. Interfaces are the only means by which other components can communicate with your component.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  description = predicates.isType '"String",
-                  host = predicates.isType '"String",
-                  ingress = definitions.predicate._DebugIngressSpec,
-                  password = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  port = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  protocol = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  sticky = predicates.anyOf
-                      [
-                        predicates.isType '"Bool",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  url = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  username = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          description = predicates.isType '"String",
-                          host = predicates.isType '"String",
-                          ingress = definitions.predicate._DebugIngressSpec,
-                          password = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          port = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          protocol = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          sticky = predicates.anyOf
-                              [
-                                predicates.isType '"Bool",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          url = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          username = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugComponentSpec
-            | doc m%"
-            The top level object of the `architect.yml`; defines a deployable Architect Component.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  artifact_image = predicates.isType '"String",
-                  author = predicates.isType '"String",
-                  databases = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            definitions.predicate._DebugDatabaseSpec,
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate._DebugDatabaseSpec,
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  dependencies = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$" =
-                            predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "^[\\w][\\w\\.-]{0,127}$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ],
-                                definitions.predicate._DebugDependencySpec
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  description = predicates.isType '"String",
-                  homepage = predicates.isType '"String",
-                  interfaces = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                definitions.predicate._DebugComponentInterfaceSpec
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        definitions.predicate._DebugComponentInterfaceSpec
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  keywords = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  name = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.strings.pattern
-                        "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$"
-                      ],
-                  outputs = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.isType '"Number",
-                                predicates.isType '"Bool",
-                                definitions.predicate._DebugOutputDefinitionSpec,
-                                predicates.isType 'Null
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        predicates.isType '"Number",
-                                        predicates.isType '"Bool",
-                                        definitions.predicate._DebugOutputDefinitionSpec,
-                                        predicates.isType 'Null
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  secrets = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.isType '"Number",
-                                predicates.isType '"Bool",
-                                definitions.predicate._DebugSecretDefinitionSpec,
-                                predicates.isType 'Null
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  services = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            definitions.predicate._DebugServiceSpec,
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate._DebugServiceSpec,
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  tasks = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            definitions.predicate._DebugTaskSpec,
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate._DebugTaskSpec,
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          artifact_image = predicates.isType '"String",
-                          author = predicates.isType '"String",
-                          databases = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate._DebugDatabaseSpec,
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            definitions.predicate._DebugDatabaseSpec,
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          dependencies = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "^[\\w][\\w\\.-]{0,127}$"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ],
-                                        definitions.predicate._DebugDependencySpec
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          description = predicates.isType '"String",
-                          homepage = predicates.isType '"String",
-                          interfaces = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        definitions.predicate._DebugComponentInterfaceSpec
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            predicates.anyOf
-                                              [
-                                                predicates.isType '"String",
-                                                definitions.predicate._DebugComponentInterfaceSpec
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          keywords = predicates.allOf
-                              [
-                                predicates.isType '"Array",
-                                predicates.arrays.arrayOf
-                                (predicates.isType '"String")
-                              ],
-                          name = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.strings.pattern
-                                "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$"
-                              ],
-                          outputs = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        predicates.isType '"Number",
-                                        predicates.isType '"Bool",
-                                        definitions.predicate._DebugOutputDefinitionSpec,
-                                        predicates.isType 'Null
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                                              [
-                                                predicates.isType '"String",
-                                                predicates.isType '"Number",
-                                                predicates.isType '"Bool",
-                                                definitions.predicate._DebugOutputDefinitionSpec,
-                                                predicates.isType 'Null
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          secrets = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"String",
-                                        predicates.isType '"Number",
-                                        predicates.isType '"Bool",
-                                        definitions.predicate._DebugSecretDefinitionSpec,
-                                        predicates.isType 'Null
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          services = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate._DebugServiceSpec,
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            definitions.predicate._DebugServiceSpec,
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          tasks = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    definitions.predicate._DebugTaskSpec,
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            definitions.predicate._DebugTaskSpec,
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugDatabaseSpec
-            | doc m%"
-            Component databases let you quickly spin up a database for your service
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  connection_string = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.isType 'Null,
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  description = predicates.isType '"String",
-                  type = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.anyOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.enum
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
                             [
-                              "postgres:10",
-                              "postgres:11",
-                              "postgres:12",
-                              "postgres:13",
-                              "postgres:14",
-                              "postgres:15",
-                              "mysql:5",
-                              "mysql:6",
-                              "mysql:7",
-                              "mysql:8",
-                              "mariadb:10"
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
                             ]
-                          ],
-                          predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                          ]
-                        ]
-                      ],
+                        ],
+                  target =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
                 }
                 {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          connection_string = predicates.anyOf
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.not
+                            (_js2n__-prdslib.allOf
                               [
-                                predicates.isType '"String",
-                                predicates.isType 'Null,
-                                predicates.allOf
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [ "buildpack", "dockerfile" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ]),
+                          _js2n__-prdslib.records.record
+                            {
+                              args =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.isType 'Null
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^[a-zA-Z0-9_]+$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"String",
+                                                              _js2n__-prdslib.isType
+                                                                'Null
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              buildpack = _js2n__-prdslib.isType '"Bool",
+                              context =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              dockerfile =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              target =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ComponentInterfaceSpec!predicate"
+        | doc "Component Interfaces are the primary means by which components advertise their resolvable addresses to others. Interfaces are the only means by which other components can communicate with your component."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  description = _js2n__-prdslib.isType '"String",
+                  host = _js2n__-prdslib.isType '"String",
+                  ingress =
+                    _js2n__-refsenv."_js2n__-:definitions/IngressSpec!predicate",
+                  password =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  port =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  protocol =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  sticky =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  url =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  username =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "url" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              description = _js2n__-prdslib.isType '"String",
+                              host = _js2n__-prdslib.isType '"String",
+                              ingress =
+                                _js2n__-refsenv."_js2n__-:definitions/IngressSpec!predicate",
+                              password =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              port =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              protocol =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              sticky =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              url =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              username =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DatabaseSpec!predicate"
+        | doc "Component databases let you quickly spin up a database for your service"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  connection_string =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null,
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  description = _js2n__-prdslib.isType '"String",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          description = predicates.isType '"String",
-                          type = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.anyOf
-                                [
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"String",
-                                    predicates.enum
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum
                                     [
                                       "postgres:10",
                                       "postgres:11",
@@ -4871,2532 +1270,5147 @@ let rec definitions =
                                       "mysql:8",
                                       "mariadb:10"
                                     ]
-                                  ],
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"String",
-                                    predicates.strings.pattern
-                                    "\\${{\\s*(.*?)\\s*}}"
-                                  ]
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugDependencySpec
-            | doc m%"
-            An empty object that optionally supports specifying a tag for backwards compatibility.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  tag = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^[\\w][\\w\\.-]{0,127}$"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          tag = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "^[\\w][\\w\\.-]{0,127}$"
                                 ],
-                                predicates.allOf
+                              _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "\\${{\\s*(.*?)\\s*}}"
                                 ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugDeploySpec
-            | doc m%"
-            Configuration that dictates the deploy overrides.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  kubernetes = definitions.predicate._DebugKubernetesDeploySpec,
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          kubernetes =
-                            definitions.predicate._DebugKubernetesDeploySpec,
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugIngressSpec
-            | doc m%"
-            An ingress exposes an interface to external network traffic through an architect-deployed gateway.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  enabled = predicates.isType '"Bool",
-                  ip_whitelist = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.anyOf
-                          [
-                            predicates.isType '"String",
-                            predicates.allOf
-                            [
-                              predicates.isType '"String",
-                              predicates.strings.pattern
-                              "\\${{\\s*secrets\\.[\\w-]+\\s*}}"
                             ]
-                          ])
                         ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern
-                          "\\${{\\s*(.*?)\\s*}}|(?:\\d{1,3}\\.){3}\\d{1,3}(?:\\/\\d\\d?)?,?"
-                        ]
-                      ],
-                  path = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\/.*$"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  private = predicates.anyOf
-                      [
-                        predicates.isType '"Bool",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  subdomain = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern
-                          "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])|[^\\W\\D\\s\\t\\n\\r\\/]+|[\\@\\*]?)$"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  tls = definitions.predicate._DebugIngressTlsSpec,
                 }
                 {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          enabled = predicates.isType '"Bool",
-                          ip_whitelist = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"Array",
-                                  predicates.arrays.arrayOf
-                                  (predicates.anyOf
-                                  [
-                                    predicates.isType '"String",
-                                    predicates.allOf
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "type" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              connection_string =
+                                _js2n__-prdslib.anyOf
                                     [
-                                      predicates.isType '"String",
-                                      predicates.strings.pattern
-                                      "\\${{\\s*secrets\\.[\\w-]+\\s*}}"
-                                    ]
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.isType 'Null,
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              description = _js2n__-prdslib.isType '"String",
+                              type =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [
+                                                  "postgres:10",
+                                                  "postgres:11",
+                                                  "postgres:12",
+                                                  "postgres:13",
+                                                  "postgres:14",
+                                                  "postgres:15",
+                                                  "mysql:5",
+                                                  "mysql:6",
+                                                  "mysql:7",
+                                                  "mysql:8",
+                                                  "mariadb:10"
+                                                ]
+                                            ],
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "\\${{\\s*(.*?)\\s*}}"
+                                            ]
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DependencySpec!predicate"
+        | doc "An empty object that optionally supports specifying a tag for backwards compatibility."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  tag =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^[\\w][\\w\\.-]{0,127}$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              tag =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^[\\w][\\w\\.-]{0,127}$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DeploySpec!predicate"
+        | doc "Configuration that dictates the deploy overrides."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "kubernetes" ],
+              _js2n__-prdslib.records.record
+                {
+                  kubernetes =
+                    _js2n__-refsenv."_js2n__-:definitions/KubernetesDeploySpec!predicate",
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "kubernetes" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              kubernetes =
+                                _js2n__-refsenv."_js2n__-:definitions/KubernetesDeploySpec!predicate",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/IngressSpec!predicate"
+        | doc "An ingress exposes an interface to external network traffic through an architect-deployed gateway."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  ip_whitelist =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "\\${{\\s*secrets\\.[\\w-]+\\s*}}"
+                                      ]
                                   ])
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}|(?:\\d{1,3}\\.){3}\\d{1,3}(?:\\/\\d\\d?)?,?"
-                                ]
-                              ],
-                          path = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern "^\\/.*$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          private = predicates.anyOf
-                              [
-                                predicates.isType '"Bool",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          subdomain = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])|[^\\W\\D\\s\\t\\n\\r\\/]+|[\\@\\*]?)$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          tls = definitions.predicate._DebugIngressTlsSpec,
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugIngressTlsSpec
-            | doc m%"
-            Configuration for custom certificate.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  ca = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}|(?:\\d{1,3}\\.){3}\\d{1,3}(?:\\/\\d\\d?)?,?"
+                            ]
+                        ],
+                  path =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  crt = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.anyOf
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\/.*$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  private =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType '"String",
-                          predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                          ]
-                        ]
-                      ],
-                  key = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.anyOf
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  subdomain =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType '"String",
-                          predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                          ]
-                        ]
-                      ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])|[^\\W\\D\\s\\t\\n\\r\\/]+|[\\@\\*]?)$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/IngressTlsSpec!predicate",
                 }
                 {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          ca = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              enabled = _js2n__-prdslib.isType '"Bool",
+                              ip_whitelist =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "\\${{\\s*secrets\\.[\\w-]+\\s*}}"
+                                                  ]
+                                              ])
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}|(?:\\d{1,3}\\.){3}\\d{1,3}(?:\\/\\d\\d?)?,?"
+                                        ]
+                                    ],
+                              path =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^\\/.*$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              private =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              subdomain =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])|[^\\W\\D\\s\\t\\n\\r\\/]+|[\\@\\*]?)$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              tls =
+                                _js2n__-refsenv."_js2n__-:definitions/IngressTlsSpec!predicate",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/IngressTlsSpec!predicate"
+        | doc "Configuration for custom certificate."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "crt", "key" ],
+              _js2n__-prdslib.records.record
+                {
+                  ca =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  crt =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          crt = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.anyOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"String",
-                                    predicates.strings.pattern
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
                                     "\\${{\\s*(.*?)\\s*}}"
-                                  ]
                                 ]
-                              ],
-                          key = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.anyOf
+                            ]
+                        ],
+                  key =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"String",
-                                    predicates.strings.pattern
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
                                     "\\${{\\s*(.*?)\\s*}}"
-                                  ]
                                 ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugKubernetesDeploySpec
-            | doc m%"
-            Configuration that dictates the kubernetes deploy overrides.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record { deployment = predicates.always, }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        { deployment = predicates.always, }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugLivenessProbeSpec
-            | doc m%"
-            Configuration for service health checks. Architect uses health checks are used for load balancing and rolling updates.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  command = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
+                            ]
                         ],
-                        predicates.isType '"String"
-                      ],
-                  failure_threshold = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  initial_delay = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  interval = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  path = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\/.*$"
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "crt", "key" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              ca =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              crt =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "\\${{\\s*(.*?)\\s*}}"
+                                            ]
+                                        ]
+                                    ],
+                              key =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "\\${{\\s*(.*?)\\s*}}"
+                                            ]
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
                         ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  port = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  success_threshold = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  timeout = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/KubernetesDeploySpec!predicate"
+        | doc "Configuration that dictates the kubernetes deploy overrides."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "deployment" ],
+              _js2n__-prdslib.records.record
+                { deployment = _js2n__-prdslib.always, }
                 {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          command = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"Array",
-                                  predicates.arrays.arrayOf
-                                  (predicates.isType '"String")
-                                ],
-                                predicates.isType '"String"
-                              ],
-                          failure_threshold = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          initial_delay = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          interval = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          path = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern "^\\/.*$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          port = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          success_threshold = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          timeout = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugOutputDefinitionSpec
-            | doc m%"
-            Components can define output fields that can be used to share configuration with consuming components.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  description = predicates.isType '"String",
-                  value = predicates.always,
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          description = predicates.isType '"String",
-                          value = predicates.always,
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugScalingMetricsSpec
-            | doc m%"
-            Scaling metrics define the upper bound of resource consumption before spinning up an additional replica.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  cpu = predicates.anyOf
-                      [
-                        predicates.allOf
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType 'Integer,
-                          predicates.numbers.maximum 100,
-                          predicates.numbers.minimum 0
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "deployment" ],
+                          _js2n__-prdslib.records.record
+                            { deployment = _js2n__-prdslib.always, } {} false
+                            _js2n__-prdslib.never
                         ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  memory = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType 'Integer,
-                          predicates.numbers.maximum 100,
-                          predicates.numbers.minimum 0
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          cpu = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType 'Integer,
-                                  predicates.numbers.maximum 100,
-                                  predicates.numbers.minimum 0
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          memory = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType 'Integer,
-                                  predicates.numbers.maximum 100,
-                                  predicates.numbers.minimum 0
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugScalingSpec
-            | doc m%"
-            Configuration that dictates the scaling behavior of a service.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  max_replicas = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType 'Integer,
-                          predicates.numbers.minimum 0
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  metrics = definitions.predicate._DebugScalingMetricsSpec,
-                  min_replicas = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType 'Integer,
-                          predicates.numbers.minimum 0
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          max_replicas = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType 'Integer,
-                                  predicates.numbers.minimum 0
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          metrics =
-                            definitions.predicate._DebugScalingMetricsSpec,
-                          min_replicas = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType 'Integer,
-                                  predicates.numbers.minimum 0
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugSecretDefinitionSpec
-            | doc m%"
-            Components can define configurable secrets that can be used to enrich the contained services with environment-specific information (i.e. environment variables).
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  "default" = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.isType '"Bool",
-                          predicates.isType '"Number",
-                          predicates.isType 'Record,
-                          predicates.isType '"String",
-                          predicates.isType 'Null
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  description = predicates.isType '"String",
-                  required = predicates.isType '"Bool",
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          "default" = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.isType '"Array",
-                                  predicates.isType '"Bool",
-                                  predicates.isType '"Number",
-                                  predicates.isType 'Record,
-                                  predicates.isType '"String",
-                                  predicates.isType 'Null
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          description = predicates.isType '"String",
-                          required = predicates.isType '"Bool",
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugServiceInterfaceSpec
-            | doc m%"
-            A service interface exposes service functionality over the network to other services within the same component. If you would like to expose services on the network to external components, see the ComponentInterfaceSpec
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  description = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  host = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.isType 'Null,
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  ingress = definitions.predicate._DebugIngressSpec,
-                  password = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.isType 'Null,
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  path = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\/.*$"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  port = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  protocol = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  sticky = predicates.anyOf
-                      [
-                        predicates.isType '"Bool",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  url = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  username = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.isType 'Null,
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          description = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          host = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.isType 'Null,
-                                  predicates.isType '"String"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          ingress = definitions.predicate._DebugIngressSpec,
-                          password = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.isType 'Null,
-                                  predicates.isType '"String"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          path = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern "^\\/.*$"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          port = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          protocol = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          sticky = predicates.anyOf
-                              [
-                                predicates.isType '"Bool",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          url = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          username = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.isType 'Null,
-                                  predicates.isType '"String"
-                                ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugServiceSpec
-            | doc m%"
-            A runtimes (e.g. daemons, servers, etc.). Each service is independently deployable and scalable. Services are 1:1 with a docker image.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.not
-                (predicates.allOf
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LivenessProbeSpec!predicate"
+        | doc "Configuration for service health checks. Architect uses health checks are used for load balancing and rolling updates."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.allOf
                 [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "build", "image" ],
-                  predicates.records.record {  } {  } true predicates.always
-                ]),
-                predicates.records.record
+                  _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "command" ],
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "path", "port" ],
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
+                        ]
+                    ],
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "command", "port" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]),
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "command", "path" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ])
+                ],
+              _js2n__-prdslib.records.record
                 {
-                  build = definitions.predicate._DebugBuildSpec,
-                  command = predicates.anyOf
-                      [
-                        predicates.anyOf
+                  command =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.allOf
-                          [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.isType '"String")
-                          ],
-                          predicates.isType '"String"
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType '"String"
                         ],
-                        predicates.allOf
+                  failure_threshold =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  cpu = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  depends_on = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  deploy = definitions.predicate._DebugDeploySpec,
-                  description = predicates.isType '"String",
-                  enabled = predicates.isType '"Bool",
-                  entrypoint = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.isType '"String")
-                          ],
-                          predicates.isType '"String"
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
                         ],
-                        predicates.allOf
+                  initial_delay =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  environment = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                              [
-                                predicates.isType '"Array",
-                                predicates.isType '"Bool",
-                                predicates.isType 'Null,
-                                predicates.isType '"Number",
-                                predicates.isType '"String"
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"Array",
-                                        predicates.isType '"Bool",
-                                        predicates.isType 'Null,
-                                        predicates.isType '"Number",
-                                        predicates.isType '"String"
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  image = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  interval =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  interfaces = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            predicates.anyOf
-                              [
-                                predicates.anyOf
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  path =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\/.*$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  port =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  success_threshold =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  timeout =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.oneOf
                                 [
-                                  definitions.predicate._DebugServiceInterfaceSpec,
-                                  predicates.isType '"Number"
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "command" ],
+                                      _js2n__-prdslib.records.record {} {} true
+                                        _js2n__-prdslib.always
+                                    ],
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "path", "port" ],
+                                      _js2n__-prdslib.records.record {} {} true
+                                        _js2n__-prdslib.always
+                                    ]
                                 ],
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.anyOf
+                              _js2n__-prdslib.not
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required
+                                      [ "command", "port" ],
+                                    _js2n__-prdslib.records.record {} {} true
+                                      _js2n__-prdslib.always
+                                  ]),
+                              _js2n__-prdslib.not
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required
+                                      [ "command", "path" ],
+                                    _js2n__-prdslib.records.record {} {} true
+                                      _js2n__-prdslib.always
+                                  ])
+                            ],
+                          _js2n__-prdslib.records.record
+                            {
+                              command =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
                                         [
-                                          definitions.predicate._DebugServiceInterfaceSpec,
-                                          predicates.isType '"Number"
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
                                         ],
-                                        predicates.allOf
+                                      _js2n__-prdslib.isType '"String"
+                                    ],
+                              failure_threshold =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
                                         [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
                                         ]
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  labels = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                            predicates.anyOf
-                              [
-                                predicates.allOf
+                                    ],
+                              initial_delay =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              interval =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              path =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^\\/.*$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              port =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              success_threshold =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              timeout =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/OutputDefinitionSpec!predicate"
+        | doc "Components can define output fields that can be used to share configuration with consuming components."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "value" ],
+              _js2n__-prdslib.records.record
+                {
+                  description = _js2n__-prdslib.isType '"String",
+                  value = _js2n__-prdslib.always,
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "value" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              description = _js2n__-prdslib.isType '"String",
+                              value = _js2n__-prdslib.always,
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ScalingMetricsSpec!predicate"
+        | doc "Scaling metrics define the upper bound of resource consumption before spinning up an additional replica."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "cpu" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "memory" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  cpu =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.numbers.maximum 100,
+                              _js2n__-prdslib.numbers.minimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  memory =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.numbers.maximum 100,
+                              _js2n__-prdslib.numbers.minimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "cpu" ],
+                                  _js2n__-prdslib.records.record {} {} true
+                                    _js2n__-prdslib.always
                                 ],
-                                predicates.allOf
+                              _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "memory" ],
+                                  _js2n__-prdslib.records.record {} {} true
+                                    _js2n__-prdslib.always
                                 ]
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.allOf
+                            ],
+                          _js2n__-prdslib.records.record
+                            {
+                              cpu =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
                                         [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.maximum 100,
+                                          _js2n__-prdslib.numbers.minimum 0
                                         ],
-                                        predicates.allOf
+                                      _js2n__-prdslib.allOf
                                         [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
                                         ]
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  language = predicates.isType '"String",
+                                    ],
+                              memory =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.maximum 100,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ScalingSpec!predicate"
+        | doc "Configuration that dictates the scaling behavior of a service."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "max_replicas", "metrics", "min_replicas" ],
+              _js2n__-prdslib.records.record
+                {
+                  max_replicas =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.numbers.minimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  metrics =
+                    _js2n__-refsenv."_js2n__-:definitions/ScalingMetricsSpec!predicate",
+                  min_replicas =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.numbers.minimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required
+                            [ "max_replicas", "metrics", "min_replicas" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              max_replicas =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              metrics =
+                                _js2n__-refsenv."_js2n__-:definitions/ScalingMetricsSpec!predicate",
+                              min_replicas =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SecretDefinitionSpec!predicate"
+        | doc "Components can define configurable secrets that can be used to enrich the contained services with environment-specific information (i.e. environment variables)."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "default" =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType '"Bool",
+                              _js2n__-prdslib.isType '"Number",
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  description = _js2n__-prdslib.isType '"String",
+                  required = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ServiceInterfaceSpec!predicate"
+        | doc "A service interface exposes service functionality over the network to other services within the same component. If you would like to expose services on the network to external components, see the ComponentInterfaceSpec"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "port" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "url" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.required [ "port" ],
+              _js2n__-prdslib.records.record
+                {
+                  description =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  host =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Null,
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  ingress =
+                    _js2n__-refsenv."_js2n__-:definitions/IngressSpec!predicate",
+                  password =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Null,
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  path =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\/.*$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  port =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  protocol =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  sticky =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  url =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  username =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Null,
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.oneOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "port" ],
+                                  _js2n__-prdslib.records.record {} {} true
+                                    _js2n__-prdslib.always
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "url" ],
+                                  _js2n__-prdslib.records.record {} {} true
+                                    _js2n__-prdslib.always
+                                ]
+                            ],
+                          _js2n__-prdslib.records.required [ "port" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              description =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              host =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType 'Null,
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              ingress =
+                                _js2n__-refsenv."_js2n__-:definitions/IngressSpec!predicate",
+                              password =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType 'Null,
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              path =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^\\/.*$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              port =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              protocol =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              sticky =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              url =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              username =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType 'Null,
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ServiceSpec!predicate"
+        | doc "A runtimes (e.g. daemons, servers, etc.). Each service is independently deployable and scalable. Services are 1:1 with a docker image."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.not
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "build", "image" ],
+                    _js2n__-prdslib.records.record {} {} true
+                      _js2n__-prdslib.always
+                  ]),
+              _js2n__-prdslib.records.record
+                {
+                  build =
+                    _js2n__-refsenv."_js2n__-:definitions/BuildSpec!predicate",
+                  command =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  cpu =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  debug =
+                    _js2n__-refsenv."_js2n__-:definitions/_DebugServiceSpec!predicate",
+                  depends_on =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  deploy =
+                    _js2n__-refsenv."_js2n__-:definitions/DeploySpec!predicate",
+                  description = _js2n__-prdslib.isType '"String",
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  entrypoint =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  environment =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^[a-zA-Z0-9_]+$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.isType 'Null,
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.isType '"String"
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.isType
+                                                    '"Bool",
+                                                  _js2n__-prdslib.isType 'Null,
+                                                  _js2n__-prdslib.isType
+                                                    '"Number",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                  image =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  interfaces =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-refsenv."_js2n__-:definitions/ServiceInterfaceSpec!predicate",
+                                          _js2n__-prdslib.isType '"Number"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-refsenv."_js2n__-:definitions/ServiceInterfaceSpec!predicate",
+                                                      _js2n__-prdslib.isType
+                                                        '"Number"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                  labels =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                  language = _js2n__-prdslib.isType '"String",
                   liveness_probe =
-                    definitions.predicate._DebugLivenessProbeSpec,
-                  memory = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
+                    _js2n__-refsenv."_js2n__-:definitions/LivenessProbeSpec!predicate",
+                  memory =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  replicas = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType 'Integer,
-                          predicates.numbers.minimum 0
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
                         ],
-                        predicates.allOf
+                  replicas =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  reserved_name = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.strings.pattern
-                        "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
-                      ],
-                  scaling = definitions.predicate._DebugScalingSpec,
-                  termination_grace_period = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.numbers.minimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  reserved_name =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  volumes = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
+                        ],
+                  scaling =
+                    _js2n__-refsenv."_js2n__-:definitions/ScalingSpec!predicate",
+                  termination_grace_period =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  volumes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-refsenv."_js2n__-:definitions/VolumeSpec!predicate",
+                                      _js2n__-prdslib.isType '"String"
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-refsenv."_js2n__-:definitions/VolumeSpec!predicate",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.not
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [ "build", "image" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ]),
+                          _js2n__-prdslib.records.record
+                            {
+                              build =
+                                _js2n__-refsenv."_js2n__-:definitions/BuildSpec!predicate",
+                              command =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              cpu =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              debug =
+                                _js2n__-refsenv."_js2n__-:definitions/_DebugServiceSpec!predicate",
+                              depends_on =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
+                              deploy =
+                                _js2n__-refsenv."_js2n__-:definitions/DeploySpec!predicate",
+                              description = _js2n__-prdslib.isType '"String",
+                              enabled = _js2n__-prdslib.isType '"Bool",
+                              entrypoint =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              environment =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.isType
+                                                    '"Bool",
+                                                  _js2n__-prdslib.isType 'Null,
+                                                  _js2n__-prdslib.isType
+                                                    '"Number",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^[a-zA-Z0-9_]+$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"Array",
+                                                              _js2n__-prdslib.isType
+                                                                '"Bool",
+                                                              _js2n__-prdslib.isType
+                                                                'Null,
+                                                              _js2n__-prdslib.isType
+                                                                '"Number",
+                                                              _js2n__-prdslib.isType
+                                                                '"String"
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              image =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              interfaces =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-refsenv."_js2n__-:definitions/ServiceInterfaceSpec!predicate",
+                                                      _js2n__-prdslib.isType
+                                                        '"Number"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.anyOf
+                                                                [
+                                                                  _js2n__-refsenv."_js2n__-:definitions/ServiceInterfaceSpec!predicate",
+                                                                  _js2n__-prdslib.isType
+                                                                    '"Number"
+                                                                ],
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "\\${{\\s*(.*?)\\s*}}"
+                                                                ]
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              labels =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                                ],
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "\\${{\\s*(.*?)\\s*}}"
+                                                                ]
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              language = _js2n__-prdslib.isType '"String",
+                              liveness_probe =
+                                _js2n__-refsenv."_js2n__-:definitions/LivenessProbeSpec!predicate",
+                              memory =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              replicas =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              reserved_name =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
+                                    ],
+                              scaling =
+                                _js2n__-refsenv."_js2n__-:definitions/ScalingSpec!predicate",
+                              termination_grace_period =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              volumes =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-refsenv."_js2n__-:definitions/VolumeSpec!predicate",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-refsenv."_js2n__-:definitions/VolumeSpec!predicate",
+                                                              _js2n__-prdslib.isType
+                                                                '"String"
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/TaskSpec!predicate"
+        | doc "A Task represents a recurring and/or exiting runtime (e.g. crons, schedulers, triggered jobs). Each task will run on its specified schedule and/or be triggerable via the Architect CLI. Tasks are 1:1 with a docker image."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.not
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "build", "image" ],
+                    _js2n__-prdslib.records.record {} {} true
+                      _js2n__-prdslib.always
+                  ]),
+              _js2n__-prdslib.records.record
+                {
+                  build =
+                    _js2n__-refsenv."_js2n__-:definitions/BuildSpec!predicate",
+                  command =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  cpu =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  debug =
+                    _js2n__-refsenv."_js2n__-:definitions/_DebugTaskSpec!predicate",
+                  depends_on =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  description = _js2n__-prdslib.isType '"String",
+                  entrypoint =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  environment =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^[a-zA-Z0-9_]+$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.isType 'Null,
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.isType '"String"
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.isType
+                                                    '"Bool",
+                                                  _js2n__-prdslib.isType 'Null,
+                                                  _js2n__-prdslib.isType
+                                                    '"Number",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                  image =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  labels =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                  language = _js2n__-prdslib.isType '"String",
+                  memory =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  reserved_name =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
+                        ],
+                  schedule =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.not
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [ "build", "image" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ]),
+                          _js2n__-prdslib.records.record
+                            {
+                              build =
+                                _js2n__-refsenv."_js2n__-:definitions/BuildSpec!predicate",
+                              command =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              cpu =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              debug =
+                                _js2n__-refsenv."_js2n__-:definitions/_DebugTaskSpec!predicate",
+                              depends_on =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
+                              description = _js2n__-prdslib.isType '"String",
+                              entrypoint =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              environment =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.isType
+                                                    '"Bool",
+                                                  _js2n__-prdslib.isType 'Null,
+                                                  _js2n__-prdslib.isType
+                                                    '"Number",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^[a-zA-Z0-9_]+$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"Array",
+                                                              _js2n__-prdslib.isType
+                                                                '"Bool",
+                                                              _js2n__-prdslib.isType
+                                                                'Null,
+                                                              _js2n__-prdslib.isType
+                                                                '"Number",
+                                                              _js2n__-prdslib.isType
+                                                                '"String"
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              image =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              labels =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                                ],
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "\\${{\\s*(.*?)\\s*}}"
+                                                                ]
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              language = _js2n__-prdslib.isType '"String",
+                              memory =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              reserved_name =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
+                                    ],
+                              schedule =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/VolumeSpec!predicate"
+        | doc "Architect can mount volumes onto your services and tasks to store data that should be shared between running containers or that should persist beyond the lifetime of a container."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.not
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "host_path", "key" ],
+                    _js2n__-prdslib.records.record {} {} true
+                      _js2n__-prdslib.always
+                  ]),
+              _js2n__-prdslib.records.record
+                {
+                  description = _js2n__-prdslib.isType '"String",
+                  host_path =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  key =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  mount_path =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  readonly =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.not
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [ "host_path", "key" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ]),
+                          _js2n__-prdslib.records.record
+                            {
+                              description = _js2n__-prdslib.isType '"String",
+                              host_path =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              key =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              mount_path =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              readonly =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugBuildSpec!predicate"
+        | doc "An object containing the details necessary for Architect to build the service via Docker. Whenever a service that specifies a build field is registered with Architect, the CLI will trigger a docker build and replace the build field with a resolvable image."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.not
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required
+                      [ "buildpack", "dockerfile" ],
+                    _js2n__-prdslib.records.record {} {} true
+                      _js2n__-prdslib.always
+                  ]),
+              _js2n__-prdslib.records.record
+                {
+                  args =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^[a-zA-Z0-9_]+$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.isType 'Null
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.isType 'Null
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                  buildpack = _js2n__-prdslib.isType '"Bool",
+                  context =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  dockerfile =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  target =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.not
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [ "buildpack", "dockerfile" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ]),
+                          _js2n__-prdslib.records.record
+                            {
+                              args =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.isType 'Null
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^[a-zA-Z0-9_]+$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"String",
+                                                              _js2n__-prdslib.isType
+                                                                'Null
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              buildpack = _js2n__-prdslib.isType '"Bool",
+                              context =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              dockerfile =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              target =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugDeploySpec!predicate"
+        | doc "Configuration that dictates the deploy overrides."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  kubernetes =
+                    _js2n__-refsenv."_js2n__-:definitions/_DebugKubernetesDeploySpec!predicate",
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              kubernetes =
+                                _js2n__-refsenv."_js2n__-:definitions/_DebugKubernetesDeploySpec!predicate",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugIngressSpec!predicate"
+        | doc "An ingress exposes an interface to external network traffic through an architect-deployed gateway."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  ip_whitelist =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "\\${{\\s*secrets\\.[\\w-]+\\s*}}"
+                                      ]
+                                  ])
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}|(?:\\d{1,3}\\.){3}\\d{1,3}(?:\\/\\d\\d?)?,?"
+                            ]
+                        ],
+                  path =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\/.*$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  private =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  subdomain =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])|[^\\W\\D\\s\\t\\n\\r\\/]+|[\\@\\*]?)$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/_DebugIngressTlsSpec!predicate",
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              enabled = _js2n__-prdslib.isType '"Bool",
+                              ip_whitelist =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "\\${{\\s*secrets\\.[\\w-]+\\s*}}"
+                                                  ]
+                                              ])
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}|(?:\\d{1,3}\\.){3}\\d{1,3}(?:\\/\\d\\d?)?,?"
+                                        ]
+                                    ],
+                              path =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^\\/.*$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              private =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              subdomain =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])|[^\\W\\D\\s\\t\\n\\r\\/]+|[\\@\\*]?)$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              tls =
+                                _js2n__-refsenv."_js2n__-:definitions/_DebugIngressTlsSpec!predicate",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugIngressTlsSpec!predicate"
+        | doc "Configuration for custom certificate."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  ca =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  crt =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "\\${{\\s*(.*?)\\s*}}"
+                                ]
+                            ]
+                        ],
+                  key =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "\\${{\\s*(.*?)\\s*}}"
+                                ]
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              ca =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              crt =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "\\${{\\s*(.*?)\\s*}}"
+                                            ]
+                                        ]
+                                    ],
+                              key =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "\\${{\\s*(.*?)\\s*}}"
+                                            ]
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugKubernetesDeploySpec!predicate"
+        | doc "Configuration that dictates the kubernetes deploy overrides."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { deployment = _js2n__-prdslib.always, }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            { deployment = _js2n__-prdslib.always, } {} false
+                            _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugLivenessProbeSpec!predicate"
+        | doc "Configuration for service health checks. Architect uses health checks are used for load balancing and rolling updates."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  command =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  failure_threshold =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  initial_delay =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  interval =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  path =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\/.*$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  port =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  success_threshold =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  timeout =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              command =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                      _js2n__-prdslib.isType '"String"
+                                    ],
+                              failure_threshold =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              initial_delay =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              interval =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              path =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^\\/.*$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              port =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              success_threshold =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              timeout =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugScalingMetricsSpec!predicate"
+        | doc "Scaling metrics define the upper bound of resource consumption before spinning up an additional replica."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  cpu =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.numbers.maximum 100,
+                              _js2n__-prdslib.numbers.minimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  memory =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.numbers.maximum 100,
+                              _js2n__-prdslib.numbers.minimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              cpu =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.maximum 100,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              memory =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.maximum 100,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugScalingSpec!predicate"
+        | doc "Configuration that dictates the scaling behavior of a service."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  max_replicas =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.numbers.minimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  metrics =
+                    _js2n__-refsenv."_js2n__-:definitions/_DebugScalingMetricsSpec!predicate",
+                  min_replicas =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.numbers.minimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              max_replicas =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              metrics =
+                                _js2n__-refsenv."_js2n__-:definitions/_DebugScalingMetricsSpec!predicate",
+                              min_replicas =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugServiceInterfaceSpec!predicate"
+        | doc "A service interface exposes service functionality over the network to other services within the same component. If you would like to expose services on the network to external components, see the ComponentInterfaceSpec"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  description =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  host =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Null,
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  ingress =
+                    _js2n__-refsenv."_js2n__-:definitions/_DebugIngressSpec!predicate",
+                  password =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Null,
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  path =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\/.*$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  port =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  protocol =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  sticky =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  url =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  username =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Null,
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              description =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              host =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType 'Null,
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              ingress =
+                                _js2n__-refsenv."_js2n__-:definitions/_DebugIngressSpec!predicate",
+                              password =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType 'Null,
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              path =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^\\/.*$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              port =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              protocol =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              sticky =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              url =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              username =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType 'Null,
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugServiceSpec!predicate"
+        | doc "A runtimes (e.g. daemons, servers, etc.). Each service is independently deployable and scalable. Services are 1:1 with a docker image."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.not
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "build", "image" ],
+                    _js2n__-prdslib.records.record {} {} true
+                      _js2n__-prdslib.always
+                  ]),
+              _js2n__-prdslib.records.record
+                {
+                  build =
+                    _js2n__-refsenv."_js2n__-:definitions/_DebugBuildSpec!predicate",
+                  command =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  cpu =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  depends_on =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  deploy =
+                    _js2n__-refsenv."_js2n__-:definitions/_DebugDeploySpec!predicate",
+                  description = _js2n__-prdslib.isType '"String",
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  entrypoint =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  environment =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^[a-zA-Z0-9_]+$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.isType 'Null,
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.isType '"String"
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.isType
+                                                    '"Bool",
+                                                  _js2n__-prdslib.isType 'Null,
+                                                  _js2n__-prdslib.isType
+                                                    '"Number",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                  image =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  interfaces =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-refsenv."_js2n__-:definitions/_DebugServiceInterfaceSpec!predicate",
+                                          _js2n__-prdslib.isType '"Number"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-refsenv."_js2n__-:definitions/_DebugServiceInterfaceSpec!predicate",
+                                                      _js2n__-prdslib.isType
+                                                        '"Number"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                  labels =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                  language = _js2n__-prdslib.isType '"String",
+                  liveness_probe =
+                    _js2n__-refsenv."_js2n__-:definitions/_DebugLivenessProbeSpec!predicate",
+                  memory =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  replicas =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.numbers.minimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  reserved_name =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
+                        ],
+                  scaling =
+                    _js2n__-refsenv."_js2n__-:definitions/_DebugScalingSpec!predicate",
+                  termination_grace_period =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  volumes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-refsenv."_js2n__-:definitions/_DebugVolumeSpec!predicate",
+                                      _js2n__-prdslib.isType '"String"
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-refsenv."_js2n__-:definitions/_DebugVolumeSpec!predicate",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.not
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [ "build", "image" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ]),
+                          _js2n__-prdslib.records.record
+                            {
+                              build =
+                                _js2n__-refsenv."_js2n__-:definitions/_DebugBuildSpec!predicate",
+                              command =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              cpu =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              depends_on =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
+                              deploy =
+                                _js2n__-refsenv."_js2n__-:definitions/_DebugDeploySpec!predicate",
+                              description = _js2n__-prdslib.isType '"String",
+                              enabled = _js2n__-prdslib.isType '"Bool",
+                              entrypoint =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              environment =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.isType
+                                                    '"Bool",
+                                                  _js2n__-prdslib.isType 'Null,
+                                                  _js2n__-prdslib.isType
+                                                    '"Number",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^[a-zA-Z0-9_]+$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"Array",
+                                                              _js2n__-prdslib.isType
+                                                                '"Bool",
+                                                              _js2n__-prdslib.isType
+                                                                'Null,
+                                                              _js2n__-prdslib.isType
+                                                                '"Number",
+                                                              _js2n__-prdslib.isType
+                                                                '"String"
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              image =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              interfaces =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-refsenv."_js2n__-:definitions/_DebugServiceInterfaceSpec!predicate",
+                                                      _js2n__-prdslib.isType
+                                                        '"Number"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.anyOf
+                                                                [
+                                                                  _js2n__-refsenv."_js2n__-:definitions/_DebugServiceInterfaceSpec!predicate",
+                                                                  _js2n__-prdslib.isType
+                                                                    '"Number"
+                                                                ],
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "\\${{\\s*(.*?)\\s*}}"
+                                                                ]
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              labels =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                                ],
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "\\${{\\s*(.*?)\\s*}}"
+                                                                ]
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              language = _js2n__-prdslib.isType '"String",
+                              liveness_probe =
+                                _js2n__-refsenv."_js2n__-:definitions/_DebugLivenessProbeSpec!predicate",
+                              memory =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              replicas =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              reserved_name =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
+                                    ],
+                              scaling =
+                                _js2n__-refsenv."_js2n__-:definitions/_DebugScalingSpec!predicate",
+                              termination_grace_period =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              volumes =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-refsenv."_js2n__-:definitions/_DebugVolumeSpec!predicate",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-refsenv."_js2n__-:definitions/_DebugVolumeSpec!predicate",
+                                                              _js2n__-prdslib.isType
+                                                                '"String"
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugTaskSpec!predicate"
+        | doc "A Task represents a recurring and/or exiting runtime (e.g. crons, schedulers, triggered jobs). Each task will run on its specified schedule and/or be triggerable via the Architect CLI. Tasks are 1:1 with a docker image."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.not
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "build", "image" ],
+                    _js2n__-prdslib.records.record {} {} true
+                      _js2n__-prdslib.always
+                  ]),
+              _js2n__-prdslib.records.record
+                {
+                  build =
+                    _js2n__-refsenv."_js2n__-:definitions/_DebugBuildSpec!predicate",
+                  command =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  cpu =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  depends_on =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  description = _js2n__-prdslib.isType '"String",
+                  entrypoint =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  environment =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^[a-zA-Z0-9_]+$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.isType 'Null,
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.isType '"String"
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.isType
+                                                    '"Bool",
+                                                  _js2n__-prdslib.isType 'Null,
+                                                  _js2n__-prdslib.isType
+                                                    '"Number",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                  image =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  labels =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              "^\\${{\\s*if(.*?)\\s*}}$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ],
+                  language = _js2n__-prdslib.isType '"String",
+                  memory =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  reserved_name =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
+                        ],
+                  schedule =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.not
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [ "build", "image" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ]),
+                          _js2n__-prdslib.records.record
+                            {
+                              build =
+                                _js2n__-refsenv."_js2n__-:definitions/_DebugBuildSpec!predicate",
+                              command =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              cpu =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              depends_on =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
+                              description = _js2n__-prdslib.isType '"String",
+                              entrypoint =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              environment =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_]+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.isType
+                                                    '"Bool",
+                                                  _js2n__-prdslib.isType 'Null,
+                                                  _js2n__-prdslib.isType
+                                                    '"Number",
+                                                  _js2n__-prdslib.isType
+                                                    '"String"
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^[a-zA-Z0-9_]+$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"Array",
+                                                              _js2n__-prdslib.isType
+                                                                '"Bool",
+                                                              _js2n__-prdslib.isType
+                                                                'Null,
+                                                              _js2n__-prdslib.isType
+                                                                '"Number",
+                                                              _js2n__-prdslib.isType
+                                                                '"String"
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              image =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              labels =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "\\${{\\s*(.*?)\\s*}}"
+                                                    ]
+                                                ],
+                                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
+                                                        _js2n__-prdslib.anyOf
+                                                            [
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                                ],
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "\\${{\\s*(.*?)\\s*}}"
+                                                                ]
+                                                            ],
+                                                    } false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } false _js2n__-prdslib.never
+                                    ],
+                              language = _js2n__-prdslib.isType '"String",
+                              memory =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              reserved_name =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
+                                    ],
+                              schedule =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/_DebugVolumeSpec!predicate"
+        | doc "Architect can mount volumes onto your services and tasks to store data that should be shared between running containers or that should persist beyond the lifetime of a container."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.not
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "host_path", "key" ],
+                    _js2n__-prdslib.records.record {} {} true
+                      _js2n__-prdslib.always
+                  ]),
+              _js2n__-prdslib.records.record
+                {
+                  description = _js2n__-prdslib.isType '"String",
+                  host_path =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  key =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  mount_path =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                  readonly =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "\\${{\\s*(.*?)\\s*}}"
+                            ]
+                        ],
+                }
+                {
+                  "^\\${{\\s*if(.*?)\\s*}}$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.not
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [ "host_path", "key" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ]),
+                          _js2n__-prdslib.records.record
+                            {
+                              description = _js2n__-prdslib.isType '"String",
+                              host_path =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              key =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              mount_path =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                              readonly =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "\\${{\\s*(.*?)\\s*}}"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+    }
+    in
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.allOf
+        [
+          _js2n__-prdslib.isType 'Record,
+          _js2n__-prdslib.records.required [ "name" ],
+          _js2n__-prdslib.records.record
+            {
+              artifact_image = _js2n__-prdslib.isType '"String",
+              author = _js2n__-prdslib.isType '"String",
+              databases =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
                         {
                           "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                            predicates.anyOf
-                              [
-                                definitions.predicate._DebugVolumeSpec,
-                                predicates.isType '"String"
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        definitions.predicate._DebugVolumeSpec,
-                                        predicates.isType '"String"
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.not
-                        (predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.required [ "build", "image" ],
-                          predicates.records.record {  } {  } true
-                          predicates.always
-                        ]),
-                        predicates.records.record
+                            _js2n__-refsenv."_js2n__-:definitions/DatabaseSpec!predicate",
+                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                        _js2n__-refsenv."_js2n__-:definitions/DatabaseSpec!predicate",
+                                    } false _js2n__-prdslib.never
+                                ],
+                        } false _js2n__-prdslib.never
+                    ],
+              dependencies =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
                         {
-                          build = definitions.predicate._DebugBuildSpec,
-                          command = predicates.anyOf
-                              [
-                                predicates.anyOf
+                          "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$" =
+                            _js2n__-prdslib.anyOf
                                 [
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"Array",
-                                    predicates.arrays.arrayOf
-                                    (predicates.isType '"String")
-                                  ],
-                                  predicates.isType '"String"
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[\\w][\\w\\.-]{0,127}$"
+                                    ],
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "\\${{\\s*(.*?)\\s*}}"
+                                    ],
+                                  _js2n__-refsenv."_js2n__-:definitions/DependencySpec!predicate"
                                 ],
-                                predicates.allOf
+                        } false _js2n__-prdslib.never
+                    ],
+              description = _js2n__-prdslib.isType '"String",
+              homepage = _js2n__-prdslib.isType '"String",
+              interfaces =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                            _js2n__-prdslib.anyOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          cpu = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          depends_on = predicates.allOf
-                              [
-                                predicates.isType '"Array",
-                                predicates.arrays.arrayOf
-                                (predicates.isType '"String")
-                              ],
-                          deploy = definitions.predicate._DebugDeploySpec,
-                          description = predicates.isType '"String",
-                          enabled = predicates.isType '"Bool",
-                          entrypoint = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"Array",
-                                    predicates.arrays.arrayOf
-                                    (predicates.isType '"String")
-                                  ],
-                                  predicates.isType '"String"
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-refsenv."_js2n__-:definitions/ComponentInterfaceSpec!predicate"
                                 ],
-                                predicates.allOf
+                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                            _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          environment = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"Array",
-                                        predicates.isType '"Bool",
-                                        predicates.isType 'Null,
-                                        predicates.isType '"Number",
-                                        predicates.isType '"String"
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                              [
-                                                predicates.isType '"Array",
-                                                predicates.isType '"Bool",
-                                                predicates.isType 'Null,
-                                                predicates.isType '"Number",
-                                                predicates.isType '"String"
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          image = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                        _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-refsenv."_js2n__-:definitions/ComponentInterfaceSpec!predicate"
+                                            ],
+                                    } false _js2n__-prdslib.never
+                                ],
+                        } false _js2n__-prdslib.never
+                    ],
+              keywords =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String")
+                    ],
+              name =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.pattern
+                        "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$"
+                    ],
+              outputs =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "^[a-zA-Z0-9_-]+$" =
+                            _js2n__-prdslib.anyOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          interfaces = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.anyOf
-                                        [
-                                          definitions.predicate._DebugServiceInterfaceSpec,
-                                          predicates.isType '"Number"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ]
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            predicates.anyOf
-                                              [
-                                                predicates.anyOf
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.isType '"Number",
+                                  _js2n__-prdslib.isType '"Bool",
+                                  _js2n__-refsenv."_js2n__-:definitions/OutputDefinitionSpec!predicate",
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^[a-zA-Z0-9_-]+$" =
+                                        _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.isType '"Number",
+                                              _js2n__-prdslib.isType '"Bool",
+                                              _js2n__-refsenv."_js2n__-:definitions/OutputDefinitionSpec!predicate",
+                                              _js2n__-prdslib.isType 'Null
+                                            ],
+                                    } false _js2n__-prdslib.never
+                                ],
+                        } false _js2n__-prdslib.never
+                    ],
+              secrets =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "^[a-zA-Z0-9_-]+$" =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.isType '"Number",
+                                  _js2n__-prdslib.isType '"Bool",
+                                  _js2n__-refsenv."_js2n__-:definitions/SecretDefinitionSpec!predicate",
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                        } false _js2n__-prdslib.never
+                    ],
+              services =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                            _js2n__-refsenv."_js2n__-:definitions/ServiceSpec!predicate",
+                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                        _js2n__-refsenv."_js2n__-:definitions/ServiceSpec!predicate",
+                                    } false _js2n__-prdslib.never
+                                ],
+                        } false _js2n__-prdslib.never
+                    ],
+              tasks =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                            _js2n__-refsenv."_js2n__-:definitions/TaskSpec!predicate",
+                          "^\\${{\\s*if(.*?)\\s*}}$" =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                        _js2n__-refsenv."_js2n__-:definitions/TaskSpec!predicate",
+                                    } false _js2n__-prdslib.never
+                                ],
+                        } false _js2n__-prdslib.never
+                    ],
+            }
+            {
+              "^\\${{\\s*if(.*?)\\s*}}$" =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "name" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          artifact_image = _js2n__-prdslib.isType '"String",
+                          author = _js2n__-prdslib.isType '"String",
+                          databases =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                        _js2n__-refsenv."_js2n__-:definitions/DatabaseSpec!predicate",
+                                      "^\\${{\\s*if(.*?)\\s*}}$" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record {}
+                                                {
+                                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                                    _js2n__-refsenv."_js2n__-:definitions/DatabaseSpec!predicate",
+                                                } false _js2n__-prdslib.never
+                                            ],
+                                    } false _js2n__-prdslib.never
+                                ],
+                          dependencies =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$" =
+                                        _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.allOf
                                                 [
-                                                  definitions.predicate._DebugServiceInterfaceSpec,
-                                                  predicates.isType '"Number"
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.strings.pattern
+                                                    "^[\\w][\\w\\.-]{0,127}$"
                                                 ],
-                                                predicates.allOf
+                                              _js2n__-prdslib.allOf
                                                 [
-                                                  predicates.isType '"String",
-                                                  predicates.strings.pattern
-                                                  "\\${{\\s*(.*?)\\s*}}"
-                                                ]
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          labels = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ]
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                            predicates.anyOf
-                                              [
-                                                predicates.allOf
-                                                [
-                                                  predicates.isType '"String",
-                                                  predicates.strings.pattern
-                                                  "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.strings.pattern
+                                                    "\\${{\\s*(.*?)\\s*}}"
                                                 ],
-                                                predicates.allOf
-                                                [
-                                                  predicates.isType '"String",
-                                                  predicates.strings.pattern
-                                                  "\\${{\\s*(.*?)\\s*}}"
-                                                ]
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          language = predicates.isType '"String",
-                          liveness_probe =
-                            definitions.predicate._DebugLivenessProbeSpec,
-                          memory = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          replicas = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType 'Integer,
-                                  predicates.numbers.minimum 0
+                                              _js2n__-refsenv."_js2n__-:definitions/DependencySpec!predicate"
+                                            ],
+                                    } false _js2n__-prdslib.never
                                 ],
-                                predicates.allOf
+                          description = _js2n__-prdslib.isType '"String",
+                          homepage = _js2n__-prdslib.isType '"String",
+                          interfaces =
+                            _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          reserved_name = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.strings.pattern
-                                "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
-                              ],
-                          scaling = definitions.predicate._DebugScalingSpec,
-                          termination_grace_period = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          volumes = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                    predicates.anyOf
-                                      [
-                                        definitions.predicate._DebugVolumeSpec,
-                                        predicates.isType '"String"
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                                            predicates.anyOf
-                                              [
-                                                definitions.predicate._DebugVolumeSpec,
-                                                predicates.isType '"String"
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugTaskSpec
-            | doc m%"
-            A Task represents a recurring and/or exiting runtime (e.g. crons, schedulers, triggered jobs). Each task will run on its specified schedule and/or be triggerable via the Architect CLI. Tasks are 1:1 with a docker image.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.not
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "build", "image" ],
-                  predicates.records.record {  } {  } true predicates.always
-                ]),
-                predicates.records.record
-                {
-                  build = definitions.predicate._DebugBuildSpec,
-                  command = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.isType '"String")
-                          ],
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  cpu = predicates.anyOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  depends_on = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  description = predicates.isType '"String",
-                  entrypoint = predicates.anyOf
-                      [
-                        predicates.anyOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.isType '"String")
-                          ],
-                          predicates.isType '"String"
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  environment = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                              [
-                                predicates.isType '"Array",
-                                predicates.isType '"Bool",
-                                predicates.isType 'Null,
-                                predicates.isType '"Number",
-                                predicates.isType '"String"
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"Array",
-                                        predicates.isType '"Bool",
-                                        predicates.isType 'Null,
-                                        predicates.isType '"Number",
-                                        predicates.isType '"String"
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  image = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  labels = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                            predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                        _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-refsenv."_js2n__-:definitions/ComponentInterfaceSpec!predicate"
+                                            ],
+                                      "^\\${{\\s*if(.*?)\\s*}}$" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record {}
+                                                {
+                                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                                    _js2n__-prdslib.anyOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-refsenv."_js2n__-:definitions/ComponentInterfaceSpec!predicate"
+                                                        ],
+                                                } false _js2n__-prdslib.never
+                                            ],
+                                    } false _js2n__-prdslib.never
                                 ],
-                                predicates.allOf
+                          keywords =
+                            _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ]
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                  language = predicates.isType '"String",
-                  memory = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  reserved_name = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.strings.pattern
-                        "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
-                      ],
-                  schedule = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.not
-                        (predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.required [ "build", "image" ],
-                          predicates.records.record {  } {  } true
-                          predicates.always
-                        ]),
-                        predicates.records.record
-                        {
-                          build = definitions.predicate._DebugBuildSpec,
-                          command = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"Array",
-                                    predicates.arrays.arrayOf
-                                    (predicates.isType '"String")
-                                  ],
-                                  predicates.isType '"String"
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
                                 ],
-                                predicates.allOf
+                          name =
+                            _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          cpu = predicates.anyOf
-                              [
-                                predicates.isType '"Number",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          depends_on = predicates.allOf
-                              [
-                                predicates.isType '"Array",
-                                predicates.arrays.arrayOf
-                                (predicates.isType '"String")
-                              ],
-                          description = predicates.isType '"String",
-                          entrypoint = predicates.anyOf
-                              [
-                                predicates.anyOf
-                                [
-                                  predicates.allOf
-                                  [
-                                    predicates.isType '"Array",
-                                    predicates.arrays.arrayOf
-                                    (predicates.isType '"String")
-                                  ],
-                                  predicates.isType '"String"
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$"
                                 ],
-                                predicates.allOf
+                          outputs =
+                            _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          environment = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                      [
-                                        predicates.isType '"Array",
-                                        predicates.isType '"Bool",
-                                        predicates.isType 'Null,
-                                        predicates.isType '"Number",
-                                        predicates.isType '"String"
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^[a-zA-Z0-9_]+$" = predicates.anyOf
-                                              [
-                                                predicates.isType '"Array",
-                                                predicates.isType '"Bool",
-                                                predicates.isType 'Null,
-                                                predicates.isType '"Number",
-                                                predicates.isType '"String"
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          image = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          labels = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  }
-                                {
-                                  "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                    predicates.anyOf
-                                      [
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                        ],
-                                        predicates.allOf
-                                        [
-                                          predicates.isType '"String",
-                                          predicates.strings.pattern
-                                          "\\${{\\s*(.*?)\\s*}}"
-                                        ]
-                                      ],
-                                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                                      [
-                                        predicates.isType 'Record,
-                                        predicates.records.record {  }
-                                        {
-                                          "^(?=(.{1,63}/)?.{1,63}$)((([a-z0-9][-a-z0-9_.]*)?[a-z0-9])?/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$" =
-                                            predicates.anyOf
-                                              [
-                                                predicates.allOf
-                                                [
-                                                  predicates.isType '"String",
-                                                  predicates.strings.pattern
-                                                  "^(?=.{1,63})(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$"
-                                                ],
-                                                predicates.allOf
-                                                [
-                                                  predicates.isType '"String",
-                                                  predicates.strings.pattern
-                                                  "\\${{\\s*(.*?)\\s*}}"
-                                                ]
-                                              ],
-                                        }
-                                        false
-                                        predicates.never
-                                      ],
-                                }
-                                false
-                                predicates.never
-                              ],
-                          language = predicates.isType '"String",
-                          memory = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          reserved_name = predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.strings.pattern
-                                "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$"
-                              ],
-                          schedule = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-          _DebugVolumeSpec
-            | doc m%"
-            Architect can mount volumes onto your services and tasks to store data that should be shared between running containers or that should persist beyond the lifetime of a container.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.not
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "host_path", "key" ],
-                  predicates.records.record {  } {  } true predicates.always
-                ]),
-                predicates.records.record
-                {
-                  description = predicates.isType '"String",
-                  host_path = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  key = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  mount_path = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                  readonly = predicates.anyOf
-                      [
-                        predicates.isType '"Bool",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                        ]
-                      ],
-                }
-                {
-                  "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.not
-                        (predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.required [ "host_path", "key" ],
-                          predicates.records.record {  } {  } true
-                          predicates.always
-                        ]),
-                        predicates.records.record
-                        {
-                          description = predicates.isType '"String",
-                          host_path = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          key = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          mount_path = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                          readonly = predicates.anyOf
-                              [
-                                predicates.isType '"Bool",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern
-                                  "\\${{\\s*(.*?)\\s*}}"
-                                ]
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                }
-                false
-                predicates.never
-              ],
-        },
-  }
-in
-
-predicates.contract_from_predicate
-(predicates.allOf
-[
-  predicates.isType 'Record,
-  predicates.records.required [ "name" ],
-  predicates.records.record
-  {
-    artifact_image = predicates.isType '"String",
-    author = predicates.isType '"String",
-    databases = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record {  }
-          {
-            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-              definitions.predicate.DatabaseSpec,
-            "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                      definitions.predicate.DatabaseSpec,
-                  }
-                  false
-                  predicates.never
-                ],
-          }
-          false
-          predicates.never
-        ],
-    dependencies = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record {  }
-          {
-            "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$" =
-              predicates.anyOf
-                [
-                  predicates.allOf
-                  [
-                    predicates.isType '"String",
-                    predicates.strings.pattern "^[\\w][\\w\\.-]{0,127}$"
-                  ],
-                  predicates.allOf
-                  [
-                    predicates.isType '"String",
-                    predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                  ],
-                  definitions.predicate.DependencySpec
-                ],
-          }
-          false
-          predicates.never
-        ],
-    description = predicates.isType '"String",
-    homepage = predicates.isType '"String",
-    interfaces = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record {  }
-          {
-            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" = predicates.anyOf
-                [
-                  predicates.isType '"String",
-                  definitions.predicate.ComponentInterfaceSpec
-                ],
-            "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                      predicates.anyOf
-                        [
-                          predicates.isType '"String",
-                          definitions.predicate.ComponentInterfaceSpec
-                        ],
-                  }
-                  false
-                  predicates.never
-                ],
-          }
-          false
-          predicates.never
-        ],
-    keywords = predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf (predicates.isType '"String")
-        ],
-    name = predicates.allOf
-        [
-          predicates.isType '"String",
-          predicates.strings.pattern
-          "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$"
-        ],
-    outputs = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record {  }
-          {
-            "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                [
-                  predicates.isType '"String",
-                  predicates.isType '"Number",
-                  predicates.isType '"Bool",
-                  definitions.predicate.OutputDefinitionSpec,
-                  predicates.isType 'Null
-                ],
-            "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                        [
-                          predicates.isType '"String",
-                          predicates.isType '"Number",
-                          predicates.isType '"Bool",
-                          definitions.predicate.OutputDefinitionSpec,
-                          predicates.isType 'Null
-                        ],
-                  }
-                  false
-                  predicates.never
-                ],
-          }
-          false
-          predicates.never
-        ],
-    secrets = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record {  }
-          {
-            "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                [
-                  predicates.isType '"String",
-                  predicates.isType '"Number",
-                  predicates.isType '"Bool",
-                  definitions.predicate.SecretDefinitionSpec,
-                  predicates.isType 'Null
-                ],
-          }
-          false
-          predicates.never
-        ],
-    services = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record {  }
-          {
-            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-              definitions.predicate.ServiceSpec,
-            "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                      definitions.predicate.ServiceSpec,
-                  }
-                  false
-                  predicates.never
-                ],
-          }
-          false
-          predicates.never
-        ],
-    tasks = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record {  }
-          {
-            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-              definitions.predicate.TaskSpec,
-            "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                      definitions.predicate.TaskSpec,
-                  }
-                  false
-                  predicates.never
-                ],
-          }
-          false
-          predicates.never
-        ],
-  }
-  {
-    "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.required [ "name" ],
-          predicates.records.record
-          {
-            artifact_image = predicates.isType '"String",
-            author = predicates.isType '"String",
-            databases = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                      definitions.predicate.DatabaseSpec,
-                    "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  }
-                          {
-                            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                              definitions.predicate.DatabaseSpec,
-                          }
-                          false
-                          predicates.never
-                        ],
-                  }
-                  false
-                  predicates.never
-                ],
-            dependencies = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$" =
-                      predicates.anyOf
-                        [
-                          predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.strings.pattern "^[\\w][\\w\\.-]{0,127}$"
-                          ],
-                          predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.strings.pattern "\\${{\\s*(.*?)\\s*}}"
-                          ],
-                          definitions.predicate.DependencySpec
-                        ],
-                  }
-                  false
-                  predicates.never
-                ],
-            description = predicates.isType '"String",
-            homepage = predicates.isType '"String",
-            interfaces = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                      predicates.anyOf
-                        [
-                          predicates.isType '"String",
-                          definitions.predicate.ComponentInterfaceSpec
-                        ],
-                    "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  }
-                          {
-                            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                              predicates.anyOf
-                                [
-                                  predicates.isType '"String",
-                                  definitions.predicate.ComponentInterfaceSpec
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^[a-zA-Z0-9_-]+$" =
+                                        _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.isType '"Number",
+                                              _js2n__-prdslib.isType '"Bool",
+                                              _js2n__-refsenv."_js2n__-:definitions/OutputDefinitionSpec!predicate",
+                                              _js2n__-prdslib.isType 'Null
+                                            ],
+                                      "^\\${{\\s*if(.*?)\\s*}}$" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record {}
+                                                {
+                                                  "^[a-zA-Z0-9_-]+$" =
+                                                    _js2n__-prdslib.anyOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.isType
+                                                            '"Number",
+                                                          _js2n__-prdslib.isType
+                                                            '"Bool",
+                                                          _js2n__-refsenv."_js2n__-:definitions/OutputDefinitionSpec!predicate",
+                                                          _js2n__-prdslib.isType
+                                                            'Null
+                                                        ],
+                                                } false _js2n__-prdslib.never
+                                            ],
+                                    } false _js2n__-prdslib.never
                                 ],
-                          }
-                          false
-                          predicates.never
-                        ],
-                  }
-                  false
-                  predicates.never
-                ],
-            keywords = predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf (predicates.isType '"String")
-                ],
-            name = predicates.allOf
-                [
-                  predicates.isType '"String",
-                  predicates.strings.pattern
-                  "^(?:(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)\\/)?(?<component_name>(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-))(?:@(?<instance_name>[\\w][\\w\\.-]{0,127}))?$"
-                ],
-            outputs = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                        [
-                          predicates.isType '"String",
-                          predicates.isType '"Number",
-                          predicates.isType '"Bool",
-                          definitions.predicate.OutputDefinitionSpec,
-                          predicates.isType 'Null
-                        ],
-                    "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  }
-                          {
-                            "^[a-zA-Z0-9_-]+$" = predicates.anyOf
+                          secrets =
+                            _js2n__-prdslib.allOf
                                 [
-                                  predicates.isType '"String",
-                                  predicates.isType '"Number",
-                                  predicates.isType '"Bool",
-                                  definitions.predicate.OutputDefinitionSpec,
-                                  predicates.isType 'Null
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^[a-zA-Z0-9_-]+$" =
+                                        _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.isType '"Number",
+                                              _js2n__-prdslib.isType '"Bool",
+                                              _js2n__-refsenv."_js2n__-:definitions/SecretDefinitionSpec!predicate",
+                                              _js2n__-prdslib.isType 'Null
+                                            ],
+                                    } false _js2n__-prdslib.never
                                 ],
-                          }
-                          false
-                          predicates.never
-                        ],
-                  }
-                  false
-                  predicates.never
-                ],
-            secrets = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^[a-zA-Z0-9_-]+$" = predicates.anyOf
-                        [
-                          predicates.isType '"String",
-                          predicates.isType '"Number",
-                          predicates.isType '"Bool",
-                          definitions.predicate.SecretDefinitionSpec,
-                          predicates.isType 'Null
-                        ],
-                  }
-                  false
-                  predicates.never
-                ],
-            services = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                      definitions.predicate.ServiceSpec,
-                    "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  }
-                          {
-                            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                              definitions.predicate.ServiceSpec,
-                          }
-                          false
-                          predicates.never
-                        ],
-                  }
-                  false
-                  predicates.never
-                ],
-            tasks = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                      definitions.predicate.TaskSpec,
-                    "^\\${{\\s*if(.*?)\\s*}}$" = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  }
-                          {
-                            "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
-                              definitions.predicate.TaskSpec,
-                          }
-                          false
-                          predicates.never
-                        ],
-                  }
-                  false
-                  predicates.never
-                ],
-          }
-          {  }
-          false
-          predicates.never
-        ],
-  }
-  false
-  predicates.never
-])
+                          services =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                        _js2n__-refsenv."_js2n__-:definitions/ServiceSpec!predicate",
+                                      "^\\${{\\s*if(.*?)\\s*}}$" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record {}
+                                                {
+                                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                                    _js2n__-refsenv."_js2n__-:definitions/ServiceSpec!predicate",
+                                                } false _js2n__-prdslib.never
+                                            ],
+                                    } false _js2n__-prdslib.never
+                                ],
+                          tasks =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                        _js2n__-refsenv."_js2n__-:definitions/TaskSpec!predicate",
+                                      "^\\${{\\s*if(.*?)\\s*}}$" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record {}
+                                                {
+                                                  "^(?!-)(?!.{0,32}--)[a-z0-9-]{1,32}(?<!-)$" =
+                                                    _js2n__-refsenv."_js2n__-:definitions/TaskSpec!predicate",
+                                                } false _js2n__-prdslib.never
+                                            ],
+                                    } false _js2n__-prdslib.never
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+            } false _js2n__-prdslib.never
+        ])

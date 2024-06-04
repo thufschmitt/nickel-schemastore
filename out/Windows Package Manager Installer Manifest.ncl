@@ -1,1414 +1,1588 @@
 # DO NOT EDIT
 # This file was automatically generated using json-schema-to-nickel
-let predicates =
-{
+let _js2n__-prdslib
+  = {
     allOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `allOf preds` succeeds if all of the predicates in `preds` succeed
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
+        `allOf preds` succeeds if all of the predicates in `preds` succeed
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
       "%
-      = fun preds x => std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if !result.success then result else acc)
-          { error = "", success = true, }
-          preds,
-    always : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "", success = true, },
+      = fun
+          preds
+          x
+          =>
+          std.array.fold_right
+            (fun pred acc => (match { 'Ok => acc, 'Err s => 'Err s, }) (pred x))
+            'Ok preds,
+    always : Dyn -> [| 'Ok, 'Err String |] = std.function.const 'Ok,
     anyOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
+        `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
       "%
-      = fun preds x => (fun result => if result.success then
-            { error = "", success = true, }
-            else
-            {
-              error = m%"
-                  anyOf: none of the options matched%{std.string.join "\n"
-                  result.errors}
-                  "%,
-              success = false,
-            })
-          (std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if result.success || acc.success then
-            { errors = [  ], success = true, }
-            else
-            {
-              errors = [
-                      m%"
-                      - %{result.error}
-                      "%
-                    ] @
-                    acc.errors,
-              success = false,
-            })
-          { errors = [  ], success = false, }
-          preds),
-    arrays = {
+      = fun
+          preds
+          x
+          =>
+          (match {
+            'Ok =>
+              'Ok,
+            'Errs
+              msgs =>
+              'Err
+                m%"
+                  anyOf: none of the options matched
+                  %{std.string.join
+                    m%"
+                      
+                      
+                    "% msgs}
+                "%,
+          })
+            (std.array.fold_right
+              (fun
+                pred
+                acc
+                =>
+                (match {
+                  'Ok =>
+                    'Ok,
+                  'Errs
+                    msgs =>
+                    (match {
+                      'Ok =>
+                        'Ok,
+                      'Err
+                        msg =>
+                        'Errs ([ "  - %{msg}" ] @ msgs),
+                    }) (pred x),
+                }) acc) ('Errs [  ]) preds),
+    arrays =
+      {
           additionalItems
-            : (Dyn -> { success: Bool, error: String }) -> Number -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]
-            "%
-            = fun pred start x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |])
+            -> Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]"
+            = fun
+                pred
+                start
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let value_length = std.array.length x in
-                if start >= value_length then
-                { error = "", success = true, }
-                else
-                (arrayOf pred ((std.array.slice start value_length x) | Dyn))),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let value_length
+                      = std.array.length x
+                      in
+                    if start >= value_length then
+                        'Ok
+                      else
+                        arrayOf pred
+                          ((std.array.slice start value_length x)
+                          | Dyn),
           arrayOf
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Apply a predicate to all elements of an array, succeeding if all
-            applications succeed. If the value isn't an array, fail.
+              Apply a predicate to all elements of an array, succeeding if all
+              applications succeed.
             "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                x),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  std.array.fold_right
+                      (fun
+                        x
+                        acc
+                        =>
+                        (match { 'Ok => acc, 'Err msg => 'Err msg, }) (pred x))
+                      'Ok x,
           contains
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]
-            "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                (fun result => if result.success then
-                  { error = "", success = true, }
-                  else
-                  {
-                    error = m%"
-                        contains: no elements matched%{std.string.join "\n"
-                        result.errors}
-                        "%,
-                    success = false,
-                  })
-                (std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if result.success || acc.success then
-                  { errors = [  ], success = true, }
-                  else
-                  {
-                    errors = [
-                            m%"
-                            - %{result.error}
-                            "%
-                          ] @
-                          acc.errors,
-                    success = false,
-                  })
-                { errors = [  ], success = false, }
-                x)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  (match {
+                      'Ok =>
+                        'Ok,
+                      'Errs
+                        msgs =>
+                        'Err
+                          m%"
+                            contains: no elements matched
+                            %{std.string.join
+                              m%"
+                                
+                                
+                              "% msgs}
+                          "%,
+                    })
+                      (std.array.fold_right
+                        (fun
+                          x
+                          acc
+                          =>
+                          (match {
+                            'Ok =>
+                              'Ok,
+                            'Errs
+                              msgs =>
+                              (match {
+                                'Ok =>
+                                  'Ok,
+                                'Err
+                                  msg =>
+                                  'Errs ([ "  - %{msg}" ] @ msgs),
+                              }) (pred x),
+                          }) acc) ('Errs [  ]) x),
           items
-            : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]
-            "%
-            = fun preds x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : Array (Dyn -> [| 'Ok, 'Err String |])
+            -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]"
+            = fun
+                preds
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let length_to_check =
-                std.number.min (std.array.length preds) (std.array.length x)
-                in
-                
-                std.array.fold_right
-                (fun i acc => let result =
-                  std.array.at i preds (std.array.at i x)
-                  in
-                  
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                (std.array.range 0 length_to_check)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let length_to_check
+                      = std.number.min (std.array.length preds)
+                        (std.array.length x)
+                      in
+                    std.array.fold_right
+                        (fun
+                          i
+                          acc
+                          =>
+                          (match { 'Err msg => 'Err msg, 'Ok => acc, })
+                            (std.array.at i preds (std.array.at i x))) 'Ok
+                        (std.array.range 0 length_to_check),
           maxItems
-            : Number -> Dyn -> { success: Bool, error: String }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
+              `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
             "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (if (std.array.length (x | Array Dyn)) > n then
-                {
-                    error = m%"
-                        array is longer than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minItems
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
-            "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
-                else
-                (if (std.array.length (x | Array Dyn)) < n then
-                {
-                    error = m%"
-                        array is shorter than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          uniqueItems
-            : Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Succeeds for any array if its elements are pairwise distinct.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
-            "%
-            = let find_duplicate 
-                : Array Dyn -> {
-                  has_duplicate: Bool,
-                  duplicate: Dyn,
-                  seen: { _ : Bool }
-                } =
-              std.array.fold_right
-                (fun elt acc => if acc.has_duplicate then acc else
-                  (let index = std.serialize 'Json elt in
-                  if std.record.has_field index acc.seen then
-                  { duplicate = elt, has_duplicate = true, seen = acc.seen, }
+                  if (std.array.length (x | Array Dyn)) > n then
+                    'Err
+                      "array is longer than %{std.string.from_number n} items"
                   else
-                  {
-                    duplicate = null,
-                    has_duplicate = false,
-                    seen = std.record.insert index true acc.seen,
-                  }))
-                { duplicate = null, has_duplicate = false, seen = {  }, }
-              in
-              
-              fun x => if !(std.is_array x) then
-                { error = "", success = true, }
+                    'Ok,
+          minItems
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let {has_duplicate  | Dyn, duplicate  | Dyn, ..} =
-                find_duplicate (x | Array Dyn)
+                  if (std.array.length (x | Array Dyn)) < n then
+                    'Err
+                      "array is shorter than %{std.string.from_number n} items"
+                  else
+                    'Ok,
+          uniqueItems
+            : Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              Succeeds for any array if its elements are pairwise distinct.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
+            "%
+            = let find_duplicate
+                : Array Dyn
+                -> {
+                  has_duplicate : Bool,
+                  duplicate : Dyn,
+                  seen : { _ : Bool }
+                }
+                = std.array.fold_right
+                  (fun
+                    elt
+                    acc
+                    =>
+                    if acc.has_duplicate then
+                      acc
+                    else
+                      let index
+                        = std.serialize 'Json elt
+                        in
+                      if std.record.has_field index acc.seen then
+                          {
+                            duplicate = elt,
+                            has_duplicate = true,
+                            seen = acc.seen,
+                          }
+                        else
+                          {
+                            duplicate = null,
+                            has_duplicate = false,
+                            seen = std.record.insert index true acc.seen,
+                          })
+                  { duplicate = null, has_duplicate = false, seen = {}, }
                 in
-                
-                if has_duplicate then
-                {
-                    error = m%"
-                        duplicate found: %{std.serialize 'Json duplicate}
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
+              fun
+                  x
+                  =>
+                  if !(std.is_array x) then
+                    'Ok
+                  else
+                    let { has_duplicate, duplicate, .. }
+                      = find_duplicate (x | Array Dyn)
+                      in
+                    if has_duplicate then
+                        'Err "duplicate found: %{std.serialize 'Json duplicate}"
+                      else
+                        'Ok,
         },
     const
-      : Dyn -> Dyn -> { success: Bool, error: String }
+      : Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `const value x` succeeds if and only if `x` is equalt to `value`
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
+        `const value x` succeeds if and only if `x` is equal to `value`
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
       "%
-      = fun value x => if x == value then { error = "", success = true, } else
-          {
-            error = m%"
-                expected %{std.serialize 'Json value}
-                "%,
-            success = false,
-          },
+      = fun
+          value
+          x
+          =>
+          if x == value then
+            'Ok
+          else
+            'Err "expected %{std.serialize 'Json value}",
     contract_from_predicate
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> Dyn -> Dyn
-      = fun predicate label value => let {success  | Dyn, error  | Dyn} =
-          predicate value
-          in
-          
-          if success then value else
-          ((std.contract.blame_with_message error label) | Dyn),
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> Dyn -> Dyn
+      = fun
+          predicate
+          label
+          value
+          =>
+          (match {
+            'Ok =>
+              value,
+            'Err
+              msg =>
+              (std.contract.blame_with_message msg label)
+              | Dyn,
+          }) (predicate value),
     enum
-      : Array Dyn -> Dyn -> { success: Bool, error: String }
+      : Array Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
+        `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
       "%
-      = let checkEqual =
-        fun input variant => (input == variant) ||
-            ((std.is_enum input) &&
-            (((std.string.from_enum input) == variant) | Bool))
-        in
-        
-        fun values x => std.array.fold_right
-          (fun value acc => if checkEqual x value then
-            { error = "", success = true, }
-            else
-            acc)
-          {
-            error = m%"
-                expected one of %{std.serialize 'Json (values | Dyn)}
-                "%,
-            success = false,
-          }
-          values,
+      = let checkEqual
+          = fun
+            input
+            variant
+            =>
+            (input == variant)
+            || ((std.is_enum input)
+            && (((std.string.from_enum input) == variant)
+            | Bool))
+          in
+        fun
+            values
+            x
+            =>
+            std.array.fold_right
+              (fun value acc => if checkEqual x value then 'Ok else acc)
+              ('Err "expected one of %{std.serialize 'Json (values | Dyn)}")
+              values,
     from_simple_predicate
-      : String -> (Dyn -> Bool) -> Dyn -> { success: Bool, error: String }
-      | doc m%"
-      Convert a simple boolean predicate into a predicate supporting error messages
-      "%
-      = fun error' pred x => { error = error', success = pred x, },
+      : String -> (Dyn -> Bool) -> Dyn -> [| 'Ok, 'Err String |]
+      | doc "Convert a simple boolean predicate into a predicate supporting error messages"
+      = fun error' pred x => if pred x then 'Ok else 'Err error',
     ifThenElse
-      : (Dyn -> { success: Bool, error: String }) -> (Dyn -> {
-        success: Bool,
-        error: String
-      }) -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
+        `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
       "%
-      = fun i t e x => let {success  | Dyn, ..} = i x in
-          if success then t x else (e x),
+      = fun i t e x => (match { 'Ok => t x, 'Err msg => e x, }) (i x),
     isType
       : [| '"Array", '"Bool", 'Integer, 'Null, '"Number", 'Record, '"String" |]
-      -> Dyn -> { success: Bool, error: String }
-      = fun t => (match {'Integer => from_simple_predicate "expected an integer"
-            (fun x => (std.is_number x) &&
-              (std.number.is_integer (x | Number))),
-            'Null => from_simple_predicate "expected `null`"
-            (fun x => x == null),
-            _ => from_simple_predicate
-            m%"
-            value is not of type %{std.string.from_enum t}
-            "%
-            (fun x => (std.typeof x) == t)
-          })
-          t,
-    never : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "never", success = false, },
+      -> Dyn -> [| 'Ok, 'Err String |]
+      = fun
+          t
+          =>
+          (match {
+            'Null =>
+              from_simple_predicate "expected `null`" (fun x => x == null),
+            'Integer =>
+              from_simple_predicate "expected an integer"
+                (fun
+                  x
+                  =>
+                  (std.is_number x) && (std.number.is_integer (x | Number))),
+            _ =>
+              from_simple_predicate
+                "value is not of type %{std.string.from_enum t}"
+                (fun x => (std.typeof x) == t),
+          }) t,
+    never : Dyn -> [| 'Ok, 'Err String |] = std.function.const ('Err "never"),
     not
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `not pred` succeeds if and only if `pred` fails
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
+        `not pred` succeeds if and only if `pred` fails
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
       "%
-      = fun pred x => let result = pred x in
-          if result.success then
-          {
-              error = "Inverted predicate succeeded unexpectedly",
-              success = false,
-            }
-          else
-          { error = "", success = true, },
-    numbers = {
+      = fun
+          pred
+          x
+          =>
+          (match {
+            'Ok =>
+              'Err "Inverted predicate succeeded unexpectedly",
+            'Err
+              msg =>
+              'Ok,
+          }) (pred x),
+    numbers =
+      {
           exclusiveMaximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) < limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive maximum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) < limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive maximum of %{std.string.from_number
+                        limit}",
           exclusiveMinimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) > limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive minimum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) > limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive minimum of %{std.string.from_number
+                        limit}",
           maximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a maximum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a maximum of %{std.string.from_number limit}",
           minimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a minimum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a minimum of %{std.string.from_number limit}",
           multipleOf
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]
-            "%
-            = fun mult x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]"
+            = fun
+                mult
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if std.number.is_integer ((x | Number) / mult) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a multiple of %{std.string.from_number mult}
-                      "%,
-                  success = false,
-                }),
+                  if std.number.is_integer ((x | Number) / mult) then
+                    'Ok
+                  else
+                    'Err
+                      "expected a multiple of %{std.string.from_number mult}",
         },
     oneOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
+        `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
       "%
-      = fun preds x => let count_true 
-            : Array { success: Bool, error: String } -> Number =
-          fun results => std.array.fold_left
-              (fun n b => if b.success then n + 1 else n)
-              0
+      = fun
+          preds
+          x
+          =>
+          let count_ok
+            : Array [| 'Ok, 'Err String |] -> Number
+            = fun
               results
-          in
-          
-          let results = std.array.map (fun pred => pred x) preds in
-          let count = count_true results in
-          if count == 0 then
-          let errors =
-            std.array.map
-              (fun result => m%"
-                - %{result.error}
-                "%)
-              results
+              =>
+              std.array.fold_left (fun n b => if b == 'Ok then n + 1 else n) 0
+                results
             in
-            
-            {
-              error = m%"
-                  oneOf: none of the options matched%{std.string.join "\n"
-                  errors}
-                  "%,
-              success = false,
-            }
-          else
-          (if count > 1 then
-          {
-              error = "oneOf: more than one of the options matched",
-              success = false,
-            }
-          else
-          { error = "", success = true, }),
-    records = {
-          dependencies
-            : { _ : Dyn } -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]
-            "%
-            = let mustHaveFields 
-                : Array String -> { _ : Dyn } -> {
-                  success: Bool,
-                  error: String
-                } =
-              fun fields x => std.array.fold_right
-                  (fun field acc => if !(std.record.has_field field x) then
-                    {
-                        error = m%"
-                            expected field `%{field}`
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc)
-                  { error = "", success = true, }
-                  fields
+          let results
+              = std.array.map (fun pred => pred x) preds
               in
-              
-              fun deps x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (let x  | { _ : Dyn } = x in
-                std.array.fold_right
-                (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                  if !(std.record.has_field field x) then acc else
-                    (let result =
-                    if std.is_array value then
-                      mustHaveFields (value | Array String) x
-                      else
-                      (let pred  | Dyn -> { success: Bool, error: String } =
-                      value
-                      in
-                      
-                      pred (x | Dyn))
+            let count
+                = count_ok results
+                in
+              if count == 0 then
+                  let errors
+                    = std.array.flat_map
+                      (fun
+                        result
+                        =>
+                        (match { 'Ok => [  ], 'Err s => [ "  - %{s}" ], })
+                          result) results
                     in
-                    
-                    if !result.success then
-                    {
-                        error = m%"
-                            dependency of `%{field}` failed: %{result.error}
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc))
-                { error = "", success = true, }
-                (std.record.to_array deps)),
-          maxProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
+                  'Err
+                      m%"
+                        oneOf: none of the options matched
+                        %{std.string.join
+                          m%"
+                            
+                            
+                          "% errors}
+                      "%
                 else
-                (if (std.record.length (x | { _ : Dyn })) > n then
-                {
-                    error = m%"
-                        record contains more than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (if (std.record.length (x | { _ : Dyn })) < n then
-                {
-                    error = m%"
-                        record contains fewer than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          propertyNames
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]
-            "%
-            = fun pred x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => let result = pred (field | Dyn) in
-                  if !result.success then
-                  {
-                      error = m%"
-                          field `%{field}` did not validate against `propertyNames` schema
-                          "%,
-                      success = false,
-                    }
+                  if count > 1 then
+                    'Err "oneOf: more than one of the options matched"
                   else
-                  acc)
-                { error = "", success = true, }
-                (std.record.fields (x | { _ : Dyn }))),
-          record
-            : { _ : Dyn -> { success: Bool, error: String } } -> { _ : Dyn -> {
-              success: Bool,
-              error: String
-            } } -> Bool -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            `record properties patternProperties additionalAllowed
-            additionalProperties x` is a combination of the `properties`,
-            `patternProperties` and `additionalProperties` validation keywords in
-            JSON schema.
-            
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
-            "%
-            =
-            fun properties patternProperties additionalAllowed additionalProperties x =>
-              if !(std.is_record x) then { error = "", success = true, } else
-                (let x  | { _ : Dyn } = x in
-                let check_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                    if !(std.record.has_field field x) then acc else
-                      (let result = value x."%{field}" in
-                      if !result.success then
-                      {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
-                      else
-                      {
-                        checked = std.record.insert field true acc.checked,
-                        error = acc.error,
-                        success = acc.success,
-                      }))
-                  { checked = {  }, error = "", success = true, }
-                  (std.record.to_array properties)
-                in
-                
-                let matching_fields  : String -> { _ : Dyn } =
-                fun pattern => let matcher = std.string.is_match pattern in
-                    std.array.fold_left
-                    (fun acc => fun {field  | Dyn, value  | Dyn} => if matcher
-                        field then
-                        std.record.insert field value acc
-                        else
-                        acc)
-                    {  }
-                    (std.record.to_array x)
-                in
-                
-                let check_pattern_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn = pattern, value  | Dyn = pred} =>
-                  fun acc => let result =
-                      std.array.fold_right
-                        (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                          let result = pred value in
-                            if !result.success then
-                            {
-                                checked : { _ : Bool }
-                                  = {  },
-                                error = m%"
-                                    field `%{field}` didn't validate: %{result.error}
-                                    "%,
-                                success = false,
-                              }
-                            else
-                            {
-                              checked = std.record.insert field true
-                                  acc.checked,
-                              error = acc.error,
-                              success = acc.success,
-                            })
-                        {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = "",
-                          success = true,
-                        }
-                        (std.record.to_array (matching_fields pattern))
-                      in
-                      
-                      if !result.success then result else
-                      {
-                        checked = std.array.fold_left
-                            (fun r field => if !(std.record.has_field field
-                              r) then
-                              std.record.insert field true r
-                              else
-                              r)
-                            acc.checked
-                            (std.record.fields result.checked),
-                        error = acc.error,
-                        success = acc.success,
-                      })
-                  { checked : { _ : Bool } = {  }, error = "", success = true, }
-                  (std.record.to_array patternProperties)
-                in
-                
-                let remaining_fields =
-                std.array.fold_left
-                  (fun acc field => if !(std.record.has_field field acc) then
-                    acc
-                    else
-                    (std.record.remove field acc))
+                    'Ok,
+    records =
+      {
+          dependencies
+            : { _ : Dyn } -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]"
+            = let mustHaveFields
+                : Array String -> { _ : Dyn } -> [| 'Ok, 'Err String |]
+                = fun
+                  fields
                   x
-                  ((std.record.fields check_properties.checked) @
-                    (std.record.fields check_pattern_properties.checked))
-                in
-                
-                let check_additional_properties 
-                  : { success: Bool, error: String } =
-                if (!additionalAllowed) &&
-                  (!(std.record.is_empty remaining_fields)) then
-                  {
-                      error = m%"
-                          extra fields %{std.serialize 'Json
-                          ((std.record.fields remaining_fields) | Dyn)}
-                          "%,
-                      success = false,
-                    }
-                  else
-                  (std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc => let result =
-                      additionalProperties value
-                      in
-                      
-                      if !result.success then
-                      {
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
+                  =>
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field x) then
+                        'Err "expected field `%{field}`"
                       else
-                      acc)
-                  { error = "", success = true, }
-                  (std.record.to_array remaining_fields))
+                        acc) 'Ok fields
                 in
-                
-                if !check_properties.success then
-                { error = check_properties.error, success = false, }
-                else
-                (if !check_pattern_properties.success then
-                { error = check_pattern_properties.error, success = false, }
-                else
-                check_additional_properties)),
-          required
-            : Array String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]
-            "%
-            = fun fields x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => if !(std.record.has_field field
-                  (x | { _ : Dyn })) then
-                  {
-                      error = m%"
-                          missing required field %{field}
-                          "%,
-                      success = false,
-                    }
+              fun
+                  deps
+                  x
+                  =>
+                  if !(std.is_record x) then
+                    'Ok
                   else
-                  acc)
-                { error = "", success = true, }
-                fields),
+                    let x
+                      | { _ : Dyn }
+                      = x
+                      in
+                    std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              let result
+                                = if std.is_array value then
+                                  mustHaveFields (value | Array String) x
+                                else
+                                  let pred
+                                    | Dyn -> [| 'Ok, 'Err String |]
+                                    = value
+                                    in
+                                  pred (x | Dyn)
+                                in
+                              (match {
+                                  'Err
+                                    msg =>
+                                    'Err
+                                      "dependency of `%{field}` failed: %{msg}",
+                                  'Ok =>
+                                    acc,
+                                }) result) 'Ok (std.record.to_array deps),
+          maxProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) > n then
+                    'Err
+                      "record contains more than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          minProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) < n then
+                    'Err
+                      "record contains fewer than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          propertyNames
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      (match {
+                        'Err
+                          msg =>
+                          'Err
+                            "field `%{field}` did not validate against `propertyNames` schema",
+                        'Ok =>
+                          acc,
+                      }) (pred (field | Dyn))) 'Ok
+                    (std.record.fields (x | { _ : Dyn })),
+          record
+            : { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> Bool
+            -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `record properties patternProperties additionalAllowed
+              additionalProperties x` is a combination of the `properties`,
+              `patternProperties` and `additionalProperties` validation keywords in
+              JSON schema.
+              
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
+            "%
+            = fun
+                properties
+                patternProperties
+                additionalAllowed
+                additionalProperties
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  let x
+                    | { _ : Dyn }
+                    = x
+                    in
+                  let check_properties
+                      : {
+                        result : [| 'Ok, 'Err String |],
+                        checked : { _ : Bool }
+                      }
+                      = std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              (match {
+                                'Err
+                                  msg =>
+                                  {
+                                    checked : { _ : Bool } = {},
+                                    result =
+                                      'Err
+                                          "field `%{field}` didn't validate: %{msg}",
+                                  },
+                                'Ok =>
+                                  {
+                                    checked =
+                                      std.record.insert field true acc.checked,
+                                    result = acc.result,
+                                  },
+                              }) (value x."%{field}"))
+                        { checked = {}, result = 'Ok, }
+                        (std.record.to_array properties)
+                      in
+                    let matching_fields
+                        : String -> { _ : Dyn }
+                        = fun
+                          pattern
+                          =>
+                          let matcher
+                            = std.string.is_match pattern
+                            in
+                          std.array.fold_left
+                              (fun
+                                acc
+                                =>
+                                fun
+                                  { field, value, }
+                                  =>
+                                  if matcher field then
+                                    std.record.insert field value acc
+                                  else
+                                    acc) {} (std.record.to_array x)
+                        in
+                      let check_pattern_properties
+                          : {
+                            result : [| 'Ok, 'Err String |],
+                            checked : { _ : Bool }
+                          }
+                          = std.array.fold_right
+                            (fun
+                              { field = pattern, value = pred, }
+                              =>
+                              fun
+                                acc
+                                =>
+                                (match {
+                                  r @ { result = 'Err msg, .. } =>
+                                    r,
+                                  { result = 'Ok, checked = ch, } =>
+                                    {
+                                      checked =
+                                        std.array.fold_left
+                                            (fun
+                                              r
+                                              field
+                                              =>
+                                              if !(std.record.has_field field
+                                                r) then
+                                                std.record.insert field true r
+                                              else
+                                                r) acc.checked
+                                            (std.record.fields ch),
+                                      result = acc.result,
+                                    },
+                                })
+                                  (std.array.fold_right
+                                    (fun
+                                      { field, value, }
+                                      =>
+                                      fun
+                                        acc
+                                        =>
+                                        (match {
+                                          'Err
+                                            msg =>
+                                            {
+                                              checked : { _ : Bool } = {},
+                                              result =
+                                                'Err
+                                                    "field `%{field}` didn't validate: %{msg}",
+                                            },
+                                          'Ok =>
+                                            {
+                                              checked =
+                                                std.record.insert field true
+                                                    acc.checked,
+                                              result = acc.result,
+                                            },
+                                        }) (pred value))
+                                    {
+                                      checked : { _ : Bool } = {},
+                                      result = 'Ok,
+                                    }
+                                    (std.record.to_array
+                                      (matching_fields pattern))))
+                            { checked : { _ : Bool } = {}, result = 'Ok, }
+                            (std.record.to_array patternProperties)
+                          in
+                        let remaining_fields
+                            = std.array.fold_left
+                              (fun
+                                acc
+                                field
+                                =>
+                                if !(std.record.has_field field acc) then
+                                  acc
+                                else
+                                  std.record.remove field acc) x
+                              ((std.record.fields check_properties.checked)
+                              @ (std.record.fields
+                                check_pattern_properties.checked))
+                            in
+                          let check_additional_properties
+                              : [| 'Ok, 'Err String |]
+                              = if (!additionalAllowed)
+                              && (!(std.record.is_empty remaining_fields)) then
+                                'Err
+                                  "extra fields %{std.serialize 'Json
+                                    ((std.record.fields remaining_fields)
+                                    | Dyn)}"
+                              else
+                                std.array.fold_right
+                                  (fun
+                                    { field, value, }
+                                    =>
+                                    fun
+                                      acc
+                                      =>
+                                      (match {
+                                        'Err
+                                          msg =>
+                                          'Err
+                                            "field `%{field}` didn't validate: %{msg}",
+                                        'Ok =>
+                                          acc,
+                                      }) (additionalProperties value)) 'Ok
+                                  (std.record.to_array remaining_fields)
+                              in
+                            (match {
+                                'Err
+                                  msg =>
+                                  check_properties.result,
+                                'Ok =>
+                                  (match {
+                                    'Err
+                                      msg =>
+                                      check_pattern_properties.result,
+                                    'Ok =>
+                                      check_additional_properties,
+                                  }) check_pattern_properties.result,
+                              }) check_properties.result,
+          required
+            : Array String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]"
+            = fun
+                fields
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field (x | { _ : Dyn })) then
+                        'Err "missing required field %{field}"
+                      else
+                        acc) 'Ok fields,
         },
-    strings = {
+    strings =
+      {
           maxLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no larger than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no larger than %{std.string.from_number
+                        limit}",
           minLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no smaller than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no smaller than %{std.string.from_number
+                        limit}",
           pattern
-            : String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]
-            "%
-            = fun pattern x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]"
+            = fun
+                pattern
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if std.string.is_match pattern (x | String) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string matching the pattern `%{pattern}`
-                      "%,
-                  success = false,
-                }),
+                  if std.string.is_match pattern (x | String) then
+                    'Ok
+                  else
+                    'Err "expected a string matching the pattern `%{pattern}`",
         },
   }
-in
-
-let rec definitions =
-{
-    contract = {
-          Capabilities
-            | doc m%"
-            List of appx or msix installer capabilities
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.Capabilities,
-          Channel
-            | doc m%"
-            The distribution channel
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Channel,
-          Commands
-            | doc m%"
-            List of commands or aliases to run the package
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Commands,
-          Dependencies = predicates.contract_from_predicate
-              definitions.predicate.Dependencies,
-          FileExtensions
-            | doc m%"
-            List of file extensions the package could support
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.FileExtensions,
-          InstallModes
-            | doc m%"
-            List of supported installer modes
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.InstallModes,
-          Installer = {
-                Architecture
-                  | std.enum.TagOrString
-                  | [| 'neutral, 'arm64, 'arm, 'x64, 'x86 |]
-                  | doc m%"
-                  The installer target architecture
-                  "%,
-                Capabilities | definitions.contract.Capabilities | optional,
-                Commands | definitions.contract.Commands | optional,
-                Dependencies | definitions.contract.Dependencies | optional,
-                FileExtensions | definitions.contract.FileExtensions | optional,
-                InstallModes | definitions.contract.InstallModes | optional,
-                InstallerLocale | definitions.contract.Locale | optional,
-                InstallerSha256
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"String",
-                    predicates.strings.pattern "^[A-Fa-f0-9]{64}$"
-                  ])
-                  | doc m%"
-                  Sha256 is required. Sha256 of the installer
-                  "%,
-                InstallerSuccessCodes
-                  | definitions.contract.InstallerSuccessCodes
-                  | optional,
-                InstallerSwitches
-                  | definitions.contract.InstallerSwitches
-                  | optional,
-                InstallerType | definitions.contract.InstallerType | optional,
-                InstallerUrl
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"String",
-                    predicates.strings.pattern "^([Hh][Tt][Tt][Pp][Ss]?)://.+$"
-                  ])
-                  | doc m%"
-                  The installer Url
-                  "%,
-                MinimumOSVersion
-                  | definitions.contract.MinimumOSVersion
-                  | optional,
-                PackageFamilyName
-                  | definitions.contract.PackageFamilyName
-                  | optional,
-                Platform | definitions.contract.Platform | optional,
-                ProductCode | definitions.contract.ProductCode | optional,
-                Protocols | definitions.contract.Protocols | optional,
-                RestrictedCapabilities
-                  | definitions.contract.RestrictedCapabilities
-                  | optional,
-                Scope | definitions.contract.Scope | optional,
-                SignatureSha256
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.anyOf
-                    [ predicates.isType '"String", predicates.isType 'Null ],
-                    predicates.strings.pattern "^[A-Fa-f0-9]{64}$"
-                  ])
-                  | doc m%"
-                  SignatureSha256 is recommended for appx or msix. It is the sha256 of signature file inside appx or msix. Could be used during streaming install if applicable
-                  "%
-                  | optional,
-                UpgradeBehavior
-                  | definitions.contract.UpgradeBehavior
-                  | optional,
-                ..
-              },
-          InstallerSuccessCodes
-            | doc m%"
-            List of additional non-zero installer success exit codes other than known default values by winget
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.InstallerSuccessCodes,
-          InstallerSwitches = {
-                Custom
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.anyOf
-                    [ predicates.isType '"String", predicates.isType 'Null ],
-                    predicates.strings.maxLength 2048,
-                    predicates.strings.minLength 1
-                  ])
-                  | doc m%"
-                  Custom switches will be passed directly to the installer by winget
-                  "%
-                  | optional,
-                InstallLocation
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.anyOf
-                    [ predicates.isType '"String", predicates.isType 'Null ],
-                    predicates.strings.maxLength 512,
-                    predicates.strings.minLength 1
-                  ])
-                  | doc m%"
-                  InstallLocation is the value passed to the installer for custom install location. <INSTALLPATH> token can be included in the switch value so that winget will replace the token with user provided path
-                  "%
-                  | optional,
-                Interactive
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.anyOf
-                    [ predicates.isType '"String", predicates.isType 'Null ],
-                    predicates.strings.maxLength 512,
-                    predicates.strings.minLength 1
-                  ])
-                  | doc m%"
-                  Interactive is the value that should be passed to the installer when user chooses an interactive install
-                  "%
-                  | optional,
-                Log
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.anyOf
-                    [ predicates.isType '"String", predicates.isType 'Null ],
-                    predicates.strings.maxLength 512,
-                    predicates.strings.minLength 1
-                  ])
-                  | doc m%"
-                  Log is the value passed to the installer for custom log file path. <LOGPATH> token can be included in the switch value so that winget will replace the token with user provided path
-                  "%
-                  | optional,
-                Silent
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.anyOf
-                    [ predicates.isType '"String", predicates.isType 'Null ],
-                    predicates.strings.maxLength 512,
-                    predicates.strings.minLength 1
-                  ])
-                  | doc m%"
-                  Silent is the value that should be passed to the installer when user chooses a silent or quiet install
-                  "%
-                  | optional,
-                SilentWithProgress
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.anyOf
-                    [ predicates.isType '"String", predicates.isType 'Null ],
-                    predicates.strings.maxLength 512,
-                    predicates.strings.minLength 1
-                  ])
-                  | doc m%"
-                  SilentWithProgress is the value that should be passed to the installer when user chooses a non-interactive install
-                  "%
-                  | optional,
-                Upgrade
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.anyOf
-                    [ predicates.isType '"String", predicates.isType 'Null ],
-                    predicates.strings.maxLength 512,
-                    predicates.strings.minLength 1
-                  ])
-                  | doc m%"
-                  Upgrade is the value that should be passed to the installer when user chooses an upgrade
-                  "%
-                  | optional,
-                ..
-              },
-          InstallerType
-            | doc m%"
-            Enumeration of supported installer types
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.InstallerType,
-          Locale
-            | doc m%"
-            The package meta-data locale
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Locale,
-          MinimumOSVersion
-            | doc m%"
-            The installer minimum operating system version
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.MinimumOSVersion,
-          PackageFamilyName
-            | doc m%"
-            PackageFamilyName for appx or msix installer. Could be used for correlation of packages across sources
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.PackageFamilyName,
-          PackageIdentifier
-            | doc m%"
-            The package unique identifier
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.PackageIdentifier,
-          PackageVersion
-            | doc m%"
-            The package version
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.PackageVersion,
-          Platform
-            | doc m%"
-            The installer supported operating system
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Platform,
-          ProductCode
-            | doc m%"
-            ProductCode could be used for correlation of packages across sources
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.ProductCode,
-          Protocols
-            | doc m%"
-            List of protocols the package provides a handler for
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.Protocols,
-          RestrictedCapabilities
-            | doc m%"
-            List of appx or msix installer restricted capabilities
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.RestrictedCapabilities,
-          Scope
-            | doc m%"
-            Scope indicates if the installer is per user or per machine
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Scope,
-          UpgradeBehavior
-            | doc m%"
-            The upgrade method
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.UpgradeBehavior,
-        },
-    predicate = {
-          Capabilities
-            | doc m%"
-            List of appx or msix installer capabilities
-            "%
-            = predicates.allOf
+  in
+let rec _js2n__-refsenv
+    = {
+      "_js2n__-:definitions/Capabilities!contract"
+        | doc "List of appx or msix installer capabilities"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"Array", predicates.isType 'Null ],
-                predicates.arrays.arrayOf
-                (predicates.allOf
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.arrays.arrayOf
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 40,
+                      _js2n__-prdslib.strings.minLength 1
+                    ]),
+                _js2n__-prdslib.arrays.maxItems 1000,
+                _js2n__-prdslib.arrays.uniqueItems
+              ]),
+      "_js2n__-:definitions/Capabilities!predicate"
+        | doc "List of appx or msix installer capabilities"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
                 [
-                  predicates.isType '"String",
-                  predicates.strings.maxLength 40,
-                  predicates.strings.minLength 1
-                ]),
-                predicates.arrays.maxItems 1000,
-                predicates.arrays.uniqueItems
-              ],
-          Channel
-            | doc m%"
-            The distribution channel
-            "%
-            = predicates.allOf
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.maxLength 40,
+                    _js2n__-prdslib.strings.minLength 1
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 1000,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
+      "_js2n__-:definitions/Channel!contract"
+        | doc "The distribution channel"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"String", predicates.isType 'Null ],
-                predicates.strings.maxLength 16,
-                predicates.strings.minLength 1
-              ],
-          Commands
-            | doc m%"
-            List of commands or aliases to run the package
-            "%
-            = predicates.allOf
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.strings.maxLength 16,
+                _js2n__-prdslib.strings.minLength 1
+              ]),
+      "_js2n__-:definitions/Commands!contract"
+        | doc "List of commands or aliases to run the package"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"Array", predicates.isType 'Null ],
-                predicates.arrays.arrayOf
-                (predicates.allOf
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.arrays.arrayOf
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 40,
+                      _js2n__-prdslib.strings.minLength 1
+                    ]),
+                _js2n__-prdslib.arrays.maxItems 16,
+                _js2n__-prdslib.arrays.uniqueItems
+              ]),
+      "_js2n__-:definitions/Commands!predicate"
+        | doc "List of commands or aliases to run the package"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
                 [
-                  predicates.isType '"String",
-                  predicates.strings.maxLength 40,
-                  predicates.strings.minLength 1
-                ]),
-                predicates.arrays.maxItems 16,
-                predicates.arrays.uniqueItems
-              ],
-          Dependencies = predicates.allOf
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.maxLength 40,
+                    _js2n__-prdslib.strings.minLength 1
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 16,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
+      "_js2n__-:definitions/Dependencies!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType 'Record, predicates.isType 'Null ],
-                predicates.records.record
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.records.record
+                  {
+                    ExternalDependencies =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.isType 'Null
+                              ],
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.maxLength 128,
+                                  _js2n__-prdslib.strings.minLength 1
+                                ]),
+                            _js2n__-prdslib.arrays.maxItems 16,
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    PackageDependencies =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.isType 'Null
+                              ],
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "PackageIdentifier" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      MinimumVersion =
+                                        _js2n__-refsenv."_js2n__-:definitions/PackageVersion!predicate",
+                                      PackageIdentifier =
+                                        _js2n__-refsenv."_js2n__-:definitions/PackageIdentifier!predicate",
+                                    } {} true _js2n__-prdslib.always
+                                ]),
+                            _js2n__-prdslib.arrays.maxItems 16,
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    WindowsFeatures =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.isType 'Null
+                              ],
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.maxLength 128,
+                                  _js2n__-prdslib.strings.minLength 1
+                                ]),
+                            _js2n__-prdslib.arrays.maxItems 16,
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    WindowsLibraries =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.isType 'Null
+                              ],
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.maxLength 128,
+                                  _js2n__-prdslib.strings.minLength 1
+                                ]),
+                            _js2n__-prdslib.arrays.maxItems 16,
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                  } {} true _js2n__-prdslib.always
+              ]),
+      "_js2n__-:definitions/Dependencies!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.records.record
                 {
-                  ExternalDependencies = predicates.allOf
-                      [
-                        predicates.anyOf
-                        [ predicates.isType '"Array", predicates.isType 'Null ],
-                        predicates.arrays.arrayOf
-                        (predicates.allOf
+                  ExternalDependencies =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.maxLength 128,
-                          predicates.strings.minLength 1
-                        ]),
-                        predicates.arrays.maxItems 16,
-                        predicates.arrays.uniqueItems
-                      ],
-                  PackageDependencies = predicates.allOf
-                      [
-                        predicates.anyOf
-                        [ predicates.isType '"Array", predicates.isType 'Null ],
-                        predicates.arrays.arrayOf
-                        (predicates.allOf
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.maxLength 128,
+                                _js2n__-prdslib.strings.minLength 1
+                              ]),
+                          _js2n__-prdslib.arrays.maxItems 16,
+                          _js2n__-prdslib.arrays.uniqueItems
+                        ],
+                  PackageDependencies =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType 'Record,
-                          predicates.records.required [ "PackageIdentifier" ],
-                          predicates.records.record
-                          {
-                            MinimumVersion =
-                              definitions.predicate.PackageVersion,
-                            PackageIdentifier =
-                              definitions.predicate.PackageIdentifier,
-                          }
-                          {  }
-                          true
-                          predicates.always
-                        ]),
-                        predicates.arrays.maxItems 16,
-                        predicates.arrays.uniqueItems
-                      ],
-                  WindowsFeatures = predicates.allOf
-                      [
-                        predicates.anyOf
-                        [ predicates.isType '"Array", predicates.isType 'Null ],
-                        predicates.arrays.arrayOf
-                        (predicates.allOf
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [ "PackageIdentifier" ],
+                                _js2n__-prdslib.records.record
+                                  {
+                                    MinimumVersion =
+                                      _js2n__-refsenv."_js2n__-:definitions/PackageVersion!predicate",
+                                    PackageIdentifier =
+                                      _js2n__-refsenv."_js2n__-:definitions/PackageIdentifier!predicate",
+                                  } {} true _js2n__-prdslib.always
+                              ]),
+                          _js2n__-prdslib.arrays.maxItems 16,
+                          _js2n__-prdslib.arrays.uniqueItems
+                        ],
+                  WindowsFeatures =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.maxLength 128,
-                          predicates.strings.minLength 1
-                        ]),
-                        predicates.arrays.maxItems 16,
-                        predicates.arrays.uniqueItems
-                      ],
-                  WindowsLibraries = predicates.allOf
-                      [
-                        predicates.anyOf
-                        [ predicates.isType '"Array", predicates.isType 'Null ],
-                        predicates.arrays.arrayOf
-                        (predicates.allOf
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.maxLength 128,
+                                _js2n__-prdslib.strings.minLength 1
+                              ]),
+                          _js2n__-prdslib.arrays.maxItems 16,
+                          _js2n__-prdslib.arrays.uniqueItems
+                        ],
+                  WindowsLibraries =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.maxLength 128,
-                          predicates.strings.minLength 1
-                        ]),
-                        predicates.arrays.maxItems 16,
-                        predicates.arrays.uniqueItems
-                      ],
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          FileExtensions
-            | doc m%"
-            List of file extensions the package could support
-            "%
-            = predicates.allOf
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.maxLength 128,
+                                _js2n__-prdslib.strings.minLength 1
+                              ]),
+                          _js2n__-prdslib.arrays.maxItems 16,
+                          _js2n__-prdslib.arrays.uniqueItems
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/FileExtensions!contract"
+        | doc "List of file extensions the package could support"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"Array", predicates.isType 'Null ],
-                predicates.arrays.arrayOf
-                (predicates.allOf
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.arrays.arrayOf
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 40,
+                      _js2n__-prdslib.strings.pattern
+                        "^[^\\\\/:\\*\\?\"<>\\|\\x01-\\x1f]+$"
+                    ]),
+                _js2n__-prdslib.arrays.maxItems 256,
+                _js2n__-prdslib.arrays.uniqueItems
+              ]),
+      "_js2n__-:definitions/FileExtensions!predicate"
+        | doc "List of file extensions the package could support"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
                 [
-                  predicates.isType '"String",
-                  predicates.strings.maxLength 40,
-                  predicates.strings.pattern
-                  "^[^\\\\/:\\*\\?\"<>\\|\\x01-\\x1f]+$"
-                ]),
-                predicates.arrays.maxItems 256,
-                predicates.arrays.uniqueItems
-              ],
-          InstallModes
-            | doc m%"
-            List of supported installer modes
-            "%
-            = predicates.allOf
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.maxLength 40,
+                    _js2n__-prdslib.strings.pattern
+                      "^[^\\\\/:\\*\\?\"<>\\|\\x01-\\x1f]+$"
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 256,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
+      "_js2n__-:definitions/InstallModes!contract"
+        | doc "List of supported installer modes"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"Array", predicates.isType 'Null ],
-                predicates.arrays.arrayOf
-                (predicates.allOf
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.arrays.arrayOf
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.enum
+                        [ "interactive", "silent", "silentWithProgress" ]
+                    ]),
+                _js2n__-prdslib.arrays.maxItems 3,
+                _js2n__-prdslib.arrays.uniqueItems
+              ]),
+      "_js2n__-:definitions/InstallModes!predicate"
+        | doc "List of supported installer modes"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
                 [
-                  predicates.isType '"String",
-                  predicates.enum
-                  [ "interactive", "silent", "silentWithProgress" ]
-                ]),
-                predicates.arrays.maxItems 3,
-                predicates.arrays.uniqueItems
-              ],
-          Installer = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.enum
+                      [ "interactive", "silent", "silentWithProgress" ]
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 3,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
+      "_js2n__-:definitions/Installer!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
                 [ "Architecture", "InstallerSha256", "InstallerUrl" ],
-                predicates.records.record
+              _js2n__-prdslib.records.record
                 {
-                  Architecture = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [ "x86", "x64", "arm", "arm64", "neutral" ]
-                      ],
-                  Capabilities = definitions.predicate.Capabilities,
-                  Commands = definitions.predicate.Commands,
-                  Dependencies = definitions.predicate.Dependencies,
-                  FileExtensions = definitions.predicate.FileExtensions,
-                  InstallModes = definitions.predicate.InstallModes,
-                  InstallerLocale = definitions.predicate.Locale,
-                  InstallerSha256 = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.strings.pattern "^[A-Fa-f0-9]{64}$"
-                      ],
+                  Architecture =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "x86", "x64", "arm", "arm64", "neutral" ]
+                        ],
+                  Capabilities =
+                    _js2n__-refsenv."_js2n__-:definitions/Capabilities!predicate",
+                  Commands =
+                    _js2n__-refsenv."_js2n__-:definitions/Commands!predicate",
+                  Dependencies =
+                    _js2n__-refsenv."_js2n__-:definitions/Dependencies!predicate",
+                  FileExtensions =
+                    _js2n__-refsenv."_js2n__-:definitions/FileExtensions!predicate",
+                  InstallModes =
+                    _js2n__-refsenv."_js2n__-:definitions/InstallModes!predicate",
+                  InstallerLocale =
+                    _js2n__-refsenv."_js2n__-:definitions/Locale!predicate",
+                  InstallerSha256 =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern "^[A-Fa-f0-9]{64}$"
+                        ],
                   InstallerSuccessCodes =
-                    definitions.predicate.InstallerSuccessCodes,
-                  InstallerSwitches = definitions.predicate.InstallerSwitches,
-                  InstallerType = definitions.predicate.InstallerType,
-                  InstallerUrl = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.strings.pattern
-                        "^([Hh][Tt][Tt][Pp][Ss]?)://.+$"
-                      ],
-                  MinimumOSVersion = definitions.predicate.MinimumOSVersion,
-                  PackageFamilyName = definitions.predicate.PackageFamilyName,
-                  Platform = definitions.predicate.Platform,
-                  ProductCode = definitions.predicate.ProductCode,
-                  Protocols = definitions.predicate.Protocols,
+                    _js2n__-refsenv."_js2n__-:definitions/InstallerSuccessCodes!predicate",
+                  InstallerSwitches =
+                    _js2n__-refsenv."_js2n__-:definitions/InstallerSwitches!predicate",
+                  InstallerType =
+                    _js2n__-refsenv."_js2n__-:definitions/InstallerType!predicate",
+                  InstallerUrl =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^([Hh][Tt][Tt][Pp][Ss]?)://.+$"
+                        ],
+                  MinimumOSVersion =
+                    _js2n__-refsenv."_js2n__-:definitions/MinimumOSVersion!predicate",
+                  PackageFamilyName =
+                    _js2n__-refsenv."_js2n__-:definitions/PackageFamilyName!predicate",
+                  Platform =
+                    _js2n__-refsenv."_js2n__-:definitions/Platform!predicate",
+                  ProductCode =
+                    _js2n__-refsenv."_js2n__-:definitions/ProductCode!predicate",
+                  Protocols =
+                    _js2n__-refsenv."_js2n__-:definitions/Protocols!predicate",
                   RestrictedCapabilities =
-                    definitions.predicate.RestrictedCapabilities,
-                  Scope = definitions.predicate.Scope,
-                  SignatureSha256 = predicates.allOf
-                      [
-                        predicates.anyOf
+                    _js2n__-refsenv."_js2n__-:definitions/RestrictedCapabilities!predicate",
+                  Scope =
+                    _js2n__-refsenv."_js2n__-:definitions/Scope!predicate",
+                  SignatureSha256 =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.isType 'Null
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.strings.pattern "^[A-Fa-f0-9]{64}$"
                         ],
-                        predicates.strings.pattern "^[A-Fa-f0-9]{64}$"
-                      ],
-                  UpgradeBehavior = definitions.predicate.UpgradeBehavior,
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          InstallerSuccessCodes
-            | doc m%"
-            List of additional non-zero installer success exit codes other than known default values by winget
-            "%
-            = predicates.allOf
+                  UpgradeBehavior =
+                    _js2n__-refsenv."_js2n__-:definitions/UpgradeBehavior!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/InstallerSuccessCodes!contract"
+        | doc "List of additional non-zero installer success exit codes other than known default values by winget"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"Array", predicates.isType 'Null ],
-                predicates.arrays.arrayOf
-                (predicates.allOf
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.arrays.arrayOf
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Integer,
+                      _js2n__-prdslib.not (_js2n__-prdslib.enum [ 0 ])
+                    ]),
+                _js2n__-prdslib.arrays.maxItems 16,
+                _js2n__-prdslib.arrays.uniqueItems
+              ]),
+      "_js2n__-:definitions/InstallerSuccessCodes!predicate"
+        | doc "List of additional non-zero installer success exit codes other than known default values by winget"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
                 [
-                  predicates.isType 'Integer,
-                  predicates.not (predicates.enum [ 0 ])
-                ]),
-                predicates.arrays.maxItems 16,
-                predicates.arrays.uniqueItems
-              ],
-          InstallerSwitches = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.not (_js2n__-prdslib.enum [ 0 ])
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 16,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
+      "_js2n__-:definitions/InstallerSwitches!contract" =
+        {
+            Custom
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Null
+                      ],
+                    _js2n__-prdslib.strings.maxLength 2048,
+                    _js2n__-prdslib.strings.minLength 1
+                  ])
+              | doc "Custom switches will be passed directly to the installer by winget"
+              | optional,
+            InstallLocation
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Null
+                      ],
+                    _js2n__-prdslib.strings.maxLength 512,
+                    _js2n__-prdslib.strings.minLength 1
+                  ])
+              | doc "InstallLocation is the value passed to the installer for custom install location. <INSTALLPATH> token can be included in the switch value so that winget will replace the token with user provided path"
+              | optional,
+            Interactive
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Null
+                      ],
+                    _js2n__-prdslib.strings.maxLength 512,
+                    _js2n__-prdslib.strings.minLength 1
+                  ])
+              | doc "Interactive is the value that should be passed to the installer when user chooses an interactive install"
+              | optional,
+            Log
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Null
+                      ],
+                    _js2n__-prdslib.strings.maxLength 512,
+                    _js2n__-prdslib.strings.minLength 1
+                  ])
+              | doc "Log is the value passed to the installer for custom log file path. <LOGPATH> token can be included in the switch value so that winget will replace the token with user provided path"
+              | optional,
+            Silent
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Null
+                      ],
+                    _js2n__-prdslib.strings.maxLength 512,
+                    _js2n__-prdslib.strings.minLength 1
+                  ])
+              | doc "Silent is the value that should be passed to the installer when user chooses a silent or quiet install"
+              | optional,
+            SilentWithProgress
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Null
+                      ],
+                    _js2n__-prdslib.strings.maxLength 512,
+                    _js2n__-prdslib.strings.minLength 1
+                  ])
+              | doc "SilentWithProgress is the value that should be passed to the installer when user chooses a non-interactive install"
+              | optional,
+            Upgrade
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Null
+                      ],
+                    _js2n__-prdslib.strings.maxLength 512,
+                    _js2n__-prdslib.strings.minLength 1
+                  ])
+              | doc "Upgrade is the value that should be passed to the installer when user chooses an upgrade"
+              | optional,
+            ..
+          },
+      "_js2n__-:definitions/InstallerSwitches!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  Custom = predicates.allOf
-                      [
-                        predicates.anyOf
+                  Custom =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.isType 'Null
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.strings.maxLength 2048,
+                          _js2n__-prdslib.strings.minLength 1
                         ],
-                        predicates.strings.maxLength 2048,
-                        predicates.strings.minLength 1
-                      ],
-                  InstallLocation = predicates.allOf
-                      [
-                        predicates.anyOf
+                  InstallLocation =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.isType 'Null
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.strings.maxLength 512,
+                          _js2n__-prdslib.strings.minLength 1
                         ],
-                        predicates.strings.maxLength 512,
-                        predicates.strings.minLength 1
-                      ],
-                  Interactive = predicates.allOf
-                      [
-                        predicates.anyOf
+                  Interactive =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.isType 'Null
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.strings.maxLength 512,
+                          _js2n__-prdslib.strings.minLength 1
                         ],
-                        predicates.strings.maxLength 512,
-                        predicates.strings.minLength 1
-                      ],
-                  Log = predicates.allOf
-                      [
-                        predicates.anyOf
+                  Log =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.isType 'Null
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.strings.maxLength 512,
+                          _js2n__-prdslib.strings.minLength 1
                         ],
-                        predicates.strings.maxLength 512,
-                        predicates.strings.minLength 1
-                      ],
-                  Silent = predicates.allOf
-                      [
-                        predicates.anyOf
+                  Silent =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.isType 'Null
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.strings.maxLength 512,
+                          _js2n__-prdslib.strings.minLength 1
                         ],
-                        predicates.strings.maxLength 512,
-                        predicates.strings.minLength 1
-                      ],
-                  SilentWithProgress = predicates.allOf
-                      [
-                        predicates.anyOf
+                  SilentWithProgress =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.isType 'Null
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.strings.maxLength 512,
+                          _js2n__-prdslib.strings.minLength 1
                         ],
-                        predicates.strings.maxLength 512,
-                        predicates.strings.minLength 1
-                      ],
-                  Upgrade = predicates.allOf
-                      [
-                        predicates.anyOf
+                  Upgrade =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.isType 'Null
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.strings.maxLength 512,
+                          _js2n__-prdslib.strings.minLength 1
                         ],
-                        predicates.strings.maxLength 512,
-                        predicates.strings.minLength 1
-                      ],
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          InstallerType
-            | doc m%"
-            Enumeration of supported installer types
-            "%
-            = predicates.allOf
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/InstallerType!contract"
+        | doc "Enumeration of supported installer types"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"String", predicates.isType 'Null ],
-                predicates.enum
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.enum
+                  [
+                    "msix",
+                    "msi",
+                    "appx",
+                    "exe",
+                    "zip",
+                    "inno",
+                    "nullsoft",
+                    "wix",
+                    "burn",
+                    "pwa"
+                  ]
+              ]),
+      "_js2n__-:definitions/InstallerType!predicate"
+        | doc "Enumeration of supported installer types"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.enum
                 [
                   "msix",
                   "msi",
@@ -1421,200 +1595,395 @@ let rec definitions =
                   "burn",
                   "pwa"
                 ]
-              ],
-          Locale
-            | doc m%"
-            The package meta-data locale
-            "%
-            = predicates.allOf
+            ],
+      "_js2n__-:definitions/Locale!contract"
+        | doc "The package meta-data locale"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"String", predicates.isType 'Null ],
-                predicates.strings.maxLength 20,
-                predicates.strings.minLength 1
-              ],
-          MinimumOSVersion
-            | doc m%"
-            The installer minimum operating system version
-            "%
-            = predicates.allOf
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.strings.maxLength 20,
+                _js2n__-prdslib.strings.minLength 1
+              ]),
+      "_js2n__-:definitions/Locale!predicate"
+        | doc "The package meta-data locale"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.strings.maxLength 20,
+              _js2n__-prdslib.strings.minLength 1
+            ],
+      "_js2n__-:definitions/MinimumOSVersion!contract"
+        | doc "The installer minimum operating system version"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"String", predicates.isType 'Null ],
-                predicates.strings.pattern
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.strings.pattern
+                  "^(0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])(\\.(0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])){0,3}$"
+              ]),
+      "_js2n__-:definitions/MinimumOSVersion!predicate"
+        | doc "The installer minimum operating system version"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.strings.pattern
                 "^(0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])(\\.(0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])){0,3}$"
-              ],
-          PackageFamilyName
-            | doc m%"
-            PackageFamilyName for appx or msix installer. Could be used for correlation of packages across sources
-            "%
-            = predicates.allOf
+            ],
+      "_js2n__-:definitions/PackageFamilyName!contract"
+        | doc "PackageFamilyName for appx or msix installer. Could be used for correlation of packages across sources"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"String", predicates.isType 'Null ],
-                predicates.strings.maxLength 255,
-                predicates.strings.pattern
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.strings.maxLength 255,
+                _js2n__-prdslib.strings.pattern
+                  "^[A-Za-z0-9][-\\.A-Za-z0-9]+_[A-Za-z0-9]{13}$"
+              ]),
+      "_js2n__-:definitions/PackageFamilyName!predicate"
+        | doc "PackageFamilyName for appx or msix installer. Could be used for correlation of packages across sources"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.strings.maxLength 255,
+              _js2n__-prdslib.strings.pattern
                 "^[A-Za-z0-9][-\\.A-Za-z0-9]+_[A-Za-z0-9]{13}$"
-              ],
-          PackageIdentifier
-            | doc m%"
-            The package unique identifier
-            "%
-            = predicates.allOf
+            ],
+      "_js2n__-:definitions/PackageIdentifier!contract"
+        | doc "The package unique identifier"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.isType '"String",
-                predicates.strings.maxLength 128,
-                predicates.strings.pattern
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.strings.maxLength 128,
+                _js2n__-prdslib.strings.pattern
+                  "^[^\\.\\s\\\\/:\\*\\?\"<>\\|\\x01-\\x1f]{1,32}(\\.[^\\.\\s\\\\/:\\*\\?\"<>\\|\\x01-\\x1f]{1,32}){1,3}$"
+              ]),
+      "_js2n__-:definitions/PackageIdentifier!predicate"
+        | doc "The package unique identifier"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.maxLength 128,
+              _js2n__-prdslib.strings.pattern
                 "^[^\\.\\s\\\\/:\\*\\?\"<>\\|\\x01-\\x1f]{1,32}(\\.[^\\.\\s\\\\/:\\*\\?\"<>\\|\\x01-\\x1f]{1,32}){1,3}$"
-              ],
-          PackageVersion
-            | doc m%"
-            The package version
-            "%
-            = predicates.allOf
+            ],
+      "_js2n__-:definitions/PackageVersion!contract"
+        | doc "The package version"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.isType '"String",
-                predicates.strings.maxLength 128,
-                predicates.strings.pattern
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.strings.maxLength 128,
+                _js2n__-prdslib.strings.pattern
+                  "^[^\\\\/:\\*\\?\"<>\\|\\x01-\\x1f]+$"
+              ]),
+      "_js2n__-:definitions/PackageVersion!predicate"
+        | doc "The package version"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.maxLength 128,
+              _js2n__-prdslib.strings.pattern
                 "^[^\\\\/:\\*\\?\"<>\\|\\x01-\\x1f]+$"
-              ],
-          Platform
-            | doc m%"
-            The installer supported operating system
-            "%
-            = predicates.allOf
+            ],
+      "_js2n__-:definitions/Platform!contract"
+        | doc "The installer supported operating system"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"Array", predicates.isType 'Null ],
-                predicates.arrays.arrayOf
-                (predicates.allOf
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.arrays.arrayOf
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.enum
+                        [ "Windows.Desktop", "Windows.Universal" ]
+                    ]),
+                _js2n__-prdslib.arrays.maxItems 2,
+                _js2n__-prdslib.arrays.uniqueItems
+              ]),
+      "_js2n__-:definitions/Platform!predicate"
+        | doc "The installer supported operating system"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
                 [
-                  predicates.isType '"String",
-                  predicates.enum [ "Windows.Desktop", "Windows.Universal" ]
-                ]),
-                predicates.arrays.maxItems 2,
-                predicates.arrays.uniqueItems
-              ],
-          ProductCode
-            | doc m%"
-            ProductCode could be used for correlation of packages across sources
-            "%
-            = predicates.allOf
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.enum
+                      [ "Windows.Desktop", "Windows.Universal" ]
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 2,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
+      "_js2n__-:definitions/ProductCode!contract"
+        | doc "ProductCode could be used for correlation of packages across sources"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"String", predicates.isType 'Null ],
-                predicates.strings.maxLength 255,
-                predicates.strings.minLength 1
-              ],
-          Protocols
-            | doc m%"
-            List of protocols the package provides a handler for
-            "%
-            = predicates.allOf
-              [
-                predicates.anyOf
-                [ predicates.isType '"Array", predicates.isType 'Null ],
-                predicates.arrays.arrayOf
-                (predicates.allOf
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.strings.maxLength 255,
+                _js2n__-prdslib.strings.minLength 1
+              ]),
+      "_js2n__-:definitions/ProductCode!predicate"
+        | doc "ProductCode could be used for correlation of packages across sources"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
                 [
-                  predicates.isType '"String",
-                  predicates.strings.maxLength 2048,
-                  predicates.strings.pattern "^[a-z][-a-z0-9\\.\\+]*$"
-                ]),
-                predicates.arrays.maxItems 16,
-                predicates.arrays.uniqueItems
-              ],
-          RestrictedCapabilities
-            | doc m%"
-            List of appx or msix installer restricted capabilities
-            "%
-            = predicates.allOf
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.strings.maxLength 255,
+              _js2n__-prdslib.strings.minLength 1
+            ],
+      "_js2n__-:definitions/Protocols!contract"
+        | doc "List of protocols the package provides a handler for"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"Array", predicates.isType 'Null ],
-                predicates.arrays.arrayOf
-                (predicates.allOf
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.arrays.arrayOf
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 2048,
+                      _js2n__-prdslib.strings.pattern "^[a-z][-a-z0-9\\.\\+]*$"
+                    ]),
+                _js2n__-prdslib.arrays.maxItems 16,
+                _js2n__-prdslib.arrays.uniqueItems
+              ]),
+      "_js2n__-:definitions/Protocols!predicate"
+        | doc "List of protocols the package provides a handler for"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
                 [
-                  predicates.isType '"String",
-                  predicates.strings.maxLength 40,
-                  predicates.strings.minLength 1
-                ]),
-                predicates.arrays.maxItems 1000,
-                predicates.arrays.uniqueItems
-              ],
-          Scope
-            | doc m%"
-            Scope indicates if the installer is per user or per machine
-            "%
-            = predicates.allOf
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.maxLength 2048,
+                    _js2n__-prdslib.strings.pattern "^[a-z][-a-z0-9\\.\\+]*$"
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 16,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
+      "_js2n__-:definitions/RestrictedCapabilities!contract"
+        | doc "List of appx or msix installer restricted capabilities"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"String", predicates.isType 'Null ],
-                predicates.enum [ "user", "machine" ]
-              ],
-          UpgradeBehavior
-            | doc m%"
-            The upgrade method
-            "%
-            = predicates.allOf
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.arrays.arrayOf
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 40,
+                      _js2n__-prdslib.strings.minLength 1
+                    ]),
+                _js2n__-prdslib.arrays.maxItems 1000,
+                _js2n__-prdslib.arrays.uniqueItems
+              ]),
+      "_js2n__-:definitions/RestrictedCapabilities!predicate"
+        | doc "List of appx or msix installer restricted capabilities"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.maxLength 40,
+                    _js2n__-prdslib.strings.minLength 1
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 1000,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
+      "_js2n__-:definitions/Scope!contract"
+        | doc "Scope indicates if the installer is per user or per machine"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.anyOf
-                [ predicates.isType '"String", predicates.isType 'Null ],
-                predicates.enum [ "install", "uninstallPrevious" ]
-              ],
-        },
-  }
-in
-
-{
-  Capabilities | definitions.contract.Capabilities | optional,
-  Channel | definitions.contract.Channel | optional,
-  Commands | definitions.contract.Commands | optional,
-  Dependencies | definitions.contract.Dependencies | optional,
-  FileExtensions | definitions.contract.FileExtensions | optional,
-  InstallModes | definitions.contract.InstallModes | optional,
-  InstallerLocale | definitions.contract.Locale | optional,
-  InstallerSuccessCodes | definitions.contract.InstallerSuccessCodes | optional,
-  InstallerSwitches | definitions.contract.InstallerSwitches | optional,
-  InstallerType | definitions.contract.InstallerType | optional,
-  Installers
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [
-      predicates.isType '"Array",
-      predicates.arrays.arrayOf definitions.predicate.Installer,
-      predicates.arrays.maxItems 128,
-      predicates.arrays.minItems 1
-    ]),
-  ManifestType
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [ predicates.isType '"String", predicates.const "installer" ])
-    | doc m%"
-    The manifest type
-    "%,
-  ManifestVersion
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [
-      predicates.isType '"String",
-      predicates.strings.pattern
-      "^(0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])(\\.(0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])){2}$"
-    ])
-    | doc m%"
-    The manifest syntax version
-    "%,
-  MinimumOSVersion | definitions.contract.MinimumOSVersion | optional,
-  PackageFamilyName | definitions.contract.PackageFamilyName | optional,
-  PackageIdentifier | definitions.contract.PackageIdentifier,
-  PackageVersion | definitions.contract.PackageVersion,
-  Platform | definitions.contract.Platform | optional,
-  ProductCode | definitions.contract.ProductCode | optional,
-  Protocols | definitions.contract.Protocols | optional,
-  RestrictedCapabilities
-    | definitions.contract.RestrictedCapabilities
-    | optional,
-  Scope | definitions.contract.Scope | optional,
-  UpgradeBehavior | definitions.contract.UpgradeBehavior | optional,
-  ..
-}
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.enum [ "user", "machine" ]
+              ]),
+      "_js2n__-:definitions/Scope!predicate"
+        | doc "Scope indicates if the installer is per user or per machine"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.enum [ "user", "machine" ]
+            ],
+      "_js2n__-:definitions/UpgradeBehavior!contract"
+        | doc "The upgrade method"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.enum [ "install", "uninstallPrevious" ]
+              ]),
+      "_js2n__-:definitions/UpgradeBehavior!predicate"
+        | doc "The upgrade method"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.enum [ "install", "uninstallPrevious" ]
+            ],
+    }
+    in
+  {
+      Capabilities
+        | _js2n__-refsenv."_js2n__-:definitions/Capabilities!contract"
+        | optional,
+      Channel
+        | _js2n__-refsenv."_js2n__-:definitions/Channel!contract"
+        | optional,
+      Commands
+        | _js2n__-refsenv."_js2n__-:definitions/Commands!contract"
+        | optional,
+      Dependencies
+        | _js2n__-refsenv."_js2n__-:definitions/Dependencies!contract"
+        | optional,
+      FileExtensions
+        | _js2n__-refsenv."_js2n__-:definitions/FileExtensions!contract"
+        | optional,
+      InstallModes
+        | _js2n__-refsenv."_js2n__-:definitions/InstallModes!contract"
+        | optional,
+      InstallerLocale
+        | _js2n__-refsenv."_js2n__-:definitions/Locale!contract"
+        | optional,
+      InstallerSuccessCodes
+        | _js2n__-refsenv."_js2n__-:definitions/InstallerSuccessCodes!contract"
+        | optional,
+      InstallerSwitches
+        | _js2n__-refsenv."_js2n__-:definitions/InstallerSwitches!contract"
+        | optional,
+      InstallerType
+        | _js2n__-refsenv."_js2n__-:definitions/InstallerType!contract"
+        | optional,
+      Installers
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/Installer!predicate",
+              _js2n__-prdslib.arrays.maxItems 128,
+              _js2n__-prdslib.arrays.minItems 1
+            ]),
+      ManifestType
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.const "installer"
+            ])
+        | doc "The manifest type",
+      ManifestVersion
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern
+                "^(0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])(\\.(0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])){2}$"
+            ])
+        | doc "The manifest syntax version",
+      MinimumOSVersion
+        | _js2n__-refsenv."_js2n__-:definitions/MinimumOSVersion!contract"
+        | optional,
+      PackageFamilyName
+        | _js2n__-refsenv."_js2n__-:definitions/PackageFamilyName!contract"
+        | optional,
+      PackageIdentifier
+        | _js2n__-refsenv."_js2n__-:definitions/PackageIdentifier!contract",
+      PackageVersion
+        | _js2n__-refsenv."_js2n__-:definitions/PackageVersion!contract",
+      Platform
+        | _js2n__-refsenv."_js2n__-:definitions/Platform!contract"
+        | optional,
+      ProductCode
+        | _js2n__-refsenv."_js2n__-:definitions/ProductCode!contract"
+        | optional,
+      Protocols
+        | _js2n__-refsenv."_js2n__-:definitions/Protocols!contract"
+        | optional,
+      RestrictedCapabilities
+        | _js2n__-refsenv."_js2n__-:definitions/RestrictedCapabilities!contract"
+        | optional,
+      Scope | _js2n__-refsenv."_js2n__-:definitions/Scope!contract" | optional,
+      UpgradeBehavior
+        | _js2n__-refsenv."_js2n__-:definitions/UpgradeBehavior!contract"
+        | optional,
+      ..
+    }

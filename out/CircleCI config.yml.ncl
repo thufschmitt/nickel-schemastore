@@ -1,1843 +1,2433 @@
 # DO NOT EDIT
 # This file was automatically generated using json-schema-to-nickel
-let predicates =
-{
+let _js2n__-prdslib
+  = {
     allOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `allOf preds` succeeds if all of the predicates in `preds` succeed
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
+        `allOf preds` succeeds if all of the predicates in `preds` succeed
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
       "%
-      = fun preds x => std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if !result.success then result else acc)
-          { error = "", success = true, }
-          preds,
-    always : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "", success = true, },
+      = fun
+          preds
+          x
+          =>
+          std.array.fold_right
+            (fun pred acc => (match { 'Ok => acc, 'Err s => 'Err s, }) (pred x))
+            'Ok preds,
+    always : Dyn -> [| 'Ok, 'Err String |] = std.function.const 'Ok,
     anyOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
+        `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
       "%
-      = fun preds x => (fun result => if result.success then
-            { error = "", success = true, }
-            else
-            {
-              error = m%"
-                  anyOf: none of the options matched%{std.string.join "\n"
-                  result.errors}
-                  "%,
-              success = false,
-            })
-          (std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if result.success || acc.success then
-            { errors = [  ], success = true, }
-            else
-            {
-              errors = [
-                      m%"
-                      - %{result.error}
-                      "%
-                    ] @
-                    acc.errors,
-              success = false,
-            })
-          { errors = [  ], success = false, }
-          preds),
-    arrays = {
+      = fun
+          preds
+          x
+          =>
+          (match {
+            'Ok =>
+              'Ok,
+            'Errs
+              msgs =>
+              'Err
+                m%"
+                  anyOf: none of the options matched
+                  %{std.string.join
+                    m%"
+                      
+                      
+                    "% msgs}
+                "%,
+          })
+            (std.array.fold_right
+              (fun
+                pred
+                acc
+                =>
+                (match {
+                  'Ok =>
+                    'Ok,
+                  'Errs
+                    msgs =>
+                    (match {
+                      'Ok =>
+                        'Ok,
+                      'Err
+                        msg =>
+                        'Errs ([ "  - %{msg}" ] @ msgs),
+                    }) (pred x),
+                }) acc) ('Errs [  ]) preds),
+    arrays =
+      {
           additionalItems
-            : (Dyn -> { success: Bool, error: String }) -> Number -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]
-            "%
-            = fun pred start x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |])
+            -> Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]"
+            = fun
+                pred
+                start
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let value_length = std.array.length x in
-                if start >= value_length then
-                { error = "", success = true, }
-                else
-                (arrayOf pred ((std.array.slice start value_length x) | Dyn))),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let value_length
+                      = std.array.length x
+                      in
+                    if start >= value_length then
+                        'Ok
+                      else
+                        arrayOf pred
+                          ((std.array.slice start value_length x)
+                          | Dyn),
           arrayOf
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Apply a predicate to all elements of an array, succeeding if all
-            applications succeed. If the value isn't an array, fail.
+              Apply a predicate to all elements of an array, succeeding if all
+              applications succeed.
             "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                x),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  std.array.fold_right
+                      (fun
+                        x
+                        acc
+                        =>
+                        (match { 'Ok => acc, 'Err msg => 'Err msg, }) (pred x))
+                      'Ok x,
           contains
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]
-            "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                (fun result => if result.success then
-                  { error = "", success = true, }
-                  else
-                  {
-                    error = m%"
-                        contains: no elements matched%{std.string.join "\n"
-                        result.errors}
-                        "%,
-                    success = false,
-                  })
-                (std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if result.success || acc.success then
-                  { errors = [  ], success = true, }
-                  else
-                  {
-                    errors = [
-                            m%"
-                            - %{result.error}
-                            "%
-                          ] @
-                          acc.errors,
-                    success = false,
-                  })
-                { errors = [  ], success = false, }
-                x)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  (match {
+                      'Ok =>
+                        'Ok,
+                      'Errs
+                        msgs =>
+                        'Err
+                          m%"
+                            contains: no elements matched
+                            %{std.string.join
+                              m%"
+                                
+                                
+                              "% msgs}
+                          "%,
+                    })
+                      (std.array.fold_right
+                        (fun
+                          x
+                          acc
+                          =>
+                          (match {
+                            'Ok =>
+                              'Ok,
+                            'Errs
+                              msgs =>
+                              (match {
+                                'Ok =>
+                                  'Ok,
+                                'Err
+                                  msg =>
+                                  'Errs ([ "  - %{msg}" ] @ msgs),
+                              }) (pred x),
+                          }) acc) ('Errs [  ]) x),
           items
-            : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]
-            "%
-            = fun preds x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : Array (Dyn -> [| 'Ok, 'Err String |])
+            -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]"
+            = fun
+                preds
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let length_to_check =
-                std.number.min (std.array.length preds) (std.array.length x)
-                in
-                
-                std.array.fold_right
-                (fun i acc => let result =
-                  std.array.at i preds (std.array.at i x)
-                  in
-                  
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                (std.array.range 0 length_to_check)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let length_to_check
+                      = std.number.min (std.array.length preds)
+                        (std.array.length x)
+                      in
+                    std.array.fold_right
+                        (fun
+                          i
+                          acc
+                          =>
+                          (match { 'Err msg => 'Err msg, 'Ok => acc, })
+                            (std.array.at i preds (std.array.at i x))) 'Ok
+                        (std.array.range 0 length_to_check),
           maxItems
-            : Number -> Dyn -> { success: Bool, error: String }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
+              `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
             "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (if (std.array.length (x | Array Dyn)) > n then
-                {
-                    error = m%"
-                        array is longer than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minItems
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
-            "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
-                else
-                (if (std.array.length (x | Array Dyn)) < n then
-                {
-                    error = m%"
-                        array is shorter than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          uniqueItems
-            : Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Succeeds for any array if its elements are pairwise distinct.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
-            "%
-            = let find_duplicate 
-                : Array Dyn -> {
-                  has_duplicate: Bool,
-                  duplicate: Dyn,
-                  seen: { _ : Bool }
-                } =
-              std.array.fold_right
-                (fun elt acc => if acc.has_duplicate then acc else
-                  (let index = std.serialize 'Json elt in
-                  if std.record.has_field index acc.seen then
-                  { duplicate = elt, has_duplicate = true, seen = acc.seen, }
+                  if (std.array.length (x | Array Dyn)) > n then
+                    'Err
+                      "array is longer than %{std.string.from_number n} items"
                   else
-                  {
-                    duplicate = null,
-                    has_duplicate = false,
-                    seen = std.record.insert index true acc.seen,
-                  }))
-                { duplicate = null, has_duplicate = false, seen = {  }, }
-              in
-              
-              fun x => if !(std.is_array x) then
-                { error = "", success = true, }
+                    'Ok,
+          minItems
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let {has_duplicate  | Dyn, duplicate  | Dyn, ..} =
-                find_duplicate (x | Array Dyn)
+                  if (std.array.length (x | Array Dyn)) < n then
+                    'Err
+                      "array is shorter than %{std.string.from_number n} items"
+                  else
+                    'Ok,
+          uniqueItems
+            : Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              Succeeds for any array if its elements are pairwise distinct.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
+            "%
+            = let find_duplicate
+                : Array Dyn
+                -> {
+                  has_duplicate : Bool,
+                  duplicate : Dyn,
+                  seen : { _ : Bool }
+                }
+                = std.array.fold_right
+                  (fun
+                    elt
+                    acc
+                    =>
+                    if acc.has_duplicate then
+                      acc
+                    else
+                      let index
+                        = std.serialize 'Json elt
+                        in
+                      if std.record.has_field index acc.seen then
+                          {
+                            duplicate = elt,
+                            has_duplicate = true,
+                            seen = acc.seen,
+                          }
+                        else
+                          {
+                            duplicate = null,
+                            has_duplicate = false,
+                            seen = std.record.insert index true acc.seen,
+                          })
+                  { duplicate = null, has_duplicate = false, seen = {}, }
                 in
-                
-                if has_duplicate then
-                {
-                    error = m%"
-                        duplicate found: %{std.serialize 'Json duplicate}
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
+              fun
+                  x
+                  =>
+                  if !(std.is_array x) then
+                    'Ok
+                  else
+                    let { has_duplicate, duplicate, .. }
+                      = find_duplicate (x | Array Dyn)
+                      in
+                    if has_duplicate then
+                        'Err "duplicate found: %{std.serialize 'Json duplicate}"
+                      else
+                        'Ok,
         },
     const
-      : Dyn -> Dyn -> { success: Bool, error: String }
+      : Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `const value x` succeeds if and only if `x` is equalt to `value`
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
+        `const value x` succeeds if and only if `x` is equal to `value`
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
       "%
-      = fun value x => if x == value then { error = "", success = true, } else
-          {
-            error = m%"
-                expected %{std.serialize 'Json value}
-                "%,
-            success = false,
-          },
+      = fun
+          value
+          x
+          =>
+          if x == value then
+            'Ok
+          else
+            'Err "expected %{std.serialize 'Json value}",
     contract_from_predicate
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> Dyn -> Dyn
-      = fun predicate label value => let {success  | Dyn, error  | Dyn} =
-          predicate value
-          in
-          
-          if success then value else
-          ((std.contract.blame_with_message error label) | Dyn),
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> Dyn -> Dyn
+      = fun
+          predicate
+          label
+          value
+          =>
+          (match {
+            'Ok =>
+              value,
+            'Err
+              msg =>
+              (std.contract.blame_with_message msg label)
+              | Dyn,
+          }) (predicate value),
     enum
-      : Array Dyn -> Dyn -> { success: Bool, error: String }
+      : Array Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
+        `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
       "%
-      = let checkEqual =
-        fun input variant => (input == variant) ||
-            ((std.is_enum input) &&
-            (((std.string.from_enum input) == variant) | Bool))
-        in
-        
-        fun values x => std.array.fold_right
-          (fun value acc => if checkEqual x value then
-            { error = "", success = true, }
-            else
-            acc)
-          {
-            error = m%"
-                expected one of %{std.serialize 'Json (values | Dyn)}
-                "%,
-            success = false,
-          }
-          values,
+      = let checkEqual
+          = fun
+            input
+            variant
+            =>
+            (input == variant)
+            || ((std.is_enum input)
+            && (((std.string.from_enum input) == variant)
+            | Bool))
+          in
+        fun
+            values
+            x
+            =>
+            std.array.fold_right
+              (fun value acc => if checkEqual x value then 'Ok else acc)
+              ('Err "expected one of %{std.serialize 'Json (values | Dyn)}")
+              values,
     from_simple_predicate
-      : String -> (Dyn -> Bool) -> Dyn -> { success: Bool, error: String }
-      | doc m%"
-      Convert a simple boolean predicate into a predicate supporting error messages
-      "%
-      = fun error' pred x => { error = error', success = pred x, },
+      : String -> (Dyn -> Bool) -> Dyn -> [| 'Ok, 'Err String |]
+      | doc "Convert a simple boolean predicate into a predicate supporting error messages"
+      = fun error' pred x => if pred x then 'Ok else 'Err error',
     ifThenElse
-      : (Dyn -> { success: Bool, error: String }) -> (Dyn -> {
-        success: Bool,
-        error: String
-      }) -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
+        `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
       "%
-      = fun i t e x => let {success  | Dyn, ..} = i x in
-          if success then t x else (e x),
+      = fun i t e x => (match { 'Ok => t x, 'Err msg => e x, }) (i x),
     isType
       : [| '"Array", '"Bool", 'Integer, 'Null, '"Number", 'Record, '"String" |]
-      -> Dyn -> { success: Bool, error: String }
-      = fun t => (match {'Integer => from_simple_predicate "expected an integer"
-            (fun x => (std.is_number x) &&
-              (std.number.is_integer (x | Number))),
-            'Null => from_simple_predicate "expected `null`"
-            (fun x => x == null),
-            _ => from_simple_predicate
-            m%"
-            value is not of type %{std.string.from_enum t}
-            "%
-            (fun x => (std.typeof x) == t)
-          })
-          t,
-    never : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "never", success = false, },
+      -> Dyn -> [| 'Ok, 'Err String |]
+      = fun
+          t
+          =>
+          (match {
+            'Null =>
+              from_simple_predicate "expected `null`" (fun x => x == null),
+            'Integer =>
+              from_simple_predicate "expected an integer"
+                (fun
+                  x
+                  =>
+                  (std.is_number x) && (std.number.is_integer (x | Number))),
+            _ =>
+              from_simple_predicate
+                "value is not of type %{std.string.from_enum t}"
+                (fun x => (std.typeof x) == t),
+          }) t,
+    never : Dyn -> [| 'Ok, 'Err String |] = std.function.const ('Err "never"),
     not
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `not pred` succeeds if and only if `pred` fails
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
+        `not pred` succeeds if and only if `pred` fails
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
       "%
-      = fun pred x => let result = pred x in
-          if result.success then
-          {
-              error = "Inverted predicate succeeded unexpectedly",
-              success = false,
-            }
-          else
-          { error = "", success = true, },
-    numbers = {
+      = fun
+          pred
+          x
+          =>
+          (match {
+            'Ok =>
+              'Err "Inverted predicate succeeded unexpectedly",
+            'Err
+              msg =>
+              'Ok,
+          }) (pred x),
+    numbers =
+      {
           exclusiveMaximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) < limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive maximum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) < limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive maximum of %{std.string.from_number
+                        limit}",
           exclusiveMinimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) > limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive minimum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) > limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive minimum of %{std.string.from_number
+                        limit}",
           maximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a maximum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a maximum of %{std.string.from_number limit}",
           minimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a minimum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a minimum of %{std.string.from_number limit}",
           multipleOf
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]
-            "%
-            = fun mult x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]"
+            = fun
+                mult
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if std.number.is_integer ((x | Number) / mult) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a multiple of %{std.string.from_number mult}
-                      "%,
-                  success = false,
-                }),
+                  if std.number.is_integer ((x | Number) / mult) then
+                    'Ok
+                  else
+                    'Err
+                      "expected a multiple of %{std.string.from_number mult}",
         },
     oneOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
+        `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
       "%
-      = fun preds x => let count_true 
-            : Array { success: Bool, error: String } -> Number =
-          fun results => std.array.fold_left
-              (fun n b => if b.success then n + 1 else n)
-              0
+      = fun
+          preds
+          x
+          =>
+          let count_ok
+            : Array [| 'Ok, 'Err String |] -> Number
+            = fun
               results
-          in
-          
-          let results = std.array.map (fun pred => pred x) preds in
-          let count = count_true results in
-          if count == 0 then
-          let errors =
-            std.array.map
-              (fun result => m%"
-                - %{result.error}
-                "%)
-              results
+              =>
+              std.array.fold_left (fun n b => if b == 'Ok then n + 1 else n) 0
+                results
             in
-            
-            {
-              error = m%"
-                  oneOf: none of the options matched%{std.string.join "\n"
-                  errors}
-                  "%,
-              success = false,
-            }
-          else
-          (if count > 1 then
-          {
-              error = "oneOf: more than one of the options matched",
-              success = false,
-            }
-          else
-          { error = "", success = true, }),
-    records = {
-          dependencies
-            : { _ : Dyn } -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]
-            "%
-            = let mustHaveFields 
-                : Array String -> { _ : Dyn } -> {
-                  success: Bool,
-                  error: String
-                } =
-              fun fields x => std.array.fold_right
-                  (fun field acc => if !(std.record.has_field field x) then
-                    {
-                        error = m%"
-                            expected field `%{field}`
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc)
-                  { error = "", success = true, }
-                  fields
+          let results
+              = std.array.map (fun pred => pred x) preds
               in
-              
-              fun deps x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (let x  | { _ : Dyn } = x in
-                std.array.fold_right
-                (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                  if !(std.record.has_field field x) then acc else
-                    (let result =
-                    if std.is_array value then
-                      mustHaveFields (value | Array String) x
-                      else
-                      (let pred  | Dyn -> { success: Bool, error: String } =
-                      value
-                      in
-                      
-                      pred (x | Dyn))
+            let count
+                = count_ok results
+                in
+              if count == 0 then
+                  let errors
+                    = std.array.flat_map
+                      (fun
+                        result
+                        =>
+                        (match { 'Ok => [  ], 'Err s => [ "  - %{s}" ], })
+                          result) results
                     in
-                    
-                    if !result.success then
-                    {
-                        error = m%"
-                            dependency of `%{field}` failed: %{result.error}
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc))
-                { error = "", success = true, }
-                (std.record.to_array deps)),
-          maxProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
+                  'Err
+                      m%"
+                        oneOf: none of the options matched
+                        %{std.string.join
+                          m%"
+                            
+                            
+                          "% errors}
+                      "%
                 else
-                (if (std.record.length (x | { _ : Dyn })) > n then
-                {
-                    error = m%"
-                        record contains more than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (if (std.record.length (x | { _ : Dyn })) < n then
-                {
-                    error = m%"
-                        record contains fewer than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          propertyNames
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]
-            "%
-            = fun pred x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => let result = pred (field | Dyn) in
-                  if !result.success then
-                  {
-                      error = m%"
-                          field `%{field}` did not validate against `propertyNames` schema
-                          "%,
-                      success = false,
-                    }
+                  if count > 1 then
+                    'Err "oneOf: more than one of the options matched"
                   else
-                  acc)
-                { error = "", success = true, }
-                (std.record.fields (x | { _ : Dyn }))),
-          record
-            : { _ : Dyn -> { success: Bool, error: String } } -> { _ : Dyn -> {
-              success: Bool,
-              error: String
-            } } -> Bool -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            `record properties patternProperties additionalAllowed
-            additionalProperties x` is a combination of the `properties`,
-            `patternProperties` and `additionalProperties` validation keywords in
-            JSON schema.
-            
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
-            "%
-            =
-            fun properties patternProperties additionalAllowed additionalProperties x =>
-              if !(std.is_record x) then { error = "", success = true, } else
-                (let x  | { _ : Dyn } = x in
-                let check_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                    if !(std.record.has_field field x) then acc else
-                      (let result = value x."%{field}" in
-                      if !result.success then
-                      {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
-                      else
-                      {
-                        checked = std.record.insert field true acc.checked,
-                        error = acc.error,
-                        success = acc.success,
-                      }))
-                  { checked = {  }, error = "", success = true, }
-                  (std.record.to_array properties)
-                in
-                
-                let matching_fields  : String -> { _ : Dyn } =
-                fun pattern => let matcher = std.string.is_match pattern in
-                    std.array.fold_left
-                    (fun acc => fun {field  | Dyn, value  | Dyn} => if matcher
-                        field then
-                        std.record.insert field value acc
-                        else
-                        acc)
-                    {  }
-                    (std.record.to_array x)
-                in
-                
-                let check_pattern_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn = pattern, value  | Dyn = pred} =>
-                  fun acc => let result =
-                      std.array.fold_right
-                        (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                          let result = pred value in
-                            if !result.success then
-                            {
-                                checked : { _ : Bool }
-                                  = {  },
-                                error = m%"
-                                    field `%{field}` didn't validate: %{result.error}
-                                    "%,
-                                success = false,
-                              }
-                            else
-                            {
-                              checked = std.record.insert field true
-                                  acc.checked,
-                              error = acc.error,
-                              success = acc.success,
-                            })
-                        {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = "",
-                          success = true,
-                        }
-                        (std.record.to_array (matching_fields pattern))
-                      in
-                      
-                      if !result.success then result else
-                      {
-                        checked = std.array.fold_left
-                            (fun r field => if !(std.record.has_field field
-                              r) then
-                              std.record.insert field true r
-                              else
-                              r)
-                            acc.checked
-                            (std.record.fields result.checked),
-                        error = acc.error,
-                        success = acc.success,
-                      })
-                  { checked : { _ : Bool } = {  }, error = "", success = true, }
-                  (std.record.to_array patternProperties)
-                in
-                
-                let remaining_fields =
-                std.array.fold_left
-                  (fun acc field => if !(std.record.has_field field acc) then
-                    acc
-                    else
-                    (std.record.remove field acc))
+                    'Ok,
+    records =
+      {
+          dependencies
+            : { _ : Dyn } -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]"
+            = let mustHaveFields
+                : Array String -> { _ : Dyn } -> [| 'Ok, 'Err String |]
+                = fun
+                  fields
                   x
-                  ((std.record.fields check_properties.checked) @
-                    (std.record.fields check_pattern_properties.checked))
-                in
-                
-                let check_additional_properties 
-                  : { success: Bool, error: String } =
-                if (!additionalAllowed) &&
-                  (!(std.record.is_empty remaining_fields)) then
-                  {
-                      error = m%"
-                          extra fields %{std.serialize 'Json
-                          ((std.record.fields remaining_fields) | Dyn)}
-                          "%,
-                      success = false,
-                    }
-                  else
-                  (std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc => let result =
-                      additionalProperties value
-                      in
-                      
-                      if !result.success then
-                      {
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
+                  =>
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field x) then
+                        'Err "expected field `%{field}`"
                       else
-                      acc)
-                  { error = "", success = true, }
-                  (std.record.to_array remaining_fields))
+                        acc) 'Ok fields
                 in
-                
-                if !check_properties.success then
-                { error = check_properties.error, success = false, }
-                else
-                (if !check_pattern_properties.success then
-                { error = check_pattern_properties.error, success = false, }
-                else
-                check_additional_properties)),
-          required
-            : Array String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]
-            "%
-            = fun fields x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => if !(std.record.has_field field
-                  (x | { _ : Dyn })) then
-                  {
-                      error = m%"
-                          missing required field %{field}
-                          "%,
-                      success = false,
-                    }
+              fun
+                  deps
+                  x
+                  =>
+                  if !(std.is_record x) then
+                    'Ok
                   else
-                  acc)
-                { error = "", success = true, }
-                fields),
+                    let x
+                      | { _ : Dyn }
+                      = x
+                      in
+                    std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              let result
+                                = if std.is_array value then
+                                  mustHaveFields (value | Array String) x
+                                else
+                                  let pred
+                                    | Dyn -> [| 'Ok, 'Err String |]
+                                    = value
+                                    in
+                                  pred (x | Dyn)
+                                in
+                              (match {
+                                  'Err
+                                    msg =>
+                                    'Err
+                                      "dependency of `%{field}` failed: %{msg}",
+                                  'Ok =>
+                                    acc,
+                                }) result) 'Ok (std.record.to_array deps),
+          maxProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) > n then
+                    'Err
+                      "record contains more than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          minProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) < n then
+                    'Err
+                      "record contains fewer than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          propertyNames
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      (match {
+                        'Err
+                          msg =>
+                          'Err
+                            "field `%{field}` did not validate against `propertyNames` schema",
+                        'Ok =>
+                          acc,
+                      }) (pred (field | Dyn))) 'Ok
+                    (std.record.fields (x | { _ : Dyn })),
+          record
+            : { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> Bool
+            -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `record properties patternProperties additionalAllowed
+              additionalProperties x` is a combination of the `properties`,
+              `patternProperties` and `additionalProperties` validation keywords in
+              JSON schema.
+              
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
+            "%
+            = fun
+                properties
+                patternProperties
+                additionalAllowed
+                additionalProperties
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  let x
+                    | { _ : Dyn }
+                    = x
+                    in
+                  let check_properties
+                      : {
+                        result : [| 'Ok, 'Err String |],
+                        checked : { _ : Bool }
+                      }
+                      = std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              (match {
+                                'Err
+                                  msg =>
+                                  {
+                                    checked : { _ : Bool } = {},
+                                    result =
+                                      'Err
+                                          "field `%{field}` didn't validate: %{msg}",
+                                  },
+                                'Ok =>
+                                  {
+                                    checked =
+                                      std.record.insert field true acc.checked,
+                                    result = acc.result,
+                                  },
+                              }) (value x."%{field}"))
+                        { checked = {}, result = 'Ok, }
+                        (std.record.to_array properties)
+                      in
+                    let matching_fields
+                        : String -> { _ : Dyn }
+                        = fun
+                          pattern
+                          =>
+                          let matcher
+                            = std.string.is_match pattern
+                            in
+                          std.array.fold_left
+                              (fun
+                                acc
+                                =>
+                                fun
+                                  { field, value, }
+                                  =>
+                                  if matcher field then
+                                    std.record.insert field value acc
+                                  else
+                                    acc) {} (std.record.to_array x)
+                        in
+                      let check_pattern_properties
+                          : {
+                            result : [| 'Ok, 'Err String |],
+                            checked : { _ : Bool }
+                          }
+                          = std.array.fold_right
+                            (fun
+                              { field = pattern, value = pred, }
+                              =>
+                              fun
+                                acc
+                                =>
+                                (match {
+                                  r @ { result = 'Err msg, .. } =>
+                                    r,
+                                  { result = 'Ok, checked = ch, } =>
+                                    {
+                                      checked =
+                                        std.array.fold_left
+                                            (fun
+                                              r
+                                              field
+                                              =>
+                                              if !(std.record.has_field field
+                                                r) then
+                                                std.record.insert field true r
+                                              else
+                                                r) acc.checked
+                                            (std.record.fields ch),
+                                      result = acc.result,
+                                    },
+                                })
+                                  (std.array.fold_right
+                                    (fun
+                                      { field, value, }
+                                      =>
+                                      fun
+                                        acc
+                                        =>
+                                        (match {
+                                          'Err
+                                            msg =>
+                                            {
+                                              checked : { _ : Bool } = {},
+                                              result =
+                                                'Err
+                                                    "field `%{field}` didn't validate: %{msg}",
+                                            },
+                                          'Ok =>
+                                            {
+                                              checked =
+                                                std.record.insert field true
+                                                    acc.checked,
+                                              result = acc.result,
+                                            },
+                                        }) (pred value))
+                                    {
+                                      checked : { _ : Bool } = {},
+                                      result = 'Ok,
+                                    }
+                                    (std.record.to_array
+                                      (matching_fields pattern))))
+                            { checked : { _ : Bool } = {}, result = 'Ok, }
+                            (std.record.to_array patternProperties)
+                          in
+                        let remaining_fields
+                            = std.array.fold_left
+                              (fun
+                                acc
+                                field
+                                =>
+                                if !(std.record.has_field field acc) then
+                                  acc
+                                else
+                                  std.record.remove field acc) x
+                              ((std.record.fields check_properties.checked)
+                              @ (std.record.fields
+                                check_pattern_properties.checked))
+                            in
+                          let check_additional_properties
+                              : [| 'Ok, 'Err String |]
+                              = if (!additionalAllowed)
+                              && (!(std.record.is_empty remaining_fields)) then
+                                'Err
+                                  "extra fields %{std.serialize 'Json
+                                    ((std.record.fields remaining_fields)
+                                    | Dyn)}"
+                              else
+                                std.array.fold_right
+                                  (fun
+                                    { field, value, }
+                                    =>
+                                    fun
+                                      acc
+                                      =>
+                                      (match {
+                                        'Err
+                                          msg =>
+                                          'Err
+                                            "field `%{field}` didn't validate: %{msg}",
+                                        'Ok =>
+                                          acc,
+                                      }) (additionalProperties value)) 'Ok
+                                  (std.record.to_array remaining_fields)
+                              in
+                            (match {
+                                'Err
+                                  msg =>
+                                  check_properties.result,
+                                'Ok =>
+                                  (match {
+                                    'Err
+                                      msg =>
+                                      check_pattern_properties.result,
+                                    'Ok =>
+                                      check_additional_properties,
+                                  }) check_pattern_properties.result,
+                              }) check_properties.result,
+          required
+            : Array String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]"
+            = fun
+                fields
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field (x | { _ : Dyn })) then
+                        'Err "missing required field %{field}"
+                      else
+                        acc) 'Ok fields,
         },
-    strings = {
+    strings =
+      {
           maxLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no larger than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no larger than %{std.string.from_number
+                        limit}",
           minLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no smaller than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no smaller than %{std.string.from_number
+                        limit}",
           pattern
-            : String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]
-            "%
-            = fun pattern x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]"
+            = fun
+                pattern
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if std.string.is_match pattern (x | String) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string matching the pattern `%{pattern}`
-                      "%,
-                  success = false,
-                }),
+                  if std.string.is_match pattern (x | String) then
+                    'Ok
+                  else
+                    'Err "expected a string matching the pattern `%{pattern}`",
         },
   }
-in
-
-let rec definitions =
-{
-    contract = {
-          builtinSteps = predicates.contract_from_predicate
-              definitions.predicate.builtinSteps,
-          commands
-            | doc m%"
-            https://circleci.com/docs/configuration-reference#commands-requires-version-21
-            
-            A command definition defines a sequence of steps as a map to be executed in a job, enabling you to reuse a single command definition across multiple jobs.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.commands,
-          dockerExecutor
-            | doc m%"
-            Options for the [docker executor](https://circleci.com/docs/configuration-reference#docker)
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.dockerExecutor,
-          executorChoice = predicates.contract_from_predicate
-              definitions.predicate.executorChoice,
-          executors
-            | doc m%"
-            Executors define the environment in which the steps of a job will be run, allowing you to reuse a single executor definition across multiple jobs.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.executors,
-          filter
-            | doc m%"
-            A map defining rules for execution on specific branches
-            "%
-            = {
-                ignore
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    predicates.isType '"String",
-                    predicates.allOf
-                    [
-                      predicates.isType '"Array",
-                      predicates.arrays.arrayOf (predicates.isType '"String")
-                    ]
-                  ])
-                  | doc m%"
-                  Either a single branch specifier, or a list of branch specifiers
-                  "%
-                  | optional,
-                only
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    predicates.isType '"String",
-                    predicates.allOf
-                    [
-                      predicates.isType '"Array",
-                      predicates.arrays.arrayOf (predicates.isType '"String")
-                    ]
-                  ])
-                  | doc m%"
-                  Either a single branch specifier, or a list of branch specifiers
-                  "%
-                  | optional,
-              },
-          jobRef
-            | doc m%"
-            Run a job as part of this workflow
-            "%
-            = {
-                context
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    predicates.isType '"String",
-                    predicates.allOf
-                    [
-                      predicates.isType '"Array",
-                      predicates.arrays.arrayOf (predicates.isType '"String")
-                    ]
-                  ])
-                  | doc m%"
-                  Either a single context name, or a list of contexts. The default name is `org-global`
-                  "%
-                  | optional,
-                filters
-                  | {
-                    branches | definitions.contract.filter | optional,
-                    tags | definitions.contract.filter | optional,
-                  }
-                  | doc m%"
-                  A map defining rules for execution on specific branches
-                  "%
-                  | optional,
-                matrix
-                  | {
-                    alias
-                      | String
-                      | doc m%"
-                      An alias for the matrix, usable from another job's requires stanza. Defaults to the name of the job being executed
-                      "%
-                      | optional,
-                    exclude
-                      | predicates.contract_from_predicate
-                      (predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType 'Record)
-                      ])
-                      | doc m%"
-                      A list of argument maps that should be excluded from the matrix
-                      "%
-                      | optional,
-                    parameters
-                      | predicates.contract_from_predicate
-                      (predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  } {  } true
-                        (predicates.isType '"Array")
-                      ])
-                      | doc m%"
-                      A map of parameter names to every value the job should be called with
-                      "%,
-                  }
-                  | doc m%"
-                  https://circleci.com/docs/configuration-reference#matrix-requires-version-21
-                  
-                  The matrix stanza allows you to run a parameterized job multiple times with different arguments.
-                  "%
-                  | optional,
-                name
-                  | String
-                  | doc m%"
-                  The name key can be used to ensure build numbers are not appended when invoking the same job multiple times (e.g., sayhello-1, sayhello-2). The name assigned needs to be unique, otherwise numbers will still be appended to the job name
-                  "%
-                  | optional,
-                requires
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | doc m%"
-                  Jobs are run in parallel by default, so you must explicitly require any dependencies by their job name.
-                  "%
-                  | optional,
-                type
-                  | predicates.contract_from_predicate
-                  (predicates.enum [ "approval" ])
-                  | doc m%"
-                  A job may have a `type` of `approval` indicating it must be manually approved before downstream jobs may proceed.
-                  "%
-                  | optional,
-                ..
-              },
-          jobs
-            | doc m%"
-            Jobs are collections of steps. All of the steps in the job are executed in a single unit, either within a fresh container or VM.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.jobs,
-          logical
-            | doc m%"
-            https://circleci.com/docs/configuration-reference#logic-statements 
-            
-            A logical statement to be used in dynamic configuration
-            "%
-            = predicates.contract_from_predicate definitions.predicate.logical,
-          machineExecutor
-            | doc m%"
-            Options for the [machine executor](https://circleci.com/docs/configuration-reference#machine)
-            "%
-            = {
-                docker_layer_caching
-                  | Bool
-                  | doc m%"
-                  Set to `true` to enable [Docker Layer Caching](https://circleci.com/docs/docker-layer-caching). Note: If you haven't already, you must open a support ticket to have a CircleCI Sales representative contact you about enabling this feature on your account for an additional fee.
-                  "%
-                  | optional,
-                image
-                  | String
-                  | doc m%"
-                  The VM image to use. View [available images](https://circleci.com/docs/configuration-reference#available-machine-images). **Note:** This key is **not** supported on the installable CircleCI. For information about customizing machine executor images on CircleCI installed on your servers, see our [VM Service documentation](https://circleci.com/docs/vm-service).
-                  "%,
-              },
-          macosExecutor
-            | doc m%"
-            Options for the [macOS executor](https://circleci.com/docs/configuration-reference#macos)
-            "%
-            = {
-                xcode
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    predicates.isType '"Number",
-                    predicates.allOf
-                    [
-                      predicates.isType '"String",
-                      predicates.numbers.minimum 0
-                    ]
-                  ])
-                  | doc m%"
-                  The version of Xcode that is installed on the virtual machine, see the [Supported Xcode Versions section of the Testing iOS](https://circleci.com/docs/testing-ios#supported-xcode-versions) document for the complete list.
-                  "%,
-              },
-          orbs
-            | doc m%"
-            https://circleci.com/docs/configuration-reference#orbs-requires-version-21
-            
-            Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.orbs,
-          step = predicates.contract_from_predicate definitions.predicate.step,
-        },
-    predicate = {
-          builtinSteps = predicates.always,
-          commands
-            | doc m%"
-            https://circleci.com/docs/configuration-reference#commands-requires-version-21
-            
-            A command definition defines a sequence of steps as a map to be executed in a job, enabling you to reuse a single command definition across multiple jobs.
-            "%
-            = predicates.allOf
+  in
+let rec _js2n__-refsenv
+    = {
+      "_js2n__-:definitions/commands!contract"
+        | doc m%"
+          https://circleci.com/docs/configuration-reference#commands-requires-version-21
+          
+          A command definition defines a sequence of steps as a map to be executed in a job, enabling you to reuse a single command definition across multiple jobs.
+        "%
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
               [
-                predicates.isType 'Record,
-                predicates.records.record {  } {  } true
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "steps" ],
-                  predicates.records.record
-                  {
-                    description = predicates.isType '"String",
-                    parameters = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  }
-                          {
-                            "^[a-z][a-z0-9_-]+$" = predicates.oneOf
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.record {} {} true
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "steps" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          description = _js2n__-prdslib.isType '"String",
+                          parameters =
+                            _js2n__-prdslib.allOf
                                 [
-                                  predicates.allOf
-                                  [
-                                    predicates.isType 'Record,
-                                    predicates.records.required [ "type" ],
-                                    predicates.records.record
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
                                     {
-                                      "default" = predicates.isType '"String",
-                                      description = predicates.isType '"String",
-                                      type = predicates.enum [ "string" ],
-                                    }
-                                    {  }
-                                    true
-                                    predicates.always
-                                  ],
-                                  predicates.allOf
-                                  [
-                                    predicates.isType 'Record,
-                                    predicates.records.required [ "type" ],
-                                    predicates.records.record
-                                    {
-                                      "default" = predicates.isType '"Bool",
-                                      description = predicates.isType '"String",
-                                      type = predicates.enum [ "boolean" ],
-                                    }
-                                    {  }
-                                    true
-                                    predicates.always
-                                  ],
-                                  predicates.allOf
-                                  [
-                                    predicates.isType 'Record,
-                                    predicates.records.required [ "type" ],
-                                    predicates.records.record
-                                    {
-                                      "default" = predicates.isType 'Integer,
-                                      description = predicates.isType '"String",
-                                      type = predicates.enum [ "integer" ],
-                                    }
-                                    {  }
-                                    true
-                                    predicates.always
-                                  ],
-                                  predicates.allOf
-                                  [
-                                    predicates.isType 'Record,
-                                    predicates.records.required
-                                    [ "enum", "type" ],
-                                    predicates.records.record
-                                    {
-                                      "default" = predicates.isType '"String",
-                                      description = predicates.isType '"String",
-                                      enum = predicates.allOf
-                                          [
-                                            predicates.isType '"Array",
-                                            predicates.arrays.arrayOf
-                                            (predicates.isType '"String"),
-                                            predicates.arrays.minItems 1
-                                          ],
-                                      type = predicates.enum [ "enum" ],
-                                    }
-                                    {  }
-                                    true
-                                    predicates.always
-                                  ],
-                                  predicates.allOf
-                                  [
-                                    predicates.isType 'Record,
-                                    predicates.records.required [ "type" ],
-                                    predicates.records.record
-                                    {
-                                      "default" = predicates.isType '"String",
-                                      description = predicates.isType '"String",
-                                      type = predicates.enum [ "executor" ],
-                                    }
-                                    {  }
-                                    true
-                                    predicates.always
-                                  ],
-                                  predicates.allOf
-                                  [
-                                    predicates.isType 'Record,
-                                    predicates.records.required [ "type" ],
-                                    predicates.records.record
-                                    {
-                                      "default" = predicates.allOf
-                                          [
-                                            predicates.isType '"Array",
-                                            predicates.arrays.arrayOf
-                                            definitions.predicate.step
-                                          ],
-                                      description = predicates.isType '"String",
-                                      type = predicates.enum [ "steps" ],
-                                    }
-                                    {  }
-                                    true
-                                    predicates.always
-                                  ],
-                                  predicates.allOf
-                                  [
-                                    predicates.isType 'Record,
-                                    predicates.records.required [ "type" ],
-                                    predicates.records.record
-                                    {
-                                      "default" = predicates.allOf
-                                          [
-                                            predicates.isType '"String",
-                                            predicates.strings.pattern
-                                            "^[a-zA-Z][a-zA-Z0-9_-]+$"
-                                          ],
-                                      description = predicates.isType '"String",
-                                      type = predicates.enum [ "env_var_name" ],
-                                    }
-                                    {  }
-                                    true
-                                    predicates.always
-                                  ]
+                                      "^[a-z][a-z0-9_-]+$" =
+                                        _js2n__-prdslib.oneOf
+                                            [
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.required
+                                                    [ "type" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      "default" =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      description =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      type =
+                                                        _js2n__-prdslib.enum
+                                                            [ "string" ],
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.required
+                                                    [ "type" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      "default" =
+                                                        _js2n__-prdslib.isType
+                                                            '"Bool",
+                                                      description =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      type =
+                                                        _js2n__-prdslib.enum
+                                                            [ "boolean" ],
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.required
+                                                    [ "type" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      "default" =
+                                                        _js2n__-prdslib.isType
+                                                            'Integer,
+                                                      description =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      type =
+                                                        _js2n__-prdslib.enum
+                                                            [ "integer" ],
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.required
+                                                    [ "enum", "type" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      "default" =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      description =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      enum =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"Array",
+                                                              _js2n__-prdslib.arrays.arrayOf
+                                                                (_js2n__-prdslib.isType
+                                                                  '"String"),
+                                                              _js2n__-prdslib.arrays.minItems
+                                                                1
+                                                            ],
+                                                      type =
+                                                        _js2n__-prdslib.enum
+                                                            [ "enum" ],
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.required
+                                                    [ "type" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      "default" =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      description =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      type =
+                                                        _js2n__-prdslib.enum
+                                                            [ "executor" ],
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.required
+                                                    [ "type" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      "default" =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"Array",
+                                                              _js2n__-prdslib.arrays.arrayOf
+                                                                _js2n__-refsenv."_js2n__-:definitions/step!predicate"
+                                                            ],
+                                                      description =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      type =
+                                                        _js2n__-prdslib.enum
+                                                            [ "steps" ],
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.required
+                                                    [ "type" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      "default" =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"String",
+                                                              _js2n__-prdslib.strings.pattern
+                                                                "^[a-zA-Z][a-zA-Z0-9_-]+$"
+                                                            ],
+                                                      description =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      type =
+                                                        _js2n__-prdslib.enum
+                                                            [ "env_var_name" ],
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ]
+                                            ],
+                                    } true _js2n__-prdslib.always
                                 ],
-                          }
-                          true
-                          predicates.always
-                        ],
-                    steps = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf definitions.predicate.step
-                        ],
-                  }
-                  {  }
-                  true
-                  predicates.always
-                ])
-              ],
-          dockerExecutor
-            | doc m%"
-            Options for the [docker executor](https://circleci.com/docs/configuration-reference#docker)
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "image" ],
-                  predicates.records.record
-                  {
-                    auth = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            password = predicates.isType '"String",
-                            username = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    aws_auth = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            aws_access_key_id = predicates.isType '"String",
-                            aws_secret_access_key = predicates.isType '"String",
-                            oidc_role_arn = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    command = predicates.oneOf
-                        [
-                          predicates.isType '"String",
-                          predicates.allOf
-                          [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.isType '"String")
-                          ]
-                        ],
-                    entrypoint = predicates.oneOf
-                        [
-                          predicates.isType '"String",
-                          predicates.allOf
-                          [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.isType '"String")
-                          ]
-                        ],
-                    environment = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  } {  } true
-                          (predicates.anyOf
-                          [
-                            predicates.isType '"String",
-                            predicates.isType '"Number",
-                            predicates.isType '"Bool"
-                          ])
-                        ],
-                    image = predicates.isType '"String",
-                    name = predicates.isType '"String",
-                    user = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ])
-              ],
-          executorChoice = predicates.oneOf
-              [
-                predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "docker" ],
-                  predicates.records.record
-                  { docker = definitions.predicate.dockerExecutor, }
-                  {  }
-                  true
-                  predicates.always
-                ],
-                predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "machine" ],
-                  predicates.records.record
-                  { machine = definitions.predicate.machineExecutor, }
-                  {  }
-                  true
-                  predicates.always
-                ],
-                predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "machine" ],
-                  predicates.records.record
-                  { machine = predicates.isType '"Bool", }
-                  {  }
-                  true
-                  predicates.always
-                ],
-                predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "macos" ],
-                  predicates.records.record
-                  { macos = definitions.predicate.macosExecutor, }
-                  {  }
-                  true
-                  predicates.always
-                ]
-              ],
-          executors
-            | doc m%"
-            Executors define the environment in which the steps of a job will be run, allowing you to reuse a single executor definition across multiple jobs.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record {  } {  } true
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    environment = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  } {  } true
-                          (predicates.anyOf
-                          [
-                            predicates.isType '"String",
-                            predicates.isType '"Number"
-                          ])
-                        ],
-                    resource_class = predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.enum
-                          [
-                            "small",
-                            "medium+",
-                            "large",
-                            "xlarge",
-                            "2xlarge",
-                            "2xlarge+",
-                            "arm.medium",
-                            "arm.large",
-                            "arm.xlarge",
-                            "arm.2xlarge",
-                            "gpu.nvidia.small",
-                            "gpu.nvidia.medium",
-                            "windows.gpu.nvidia.medium",
-                            "macos.x86.medium.gen2",
-                            "macos.m1.medium.gen1",
-                            "macos.m1.large.gen1"
-                          ]
-                        ],
-                    shell = predicates.isType '"String",
-                    working_directory = predicates.isType '"String",
-                  }
-                  {  }
-                  true
-                  predicates.always,
-                  definitions.predicate.executorChoice
-                ])
-              ],
-          filter
-            | doc m%"
-            A map defining rules for execution on specific branches
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  ignore = predicates.oneOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ]
-                      ],
-                  only = predicates.oneOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ]
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          jobRef
-            | doc m%"
-            Run a job as part of this workflow
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  context = predicates.oneOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ]
-                      ],
-                  filters = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          branches = definitions.predicate.filter,
-                          tags = definitions.predicate.filter,
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                  matrix = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.required [ "parameters" ],
-                        predicates.records.record
-                        {
-                          alias = predicates.isType '"String",
-                          exclude = predicates.allOf
-                              [
-                                predicates.isType '"Array",
-                                predicates.arrays.arrayOf
-                                (predicates.isType 'Record)
-                              ],
-                          parameters = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record {  } {  } true
-                                (predicates.isType '"Array")
-                              ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                  name = predicates.isType '"String",
-                  requires = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  type = predicates.enum [ "approval" ],
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          jobs
-            | doc m%"
-            Jobs are collections of steps. All of the steps in the job are executed in a single unit, either within a fresh container or VM.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record {  } {  } true
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.oneOf
-                  [
-                    definitions.predicate.executorChoice,
-                    predicates.allOf
-                    [
-                      predicates.isType 'Record,
-                      predicates.records.required [ "executor" ],
-                      predicates.records.record
-                      { executor = predicates.isType '"String", }
-                      {  }
-                      true
-                      predicates.always
-                    ],
-                    predicates.allOf
-                    [
-                      predicates.isType 'Record,
-                      predicates.records.required [ "executor" ],
-                      predicates.records.record
-                      {
-                        executor = predicates.allOf
-                            [
-                              predicates.isType 'Record,
-                              predicates.records.required [ "name" ],
-                              predicates.records.record
-                              { name = predicates.isType '"String", }
-                              {  }
-                              true
-                              predicates.always
-                            ],
-                      }
-                      {  }
-                      true
-                      predicates.always
-                    ]
-                  ],
-                  predicates.records.required [ "steps" ],
-                  predicates.records.record
-                  {
-                    branches = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  } {  } true
-                          (predicates.isType '"String")
-                        ],
-                    environment = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  } {  } true
-                          (predicates.anyOf
-                          [
-                            predicates.isType '"String",
-                            predicates.isType '"Number"
-                          ])
-                        ],
-                    parallelism = predicates.oneOf
-                        [
-                          predicates.isType 'Integer,
-                          predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.strings.pattern "^<<.+\\..+>>$"
-                          ]
-                        ],
-                    shell = predicates.isType '"String",
-                    steps = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf definitions.predicate.step
-                        ],
-                    working_directory = predicates.isType '"String",
-                  }
-                  {  }
-                  true
-                  predicates.always
-                ])
-              ],
-          logical
-            | doc m%"
-            https://circleci.com/docs/configuration-reference#logic-statements 
-            
-            A logical statement to be used in dynamic configuration
-            "%
-            = predicates.oneOf
-              [
-                predicates.anyOf
-                [
-                  predicates.isType '"String",
-                  predicates.isType '"Bool",
-                  predicates.isType 'Integer,
-                  predicates.isType '"Number"
-                ],
-                predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.maxProperties 1,
-                  predicates.records.minProperties 1,
-                  predicates.records.record
-                  {
-                    and = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          definitions.predicate.logical
-                        ],
-                    equal = predicates.isType '"Array",
-                    matches = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            pattern = predicates.isType '"String",
-                            value = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    not = definitions.predicate.logical,
-                    or = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          definitions.predicate.logical
-                        ],
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ]
-              ],
-          machineExecutor
-            | doc m%"
-            Options for the [machine executor](https://circleci.com/docs/configuration-reference#machine)
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "image" ],
-                predicates.records.record
-                {
-                  docker_layer_caching = predicates.isType '"Bool",
-                  image = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          macosExecutor
-            | doc m%"
-            Options for the [macOS executor](https://circleci.com/docs/configuration-reference#macos)
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "xcode" ],
-                predicates.records.record
-                {
-                  xcode = predicates.oneOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.numbers.minimum 0
-                        ]
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          orbs
-            | doc m%"
-            https://circleci.com/docs/configuration-reference#orbs-requires-version-21
-            
-            Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record {  } {  } true
-                (predicates.oneOf
-                [
-                  predicates.allOf
-                  [
-                    predicates.isType '"String",
-                    predicates.strings.pattern
-                    "^[a-z][a-z0-9_-]+/[a-z][a-z0-9_-]+@(dev:[\\.a-z0-9_-]+|\\d+|\\d+\\.\\d+|\\d+\\.\\d+\\.\\d+|volatile)$"
-                  ],
-                  predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.record
-                    {
-                      commands = definitions.predicate.commands,
-                      executors = definitions.predicate.executors,
-                      jobs = definitions.predicate.jobs,
-                      orbs = definitions.predicate.orbs,
-                    }
-                    {  }
-                    true
-                    predicates.always
-                  ]
-                ])
-              ],
-          step = predicates.anyOf
-              [
-                predicates.allOf
-                [
-                  predicates.enum [ "checkout" ],
-                  definitions.predicate."builtinSteps/documentation/checkout"
-                ],
-                predicates.allOf
-                [
-                  predicates.enum [ "setup_remote_docker" ],
-                  definitions.predicate."builtinSteps/documentation/setup_remote_docker"
-                ],
-                predicates.allOf
-                [
-                  predicates.enum [ "add_ssh_keys" ],
-                  definitions.predicate."builtinSteps/documentation/add_ssh_keys"
-                ],
-                predicates.allOf
-                [
-                  predicates.isType '"String",
-                  predicates.strings.pattern "^[a-z][a-z0-9_-]+$"
-                ],
-                predicates.allOf
-                [
-                  predicates.isType '"String",
-                  predicates.strings.pattern
-                  "^[a-z][a-z0-9_-]+/[a-z][a-z0-9_-]+$"
-                ],
-                predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.maxProperties 1,
-                  predicates.records.minProperties 1,
-                  predicates.records.record
-                  {
-                    add_ssh_keys =
-                      definitions.predicate."builtinSteps/configuration/add_ssh_keys",
-                    attach_workspace =
-                      definitions.predicate."builtinSteps/configuration/attach_workspace",
-                    checkout =
-                      definitions.predicate."builtinSteps/configuration/checkout",
-                    deploy =
-                      definitions.predicate."builtinSteps/configuration/deploy",
-                    persist_to_workspace =
-                      definitions.predicate."builtinSteps/configuration/persist_to_workspace",
-                    restore_cache =
-                      definitions.predicate."builtinSteps/configuration/restore_cache",
-                    run =
-                      definitions.predicate."builtinSteps/configuration/run",
-                    save_cache =
-                      definitions.predicate."builtinSteps/configuration/save_cache",
-                    setup_remote_docker =
-                      definitions.predicate."builtinSteps/configuration/setup_remote_docker",
-                    store_artifacts =
-                      definitions.predicate."builtinSteps/configuration/store_artifacts",
-                    store_test_results =
-                      definitions.predicate."builtinSteps/configuration/store_test_results",
-                    unless =
-                      definitions.predicate."builtinSteps/configuration/unless",
-                    when =
-                      definitions.predicate."builtinSteps/configuration/when",
-                  }
-                  {
-                    "^[a-z][a-z0-9_-]+$" = predicates.always,
-                    "^[a-z][a-z0-9_-]+/[a-z][a-z0-9_-]+$" = predicates.always,
-                  }
-                  true
-                  predicates.always
-                ]
-              ],
-        },
-  }
-in
-
-predicates.contract_from_predicate
-(predicates.allOf
-[
-  predicates.isType 'Record,
-  predicates.records.required [ "version" ],
-  predicates.records.record
-  {
-    commands = definitions.predicate.commands,
-    executors = definitions.predicate.executors,
-    jobs = definitions.predicate.jobs,
-    orbs = definitions.predicate.orbs,
-    version = predicates.enum [ 2, 2.1 ],
-    workflows = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record { version = predicates.enum [ 2 ], } {  }
-          true
-          (predicates.allOf
-          [
-            predicates.isType 'Record,
-            predicates.records.record
-            {
-              jobs = predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    (predicates.oneOf
-                    [
-                      predicates.isType '"String",
-                      predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  } {  } true
-                        (predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          definitions.predicate.jobRef
-                        ])
-                      ]
+                          steps =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    _js2n__-refsenv."_js2n__-:definitions/step!predicate"
+                                ],
+                        } {} true _js2n__-prdslib.always
                     ])
-                  ],
-              triggers = predicates.allOf
+              ]),
+      "_js2n__-:definitions/commands!predicate"
+        | doc m%"
+          https://circleci.com/docs/configuration-reference#commands-requires-version-21
+          
+          A command definition defines a sequence of steps as a map to be executed in a job, enabling you to reuse a single command definition across multiple jobs.
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.allOf
                   [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    (predicates.allOf
-                    [
-                      predicates.isType 'Record,
-                      predicates.records.record
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "steps" ],
+                    _js2n__-prdslib.records.record
                       {
-                        schedule = predicates.allOf
-                            [
-                              predicates.isType 'Record,
-                              predicates.records.record
-                              {
-                                cron = predicates.isType '"String",
-                                filters = predicates.allOf
+                        description = _js2n__-prdslib.isType '"String",
+                        parameters =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {}
+                                  {
+                                    "^[a-z][a-z0-9_-]+$" =
+                                      _js2n__-prdslib.oneOf
+                                          [
+                                            _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.required
+                                                  [ "type" ],
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    "default" =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    description =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    type =
+                                                      _js2n__-prdslib.enum
+                                                          [ "string" ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always
+                                              ],
+                                            _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.required
+                                                  [ "type" ],
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    "default" =
+                                                      _js2n__-prdslib.isType
+                                                          '"Bool",
+                                                    description =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    type =
+                                                      _js2n__-prdslib.enum
+                                                          [ "boolean" ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always
+                                              ],
+                                            _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.required
+                                                  [ "type" ],
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    "default" =
+                                                      _js2n__-prdslib.isType
+                                                          'Integer,
+                                                    description =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    type =
+                                                      _js2n__-prdslib.enum
+                                                          [ "integer" ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always
+                                              ],
+                                            _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.required
+                                                  [ "enum", "type" ],
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    "default" =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    description =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    enum =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"Array",
+                                                            _js2n__-prdslib.arrays.arrayOf
+                                                              (_js2n__-prdslib.isType
+                                                                '"String"),
+                                                            _js2n__-prdslib.arrays.minItems
+                                                              1
+                                                          ],
+                                                    type =
+                                                      _js2n__-prdslib.enum
+                                                          [ "enum" ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always
+                                              ],
+                                            _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.required
+                                                  [ "type" ],
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    "default" =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    description =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    type =
+                                                      _js2n__-prdslib.enum
+                                                          [ "executor" ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always
+                                              ],
+                                            _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.required
+                                                  [ "type" ],
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    "default" =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"Array",
+                                                            _js2n__-prdslib.arrays.arrayOf
+                                                              _js2n__-refsenv."_js2n__-:definitions/step!predicate"
+                                                          ],
+                                                    description =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    type =
+                                                      _js2n__-prdslib.enum
+                                                          [ "steps" ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always
+                                              ],
+                                            _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.required
+                                                  [ "type" ],
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    "default" =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^[a-zA-Z][a-zA-Z0-9_-]+$"
+                                                          ],
+                                                    description =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    type =
+                                                      _js2n__-prdslib.enum
+                                                          [ "env_var_name" ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always
+                                              ]
+                                          ],
+                                  } true _js2n__-prdslib.always
+                              ],
+                        steps =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  _js2n__-refsenv."_js2n__-:definitions/step!predicate"
+                              ],
+                      } {} true _js2n__-prdslib.always
+                  ])
+            ],
+      "_js2n__-:definitions/dockerExecutor!predicate"
+        | doc "Options for the [docker executor](https://circleci.com/docs/configuration-reference/#docker)"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "docker" ],
+              _js2n__-prdslib.records.record
+                {
+                  docker =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required [ "image" ],
+                                _js2n__-prdslib.records.record
+                                  {
+                                    auth =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                password =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                username =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    aws_auth =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                aws_access_key_id =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                aws_secret_access_key =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                oidc_role_arn =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    command =
+                                      _js2n__-prdslib.oneOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String")
+                                              ]
+                                          ],
+                                    entrypoint =
+                                      _js2n__-prdslib.oneOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String")
+                                              ]
+                                          ],
+                                    environment =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record {} {}
+                                              true
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.isType
+                                                    '"Number",
+                                                  _js2n__-prdslib.isType '"Bool"
+                                                ])
+                                          ],
+                                    image = _js2n__-prdslib.isType '"String",
+                                    name = _js2n__-prdslib.isType '"String",
+                                    user = _js2n__-prdslib.isType '"String",
+                                  } {} false _js2n__-prdslib.never
+                              ])
+                        ],
+                  resource_class =
+                    _js2n__-refsenv."_js2n__-:definitions/linuxResourceClass!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/dockerLayerCaching!predicate"
+        | doc "Set to `true` to enable [Docker Layer Caching](https://circleci.com/docs/docker-layer-caching). Note: If you haven't already, you must open a support ticket to have a CircleCI Sales representative contact you about enabling this feature on your account for an additional fee."
+        = _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/executorChoice!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/dockerExecutor!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/machineExecutor!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/macosExecutor!predicate"
+                ]
+            ],
+      "_js2n__-:definitions/executors!contract"
+        | doc "Executors define the environment in which the steps of a job will be run, allowing you to reuse a single executor definition across multiple jobs."
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.record {} {} true
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          environment =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} true
+                                    (_js2n__-prdslib.anyOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.isType '"Number"
+                                      ])
+                                ],
+                          shell = _js2n__-prdslib.isType '"String",
+                          working_directory = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always,
+                      _js2n__-refsenv."_js2n__-:definitions/executorChoice!predicate"
+                    ])
+              ]),
+      "_js2n__-:definitions/executors!predicate"
+        | doc "Executors define the environment in which the steps of a job will be run, allowing you to reuse a single executor definition across multiple jobs."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        environment =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {} {} true
+                                  (_js2n__-prdslib.anyOf
                                     [
-                                      predicates.isType 'Record,
-                                      predicates.records.record
-                                      {
-                                        branches = definitions.predicate.filter,
-                                      }
-                                      {  }
-                                      false
-                                      predicates.never
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.isType '"Number"
+                                    ])
+                              ],
+                        shell = _js2n__-prdslib.isType '"String",
+                        working_directory = _js2n__-prdslib.isType '"String",
+                      } {} true _js2n__-prdslib.always,
+                    _js2n__-refsenv."_js2n__-:definitions/executorChoice!predicate"
+                  ])
+            ],
+      "_js2n__-:definitions/filter!predicate"
+        | doc "A map defining rules for execution on specific branches"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  ignore =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ]
+                        ],
+                  only =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/jobRef!predicate"
+        | doc "Run a job as part of this workflow"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  context =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ]
+                        ],
+                  filters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              branches =
+                                _js2n__-refsenv."_js2n__-:definitions/filter!predicate",
+                              tags =
+                                _js2n__-refsenv."_js2n__-:definitions/filter!predicate",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  matrix =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "parameters" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              alias = _js2n__-prdslib.isType '"String",
+                              exclude =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType 'Record)
                                     ],
-                              }
-                              {  }
-                              true
-                              predicates.always
+                              parameters =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {} {} true
+                                        (_js2n__-prdslib.isType '"Array")
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  requires =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  type = _js2n__-prdslib.enum [ "approval" ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/jobs!contract"
+        | doc "Jobs are collections of steps. All of the steps in the job are executed in a single unit, either within a fresh container or VM."
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.record {} {} true
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/executorChoice!predicate",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.required [ "executor" ],
+                              _js2n__-prdslib.records.record
+                                { executor = _js2n__-prdslib.isType '"String", }
+                                {} true _js2n__-prdslib.always
                             ],
-                      }
-                      {  }
-                      false
-                      predicates.never
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.required [ "executor" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  executor =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.required
+                                            [ "name" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              name =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} true _js2n__-prdslib.always
+                                        ],
+                                } {} true _js2n__-prdslib.always
+                            ]
+                        ],
+                      _js2n__-prdslib.records.required [ "steps" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          branches =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} true
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          environment =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} true
+                                    (_js2n__-prdslib.anyOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.isType '"Number"
+                                      ])
+                                ],
+                          parallelism =
+                            _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^<<.+\\..+>>$"
+                                    ]
+                                ],
+                          shell = _js2n__-prdslib.isType '"String",
+                          steps =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    _js2n__-refsenv."_js2n__-:definitions/step!predicate"
+                                ],
+                          working_directory = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
                     ])
-                  ],
-              unless = definitions.predicate.logical,
-              when = definitions.predicate.logical,
-            }
-            {  }
-            false
-            predicates.never
-          ])
-        ],
-  }
-  {  }
-  true
-  predicates.always
-])
+              ]),
+      "_js2n__-:definitions/jobs!predicate"
+        | doc "Jobs are collections of steps. All of the steps in the job are executed in a single unit, either within a fresh container or VM."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.anyOf
+                      [
+                        _js2n__-refsenv."_js2n__-:definitions/executorChoice!predicate",
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required [ "executor" ],
+                            _js2n__-prdslib.records.record
+                              { executor = _js2n__-prdslib.isType '"String", }
+                              {} true _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required [ "executor" ],
+                            _js2n__-prdslib.records.record
+                              {
+                                executor =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Record,
+                                        _js2n__-prdslib.records.required
+                                          [ "name" ],
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            name =
+                                              _js2n__-prdslib.isType '"String",
+                                          } {} true _js2n__-prdslib.always
+                                      ],
+                              } {} true _js2n__-prdslib.always
+                          ]
+                      ],
+                    _js2n__-prdslib.records.required [ "steps" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        branches =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {} {} true
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        environment =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {} {} true
+                                  (_js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.isType '"Number"
+                                    ])
+                              ],
+                        parallelism =
+                          _js2n__-prdslib.oneOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.pattern
+                                      "^<<.+\\..+>>$"
+                                  ]
+                              ],
+                        shell = _js2n__-prdslib.isType '"String",
+                        steps =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  _js2n__-refsenv."_js2n__-:definitions/step!predicate"
+                              ],
+                        working_directory = _js2n__-prdslib.isType '"String",
+                      } {} true _js2n__-prdslib.always
+                  ])
+            ],
+      "_js2n__-:definitions/linuxGPUMachineImage!predicate"
+        | doc "The Linux GPU machine image to use. View available images for [CUDA 11](https://circleci.com/developer/machine/image/linux-cuda-11) or [CUDA 12](https://circleci.com/developer/machine/image/linux-cuda-12)."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "linux-cuda-11:default",
+                  "linux-cuda-11:edge",
+                  "linux-cuda-12:default",
+                  "linux-cuda-12:edge"
+                ]
+            ],
+      "_js2n__-:definitions/linuxGPUResourceClass!predicate"
+        | doc "Amount of CPU and RAM allocated for each job. View [available resource classes](https://circleci.com/docs/configuration-reference/#gpu-execution-environment-linux)."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "gpu.nvidia.small.gen2",
+                  "gpu.nvidia.small.multi",
+                  "gpu.nvidia.medium.multi",
+                  "gpu.nvidia.medium",
+                  "gpu.nvidia.large"
+                ]
+            ],
+      "_js2n__-:definitions/linuxMachineImage!predicate"
+        | doc "The LinuxVM image to use. View available images for [Ubuntu 20.04](https://circleci.com/developer/machine/image/ubuntu-2004), [Ubuntu 22.04](https://circleci.com/developer/machine/image/ubuntu-2204), or [Android](https://circleci.com/developer/machine/image/android). **Note:** This key is **not** supported on the installable CircleCI. For information about customizing machine executor images on CircleCI installed on your servers, see our [VM Service documentation](https://circleci.com/docs/vm-service)."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "ubuntu-2004:2024.04.4",
+                  "ubuntu-2004:2024.01.2",
+                  "ubuntu-2004:2024.01.1",
+                  "ubuntu-2004:2023.10.1",
+                  "ubuntu-2004:2023.07.1",
+                  "ubuntu-2004:2023.04.2",
+                  "ubuntu-2004:2023.04.1",
+                  "ubuntu-2004:2023.02.1",
+                  "ubuntu-2004:2022.10.1",
+                  "ubuntu-2004:2022.07.1",
+                  "ubuntu-2004:2022.04.2",
+                  "ubuntu-2004:2022.04.1",
+                  "ubuntu-2004:202201-02",
+                  "ubuntu-2004:202201-01",
+                  "ubuntu-2004:202111-02",
+                  "ubuntu-2004:202111-01",
+                  "ubuntu-2004:202107-02",
+                  "ubuntu-2004:202104-01",
+                  "ubuntu-2004:202101-01",
+                  "ubuntu-2004:202010-01",
+                  "ubuntu-2004:current",
+                  "ubuntu-2004:edge",
+                  "ubuntu-2204:2024.04.4",
+                  "ubuntu-2204:2024.01.2",
+                  "ubuntu-2204:2024.01.1",
+                  "ubuntu-2204:2023.10.1",
+                  "ubuntu-2204:2023.07.2",
+                  "ubuntu-2204:2023.04.2",
+                  "ubuntu-2204:2023.04.1",
+                  "ubuntu-2204:2023.02.1",
+                  "ubuntu-2204:2022.10.2",
+                  "ubuntu-2204:2022.10.1",
+                  "ubuntu-2204:2022.07.2",
+                  "ubuntu-2204:2022.07.1",
+                  "ubuntu-2204:2022.04.2",
+                  "ubuntu-2204:2022.04.1",
+                  "ubuntu-2204:current",
+                  "ubuntu-2204:edge",
+                  "android:2024.04.1",
+                  "android:2024.01.1",
+                  "android:2023.11.1",
+                  "android:2023.10.1",
+                  "android:2023.09.1",
+                  "android:2023.08.1",
+                  "android:2023.07.1",
+                  "android:2023.06.1",
+                  "android:2023.05.1",
+                  "android:2023.04.1",
+                  "android:2023.03.1",
+                  "android:2023.02.1",
+                  "android:2022.12.1",
+                  "android:2022.09.1",
+                  "android:2022.08.1",
+                  "android:2022.07.1",
+                  "android:2022.06.2",
+                  "android:2022.06.1",
+                  "android:2022.04.1",
+                  "android:2022.03.1",
+                  "android:2022.01.1",
+                  "android:2021.12.1",
+                  "android:2021.10.1",
+                  "android:202102-01"
+                ]
+            ],
+      "_js2n__-:definitions/linuxResourceClass!predicate"
+        | doc "Amount of CPU and RAM allocated for each job. View available resource classes for [x86](https://circleci.com/docs/configuration-reference/#docker-execution-environment) or [ARM](https://circleci.com/docs/configuration-reference/#arm-execution-environment-linux)."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "small",
+                  "medium",
+                  "medium+",
+                  "large",
+                  "xlarge",
+                  "2xlarge",
+                  "2xlarge+",
+                  "arm.medium",
+                  "arm.large",
+                  "arm.xlarge",
+                  "arm.2xlarge"
+                ]
+            ],
+      "_js2n__-:definitions/logical!predicate"
+        | doc m%"
+          https://circleci.com/docs/configuration-reference#logic-statements 
+          
+          A logical statement to be used in dynamic configuration
+        "%
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType '"Bool",
+                  _js2n__-prdslib.isType 'Integer,
+                  _js2n__-prdslib.isType '"Number"
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.maxProperties 1,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record
+                    {
+                      and =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                _js2n__-refsenv."_js2n__-:definitions/logical!predicate"
+                            ],
+                      equal = _js2n__-prdslib.isType '"Array",
+                      matches =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  pattern = _js2n__-prdslib.isType '"String",
+                                  value = _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      not =
+                        _js2n__-refsenv."_js2n__-:definitions/logical!predicate",
+                      or =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                _js2n__-refsenv."_js2n__-:definitions/logical!predicate"
+                            ],
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/macOSResourceClass!predicate"
+        | doc "Amount of CPU and RAM allocated for each job. View [available resource classes](https://circleci.com/docs/configuration-reference/#macos-execution-environment)."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "macos.x86.medium.gen2",
+                  "macos.m1.medium.gen1",
+                  "macos.m1.large.gen1"
+                ]
+            ],
+      "_js2n__-:definitions/machineExecutor!predicate"
+        | doc "Options for the [machine executor](https://circleci.com/docs/configuration-reference#machine)"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.records.record
+                    {
+                      machine = _js2n__-prdslib.const true,
+                      resource_class =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/linuxResourceClass!predicate",
+                              _js2n__-refsenv."_js2n__-:definitions/selfHostedRunnerResourceClass!predicate"
+                            ],
+                    } {} true _js2n__-prdslib.always,
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.record
+                        {
+                          machine =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      docker_layer_caching =
+                                        _js2n__-refsenv."_js2n__-:definitions/dockerLayerCaching!predicate",
+                                      image =
+                                        _js2n__-refsenv."_js2n__-:definitions/linuxMachineImage!predicate",
+                                      resource_class =
+                                        _js2n__-refsenv."_js2n__-:definitions/linuxResourceClass!predicate",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          resource_class =
+                            _js2n__-refsenv."_js2n__-:definitions/linuxResourceClass!predicate",
+                        } {} true _js2n__-prdslib.always,
+                      _js2n__-prdslib.records.dependencies
+                        {
+                          resource_class =
+                            _js2n__-prdslib.not
+                                (_js2n__-prdslib.records.record
+                                  {
+                                    machine =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.records.required
+                                              [ "resource_class" ],
+                                            _js2n__-prdslib.records.record {} {}
+                                              true _js2n__-prdslib.always
+                                          ],
+                                  } {} true _js2n__-prdslib.always),
+                        }
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.record
+                        {
+                          machine =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "image" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      image =
+                                        _js2n__-refsenv."_js2n__-:definitions/windowsMachineImage!predicate",
+                                      resource_class =
+                                        _js2n__-refsenv."_js2n__-:definitions/windowsResourceClass!predicate",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          resource_class =
+                            _js2n__-refsenv."_js2n__-:definitions/windowsResourceClass!predicate",
+                        } {} true _js2n__-prdslib.always,
+                      _js2n__-prdslib.records.dependencies
+                        {
+                          resource_class =
+                            _js2n__-prdslib.not
+                                (_js2n__-prdslib.records.record
+                                  {
+                                    machine =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.records.required
+                                              [ "resource_class" ],
+                                            _js2n__-prdslib.records.record {} {}
+                                              true _js2n__-prdslib.always
+                                          ],
+                                  } {} true _js2n__-prdslib.always),
+                        }
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.record
+                        {
+                          machine =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "image" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      image =
+                                        _js2n__-refsenv."_js2n__-:definitions/linuxGPUMachineImage!predicate",
+                                      resource_class =
+                                        _js2n__-refsenv."_js2n__-:definitions/linuxGPUResourceClass!predicate",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          resource_class =
+                            _js2n__-refsenv."_js2n__-:definitions/linuxGPUResourceClass!predicate",
+                        } {} true _js2n__-prdslib.always,
+                      _js2n__-prdslib.records.dependencies
+                        {
+                          resource_class =
+                            _js2n__-prdslib.not
+                                (_js2n__-prdslib.records.record
+                                  {
+                                    machine =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.records.required
+                                              [ "resource_class" ],
+                                            _js2n__-prdslib.records.record {} {}
+                                              true _js2n__-prdslib.always
+                                          ],
+                                  } {} true _js2n__-prdslib.always),
+                        }
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.record
+                        {
+                          machine =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "image" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      image =
+                                        _js2n__-refsenv."_js2n__-:definitions/windowsGPUMachineImage!predicate",
+                                      resource_class =
+                                        _js2n__-refsenv."_js2n__-:definitions/windowsGPUResourceClass!predicate",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          resource_class =
+                            _js2n__-refsenv."_js2n__-:definitions/windowsGPUResourceClass!predicate",
+                        } {} true _js2n__-prdslib.always,
+                      _js2n__-prdslib.records.dependencies
+                        {
+                          resource_class =
+                            _js2n__-prdslib.not
+                                (_js2n__-prdslib.records.record
+                                  {
+                                    machine =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.records.required
+                                              [ "resource_class" ],
+                                            _js2n__-prdslib.records.record {} {}
+                                              true _js2n__-prdslib.always
+                                          ],
+                                  } {} true _js2n__-prdslib.always),
+                        }
+                    ],
+                  _js2n__-prdslib.records.record
+                    {
+                      machine =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.required
+                                [ "resource_class" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  resource_class =
+                                    _js2n__-refsenv."_js2n__-:definitions/selfHostedRunnerResourceClass!predicate",
+                                } {} false _js2n__-prdslib.never
+                            ],
+                    } {} true _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.records.required [ "machine" ],
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/macosExecutor!predicate"
+        | doc "Options for the [macOS executor](https://circleci.com/docs/configuration-reference#macos)"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "macos" ],
+              _js2n__-prdslib.records.record
+                {
+                  macos =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "xcode" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              xcode =
+                                _js2n__-refsenv."_js2n__-:definitions/xcodeVersion!predicate",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  resource_class =
+                    _js2n__-refsenv."_js2n__-:definitions/macOSResourceClass!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/orbs!contract"
+        | doc m%"
+          https://circleci.com/docs/configuration-reference#orbs-requires-version-21
+          
+          Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+        "%
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.record {} {} true
+                  (_js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^[a-z][a-z0-9_-]+/[a-z][a-z0-9_-]+@(dev:[\\.a-z0-9_-]+|\\d+|\\d+\\.\\d+|\\d+\\.\\d+\\.\\d+|volatile)$"
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              commands =
+                                _js2n__-refsenv."_js2n__-:definitions/commands!predicate",
+                              executors =
+                                _js2n__-refsenv."_js2n__-:definitions/executors!predicate",
+                              jobs =
+                                _js2n__-refsenv."_js2n__-:definitions/jobs!predicate",
+                              orbs =
+                                _js2n__-refsenv."_js2n__-:definitions/orbs!predicate",
+                            } {} true _js2n__-prdslib.always
+                        ]
+                    ])
+              ]),
+      "_js2n__-:definitions/orbs!predicate"
+        | doc m%"
+          https://circleci.com/docs/configuration-reference#orbs-requires-version-21
+          
+          Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.strings.pattern
+                          "^[a-z][a-z0-9_-]+/[a-z][a-z0-9_-]+@(dev:[\\.a-z0-9_-]+|\\d+|\\d+\\.\\d+|\\d+\\.\\d+\\.\\d+|volatile)$"
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            commands =
+                              _js2n__-refsenv."_js2n__-:definitions/commands!predicate",
+                            executors =
+                              _js2n__-refsenv."_js2n__-:definitions/executors!predicate",
+                            jobs =
+                              _js2n__-refsenv."_js2n__-:definitions/jobs!predicate",
+                            orbs =
+                              _js2n__-refsenv."_js2n__-:definitions/orbs!predicate",
+                          } {} true _js2n__-prdslib.always
+                      ]
+                  ])
+            ],
+      "_js2n__-:definitions/selfHostedRunnerResourceClass!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^[^/\\s]+/\\S+$"
+            ],
+      "_js2n__-:definitions/step!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
+                [ _js2n__-prdslib.enum [ "checkout" ], _js2n__-prdslib.always ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.enum [ "setup_remote_docker" ],
+                  _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.enum [ "add_ssh_keys" ],
+                  _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.strings.pattern "^[a-z][a-z0-9_-]+$"
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.strings.pattern
+                    "^[a-z][a-z0-9_-]+/[a-z][a-z0-9_-]+$"
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.maxProperties 1,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record
+                    {
+                      add_ssh_keys = _js2n__-prdslib.always,
+                      attach_workspace = _js2n__-prdslib.always,
+                      checkout = _js2n__-prdslib.always,
+                      deploy = _js2n__-prdslib.always,
+                      persist_to_workspace = _js2n__-prdslib.always,
+                      restore_cache = _js2n__-prdslib.always,
+                      run = _js2n__-prdslib.always,
+                      save_cache = _js2n__-prdslib.always,
+                      setup_remote_docker = _js2n__-prdslib.always,
+                      store_artifacts = _js2n__-prdslib.always,
+                      store_test_results = _js2n__-prdslib.always,
+                      unless = _js2n__-prdslib.always,
+                      when = _js2n__-prdslib.always,
+                    }
+                    {
+                      "^[a-z][a-z0-9_-]+$" = _js2n__-prdslib.always,
+                      "^[a-z][a-z0-9_-]+/[a-z][a-z0-9_-]+$" =
+                        _js2n__-prdslib.always,
+                    } true _js2n__-prdslib.always
+                ]
+            ],
+      "_js2n__-:definitions/windowsGPUMachineImage!predicate"
+        | doc "The Windows GPU machine image to use. View [available images](https://circleci.com/developer/machine/image/windows-server-2019-cuda)."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "windows-server-2019-cuda:current",
+                  "windows-server-2019-cuda:edge"
+                ]
+            ],
+      "_js2n__-:definitions/windowsGPUResourceClass!predicate"
+        | doc "Amount of CPU and RAM allocated for each job. View [available resource classes](https://circleci.com/docs/configuration-reference/#gpu-execution-environment-windows)."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "windows.gpu.nvidia.medium" ]
+            ],
+      "_js2n__-:definitions/windowsMachineImage!predicate"
+        | doc "The Windows machine image to use. View available images for [Windows Server 2022](https://circleci.com/developer/machine/image/windows-server-2022-gui) or [Windows Server 2019](https://circleci.com/developer/machine/image/windows-server-2019)."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "windows-server-2019-vs2019:2024.05.1",
+                  "windows-server-2019-vs2019:2024.01.1",
+                  "windows-server-2019-vs2019:2023.10.1",
+                  "windows-server-2019-vs2019:2023.08.1",
+                  "windows-server-2019-vs2019:2023.04.1",
+                  "windows-server-2019-vs2019:2022.08.1",
+                  "windows-server-2019-vs2019:current",
+                  "windows-server-2019-vs2019:edge",
+                  "windows-server-2022-gui:2024.04.1",
+                  "windows-server-2022-gui:2024.01.1",
+                  "windows-server-2022-gui:2023.11.1",
+                  "windows-server-2022-gui:2023.10.1",
+                  "windows-server-2022-gui:2023.09.1",
+                  "windows-server-2022-gui:2023.08.1",
+                  "windows-server-2022-gui:2023.07.1",
+                  "windows-server-2022-gui:2023.06.1",
+                  "windows-server-2022-gui:2023.05.1",
+                  "windows-server-2022-gui:2023.04.1",
+                  "windows-server-2022-gui:2023.03.1",
+                  "windows-server-2022-gui:2022.08.1",
+                  "windows-server-2022-gui:2022.07.1",
+                  "windows-server-2022-gui:2022.06.1",
+                  "windows-server-2022-gui:2022.04.1",
+                  "windows-server-2022-gui:current",
+                  "windows-server-2022-gui:edge"
+                ]
+            ],
+      "_js2n__-:definitions/windowsResourceClass!predicate"
+        | doc "Amount of CPU and RAM allocated for each job. View [available resource classes](https://circleci.com/docs/configuration-reference/#windows-execution-environment)."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "windows.medium",
+                  "windows.large",
+                  "windows.xlarge",
+                  "windows.2xlarge"
+                ]
+            ],
+      "_js2n__-:definitions/xcodeVersion!predicate"
+        | doc "The version of Xcode to use. View [available versions](https://circleci.com/developer/machine/image/xcode)"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "15.4.0",
+                  "15.3.0",
+                  "15.2.0",
+                  "15.1.0",
+                  "15.0.0",
+                  "14.3.1",
+                  "14.2.0",
+                  "14.1.0",
+                  "14.0.1",
+                  "13.4.1",
+                  "12.5.1"
+                ]
+            ],
+    }
+    in
+  {
+      commands
+        | _js2n__-refsenv."_js2n__-:definitions/commands!contract"
+        | optional,
+      executors
+        | _js2n__-refsenv."_js2n__-:definitions/executors!contract"
+        | optional,
+      jobs | _js2n__-refsenv."_js2n__-:definitions/jobs!contract" | optional,
+      orbs | _js2n__-refsenv."_js2n__-:definitions/orbs!contract" | optional,
+      version
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.enum [ 2, 2.1 ])
+        | doc "The version field is intended to be used in order to issue warnings for deprecation or breaking changes.",
+      workflows
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { version = _js2n__-prdslib.enum [ 2 ], } {} true
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        jobs =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record {} {}
+                                            true
+                                            (_js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-refsenv."_js2n__-:definitions/jobRef!predicate"
+                                              ])
+                                        ]
+                                    ])
+                              ],
+                        triggers =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          schedule =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      cron =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      filters =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                'Record,
+                                                              _js2n__-prdslib.records.record
+                                                                {
+                                                                  branches =
+                                                                    _js2n__-refsenv."_js2n__-:definitions/filter!predicate",
+                                                                } {} false
+                                                                _js2n__-prdslib.never
+                                                            ],
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                        } {} false _js2n__-prdslib.never
+                                    ])
+                              ],
+                        unless =
+                          _js2n__-refsenv."_js2n__-:definitions/logical!predicate",
+                        when =
+                          _js2n__-refsenv."_js2n__-:definitions/logical!predicate",
+                      } {} false _js2n__-prdslib.never
+                  ])
+            ])
+        | doc "Used for orchestrating all jobs. Each workflow consists of the workflow name as a key and a map as a value"
+        | optional,
+      ..
+    }
