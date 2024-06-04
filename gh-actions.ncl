@@ -1,22 +1,29 @@
 let gha = import "./out/GitHub Workflow.ncl" in
 
-let install_nix = {
-  name = "Install Nix",
-  uses = "cachix/install-nix-action@v26"
-}
+let setup = [
+  {
+    name = "Checkout",
+    uses = "actions/checkout@v2",
+  },
+  {
+    name = "Install Nix",
+    uses = "cachix/install-nix-action@v26"
+  }
+]
 in
 
 {
   update-flake-lock = {
     jobs.update-flake-lock = {
       runs-on = "ubuntu-latest",
-      steps = [
-        install_nix,
+      steps =
+        setup
+        @ [
           {
             name = "Update flake.lock",
             uses = "DeterminateSystems/update-flake-lock@v21",
           }
-      ],
+        ],
     },
     on = "push",
   },
@@ -24,8 +31,9 @@ in
   ensure-up-to-date-schemas = {
     jobs.test = {
       runs-on = "ubuntu-latest",
-      steps = [
-        install_nix,
+      steps =
+        setup
+        @ [
           {
             name = "Ensure that schema files don't need a rebuild",
             run = m%"
@@ -33,7 +41,7 @@ in
           git diff --exit-code
         "%,
           }
-      ],
+        ],
     },
     on = "push",
   }
