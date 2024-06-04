@@ -1,1346 +1,1355 @@
 # DO NOT EDIT
 # This file was automatically generated using json-schema-to-nickel
-let predicates =
-{
+let _js2n__-prdslib
+  = {
     allOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `allOf preds` succeeds if all of the predicates in `preds` succeed
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
+        `allOf preds` succeeds if all of the predicates in `preds` succeed
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
       "%
-      = fun preds x => std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if !result.success then result else acc)
-          { error = "", success = true, }
-          preds,
-    always : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "", success = true, },
+      = fun
+          preds
+          x
+          =>
+          std.array.fold_right
+            (fun pred acc => (match { 'Ok => acc, 'Err s => 'Err s, }) (pred x))
+            'Ok preds,
+    always : Dyn -> [| 'Ok, 'Err String |] = std.function.const 'Ok,
     anyOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
+        `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
       "%
-      = fun preds x => (fun result => if result.success then
-            { error = "", success = true, }
-            else
-            {
-              error = m%"
-                  anyOf: none of the options matched%{std.string.join "\n"
-                  result.errors}
-                  "%,
-              success = false,
-            })
-          (std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if result.success || acc.success then
-            { errors = [  ], success = true, }
-            else
-            {
-              errors = [
-                      m%"
-                      - %{result.error}
-                      "%
-                    ] @
-                    acc.errors,
-              success = false,
-            })
-          { errors = [  ], success = false, }
-          preds),
-    arrays = {
+      = fun
+          preds
+          x
+          =>
+          (match {
+            'Ok =>
+              'Ok,
+            'Errs
+              msgs =>
+              'Err
+                m%"
+                  anyOf: none of the options matched
+                  %{std.string.join
+                    m%"
+                      
+                      
+                    "% msgs}
+                "%,
+          })
+            (std.array.fold_right
+              (fun
+                pred
+                acc
+                =>
+                (match {
+                  'Ok =>
+                    'Ok,
+                  'Errs
+                    msgs =>
+                    (match {
+                      'Ok =>
+                        'Ok,
+                      'Err
+                        msg =>
+                        'Errs ([ "  - %{msg}" ] @ msgs),
+                    }) (pred x),
+                }) acc) ('Errs [  ]) preds),
+    arrays =
+      {
           additionalItems
-            : (Dyn -> { success: Bool, error: String }) -> Number -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]
-            "%
-            = fun pred start x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |])
+            -> Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]"
+            = fun
+                pred
+                start
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let value_length = std.array.length x in
-                if start >= value_length then
-                { error = "", success = true, }
-                else
-                (arrayOf pred ((std.array.slice start value_length x) | Dyn))),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let value_length
+                      = std.array.length x
+                      in
+                    if start >= value_length then
+                        'Ok
+                      else
+                        arrayOf pred
+                          ((std.array.slice start value_length x)
+                          | Dyn),
           arrayOf
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Apply a predicate to all elements of an array, succeeding if all
-            applications succeed. If the value isn't an array, fail.
+              Apply a predicate to all elements of an array, succeeding if all
+              applications succeed.
             "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                x),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  std.array.fold_right
+                      (fun
+                        x
+                        acc
+                        =>
+                        (match { 'Ok => acc, 'Err msg => 'Err msg, }) (pred x))
+                      'Ok x,
           contains
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]
-            "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                (fun result => if result.success then
-                  { error = "", success = true, }
-                  else
-                  {
-                    error = m%"
-                        contains: no elements matched%{std.string.join "\n"
-                        result.errors}
-                        "%,
-                    success = false,
-                  })
-                (std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if result.success || acc.success then
-                  { errors = [  ], success = true, }
-                  else
-                  {
-                    errors = [
-                            m%"
-                            - %{result.error}
-                            "%
-                          ] @
-                          acc.errors,
-                    success = false,
-                  })
-                { errors = [  ], success = false, }
-                x)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  (match {
+                      'Ok =>
+                        'Ok,
+                      'Errs
+                        msgs =>
+                        'Err
+                          m%"
+                            contains: no elements matched
+                            %{std.string.join
+                              m%"
+                                
+                                
+                              "% msgs}
+                          "%,
+                    })
+                      (std.array.fold_right
+                        (fun
+                          x
+                          acc
+                          =>
+                          (match {
+                            'Ok =>
+                              'Ok,
+                            'Errs
+                              msgs =>
+                              (match {
+                                'Ok =>
+                                  'Ok,
+                                'Err
+                                  msg =>
+                                  'Errs ([ "  - %{msg}" ] @ msgs),
+                              }) (pred x),
+                          }) acc) ('Errs [  ]) x),
           items
-            : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]
-            "%
-            = fun preds x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : Array (Dyn -> [| 'Ok, 'Err String |])
+            -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]"
+            = fun
+                preds
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let length_to_check =
-                std.number.min (std.array.length preds) (std.array.length x)
-                in
-                
-                std.array.fold_right
-                (fun i acc => let result =
-                  std.array.at i preds (std.array.at i x)
-                  in
-                  
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                (std.array.range 0 length_to_check)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let length_to_check
+                      = std.number.min (std.array.length preds)
+                        (std.array.length x)
+                      in
+                    std.array.fold_right
+                        (fun
+                          i
+                          acc
+                          =>
+                          (match { 'Err msg => 'Err msg, 'Ok => acc, })
+                            (std.array.at i preds (std.array.at i x))) 'Ok
+                        (std.array.range 0 length_to_check),
           maxItems
-            : Number -> Dyn -> { success: Bool, error: String }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
+              `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
             "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (if (std.array.length (x | Array Dyn)) > n then
-                {
-                    error = m%"
-                        array is longer than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minItems
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
-            "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
-                else
-                (if (std.array.length (x | Array Dyn)) < n then
-                {
-                    error = m%"
-                        array is shorter than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          uniqueItems
-            : Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Succeeds for any array if its elements are pairwise distinct.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
-            "%
-            = let find_duplicate 
-                : Array Dyn -> {
-                  has_duplicate: Bool,
-                  duplicate: Dyn,
-                  seen: { _ : Bool }
-                } =
-              std.array.fold_right
-                (fun elt acc => if acc.has_duplicate then acc else
-                  (let index = std.serialize 'Json elt in
-                  if std.record.has_field index acc.seen then
-                  { duplicate = elt, has_duplicate = true, seen = acc.seen, }
+                  if (std.array.length (x | Array Dyn)) > n then
+                    'Err
+                      "array is longer than %{std.string.from_number n} items"
                   else
-                  {
-                    duplicate = null,
-                    has_duplicate = false,
-                    seen = std.record.insert index true acc.seen,
-                  }))
-                { duplicate = null, has_duplicate = false, seen = {  }, }
-              in
-              
-              fun x => if !(std.is_array x) then
-                { error = "", success = true, }
+                    'Ok,
+          minItems
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let {has_duplicate  | Dyn, duplicate  | Dyn, ..} =
-                find_duplicate (x | Array Dyn)
+                  if (std.array.length (x | Array Dyn)) < n then
+                    'Err
+                      "array is shorter than %{std.string.from_number n} items"
+                  else
+                    'Ok,
+          uniqueItems
+            : Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              Succeeds for any array if its elements are pairwise distinct.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
+            "%
+            = let find_duplicate
+                : Array Dyn
+                -> {
+                  has_duplicate : Bool,
+                  duplicate : Dyn,
+                  seen : { _ : Bool }
+                }
+                = std.array.fold_right
+                  (fun
+                    elt
+                    acc
+                    =>
+                    if acc.has_duplicate then
+                      acc
+                    else
+                      let index
+                        = std.serialize 'Json elt
+                        in
+                      if std.record.has_field index acc.seen then
+                          {
+                            duplicate = elt,
+                            has_duplicate = true,
+                            seen = acc.seen,
+                          }
+                        else
+                          {
+                            duplicate = null,
+                            has_duplicate = false,
+                            seen = std.record.insert index true acc.seen,
+                          })
+                  { duplicate = null, has_duplicate = false, seen = {}, }
                 in
-                
-                if has_duplicate then
-                {
-                    error = m%"
-                        duplicate found: %{std.serialize 'Json duplicate}
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
+              fun
+                  x
+                  =>
+                  if !(std.is_array x) then
+                    'Ok
+                  else
+                    let { has_duplicate, duplicate, .. }
+                      = find_duplicate (x | Array Dyn)
+                      in
+                    if has_duplicate then
+                        'Err "duplicate found: %{std.serialize 'Json duplicate}"
+                      else
+                        'Ok,
         },
     const
-      : Dyn -> Dyn -> { success: Bool, error: String }
+      : Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `const value x` succeeds if and only if `x` is equalt to `value`
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
+        `const value x` succeeds if and only if `x` is equal to `value`
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
       "%
-      = fun value x => if x == value then { error = "", success = true, } else
-          {
-            error = m%"
-                expected %{std.serialize 'Json value}
-                "%,
-            success = false,
-          },
+      = fun
+          value
+          x
+          =>
+          if x == value then
+            'Ok
+          else
+            'Err "expected %{std.serialize 'Json value}",
     contract_from_predicate
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> Dyn -> Dyn
-      = fun predicate label value => let {success  | Dyn, error  | Dyn} =
-          predicate value
-          in
-          
-          if success then value else
-          ((std.contract.blame_with_message error label) | Dyn),
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> Dyn -> Dyn
+      = fun
+          predicate
+          label
+          value
+          =>
+          (match {
+            'Ok =>
+              value,
+            'Err
+              msg =>
+              (std.contract.blame_with_message msg label)
+              | Dyn,
+          }) (predicate value),
     enum
-      : Array Dyn -> Dyn -> { success: Bool, error: String }
+      : Array Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
+        `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
       "%
-      = let checkEqual =
-        fun input variant => (input == variant) ||
-            ((std.is_enum input) &&
-            (((std.string.from_enum input) == variant) | Bool))
-        in
-        
-        fun values x => std.array.fold_right
-          (fun value acc => if checkEqual x value then
-            { error = "", success = true, }
-            else
-            acc)
-          {
-            error = m%"
-                expected one of %{std.serialize 'Json (values | Dyn)}
-                "%,
-            success = false,
-          }
-          values,
+      = let checkEqual
+          = fun
+            input
+            variant
+            =>
+            (input == variant)
+            || ((std.is_enum input)
+            && (((std.string.from_enum input) == variant)
+            | Bool))
+          in
+        fun
+            values
+            x
+            =>
+            std.array.fold_right
+              (fun value acc => if checkEqual x value then 'Ok else acc)
+              ('Err "expected one of %{std.serialize 'Json (values | Dyn)}")
+              values,
     from_simple_predicate
-      : String -> (Dyn -> Bool) -> Dyn -> { success: Bool, error: String }
-      | doc m%"
-      Convert a simple boolean predicate into a predicate supporting error messages
-      "%
-      = fun error' pred x => { error = error', success = pred x, },
+      : String -> (Dyn -> Bool) -> Dyn -> [| 'Ok, 'Err String |]
+      | doc "Convert a simple boolean predicate into a predicate supporting error messages"
+      = fun error' pred x => if pred x then 'Ok else 'Err error',
     ifThenElse
-      : (Dyn -> { success: Bool, error: String }) -> (Dyn -> {
-        success: Bool,
-        error: String
-      }) -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
+        `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
       "%
-      = fun i t e x => let {success  | Dyn, ..} = i x in
-          if success then t x else (e x),
+      = fun i t e x => (match { 'Ok => t x, 'Err msg => e x, }) (i x),
     isType
       : [| '"Array", '"Bool", 'Integer, 'Null, '"Number", 'Record, '"String" |]
-      -> Dyn -> { success: Bool, error: String }
-      = fun t => (match {'Integer => from_simple_predicate "expected an integer"
-            (fun x => (std.is_number x) &&
-              (std.number.is_integer (x | Number))),
-            'Null => from_simple_predicate "expected `null`"
-            (fun x => x == null),
-            _ => from_simple_predicate
-            m%"
-            value is not of type %{std.string.from_enum t}
-            "%
-            (fun x => (std.typeof x) == t)
-          })
-          t,
-    never : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "never", success = false, },
+      -> Dyn -> [| 'Ok, 'Err String |]
+      = fun
+          t
+          =>
+          (match {
+            'Null =>
+              from_simple_predicate "expected `null`" (fun x => x == null),
+            'Integer =>
+              from_simple_predicate "expected an integer"
+                (fun
+                  x
+                  =>
+                  (std.is_number x) && (std.number.is_integer (x | Number))),
+            _ =>
+              from_simple_predicate
+                "value is not of type %{std.string.from_enum t}"
+                (fun x => (std.typeof x) == t),
+          }) t,
+    never : Dyn -> [| 'Ok, 'Err String |] = std.function.const ('Err "never"),
     not
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `not pred` succeeds if and only if `pred` fails
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
+        `not pred` succeeds if and only if `pred` fails
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
       "%
-      = fun pred x => let result = pred x in
-          if result.success then
-          {
-              error = "Inverted predicate succeeded unexpectedly",
-              success = false,
-            }
-          else
-          { error = "", success = true, },
-    numbers = {
+      = fun
+          pred
+          x
+          =>
+          (match {
+            'Ok =>
+              'Err "Inverted predicate succeeded unexpectedly",
+            'Err
+              msg =>
+              'Ok,
+          }) (pred x),
+    numbers =
+      {
           exclusiveMaximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) < limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive maximum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) < limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive maximum of %{std.string.from_number
+                        limit}",
           exclusiveMinimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) > limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive minimum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) > limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive minimum of %{std.string.from_number
+                        limit}",
           maximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a maximum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a maximum of %{std.string.from_number limit}",
           minimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a minimum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a minimum of %{std.string.from_number limit}",
           multipleOf
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]
-            "%
-            = fun mult x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]"
+            = fun
+                mult
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if std.number.is_integer ((x | Number) / mult) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a multiple of %{std.string.from_number mult}
-                      "%,
-                  success = false,
-                }),
+                  if std.number.is_integer ((x | Number) / mult) then
+                    'Ok
+                  else
+                    'Err
+                      "expected a multiple of %{std.string.from_number mult}",
         },
     oneOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
+        `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
       "%
-      = fun preds x => let count_true 
-            : Array { success: Bool, error: String } -> Number =
-          fun results => std.array.fold_left
-              (fun n b => if b.success then n + 1 else n)
-              0
+      = fun
+          preds
+          x
+          =>
+          let count_ok
+            : Array [| 'Ok, 'Err String |] -> Number
+            = fun
               results
-          in
-          
-          let results = std.array.map (fun pred => pred x) preds in
-          let count = count_true results in
-          if count == 0 then
-          let errors =
-            std.array.map
-              (fun result => m%"
-                - %{result.error}
-                "%)
-              results
+              =>
+              std.array.fold_left (fun n b => if b == 'Ok then n + 1 else n) 0
+                results
             in
-            
-            {
-              error = m%"
-                  oneOf: none of the options matched%{std.string.join "\n"
-                  errors}
-                  "%,
-              success = false,
-            }
-          else
-          (if count > 1 then
-          {
-              error = "oneOf: more than one of the options matched",
-              success = false,
-            }
-          else
-          { error = "", success = true, }),
-    records = {
-          dependencies
-            : { _ : Dyn } -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]
-            "%
-            = let mustHaveFields 
-                : Array String -> { _ : Dyn } -> {
-                  success: Bool,
-                  error: String
-                } =
-              fun fields x => std.array.fold_right
-                  (fun field acc => if !(std.record.has_field field x) then
-                    {
-                        error = m%"
-                            expected field `%{field}`
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc)
-                  { error = "", success = true, }
-                  fields
+          let results
+              = std.array.map (fun pred => pred x) preds
               in
-              
-              fun deps x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (let x  | { _ : Dyn } = x in
-                std.array.fold_right
-                (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                  if !(std.record.has_field field x) then acc else
-                    (let result =
-                    if std.is_array value then
-                      mustHaveFields (value | Array String) x
-                      else
-                      (let pred  | Dyn -> { success: Bool, error: String } =
-                      value
-                      in
-                      
-                      pred (x | Dyn))
+            let count
+                = count_ok results
+                in
+              if count == 0 then
+                  let errors
+                    = std.array.flat_map
+                      (fun
+                        result
+                        =>
+                        (match { 'Ok => [  ], 'Err s => [ "  - %{s}" ], })
+                          result) results
                     in
-                    
-                    if !result.success then
-                    {
-                        error = m%"
-                            dependency of `%{field}` failed: %{result.error}
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc))
-                { error = "", success = true, }
-                (std.record.to_array deps)),
-          maxProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
+                  'Err
+                      m%"
+                        oneOf: none of the options matched
+                        %{std.string.join
+                          m%"
+                            
+                            
+                          "% errors}
+                      "%
                 else
-                (if (std.record.length (x | { _ : Dyn })) > n then
-                {
-                    error = m%"
-                        record contains more than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (if (std.record.length (x | { _ : Dyn })) < n then
-                {
-                    error = m%"
-                        record contains fewer than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          propertyNames
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]
-            "%
-            = fun pred x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => let result = pred (field | Dyn) in
-                  if !result.success then
-                  {
-                      error = m%"
-                          field `%{field}` did not validate against `propertyNames` schema
-                          "%,
-                      success = false,
-                    }
+                  if count > 1 then
+                    'Err "oneOf: more than one of the options matched"
                   else
-                  acc)
-                { error = "", success = true, }
-                (std.record.fields (x | { _ : Dyn }))),
-          record
-            : { _ : Dyn -> { success: Bool, error: String } } -> { _ : Dyn -> {
-              success: Bool,
-              error: String
-            } } -> Bool -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            `record properties patternProperties additionalAllowed
-            additionalProperties x` is a combination of the `properties`,
-            `patternProperties` and `additionalProperties` validation keywords in
-            JSON schema.
-            
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
-            "%
-            =
-            fun properties patternProperties additionalAllowed additionalProperties x =>
-              if !(std.is_record x) then { error = "", success = true, } else
-                (let x  | { _ : Dyn } = x in
-                let check_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                    if !(std.record.has_field field x) then acc else
-                      (let result = value x."%{field}" in
-                      if !result.success then
-                      {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
-                      else
-                      {
-                        checked = std.record.insert field true acc.checked,
-                        error = acc.error,
-                        success = acc.success,
-                      }))
-                  { checked = {  }, error = "", success = true, }
-                  (std.record.to_array properties)
-                in
-                
-                let matching_fields  : String -> { _ : Dyn } =
-                fun pattern => let matcher = std.string.is_match pattern in
-                    std.array.fold_left
-                    (fun acc => fun {field  | Dyn, value  | Dyn} => if matcher
-                        field then
-                        std.record.insert field value acc
-                        else
-                        acc)
-                    {  }
-                    (std.record.to_array x)
-                in
-                
-                let check_pattern_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn = pattern, value  | Dyn = pred} =>
-                  fun acc => let result =
-                      std.array.fold_right
-                        (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                          let result = pred value in
-                            if !result.success then
-                            {
-                                checked : { _ : Bool }
-                                  = {  },
-                                error = m%"
-                                    field `%{field}` didn't validate: %{result.error}
-                                    "%,
-                                success = false,
-                              }
-                            else
-                            {
-                              checked = std.record.insert field true
-                                  acc.checked,
-                              error = acc.error,
-                              success = acc.success,
-                            })
-                        {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = "",
-                          success = true,
-                        }
-                        (std.record.to_array (matching_fields pattern))
-                      in
-                      
-                      if !result.success then result else
-                      {
-                        checked = std.array.fold_left
-                            (fun r field => if !(std.record.has_field field
-                              r) then
-                              std.record.insert field true r
-                              else
-                              r)
-                            acc.checked
-                            (std.record.fields result.checked),
-                        error = acc.error,
-                        success = acc.success,
-                      })
-                  { checked : { _ : Bool } = {  }, error = "", success = true, }
-                  (std.record.to_array patternProperties)
-                in
-                
-                let remaining_fields =
-                std.array.fold_left
-                  (fun acc field => if !(std.record.has_field field acc) then
-                    acc
-                    else
-                    (std.record.remove field acc))
+                    'Ok,
+    records =
+      {
+          dependencies
+            : { _ : Dyn } -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]"
+            = let mustHaveFields
+                : Array String -> { _ : Dyn } -> [| 'Ok, 'Err String |]
+                = fun
+                  fields
                   x
-                  ((std.record.fields check_properties.checked) @
-                    (std.record.fields check_pattern_properties.checked))
-                in
-                
-                let check_additional_properties 
-                  : { success: Bool, error: String } =
-                if (!additionalAllowed) &&
-                  (!(std.record.is_empty remaining_fields)) then
-                  {
-                      error = m%"
-                          extra fields %{std.serialize 'Json
-                          ((std.record.fields remaining_fields) | Dyn)}
-                          "%,
-                      success = false,
-                    }
-                  else
-                  (std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc => let result =
-                      additionalProperties value
-                      in
-                      
-                      if !result.success then
-                      {
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
+                  =>
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field x) then
+                        'Err "expected field `%{field}`"
                       else
-                      acc)
-                  { error = "", success = true, }
-                  (std.record.to_array remaining_fields))
+                        acc) 'Ok fields
                 in
-                
-                if !check_properties.success then
-                { error = check_properties.error, success = false, }
-                else
-                (if !check_pattern_properties.success then
-                { error = check_pattern_properties.error, success = false, }
-                else
-                check_additional_properties)),
-          required
-            : Array String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]
-            "%
-            = fun fields x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => if !(std.record.has_field field
-                  (x | { _ : Dyn })) then
-                  {
-                      error = m%"
-                          missing required field %{field}
-                          "%,
-                      success = false,
-                    }
+              fun
+                  deps
+                  x
+                  =>
+                  if !(std.is_record x) then
+                    'Ok
                   else
-                  acc)
-                { error = "", success = true, }
-                fields),
+                    let x
+                      | { _ : Dyn }
+                      = x
+                      in
+                    std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              let result
+                                = if std.is_array value then
+                                  mustHaveFields (value | Array String) x
+                                else
+                                  let pred
+                                    | Dyn -> [| 'Ok, 'Err String |]
+                                    = value
+                                    in
+                                  pred (x | Dyn)
+                                in
+                              (match {
+                                  'Err
+                                    msg =>
+                                    'Err
+                                      "dependency of `%{field}` failed: %{msg}",
+                                  'Ok =>
+                                    acc,
+                                }) result) 'Ok (std.record.to_array deps),
+          maxProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) > n then
+                    'Err
+                      "record contains more than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          minProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) < n then
+                    'Err
+                      "record contains fewer than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          propertyNames
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      (match {
+                        'Err
+                          msg =>
+                          'Err
+                            "field `%{field}` did not validate against `propertyNames` schema",
+                        'Ok =>
+                          acc,
+                      }) (pred (field | Dyn))) 'Ok
+                    (std.record.fields (x | { _ : Dyn })),
+          record
+            : { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> Bool
+            -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `record properties patternProperties additionalAllowed
+              additionalProperties x` is a combination of the `properties`,
+              `patternProperties` and `additionalProperties` validation keywords in
+              JSON schema.
+              
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
+            "%
+            = fun
+                properties
+                patternProperties
+                additionalAllowed
+                additionalProperties
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  let x
+                    | { _ : Dyn }
+                    = x
+                    in
+                  let check_properties
+                      : {
+                        result : [| 'Ok, 'Err String |],
+                        checked : { _ : Bool }
+                      }
+                      = std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              (match {
+                                'Err
+                                  msg =>
+                                  {
+                                    checked : { _ : Bool } = {},
+                                    result =
+                                      'Err
+                                          "field `%{field}` didn't validate: %{msg}",
+                                  },
+                                'Ok =>
+                                  {
+                                    checked =
+                                      std.record.insert field true acc.checked,
+                                    result = acc.result,
+                                  },
+                              }) (value x."%{field}"))
+                        { checked = {}, result = 'Ok, }
+                        (std.record.to_array properties)
+                      in
+                    let matching_fields
+                        : String -> { _ : Dyn }
+                        = fun
+                          pattern
+                          =>
+                          let matcher
+                            = std.string.is_match pattern
+                            in
+                          std.array.fold_left
+                              (fun
+                                acc
+                                =>
+                                fun
+                                  { field, value, }
+                                  =>
+                                  if matcher field then
+                                    std.record.insert field value acc
+                                  else
+                                    acc) {} (std.record.to_array x)
+                        in
+                      let check_pattern_properties
+                          : {
+                            result : [| 'Ok, 'Err String |],
+                            checked : { _ : Bool }
+                          }
+                          = std.array.fold_right
+                            (fun
+                              { field = pattern, value = pred, }
+                              =>
+                              fun
+                                acc
+                                =>
+                                (match {
+                                  r @ { result = 'Err msg, .. } =>
+                                    r,
+                                  { result = 'Ok, checked = ch, } =>
+                                    {
+                                      checked =
+                                        std.array.fold_left
+                                            (fun
+                                              r
+                                              field
+                                              =>
+                                              if !(std.record.has_field field
+                                                r) then
+                                                std.record.insert field true r
+                                              else
+                                                r) acc.checked
+                                            (std.record.fields ch),
+                                      result = acc.result,
+                                    },
+                                })
+                                  (std.array.fold_right
+                                    (fun
+                                      { field, value, }
+                                      =>
+                                      fun
+                                        acc
+                                        =>
+                                        (match {
+                                          'Err
+                                            msg =>
+                                            {
+                                              checked : { _ : Bool } = {},
+                                              result =
+                                                'Err
+                                                    "field `%{field}` didn't validate: %{msg}",
+                                            },
+                                          'Ok =>
+                                            {
+                                              checked =
+                                                std.record.insert field true
+                                                    acc.checked,
+                                              result = acc.result,
+                                            },
+                                        }) (pred value))
+                                    {
+                                      checked : { _ : Bool } = {},
+                                      result = 'Ok,
+                                    }
+                                    (std.record.to_array
+                                      (matching_fields pattern))))
+                            { checked : { _ : Bool } = {}, result = 'Ok, }
+                            (std.record.to_array patternProperties)
+                          in
+                        let remaining_fields
+                            = std.array.fold_left
+                              (fun
+                                acc
+                                field
+                                =>
+                                if !(std.record.has_field field acc) then
+                                  acc
+                                else
+                                  std.record.remove field acc) x
+                              ((std.record.fields check_properties.checked)
+                              @ (std.record.fields
+                                check_pattern_properties.checked))
+                            in
+                          let check_additional_properties
+                              : [| 'Ok, 'Err String |]
+                              = if (!additionalAllowed)
+                              && (!(std.record.is_empty remaining_fields)) then
+                                'Err
+                                  "extra fields %{std.serialize 'Json
+                                    ((std.record.fields remaining_fields)
+                                    | Dyn)}"
+                              else
+                                std.array.fold_right
+                                  (fun
+                                    { field, value, }
+                                    =>
+                                    fun
+                                      acc
+                                      =>
+                                      (match {
+                                        'Err
+                                          msg =>
+                                          'Err
+                                            "field `%{field}` didn't validate: %{msg}",
+                                        'Ok =>
+                                          acc,
+                                      }) (additionalProperties value)) 'Ok
+                                  (std.record.to_array remaining_fields)
+                              in
+                            (match {
+                                'Err
+                                  msg =>
+                                  check_properties.result,
+                                'Ok =>
+                                  (match {
+                                    'Err
+                                      msg =>
+                                      check_pattern_properties.result,
+                                    'Ok =>
+                                      check_additional_properties,
+                                  }) check_pattern_properties.result,
+                              }) check_properties.result,
+          required
+            : Array String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]"
+            = fun
+                fields
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field (x | { _ : Dyn })) then
+                        'Err "missing required field %{field}"
+                      else
+                        acc) 'Ok fields,
         },
-    strings = {
+    strings =
+      {
           maxLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no larger than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no larger than %{std.string.from_number
+                        limit}",
           minLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no smaller than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no smaller than %{std.string.from_number
+                        limit}",
           pattern
-            : String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]
-            "%
-            = fun pattern x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]"
+            = fun
+                pattern
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if std.string.is_match pattern (x | String) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string matching the pattern `%{pattern}`
-                      "%,
-                  success = false,
-                }),
+                  if std.string.is_match pattern (x | String) then
+                    'Ok
+                  else
+                    'Err "expected a string matching the pattern `%{pattern}`",
         },
   }
-in
-
-let rec definitions =
-{
-    contract = {
-          command_info
-            | doc m%"
-            Command information
-            "%
-            = {
-                command | String | optional,
-                continue_if_failed
-                  | predicates.contract_from_predicate
-                  (predicates.isType '"Bool")
-                  | optional,
-                cwd | std.enum.TagOrString | [| 'workspace, 'root |] | optional,
-                ..
-              },
-          enum_flavors = std.contract.Sequence
-              [
-                std.enum.TagOrString,
-                [|
-                  'terraform,
-                  'swift,
-                  'security,
-                  'salesforce,
-                  'rust,
-                  'ruby,
-                  'python,
-                  'php,
-                  'javascript,
-                  'java,
-                  'go,
-                  'dotnetweb,
-                  'dotnet,
-                  'documentation,
-                  'cupcake,
-                  'ci_light,
-                  'all,
-                  'all_flavors
-                |]
-              ],
-        },
-    predicate = {
-          command_info
-            | doc m%"
-            Command information
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  command = predicates.isType '"String",
-                  continue_if_failed = predicates.isType '"Bool",
-                  cwd = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum [ "root", "workspace" ]
-                      ],
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          enum_flavors = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.enum
-                [
-                  "all_flavors",
-                  "all",
-                  "ci_light",
-                  "cupcake",
-                  "documentation",
-                  "dotnet",
-                  "dotnetweb",
-                  "go",
-                  "java",
-                  "javascript",
-                  "php",
-                  "python",
-                  "ruby",
-                  "rust",
-                  "salesforce",
-                  "security",
-                  "swift",
-                  "terraform"
-                ]
-              ],
-        },
-  }
-in
-
-{
-  active_only_if_file_found
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [
-      predicates.isType '"Array",
-      predicates.arrays.arrayOf (predicates.isType '"String")
-    ])
-    | doc m%"
-    Names of the config files to be found (at least one), else descriptor will be deactivated
-    "%
-    | optional,
-  descriptor_flavors
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [
-      predicates.isType '"Array",
-      predicates.arrays.arrayOf definitions.predicate.enum_flavors
-    ])
-    | doc m%"
-    MegaLinter flavors matching this descriptor
-    "%
-    | optional,
-  descriptor_flavors_exclude
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [
-      predicates.isType '"Array",
-      predicates.arrays.arrayOf definitions.predicate.enum_flavors
-    ])
-    | doc m%"
-    MegaLinter flavors that must not contain this descriptor
-    "%
-    | optional,
-  descriptor_id
-    | String
-    | doc m%"
-    Uppercase unique identifier for the language, tooling format or identifier
-    "%,
-  descriptor_label
-    | String
-    | doc m%"
-    Label for descriptor documentation, if different from Id. Ex: C++ for CPP
-    "%
-    | optional,
-  descriptor_type
-    | std.enum.TagOrString
-    | [| 'other, 'tooling_format, 'format, 'language |]
-    | doc m%"
-    Descriptor type: language, format or tooling format
-    "%,
-  file_contains_regex
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [
-      predicates.isType '"Array",
-      predicates.arrays.arrayOf (predicates.isType '"String")
-    ])
-    | doc m%"
-    Regular expression list for filtering files by their content
-    "%
-    | optional,
-  file_contains_regex_extensions
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [
-      predicates.isType '"Array",
-      predicates.arrays.arrayOf (predicates.isType '"String")
-    ])
-    | doc m%"
-    If file_contains_regex is set, use this property to filter extensions of the files that will be checked
-    "%
-    | optional,
-  file_extensions
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [
-      predicates.isType '"Array",
-      predicates.arrays.arrayOf (predicates.isType '"String")
-    ])
-    | doc m%"
-    File extension filters. Empty list excludes all files. Can be overridden at linter level
-    "%
-    | optional,
-  file_names_not_ends_with
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [
-      predicates.isType '"Array",
-      predicates.arrays.arrayOf (predicates.isType '"String")
-    ])
-    | doc m%"
-    List of strings to filter the files according to their end of file name
-    "%
-    | optional,
-  file_names_regex
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [
-      predicates.isType '"Array",
-      predicates.arrays.arrayOf (predicates.isType '"String")
-    ])
-    | doc m%"
-    Regular expression list for filtering files by their base names using regex full match. Empty list includes all files. Can be overridden at linter level
-    "%
-    | optional,
-  files_sub_directory
-    | String
-    | doc m%"
-    Set when a linter only lints a sub-directory
-    "%
-    | optional,
-  install
-    | {
-      apk
-        | predicates.contract_from_predicate
-        (predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf (predicates.isType '"String")
-        ])
-        | doc m%"
-        APK packages identifiers (with or without version)
-        "%
-        | optional,
-      cargo
-        | predicates.contract_from_predicate
-        (predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf (predicates.isType '"String")
-        ])
-        | doc m%"
-        Cargo packages identifiers (with or without version)
-        "%
-        | optional,
-      dockerfile
-        | predicates.contract_from_predicate
-        (predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf (predicates.isType '"String")
-        ])
-        | doc m%"
-        Will be automatically integrated in generated Dockerfile
-        "%
-        | optional,
-      gem
-        | predicates.contract_from_predicate
-        (predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf (predicates.isType '"String")
-        ])
-        | doc m%"
-        GEM packages identifiers (with or without version)
-        "%
-        | optional,
-      npm
-        | predicates.contract_from_predicate
-        (predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf (predicates.isType '"String")
-        ])
-        | doc m%"
-        NPM packages identifiers (with or without version)
-        "%
-        | optional,
-      pip
-        | predicates.contract_from_predicate
-        (predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf (predicates.isType '"String")
-        ])
-        | doc m%"
-        PIP packages identifiers (with or without version)
-        "%
-        | optional,
-      ..
+  in
+let rec _js2n__-refsenv
+    = {
+      "_js2n__-:definitions/command_info!contract"
+        | doc "Command information"
+        = {
+            command | String | optional,
+            continue_if_failed
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.isType '"Bool")
+              | optional,
+            cwd | std.enum.TagOrString | [| 'workspace, 'root |] | optional,
+            ..
+          },
+      "_js2n__-:definitions/enum_flavors!contract" =
+        std.contract.Sequence
+            [
+              std.enum.TagOrString,
+              [|
+                'terraform,
+                'swift,
+                'security,
+                'salesforce,
+                'rust,
+                'ruby,
+                'python,
+                'php,
+                'javascript,
+                'java,
+                'go,
+                'formatters,
+                'dotnetweb,
+                'dotnet,
+                'documentation,
+                'cupcake,
+                'ci_light,
+                'c_cpp,
+                'all,
+                'all_flavors
+              |]
+            ],
     }
-    | doc m%"
-    List of apk, dockerfile instructions, npm/pip/gem packages required to use the descriptor linters
-    "%
-    | optional,
-  lint_all_files
-    | Bool
-    | doc m%"
-    If set to true, this descriptor linters will always lint all files, undepending their name/extensions/content
-    "%
-    | optional,
-  lint_all_other_linters_files
-    | Bool
-    | doc m%"
-    If set to true, this descriptor linters will lint one by one all files collected by all other linters
-    "%
-    | optional,
-  linters
-    | predicates.contract_from_predicate
-    (predicates.allOf
-    [
-      predicates.isType '"Array",
-      predicates.arrays.arrayOf
-      (predicates.allOf
-      [
-        predicates.isType 'Record,
-        predicates.records.required [ "examples", "linter_name", "linter_url" ],
-        predicates.records.record
-        {
-          activation_rules = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType 'Record)
-              ],
-          active_only_if_file_found = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          can_output_sarif = predicates.isType '"Bool",
-          class = predicates.isType '"String",
-          cli_config_arg_name = predicates.isType '"String",
-          cli_config_default_value = predicates.isType '"String",
-          cli_config_extra_args = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          cli_docker_args = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          cli_docker_image = predicates.isType '"String",
-          cli_docker_image_version = predicates.isType '"String",
-          cli_executable = predicates.isType '"String",
-          cli_executable_help = predicates.isType '"String",
-          cli_executable_version = predicates.isType '"String",
-          cli_help_arg_name = predicates.isType '"String",
-          cli_help_extra_args = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          cli_help_extra_commands = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          cli_lint_errors_count = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.enum
-                [
-                  "regex_number",
-                  "regex_count",
-                  "regex_sum",
-                  "total_lines",
-                  "sarif"
-                ]
-              ],
-          cli_lint_errors_regex = predicates.isType '"String",
-          cli_lint_extra_args = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          cli_lint_extra_args_after = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          cli_lint_fix_arg_name = predicates.isType '"String",
-          cli_lint_fix_remove_args = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          cli_lint_ignore_arg_name = predicates.isType '"String",
-          cli_lint_mode = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.enum [ "file", "project", "list_of_files" ]
-              ],
-          cli_sarif_args = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          cli_version_arg_name = predicates.isType '"String",
-          cli_version_extra_args = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          config_file_name = predicates.isType '"String",
-          deprecated = predicates.isType '"Bool",
-          deprecated_description = predicates.isType '"String",
-          descriptor_flavors = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf definitions.predicate.enum_flavors
-              ],
-          descriptor_flavors_exclude = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf definitions.predicate.enum_flavors
-              ],
-          disabled = predicates.isType '"Bool",
-          downgraded_reason = predicates.isType '"String",
-          downgraded_version = predicates.isType '"Bool",
-          examples = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          file_extensions = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          file_names_not_ends_with = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          file_names_regex = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String")
-              ],
-          files_sub_directory = predicates.isType '"String",
-          help_command_return_code = predicates.isType '"Number",
-          ide = predicates.isType 'Record,
-          ignore_file_name = predicates.isType '"String",
-          ignore_for_flavor_suggestions = predicates.isType '"Bool",
-          install = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  apk = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  cargo = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  dockerfile = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  gem = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  npm = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  pip = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          is_formatter = predicates.isType '"Bool",
-          is_sbom = predicates.isType '"Bool",
-          lint_all_files = predicates.isType '"Bool",
-          lint_all_other_linters_files = predicates.isType '"Bool",
-          linter_banner_image_url = predicates.isType '"String",
-          linter_help_cache = predicates.isType '"String",
-          linter_icon_png_url = predicates.isType '"String",
-          linter_image_url = predicates.isType '"String",
-          linter_megalinter_ref_url = predicates.isType '"String",
-          linter_name = predicates.isType '"String",
-          linter_repo = predicates.isType '"String",
-          linter_rules_configuration_url = predicates.isType '"String",
-          linter_rules_ignore_config_url = predicates.isType '"String",
-          linter_rules_inline_disable_url = predicates.isType '"String",
-          linter_rules_url = predicates.isType '"String",
-          linter_spdx_license = predicates.isType '"String",
-          linter_speed = predicates.allOf
-              [
-                predicates.isType '"Number",
-                predicates.enum [ 1, 2, 3, 4, 5 ]
-              ],
-          linter_text = predicates.isType '"String",
-          linter_url = predicates.isType '"String",
-          linter_version_cache = predicates.isType '"String",
-          name = predicates.isType '"String",
-          post_commands = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf definitions.predicate.command_info
-              ],
-          pre_commands = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf definitions.predicate.command_info
-              ],
-          sarif_default_output_file = predicates.isType '"String",
-          test_folder = predicates.isType '"String",
-          test_variables = predicates.isType 'Record,
-          variables = predicates.isType '"Array",
-          version_command_return_code = predicates.isType '"Number",
-          version_extract_regex = predicates.isType '"String",
+    in
+  {
+      active_only_if_file_found
+        | Array (String)
+        | doc "Names of the config files to be found (at least one), else descriptor will be deactivated. Search in workspace, linter rules path, and files_sub_directory"
+        | optional,
+      descriptor_flavors
+        | Array _js2n__-refsenv."_js2n__-:definitions/enum_flavors!contract"
+        | doc "MegaLinter flavors matching this descriptor"
+        | optional,
+      descriptor_flavors_exclude
+        | Array _js2n__-refsenv."_js2n__-:definitions/enum_flavors!contract"
+        | doc "MegaLinter flavors that must not contain this descriptor"
+        | optional,
+      descriptor_id
+        | String
+        | doc "Uppercase unique identifier for the language, tooling format or identifier",
+      descriptor_label
+        | String
+        | doc "Label for descriptor documentation, if different from Id. Ex: C++ for CPP"
+        | optional,
+      descriptor_type
+        | std.enum.TagOrString
+        | [| 'other, 'tooling_format, 'format, 'language |]
+        | doc "Descriptor type: language, format or tooling format",
+      file_contains_regex
+        | Array (String)
+        | doc "Regular expression list for filtering files by their content"
+        | optional,
+      file_contains_regex_extensions
+        | Array (String)
+        | doc "If file_contains_regex is set, use this property to filter extensions of the files that will be checked"
+        | optional,
+      file_extensions
+        | Array (String)
+        | doc "File extension filters. Empty list excludes all files. Can be overridden at linter level"
+        | optional,
+      file_names_not_ends_with
+        | Array (String)
+        | doc "List of strings to filter the files according to their end of file name"
+        | optional,
+      file_names_regex
+        | Array (String)
+        | doc "Regular expression list for filtering files by their base names using regex full match. Empty list includes all files. Can be overridden at linter level"
+        | optional,
+      files_sub_directory
+        | String
+        | doc "Set when a linter only lints a sub-directory"
+        | optional,
+      install
+        | {
+          apk
+            | Array (String)
+            | doc "APK packages identifiers (with or without version)"
+            | optional,
+          cargo
+            | Array (String)
+            | doc "Cargo packages identifiers (with or without version)"
+            | optional,
+          dockerfile
+            | Array (String)
+            | doc "Will be automatically integrated in generated Dockerfile"
+            | optional,
+          gem
+            | Array (String)
+            | doc "GEM packages identifiers (with or without version)"
+            | optional,
+          npm
+            | Array (String)
+            | doc "NPM packages identifiers (with or without version)"
+            | optional,
+          pip
+            | Array (String)
+            | doc "PIP packages identifiers (with or without version)"
+            | optional,
+          ..
         }
-        {  }
-        false
-        predicates.never
-      ])
-    ])
-    | doc m%"
-    List of linter definitions associated to the descriptor
-    "%,
-  processing_order
-    | Number
-    | doc m%"
-    If descriptor linters may be slow, put a negative processing order. If it is fast, put a positive one. If you don't know, do not set
-    "%
-    | optional,
-  test_folder
-    | String
-    | doc m%"
-    Test folder containing _good_ and _bad_ files. Default: lowercase(descriptor_id)
-    "%
-    | optional,
-}
+        | doc "List of apk, dockerfile instructions, npm/pip/gem packages required to use the descriptor linters"
+        | optional,
+      lint_all_files
+        | Bool
+        | doc "If set to true, this descriptor linters will always lint all files, undepending their name/extensions/content"
+        | optional,
+      lint_all_other_linters_files
+        | Bool
+        | doc "If set to true, this descriptor linters will lint one by one all files collected by all other linters"
+        | optional,
+      linters
+        | Array
+          {
+            activation_rules
+              | Array {  .. }
+              | doc "List of rules to check to activate linter"
+              | optional,
+            active_only_if_file_found
+              | Array (String)
+              | doc "Names of the config files to be found (at least one), else descriptor will be deactivated"
+              | optional,
+            can_output_sarif
+              | Bool
+              | doc "Shows if the linter is capable of output SARIF report within MegaLinter"
+              | optional,
+            class
+              | String
+              | doc "If MegaLinter core is not enough, use a custom class inheriting from Linter class"
+              | optional,
+            cli_config_arg_name | String | optional,
+            cli_config_default_value | String | optional,
+            cli_config_extra_args
+              | Array (String)
+              | doc "When a configuration file is used with the linter CLI, send these additional arguments"
+              | optional,
+            cli_docker_args
+              | Array (String)
+              | doc "Arguments for docker run before image name"
+              | optional,
+            cli_docker_image | String | optional,
+            cli_docker_image_version
+              | String
+              | doc "Version of the docker image to use for linting"
+              | optional,
+            cli_executable
+              | String
+              | doc "Override if different from linter_name"
+              | optional,
+            cli_executable_help
+              | String
+              | doc "Override if different from cli executable used for linting"
+              | optional,
+            cli_executable_version
+              | String
+              | doc "Override if different from cli executable used for linting"
+              | optional,
+            cli_help_arg_name | String | optional,
+            cli_help_extra_args
+              | Array (String)
+              | doc "When linter CLI is call for help, send these additional arguments"
+              | optional,
+            cli_help_extra_commands
+              | Array (String)
+              | doc "When linter CLI is call for help, send these additional commands"
+              | optional,
+            cli_lint_errors_count
+              | std.enum.TagOrString
+              | [|
+                'sarif,
+                'total_lines,
+                'regex_sum,
+                'regex_count,
+                'regex_number
+              |]
+              | doc "Defines how to count errors from log file. regex_number, regex_count, regex_sum, or total_lines"
+              | optional,
+            cli_lint_errors_regex
+              | String
+              | doc "Regex allowing to extract the number of errors from linter output logs"
+              | optional,
+            cli_lint_extra_args
+              | Array (String)
+              | doc "When linter CLI is call for linting, send these additional arguments before config args"
+              | optional,
+            cli_lint_extra_args_after
+              | Array (String)
+              | doc "When linter CLI is call for linting, send these additional arguments after config args"
+              | optional,
+            cli_lint_fix_arg_name | String | optional,
+            cli_lint_fix_remove_args
+              | Array (String)
+              | doc "When linter CLI is call for fixing, remove these arguments"
+              | optional,
+            cli_lint_ignore_arg_name
+              | String
+              | doc "If the linter can use an ignore file, input here the related argument"
+              | optional,
+            cli_lint_mode
+              | std.enum.TagOrString
+              | [| 'list_of_files, 'project, 'file |]
+              | doc "Defines how the linter is called: file,  list_of_files, project"
+              | optional,
+            cli_sarif_args
+              | Array (String)
+              | doc "Arguments to generate SARIF output"
+              | optional,
+            cli_version_arg_name | String | optional,
+            cli_version_extra_args
+              | Array (String)
+              | doc "When linter CLI is call for version, send these additional arguments"
+              | optional,
+            config_file_name
+              | String
+              | doc "An explanation about the purpose of this instance."
+              | optional,
+            deprecated
+              | Bool
+              | doc "Shows if the linter is deprecated."
+              | optional,
+            deprecated_description
+              | String
+              | doc "Displays information on why it is deprecated and whether an alternative is available."
+              | optional,
+            descriptor_flavors
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/enum_flavors!contract"
+              | doc "MegaLinter flavors matching this linter"
+              | optional,
+            descriptor_flavors_exclude
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/enum_flavors!contract"
+              | doc "MegaLinter flavors that must not contain this descriptor"
+              | optional,
+            disabled
+              | Bool
+              | doc "Disable linter in MegaLinter next builds"
+              | optional,
+            disabled_reason
+              | String
+              | doc "Explanation about why the linter is disabled"
+              | optional,
+            downgraded_reason
+              | String
+              | doc "Explanation about why the linter is downgraded"
+              | optional,
+            downgraded_version
+              | Bool
+              | doc "Indicates that installation instructions does not use the latest release of the linter"
+              | optional,
+            examples
+              | Array (String)
+              | doc "Please add an example with and without configuration file in the command. They will appear in documentation",
+            file_extensions
+              | Array (String)
+              | doc "File extension filters if different from the ones defined on parent descriptor"
+              | optional,
+            file_names_not_ends_with
+              | Array (String)
+              | doc "List of strings to filter the files according to their end of file name"
+              | optional,
+            file_names_regex
+              | Array (String)
+              | doc "Regular expression list for filtering files by their base names using regex full match. Empty list includes all files. Can be overridden at linter level"
+              | optional,
+            files_sub_directory
+              | String
+              | doc "Set when a linter only lints a sub-directory"
+              | optional,
+            help_command_return_code | Number | optional,
+            ide | {  .. } | doc "List of IDE supporting the linter" | optional,
+            ignore_file_name
+              | String
+              | doc "An explanation about the purpose of this instance."
+              | optional,
+            ignore_for_flavor_suggestions
+              | Bool
+              | doc "If this property is set to true, this linter will be ignored for flavor suggestions"
+              | optional,
+            install
+              | {
+                apk
+                  | Array (String)
+                  | doc "APK packages identifiers (with or without version)"
+                  | optional,
+                cargo
+                  | Array (String)
+                  | doc "Cargo packages identifiers (with or without version)"
+                  | optional,
+                dockerfile
+                  | Array (String)
+                  | doc "Will be automatically integrated in generated Dockerfile"
+                  | optional,
+                gem
+                  | Array (String)
+                  | doc "GEM packages identifiers (with or without version)"
+                  | optional,
+                npm
+                  | Array (String)
+                  | doc "NPM packages identifiers (with or without version)"
+                  | optional,
+                pip
+                  | Array (String)
+                  | doc "PIP packages identifiers (with or without version)"
+                  | optional,
+                ..
+              }
+              | doc "List of apk, dockerfile instructions, npm/pip/gem packages required to install the linter"
+              | optional,
+            is_formatter
+              | Bool
+              | doc "If the linter is just a formatter, set to true so errors will count as warnings"
+              | optional,
+            is_sbom
+              | Bool
+              | doc "If the linter is SBOM, set to true so extra properties will be returned"
+              | optional,
+            lint_all_files
+              | Bool
+              | doc "If set to true, this linter will always lint all files, undepending their name/extensions/content"
+              | optional,
+            lint_all_other_linters_files
+              | Bool
+              | doc "If set to true, this descriptor linters will lint one by one all files collected by all other linters"
+              | optional,
+            linter_banner_image_url
+              | String
+              | doc "URL of an image used to build header of linter Markdown documentation"
+              | optional,
+            linter_help_cache
+              | String
+              | doc "If the linter is unable to return help content, hardcode it here"
+              | optional,
+            linter_icon_png_url
+              | String
+              | doc "URL of a PNG image representing the icon of the linter"
+              | optional,
+            linter_image_url
+              | String
+              | doc "URL of an image used in linter Markdown documentation"
+              | optional,
+            linter_megalinter_ref_url
+              | String
+              | doc "URL to linter documentation referring to MegaLinter"
+              | optional,
+            linter_name
+              | String
+              | doc "Name of the linter (same as cli command if possible)",
+            linter_repo
+              | String
+              | doc "URL of the linter repository home page"
+              | optional,
+            linter_rules_configuration_url
+              | String
+              | doc "URL to linter documentation explaining how to configure the linter"
+              | optional,
+            linter_rules_ignore_config_url
+              | String
+              | doc "URL to linter documentation explaining how to ignore files"
+              | optional,
+            linter_rules_inline_disable_url
+              | String
+              | doc "URL to linter documentation explaining how to disable rules directly with comments in files"
+              | optional,
+            linter_rules_url
+              | String
+              | doc "URL to linter documentation listing all the rules that can be detected"
+              | optional,
+            linter_spdx_license
+              | String
+              | doc "spdx license id of the linter"
+              | optional,
+            linter_speed
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Number",
+                    _js2n__-prdslib.enum [ 1, 2, 3, 4, 5 ]
+                  ])
+              | doc "Average speed of the linter (performances indicator). For 1 (very slow) to 5 (very fast)"
+              | optional,
+            linter_text | String | optional,
+            linter_url | String | doc "URL of the linter home page",
+            linter_version_cache
+              | String
+              | doc "If the linter is unable to return a version number, hardcode it here"
+              | optional,
+            name
+              | String
+              | doc "When several linters in a descriptor, set a different name that will be used for configuration"
+              | optional,
+            post_commands
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+              | doc "Custom bash commands to run after linter"
+              | optional,
+            pre_commands
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+              | doc "Custom bash commands to run before linter"
+              | optional,
+            sarif_default_output_file
+              | String
+              | doc "Path to find default SARIF output file when generated by linter"
+              | optional,
+            test_folder
+              | String
+              | doc "Test folder containing _good_ and _bad_ files, if different from parent descriptor test_folder"
+              | optional,
+            test_format_fix_file_extensions
+              | Array (String)
+              | doc "Format / Fix test file extension filters."
+              | optional,
+            test_format_fix_regex_exclude
+              | String
+              | doc "Format / Fix test exclusions"
+              | optional,
+            test_variables
+              | {  .. }
+              | doc "List of variables to set before running tests"
+              | optional,
+            variables
+              | Array Dyn
+              | doc "Try to not use this property except if you really have no choice"
+              | optional,
+            version_command_return_code | Number | optional,
+            version_extract_regex
+              | String
+              | doc "If default regex to extract version from linter -v call, override it here"
+              | optional,
+          }
+        | doc "List of linter definitions associated to the descriptor",
+      processing_order
+        | Number
+        | doc "If descriptor linters may be slow, put a negative processing order. If it is fast, put a positive one. If you don't know, do not set"
+        | optional,
+      test_folder
+        | String
+        | doc "Test folder containing _good_ and _bad_ files. Default: lowercase(descriptor_id)"
+        | optional,
+    }

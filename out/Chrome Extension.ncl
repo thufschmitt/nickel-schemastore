@@ -1,1674 +1,1866 @@
 # DO NOT EDIT
 # This file was automatically generated using json-schema-to-nickel
-let predicates =
-{
+let _js2n__-prdslib
+  = {
     allOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `allOf preds` succeeds if all of the predicates in `preds` succeed
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
+        `allOf preds` succeeds if all of the predicates in `preds` succeed
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
       "%
-      = fun preds x => std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if !result.success then result else acc)
-          { error = "", success = true, }
-          preds,
-    always : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "", success = true, },
+      = fun
+          preds
+          x
+          =>
+          std.array.fold_right
+            (fun pred acc => (match { 'Ok => acc, 'Err s => 'Err s, }) (pred x))
+            'Ok preds,
+    always : Dyn -> [| 'Ok, 'Err String |] = std.function.const 'Ok,
     anyOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
+        `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
       "%
-      = fun preds x => (fun result => if result.success then
-            { error = "", success = true, }
-            else
-            {
-              error = m%"
-                  anyOf: none of the options matched%{std.string.join "\n"
-                  result.errors}
-                  "%,
-              success = false,
-            })
-          (std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if result.success || acc.success then
-            { errors = [  ], success = true, }
-            else
-            {
-              errors = [
-                      m%"
-                      - %{result.error}
-                      "%
-                    ] @
-                    acc.errors,
-              success = false,
-            })
-          { errors = [  ], success = false, }
-          preds),
-    arrays = {
+      = fun
+          preds
+          x
+          =>
+          (match {
+            'Ok =>
+              'Ok,
+            'Errs
+              msgs =>
+              'Err
+                m%"
+                  anyOf: none of the options matched
+                  %{std.string.join
+                    m%"
+                      
+                      
+                    "% msgs}
+                "%,
+          })
+            (std.array.fold_right
+              (fun
+                pred
+                acc
+                =>
+                (match {
+                  'Ok =>
+                    'Ok,
+                  'Errs
+                    msgs =>
+                    (match {
+                      'Ok =>
+                        'Ok,
+                      'Err
+                        msg =>
+                        'Errs ([ "  - %{msg}" ] @ msgs),
+                    }) (pred x),
+                }) acc) ('Errs [  ]) preds),
+    arrays =
+      {
           additionalItems
-            : (Dyn -> { success: Bool, error: String }) -> Number -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]
-            "%
-            = fun pred start x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |])
+            -> Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]"
+            = fun
+                pred
+                start
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let value_length = std.array.length x in
-                if start >= value_length then
-                { error = "", success = true, }
-                else
-                (arrayOf pred ((std.array.slice start value_length x) | Dyn))),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let value_length
+                      = std.array.length x
+                      in
+                    if start >= value_length then
+                        'Ok
+                      else
+                        arrayOf pred
+                          ((std.array.slice start value_length x)
+                          | Dyn),
           arrayOf
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Apply a predicate to all elements of an array, succeeding if all
-            applications succeed. If the value isn't an array, fail.
+              Apply a predicate to all elements of an array, succeeding if all
+              applications succeed.
             "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                x),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  std.array.fold_right
+                      (fun
+                        x
+                        acc
+                        =>
+                        (match { 'Ok => acc, 'Err msg => 'Err msg, }) (pred x))
+                      'Ok x,
           contains
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]
-            "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                (fun result => if result.success then
-                  { error = "", success = true, }
-                  else
-                  {
-                    error = m%"
-                        contains: no elements matched%{std.string.join "\n"
-                        result.errors}
-                        "%,
-                    success = false,
-                  })
-                (std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if result.success || acc.success then
-                  { errors = [  ], success = true, }
-                  else
-                  {
-                    errors = [
-                            m%"
-                            - %{result.error}
-                            "%
-                          ] @
-                          acc.errors,
-                    success = false,
-                  })
-                { errors = [  ], success = false, }
-                x)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  (match {
+                      'Ok =>
+                        'Ok,
+                      'Errs
+                        msgs =>
+                        'Err
+                          m%"
+                            contains: no elements matched
+                            %{std.string.join
+                              m%"
+                                
+                                
+                              "% msgs}
+                          "%,
+                    })
+                      (std.array.fold_right
+                        (fun
+                          x
+                          acc
+                          =>
+                          (match {
+                            'Ok =>
+                              'Ok,
+                            'Errs
+                              msgs =>
+                              (match {
+                                'Ok =>
+                                  'Ok,
+                                'Err
+                                  msg =>
+                                  'Errs ([ "  - %{msg}" ] @ msgs),
+                              }) (pred x),
+                          }) acc) ('Errs [  ]) x),
           items
-            : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]
-            "%
-            = fun preds x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : Array (Dyn -> [| 'Ok, 'Err String |])
+            -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]"
+            = fun
+                preds
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let length_to_check =
-                std.number.min (std.array.length preds) (std.array.length x)
-                in
-                
-                std.array.fold_right
-                (fun i acc => let result =
-                  std.array.at i preds (std.array.at i x)
-                  in
-                  
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                (std.array.range 0 length_to_check)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let length_to_check
+                      = std.number.min (std.array.length preds)
+                        (std.array.length x)
+                      in
+                    std.array.fold_right
+                        (fun
+                          i
+                          acc
+                          =>
+                          (match { 'Err msg => 'Err msg, 'Ok => acc, })
+                            (std.array.at i preds (std.array.at i x))) 'Ok
+                        (std.array.range 0 length_to_check),
           maxItems
-            : Number -> Dyn -> { success: Bool, error: String }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
+              `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
             "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (if (std.array.length (x | Array Dyn)) > n then
-                {
-                    error = m%"
-                        array is longer than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minItems
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
-            "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
-                else
-                (if (std.array.length (x | Array Dyn)) < n then
-                {
-                    error = m%"
-                        array is shorter than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          uniqueItems
-            : Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Succeeds for any array if its elements are pairwise distinct.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
-            "%
-            = let find_duplicate 
-                : Array Dyn -> {
-                  has_duplicate: Bool,
-                  duplicate: Dyn,
-                  seen: { _ : Bool }
-                } =
-              std.array.fold_right
-                (fun elt acc => if acc.has_duplicate then acc else
-                  (let index = std.serialize 'Json elt in
-                  if std.record.has_field index acc.seen then
-                  { duplicate = elt, has_duplicate = true, seen = acc.seen, }
+                  if (std.array.length (x | Array Dyn)) > n then
+                    'Err
+                      "array is longer than %{std.string.from_number n} items"
                   else
-                  {
-                    duplicate = null,
-                    has_duplicate = false,
-                    seen = std.record.insert index true acc.seen,
-                  }))
-                { duplicate = null, has_duplicate = false, seen = {  }, }
-              in
-              
-              fun x => if !(std.is_array x) then
-                { error = "", success = true, }
+                    'Ok,
+          minItems
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let {has_duplicate  | Dyn, duplicate  | Dyn, ..} =
-                find_duplicate (x | Array Dyn)
+                  if (std.array.length (x | Array Dyn)) < n then
+                    'Err
+                      "array is shorter than %{std.string.from_number n} items"
+                  else
+                    'Ok,
+          uniqueItems
+            : Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              Succeeds for any array if its elements are pairwise distinct.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
+            "%
+            = let find_duplicate
+                : Array Dyn
+                -> {
+                  has_duplicate : Bool,
+                  duplicate : Dyn,
+                  seen : { _ : Bool }
+                }
+                = std.array.fold_right
+                  (fun
+                    elt
+                    acc
+                    =>
+                    if acc.has_duplicate then
+                      acc
+                    else
+                      let index
+                        = std.serialize 'Json elt
+                        in
+                      if std.record.has_field index acc.seen then
+                          {
+                            duplicate = elt,
+                            has_duplicate = true,
+                            seen = acc.seen,
+                          }
+                        else
+                          {
+                            duplicate = null,
+                            has_duplicate = false,
+                            seen = std.record.insert index true acc.seen,
+                          })
+                  { duplicate = null, has_duplicate = false, seen = {}, }
                 in
-                
-                if has_duplicate then
-                {
-                    error = m%"
-                        duplicate found: %{std.serialize 'Json duplicate}
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
+              fun
+                  x
+                  =>
+                  if !(std.is_array x) then
+                    'Ok
+                  else
+                    let { has_duplicate, duplicate, .. }
+                      = find_duplicate (x | Array Dyn)
+                      in
+                    if has_duplicate then
+                        'Err "duplicate found: %{std.serialize 'Json duplicate}"
+                      else
+                        'Ok,
         },
     const
-      : Dyn -> Dyn -> { success: Bool, error: String }
+      : Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `const value x` succeeds if and only if `x` is equalt to `value`
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
+        `const value x` succeeds if and only if `x` is equal to `value`
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
       "%
-      = fun value x => if x == value then { error = "", success = true, } else
-          {
-            error = m%"
-                expected %{std.serialize 'Json value}
-                "%,
-            success = false,
-          },
+      = fun
+          value
+          x
+          =>
+          if x == value then
+            'Ok
+          else
+            'Err "expected %{std.serialize 'Json value}",
     contract_from_predicate
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> Dyn -> Dyn
-      = fun predicate label value => let {success  | Dyn, error  | Dyn} =
-          predicate value
-          in
-          
-          if success then value else
-          ((std.contract.blame_with_message error label) | Dyn),
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> Dyn -> Dyn
+      = fun
+          predicate
+          label
+          value
+          =>
+          (match {
+            'Ok =>
+              value,
+            'Err
+              msg =>
+              (std.contract.blame_with_message msg label)
+              | Dyn,
+          }) (predicate value),
     enum
-      : Array Dyn -> Dyn -> { success: Bool, error: String }
+      : Array Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
+        `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
       "%
-      = let checkEqual =
-        fun input variant => (input == variant) ||
-            ((std.is_enum input) &&
-            (((std.string.from_enum input) == variant) | Bool))
-        in
-        
-        fun values x => std.array.fold_right
-          (fun value acc => if checkEqual x value then
-            { error = "", success = true, }
-            else
-            acc)
-          {
-            error = m%"
-                expected one of %{std.serialize 'Json (values | Dyn)}
-                "%,
-            success = false,
-          }
-          values,
+      = let checkEqual
+          = fun
+            input
+            variant
+            =>
+            (input == variant)
+            || ((std.is_enum input)
+            && (((std.string.from_enum input) == variant)
+            | Bool))
+          in
+        fun
+            values
+            x
+            =>
+            std.array.fold_right
+              (fun value acc => if checkEqual x value then 'Ok else acc)
+              ('Err "expected one of %{std.serialize 'Json (values | Dyn)}")
+              values,
     from_simple_predicate
-      : String -> (Dyn -> Bool) -> Dyn -> { success: Bool, error: String }
-      | doc m%"
-      Convert a simple boolean predicate into a predicate supporting error messages
-      "%
-      = fun error' pred x => { error = error', success = pred x, },
+      : String -> (Dyn -> Bool) -> Dyn -> [| 'Ok, 'Err String |]
+      | doc "Convert a simple boolean predicate into a predicate supporting error messages"
+      = fun error' pred x => if pred x then 'Ok else 'Err error',
     ifThenElse
-      : (Dyn -> { success: Bool, error: String }) -> (Dyn -> {
-        success: Bool,
-        error: String
-      }) -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
+        `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
       "%
-      = fun i t e x => let {success  | Dyn, ..} = i x in
-          if success then t x else (e x),
+      = fun i t e x => (match { 'Ok => t x, 'Err msg => e x, }) (i x),
     isType
       : [| '"Array", '"Bool", 'Integer, 'Null, '"Number", 'Record, '"String" |]
-      -> Dyn -> { success: Bool, error: String }
-      = fun t => (match {'Integer => from_simple_predicate "expected an integer"
-            (fun x => (std.is_number x) &&
-              (std.number.is_integer (x | Number))),
-            'Null => from_simple_predicate "expected `null`"
-            (fun x => x == null),
-            _ => from_simple_predicate
-            m%"
-            value is not of type %{std.string.from_enum t}
-            "%
-            (fun x => (std.typeof x) == t)
-          })
-          t,
-    never : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "never", success = false, },
+      -> Dyn -> [| 'Ok, 'Err String |]
+      = fun
+          t
+          =>
+          (match {
+            'Null =>
+              from_simple_predicate "expected `null`" (fun x => x == null),
+            'Integer =>
+              from_simple_predicate "expected an integer"
+                (fun
+                  x
+                  =>
+                  (std.is_number x) && (std.number.is_integer (x | Number))),
+            _ =>
+              from_simple_predicate
+                "value is not of type %{std.string.from_enum t}"
+                (fun x => (std.typeof x) == t),
+          }) t,
+    never : Dyn -> [| 'Ok, 'Err String |] = std.function.const ('Err "never"),
     not
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `not pred` succeeds if and only if `pred` fails
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
+        `not pred` succeeds if and only if `pred` fails
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
       "%
-      = fun pred x => let result = pred x in
-          if result.success then
-          {
-              error = "Inverted predicate succeeded unexpectedly",
-              success = false,
-            }
-          else
-          { error = "", success = true, },
-    numbers = {
+      = fun
+          pred
+          x
+          =>
+          (match {
+            'Ok =>
+              'Err "Inverted predicate succeeded unexpectedly",
+            'Err
+              msg =>
+              'Ok,
+          }) (pred x),
+    numbers =
+      {
           exclusiveMaximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) < limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive maximum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) < limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive maximum of %{std.string.from_number
+                        limit}",
           exclusiveMinimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) > limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive minimum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) > limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive minimum of %{std.string.from_number
+                        limit}",
           maximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a maximum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a maximum of %{std.string.from_number limit}",
           minimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a minimum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a minimum of %{std.string.from_number limit}",
           multipleOf
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]
-            "%
-            = fun mult x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]"
+            = fun
+                mult
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if std.number.is_integer ((x | Number) / mult) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a multiple of %{std.string.from_number mult}
-                      "%,
-                  success = false,
-                }),
+                  if std.number.is_integer ((x | Number) / mult) then
+                    'Ok
+                  else
+                    'Err
+                      "expected a multiple of %{std.string.from_number mult}",
         },
     oneOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
+        `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
       "%
-      = fun preds x => let count_true 
-            : Array { success: Bool, error: String } -> Number =
-          fun results => std.array.fold_left
-              (fun n b => if b.success then n + 1 else n)
-              0
+      = fun
+          preds
+          x
+          =>
+          let count_ok
+            : Array [| 'Ok, 'Err String |] -> Number
+            = fun
               results
-          in
-          
-          let results = std.array.map (fun pred => pred x) preds in
-          let count = count_true results in
-          if count == 0 then
-          let errors =
-            std.array.map
-              (fun result => m%"
-                - %{result.error}
-                "%)
-              results
+              =>
+              std.array.fold_left (fun n b => if b == 'Ok then n + 1 else n) 0
+                results
             in
-            
-            {
-              error = m%"
-                  oneOf: none of the options matched%{std.string.join "\n"
-                  errors}
-                  "%,
-              success = false,
-            }
-          else
-          (if count > 1 then
-          {
-              error = "oneOf: more than one of the options matched",
-              success = false,
-            }
-          else
-          { error = "", success = true, }),
-    records = {
-          dependencies
-            : { _ : Dyn } -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]
-            "%
-            = let mustHaveFields 
-                : Array String -> { _ : Dyn } -> {
-                  success: Bool,
-                  error: String
-                } =
-              fun fields x => std.array.fold_right
-                  (fun field acc => if !(std.record.has_field field x) then
-                    {
-                        error = m%"
-                            expected field `%{field}`
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc)
-                  { error = "", success = true, }
-                  fields
+          let results
+              = std.array.map (fun pred => pred x) preds
               in
-              
-              fun deps x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (let x  | { _ : Dyn } = x in
-                std.array.fold_right
-                (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                  if !(std.record.has_field field x) then acc else
-                    (let result =
-                    if std.is_array value then
-                      mustHaveFields (value | Array String) x
-                      else
-                      (let pred  | Dyn -> { success: Bool, error: String } =
-                      value
-                      in
-                      
-                      pred (x | Dyn))
+            let count
+                = count_ok results
+                in
+              if count == 0 then
+                  let errors
+                    = std.array.flat_map
+                      (fun
+                        result
+                        =>
+                        (match { 'Ok => [  ], 'Err s => [ "  - %{s}" ], })
+                          result) results
                     in
-                    
-                    if !result.success then
-                    {
-                        error = m%"
-                            dependency of `%{field}` failed: %{result.error}
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc))
-                { error = "", success = true, }
-                (std.record.to_array deps)),
-          maxProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
+                  'Err
+                      m%"
+                        oneOf: none of the options matched
+                        %{std.string.join
+                          m%"
+                            
+                            
+                          "% errors}
+                      "%
                 else
-                (if (std.record.length (x | { _ : Dyn })) > n then
-                {
-                    error = m%"
-                        record contains more than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (if (std.record.length (x | { _ : Dyn })) < n then
-                {
-                    error = m%"
-                        record contains fewer than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          propertyNames
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]
-            "%
-            = fun pred x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => let result = pred (field | Dyn) in
-                  if !result.success then
-                  {
-                      error = m%"
-                          field `%{field}` did not validate against `propertyNames` schema
-                          "%,
-                      success = false,
-                    }
+                  if count > 1 then
+                    'Err "oneOf: more than one of the options matched"
                   else
-                  acc)
-                { error = "", success = true, }
-                (std.record.fields (x | { _ : Dyn }))),
-          record
-            : { _ : Dyn -> { success: Bool, error: String } } -> { _ : Dyn -> {
-              success: Bool,
-              error: String
-            } } -> Bool -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            `record properties patternProperties additionalAllowed
-            additionalProperties x` is a combination of the `properties`,
-            `patternProperties` and `additionalProperties` validation keywords in
-            JSON schema.
-            
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
-            "%
-            =
-            fun properties patternProperties additionalAllowed additionalProperties x =>
-              if !(std.is_record x) then { error = "", success = true, } else
-                (let x  | { _ : Dyn } = x in
-                let check_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                    if !(std.record.has_field field x) then acc else
-                      (let result = value x."%{field}" in
-                      if !result.success then
-                      {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
-                      else
-                      {
-                        checked = std.record.insert field true acc.checked,
-                        error = acc.error,
-                        success = acc.success,
-                      }))
-                  { checked = {  }, error = "", success = true, }
-                  (std.record.to_array properties)
-                in
-                
-                let matching_fields  : String -> { _ : Dyn } =
-                fun pattern => let matcher = std.string.is_match pattern in
-                    std.array.fold_left
-                    (fun acc => fun {field  | Dyn, value  | Dyn} => if matcher
-                        field then
-                        std.record.insert field value acc
-                        else
-                        acc)
-                    {  }
-                    (std.record.to_array x)
-                in
-                
-                let check_pattern_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn = pattern, value  | Dyn = pred} =>
-                  fun acc => let result =
-                      std.array.fold_right
-                        (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                          let result = pred value in
-                            if !result.success then
-                            {
-                                checked : { _ : Bool }
-                                  = {  },
-                                error = m%"
-                                    field `%{field}` didn't validate: %{result.error}
-                                    "%,
-                                success = false,
-                              }
-                            else
-                            {
-                              checked = std.record.insert field true
-                                  acc.checked,
-                              error = acc.error,
-                              success = acc.success,
-                            })
-                        {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = "",
-                          success = true,
-                        }
-                        (std.record.to_array (matching_fields pattern))
-                      in
-                      
-                      if !result.success then result else
-                      {
-                        checked = std.array.fold_left
-                            (fun r field => if !(std.record.has_field field
-                              r) then
-                              std.record.insert field true r
-                              else
-                              r)
-                            acc.checked
-                            (std.record.fields result.checked),
-                        error = acc.error,
-                        success = acc.success,
-                      })
-                  { checked : { _ : Bool } = {  }, error = "", success = true, }
-                  (std.record.to_array patternProperties)
-                in
-                
-                let remaining_fields =
-                std.array.fold_left
-                  (fun acc field => if !(std.record.has_field field acc) then
-                    acc
-                    else
-                    (std.record.remove field acc))
+                    'Ok,
+    records =
+      {
+          dependencies
+            : { _ : Dyn } -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]"
+            = let mustHaveFields
+                : Array String -> { _ : Dyn } -> [| 'Ok, 'Err String |]
+                = fun
+                  fields
                   x
-                  ((std.record.fields check_properties.checked) @
-                    (std.record.fields check_pattern_properties.checked))
-                in
-                
-                let check_additional_properties 
-                  : { success: Bool, error: String } =
-                if (!additionalAllowed) &&
-                  (!(std.record.is_empty remaining_fields)) then
-                  {
-                      error = m%"
-                          extra fields %{std.serialize 'Json
-                          ((std.record.fields remaining_fields) | Dyn)}
-                          "%,
-                      success = false,
-                    }
-                  else
-                  (std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc => let result =
-                      additionalProperties value
-                      in
-                      
-                      if !result.success then
-                      {
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
+                  =>
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field x) then
+                        'Err "expected field `%{field}`"
                       else
-                      acc)
-                  { error = "", success = true, }
-                  (std.record.to_array remaining_fields))
+                        acc) 'Ok fields
                 in
-                
-                if !check_properties.success then
-                { error = check_properties.error, success = false, }
-                else
-                (if !check_pattern_properties.success then
-                { error = check_pattern_properties.error, success = false, }
-                else
-                check_additional_properties)),
-          required
-            : Array String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]
-            "%
-            = fun fields x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => if !(std.record.has_field field
-                  (x | { _ : Dyn })) then
-                  {
-                      error = m%"
-                          missing required field %{field}
-                          "%,
-                      success = false,
-                    }
+              fun
+                  deps
+                  x
+                  =>
+                  if !(std.is_record x) then
+                    'Ok
                   else
-                  acc)
-                { error = "", success = true, }
-                fields),
-        },
-    strings = {
-          maxLength
-            : Number -> Dyn -> { success: Bool, error: String }
+                    let x
+                      | { _ : Dyn }
+                      = x
+                      in
+                    std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              let result
+                                = if std.is_array value then
+                                  mustHaveFields (value | Array String) x
+                                else
+                                  let pred
+                                    | Dyn -> [| 'Ok, 'Err String |]
+                                    = value
+                                    in
+                                  pred (x | Dyn)
+                                in
+                              (match {
+                                  'Err
+                                    msg =>
+                                    'Err
+                                      "dependency of `%{field}` failed: %{msg}",
+                                  'Ok =>
+                                    acc,
+                                }) result) 'Ok (std.record.to_array deps),
+          maxProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]
+              `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
             "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no larger than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
-          minLength
-            : Number -> Dyn -> { success: Bool, error: String }
+                  if (std.record.length (x | { _ : Dyn })) > n then
+                    'Err
+                      "record contains more than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          minProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]
+              `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
             "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) >= limit then
-                { error = "", success = true, }
+                  if (std.record.length (x | { _ : Dyn })) < n then
+                    'Err
+                      "record contains fewer than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          propertyNames
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
                 else
-                {
-                  error = m%"
-                      expected a string of length no smaller than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
-          pattern
-            : String -> Dyn -> { success: Bool, error: String }
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      (match {
+                        'Err
+                          msg =>
+                          'Err
+                            "field `%{field}` did not validate against `propertyNames` schema",
+                        'Ok =>
+                          acc,
+                      }) (pred (field | Dyn))) 'Ok
+                    (std.record.fields (x | { _ : Dyn })),
+          record
+            : { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> Bool
+            -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]
+              `record properties patternProperties additionalAllowed
+              additionalProperties x` is a combination of the `properties`,
+              `patternProperties` and `additionalProperties` validation keywords in
+              JSON schema.
+              
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
             "%
-            = fun pattern x => if !(std.is_string x) then
-                { error = "", success = true, }
+            = fun
+                properties
+                patternProperties
+                additionalAllowed
+                additionalProperties
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
                 else
-                (if std.string.is_match pattern (x | String) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string matching the pattern `%{pattern}`
-                      "%,
-                  success = false,
-                }),
-        },
-  }
-in
-
-let rec definitions =
-{
-    contract = {
-          action_v2 = predicates.contract_from_predicate
-              definitions.predicate.action_v2,
-          action_v3 = predicates.contract_from_predicate
-              definitions.predicate.action_v3,
-          command = predicates.contract_from_predicate
-              definitions.predicate.command,
-          content_security_policy
-            | doc m%"
-            This introduces some fairly strict policies that will make extensions more secure by default, and provides you with the ability to create and enforce rules governing the types of content that can be loaded and executed by your extensions and applications.
-            "%
-            = String,
-          glob_pattern = String,
-          icon = definitions.contract.uri,
-          match_pattern = predicates.contract_from_predicate
-              definitions.predicate.match_pattern,
-          mime_type = predicates.contract_from_predicate
-              definitions.predicate.mime_type,
-          page = definitions.contract.uri,
-          permissions = predicates.contract_from_predicate
-              definitions.predicate.permissions,
-          scripts = predicates.contract_from_predicate
-              definitions.predicate.scripts,
-          uri = String,
-          version_string = predicates.contract_from_predicate
-              definitions.predicate.version_string,
-          web_resource = {
-                extension_ids
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | doc m%"
-                  A list of extension IDs, specifying which extensions can access the resources.
-                  "%
-                  | optional,
-                matches
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    definitions.predicate.match_pattern
-                  ])
-                  | doc m%"
-                  A list of URL match patterns specifying which pages can access the resources. Only the origin is used to match URLs; subdomains patterns (*.google.com) and paths are ignored.
-                  "%
-                  | optional,
-                resources
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.glob_pattern
-                  ])
-                  | doc m%"
-                  An array of resources to be exposed. Resources are specified as strings and may contain * for wildcard matches. For example, "/images/*" exposes everything in the extension's /images directory recursively while "*.png" exposes all PNG files.
-                  "%,
-                use_dynamic_url
-                  | Bool
-                  | doc m%"
-                  If true, only allow resources to be accessible through dynamic ID. The dynamic ID is generated per session. It's regenerated on browser restart or extension reload.
-                  "%
-                  | optional,
-                ..
-              },
-        },
-    predicate = {
-          action_v2 = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  default_icon = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            "19" = definitions.predicate.icon,
-                            "38" = definitions.predicate.icon,
+                  let x
+                    | { _ : Dyn }
+                    = x
+                    in
+                  let check_properties
+                      : {
+                        result : [| 'Ok, 'Err String |],
+                        checked : { _ : Bool }
+                      }
+                      = std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              (match {
+                                'Err
+                                  msg =>
+                                  {
+                                    checked : { _ : Bool } = {},
+                                    result =
+                                      'Err
+                                          "field `%{field}` didn't validate: %{msg}",
+                                  },
+                                'Ok =>
+                                  {
+                                    checked =
+                                      std.record.insert field true acc.checked,
+                                    result = acc.result,
+                                  },
+                              }) (value x."%{field}"))
+                        { checked = {}, result = 'Ok, }
+                        (std.record.to_array properties)
+                      in
+                    let matching_fields
+                        : String -> { _ : Dyn }
+                        = fun
+                          pattern
+                          =>
+                          let matcher
+                            = std.string.is_match pattern
+                            in
+                          std.array.fold_left
+                              (fun
+                                acc
+                                =>
+                                fun
+                                  { field, value, }
+                                  =>
+                                  if matcher field then
+                                    std.record.insert field value acc
+                                  else
+                                    acc) {} (std.record.to_array x)
+                        in
+                      let check_pattern_properties
+                          : {
+                            result : [| 'Ok, 'Err String |],
+                            checked : { _ : Bool }
                           }
-                          {  }
-                          true
-                          predicates.always
-                        ]
-                      ],
-                  default_popup = definitions.predicate.uri,
-                  default_title = predicates.isType '"String",
-                }
-                {  }
-                true
-                predicates.always,
-                predicates.records.dependencies
-                {
-                  icons = predicates.not
-                      (predicates.allOf
-                      [
-                        predicates.records.required [ "icons" ],
-                        predicates.records.record {  } {  } true
-                        predicates.always
-                      ]),
-                  name = predicates.not
-                      (predicates.allOf
-                      [
-                        predicates.records.required [ "name" ],
-                        predicates.records.record {  } {  } true
-                        predicates.always
-                      ]),
-                  popup = predicates.not
-                      (predicates.allOf
-                      [
-                        predicates.records.required [ "popup" ],
-                        predicates.records.record {  } {  } true
-                        predicates.always
-                      ]),
-                }
-              ],
-          action_v3 = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  default_icon = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          "16" = definitions.predicate.icon,
-                          "24" = definitions.predicate.icon,
-                          "32" = definitions.predicate.icon,
-                        }
-                        {  }
-                        true
-                        predicates.always
-                      ],
-                  default_popup = definitions.predicate.uri,
-                  default_title = predicates.isType '"String",
-                }
-                {  }
-                true
-                predicates.always,
-                predicates.records.dependencies
-                {
-                  icons = predicates.not
-                      (predicates.allOf
-                      [
-                        predicates.records.required [ "icons" ],
-                        predicates.records.record {  } {  } true
-                        predicates.always
-                      ]),
-                  name = predicates.not
-                      (predicates.allOf
-                      [
-                        predicates.records.required [ "name" ],
-                        predicates.records.record {  } {  } true
-                        predicates.always
-                      ]),
-                  popup = predicates.not
-                      (predicates.allOf
-                      [
-                        predicates.records.required [ "popup" ],
-                        predicates.records.record {  } {  } true
-                        predicates.always
-                      ]),
-                }
-              ],
-          command = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.ifThenElse
-                (predicates.allOf
-                [
-                  predicates.records.required [ "global" ],
-                  predicates.records.record { global = predicates.const true, }
-                  {  }
-                  true
-                  predicates.always
-                ])
-                (predicates.records.record
-                {
-                  description = predicates.isType '"String",
-                  global = predicates.isType '"Bool",
-                  suggested_key = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(default|mac|windows|linux|chromeos)$" =
-                            predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.strings.pattern
-                                "^(Ctrl|Command|MacCtrl)\\+Shift\\+[0-9]"
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                }
-                {  }
-                false
-                predicates.never)
-                (predicates.records.record
-                {
-                  description = predicates.isType '"String",
-                  global = predicates.isType '"Bool",
-                  suggested_key = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        {
-                          "^(default|mac|windows|linux|chromeos)$" =
-                            predicates.allOf
-                              [
-                                predicates.isType '"String",
-                                predicates.strings.pattern
-                                "^(Ctrl|Command|MacCtrl|Alt|Option)\\+(Shift\\+)?[A-Z]"
-                              ],
-                        }
-                        false
-                        predicates.never
-                      ],
-                }
-                {  }
-                false
-                predicates.never)
-              ],
-          content_security_policy
-            | doc m%"
-            This introduces some fairly strict policies that will make extensions more secure by default, and provides you with the ability to create and enforce rules governing the types of content that can be loaded and executed by your extensions and applications.
-            "%
-            = predicates.isType '"String",
-          glob_pattern = predicates.isType '"String",
-          icon = definitions.predicate.uri,
-          match_pattern = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.strings.pattern
-                "^((\\*|http|https|file|ftp|chrome-extension):\\/\\/(\\*|\\*\\.[^\\/\\*]+|[^\\/\\*]+)?(\\/.*))|urn:(\\*|.*)|<all_urls>$"
-              ],
-          mime_type = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.strings.pattern
-                "^(?:application|audio|image|message|model|multipart|text|video)\\/[-+.\\w]+$"
-              ],
-          page = definitions.predicate.uri,
-          permissions = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf (predicates.isType '"String"),
-                predicates.arrays.uniqueItems
-              ],
-          scripts = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf definitions.predicate.uri,
-                predicates.arrays.minItems 1,
-                predicates.arrays.uniqueItems
-              ],
-          uri = predicates.isType '"String",
-          version_string = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.strings.pattern "^(?:\\d{1,5}\\.){0,3}\\d{1,5}$"
-              ],
-          web_resource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "resources" ],
-                predicates.records.record
-                {
-                  extension_ids = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  matches = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.match_pattern
-                      ],
-                  resources = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.glob_pattern
-                      ],
-                  use_dynamic_url = predicates.isType '"Bool",
-                }
-                {  }
-                true
-                predicates.always
-              ],
+                          = std.array.fold_right
+                            (fun
+                              { field = pattern, value = pred, }
+                              =>
+                              fun
+                                acc
+                                =>
+                                (match {
+                                  r @ { result = 'Err msg, .. } =>
+                                    r,
+                                  { result = 'Ok, checked = ch, } =>
+                                    {
+                                      checked =
+                                        std.array.fold_left
+                                            (fun
+                                              r
+                                              field
+                                              =>
+                                              if !(std.record.has_field field
+                                                r) then
+                                                std.record.insert field true r
+                                              else
+                                                r) acc.checked
+                                            (std.record.fields ch),
+                                      result = acc.result,
+                                    },
+                                })
+                                  (std.array.fold_right
+                                    (fun
+                                      { field, value, }
+                                      =>
+                                      fun
+                                        acc
+                                        =>
+                                        (match {
+                                          'Err
+                                            msg =>
+                                            {
+                                              checked : { _ : Bool } = {},
+                                              result =
+                                                'Err
+                                                    "field `%{field}` didn't validate: %{msg}",
+                                            },
+                                          'Ok =>
+                                            {
+                                              checked =
+                                                std.record.insert field true
+                                                    acc.checked,
+                                              result = acc.result,
+                                            },
+                                        }) (pred value))
+                                    {
+                                      checked : { _ : Bool } = {},
+                                      result = 'Ok,
+                                    }
+                                    (std.record.to_array
+                                      (matching_fields pattern))))
+                            { checked : { _ : Bool } = {}, result = 'Ok, }
+                            (std.record.to_array patternProperties)
+                          in
+                        let remaining_fields
+                            = std.array.fold_left
+                              (fun
+                                acc
+                                field
+                                =>
+                                if !(std.record.has_field field acc) then
+                                  acc
+                                else
+                                  std.record.remove field acc) x
+                              ((std.record.fields check_properties.checked)
+                              @ (std.record.fields
+                                check_pattern_properties.checked))
+                            in
+                          let check_additional_properties
+                              : [| 'Ok, 'Err String |]
+                              = if (!additionalAllowed)
+                              && (!(std.record.is_empty remaining_fields)) then
+                                'Err
+                                  "extra fields %{std.serialize 'Json
+                                    ((std.record.fields remaining_fields)
+                                    | Dyn)}"
+                              else
+                                std.array.fold_right
+                                  (fun
+                                    { field, value, }
+                                    =>
+                                    fun
+                                      acc
+                                      =>
+                                      (match {
+                                        'Err
+                                          msg =>
+                                          'Err
+                                            "field `%{field}` didn't validate: %{msg}",
+                                        'Ok =>
+                                          acc,
+                                      }) (additionalProperties value)) 'Ok
+                                  (std.record.to_array remaining_fields)
+                              in
+                            (match {
+                                'Err
+                                  msg =>
+                                  check_properties.result,
+                                'Ok =>
+                                  (match {
+                                    'Err
+                                      msg =>
+                                      check_pattern_properties.result,
+                                    'Ok =>
+                                      check_additional_properties,
+                                  }) check_pattern_properties.result,
+                              }) check_properties.result,
+          required
+            : Array String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]"
+            = fun
+                fields
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field (x | { _ : Dyn })) then
+                        'Err "missing required field %{field}"
+                      else
+                        acc) 'Ok fields,
+        },
+    strings =
+      {
+          maxLength
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
+                else
+                  if (std.string.length (x | String)) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no larger than %{std.string.from_number
+                        limit}",
+          minLength
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
+                else
+                  if (std.string.length (x | String)) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no smaller than %{std.string.from_number
+                        limit}",
+          pattern
+            : String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]"
+            = fun
+                pattern
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
+                else
+                  if std.string.is_match pattern (x | String) then
+                    'Ok
+                  else
+                    'Err "expected a string matching the pattern `%{pattern}`",
         },
   }
-in
-
-predicates.contract_from_predicate
-(predicates.allOf
-[
-  predicates.isType 'Record,
-  predicates.ifThenElse
-  (predicates.records.record { manifest_version = predicates.const 3, } {  }
-  true
-  predicates.always)
-  (predicates.allOf
-  [
-    predicates.records.record
-    {
-      action = definitions.predicate.action_v3,
-      background = predicates.allOf
-          [
-            predicates.isType 'Record,
-            predicates.records.record
-            {
-              service_worker = predicates.isType '"String",
-              type = predicates.allOf
-                  [ predicates.isType '"String", predicates.enum [ "module" ] ],
-            }
-            {  }
-            true
-            predicates.always,
-            predicates.records.dependencies
-            {
-              page = predicates.not
-                  (predicates.allOf
-                  [
-                    predicates.records.required [ "scripts" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ]),
-              scripts = predicates.not
-                  (predicates.allOf
-                  [
-                    predicates.records.required [ "page" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ]),
-            }
-          ],
-      content_security_policy = predicates.allOf
-          [
-            predicates.isType 'Record,
-            predicates.records.record
-            {
-              extension_pages = definitions.predicate.content_security_policy,
-              sandbox = definitions.predicate.content_security_policy,
-            }
-            {  }
-            true
-            predicates.always
-          ],
-      host_permissions = definitions.predicate.permissions,
-      web_accessible_resources = predicates.allOf
-          [
-            predicates.isType '"Array",
-            predicates.arrays.arrayOf definitions.predicate.web_resource,
-            predicates.arrays.minItems 1,
-            predicates.arrays.uniqueItems
-          ],
-    }
-    {  }
-    true
-    predicates.always,
-    predicates.records.dependencies
-    {
-      browser_action = predicates.not
-          (predicates.allOf
-          [
-            predicates.records.required [ "browser_action" ],
-            predicates.records.record {  } {  } true predicates.always
-          ]),
-      page_action = predicates.not
-          (predicates.allOf
-          [
-            predicates.records.required [ "page_action" ],
-            predicates.records.record {  } {  } true predicates.always
-          ]),
-    }
-  ])
-  (predicates.allOf
-  [
-    predicates.records.record
-    {
-      background = predicates.allOf
-          [
-            predicates.isType 'Record,
-            predicates.records.record
-            {
-              page = definitions.predicate.page,
-              persistent = predicates.isType '"Bool",
-              scripts = definitions.predicate.scripts,
-            }
-            {  }
-            true
-            predicates.always,
-            predicates.records.dependencies
-            {
-              page = predicates.not
-                  (predicates.allOf
-                  [
-                    predicates.records.required [ "scripts" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ]),
-              scripts = predicates.not
-                  (predicates.allOf
-                  [
-                    predicates.records.required [ "page" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ]),
-            }
-          ],
-      browser_action = definitions.predicate.action_v2,
-      content_security_policy = definitions.predicate.content_security_policy,
-      page_action = definitions.predicate.action_v2,
-      web_accessible_resources = predicates.allOf
-          [
-            predicates.isType '"Array",
-            predicates.arrays.arrayOf definitions.predicate.uri,
-            predicates.arrays.minItems 1,
-            predicates.arrays.uniqueItems
-          ],
-    }
-    {  }
-    true
-    predicates.always,
-    predicates.records.dependencies
-    {
-      browser_action = predicates.not
-          (predicates.allOf
-          [
-            predicates.records.required [ "page_action" ],
-            predicates.records.record {  } {  } true predicates.always
-          ]),
-      page_action = predicates.not
-          (predicates.allOf
-          [
-            predicates.records.required [ "browser_action" ],
-            predicates.records.record {  } {  } true predicates.always
-          ]),
-    }
-  ]),
-  predicates.records.required [ "manifest_version", "name", "version" ],
-  predicates.records.record
-  {
-    chrome_settings_overrides = predicates.always,
-    chrome_url_overrides = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.maxProperties 1,
-          predicates.records.record
-          {
-            bookmarks = definitions.predicate.page,
-            history = definitions.predicate.page,
-            newtab = definitions.predicate.page,
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    commands = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record {  }
-          {
-            ".*" = definitions.predicate.command,
-            "^_execute_browser_action$" = definitions.predicate.command,
-            "^_execute_page_action$" = definitions.predicate.command,
-          }
-          true
-          predicates.always
-        ],
-    content_pack = predicates.always,
-    content_scripts = predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf
-          (predicates.allOf
-          [
-            predicates.isType 'Record,
-            predicates.records.required [ "matches" ],
-            predicates.records.record
-            {
-              all_frames = predicates.isType '"Bool",
-              css = predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.uri,
-                    predicates.arrays.uniqueItems
-                  ],
-              exclude_globs = predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    definitions.predicate.glob_pattern,
-                    predicates.arrays.uniqueItems
-                  ],
-              exclude_matches = predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    definitions.predicate.match_pattern,
-                    predicates.arrays.uniqueItems
-                  ],
-              include_globs = predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    definitions.predicate.glob_pattern,
-                    predicates.arrays.uniqueItems
-                  ],
-              js = definitions.predicate.scripts,
-              match_about_blank = predicates.isType '"Bool",
-              matches = predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    definitions.predicate.match_pattern,
-                    predicates.arrays.minItems 1,
-                    predicates.arrays.uniqueItems
-                  ],
-              run_at = predicates.allOf
-                  [
-                    predicates.isType '"String",
-                    predicates.enum
-                    [ "document_start", "document_end", "document_idle" ]
-                  ],
-              world = predicates.allOf
-                  [
-                    predicates.isType '"String",
-                    predicates.enum [ "ISOLATED", "MAIN" ]
-                  ],
-            }
-            {  }
-            false
-            predicates.never
-          ]),
-          predicates.arrays.minItems 1,
-          predicates.arrays.uniqueItems
-        ],
-    current_locale = predicates.always,
-    default_locale = predicates.isType '"String",
-    description = predicates.allOf
-        [ predicates.isType '"String", predicates.strings.maxLength 132 ],
-    devtools_page = definitions.predicate.page,
-    externally_connectable = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            accepts_tls_channel_id = predicates.isType '"Bool",
-            ids = predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf (predicates.isType '"String")
-                ],
-            matches = predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf (predicates.isType '"String")
-                ],
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    file_browser_handlers = predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf
-          (predicates.allOf
-          [
-            predicates.isType 'Record,
-            predicates.records.required
-            [ "default_title", "file_filters", "id" ],
-            predicates.records.record
-            {
-              default_title = predicates.isType '"String",
-              file_filters = predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String"),
-                    predicates.arrays.minItems 1
-                  ],
-              id = predicates.isType '"String",
-            }
-            {  }
-            false
-            predicates.never
-          ]),
-          predicates.arrays.minItems 1
-        ],
-    homepage_url = definitions.predicate.uri,
-    icons = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.minProperties 1,
-          predicates.records.record
-          {
-            "128" = definitions.predicate.icon,
-            "16" = definitions.predicate.icon,
-            "256" = definitions.predicate.icon,
-            "48" = definitions.predicate.icon,
-          }
-          {  }
-          true
-          predicates.always
-        ],
-    "import" = predicates.always,
-    incognito = predicates.allOf
-        [
-          predicates.isType '"String",
-          predicates.enum [ "spanning", "split", "not_allowed" ]
-        ],
-    input_components = predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf
-          (predicates.allOf
-          [
-            predicates.isType 'Record,
-            predicates.records.required
-            [ "description", "id", "language", "layouts", "name", "type" ],
-            predicates.records.record
-            {
-              description = predicates.isType '"String",
-              id = predicates.isType '"String",
-              language = predicates.isType '"String",
-              layouts = predicates.isType '"Array",
-              name = predicates.isType '"String",
-              type = predicates.isType '"String",
-            }
-            {  }
-            false
-            predicates.never
-          ])
-        ],
-    key = predicates.isType '"String",
-    manifest_version = predicates.allOf
-        [ predicates.isType '"Number", predicates.enum [ 2, 3 ] ],
-    minimum_chrome_version = definitions.predicate.version_string,
-    nacl_modules = predicates.allOf
-        [
-          predicates.isType '"Array",
-          predicates.arrays.arrayOf
-          (predicates.allOf
-          [
-            predicates.isType 'Record,
-            predicates.records.required [ "mime_type", "path" ],
-            predicates.records.record
-            {
-              mime_type = definitions.predicate.mime_type,
-              path = definitions.predicate.uri,
-            }
-            {  }
-            false
-            predicates.never
-          ]),
-          predicates.arrays.minItems 1,
-          predicates.arrays.uniqueItems
-        ],
-    name = predicates.allOf
-        [ predicates.isType '"String", predicates.strings.maxLength 45 ],
-    oauth2 = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.required [ "client_id", "scopes" ],
-          predicates.records.record
-          {
-            client_id = predicates.isType '"String",
-            scopes = predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf (predicates.isType '"String"),
-                  predicates.arrays.minItems 1
-                ],
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    offline_enabled = predicates.isType '"Bool",
-    omnibox = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.required [ "keyword" ],
-          predicates.records.record { keyword = predicates.isType '"String", }
-          {  }
-          false
-          predicates.never
-        ],
-    optional_permissions = definitions.predicate.permissions,
-    options_page = definitions.predicate.page,
-    options_ui = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.required [ "page" ],
-          predicates.records.record
-          {
-            chrome_style = predicates.isType '"Bool",
-            open_in_tab = predicates.isType '"Bool",
-            page = predicates.isType '"String",
-          }
-          {  }
-          true
-          predicates.always
-        ],
-    permissions = definitions.predicate.permissions,
-    platforms = predicates.always,
-    requirements = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            "3D" = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "features" ],
-                  predicates.records.record
-                  {
-                    features = predicates.allOf
+  in
+let rec _js2n__-refsenv
+    = {
+      "_js2n__-:definitions/action_v2!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  default_icon =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.allOf
-                          [
-                            predicates.isType '"String",
-                            predicates.enum [ "webgl" ]
-                          ]),
-                          predicates.arrays.minItems 1,
-                          predicates.arrays.uniqueItems
-                        ],
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            plugins = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.required [ "npapi" ],
-                  predicates.records.record
-                  { npapi = predicates.isType '"Bool", }
-                  {  }
-                  false
-                  predicates.never
-                ],
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    sandbox = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.required [ "pages" ],
-          predicates.records.record
-          {
-            content_security_policy =
-              definitions.predicate.content_security_policy,
-            pages = predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf definitions.predicate.page,
-                  predicates.arrays.minItems 1,
-                  predicates.arrays.uniqueItems
-                ],
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    short_name = predicates.allOf
-        [ predicates.isType '"String", predicates.strings.maxLength 12 ],
-    signature = predicates.always,
-    spellcheck = predicates.always,
-    storage = predicates.always,
-    system_indicator = predicates.always,
-    tts_engine = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.required [ "voices" ],
-          predicates.records.record
-          {
-            voices = predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.required [ "event_types", "voice_name" ],
-                    predicates.records.record
-                    {
-                      event_types = predicates.allOf
-                          [
-                            predicates.isType '"Array",
-                            predicates.arrays.arrayOf
-                            (predicates.allOf
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
                             [
-                              predicates.isType '"String",
-                              predicates.enum
-                              [
-                                "start",
-                                "word",
-                                "sentence",
-                                "marker",
-                                "end",
-                                "error"
-                              ]
-                            ]),
-                            predicates.arrays.minItems 1,
-                            predicates.arrays.uniqueItems
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  "19" =
+                                    _js2n__-refsenv."_js2n__-:definitions/icon!predicate",
+                                  "38" =
+                                    _js2n__-refsenv."_js2n__-:definitions/icon!predicate",
+                                } {} true _js2n__-prdslib.always
+                            ]
+                        ],
+                  default_popup =
+                    _js2n__-refsenv."_js2n__-:definitions/uri!predicate",
+                  default_title = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always,
+              _js2n__-prdslib.records.dependencies
+                {
+                  icons =
+                    _js2n__-prdslib.not
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "icons" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]),
+                  name =
+                    _js2n__-prdslib.not
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "name" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]),
+                  popup =
+                    _js2n__-prdslib.not
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "popup" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]),
+                }
+            ],
+      "_js2n__-:definitions/action_v3!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  default_icon =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              "16" =
+                                _js2n__-refsenv."_js2n__-:definitions/icon!predicate",
+                              "24" =
+                                _js2n__-refsenv."_js2n__-:definitions/icon!predicate",
+                              "32" =
+                                _js2n__-refsenv."_js2n__-:definitions/icon!predicate",
+                            } {} true _js2n__-prdslib.always
+                        ],
+                  default_popup =
+                    _js2n__-refsenv."_js2n__-:definitions/uri!predicate",
+                  default_title = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always,
+              _js2n__-prdslib.records.dependencies
+                {
+                  icons =
+                    _js2n__-prdslib.not
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "icons" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]),
+                  name =
+                    _js2n__-prdslib.not
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "name" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]),
+                  popup =
+                    _js2n__-prdslib.not
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "popup" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]),
+                }
+            ],
+      "_js2n__-:definitions/command!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.records.required [ "global" ],
+                    _js2n__-prdslib.records.record
+                      { global = _js2n__-prdslib.const true, } {} true
+                      _js2n__-prdslib.always
+                  ])
+                (_js2n__-prdslib.records.record
+                  {
+                    description = _js2n__-prdslib.isType '"String",
+                    global = _js2n__-prdslib.isType '"Bool",
+                    suggested_key =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {}
+                              {
+                                "^(default|mac|windows|linux|chromeos)$" =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^(Ctrl|Command|MacCtrl)\\+Shift\\+[0-9]"
+                                      ],
+                              } false _js2n__-prdslib.never
                           ],
-                      gender = predicates.isType '"String",
-                      lang = predicates.isType '"String",
-                      voice_name = predicates.isType '"String",
-                    }
-                    {  }
-                    false
-                    predicates.never
+                  } {} false _js2n__-prdslib.never)
+                (_js2n__-prdslib.records.record
+                  {
+                    description = _js2n__-prdslib.isType '"String",
+                    global = _js2n__-prdslib.isType '"Bool",
+                    suggested_key =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {}
+                              {
+                                "^(default|mac|windows|linux|chromeos)$" =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^(Ctrl|Command|MacCtrl|Alt|Option)\\+(Shift\\+)?[A-Z]"
+                                      ],
+                              } false _js2n__-prdslib.never
+                          ],
+                  } {} false _js2n__-prdslib.never)
+            ],
+      "_js2n__-:definitions/content_security_policy!predicate"
+        | doc "This introduces some fairly strict policies that will make extensions more secure by default, and provides you with the ability to create and enforce rules governing the types of content that can be loaded and executed by your extensions and applications."
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/glob_pattern!predicate" =
+        _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/icon!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/uri!predicate",
+      "_js2n__-:definitions/match_pattern!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern
+                "^((\\*|http|https|file|ftp|chrome-extension):\\/\\/(\\*|\\*\\.[^\\/\\*]+|[^\\/\\*]+)?(\\/.*))|urn:(\\*|.*)|<all_urls>$"
+            ],
+      "_js2n__-:definitions/mime_type!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern
+                "^(?:application|audio|image|message|model|multipart|text|video)\\/[-+.\\w]+$"
+            ],
+      "_js2n__-:definitions/page!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/uri!predicate",
+      "_js2n__-:definitions/permissions!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.enum
+                          [
+                            "accessibilityFeatures.modify",
+                            "accessibilityFeatures.read",
+                            "activeTab",
+                            "alarms",
+                            "audio",
+                            "background",
+                            "bookmarks",
+                            "browsingData",
+                            "certificateProvider",
+                            "clipboardRead",
+                            "clipboardWrite",
+                            "contentSettings",
+                            "contextMenus",
+                            "cookies",
+                            "debugger",
+                            "declarativeContent",
+                            "declarativeNetRequest",
+                            "declarativeNetRequestWithHostAccess",
+                            "declarativeNetRequestFeedback",
+                            "dns",
+                            "desktopCapture",
+                            "documentScan",
+                            "downloads",
+                            "downloads.open",
+                            "downloads.ui",
+                            "enterprise.deviceAttributes",
+                            "enterprise.hardwarePlatform",
+                            "enterprise.networkingAttributes",
+                            "enterprise.platformKeys",
+                            "favicon",
+                            "fileBrowserHandler",
+                            "fileSystemProvider",
+                            "fontSettings",
+                            "gcm",
+                            "geolocation",
+                            "history",
+                            "identity",
+                            "identity.email",
+                            "idle",
+                            "loginState",
+                            "management",
+                            "nativeMessaging",
+                            "notifications",
+                            "offscreen",
+                            "pageCapture",
+                            "platformKeys",
+                            "power",
+                            "printerProvider",
+                            "printing",
+                            "printingMetrics",
+                            "privacy",
+                            "processes",
+                            "proxy",
+                            "readingList",
+                            "runtime",
+                            "scripting",
+                            "search",
+                            "sessions",
+                            "sidePanel",
+                            "storage",
+                            "system.cpu",
+                            "system.display",
+                            "system.memory",
+                            "system.storage",
+                            "tabCapture",
+                            "tabGroups",
+                            "tabs",
+                            "topSites",
+                            "tts",
+                            "ttsEngine",
+                            "unlimitedStorage",
+                            "vpnProvider",
+                            "wallpaper",
+                            "webAuthenticationProxy",
+                            "webNavigation",
+                            "webRequest",
+                            "webRequestBlocking"
+                          ]
+                      ],
+                    _js2n__-prdslib.isType '"String"
                   ]),
-                  predicates.arrays.minItems 1,
-                  predicates.arrays.uniqueItems
-                ],
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    update_url = definitions.predicate.uri,
-    version = definitions.predicate.version_string,
-    version_name = predicates.isType '"String",
-  }
-  {  }
-  true
-  predicates.always,
-  predicates.records.dependencies
-  {
-    content_scripts = predicates.not
-        (predicates.allOf
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
+      "_js2n__-:definitions/scripts!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/uri!predicate",
+              _js2n__-prdslib.arrays.minItems 1,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
+      "_js2n__-:definitions/uri!predicate" = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/version_string!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^(?:\\d{1,5}\\.){0,3}\\d{1,5}$"
+            ],
+      "_js2n__-:definitions/web_resource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "resources" ],
+              _js2n__-prdslib.records.record
+                {
+                  extension_ids =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  matches =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/match_pattern!predicate"
+                        ],
+                  resources =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/glob_pattern!predicate"
+                        ],
+                  use_dynamic_url = _js2n__-prdslib.isType '"Bool",
+                } {} true _js2n__-prdslib.always
+            ],
+    }
+    in
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.allOf
         [
-          predicates.records.required [ "script_badge" ],
-          predicates.records.record {  } {  } true predicates.always
-        ]),
-    script_badge = predicates.not
-        (predicates.allOf
-        [
-          predicates.records.required [ "content_scripts" ],
-          predicates.records.record {  } {  } true predicates.always
-        ]),
-  }
-])
+          _js2n__-prdslib.isType 'Record,
+          _js2n__-prdslib.ifThenElse
+            (_js2n__-prdslib.records.record
+              { manifest_version = _js2n__-prdslib.const 3, } {} true
+              _js2n__-prdslib.always)
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.records.record
+                  {
+                    action =
+                      _js2n__-refsenv."_js2n__-:definitions/action_v3!predicate",
+                    background =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record
+                              {
+                                service_worker =
+                                  _js2n__-prdslib.isType '"String",
+                                type =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum [ "module" ]
+                                      ],
+                              } {} true _js2n__-prdslib.always,
+                            _js2n__-prdslib.records.dependencies
+                              {
+                                page =
+                                  _js2n__-prdslib.not
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.records.required
+                                            [ "scripts" ],
+                                          _js2n__-prdslib.records.record {} {}
+                                            true _js2n__-prdslib.always
+                                        ]),
+                                scripts =
+                                  _js2n__-prdslib.not
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.records.required
+                                            [ "page" ],
+                                          _js2n__-prdslib.records.record {} {}
+                                            true _js2n__-prdslib.always
+                                        ]),
+                              }
+                          ],
+                    content_security_policy =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record
+                              {
+                                extension_pages =
+                                  _js2n__-refsenv."_js2n__-:definitions/content_security_policy!predicate",
+                                sandbox =
+                                  _js2n__-refsenv."_js2n__-:definitions/content_security_policy!predicate",
+                              } {} true _js2n__-prdslib.always
+                          ],
+                    host_permissions =
+                      _js2n__-refsenv."_js2n__-:definitions/permissions!predicate",
+                    web_accessible_resources =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              _js2n__-refsenv."_js2n__-:definitions/web_resource!predicate",
+                            _js2n__-prdslib.arrays.minItems 1,
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                  } {} true _js2n__-prdslib.always,
+                _js2n__-prdslib.records.dependencies
+                  {
+                    browser_action =
+                      _js2n__-prdslib.not
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required
+                                [ "browser_action" ],
+                              _js2n__-prdslib.records.record {} {} true
+                                _js2n__-prdslib.always
+                            ]),
+                    page_action =
+                      _js2n__-prdslib.not
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required
+                                [ "page_action" ],
+                              _js2n__-prdslib.records.record {} {} true
+                                _js2n__-prdslib.always
+                            ]),
+                  }
+              ])
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.records.record
+                  {
+                    background =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record
+                              {
+                                page =
+                                  _js2n__-refsenv."_js2n__-:definitions/page!predicate",
+                                persistent = _js2n__-prdslib.isType '"Bool",
+                                scripts =
+                                  _js2n__-refsenv."_js2n__-:definitions/scripts!predicate",
+                              } {} true _js2n__-prdslib.always,
+                            _js2n__-prdslib.records.dependencies
+                              {
+                                page =
+                                  _js2n__-prdslib.not
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.records.required
+                                            [ "scripts" ],
+                                          _js2n__-prdslib.records.record {} {}
+                                            true _js2n__-prdslib.always
+                                        ]),
+                                scripts =
+                                  _js2n__-prdslib.not
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.records.required
+                                            [ "page" ],
+                                          _js2n__-prdslib.records.record {} {}
+                                            true _js2n__-prdslib.always
+                                        ]),
+                              }
+                          ],
+                    browser_action =
+                      _js2n__-refsenv."_js2n__-:definitions/action_v2!predicate",
+                    content_security_policy =
+                      _js2n__-refsenv."_js2n__-:definitions/content_security_policy!predicate",
+                    page_action =
+                      _js2n__-refsenv."_js2n__-:definitions/action_v2!predicate",
+                    web_accessible_resources =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              _js2n__-refsenv."_js2n__-:definitions/uri!predicate",
+                            _js2n__-prdslib.arrays.minItems 1,
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                  } {} true _js2n__-prdslib.always,
+                _js2n__-prdslib.records.dependencies
+                  {
+                    browser_action =
+                      _js2n__-prdslib.not
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required
+                                [ "page_action" ],
+                              _js2n__-prdslib.records.record {} {} true
+                                _js2n__-prdslib.always
+                            ]),
+                    page_action =
+                      _js2n__-prdslib.not
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required
+                                [ "browser_action" ],
+                              _js2n__-prdslib.records.record {} {} true
+                                _js2n__-prdslib.always
+                            ]),
+                  }
+              ]),
+          _js2n__-prdslib.records.required
+            [ "manifest_version", "name", "version" ],
+          _js2n__-prdslib.records.record
+            {
+              chrome_settings_overrides = _js2n__-prdslib.always,
+              chrome_url_overrides =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.maxProperties 1,
+                      _js2n__-prdslib.records.record
+                        {
+                          bookmarks =
+                            _js2n__-refsenv."_js2n__-:definitions/page!predicate",
+                          history =
+                            _js2n__-refsenv."_js2n__-:definitions/page!predicate",
+                          newtab =
+                            _js2n__-refsenv."_js2n__-:definitions/page!predicate",
+                        } {} false _js2n__-prdslib.never
+                    ],
+              commands =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          ".*" =
+                            _js2n__-refsenv."_js2n__-:definitions/command!predicate",
+                          "^_execute_browser_action$" =
+                            _js2n__-refsenv."_js2n__-:definitions/command!predicate",
+                          "^_execute_page_action$" =
+                            _js2n__-refsenv."_js2n__-:definitions/command!predicate",
+                        } true _js2n__-prdslib.always
+                    ],
+              content_pack = _js2n__-prdslib.always,
+              content_scripts =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required [ "matches" ],
+                            _js2n__-prdslib.records.record
+                              {
+                                all_frames = _js2n__-prdslib.isType '"Bool",
+                                css =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          _js2n__-refsenv."_js2n__-:definitions/uri!predicate",
+                                        _js2n__-prdslib.arrays.uniqueItems
+                                      ],
+                                exclude_globs =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          _js2n__-refsenv."_js2n__-:definitions/glob_pattern!predicate",
+                                        _js2n__-prdslib.arrays.uniqueItems
+                                      ],
+                                exclude_matches =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          _js2n__-refsenv."_js2n__-:definitions/match_pattern!predicate",
+                                        _js2n__-prdslib.arrays.uniqueItems
+                                      ],
+                                include_globs =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          _js2n__-refsenv."_js2n__-:definitions/glob_pattern!predicate",
+                                        _js2n__-prdslib.arrays.uniqueItems
+                                      ],
+                                js =
+                                  _js2n__-refsenv."_js2n__-:definitions/scripts!predicate",
+                                match_about_blank =
+                                  _js2n__-prdslib.isType '"Bool",
+                                matches =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          _js2n__-refsenv."_js2n__-:definitions/match_pattern!predicate",
+                                        _js2n__-prdslib.arrays.minItems 1,
+                                        _js2n__-prdslib.arrays.uniqueItems
+                                      ],
+                                run_at =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "document_start",
+                                            "document_end",
+                                            "document_idle"
+                                          ]
+                                      ],
+                                world =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [ "ISOLATED", "MAIN" ]
+                                      ],
+                              } {} false _js2n__-prdslib.never
+                          ]),
+                      _js2n__-prdslib.arrays.minItems 1,
+                      _js2n__-prdslib.arrays.uniqueItems
+                    ],
+              current_locale = _js2n__-prdslib.always,
+              default_locale = _js2n__-prdslib.isType '"String",
+              description =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 132
+                    ],
+              devtools_page =
+                _js2n__-refsenv."_js2n__-:definitions/page!predicate",
+              externally_connectable =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          accepts_tls_channel_id =
+                            _js2n__-prdslib.isType '"Bool",
+                          ids =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          matches =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+              file_browser_handlers =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required
+                              [ "default_title", "file_filters", "id" ],
+                            _js2n__-prdslib.records.record
+                              {
+                                default_title =
+                                  _js2n__-prdslib.isType '"String",
+                                file_filters =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          (_js2n__-prdslib.isType '"String"),
+                                        _js2n__-prdslib.arrays.minItems 1
+                                      ],
+                                id = _js2n__-prdslib.isType '"String",
+                              } {} false _js2n__-prdslib.never
+                          ]),
+                      _js2n__-prdslib.arrays.minItems 1
+                    ],
+              homepage_url =
+                _js2n__-refsenv."_js2n__-:definitions/uri!predicate",
+              icons =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.minProperties 1,
+                      _js2n__-prdslib.records.record
+                        {
+                          "128" =
+                            _js2n__-refsenv."_js2n__-:definitions/icon!predicate",
+                          "16" =
+                            _js2n__-refsenv."_js2n__-:definitions/icon!predicate",
+                          "256" =
+                            _js2n__-refsenv."_js2n__-:definitions/icon!predicate",
+                          "48" =
+                            _js2n__-refsenv."_js2n__-:definitions/icon!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+              "import" = _js2n__-prdslib.always,
+              incognito =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.enum
+                        [ "spanning", "split", "not_allowed" ]
+                    ],
+              input_components =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required
+                              [
+                                "description",
+                                "id",
+                                "language",
+                                "layouts",
+                                "name",
+                                "type"
+                              ],
+                            _js2n__-prdslib.records.record
+                              {
+                                description = _js2n__-prdslib.isType '"String",
+                                id = _js2n__-prdslib.isType '"String",
+                                language = _js2n__-prdslib.isType '"String",
+                                layouts = _js2n__-prdslib.isType '"Array",
+                                name = _js2n__-prdslib.isType '"String",
+                                type = _js2n__-prdslib.isType '"String",
+                              } {} false _js2n__-prdslib.never
+                          ])
+                    ],
+              key = _js2n__-prdslib.isType '"String",
+              manifest_version =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Number",
+                      _js2n__-prdslib.enum [ 2, 3 ]
+                    ],
+              minimum_chrome_version =
+                _js2n__-refsenv."_js2n__-:definitions/version_string!predicate",
+              nacl_modules =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required
+                              [ "mime_type", "path" ],
+                            _js2n__-prdslib.records.record
+                              {
+                                mime_type =
+                                  _js2n__-refsenv."_js2n__-:definitions/mime_type!predicate",
+                                path =
+                                  _js2n__-refsenv."_js2n__-:definitions/uri!predicate",
+                              } {} false _js2n__-prdslib.never
+                          ]),
+                      _js2n__-prdslib.arrays.minItems 1,
+                      _js2n__-prdslib.arrays.uniqueItems
+                    ],
+              name =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 45
+                    ],
+              oauth2 =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required
+                        [ "client_id", "scopes" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          client_id = _js2n__-prdslib.isType '"String",
+                          scopes =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String"),
+                                  _js2n__-prdslib.arrays.minItems 1
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+              offline_enabled = _js2n__-prdslib.isType '"Bool",
+              omnibox =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "keyword" ],
+                      _js2n__-prdslib.records.record
+                        { keyword = _js2n__-prdslib.isType '"String", } {} false
+                        _js2n__-prdslib.never
+                    ],
+              optional_permissions =
+                _js2n__-refsenv."_js2n__-:definitions/permissions!predicate",
+              options_page =
+                _js2n__-refsenv."_js2n__-:definitions/page!predicate",
+              options_ui =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "page" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          chrome_style = _js2n__-prdslib.isType '"Bool",
+                          open_in_tab = _js2n__-prdslib.isType '"Bool",
+                          page = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
+                    ],
+              permissions =
+                _js2n__-refsenv."_js2n__-:definitions/permissions!predicate",
+              platforms = _js2n__-prdslib.always,
+              requirements =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          "3D" =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "features" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      features =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [ "webgl" ]
+                                                  ]),
+                                              _js2n__-prdslib.arrays.minItems 1,
+                                              _js2n__-prdslib.arrays.uniqueItems
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          plugins =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "npapi" ],
+                                  _js2n__-prdslib.records.record
+                                    { npapi = _js2n__-prdslib.isType '"Bool", }
+                                    {} false _js2n__-prdslib.never
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+              sandbox =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "pages" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          content_security_policy =
+                            _js2n__-refsenv."_js2n__-:definitions/content_security_policy!predicate",
+                          pages =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    _js2n__-refsenv."_js2n__-:definitions/page!predicate",
+                                  _js2n__-prdslib.arrays.minItems 1,
+                                  _js2n__-prdslib.arrays.uniqueItems
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+              short_name =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 12
+                    ],
+              signature = _js2n__-prdslib.always,
+              spellcheck = _js2n__-prdslib.always,
+              storage = _js2n__-prdslib.always,
+              system_indicator = _js2n__-prdslib.always,
+              tts_engine =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "voices" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          voices =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Record,
+                                        _js2n__-prdslib.records.required
+                                          [ "event_types", "voice_name" ],
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            event_types =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [
+                                                              "start",
+                                                              "word",
+                                                              "sentence",
+                                                              "marker",
+                                                              "end",
+                                                              "error"
+                                                            ]
+                                                        ]),
+                                                    _js2n__-prdslib.arrays.minItems
+                                                      1,
+                                                    _js2n__-prdslib.arrays.uniqueItems
+                                                  ],
+                                            gender =
+                                              _js2n__-prdslib.isType '"String",
+                                            lang =
+                                              _js2n__-prdslib.isType '"String",
+                                            voice_name =
+                                              _js2n__-prdslib.isType '"String",
+                                          } {} false _js2n__-prdslib.never
+                                      ]),
+                                  _js2n__-prdslib.arrays.minItems 1,
+                                  _js2n__-prdslib.arrays.uniqueItems
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+              update_url = _js2n__-refsenv."_js2n__-:definitions/uri!predicate",
+              version =
+                _js2n__-refsenv."_js2n__-:definitions/version_string!predicate",
+              version_name = _js2n__-prdslib.isType '"String",
+            } {} true _js2n__-prdslib.always,
+          _js2n__-prdslib.records.dependencies
+            {
+              content_scripts =
+                _js2n__-prdslib.not
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "script_badge" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]),
+              script_badge =
+                _js2n__-prdslib.not
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "content_scripts" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]),
+            }
+        ])

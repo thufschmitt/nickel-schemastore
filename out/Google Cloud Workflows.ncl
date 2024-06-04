@@ -1,1741 +1,1467 @@
 # DO NOT EDIT
 # This file was automatically generated using json-schema-to-nickel
-let predicates =
-{
+let _js2n__-prdslib
+  = {
     allOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `allOf preds` succeeds if all of the predicates in `preds` succeed
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
+        `allOf preds` succeeds if all of the predicates in `preds` succeed
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
       "%
-      = fun preds x => std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if !result.success then result else acc)
-          { error = "", success = true, }
-          preds,
-    always : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "", success = true, },
+      = fun
+          preds
+          x
+          =>
+          std.array.fold_right
+            (fun pred acc => (match { 'Ok => acc, 'Err s => 'Err s, }) (pred x))
+            'Ok preds,
+    always : Dyn -> [| 'Ok, 'Err String |] = std.function.const 'Ok,
     anyOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
+        `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
       "%
-      = fun preds x => (fun result => if result.success then
-            { error = "", success = true, }
-            else
-            {
-              error = m%"
-                  anyOf: none of the options matched%{std.string.join "\n"
-                  result.errors}
-                  "%,
-              success = false,
-            })
-          (std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if result.success || acc.success then
-            { errors = [  ], success = true, }
-            else
-            {
-              errors = [
-                      m%"
-                      - %{result.error}
-                      "%
-                    ] @
-                    acc.errors,
-              success = false,
-            })
-          { errors = [  ], success = false, }
-          preds),
-    arrays = {
+      = fun
+          preds
+          x
+          =>
+          (match {
+            'Ok =>
+              'Ok,
+            'Errs
+              msgs =>
+              'Err
+                m%"
+                  anyOf: none of the options matched
+                  %{std.string.join
+                    m%"
+                      
+                      
+                    "% msgs}
+                "%,
+          })
+            (std.array.fold_right
+              (fun
+                pred
+                acc
+                =>
+                (match {
+                  'Ok =>
+                    'Ok,
+                  'Errs
+                    msgs =>
+                    (match {
+                      'Ok =>
+                        'Ok,
+                      'Err
+                        msg =>
+                        'Errs ([ "  - %{msg}" ] @ msgs),
+                    }) (pred x),
+                }) acc) ('Errs [  ]) preds),
+    arrays =
+      {
           additionalItems
-            : (Dyn -> { success: Bool, error: String }) -> Number -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]
-            "%
-            = fun pred start x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |])
+            -> Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]"
+            = fun
+                pred
+                start
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let value_length = std.array.length x in
-                if start >= value_length then
-                { error = "", success = true, }
-                else
-                (arrayOf pred ((std.array.slice start value_length x) | Dyn))),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let value_length
+                      = std.array.length x
+                      in
+                    if start >= value_length then
+                        'Ok
+                      else
+                        arrayOf pred
+                          ((std.array.slice start value_length x)
+                          | Dyn),
           arrayOf
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Apply a predicate to all elements of an array, succeeding if all
-            applications succeed. If the value isn't an array, fail.
+              Apply a predicate to all elements of an array, succeeding if all
+              applications succeed.
             "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                x),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  std.array.fold_right
+                      (fun
+                        x
+                        acc
+                        =>
+                        (match { 'Ok => acc, 'Err msg => 'Err msg, }) (pred x))
+                      'Ok x,
           contains
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]
-            "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                (fun result => if result.success then
-                  { error = "", success = true, }
-                  else
-                  {
-                    error = m%"
-                        contains: no elements matched%{std.string.join "\n"
-                        result.errors}
-                        "%,
-                    success = false,
-                  })
-                (std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if result.success || acc.success then
-                  { errors = [  ], success = true, }
-                  else
-                  {
-                    errors = [
-                            m%"
-                            - %{result.error}
-                            "%
-                          ] @
-                          acc.errors,
-                    success = false,
-                  })
-                { errors = [  ], success = false, }
-                x)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  (match {
+                      'Ok =>
+                        'Ok,
+                      'Errs
+                        msgs =>
+                        'Err
+                          m%"
+                            contains: no elements matched
+                            %{std.string.join
+                              m%"
+                                
+                                
+                              "% msgs}
+                          "%,
+                    })
+                      (std.array.fold_right
+                        (fun
+                          x
+                          acc
+                          =>
+                          (match {
+                            'Ok =>
+                              'Ok,
+                            'Errs
+                              msgs =>
+                              (match {
+                                'Ok =>
+                                  'Ok,
+                                'Err
+                                  msg =>
+                                  'Errs ([ "  - %{msg}" ] @ msgs),
+                              }) (pred x),
+                          }) acc) ('Errs [  ]) x),
           items
-            : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]
-            "%
-            = fun preds x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : Array (Dyn -> [| 'Ok, 'Err String |])
+            -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]"
+            = fun
+                preds
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let length_to_check =
-                std.number.min (std.array.length preds) (std.array.length x)
-                in
-                
-                std.array.fold_right
-                (fun i acc => let result =
-                  std.array.at i preds (std.array.at i x)
-                  in
-                  
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                (std.array.range 0 length_to_check)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let length_to_check
+                      = std.number.min (std.array.length preds)
+                        (std.array.length x)
+                      in
+                    std.array.fold_right
+                        (fun
+                          i
+                          acc
+                          =>
+                          (match { 'Err msg => 'Err msg, 'Ok => acc, })
+                            (std.array.at i preds (std.array.at i x))) 'Ok
+                        (std.array.range 0 length_to_check),
           maxItems
-            : Number -> Dyn -> { success: Bool, error: String }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
+              `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
             "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (if (std.array.length (x | Array Dyn)) > n then
-                {
-                    error = m%"
-                        array is longer than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minItems
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
-            "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
-                else
-                (if (std.array.length (x | Array Dyn)) < n then
-                {
-                    error = m%"
-                        array is shorter than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          uniqueItems
-            : Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Succeeds for any array if its elements are pairwise distinct.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
-            "%
-            = let find_duplicate 
-                : Array Dyn -> {
-                  has_duplicate: Bool,
-                  duplicate: Dyn,
-                  seen: { _ : Bool }
-                } =
-              std.array.fold_right
-                (fun elt acc => if acc.has_duplicate then acc else
-                  (let index = std.serialize 'Json elt in
-                  if std.record.has_field index acc.seen then
-                  { duplicate = elt, has_duplicate = true, seen = acc.seen, }
+                  if (std.array.length (x | Array Dyn)) > n then
+                    'Err
+                      "array is longer than %{std.string.from_number n} items"
                   else
-                  {
-                    duplicate = null,
-                    has_duplicate = false,
-                    seen = std.record.insert index true acc.seen,
-                  }))
-                { duplicate = null, has_duplicate = false, seen = {  }, }
-              in
-              
-              fun x => if !(std.is_array x) then
-                { error = "", success = true, }
+                    'Ok,
+          minItems
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let {has_duplicate  | Dyn, duplicate  | Dyn, ..} =
-                find_duplicate (x | Array Dyn)
+                  if (std.array.length (x | Array Dyn)) < n then
+                    'Err
+                      "array is shorter than %{std.string.from_number n} items"
+                  else
+                    'Ok,
+          uniqueItems
+            : Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              Succeeds for any array if its elements are pairwise distinct.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
+            "%
+            = let find_duplicate
+                : Array Dyn
+                -> {
+                  has_duplicate : Bool,
+                  duplicate : Dyn,
+                  seen : { _ : Bool }
+                }
+                = std.array.fold_right
+                  (fun
+                    elt
+                    acc
+                    =>
+                    if acc.has_duplicate then
+                      acc
+                    else
+                      let index
+                        = std.serialize 'Json elt
+                        in
+                      if std.record.has_field index acc.seen then
+                          {
+                            duplicate = elt,
+                            has_duplicate = true,
+                            seen = acc.seen,
+                          }
+                        else
+                          {
+                            duplicate = null,
+                            has_duplicate = false,
+                            seen = std.record.insert index true acc.seen,
+                          })
+                  { duplicate = null, has_duplicate = false, seen = {}, }
                 in
-                
-                if has_duplicate then
-                {
-                    error = m%"
-                        duplicate found: %{std.serialize 'Json duplicate}
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
+              fun
+                  x
+                  =>
+                  if !(std.is_array x) then
+                    'Ok
+                  else
+                    let { has_duplicate, duplicate, .. }
+                      = find_duplicate (x | Array Dyn)
+                      in
+                    if has_duplicate then
+                        'Err "duplicate found: %{std.serialize 'Json duplicate}"
+                      else
+                        'Ok,
         },
     const
-      : Dyn -> Dyn -> { success: Bool, error: String }
+      : Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `const value x` succeeds if and only if `x` is equalt to `value`
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
+        `const value x` succeeds if and only if `x` is equal to `value`
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
       "%
-      = fun value x => if x == value then { error = "", success = true, } else
-          {
-            error = m%"
-                expected %{std.serialize 'Json value}
-                "%,
-            success = false,
-          },
+      = fun
+          value
+          x
+          =>
+          if x == value then
+            'Ok
+          else
+            'Err "expected %{std.serialize 'Json value}",
     contract_from_predicate
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> Dyn -> Dyn
-      = fun predicate label value => let {success  | Dyn, error  | Dyn} =
-          predicate value
-          in
-          
-          if success then value else
-          ((std.contract.blame_with_message error label) | Dyn),
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> Dyn -> Dyn
+      = fun
+          predicate
+          label
+          value
+          =>
+          (match {
+            'Ok =>
+              value,
+            'Err
+              msg =>
+              (std.contract.blame_with_message msg label)
+              | Dyn,
+          }) (predicate value),
     enum
-      : Array Dyn -> Dyn -> { success: Bool, error: String }
+      : Array Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
+        `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
       "%
-      = let checkEqual =
-        fun input variant => (input == variant) ||
-            ((std.is_enum input) &&
-            (((std.string.from_enum input) == variant) | Bool))
-        in
-        
-        fun values x => std.array.fold_right
-          (fun value acc => if checkEqual x value then
-            { error = "", success = true, }
-            else
-            acc)
-          {
-            error = m%"
-                expected one of %{std.serialize 'Json (values | Dyn)}
-                "%,
-            success = false,
-          }
-          values,
+      = let checkEqual
+          = fun
+            input
+            variant
+            =>
+            (input == variant)
+            || ((std.is_enum input)
+            && (((std.string.from_enum input) == variant)
+            | Bool))
+          in
+        fun
+            values
+            x
+            =>
+            std.array.fold_right
+              (fun value acc => if checkEqual x value then 'Ok else acc)
+              ('Err "expected one of %{std.serialize 'Json (values | Dyn)}")
+              values,
     from_simple_predicate
-      : String -> (Dyn -> Bool) -> Dyn -> { success: Bool, error: String }
-      | doc m%"
-      Convert a simple boolean predicate into a predicate supporting error messages
-      "%
-      = fun error' pred x => { error = error', success = pred x, },
+      : String -> (Dyn -> Bool) -> Dyn -> [| 'Ok, 'Err String |]
+      | doc "Convert a simple boolean predicate into a predicate supporting error messages"
+      = fun error' pred x => if pred x then 'Ok else 'Err error',
     ifThenElse
-      : (Dyn -> { success: Bool, error: String }) -> (Dyn -> {
-        success: Bool,
-        error: String
-      }) -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
+        `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
       "%
-      = fun i t e x => let {success  | Dyn, ..} = i x in
-          if success then t x else (e x),
+      = fun i t e x => (match { 'Ok => t x, 'Err msg => e x, }) (i x),
     isType
       : [| '"Array", '"Bool", 'Integer, 'Null, '"Number", 'Record, '"String" |]
-      -> Dyn -> { success: Bool, error: String }
-      = fun t => (match {'Integer => from_simple_predicate "expected an integer"
-            (fun x => (std.is_number x) &&
-              (std.number.is_integer (x | Number))),
-            'Null => from_simple_predicate "expected `null`"
-            (fun x => x == null),
-            _ => from_simple_predicate
-            m%"
-            value is not of type %{std.string.from_enum t}
-            "%
-            (fun x => (std.typeof x) == t)
-          })
-          t,
-    never : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "never", success = false, },
+      -> Dyn -> [| 'Ok, 'Err String |]
+      = fun
+          t
+          =>
+          (match {
+            'Null =>
+              from_simple_predicate "expected `null`" (fun x => x == null),
+            'Integer =>
+              from_simple_predicate "expected an integer"
+                (fun
+                  x
+                  =>
+                  (std.is_number x) && (std.number.is_integer (x | Number))),
+            _ =>
+              from_simple_predicate
+                "value is not of type %{std.string.from_enum t}"
+                (fun x => (std.typeof x) == t),
+          }) t,
+    never : Dyn -> [| 'Ok, 'Err String |] = std.function.const ('Err "never"),
     not
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `not pred` succeeds if and only if `pred` fails
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
+        `not pred` succeeds if and only if `pred` fails
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
       "%
-      = fun pred x => let result = pred x in
-          if result.success then
-          {
-              error = "Inverted predicate succeeded unexpectedly",
-              success = false,
-            }
-          else
-          { error = "", success = true, },
-    numbers = {
+      = fun
+          pred
+          x
+          =>
+          (match {
+            'Ok =>
+              'Err "Inverted predicate succeeded unexpectedly",
+            'Err
+              msg =>
+              'Ok,
+          }) (pred x),
+    numbers =
+      {
           exclusiveMaximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) < limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive maximum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) < limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive maximum of %{std.string.from_number
+                        limit}",
           exclusiveMinimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) > limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive minimum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) > limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive minimum of %{std.string.from_number
+                        limit}",
           maximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a maximum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a maximum of %{std.string.from_number limit}",
           minimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a minimum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a minimum of %{std.string.from_number limit}",
           multipleOf
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]
-            "%
-            = fun mult x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]"
+            = fun
+                mult
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if std.number.is_integer ((x | Number) / mult) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a multiple of %{std.string.from_number mult}
-                      "%,
-                  success = false,
-                }),
+                  if std.number.is_integer ((x | Number) / mult) then
+                    'Ok
+                  else
+                    'Err
+                      "expected a multiple of %{std.string.from_number mult}",
         },
     oneOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
+        `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
       "%
-      = fun preds x => let count_true 
-            : Array { success: Bool, error: String } -> Number =
-          fun results => std.array.fold_left
-              (fun n b => if b.success then n + 1 else n)
-              0
+      = fun
+          preds
+          x
+          =>
+          let count_ok
+            : Array [| 'Ok, 'Err String |] -> Number
+            = fun
               results
-          in
-          
-          let results = std.array.map (fun pred => pred x) preds in
-          let count = count_true results in
-          if count == 0 then
-          let errors =
-            std.array.map
-              (fun result => m%"
-                - %{result.error}
-                "%)
-              results
+              =>
+              std.array.fold_left (fun n b => if b == 'Ok then n + 1 else n) 0
+                results
             in
-            
-            {
-              error = m%"
-                  oneOf: none of the options matched%{std.string.join "\n"
-                  errors}
-                  "%,
-              success = false,
-            }
-          else
-          (if count > 1 then
-          {
-              error = "oneOf: more than one of the options matched",
-              success = false,
-            }
-          else
-          { error = "", success = true, }),
-    records = {
-          dependencies
-            : { _ : Dyn } -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]
-            "%
-            = let mustHaveFields 
-                : Array String -> { _ : Dyn } -> {
-                  success: Bool,
-                  error: String
-                } =
-              fun fields x => std.array.fold_right
-                  (fun field acc => if !(std.record.has_field field x) then
-                    {
-                        error = m%"
-                            expected field `%{field}`
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc)
-                  { error = "", success = true, }
-                  fields
+          let results
+              = std.array.map (fun pred => pred x) preds
               in
-              
-              fun deps x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (let x  | { _ : Dyn } = x in
-                std.array.fold_right
-                (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                  if !(std.record.has_field field x) then acc else
-                    (let result =
-                    if std.is_array value then
-                      mustHaveFields (value | Array String) x
-                      else
-                      (let pred  | Dyn -> { success: Bool, error: String } =
-                      value
-                      in
-                      
-                      pred (x | Dyn))
+            let count
+                = count_ok results
+                in
+              if count == 0 then
+                  let errors
+                    = std.array.flat_map
+                      (fun
+                        result
+                        =>
+                        (match { 'Ok => [  ], 'Err s => [ "  - %{s}" ], })
+                          result) results
                     in
-                    
-                    if !result.success then
-                    {
-                        error = m%"
-                            dependency of `%{field}` failed: %{result.error}
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc))
-                { error = "", success = true, }
-                (std.record.to_array deps)),
-          maxProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
+                  'Err
+                      m%"
+                        oneOf: none of the options matched
+                        %{std.string.join
+                          m%"
+                            
+                            
+                          "% errors}
+                      "%
                 else
-                (if (std.record.length (x | { _ : Dyn })) > n then
-                {
-                    error = m%"
-                        record contains more than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (if (std.record.length (x | { _ : Dyn })) < n then
-                {
-                    error = m%"
-                        record contains fewer than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          propertyNames
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]
-            "%
-            = fun pred x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => let result = pred (field | Dyn) in
-                  if !result.success then
-                  {
-                      error = m%"
-                          field `%{field}` did not validate against `propertyNames` schema
-                          "%,
-                      success = false,
-                    }
+                  if count > 1 then
+                    'Err "oneOf: more than one of the options matched"
                   else
-                  acc)
-                { error = "", success = true, }
-                (std.record.fields (x | { _ : Dyn }))),
-          record
-            : { _ : Dyn -> { success: Bool, error: String } } -> { _ : Dyn -> {
-              success: Bool,
-              error: String
-            } } -> Bool -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            `record properties patternProperties additionalAllowed
-            additionalProperties x` is a combination of the `properties`,
-            `patternProperties` and `additionalProperties` validation keywords in
-            JSON schema.
-            
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
-            "%
-            =
-            fun properties patternProperties additionalAllowed additionalProperties x =>
-              if !(std.is_record x) then { error = "", success = true, } else
-                (let x  | { _ : Dyn } = x in
-                let check_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                    if !(std.record.has_field field x) then acc else
-                      (let result = value x."%{field}" in
-                      if !result.success then
-                      {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
-                      else
-                      {
-                        checked = std.record.insert field true acc.checked,
-                        error = acc.error,
-                        success = acc.success,
-                      }))
-                  { checked = {  }, error = "", success = true, }
-                  (std.record.to_array properties)
-                in
-                
-                let matching_fields  : String -> { _ : Dyn } =
-                fun pattern => let matcher = std.string.is_match pattern in
-                    std.array.fold_left
-                    (fun acc => fun {field  | Dyn, value  | Dyn} => if matcher
-                        field then
-                        std.record.insert field value acc
-                        else
-                        acc)
-                    {  }
-                    (std.record.to_array x)
-                in
-                
-                let check_pattern_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn = pattern, value  | Dyn = pred} =>
-                  fun acc => let result =
-                      std.array.fold_right
-                        (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                          let result = pred value in
-                            if !result.success then
-                            {
-                                checked : { _ : Bool }
-                                  = {  },
-                                error = m%"
-                                    field `%{field}` didn't validate: %{result.error}
-                                    "%,
-                                success = false,
-                              }
-                            else
-                            {
-                              checked = std.record.insert field true
-                                  acc.checked,
-                              error = acc.error,
-                              success = acc.success,
-                            })
-                        {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = "",
-                          success = true,
-                        }
-                        (std.record.to_array (matching_fields pattern))
-                      in
-                      
-                      if !result.success then result else
-                      {
-                        checked = std.array.fold_left
-                            (fun r field => if !(std.record.has_field field
-                              r) then
-                              std.record.insert field true r
-                              else
-                              r)
-                            acc.checked
-                            (std.record.fields result.checked),
-                        error = acc.error,
-                        success = acc.success,
-                      })
-                  { checked : { _ : Bool } = {  }, error = "", success = true, }
-                  (std.record.to_array patternProperties)
-                in
-                
-                let remaining_fields =
-                std.array.fold_left
-                  (fun acc field => if !(std.record.has_field field acc) then
-                    acc
-                    else
-                    (std.record.remove field acc))
+                    'Ok,
+    records =
+      {
+          dependencies
+            : { _ : Dyn } -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]"
+            = let mustHaveFields
+                : Array String -> { _ : Dyn } -> [| 'Ok, 'Err String |]
+                = fun
+                  fields
                   x
-                  ((std.record.fields check_properties.checked) @
-                    (std.record.fields check_pattern_properties.checked))
-                in
-                
-                let check_additional_properties 
-                  : { success: Bool, error: String } =
-                if (!additionalAllowed) &&
-                  (!(std.record.is_empty remaining_fields)) then
-                  {
-                      error = m%"
-                          extra fields %{std.serialize 'Json
-                          ((std.record.fields remaining_fields) | Dyn)}
-                          "%,
-                      success = false,
-                    }
-                  else
-                  (std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc => let result =
-                      additionalProperties value
-                      in
-                      
-                      if !result.success then
-                      {
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
+                  =>
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field x) then
+                        'Err "expected field `%{field}`"
                       else
-                      acc)
-                  { error = "", success = true, }
-                  (std.record.to_array remaining_fields))
+                        acc) 'Ok fields
                 in
-                
-                if !check_properties.success then
-                { error = check_properties.error, success = false, }
-                else
-                (if !check_pattern_properties.success then
-                { error = check_pattern_properties.error, success = false, }
-                else
-                check_additional_properties)),
-          required
-            : Array String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]
-            "%
-            = fun fields x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => if !(std.record.has_field field
-                  (x | { _ : Dyn })) then
-                  {
-                      error = m%"
-                          missing required field %{field}
-                          "%,
-                      success = false,
-                    }
+              fun
+                  deps
+                  x
+                  =>
+                  if !(std.is_record x) then
+                    'Ok
                   else
-                  acc)
-                { error = "", success = true, }
-                fields),
+                    let x
+                      | { _ : Dyn }
+                      = x
+                      in
+                    std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              let result
+                                = if std.is_array value then
+                                  mustHaveFields (value | Array String) x
+                                else
+                                  let pred
+                                    | Dyn -> [| 'Ok, 'Err String |]
+                                    = value
+                                    in
+                                  pred (x | Dyn)
+                                in
+                              (match {
+                                  'Err
+                                    msg =>
+                                    'Err
+                                      "dependency of `%{field}` failed: %{msg}",
+                                  'Ok =>
+                                    acc,
+                                }) result) 'Ok (std.record.to_array deps),
+          maxProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) > n then
+                    'Err
+                      "record contains more than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          minProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) < n then
+                    'Err
+                      "record contains fewer than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          propertyNames
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      (match {
+                        'Err
+                          msg =>
+                          'Err
+                            "field `%{field}` did not validate against `propertyNames` schema",
+                        'Ok =>
+                          acc,
+                      }) (pred (field | Dyn))) 'Ok
+                    (std.record.fields (x | { _ : Dyn })),
+          record
+            : { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> Bool
+            -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `record properties patternProperties additionalAllowed
+              additionalProperties x` is a combination of the `properties`,
+              `patternProperties` and `additionalProperties` validation keywords in
+              JSON schema.
+              
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
+            "%
+            = fun
+                properties
+                patternProperties
+                additionalAllowed
+                additionalProperties
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  let x
+                    | { _ : Dyn }
+                    = x
+                    in
+                  let check_properties
+                      : {
+                        result : [| 'Ok, 'Err String |],
+                        checked : { _ : Bool }
+                      }
+                      = std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              (match {
+                                'Err
+                                  msg =>
+                                  {
+                                    checked : { _ : Bool } = {},
+                                    result =
+                                      'Err
+                                          "field `%{field}` didn't validate: %{msg}",
+                                  },
+                                'Ok =>
+                                  {
+                                    checked =
+                                      std.record.insert field true acc.checked,
+                                    result = acc.result,
+                                  },
+                              }) (value x."%{field}"))
+                        { checked = {}, result = 'Ok, }
+                        (std.record.to_array properties)
+                      in
+                    let matching_fields
+                        : String -> { _ : Dyn }
+                        = fun
+                          pattern
+                          =>
+                          let matcher
+                            = std.string.is_match pattern
+                            in
+                          std.array.fold_left
+                              (fun
+                                acc
+                                =>
+                                fun
+                                  { field, value, }
+                                  =>
+                                  if matcher field then
+                                    std.record.insert field value acc
+                                  else
+                                    acc) {} (std.record.to_array x)
+                        in
+                      let check_pattern_properties
+                          : {
+                            result : [| 'Ok, 'Err String |],
+                            checked : { _ : Bool }
+                          }
+                          = std.array.fold_right
+                            (fun
+                              { field = pattern, value = pred, }
+                              =>
+                              fun
+                                acc
+                                =>
+                                (match {
+                                  r @ { result = 'Err msg, .. } =>
+                                    r,
+                                  { result = 'Ok, checked = ch, } =>
+                                    {
+                                      checked =
+                                        std.array.fold_left
+                                            (fun
+                                              r
+                                              field
+                                              =>
+                                              if !(std.record.has_field field
+                                                r) then
+                                                std.record.insert field true r
+                                              else
+                                                r) acc.checked
+                                            (std.record.fields ch),
+                                      result = acc.result,
+                                    },
+                                })
+                                  (std.array.fold_right
+                                    (fun
+                                      { field, value, }
+                                      =>
+                                      fun
+                                        acc
+                                        =>
+                                        (match {
+                                          'Err
+                                            msg =>
+                                            {
+                                              checked : { _ : Bool } = {},
+                                              result =
+                                                'Err
+                                                    "field `%{field}` didn't validate: %{msg}",
+                                            },
+                                          'Ok =>
+                                            {
+                                              checked =
+                                                std.record.insert field true
+                                                    acc.checked,
+                                              result = acc.result,
+                                            },
+                                        }) (pred value))
+                                    {
+                                      checked : { _ : Bool } = {},
+                                      result = 'Ok,
+                                    }
+                                    (std.record.to_array
+                                      (matching_fields pattern))))
+                            { checked : { _ : Bool } = {}, result = 'Ok, }
+                            (std.record.to_array patternProperties)
+                          in
+                        let remaining_fields
+                            = std.array.fold_left
+                              (fun
+                                acc
+                                field
+                                =>
+                                if !(std.record.has_field field acc) then
+                                  acc
+                                else
+                                  std.record.remove field acc) x
+                              ((std.record.fields check_properties.checked)
+                              @ (std.record.fields
+                                check_pattern_properties.checked))
+                            in
+                          let check_additional_properties
+                              : [| 'Ok, 'Err String |]
+                              = if (!additionalAllowed)
+                              && (!(std.record.is_empty remaining_fields)) then
+                                'Err
+                                  "extra fields %{std.serialize 'Json
+                                    ((std.record.fields remaining_fields)
+                                    | Dyn)}"
+                              else
+                                std.array.fold_right
+                                  (fun
+                                    { field, value, }
+                                    =>
+                                    fun
+                                      acc
+                                      =>
+                                      (match {
+                                        'Err
+                                          msg =>
+                                          'Err
+                                            "field `%{field}` didn't validate: %{msg}",
+                                        'Ok =>
+                                          acc,
+                                      }) (additionalProperties value)) 'Ok
+                                  (std.record.to_array remaining_fields)
+                              in
+                            (match {
+                                'Err
+                                  msg =>
+                                  check_properties.result,
+                                'Ok =>
+                                  (match {
+                                    'Err
+                                      msg =>
+                                      check_pattern_properties.result,
+                                    'Ok =>
+                                      check_additional_properties,
+                                  }) check_pattern_properties.result,
+                              }) check_properties.result,
+          required
+            : Array String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]"
+            = fun
+                fields
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field (x | { _ : Dyn })) then
+                        'Err "missing required field %{field}"
+                      else
+                        acc) 'Ok fields,
         },
-    strings = {
+    strings =
+      {
           maxLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no larger than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no larger than %{std.string.from_number
+                        limit}",
           minLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no smaller than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no smaller than %{std.string.from_number
+                        limit}",
           pattern
-            : String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]
-            "%
-            = fun pattern x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]"
+            = fun
+                pattern
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if std.string.is_match pattern (x | String) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string matching the pattern `%{pattern}`
-                      "%,
-                  success = false,
-                }),
+                  if std.string.is_match pattern (x | String) then
+                    'Ok
+                  else
+                    'Err "expected a string matching the pattern `%{pattern}`",
         },
   }
-in
-
-let rec definitions =
-{
-    contract = {
-          args
-            | doc m%"
-            Pass arguments and their values when calling a function that accepts parameters.
-            "%
-            = {
-                auth
-                  | {
-                    audience
-                      | predicates.contract_from_predicate
-                      (predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
+  in
+let rec _js2n__-refsenv
+    = {
+      "_js2n__-:definitions/args!predicate"
+        | doc "Pass arguments and their values when calling a function that accepts parameters."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  auth =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\$\\{.+\\}$"
-                        ]
-                      ])
-                      | doc m%"
-                      Specifies the audience for the OIDC token. By default, it's set to the same value as url; however, it should be set to your service's root URL.
-                      "%
-                      | optional,
-                    scope
-                      | predicates.contract_from_predicate
-                      (predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.contains
-                          (predicates.isType '"String")
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              audience =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^\\$\\{.+\\}$"
+                                        ]
+                                    ],
+                              scope =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.contains
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                      _js2n__-prdslib.isType '"String"
+                                    ],
+                              scopes =
+                                _js2n__-refsenv."_js2n__-:definitions/scopes!predicate",
+                              type = _js2n__-prdslib.enum [ "OIDC", "OAuth2" ],
+                            } {} false _js2n__-prdslib.never
                         ],
-                        predicates.isType '"String"
-                      ])
-                      | doc m%"
-                      Specify token scope to limit an application's access to a user's account.
-                      "%
-                      | optional,
-                    scopes
-                      | definitions.contract.scopes
-                      | doc m%"
-                      Specify token scope to limit an application's access to a user's account.
-                      "%
-                      | optional,
-                    type
-                      | predicates.contract_from_predicate
-                      (predicates.enum [ "OIDC", "OAuth2" ])
-                      | doc m%"
-                      The type of authentication.
-                      "%
-                      | optional,
-                  }
-                  | doc m%"
-                  Required if the API being called requires authentication.
-                  "%
-                  | optional,
-                body
-                  | predicates.contract_from_predicate
-                  (predicates.anyOf
+                  body =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.isType 'Null,
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\$\\{.+\\}$"
+                            ]
+                        ],
+                  connector_params =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              polling_policy =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          initial_delay =
+                                            _js2n__-prdslib.isType '"Number",
+                                          max_delay =
+                                            _js2n__-prdslib.isType '"Number",
+                                          multiplier =
+                                            _js2n__-prdslib.isType '"Number",
+                                        } {} true _js2n__-prdslib.always
+                                    ],
+                              scopes =
+                                _js2n__-refsenv."_js2n__-:definitions/scopes!predicate",
+                              skip_polling = _js2n__-prdslib.isType '"Bool",
+                              timeout =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 31536000
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ],
+                  headers =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.minProperties 1,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
+                        ],
+                  method =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "GET",
+                              "HEAD",
+                              "POST",
+                              "PUT",
+                              "DELETE",
+                              "CONNECT",
+                              "OPTIONS",
+                              "TRACE",
+                              "PATCH"
+                            ]
+                        ],
+                  query =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\$\\{.+\\}$"
+                            ]
+                        ],
+                  timeout = _js2n__-prdslib.isType '"Number",
+                  url =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\$\\{.+\\}$"
+                            ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/assign!predicate"
+        | doc "A list of variable assignment maps."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
                   [
-                    predicates.isType 'Record,
-                    predicates.isType 'Null,
-                    predicates.isType '"String",
-                    predicates.allOf
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.maxProperties 1,
+                    _js2n__-prdslib.records.minProperties 1,
+                    _js2n__-prdslib.records.record {} {} true
+                      _js2n__-prdslib.always
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 50,
+              _js2n__-prdslib.arrays.minItems 1
+            ],
+      "_js2n__-:definitions/branches!predicate"
+        | doc "Execute parallel branches concurrently and the steps in each branch sequentially."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.maxItems 10,
+              _js2n__-prdslib.arrays.minItems 2,
+              _js2n__-refsenv."_js2n__-:definitions/stepArray!predicate"
+            ],
+      "_js2n__-:definitions/call!predicate"
+        | doc "Run a function and return a result."
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum
                     [
-                      predicates.isType '"String",
-                      predicates.strings.pattern "^\\$\\{.+\\}$"
+                      "http.get",
+                      "http.post",
+                      "http.put",
+                      "http.patch",
+                      "http.delete",
+                      "http.request"
                     ]
-                  ])
-                  | doc m%"
-                  Body fields to supply input to the API.
-                  "%
-                  | optional,
-                connector_params
-                  | {
-                    polling_policy
-                      | {
-                        initial_delay
-                          | Number
-                          | doc m%"
-                          Time in seconds. Only applies to long-running operation calls.
-                          "%
-                          | optional,
-                        max_delay
-                          | Number
-                          | doc m%"
-                          Time in seconds. Only applies to long-running operation calls.
-                          "%
-                          | optional,
-                        multiplier
-                          | Number
-                          | doc m%"
-                          Time in seconds. Only applies to long-running operation calls.
-                          "%
-                          | optional,
-                        ..
-                      }
-                      | doc m%"
-                      Polling policy.
-                      "%
-                      | optional,
-                    scopes
-                      | definitions.contract.scopes
-                      | doc m%"
-                      OAuth2 scopes to pass to the Google API.
-                      "%
-                      | optional,
-                    skip_polling
-                      | Bool
-                      | doc m%"
-                      If set to True, the connector invocation call is non-blocking if the initial request to manage or update the resource succeeds
-                      "%
-                      | optional,
-                    timeout
-                      | predicates.contract_from_predicate
-                      (predicates.allOf
-                      [
-                        predicates.isType 'Integer,
-                        predicates.numbers.maximum 31536000
-                      ])
-                      | doc m%"
-                      Time in seconds. The end-to-end duration the connector call is allowed to run for before throwing a timeout exception.
-                      "%
-                      | optional,
-                    ..
-                  }
-                  | doc m%"
-                  Connector-specific parameters.
-                  "%
-                  | optional,
-                headers
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.minProperties 1,
-                    predicates.records.record {  } {  } true predicates.always
-                  ])
-                  | doc m%"
-                  Header fields to supply input to the API.
-                  "%
-                  | optional,
-                method
-                  | std.enum.TagOrString
-                  | [|
-                    'PATCH,
-                    'TRACE,
-                    'OPTIONS,
-                    'CONNECT,
-                    'DELETE,
-                    'PUT,
-                    'POST,
-                    'HEAD,
-                    'GET
-                  |]
-                  | doc m%"
-                  The type of HTTP request method to use. Required if using call type http.request.
-                  "%
-                  | optional,
-                query
-                  | predicates.contract_from_predicate
-                  (predicates.anyOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.allOf
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum
+                    [ "sys.sleep", "sys.sleep_until", "sys.log" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum
                     [
-                      predicates.isType '"String",
-                      predicates.strings.pattern "^\\$\\{.+\\}$"
+                      "events.await_callback",
+                      "events.create_callback_endpoint"
                     ]
-                  ])
-                  | doc m%"
-                  Query fields to supply input to the API.
-                  "%
-                  | optional,
-                timeout
-                  | Number
-                  | doc m%"
-                  Time in seconds. How long a request is allowed to run before throwing an exception. Default and maximum values vary by call.
-                  "%
-                  | optional,
-                url
-                  | predicates.contract_from_predicate
-                  (predicates.anyOf
-                  [
-                    predicates.isType '"String",
-                    predicates.allOf
+                ],
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.strings.pattern
+                    "^googleapis(\\.[a-zA-Z1-9]+)+"
+                ]
+            ],
+      "_js2n__-:definitions/condition!predicate"
+        | doc "Define conditional expressions for a switch block."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "condition" ],
+              _js2n__-prdslib.records.record
+                {
+                  args = _js2n__-refsenv."_js2n__-:definitions/args!predicate",
+                  assign =
+                    _js2n__-refsenv."_js2n__-:definitions/assign!predicate",
+                  call = _js2n__-refsenv."_js2n__-:definitions/call!predicate",
+                  condition =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\$\\{.+\\}$"
+                            ],
+                          _js2n__-prdslib.isType '"Bool"
+                        ],
+                  except =
+                    _js2n__-refsenv."_js2n__-:definitions/except!predicate",
+                  for = _js2n__-refsenv."_js2n__-:definitions/for!predicate",
+                  next = _js2n__-refsenv."_js2n__-:definitions/next!predicate",
+                  parallel =
+                    _js2n__-refsenv."_js2n__-:definitions/parallel!predicate",
+                  raise =
+                    _js2n__-refsenv."_js2n__-:definitions/raise!predicate",
+                  result =
+                    _js2n__-refsenv."_js2n__-:definitions/result!predicate",
+                  retry =
+                    _js2n__-refsenv."_js2n__-:definitions/retry!predicate",
+                  return =
+                    _js2n__-refsenv."_js2n__-:definitions/return!predicate",
+                  steps =
+                    _js2n__-refsenv."_js2n__-:definitions/stepArray!predicate",
+                  switch =
+                    _js2n__-refsenv."_js2n__-:definitions/switch!predicate",
+                  try = _js2n__-refsenv."_js2n__-:definitions/try!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/except!predicate"
+        | doc "A try/except structure for error handling."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  as = _js2n__-prdslib.isType '"String",
+                  steps =
+                    _js2n__-refsenv."_js2n__-:definitions/stepArray!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/for!predicate"
+        | doc "Iterates over a sequence of numbers or through a collection of data, such as a list or map."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
                     [
-                      predicates.isType '"String",
-                      predicates.strings.pattern "^\\$\\{.+\\}$"
-                    ]
-                  ])
-                  | optional,
-                ..
-              },
-          assign
-            | doc m%"
-            A list of variable assignment maps.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.assign,
-          branches
-            | doc m%"
-            Execute parallel branches concurrently and the steps in each branch sequentially.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.branches,
-          call
-            | doc m%"
-            Run a function and return a result.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.call,
-          condition
-            | doc m%"
-            Define conditional expressions for a switch block.
-            "%
-            = {
-                args | definitions.contract.args | optional,
-                assign | definitions.contract.assign | optional,
-                call | definitions.contract.call | optional,
-                condition
-                  | predicates.contract_from_predicate
-                  (predicates.anyOf
-                  [
-                    predicates.allOf
-                    [
-                      predicates.isType '"String",
-                      predicates.strings.pattern "^\\$\\{.+\\}$"
+                      _js2n__-prdslib.records.required [ "in" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
                     ],
-                    predicates.isType '"Bool"
-                  ])
-                  | doc m%"
-                  An expression to switch on.
-                  "%,
-                except | definitions.contract.except | optional,
-                for | definitions.contract.for | optional,
-                next | definitions.contract.next | optional,
-                parallel | definitions.contract.parallel | optional,
-                raise | definitions.contract.raise | optional,
-                result | definitions.contract.result | optional,
-                retry | definitions.contract.retry | optional,
-                return | definitions.contract.return | optional,
-                steps | definitions.contract.stepArray | optional,
-                switch | definitions.contract.switch | optional,
-                try | definitions.contract.try | optional,
-                ..
-              },
-          except
-            | doc m%"
-            A try/except structure for error handling.
-            "%
-            = {
-                as
-                  | String
-                  | doc m%"
-                  The name of a map variable that contains the error message.
-                  "%
-                  | optional,
-                steps
-                  | definitions.contract.stepArray
-                  | doc m%"
-                  A list of steps.
-                  "%
-                  | optional,
-              },
-          for
-            | doc m%"
-            Iterates over a sequence of numbers or through a collection of data, such as a list or map.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.for,
-          next
-            | doc m%"
-            Define what step Workflows should execute next.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.next,
-          parallel
-            | doc m%"
-            Define a part of your workflow where two or more steps can execute concurrently. A 'parallel' step waits until all the steps defined within it have completed or are interrupted by an unhandled exception; execution then continues.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.parallel,
-          raise
-            | doc m%"
-            Raise an exception.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.raise,
-          result
-            | doc m%"
-            Assign the result from a call to this variable.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.result,
-          retry
-            | doc m%"
-            Define a retry policy to retry steps that return a specific error code.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.retry,
-          return
-            | doc m%"
-            Stop a workflow's execution and return a value, variable, or expression.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.return,
-          scopes
-            | doc m%"
-            Specify token scope to limit an application's access to a user's account.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.scopes,
-          step
-            | doc m%"
-            A single workflow step.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.step,
-          stepArray
-            | doc m%"
-            An array of objects with a single step.
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.stepArray,
-          subworkflow
-            | doc m%"
-            A subworkflow.
-            "%
-            = {
-                params
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.maxItems 10,
-                    predicates.arrays.minItems 0,
-                    predicates.arrays.uniqueItems
-                  ])
-                  | doc m%"
-                  The name of the parameter variable.
-                  "%
-                  | optional,
-                steps
-                  | definitions.contract.stepArray
-                  | doc m%"
-                  An array of objects with a single step.
-                  "%
-                  | optional,
-              },
-          switch
-            | doc m%"
-            A switch block. A selection mechanism that allows the value of an expression to control the flow of a workflow's execution. If a value matches, that condition's statement is executed.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.switch,
-          try
-            | doc m%"
-            A try/except structure for error handling.
-            "%
-            = predicates.contract_from_predicate definitions.predicate.try,
-        },
-    predicate = {
-          args
-            | doc m%"
-            Pass arguments and their values when calling a function that accepts parameters.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "range" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.required [ "steps", "value" ],
+              _js2n__-prdslib.records.record
                 {
-                  auth = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          audience = predicates.anyOf
-                              [
-                                predicates.isType '"String",
-                                predicates.allOf
-                                [
-                                  predicates.isType '"String",
-                                  predicates.strings.pattern "^\\$\\{.+\\}$"
-                                ]
-                              ],
-                          scope = predicates.anyOf
-                              [
-                                predicates.allOf
-                                [
-                                  predicates.isType '"Array",
-                                  predicates.arrays.contains
-                                  (predicates.isType '"String")
-                                ],
-                                predicates.isType '"String"
-                              ],
-                          scopes = definitions.predicate.scopes,
-                          type = predicates.enum [ "OIDC", "OAuth2" ],
-                        }
-                        {  }
-                        false
-                        predicates.never
-                      ],
-                  body = predicates.anyOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.isType 'Null,
-                        predicates.isType '"String",
-                        predicates.allOf
+                  "in" =
+                    _js2n__-prdslib.anyOf
                         [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\$\\{.+\\}$"
-                        ]
-                      ],
-                  connector_params = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          polling_policy = predicates.allOf
-                              [
-                                predicates.isType 'Record,
-                                predicates.records.record
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\$\\{.+\\}$"
+                            ]
+                        ],
+                  index = _js2n__-prdslib.isType '"String",
+                  range =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"Number"),
+                              _js2n__-prdslib.arrays.maxItems 2,
+                              _js2n__-prdslib.arrays.minItems 2
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{\\[.+\\]\\}$"
+                            ]
+                        ],
+                  steps =
+                    _js2n__-refsenv."_js2n__-:definitions/stepArray!predicate",
+                  value = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/next!predicate"
+        | doc "Define what step Workflows should execute next."
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.const "end"
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.const "continue"
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.const "break"
+                ]
+            ],
+      "_js2n__-:definitions/parallel!predicate"
+        | doc "Define a part of your workflow where two or more steps can execute concurrently. A 'parallel' step waits until all the steps defined within it have completed or are interrupted by an unhandled exception; execution then continues."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "for" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "branches" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  branches =
+                    _js2n__-refsenv."_js2n__-:definitions/branches!predicate",
+                  concurrency_limit = _js2n__-prdslib.isType 'Integer,
+                  exception_policy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "continueAll"
+                        ],
+                  for = _js2n__-refsenv."_js2n__-:definitions/for!predicate",
+                  shared =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/raise!predicate"
+        | doc "Raise an exception."
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record
+                    {
+                      code = _js2n__-prdslib.isType 'Integer,
+                      message = _js2n__-prdslib.isType '"String",
+                    } {} true _js2n__-prdslib.always
+                ]
+            ],
+      "_js2n__-:definitions/result!predicate"
+        | doc "Assign the result from a call to this variable."
+        = _js2n__-prdslib.always,
+      "_js2n__-:definitions/retry!predicate"
+        | doc "Define a retry policy to retry steps that return a specific error code."
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record
+                    {
+                      backoff =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
                                 {
-                                  initial_delay = predicates.isType '"Number",
-                                  max_delay = predicates.isType '"Number",
-                                  multiplier = predicates.isType '"Number",
-                                }
-                                {  }
-                                true
-                                predicates.always
-                              ],
-                          scopes = definitions.predicate.scopes,
-                          skip_polling = predicates.isType '"Bool",
-                          timeout = predicates.allOf
-                              [
-                                predicates.isType 'Integer,
-                                predicates.numbers.maximum 31536000
-                              ],
-                        }
-                        {  }
-                        true
-                        predicates.always
-                      ],
-                  headers = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.minProperties 1,
-                        predicates.records.record {  } {  } true
-                        predicates.always
-                      ],
-                  method = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.enum
-                        [
-                          "GET",
-                          "HEAD",
-                          "POST",
-                          "PUT",
-                          "DELETE",
-                          "CONNECT",
-                          "OPTIONS",
-                          "TRACE",
-                          "PATCH"
-                        ]
-                      ],
-                  query = predicates.anyOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\$\\{.+\\}$"
-                        ]
-                      ],
-                  timeout = predicates.isType '"Number",
-                  url = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\$\\{.+\\}$"
-                        ]
-                      ],
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          assign
-            | doc m%"
-            A list of variable assignment maps.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.maxProperties 1,
-                  predicates.records.minProperties 1,
-                  predicates.records.record {  } {  } true predicates.always
-                ]),
-                predicates.arrays.maxItems 50,
-                predicates.arrays.minItems 1
-              ],
-          branches
-            | doc m%"
-            Execute parallel branches concurrently and the steps in each branch sequentially.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.maxItems 10,
-                predicates.arrays.minItems 2,
-                definitions.predicate.stepArray
-              ],
-          call
-            | doc m%"
-            Run a function and return a result.
-            "%
-            = predicates.anyOf
-              [
-                predicates.allOf
-                [
-                  predicates.isType '"String",
-                  predicates.enum
-                  [
-                    "http.get",
-                    "http.post",
-                    "http.put",
-                    "http.patch",
-                    "http.delete",
-                    "http.request"
-                  ]
+                                  initial_delay =
+                                    _js2n__-prdslib.isType 'Integer,
+                                  max_delay = _js2n__-prdslib.isType 'Integer,
+                                  multiplier = _js2n__-prdslib.isType 'Integer,
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      max_retries = _js2n__-prdslib.isType 'Integer,
+                      predicate = _js2n__-prdslib.isType '"String",
+                    } {} false _js2n__-prdslib.never
                 ],
-                predicates.allOf
+              _js2n__-prdslib.allOf
                 [
-                  predicates.isType '"String",
-                  predicates.enum [ "sys.sleep", "sys.sleep_until", "sys.log" ]
-                ],
-                predicates.allOf
-                [
-                  predicates.isType '"String",
-                  predicates.enum
-                  [ "events.await_callback", "events.create_callback_endpoint" ]
-                ],
-                predicates.isType '"String",
-                predicates.allOf
-                [
-                  predicates.isType '"String",
-                  predicates.strings.pattern "^googleapis(\\.[a-zA-Z1-9]+)+"
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.strings.pattern "^\\$\\{.+\\}$"
                 ]
-              ],
-          condition
-            | doc m%"
-            Define conditional expressions for a switch block.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "condition" ],
-                predicates.records.record
-                {
-                  args = definitions.predicate.args,
-                  assign = definitions.predicate.assign,
-                  call = definitions.predicate.call,
-                  condition = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\$\\{.+\\}$"
-                        ],
-                        predicates.isType '"Bool"
-                      ],
-                  except = definitions.predicate.except,
-                  for = definitions.predicate.for,
-                  next = definitions.predicate.next,
-                  parallel = definitions.predicate.parallel,
-                  raise = definitions.predicate.raise,
-                  result = definitions.predicate.result,
-                  retry = definitions.predicate.retry,
-                  return = definitions.predicate.return,
-                  steps = definitions.predicate.stepArray,
-                  switch = definitions.predicate.switch,
-                  try = definitions.predicate.try,
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          except
-            | doc m%"
-            A try/except structure for error handling.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  as = predicates.isType '"String",
-                  steps = definitions.predicate.stepArray,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          for
-            | doc m%"
-            Iterates over a sequence of numbers or through a collection of data, such as a list or map.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.oneOf
+            ],
+      "_js2n__-:definitions/return!predicate"
+        | doc "Stop a workflow's execution and return a value, variable, or expression."
+        = _js2n__-prdslib.always,
+      "_js2n__-:definitions/scopes!predicate"
+        | doc "Specify token scope to limit an application's access to a user's account."
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
                 [
-                  predicates.allOf
-                  [
-                    predicates.records.required [ "in" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ],
-                  predicates.allOf
-                  [
-                    predicates.records.required [ "range" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ]
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.contains
+                    (_js2n__-prdslib.isType '"String")
                 ],
-                predicates.records.required [ "steps", "value" ],
-                predicates.records.record
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.isType '"String"
+            ],
+      "_js2n__-:definitions/step!predicate"
+        | doc "A single workflow step."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  "in" = predicates.anyOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\$\\{.+\\}$"
-                        ]
-                      ],
-                  index = predicates.isType '"String",
-                  range = predicates.anyOf
-                      [
-                        predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"Number"),
-                          predicates.arrays.maxItems 2,
-                          predicates.arrays.minItems 2
-                        ],
-                        predicates.allOf
-                        [
-                          predicates.isType '"String",
-                          predicates.strings.pattern "^\\$\\{\\[.+\\]\\}$"
-                        ]
-                      ],
-                  steps = definitions.predicate.stepArray,
-                  value = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          next
-            | doc m%"
-            Define what step Workflows should execute next.
-            "%
-            = predicates.anyOf
-              [
-                predicates.isType '"String",
-                predicates.allOf
-                [ predicates.isType '"String", predicates.const "end" ],
-                predicates.allOf
-                [ predicates.isType '"String", predicates.const "continue" ],
-                predicates.allOf
-                [ predicates.isType '"String", predicates.const "break" ]
-              ],
-          parallel
-            | doc m%"
-            Define a part of your workflow where two or more steps can execute concurrently. A 'parallel' step waits until all the steps defined within it have completed or are interrupted by an unhandled exception; execution then continues.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.oneOf
-                [
-                  predicates.allOf
-                  [
-                    predicates.records.required [ "for" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ],
-                  predicates.allOf
-                  [
-                    predicates.records.required [ "branches" ],
-                    predicates.records.record {  } {  } true predicates.always
-                  ]
-                ],
-                predicates.records.record
-                {
-                  branches = definitions.predicate.branches,
-                  concurrency_limit = predicates.isType 'Integer,
-                  exception_policy = predicates.allOf
-                      [
-                        predicates.isType '"String",
-                        predicates.const "continueAll"
-                      ],
-                  for = definitions.predicate.for,
-                  shared = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String"),
-                        predicates.arrays.uniqueItems
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          raise
-            | doc m%"
-            Raise an exception.
-            "%
-            = predicates.anyOf
-              [
-                predicates.isType '"String",
-                predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    code = predicates.isType 'Integer,
-                    message = predicates.isType '"String",
-                  }
-                  {  }
-                  true
-                  predicates.always
-                ]
-              ],
-          result
-            | doc m%"
-            Assign the result from a call to this variable.
-            "%
-            = predicates.always,
-          retry
-            | doc m%"
-            Define a retry policy to retry steps that return a specific error code.
-            "%
-            = predicates.oneOf
-              [
-                predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    backoff = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            initial_delay = predicates.isType 'Integer,
-                            max_delay = predicates.isType 'Integer,
-                            multiplier = predicates.isType 'Integer,
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    max_retries = predicates.isType 'Integer,
-                    predicate = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-                predicates.allOf
-                [
-                  predicates.isType '"String",
-                  predicates.strings.pattern "^\\$\\{.+\\}$"
-                ]
-              ],
-          return
-            | doc m%"
-            Stop a workflow's execution and return a value, variable, or expression.
-            "%
-            = predicates.always,
-          scopes
-            | doc m%"
-            Specify token scope to limit an application's access to a user's account.
-            "%
-            = predicates.anyOf
-              [
-                predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.contains (predicates.isType '"String")
-                ],
-                predicates.isType '"String",
-                predicates.isType '"String"
-              ],
-          step
-            | doc m%"
-            A single workflow step.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  args = definitions.predicate.args,
-                  assign = definitions.predicate.assign,
-                  call = definitions.predicate.call,
-                  except = definitions.predicate.except,
-                  for = definitions.predicate.for,
-                  next = definitions.predicate.next,
-                  parallel = definitions.predicate.parallel,
-                  raise = definitions.predicate.raise,
-                  result = definitions.predicate.result,
-                  retry = definitions.predicate.retry,
-                  return = definitions.predicate.return,
-                  steps = definitions.predicate.stepArray,
-                  switch = definitions.predicate.switch,
-                  try = definitions.predicate.try,
-                }
-                {  }
-                false
-                predicates.never,
-                predicates.records.dependencies
+                  args = _js2n__-refsenv."_js2n__-:definitions/args!predicate",
+                  assign =
+                    _js2n__-refsenv."_js2n__-:definitions/assign!predicate",
+                  call = _js2n__-refsenv."_js2n__-:definitions/call!predicate",
+                  except =
+                    _js2n__-refsenv."_js2n__-:definitions/except!predicate",
+                  for = _js2n__-refsenv."_js2n__-:definitions/for!predicate",
+                  next = _js2n__-refsenv."_js2n__-:definitions/next!predicate",
+                  parallel =
+                    _js2n__-refsenv."_js2n__-:definitions/parallel!predicate",
+                  raise =
+                    _js2n__-refsenv."_js2n__-:definitions/raise!predicate",
+                  result =
+                    _js2n__-refsenv."_js2n__-:definitions/result!predicate",
+                  retry =
+                    _js2n__-refsenv."_js2n__-:definitions/retry!predicate",
+                  return =
+                    _js2n__-refsenv."_js2n__-:definitions/return!predicate",
+                  steps =
+                    _js2n__-refsenv."_js2n__-:definitions/stepArray!predicate",
+                  switch =
+                    _js2n__-refsenv."_js2n__-:definitions/switch!predicate",
+                  try = _js2n__-refsenv."_js2n__-:definitions/try!predicate",
+                } {} false _js2n__-prdslib.never,
+              _js2n__-prdslib.records.dependencies
                 {
                   args = [ "call" ],
                   except = [ "try" ],
                   result = [ "call" ],
                   retry = [ "try" ],
                 }
-              ],
-          stepArray
-            | doc m%"
-            An array of objects with a single step.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.maxProperties 1,
-                  predicates.records.minProperties 1,
-                  predicates.records.record {  }
-                  { "^.*$" = definitions.predicate.step, }
-                  false
-                  predicates.never
-                ]),
-                predicates.arrays.maxItems 100000,
-                predicates.arrays.minItems 1
-              ],
-          subworkflow
-            | doc m%"
-            A subworkflow.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  params = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.maxItems 10,
-                        predicates.arrays.minItems 0,
-                        predicates.arrays.uniqueItems
-                      ],
-                  steps = definitions.predicate.stepArray,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          switch
-            | doc m%"
-            A switch block. A selection mechanism that allows the value of an expression to control the flow of a workflow's execution. If a value matches, that condition's statement is executed.
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf definitions.predicate.condition,
-                predicates.arrays.maxItems 50,
-                predicates.arrays.minItems 1
-              ],
-          try
-            | doc m%"
-            A try/except structure for error handling.
-            "%
-            = predicates.anyOf
-              [ definitions.predicate.step, definitions.predicate.stepArray ],
-        },
-  }
-in
-
-predicates.contract_from_predicate
-(predicates.oneOf
-[
-  predicates.allOf
-  [
-    predicates.isType 'Record,
-    predicates.records.required [ "main" ],
-    predicates.records.record
-    {
-      main = predicates.allOf
-          [
-            predicates.isType 'Record,
-            predicates.records.record
-            {
-              params = predicates.allOf
+            ],
+      "_js2n__-:definitions/stepArray!predicate"
+        | doc "An array of objects with a single step."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
                   [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String"),
-                    predicates.arrays.maxItems 1,
-                    predicates.arrays.minItems 0,
-                    predicates.arrays.uniqueItems
-                  ],
-              steps = definitions.predicate.stepArray,
-            }
-            {  }
-            false
-            predicates.never
-          ],
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.maxProperties 1,
+                    _js2n__-prdslib.records.minProperties 1,
+                    _js2n__-prdslib.records.record {}
+                      {
+                        "^.*$" =
+                          _js2n__-refsenv."_js2n__-:definitions/step!predicate",
+                      } false _js2n__-prdslib.never
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 100000,
+              _js2n__-prdslib.arrays.minItems 1
+            ],
+      "_js2n__-:definitions/subworkflow!predicate"
+        | doc "A subworkflow."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  params =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.maxItems 10,
+                          _js2n__-prdslib.arrays.minItems 0,
+                          _js2n__-prdslib.arrays.uniqueItems
+                        ],
+                  steps =
+                    _js2n__-refsenv."_js2n__-:definitions/stepArray!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/switch!predicate"
+        | doc "A switch block. A selection mechanism that allows the value of an expression to control the flow of a workflow's execution. If a value matches, that condition's statement is executed."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/condition!predicate",
+              _js2n__-prdslib.arrays.maxItems 50,
+              _js2n__-prdslib.arrays.minItems 1
+            ],
+      "_js2n__-:definitions/try!predicate"
+        | doc "A try/except structure for error handling."
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/step!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/stepArray!predicate"
+            ],
     }
-    {  }
-    true
-    definitions.predicate.subworkflow
-  ],
-  definitions.predicate.stepArray
-])
+    in
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.oneOf
+        [
+          _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "main" ],
+              _js2n__-prdslib.records.record
+                {
+                  main =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              params =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String"),
+                                      _js2n__-prdslib.arrays.maxItems 1,
+                                      _js2n__-prdslib.arrays.minItems 0,
+                                      _js2n__-prdslib.arrays.uniqueItems
+                                    ],
+                              steps =
+                                _js2n__-refsenv."_js2n__-:definitions/stepArray!predicate",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } {} true
+                _js2n__-refsenv."_js2n__-:definitions/subworkflow!predicate"
+            ],
+          _js2n__-refsenv."_js2n__-:definitions/stepArray!predicate"
+        ])

@@ -1,2113 +1,2462 @@
 # DO NOT EDIT
 # This file was automatically generated using json-schema-to-nickel
-let predicates =
-{
+let _js2n__-prdslib
+  = {
     allOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `allOf preds` succeeds if all of the predicates in `preds` succeed
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
+        `allOf preds` succeeds if all of the predicates in `preds` succeed
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
       "%
-      = fun preds x => std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if !result.success then result else acc)
-          { error = "", success = true, }
-          preds,
-    always : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "", success = true, },
+      = fun
+          preds
+          x
+          =>
+          std.array.fold_right
+            (fun pred acc => (match { 'Ok => acc, 'Err s => 'Err s, }) (pred x))
+            'Ok preds,
+    always : Dyn -> [| 'Ok, 'Err String |] = std.function.const 'Ok,
     anyOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
+        `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
       "%
-      = fun preds x => (fun result => if result.success then
-            { error = "", success = true, }
-            else
-            {
-              error = m%"
-                  anyOf: none of the options matched%{std.string.join "\n"
-                  result.errors}
-                  "%,
-              success = false,
-            })
-          (std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if result.success || acc.success then
-            { errors = [  ], success = true, }
-            else
-            {
-              errors = [
-                      m%"
-                      - %{result.error}
-                      "%
-                    ] @
-                    acc.errors,
-              success = false,
-            })
-          { errors = [  ], success = false, }
-          preds),
-    arrays = {
+      = fun
+          preds
+          x
+          =>
+          (match {
+            'Ok =>
+              'Ok,
+            'Errs
+              msgs =>
+              'Err
+                m%"
+                  anyOf: none of the options matched
+                  %{std.string.join
+                    m%"
+                      
+                      
+                    "% msgs}
+                "%,
+          })
+            (std.array.fold_right
+              (fun
+                pred
+                acc
+                =>
+                (match {
+                  'Ok =>
+                    'Ok,
+                  'Errs
+                    msgs =>
+                    (match {
+                      'Ok =>
+                        'Ok,
+                      'Err
+                        msg =>
+                        'Errs ([ "  - %{msg}" ] @ msgs),
+                    }) (pred x),
+                }) acc) ('Errs [  ]) preds),
+    arrays =
+      {
           additionalItems
-            : (Dyn -> { success: Bool, error: String }) -> Number -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]
-            "%
-            = fun pred start x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |])
+            -> Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]"
+            = fun
+                pred
+                start
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let value_length = std.array.length x in
-                if start >= value_length then
-                { error = "", success = true, }
-                else
-                (arrayOf pred ((std.array.slice start value_length x) | Dyn))),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let value_length
+                      = std.array.length x
+                      in
+                    if start >= value_length then
+                        'Ok
+                      else
+                        arrayOf pred
+                          ((std.array.slice start value_length x)
+                          | Dyn),
           arrayOf
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Apply a predicate to all elements of an array, succeeding if all
-            applications succeed. If the value isn't an array, fail.
+              Apply a predicate to all elements of an array, succeeding if all
+              applications succeed.
             "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                x),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  std.array.fold_right
+                      (fun
+                        x
+                        acc
+                        =>
+                        (match { 'Ok => acc, 'Err msg => 'Err msg, }) (pred x))
+                      'Ok x,
           contains
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]
-            "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                (fun result => if result.success then
-                  { error = "", success = true, }
-                  else
-                  {
-                    error = m%"
-                        contains: no elements matched%{std.string.join "\n"
-                        result.errors}
-                        "%,
-                    success = false,
-                  })
-                (std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if result.success || acc.success then
-                  { errors = [  ], success = true, }
-                  else
-                  {
-                    errors = [
-                            m%"
-                            - %{result.error}
-                            "%
-                          ] @
-                          acc.errors,
-                    success = false,
-                  })
-                { errors = [  ], success = false, }
-                x)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  (match {
+                      'Ok =>
+                        'Ok,
+                      'Errs
+                        msgs =>
+                        'Err
+                          m%"
+                            contains: no elements matched
+                            %{std.string.join
+                              m%"
+                                
+                                
+                              "% msgs}
+                          "%,
+                    })
+                      (std.array.fold_right
+                        (fun
+                          x
+                          acc
+                          =>
+                          (match {
+                            'Ok =>
+                              'Ok,
+                            'Errs
+                              msgs =>
+                              (match {
+                                'Ok =>
+                                  'Ok,
+                                'Err
+                                  msg =>
+                                  'Errs ([ "  - %{msg}" ] @ msgs),
+                              }) (pred x),
+                          }) acc) ('Errs [  ]) x),
           items
-            : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]
-            "%
-            = fun preds x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : Array (Dyn -> [| 'Ok, 'Err String |])
+            -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]"
+            = fun
+                preds
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let length_to_check =
-                std.number.min (std.array.length preds) (std.array.length x)
-                in
-                
-                std.array.fold_right
-                (fun i acc => let result =
-                  std.array.at i preds (std.array.at i x)
-                  in
-                  
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                (std.array.range 0 length_to_check)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let length_to_check
+                      = std.number.min (std.array.length preds)
+                        (std.array.length x)
+                      in
+                    std.array.fold_right
+                        (fun
+                          i
+                          acc
+                          =>
+                          (match { 'Err msg => 'Err msg, 'Ok => acc, })
+                            (std.array.at i preds (std.array.at i x))) 'Ok
+                        (std.array.range 0 length_to_check),
           maxItems
-            : Number -> Dyn -> { success: Bool, error: String }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
+              `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
             "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (if (std.array.length (x | Array Dyn)) > n then
-                {
-                    error = m%"
-                        array is longer than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minItems
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
-            "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
-                else
-                (if (std.array.length (x | Array Dyn)) < n then
-                {
-                    error = m%"
-                        array is shorter than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          uniqueItems
-            : Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Succeeds for any array if its elements are pairwise distinct.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
-            "%
-            = let find_duplicate 
-                : Array Dyn -> {
-                  has_duplicate: Bool,
-                  duplicate: Dyn,
-                  seen: { _ : Bool }
-                } =
-              std.array.fold_right
-                (fun elt acc => if acc.has_duplicate then acc else
-                  (let index = std.serialize 'Json elt in
-                  if std.record.has_field index acc.seen then
-                  { duplicate = elt, has_duplicate = true, seen = acc.seen, }
+                  if (std.array.length (x | Array Dyn)) > n then
+                    'Err
+                      "array is longer than %{std.string.from_number n} items"
                   else
-                  {
-                    duplicate = null,
-                    has_duplicate = false,
-                    seen = std.record.insert index true acc.seen,
-                  }))
-                { duplicate = null, has_duplicate = false, seen = {  }, }
-              in
-              
-              fun x => if !(std.is_array x) then
-                { error = "", success = true, }
+                    'Ok,
+          minItems
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let {has_duplicate  | Dyn, duplicate  | Dyn, ..} =
-                find_duplicate (x | Array Dyn)
+                  if (std.array.length (x | Array Dyn)) < n then
+                    'Err
+                      "array is shorter than %{std.string.from_number n} items"
+                  else
+                    'Ok,
+          uniqueItems
+            : Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              Succeeds for any array if its elements are pairwise distinct.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
+            "%
+            = let find_duplicate
+                : Array Dyn
+                -> {
+                  has_duplicate : Bool,
+                  duplicate : Dyn,
+                  seen : { _ : Bool }
+                }
+                = std.array.fold_right
+                  (fun
+                    elt
+                    acc
+                    =>
+                    if acc.has_duplicate then
+                      acc
+                    else
+                      let index
+                        = std.serialize 'Json elt
+                        in
+                      if std.record.has_field index acc.seen then
+                          {
+                            duplicate = elt,
+                            has_duplicate = true,
+                            seen = acc.seen,
+                          }
+                        else
+                          {
+                            duplicate = null,
+                            has_duplicate = false,
+                            seen = std.record.insert index true acc.seen,
+                          })
+                  { duplicate = null, has_duplicate = false, seen = {}, }
                 in
-                
-                if has_duplicate then
-                {
-                    error = m%"
-                        duplicate found: %{std.serialize 'Json duplicate}
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
+              fun
+                  x
+                  =>
+                  if !(std.is_array x) then
+                    'Ok
+                  else
+                    let { has_duplicate, duplicate, .. }
+                      = find_duplicate (x | Array Dyn)
+                      in
+                    if has_duplicate then
+                        'Err "duplicate found: %{std.serialize 'Json duplicate}"
+                      else
+                        'Ok,
         },
     const
-      : Dyn -> Dyn -> { success: Bool, error: String }
+      : Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `const value x` succeeds if and only if `x` is equalt to `value`
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
+        `const value x` succeeds if and only if `x` is equal to `value`
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
       "%
-      = fun value x => if x == value then { error = "", success = true, } else
-          {
-            error = m%"
-                expected %{std.serialize 'Json value}
-                "%,
-            success = false,
-          },
+      = fun
+          value
+          x
+          =>
+          if x == value then
+            'Ok
+          else
+            'Err "expected %{std.serialize 'Json value}",
     contract_from_predicate
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> Dyn -> Dyn
-      = fun predicate label value => let {success  | Dyn, error  | Dyn} =
-          predicate value
-          in
-          
-          if success then value else
-          ((std.contract.blame_with_message error label) | Dyn),
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> Dyn -> Dyn
+      = fun
+          predicate
+          label
+          value
+          =>
+          (match {
+            'Ok =>
+              value,
+            'Err
+              msg =>
+              (std.contract.blame_with_message msg label)
+              | Dyn,
+          }) (predicate value),
     enum
-      : Array Dyn -> Dyn -> { success: Bool, error: String }
+      : Array Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
+        `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
       "%
-      = let checkEqual =
-        fun input variant => (input == variant) ||
-            ((std.is_enum input) &&
-            (((std.string.from_enum input) == variant) | Bool))
-        in
-        
-        fun values x => std.array.fold_right
-          (fun value acc => if checkEqual x value then
-            { error = "", success = true, }
-            else
-            acc)
-          {
-            error = m%"
-                expected one of %{std.serialize 'Json (values | Dyn)}
-                "%,
-            success = false,
-          }
-          values,
+      = let checkEqual
+          = fun
+            input
+            variant
+            =>
+            (input == variant)
+            || ((std.is_enum input)
+            && (((std.string.from_enum input) == variant)
+            | Bool))
+          in
+        fun
+            values
+            x
+            =>
+            std.array.fold_right
+              (fun value acc => if checkEqual x value then 'Ok else acc)
+              ('Err "expected one of %{std.serialize 'Json (values | Dyn)}")
+              values,
     from_simple_predicate
-      : String -> (Dyn -> Bool) -> Dyn -> { success: Bool, error: String }
-      | doc m%"
-      Convert a simple boolean predicate into a predicate supporting error messages
-      "%
-      = fun error' pred x => { error = error', success = pred x, },
+      : String -> (Dyn -> Bool) -> Dyn -> [| 'Ok, 'Err String |]
+      | doc "Convert a simple boolean predicate into a predicate supporting error messages"
+      = fun error' pred x => if pred x then 'Ok else 'Err error',
     ifThenElse
-      : (Dyn -> { success: Bool, error: String }) -> (Dyn -> {
-        success: Bool,
-        error: String
-      }) -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
+        `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
       "%
-      = fun i t e x => let {success  | Dyn, ..} = i x in
-          if success then t x else (e x),
+      = fun i t e x => (match { 'Ok => t x, 'Err msg => e x, }) (i x),
     isType
       : [| '"Array", '"Bool", 'Integer, 'Null, '"Number", 'Record, '"String" |]
-      -> Dyn -> { success: Bool, error: String }
-      = fun t => (match {'Integer => from_simple_predicate "expected an integer"
-            (fun x => (std.is_number x) &&
-              (std.number.is_integer (x | Number))),
-            'Null => from_simple_predicate "expected `null`"
-            (fun x => x == null),
-            _ => from_simple_predicate
-            m%"
-            value is not of type %{std.string.from_enum t}
-            "%
-            (fun x => (std.typeof x) == t)
-          })
-          t,
-    never : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "never", success = false, },
+      -> Dyn -> [| 'Ok, 'Err String |]
+      = fun
+          t
+          =>
+          (match {
+            'Null =>
+              from_simple_predicate "expected `null`" (fun x => x == null),
+            'Integer =>
+              from_simple_predicate "expected an integer"
+                (fun
+                  x
+                  =>
+                  (std.is_number x) && (std.number.is_integer (x | Number))),
+            _ =>
+              from_simple_predicate
+                "value is not of type %{std.string.from_enum t}"
+                (fun x => (std.typeof x) == t),
+          }) t,
+    never : Dyn -> [| 'Ok, 'Err String |] = std.function.const ('Err "never"),
     not
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `not pred` succeeds if and only if `pred` fails
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
+        `not pred` succeeds if and only if `pred` fails
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
       "%
-      = fun pred x => let result = pred x in
-          if result.success then
-          {
-              error = "Inverted predicate succeeded unexpectedly",
-              success = false,
-            }
-          else
-          { error = "", success = true, },
-    numbers = {
+      = fun
+          pred
+          x
+          =>
+          (match {
+            'Ok =>
+              'Err "Inverted predicate succeeded unexpectedly",
+            'Err
+              msg =>
+              'Ok,
+          }) (pred x),
+    numbers =
+      {
           exclusiveMaximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) < limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive maximum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) < limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive maximum of %{std.string.from_number
+                        limit}",
           exclusiveMinimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) > limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive minimum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) > limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive minimum of %{std.string.from_number
+                        limit}",
           maximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a maximum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a maximum of %{std.string.from_number limit}",
           minimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a minimum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a minimum of %{std.string.from_number limit}",
           multipleOf
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]
-            "%
-            = fun mult x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]"
+            = fun
+                mult
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if std.number.is_integer ((x | Number) / mult) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a multiple of %{std.string.from_number mult}
-                      "%,
-                  success = false,
-                }),
+                  if std.number.is_integer ((x | Number) / mult) then
+                    'Ok
+                  else
+                    'Err
+                      "expected a multiple of %{std.string.from_number mult}",
         },
     oneOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
+        `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
       "%
-      = fun preds x => let count_true 
-            : Array { success: Bool, error: String } -> Number =
-          fun results => std.array.fold_left
-              (fun n b => if b.success then n + 1 else n)
-              0
+      = fun
+          preds
+          x
+          =>
+          let count_ok
+            : Array [| 'Ok, 'Err String |] -> Number
+            = fun
               results
-          in
-          
-          let results = std.array.map (fun pred => pred x) preds in
-          let count = count_true results in
-          if count == 0 then
-          let errors =
-            std.array.map
-              (fun result => m%"
-                - %{result.error}
-                "%)
-              results
+              =>
+              std.array.fold_left (fun n b => if b == 'Ok then n + 1 else n) 0
+                results
             in
-            
-            {
-              error = m%"
-                  oneOf: none of the options matched%{std.string.join "\n"
-                  errors}
-                  "%,
-              success = false,
-            }
-          else
-          (if count > 1 then
-          {
-              error = "oneOf: more than one of the options matched",
-              success = false,
-            }
-          else
-          { error = "", success = true, }),
-    records = {
-          dependencies
-            : { _ : Dyn } -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]
-            "%
-            = let mustHaveFields 
-                : Array String -> { _ : Dyn } -> {
-                  success: Bool,
-                  error: String
-                } =
-              fun fields x => std.array.fold_right
-                  (fun field acc => if !(std.record.has_field field x) then
-                    {
-                        error = m%"
-                            expected field `%{field}`
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc)
-                  { error = "", success = true, }
-                  fields
+          let results
+              = std.array.map (fun pred => pred x) preds
               in
-              
-              fun deps x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (let x  | { _ : Dyn } = x in
-                std.array.fold_right
-                (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                  if !(std.record.has_field field x) then acc else
-                    (let result =
-                    if std.is_array value then
-                      mustHaveFields (value | Array String) x
-                      else
-                      (let pred  | Dyn -> { success: Bool, error: String } =
-                      value
-                      in
-                      
-                      pred (x | Dyn))
+            let count
+                = count_ok results
+                in
+              if count == 0 then
+                  let errors
+                    = std.array.flat_map
+                      (fun
+                        result
+                        =>
+                        (match { 'Ok => [  ], 'Err s => [ "  - %{s}" ], })
+                          result) results
                     in
-                    
-                    if !result.success then
-                    {
-                        error = m%"
-                            dependency of `%{field}` failed: %{result.error}
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc))
-                { error = "", success = true, }
-                (std.record.to_array deps)),
-          maxProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
+                  'Err
+                      m%"
+                        oneOf: none of the options matched
+                        %{std.string.join
+                          m%"
+                            
+                            
+                          "% errors}
+                      "%
                 else
-                (if (std.record.length (x | { _ : Dyn })) > n then
-                {
-                    error = m%"
-                        record contains more than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (if (std.record.length (x | { _ : Dyn })) < n then
-                {
-                    error = m%"
-                        record contains fewer than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          propertyNames
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]
-            "%
-            = fun pred x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => let result = pred (field | Dyn) in
-                  if !result.success then
-                  {
-                      error = m%"
-                          field `%{field}` did not validate against `propertyNames` schema
-                          "%,
-                      success = false,
-                    }
+                  if count > 1 then
+                    'Err "oneOf: more than one of the options matched"
                   else
-                  acc)
-                { error = "", success = true, }
-                (std.record.fields (x | { _ : Dyn }))),
-          record
-            : { _ : Dyn -> { success: Bool, error: String } } -> { _ : Dyn -> {
-              success: Bool,
-              error: String
-            } } -> Bool -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            `record properties patternProperties additionalAllowed
-            additionalProperties x` is a combination of the `properties`,
-            `patternProperties` and `additionalProperties` validation keywords in
-            JSON schema.
-            
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
-            "%
-            =
-            fun properties patternProperties additionalAllowed additionalProperties x =>
-              if !(std.is_record x) then { error = "", success = true, } else
-                (let x  | { _ : Dyn } = x in
-                let check_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                    if !(std.record.has_field field x) then acc else
-                      (let result = value x."%{field}" in
-                      if !result.success then
-                      {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
-                      else
-                      {
-                        checked = std.record.insert field true acc.checked,
-                        error = acc.error,
-                        success = acc.success,
-                      }))
-                  { checked = {  }, error = "", success = true, }
-                  (std.record.to_array properties)
-                in
-                
-                let matching_fields  : String -> { _ : Dyn } =
-                fun pattern => let matcher = std.string.is_match pattern in
-                    std.array.fold_left
-                    (fun acc => fun {field  | Dyn, value  | Dyn} => if matcher
-                        field then
-                        std.record.insert field value acc
-                        else
-                        acc)
-                    {  }
-                    (std.record.to_array x)
-                in
-                
-                let check_pattern_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn = pattern, value  | Dyn = pred} =>
-                  fun acc => let result =
-                      std.array.fold_right
-                        (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                          let result = pred value in
-                            if !result.success then
-                            {
-                                checked : { _ : Bool }
-                                  = {  },
-                                error = m%"
-                                    field `%{field}` didn't validate: %{result.error}
-                                    "%,
-                                success = false,
-                              }
-                            else
-                            {
-                              checked = std.record.insert field true
-                                  acc.checked,
-                              error = acc.error,
-                              success = acc.success,
-                            })
-                        {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = "",
-                          success = true,
-                        }
-                        (std.record.to_array (matching_fields pattern))
-                      in
-                      
-                      if !result.success then result else
-                      {
-                        checked = std.array.fold_left
-                            (fun r field => if !(std.record.has_field field
-                              r) then
-                              std.record.insert field true r
-                              else
-                              r)
-                            acc.checked
-                            (std.record.fields result.checked),
-                        error = acc.error,
-                        success = acc.success,
-                      })
-                  { checked : { _ : Bool } = {  }, error = "", success = true, }
-                  (std.record.to_array patternProperties)
-                in
-                
-                let remaining_fields =
-                std.array.fold_left
-                  (fun acc field => if !(std.record.has_field field acc) then
-                    acc
-                    else
-                    (std.record.remove field acc))
+                    'Ok,
+    records =
+      {
+          dependencies
+            : { _ : Dyn } -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]"
+            = let mustHaveFields
+                : Array String -> { _ : Dyn } -> [| 'Ok, 'Err String |]
+                = fun
+                  fields
                   x
-                  ((std.record.fields check_properties.checked) @
-                    (std.record.fields check_pattern_properties.checked))
-                in
-                
-                let check_additional_properties 
-                  : { success: Bool, error: String } =
-                if (!additionalAllowed) &&
-                  (!(std.record.is_empty remaining_fields)) then
-                  {
-                      error = m%"
-                          extra fields %{std.serialize 'Json
-                          ((std.record.fields remaining_fields) | Dyn)}
-                          "%,
-                      success = false,
-                    }
-                  else
-                  (std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc => let result =
-                      additionalProperties value
-                      in
-                      
-                      if !result.success then
-                      {
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
+                  =>
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field x) then
+                        'Err "expected field `%{field}`"
                       else
-                      acc)
-                  { error = "", success = true, }
-                  (std.record.to_array remaining_fields))
+                        acc) 'Ok fields
                 in
-                
-                if !check_properties.success then
-                { error = check_properties.error, success = false, }
-                else
-                (if !check_pattern_properties.success then
-                { error = check_pattern_properties.error, success = false, }
-                else
-                check_additional_properties)),
-          required
-            : Array String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]
-            "%
-            = fun fields x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => if !(std.record.has_field field
-                  (x | { _ : Dyn })) then
-                  {
-                      error = m%"
-                          missing required field %{field}
-                          "%,
-                      success = false,
-                    }
+              fun
+                  deps
+                  x
+                  =>
+                  if !(std.is_record x) then
+                    'Ok
                   else
-                  acc)
-                { error = "", success = true, }
-                fields),
-        },
-    strings = {
-          maxLength
-            : Number -> Dyn -> { success: Bool, error: String }
+                    let x
+                      | { _ : Dyn }
+                      = x
+                      in
+                    std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              let result
+                                = if std.is_array value then
+                                  mustHaveFields (value | Array String) x
+                                else
+                                  let pred
+                                    | Dyn -> [| 'Ok, 'Err String |]
+                                    = value
+                                    in
+                                  pred (x | Dyn)
+                                in
+                              (match {
+                                  'Err
+                                    msg =>
+                                    'Err
+                                      "dependency of `%{field}` failed: %{msg}",
+                                  'Ok =>
+                                    acc,
+                                }) result) 'Ok (std.record.to_array deps),
+          maxProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]
+              `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
             "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no larger than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
-          minLength
-            : Number -> Dyn -> { success: Bool, error: String }
+                  if (std.record.length (x | { _ : Dyn })) > n then
+                    'Err
+                      "record contains more than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          minProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]
+              `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
             "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) >= limit then
-                { error = "", success = true, }
+                  if (std.record.length (x | { _ : Dyn })) < n then
+                    'Err
+                      "record contains fewer than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          propertyNames
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
                 else
-                {
-                  error = m%"
-                      expected a string of length no smaller than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
-          pattern
-            : String -> Dyn -> { success: Bool, error: String }
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      (match {
+                        'Err
+                          msg =>
+                          'Err
+                            "field `%{field}` did not validate against `propertyNames` schema",
+                        'Ok =>
+                          acc,
+                      }) (pred (field | Dyn))) 'Ok
+                    (std.record.fields (x | { _ : Dyn })),
+          record
+            : { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> Bool
+            -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]
+              `record properties patternProperties additionalAllowed
+              additionalProperties x` is a combination of the `properties`,
+              `patternProperties` and `additionalProperties` validation keywords in
+              JSON schema.
+              
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
             "%
-            = fun pattern x => if !(std.is_string x) then
-                { error = "", success = true, }
+            = fun
+                properties
+                patternProperties
+                additionalAllowed
+                additionalProperties
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
                 else
-                (if std.string.is_match pattern (x | String) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string matching the pattern `%{pattern}`
-                      "%,
-                  success = false,
-                }),
-        },
-  }
-in
-
-let rec definitions = { contract = {  }, predicate = {  }, } in
-predicates.contract_from_predicate
-(predicates.allOf
-[
-  predicates.isType 'Record,
-  predicates.records.record
-  {
-    accessLog = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            bufferingSize = predicates.isType 'Integer,
-            fields = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    defaultMode = predicates.isType '"String",
-                    headers = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            defaultMode = predicates.isType '"String",
-                            names = predicates.allOf
-                                [
-                                  predicates.isType 'Record,
-                                  predicates.records.record {  }
+                  let x
+                    | { _ : Dyn }
+                    = x
+                    in
+                  let check_properties
+                      : {
+                        result : [| 'Ok, 'Err String |],
+                        checked : { _ : Bool }
+                      }
+                      = std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              (match {
+                                'Err
+                                  msg =>
                                   {
-                                    "[a-zA-Z0-9-_]+" = predicates.isType
-                                        '"String",
-                                  }
-                                  true
-                                  predicates.always
-                                ],
+                                    checked : { _ : Bool } = {},
+                                    result =
+                                      'Err
+                                          "field `%{field}` didn't validate: %{msg}",
+                                  },
+                                'Ok =>
+                                  {
+                                    checked =
+                                      std.record.insert field true acc.checked,
+                                    result = acc.result,
+                                  },
+                              }) (value x."%{field}"))
+                        { checked = {}, result = 'Ok, }
+                        (std.record.to_array properties)
+                      in
+                    let matching_fields
+                        : String -> { _ : Dyn }
+                        = fun
+                          pattern
+                          =>
+                          let matcher
+                            = std.string.is_match pattern
+                            in
+                          std.array.fold_left
+                              (fun
+                                acc
+                                =>
+                                fun
+                                  { field, value, }
+                                  =>
+                                  if matcher field then
+                                    std.record.insert field value acc
+                                  else
+                                    acc) {} (std.record.to_array x)
+                        in
+                      let check_pattern_properties
+                          : {
+                            result : [| 'Ok, 'Err String |],
+                            checked : { _ : Bool }
                           }
-                          {  }
-                          true
-                          predicates.always
-                        ],
-                    names = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  }
-                          { "[a-zA-Z0-9-_]+" = predicates.isType '"String", }
-                          true
-                          predicates.always
-                        ],
-                  }
-                  {  }
-                  true
-                  predicates.always
-                ],
-            filePath = predicates.isType '"String",
-            filters = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    minDuration = predicates.isType '"String",
-                    retryAttempts = predicates.isType '"Bool",
-                    statusCodes = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ],
-                  }
-                  {  }
-                  true
-                  predicates.always
-                ],
-            format = predicates.isType '"String",
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    api = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            dashboard = predicates.isType '"Bool",
-            debug = predicates.isType '"Bool",
-            insecure = predicates.isType '"Bool",
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    certificatesResolvers = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record {  }
-          {
-            "[a-zA-Z0-9-_]+" = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    acme = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            caServer = predicates.isType '"String",
-                            certificatesDuration = predicates.isType 'Integer,
-                            dnsChallenge = predicates.allOf
-                                [
-                                  predicates.isType 'Record,
-                                  predicates.records.record
-                                  {
-                                    delayBeforeCheck = predicates.isType
-                                        '"String",
-                                    disablePropagationCheck = predicates.isType
-                                        '"Bool",
-                                    provider = predicates.isType '"String",
-                                    resolvers = predicates.allOf
-                                        [
-                                          predicates.isType '"Array",
-                                          predicates.arrays.arrayOf
-                                          (predicates.isType '"String")
-                                        ],
-                                  }
-                                  {  }
-                                  true
-                                  predicates.always
-                                ],
-                            eab = predicates.allOf
-                                [
-                                  predicates.isType 'Record,
-                                  predicates.records.record
-                                  {
-                                    hmacEncoded = predicates.isType '"String",
-                                    kid = predicates.isType '"String",
-                                  }
-                                  {  }
-                                  true
-                                  predicates.always
-                                ],
-                            email = predicates.isType '"String",
-                            httpChallenge = predicates.allOf
-                                [
-                                  predicates.isType 'Record,
-                                  predicates.records.record
-                                  { entryPoint = predicates.isType '"String", }
-                                  {  }
-                                  true
-                                  predicates.always
-                                ],
-                            keyType = predicates.isType '"String",
-                            preferredChain = predicates.isType '"String",
-                            storage = predicates.isType '"String",
-                            tlsChallenge = predicates.isType 'Record,
-                          }
-                          {  }
-                          true
-                          predicates.always
-                        ],
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-          }
-          true
-          predicates.always
-        ],
-    entryPoints = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record {  }
-          {
-            "[a-zA-Z0-9-_]+" = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    address = predicates.isType '"String",
-                    forwardedHeaders = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            insecure = predicates.isType '"Bool",
-                            trustedIPs = predicates.allOf
-                                [
-                                  predicates.isType '"Array",
-                                  predicates.arrays.arrayOf
-                                  (predicates.isType '"String")
-                                ],
-                          }
-                          {  }
-                          true
-                          predicates.always
-                        ],
-                    http = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            middlewares = predicates.allOf
-                                [
-                                  predicates.isType '"Array",
-                                  predicates.arrays.arrayOf
-                                  (predicates.isType '"String")
-                                ],
-                            redirections = predicates.allOf
-                                [
-                                  predicates.isType 'Record,
-                                  predicates.records.record
-                                  {
-                                    entryPoint = predicates.allOf
-                                        [
-                                          predicates.isType 'Record,
-                                          predicates.records.record
-                                          {
-                                            permanent = predicates.isType
-                                                '"Bool",
-                                            "priority" = predicates.isType
-                                                'Integer,
-                                            scheme = predicates.isType
-                                                '"String",
-                                            to = predicates.isType '"String",
-                                          }
-                                          {  }
-                                          true
-                                          predicates.always
-                                        ],
-                                  }
-                                  {  }
-                                  true
-                                  predicates.always
-                                ],
-                            tls = predicates.allOf
-                                [
-                                  predicates.isType 'Record,
-                                  predicates.records.record
-                                  {
-                                    certResolver = predicates.isType '"String",
-                                    domains = predicates.allOf
-                                        [
-                                          predicates.isType '"Array",
-                                          predicates.arrays.arrayOf
-                                          (predicates.allOf
-                                          [
-                                            predicates.isType 'Record,
-                                            predicates.records.record
+                          = std.array.fold_right
+                            (fun
+                              { field = pattern, value = pred, }
+                              =>
+                              fun
+                                acc
+                                =>
+                                (match {
+                                  r @ { result = 'Err msg, .. } =>
+                                    r,
+                                  { result = 'Ok, checked = ch, } =>
+                                    {
+                                      checked =
+                                        std.array.fold_left
+                                            (fun
+                                              r
+                                              field
+                                              =>
+                                              if !(std.record.has_field field
+                                                r) then
+                                                std.record.insert field true r
+                                              else
+                                                r) acc.checked
+                                            (std.record.fields ch),
+                                      result = acc.result,
+                                    },
+                                })
+                                  (std.array.fold_right
+                                    (fun
+                                      { field, value, }
+                                      =>
+                                      fun
+                                        acc
+                                        =>
+                                        (match {
+                                          'Err
+                                            msg =>
                                             {
-                                              main = predicates.isType
-                                                  '"String",
-                                              sans = predicates.allOf
-                                                  [
-                                                    predicates.isType '"Array",
-                                                    predicates.arrays.arrayOf
-                                                    (predicates.isType
-                                                    '"String")
-                                                  ],
-                                            }
-                                            {  }
-                                            true
-                                            predicates.always
-                                          ])
-                                        ],
-                                    options = predicates.isType '"String",
-                                  }
-                                  {  }
-                                  true
-                                  predicates.always
-                                ],
-                          }
-                          {  }
-                          true
-                          predicates.always
-                        ],
-                    http2 = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          { maxConcurrentStreams = predicates.isType 'Integer, }
-                          {  }
-                          true
-                          predicates.always
-                        ],
-                    http3 = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          { advertisedPort = predicates.isType 'Integer, }
-                          {  }
-                          true
-                          predicates.always
-                        ],
-                    proxyProtocol = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            insecure = predicates.isType '"Bool",
-                            trustedIPs = predicates.allOf
-                                [
-                                  predicates.isType '"Array",
-                                  predicates.arrays.arrayOf
-                                  (predicates.isType '"String")
-                                ],
-                          }
-                          {  }
-                          true
-                          predicates.always
-                        ],
-                    transport = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            lifeCycle = predicates.allOf
-                                [
-                                  predicates.isType 'Record,
-                                  predicates.records.record
-                                  {
-                                    graceTimeOut = predicates.isType '"String",
-                                    requestAcceptGraceTimeout =
-                                      predicates.isType '"String",
-                                  }
-                                  {  }
-                                  true
-                                  predicates.always
-                                ],
-                            respondingTimeouts = predicates.allOf
-                                [
-                                  predicates.isType 'Record,
-                                  predicates.records.record
-                                  {
-                                    idleTimeout = predicates.isType '"String",
-                                    readTimeout = predicates.isType '"String",
-                                    writeTimeout = predicates.isType '"String",
-                                  }
-                                  {  }
-                                  true
-                                  predicates.always
-                                ],
-                          }
-                          {  }
-                          true
-                          predicates.always
-                        ],
-                    udp = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          { timeout = predicates.isType '"String", }
-                          {  }
-                          true
-                          predicates.always
-                        ],
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-          }
-          true
-          predicates.always
-        ],
-    experimental = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            http3 = predicates.isType '"Bool",
-            hub = predicates.isType '"Bool",
-            kubernetesGateway = predicates.isType '"Bool",
-            localPlugins = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "[a-zA-Z0-9-_]+" = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          { moduleName = predicates.isType '"String", }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                  }
-                  true
-                  predicates.always
-                ],
-            plugins = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  {
-                    "[a-zA-Z0-9-_]+" = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            moduleName = predicates.isType '"String",
-                            version = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                  }
-                  true
-                  predicates.always
-                ],
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    global = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            checkNewVersion = predicates.isType '"Bool",
-            sendAnonymousUsage = predicates.isType '"Bool",
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    hostResolver = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            cnameFlattening = predicates.isType '"Bool",
-            resolvConfig = predicates.isType '"String",
-            resolvDepth = predicates.isType 'Integer,
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    hub = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            tls = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    ca = predicates.isType '"String",
-                    cert = predicates.isType '"String",
-                    insecure = predicates.isType '"Bool",
-                    key = predicates.isType '"String",
-                  }
-                  {  }
-                  true
-                  predicates.always
-                ],
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    log = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            filePath = predicates.isType '"String",
-            format = predicates.isType '"String",
-            level = predicates.isType '"String",
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    metrics = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            datadog = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    addEntryPointsLabels = predicates.isType '"Bool",
-                    addRoutersLabels = predicates.isType '"Bool",
-                    addServicesLabels = predicates.isType '"Bool",
-                    address = predicates.isType '"String",
-                    prefix = predicates.isType '"String",
-                    pushInterval = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            influxDB = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    addEntryPointsLabels = predicates.isType '"Bool",
-                    addRoutersLabels = predicates.isType '"Bool",
-                    addServicesLabels = predicates.isType '"Bool",
-                    additionalLabels = predicates.isType 'Record,
-                    address = predicates.isType '"String",
-                    database = predicates.isType '"String",
-                    password = predicates.isType '"String",
-                    protocol = predicates.isType '"String",
-                    pushInterval = predicates.isType '"String",
-                    retentionPolicy = predicates.isType '"String",
-                    username = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            influxDB2 = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    addEntryPointsLabels = predicates.isType '"Bool",
-                    addRoutersLabels = predicates.isType '"Bool",
-                    addServicesLabels = predicates.isType '"Bool",
-                    additionalLabels = predicates.isType 'Record,
-                    address = predicates.isType '"String",
-                    bucket = predicates.isType '"String",
-                    org = predicates.isType '"String",
-                    pushInterval = predicates.isType '"String",
-                    token = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            prometheus = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    addEntryPointsLabels = predicates.isType '"Bool",
-                    addRoutersLabels = predicates.isType '"Bool",
-                    addServicesLabels = predicates.isType '"Bool",
-                    buckets = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"Number")
-                        ],
-                    entryPoint = predicates.isType '"String",
-                    manualRouting = predicates.isType '"Bool",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            statsD = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    addEntryPointsLabels = predicates.isType '"Bool",
-                    addRoutersLabels = predicates.isType '"Bool",
-                    addServicesLabels = predicates.isType '"Bool",
-                    address = predicates.isType '"String",
-                    prefix = predicates.isType '"String",
-                    pushInterval = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    pilot = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            dashboard = predicates.isType '"Bool",
-            token = predicates.isType '"String",
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    ping = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            entryPoint = predicates.isType '"String",
-            manualRouting = predicates.isType '"Bool",
-            terminatingStatusCode = predicates.isType 'Integer,
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    providers = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            consul = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    endpoints = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ],
-                    namespace = predicates.isType '"String",
-                    namespaces = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ],
-                    rootKey = predicates.isType '"String",
-                    tls = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            ca = predicates.isType '"String",
-                            caOptional = predicates.isType '"Bool",
-                            cert = predicates.isType '"String",
-                            insecureSkipVerify = predicates.isType '"Bool",
-                            key = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    token = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            consulCatalog = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    cache = predicates.isType '"Bool",
-                    connectAware = predicates.isType '"Bool",
-                    connectByDefault = predicates.isType '"Bool",
-                    constraints = predicates.isType '"String",
-                    defaultRule = predicates.isType '"String",
-                    endpoint = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            address = predicates.isType '"String",
-                            datacenter = predicates.isType '"String",
-                            endpointWaitTime = predicates.isType '"String",
-                            httpAuth = predicates.allOf
-                                [
-                                  predicates.isType 'Record,
-                                  predicates.records.record
-                                  {
-                                    password = predicates.isType '"String",
-                                    username = predicates.isType '"String",
-                                  }
-                                  {  }
-                                  false
-                                  predicates.never
-                                ],
-                            scheme = predicates.isType '"String",
-                            tls = predicates.allOf
-                                [
-                                  predicates.isType 'Record,
-                                  predicates.records.record
-                                  {
-                                    ca = predicates.isType '"String",
-                                    caOptional = predicates.isType '"Bool",
-                                    cert = predicates.isType '"String",
-                                    insecureSkipVerify = predicates.isType
-                                        '"Bool",
-                                    key = predicates.isType '"String",
-                                  }
-                                  {  }
-                                  false
-                                  predicates.never
-                                ],
-                            token = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    exposedByDefault = predicates.isType '"Bool",
-                    namespace = predicates.isType '"String",
-                    namespaces = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ],
-                    prefix = predicates.isType '"String",
-                    refreshInterval = predicates.isType '"String",
-                    requireConsistent = predicates.isType '"Bool",
-                    serviceName = predicates.isType '"String",
-                    stale = predicates.isType '"Bool",
-                    watch = predicates.isType '"Bool",
-                  }
-                  {  }
-                  true
-                  predicates.always
-                ],
-            docker = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    allowEmptyServices = predicates.isType '"Bool",
-                    constraints = predicates.isType '"String",
-                    defaultRule = predicates.isType '"String",
-                    endpoint = predicates.isType '"String",
-                    exposedByDefault = predicates.isType '"Bool",
-                    httpClientTimeout = predicates.isType '"String",
-                    network = predicates.isType '"String",
-                    swarmMode = predicates.isType '"Bool",
-                    swarmModeRefreshSeconds = predicates.isType '"String",
-                    tls = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            ca = predicates.isType '"String",
-                            caOptional = predicates.isType '"Bool",
-                            cert = predicates.isType '"String",
-                            insecureSkipVerify = predicates.isType '"Bool",
-                            key = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    useBindPortIP = predicates.isType '"Bool",
-                    watch = predicates.isType '"Bool",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            ecs = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    accessKeyID = predicates.isType '"String",
-                    autoDiscoverClusters = predicates.isType '"Bool",
-                    clusters = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ],
-                    constraints = predicates.isType '"String",
-                    defaultRule = predicates.isType '"String",
-                    ecsAnywhere = predicates.isType '"Bool",
-                    exposedByDefault = predicates.isType '"Bool",
-                    refreshSeconds = predicates.isType 'Integer,
-                    region = predicates.isType '"String",
-                    secretAccessKey = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            etcd = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    endpoints = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ],
-                    password = predicates.isType '"String",
-                    rootKey = predicates.isType '"String",
-                    tls = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            ca = predicates.isType '"String",
-                            caOptional = predicates.isType '"Bool",
-                            cert = predicates.isType '"String",
-                            insecureSkipVerify = predicates.isType '"Bool",
-                            key = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    username = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            file = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    debugLogGeneratedTemplate = predicates.isType '"Bool",
-                    directory = predicates.isType '"String",
-                    filename = predicates.isType '"String",
-                    watch = predicates.isType '"Bool",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            http = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    endpoint = predicates.isType '"String",
-                    pollInterval = predicates.isType '"String",
-                    pollTimeout = predicates.isType '"String",
-                    tls = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            ca = predicates.isType '"String",
-                            caOptional = predicates.isType '"Bool",
-                            cert = predicates.isType '"String",
-                            insecureSkipVerify = predicates.isType '"Bool",
-                            key = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            kubernetesCRD = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    allowCrossNamespace = predicates.isType '"Bool",
-                    allowEmptyServices = predicates.isType '"Bool",
-                    allowExternalNameServices = predicates.isType '"Bool",
-                    certAuthFilePath = predicates.isType '"String",
-                    endpoint = predicates.isType '"String",
-                    ingressClass = predicates.isType '"String",
-                    labelSelector = predicates.isType '"String",
-                    namespaces = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ],
-                    throttleDuration = predicates.isType '"String",
-                    token = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            kubernetesGateway = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    certAuthFilePath = predicates.isType '"String",
-                    endpoint = predicates.isType '"String",
-                    labelSelector = predicates.isType '"String",
-                    namespaces = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ],
-                    throttleDuration = predicates.isType '"String",
-                    token = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            kubernetesIngress = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    allowEmptyServices = predicates.isType '"Bool",
-                    allowExternalNameServices = predicates.isType '"Bool",
-                    certAuthFilePath = predicates.isType '"String",
-                    endpoint = predicates.isType '"String",
-                    ingressClass = predicates.isType '"String",
-                    ingressEndpoint = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            hostname = predicates.isType '"String",
-                            ip = predicates.isType '"String",
-                            publishedService = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    labelSelector = predicates.isType '"String",
-                    namespaces = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ],
-                    throttleDuration = predicates.isType '"String",
-                    token = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            marathon = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    basic = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            httpBasicAuthUser = predicates.isType '"String",
-                            httpBasicPassword = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    constraints = predicates.isType '"String",
-                    dcosToken = predicates.isType '"String",
-                    defaultRule = predicates.isType '"String",
-                    dialerTimeout = predicates.isType '"String",
-                    endpoint = predicates.isType '"String",
-                    exposedByDefault = predicates.isType '"Bool",
-                    forceTaskHostname = predicates.isType '"Bool",
-                    keepAlive = predicates.isType '"String",
-                    respectReadinessChecks = predicates.isType '"Bool",
-                    responseHeaderTimeout = predicates.isType '"String",
-                    tls = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            ca = predicates.isType '"String",
-                            caOptional = predicates.isType '"Bool",
-                            cert = predicates.isType '"String",
-                            insecureSkipVerify = predicates.isType '"Bool",
-                            key = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    tlsHandshakeTimeout = predicates.isType '"String",
-                    trace = predicates.isType '"Bool",
-                    watch = predicates.isType '"Bool",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            nomad = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    constraints = predicates.isType '"String",
-                    defaultRule = predicates.isType '"String",
-                    endpoint = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            address = predicates.isType '"String",
-                            endpointWaitTime = predicates.isType '"String",
-                            region = predicates.isType '"String",
-                            tls = predicates.allOf
-                                [
-                                  predicates.isType 'Record,
-                                  predicates.records.record
-                                  {
-                                    ca = predicates.isType '"String",
-                                    caOptional = predicates.isType '"Bool",
-                                    cert = predicates.isType '"String",
-                                    insecureSkipVerify = predicates.isType
-                                        '"Bool",
-                                    key = predicates.isType '"String",
-                                  }
-                                  {  }
-                                  false
-                                  predicates.never
-                                ],
-                            token = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    exposedByDefault = predicates.isType '"Bool",
-                    namespace = predicates.isType '"String",
-                    prefix = predicates.isType '"String",
-                    refreshInterval = predicates.isType '"String",
-                    stale = predicates.isType '"Bool",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            plugin = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record {  }
-                  { "[a-zA-Z0-9-_]+" = predicates.isType 'Record, }
-                  true
-                  predicates.always
-                ],
-            providersThrottleDuration = predicates.isType '"String",
-            rancher = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    constraints = predicates.isType '"String",
-                    defaultRule = predicates.isType '"String",
-                    enableServiceHealthFilter = predicates.isType '"Bool",
-                    exposedByDefault = predicates.isType '"Bool",
-                    intervalPoll = predicates.isType '"Bool",
-                    prefix = predicates.isType '"String",
-                    refreshSeconds = predicates.isType 'Integer,
-                    watch = predicates.isType '"Bool",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            redis = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    db = predicates.isType 'Integer,
-                    endpoints = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ],
-                    password = predicates.isType '"String",
-                    rootKey = predicates.isType '"String",
-                    tls = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            ca = predicates.isType '"String",
-                            caOptional = predicates.isType '"Bool",
-                            cert = predicates.isType '"String",
-                            insecureSkipVerify = predicates.isType '"Bool",
-                            key = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    username = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            rest = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  { insecure = predicates.isType '"Bool", }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            zooKeeper = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    endpoints = predicates.allOf
-                        [
-                          predicates.isType '"Array",
-                          predicates.arrays.arrayOf
-                          (predicates.isType '"String")
-                        ],
-                    password = predicates.isType '"String",
-                    rootKey = predicates.isType '"String",
-                    username = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-          }
-          {  }
-          true
-          predicates.always
-        ],
-    serversTransport = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            forwardingTimeouts = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    dialTimeout = predicates.isType '"String",
-                    idleConnTimeout = predicates.isType '"String",
-                    responseHeaderTimeout = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            insecureSkipVerify = predicates.isType '"Bool",
-            maxIdleConnsPerHost = predicates.isType 'Integer,
-            rootCAs = predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf (predicates.isType '"String")
-                ],
-          }
-          {  }
-          false
-          predicates.never
-        ],
-    tracing = predicates.allOf
-        [
-          predicates.isType 'Record,
-          predicates.records.record
-          {
-            datadog = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    bagagePrefixHeaderName = predicates.isType '"String",
-                    debug = predicates.isType '"Bool",
-                    globalTag = predicates.isType '"String",
-                    globalTags = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record {  }
-                          { "[a-zA-Z0-9-_]+" = predicates.isType '"String", }
-                          true
-                          predicates.always
-                        ],
-                    localAgentHostPort = predicates.isType '"String",
-                    parentIDHeaderName = predicates.isType '"String",
-                    prioritySampling = predicates.isType '"Bool",
-                    samplingPriorityHeaderName = predicates.isType '"String",
-                    traceIDHeaderName = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            elastic = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    secretToken = predicates.isType '"String",
-                    serverURL = predicates.isType '"String",
-                    serviceEnvironment = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            haystack = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    baggagePrefixHeaderName = predicates.isType '"String",
-                    globalTag = predicates.isType '"String",
-                    localAgentHost = predicates.isType '"String",
-                    localAgentPort = predicates.isType 'Integer,
-                    parentIDHeaderName = predicates.isType '"String",
-                    spanIDHeaderName = predicates.isType '"String",
-                    traceIDHeaderName = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            instana = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    enableAutoProfile = predicates.isType '"Bool",
-                    localAgentHost = predicates.isType '"String",
-                    localAgentPort = predicates.isType 'Integer,
-                    logLevel = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            jaeger = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    collector = predicates.allOf
-                        [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          {
-                            endpoint = predicates.isType '"String",
-                            password = predicates.isType '"String",
-                            user = predicates.isType '"String",
-                          }
-                          {  }
-                          false
-                          predicates.never
-                        ],
-                    disableAttemptReconnecting = predicates.isType '"Bool",
-                    gen128Bit = predicates.isType '"Bool",
-                    localAgentHostPort = predicates.isType '"String",
-                    propagation = predicates.isType '"String",
-                    samplingParam = predicates.isType 'Integer,
-                    samplingServerURL = predicates.isType '"String",
-                    samplingType = predicates.isType '"String",
-                    traceContextHeaderName = predicates.isType '"String",
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-            serviceName = predicates.isType '"String",
-            spanNameLimit = predicates.isType 'Integer,
-            zipkin = predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    httpEndpoint = predicates.isType '"String",
-                    id128Bit = predicates.isType '"Bool",
-                    sameSpan = predicates.isType '"Bool",
-                    sampleRate = predicates.isType 'Integer,
-                  }
-                  {  }
-                  false
-                  predicates.never
-                ],
-          }
-          {  }
-          false
-          predicates.never
-        ],
+                                              checked : { _ : Bool } = {},
+                                              result =
+                                                'Err
+                                                    "field `%{field}` didn't validate: %{msg}",
+                                            },
+                                          'Ok =>
+                                            {
+                                              checked =
+                                                std.record.insert field true
+                                                    acc.checked,
+                                              result = acc.result,
+                                            },
+                                        }) (pred value))
+                                    {
+                                      checked : { _ : Bool } = {},
+                                      result = 'Ok,
+                                    }
+                                    (std.record.to_array
+                                      (matching_fields pattern))))
+                            { checked : { _ : Bool } = {}, result = 'Ok, }
+                            (std.record.to_array patternProperties)
+                          in
+                        let remaining_fields
+                            = std.array.fold_left
+                              (fun
+                                acc
+                                field
+                                =>
+                                if !(std.record.has_field field acc) then
+                                  acc
+                                else
+                                  std.record.remove field acc) x
+                              ((std.record.fields check_properties.checked)
+                              @ (std.record.fields
+                                check_pattern_properties.checked))
+                            in
+                          let check_additional_properties
+                              : [| 'Ok, 'Err String |]
+                              = if (!additionalAllowed)
+                              && (!(std.record.is_empty remaining_fields)) then
+                                'Err
+                                  "extra fields %{std.serialize 'Json
+                                    ((std.record.fields remaining_fields)
+                                    | Dyn)}"
+                              else
+                                std.array.fold_right
+                                  (fun
+                                    { field, value, }
+                                    =>
+                                    fun
+                                      acc
+                                      =>
+                                      (match {
+                                        'Err
+                                          msg =>
+                                          'Err
+                                            "field `%{field}` didn't validate: %{msg}",
+                                        'Ok =>
+                                          acc,
+                                      }) (additionalProperties value)) 'Ok
+                                  (std.record.to_array remaining_fields)
+                              in
+                            (match {
+                                'Err
+                                  msg =>
+                                  check_properties.result,
+                                'Ok =>
+                                  (match {
+                                    'Err
+                                      msg =>
+                                      check_pattern_properties.result,
+                                    'Ok =>
+                                      check_additional_properties,
+                                  }) check_pattern_properties.result,
+                              }) check_properties.result,
+          required
+            : Array String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]"
+            = fun
+                fields
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field (x | { _ : Dyn })) then
+                        'Err "missing required field %{field}"
+                      else
+                        acc) 'Ok fields,
+        },
+    strings =
+      {
+          maxLength
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
+                else
+                  if (std.string.length (x | String)) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no larger than %{std.string.from_number
+                        limit}",
+          minLength
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
+                else
+                  if (std.string.length (x | String)) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no smaller than %{std.string.from_number
+                        limit}",
+          pattern
+            : String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]"
+            = fun
+                pattern
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
+                else
+                  if std.string.is_match pattern (x | String) then
+                    'Ok
+                  else
+                    'Err "expected a string matching the pattern `%{pattern}`",
+        },
   }
-  {  }
-  false
-  predicates.never
-])
+  in
+let rec _js2n__-refsenv
+    = {}
+    in
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.allOf
+        [
+          _js2n__-prdslib.isType 'Record,
+          _js2n__-prdslib.records.record
+            {
+              accessLog =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          addInternals = _js2n__-prdslib.isType '"Bool",
+                          bufferingSize = _js2n__-prdslib.isType 'Integer,
+                          fields =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      defaultMode =
+                                        _js2n__-prdslib.isType '"String",
+                                      headers =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  defaultMode =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  names =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {}
+                                                            {
+                                                              "[a-zA-Z0-9-_]+" =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                            } true
+                                                            _js2n__-prdslib.always
+                                                        ],
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                      names =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record {}
+                                                {
+                                                  "[a-zA-Z0-9-_]+" =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } true _js2n__-prdslib.always
+                                            ],
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          filePath = _js2n__-prdslib.isType '"String",
+                          filters =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      minDuration =
+                                        _js2n__-prdslib.isType '"String",
+                                      retryAttempts =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      statusCodes =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          format = _js2n__-prdslib.isType '"String",
+                        } {} false _js2n__-prdslib.never
+                    ],
+              api =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          dashboard = _js2n__-prdslib.isType '"Bool",
+                          debug = _js2n__-prdslib.isType '"Bool",
+                          insecure = _js2n__-prdslib.isType '"Bool",
+                        } {} false _js2n__-prdslib.never
+                    ],
+              certificatesResolvers =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "[a-zA-Z0-9-_]+" =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      acme =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  caServer =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  certificatesDuration =
+                                                    _js2n__-prdslib.isType
+                                                        'Integer,
+                                                  dnsChallenge =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              delayBeforeCheck =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              disablePropagationCheck =
+                                                                _js2n__-prdslib.isType
+                                                                    '"Bool",
+                                                              provider =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              resolvers =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        '"Array",
+                                                                      _js2n__-prdslib.arrays.arrayOf
+                                                                        (_js2n__-prdslib.isType
+                                                                          '"String")
+                                                                    ],
+                                                            } {} true
+                                                            _js2n__-prdslib.always
+                                                        ],
+                                                  eab =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              hmacEncoded =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              kid =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                            } {} true
+                                                            _js2n__-prdslib.always
+                                                        ],
+                                                  email =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  httpChallenge =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              entryPoint =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                            } {} true
+                                                            _js2n__-prdslib.always
+                                                        ],
+                                                  keyType =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  preferredChain =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  storage =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  tlsChallenge =
+                                                    _js2n__-prdslib.isType
+                                                        'Record,
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } true _js2n__-prdslib.always
+                    ],
+              entryPoints =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "[a-zA-Z0-9-_]+" =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      address =
+                                        _js2n__-prdslib.isType '"String",
+                                      forwardedHeaders =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  insecure =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  trustedIPs =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"Array",
+                                                          _js2n__-prdslib.arrays.arrayOf
+                                                            (_js2n__-prdslib.isType
+                                                              '"String")
+                                                        ],
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                      http =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  middlewares =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"Array",
+                                                          _js2n__-prdslib.arrays.arrayOf
+                                                            (_js2n__-prdslib.isType
+                                                              '"String")
+                                                        ],
+                                                  redirections =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              entryPoint =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        'Record,
+                                                                      _js2n__-prdslib.records.record
+                                                                        {
+                                                                          permanent =
+                                                                            _js2n__-prdslib.isType
+                                                                                '"Bool",
+                                                                          "priority" =
+                                                                            _js2n__-prdslib.isType
+                                                                                'Integer,
+                                                                          scheme =
+                                                                            _js2n__-prdslib.isType
+                                                                                '"String",
+                                                                          to =
+                                                                            _js2n__-prdslib.isType
+                                                                                '"String",
+                                                                        } {}
+                                                                        true
+                                                                        _js2n__-prdslib.always
+                                                                    ],
+                                                            } {} true
+                                                            _js2n__-prdslib.always
+                                                        ],
+                                                  tls =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              certResolver =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              domains =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        '"Array",
+                                                                      _js2n__-prdslib.arrays.arrayOf
+                                                                        (_js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              'Record,
+                                                                            _js2n__-prdslib.records.record
+                                                                              {
+                                                                                main =
+                                                                                  _js2n__-prdslib.isType
+                                                                                      '"String",
+                                                                                sans =
+                                                                                  _js2n__-prdslib.allOf
+                                                                                      [
+                                                                                        _js2n__-prdslib.isType
+                                                                                          '"Array",
+                                                                                        _js2n__-prdslib.arrays.arrayOf
+                                                                                          (_js2n__-prdslib.isType
+                                                                                            '"String")
+                                                                                      ],
+                                                                              }
+                                                                              {}
+                                                                              true
+                                                                              _js2n__-prdslib.always
+                                                                          ])
+                                                                    ],
+                                                              options =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                            } {} true
+                                                            _js2n__-prdslib.always
+                                                        ],
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                      http2 =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  maxConcurrentStreams =
+                                                    _js2n__-prdslib.isType
+                                                        'Integer,
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                      http3 =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  advertisedPort =
+                                                    _js2n__-prdslib.isType
+                                                        'Integer,
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                      proxyProtocol =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  insecure =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  trustedIPs =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"Array",
+                                                          _js2n__-prdslib.arrays.arrayOf
+                                                            (_js2n__-prdslib.isType
+                                                              '"String")
+                                                        ],
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                      transport =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  lifeCycle =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              graceTimeOut =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              requestAcceptGraceTimeout =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                            } {} true
+                                                            _js2n__-prdslib.always
+                                                        ],
+                                                  respondingTimeouts =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              idleTimeout =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              readTimeout =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              writeTimeout =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                            } {} true
+                                                            _js2n__-prdslib.always
+                                                        ],
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                      udp =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  timeout =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } true _js2n__-prdslib.always
+                    ],
+              experimental =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          http3 = _js2n__-prdslib.isType '"Bool",
+                          hub = _js2n__-prdslib.isType '"Bool",
+                          kubernetesGateway = _js2n__-prdslib.isType '"Bool",
+                          localPlugins =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "[a-zA-Z0-9-_]+" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  moduleName =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                    } true _js2n__-prdslib.always
+                                ],
+                          plugins =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "[a-zA-Z0-9-_]+" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  moduleName =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  version =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                    } true _js2n__-prdslib.always
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+              global =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          checkNewVersion = _js2n__-prdslib.isType '"Bool",
+                          sendAnonymousUsage = _js2n__-prdslib.isType '"Bool",
+                        } {} false _js2n__-prdslib.never
+                    ],
+              hostResolver =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          cnameFlattening = _js2n__-prdslib.isType '"Bool",
+                          resolvConfig = _js2n__-prdslib.isType '"String",
+                          resolvDepth = _js2n__-prdslib.isType 'Integer,
+                        } {} false _js2n__-prdslib.never
+                    ],
+              hub =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          tls =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      ca = _js2n__-prdslib.isType '"String",
+                                      cert = _js2n__-prdslib.isType '"String",
+                                      insecure = _js2n__-prdslib.isType '"Bool",
+                                      key = _js2n__-prdslib.isType '"String",
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+              log =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          compress = _js2n__-prdslib.isType '"Bool",
+                          filePath = _js2n__-prdslib.isType '"String",
+                          format = _js2n__-prdslib.isType '"String",
+                          level = _js2n__-prdslib.isType '"String",
+                          maxAge = _js2n__-prdslib.isType 'Integer,
+                          maxBackups = _js2n__-prdslib.isType 'Integer,
+                          maxSize = _js2n__-prdslib.isType 'Integer,
+                          noColor = _js2n__-prdslib.isType '"Bool",
+                        } {} false _js2n__-prdslib.never
+                    ],
+              metrics =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          datadog =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      addEntryPointsLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      addRoutersLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      addServicesLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      address =
+                                        _js2n__-prdslib.isType '"String",
+                                      prefix = _js2n__-prdslib.isType '"String",
+                                      pushInterval =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          influxDB =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      addEntryPointsLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      addRoutersLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      addServicesLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      additionalLabels =
+                                        _js2n__-prdslib.isType 'Record,
+                                      address =
+                                        _js2n__-prdslib.isType '"String",
+                                      database =
+                                        _js2n__-prdslib.isType '"String",
+                                      password =
+                                        _js2n__-prdslib.isType '"String",
+                                      protocol =
+                                        _js2n__-prdslib.isType '"String",
+                                      pushInterval =
+                                        _js2n__-prdslib.isType '"String",
+                                      retentionPolicy =
+                                        _js2n__-prdslib.isType '"String",
+                                      username =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          influxDB2 =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      addEntryPointsLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      addRoutersLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      addServicesLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      additionalLabels =
+                                        _js2n__-prdslib.isType 'Record,
+                                      address =
+                                        _js2n__-prdslib.isType '"String",
+                                      bucket = _js2n__-prdslib.isType '"String",
+                                      org = _js2n__-prdslib.isType '"String",
+                                      pushInterval =
+                                        _js2n__-prdslib.isType '"String",
+                                      token = _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          prometheus =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      addEntryPointsLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      addRoutersLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      addServicesLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      buckets =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"Number")
+                                            ],
+                                      entryPoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      manualRouting =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          statsD =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      addEntryPointsLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      addRoutersLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      addServicesLabels =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      address =
+                                        _js2n__-prdslib.isType '"String",
+                                      prefix = _js2n__-prdslib.isType '"String",
+                                      pushInterval =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+              pilot =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          dashboard = _js2n__-prdslib.isType '"Bool",
+                          token = _js2n__-prdslib.isType '"String",
+                        } {} false _js2n__-prdslib.never
+                    ],
+              ping =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          entryPoint = _js2n__-prdslib.isType '"String",
+                          manualRouting = _js2n__-prdslib.isType '"Bool",
+                          terminatingStatusCode =
+                            _js2n__-prdslib.isType 'Integer,
+                        } {} false _js2n__-prdslib.never
+                    ],
+              providers =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          consul =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      endpoints =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      namespace =
+                                        _js2n__-prdslib.isType '"String",
+                                      namespaces =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      rootKey =
+                                        _js2n__-prdslib.isType '"String",
+                                      tls =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  ca =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  caOptional =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  cert =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  insecureSkipVerify =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  key =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      token = _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          consulCatalog =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      cache = _js2n__-prdslib.isType '"Bool",
+                                      connectAware =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      connectByDefault =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      constraints =
+                                        _js2n__-prdslib.isType '"String",
+                                      defaultRule =
+                                        _js2n__-prdslib.isType '"String",
+                                      endpoint =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  address =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  datacenter =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  endpointWaitTime =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  httpAuth =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              password =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              username =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                            } {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                  scheme =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  tls =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              ca =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              caOptional =
+                                                                _js2n__-prdslib.isType
+                                                                    '"Bool",
+                                                              cert =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              insecureSkipVerify =
+                                                                _js2n__-prdslib.isType
+                                                                    '"Bool",
+                                                              key =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                            } {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                  token =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      exposedByDefault =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      namespace =
+                                        _js2n__-prdslib.isType '"String",
+                                      namespaces =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      prefix = _js2n__-prdslib.isType '"String",
+                                      refreshInterval =
+                                        _js2n__-prdslib.isType '"String",
+                                      requireConsistent =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      serviceName =
+                                        _js2n__-prdslib.isType '"String",
+                                      stale = _js2n__-prdslib.isType '"Bool",
+                                      watch = _js2n__-prdslib.isType '"Bool",
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          docker =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      allowEmptyServices =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      constraints =
+                                        _js2n__-prdslib.isType '"String",
+                                      defaultRule =
+                                        _js2n__-prdslib.isType '"String",
+                                      endpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      exposedByDefault =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      httpClientTimeout =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      network =
+                                        _js2n__-prdslib.isType '"String",
+                                      swarmMode =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      swarmModeRefreshSeconds =
+                                        _js2n__-prdslib.isType '"String",
+                                      tls =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  ca =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  caOptional =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  cert =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  insecureSkipVerify =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  key =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      useBindPortIP =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      watch = _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          ecs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      accessKeyID =
+                                        _js2n__-prdslib.isType '"String",
+                                      autoDiscoverClusters =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      clusters =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      constraints =
+                                        _js2n__-prdslib.isType '"String",
+                                      defaultRule =
+                                        _js2n__-prdslib.isType '"String",
+                                      ecsAnywhere =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      exposedByDefault =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      refreshSeconds =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      region = _js2n__-prdslib.isType '"String",
+                                      secretAccessKey =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          etcd =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      endpoints =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      password =
+                                        _js2n__-prdslib.isType '"String",
+                                      rootKey =
+                                        _js2n__-prdslib.isType '"String",
+                                      tls =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  ca =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  caOptional =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  cert =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  insecureSkipVerify =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  key =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      username =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          file =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      debugLogGeneratedTemplate =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      directory =
+                                        _js2n__-prdslib.isType '"String",
+                                      filename =
+                                        _js2n__-prdslib.isType '"String",
+                                      watch = _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          http =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      endpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      pollInterval =
+                                        _js2n__-prdslib.isType '"String",
+                                      pollTimeout =
+                                        _js2n__-prdslib.isType '"String",
+                                      tls =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  ca =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  caOptional =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  cert =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  insecureSkipVerify =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  key =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          kubernetesCRD =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      allowCrossNamespace =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      allowEmptyServices =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      allowExternalNameServices =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      certAuthFilePath =
+                                        _js2n__-prdslib.isType '"String",
+                                      endpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      ingressClass =
+                                        _js2n__-prdslib.isType '"String",
+                                      labelSelector =
+                                        _js2n__-prdslib.isType '"String",
+                                      namespaces =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      throttleDuration =
+                                        _js2n__-prdslib.isType '"String",
+                                      token = _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          kubernetesGateway =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      certAuthFilePath =
+                                        _js2n__-prdslib.isType '"String",
+                                      endpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      labelSelector =
+                                        _js2n__-prdslib.isType '"String",
+                                      namespaces =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      throttleDuration =
+                                        _js2n__-prdslib.isType '"String",
+                                      token = _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          kubernetesIngress =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      allowEmptyServices =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      allowExternalNameServices =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      certAuthFilePath =
+                                        _js2n__-prdslib.isType '"String",
+                                      endpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      ingressClass =
+                                        _js2n__-prdslib.isType '"String",
+                                      ingressEndpoint =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  hostname =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  ip =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  publishedService =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      labelSelector =
+                                        _js2n__-prdslib.isType '"String",
+                                      namespaces =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      throttleDuration =
+                                        _js2n__-prdslib.isType '"String",
+                                      token = _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          marathon =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      basic =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  httpBasicAuthUser =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  httpBasicPassword =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      constraints =
+                                        _js2n__-prdslib.isType '"String",
+                                      dcosToken =
+                                        _js2n__-prdslib.isType '"String",
+                                      defaultRule =
+                                        _js2n__-prdslib.isType '"String",
+                                      dialerTimeout =
+                                        _js2n__-prdslib.isType '"String",
+                                      endpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      exposedByDefault =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      forceTaskHostname =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      keepAlive =
+                                        _js2n__-prdslib.isType '"String",
+                                      respectReadinessChecks =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      responseHeaderTimeout =
+                                        _js2n__-prdslib.isType '"String",
+                                      tls =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  ca =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  caOptional =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  cert =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  insecureSkipVerify =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  key =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      tlsHandshakeTimeout =
+                                        _js2n__-prdslib.isType '"String",
+                                      trace = _js2n__-prdslib.isType '"Bool",
+                                      watch = _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          nomad =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      constraints =
+                                        _js2n__-prdslib.isType '"String",
+                                      defaultRule =
+                                        _js2n__-prdslib.isType '"String",
+                                      endpoint =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  address =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  endpointWaitTime =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  region =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  tls =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              ca =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              caOptional =
+                                                                _js2n__-prdslib.isType
+                                                                    '"Bool",
+                                                              cert =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                              insecureSkipVerify =
+                                                                _js2n__-prdslib.isType
+                                                                    '"Bool",
+                                                              key =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                            } {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                  token =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      exposedByDefault =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      namespace =
+                                        _js2n__-prdslib.isType '"String",
+                                      prefix = _js2n__-prdslib.isType '"String",
+                                      refreshInterval =
+                                        _js2n__-prdslib.isType '"String",
+                                      stale = _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          plugin =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "[a-zA-Z0-9-_]+" =
+                                        _js2n__-prdslib.isType 'Record,
+                                    } true _js2n__-prdslib.always
+                                ],
+                          providersThrottleDuration =
+                            _js2n__-prdslib.isType '"String",
+                          rancher =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      constraints =
+                                        _js2n__-prdslib.isType '"String",
+                                      defaultRule =
+                                        _js2n__-prdslib.isType '"String",
+                                      enableServiceHealthFilter =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      exposedByDefault =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      intervalPoll =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      prefix = _js2n__-prdslib.isType '"String",
+                                      refreshSeconds =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      watch = _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          redis =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      db = _js2n__-prdslib.isType 'Integer,
+                                      endpoints =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      password =
+                                        _js2n__-prdslib.isType '"String",
+                                      rootKey =
+                                        _js2n__-prdslib.isType '"String",
+                                      tls =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  ca =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  caOptional =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  cert =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  insecureSkipVerify =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  key =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      username =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          rest =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      insecure = _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          zooKeeper =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      endpoints =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      password =
+                                        _js2n__-prdslib.isType '"String",
+                                      rootKey =
+                                        _js2n__-prdslib.isType '"String",
+                                      username =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } {} true _js2n__-prdslib.always
+                    ],
+              serversTransport =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          forwardingTimeouts =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      dialTimeout =
+                                        _js2n__-prdslib.isType '"String",
+                                      idleConnTimeout =
+                                        _js2n__-prdslib.isType '"String",
+                                      responseHeaderTimeout =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          insecureSkipVerify = _js2n__-prdslib.isType '"Bool",
+                          maxIdleConnsPerHost = _js2n__-prdslib.isType 'Integer,
+                          rootCAs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+              tracing =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          datadog =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      bagagePrefixHeaderName =
+                                        _js2n__-prdslib.isType '"String",
+                                      debug = _js2n__-prdslib.isType '"Bool",
+                                      globalTag =
+                                        _js2n__-prdslib.isType '"String",
+                                      globalTags =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record {}
+                                                {
+                                                  "[a-zA-Z0-9-_]+" =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } true _js2n__-prdslib.always
+                                            ],
+                                      localAgentHostPort =
+                                        _js2n__-prdslib.isType '"String",
+                                      parentIDHeaderName =
+                                        _js2n__-prdslib.isType '"String",
+                                      prioritySampling =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      samplingPriorityHeaderName =
+                                        _js2n__-prdslib.isType '"String",
+                                      traceIDHeaderName =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          elastic =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      secretToken =
+                                        _js2n__-prdslib.isType '"String",
+                                      serverURL =
+                                        _js2n__-prdslib.isType '"String",
+                                      serviceEnvironment =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          haystack =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      baggagePrefixHeaderName =
+                                        _js2n__-prdslib.isType '"String",
+                                      globalTag =
+                                        _js2n__-prdslib.isType '"String",
+                                      localAgentHost =
+                                        _js2n__-prdslib.isType '"String",
+                                      localAgentPort =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      parentIDHeaderName =
+                                        _js2n__-prdslib.isType '"String",
+                                      spanIDHeaderName =
+                                        _js2n__-prdslib.isType '"String",
+                                      traceIDHeaderName =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          instana =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      enableAutoProfile =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      localAgentHost =
+                                        _js2n__-prdslib.isType '"String",
+                                      localAgentPort =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      logLevel =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          jaeger =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      collector =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  endpoint =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  password =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  user =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      disableAttemptReconnecting =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      gen128Bit =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      localAgentHostPort =
+                                        _js2n__-prdslib.isType '"String",
+                                      propagation =
+                                        _js2n__-prdslib.isType '"String",
+                                      samplingParam =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      samplingServerURL =
+                                        _js2n__-prdslib.isType '"String",
+                                      samplingType =
+                                        _js2n__-prdslib.isType '"String",
+                                      traceContextHeaderName =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          serviceName = _js2n__-prdslib.isType '"String",
+                          spanNameLimit = _js2n__-prdslib.isType 'Integer,
+                          zipkin =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      httpEndpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      id128Bit = _js2n__-prdslib.isType '"Bool",
+                                      sameSpan = _js2n__-prdslib.isType '"Bool",
+                                      sampleRate =
+                                        _js2n__-prdslib.isType 'Integer,
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+            } {} false _js2n__-prdslib.never
+        ])

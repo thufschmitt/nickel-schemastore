@@ -1,3081 +1,2169 @@
 # DO NOT EDIT
 # This file was automatically generated using json-schema-to-nickel
-let predicates =
-{
+let _js2n__-prdslib
+  = {
     allOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `allOf preds` succeeds if all of the predicates in `preds` succeed
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
+        `allOf preds` succeeds if all of the predicates in `preds` succeed
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
       "%
-      = fun preds x => std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if !result.success then result else acc)
-          { error = "", success = true, }
-          preds,
-    always : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "", success = true, },
+      = fun
+          preds
+          x
+          =>
+          std.array.fold_right
+            (fun pred acc => (match { 'Ok => acc, 'Err s => 'Err s, }) (pred x))
+            'Ok preds,
+    always : Dyn -> [| 'Ok, 'Err String |] = std.function.const 'Ok,
     anyOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
+        `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
       "%
-      = fun preds x => (fun result => if result.success then
-            { error = "", success = true, }
-            else
-            {
-              error = m%"
-                  anyOf: none of the options matched%{std.string.join "\n"
-                  result.errors}
-                  "%,
-              success = false,
-            })
-          (std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if result.success || acc.success then
-            { errors = [  ], success = true, }
-            else
-            {
-              errors = [
-                      m%"
-                      - %{result.error}
-                      "%
-                    ] @
-                    acc.errors,
-              success = false,
-            })
-          { errors = [  ], success = false, }
-          preds),
-    arrays = {
+      = fun
+          preds
+          x
+          =>
+          (match {
+            'Ok =>
+              'Ok,
+            'Errs
+              msgs =>
+              'Err
+                m%"
+                  anyOf: none of the options matched
+                  %{std.string.join
+                    m%"
+                      
+                      
+                    "% msgs}
+                "%,
+          })
+            (std.array.fold_right
+              (fun
+                pred
+                acc
+                =>
+                (match {
+                  'Ok =>
+                    'Ok,
+                  'Errs
+                    msgs =>
+                    (match {
+                      'Ok =>
+                        'Ok,
+                      'Err
+                        msg =>
+                        'Errs ([ "  - %{msg}" ] @ msgs),
+                    }) (pred x),
+                }) acc) ('Errs [  ]) preds),
+    arrays =
+      {
           additionalItems
-            : (Dyn -> { success: Bool, error: String }) -> Number -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]
-            "%
-            = fun pred start x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |])
+            -> Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]"
+            = fun
+                pred
+                start
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let value_length = std.array.length x in
-                if start >= value_length then
-                { error = "", success = true, }
-                else
-                (arrayOf pred ((std.array.slice start value_length x) | Dyn))),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let value_length
+                      = std.array.length x
+                      in
+                    if start >= value_length then
+                        'Ok
+                      else
+                        arrayOf pred
+                          ((std.array.slice start value_length x)
+                          | Dyn),
           arrayOf
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Apply a predicate to all elements of an array, succeeding if all
-            applications succeed. If the value isn't an array, fail.
+              Apply a predicate to all elements of an array, succeeding if all
+              applications succeed.
             "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                x),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  std.array.fold_right
+                      (fun
+                        x
+                        acc
+                        =>
+                        (match { 'Ok => acc, 'Err msg => 'Err msg, }) (pred x))
+                      'Ok x,
           contains
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]
-            "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                (fun result => if result.success then
-                  { error = "", success = true, }
-                  else
-                  {
-                    error = m%"
-                        contains: no elements matched%{std.string.join "\n"
-                        result.errors}
-                        "%,
-                    success = false,
-                  })
-                (std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if result.success || acc.success then
-                  { errors = [  ], success = true, }
-                  else
-                  {
-                    errors = [
-                            m%"
-                            - %{result.error}
-                            "%
-                          ] @
-                          acc.errors,
-                    success = false,
-                  })
-                { errors = [  ], success = false, }
-                x)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  (match {
+                      'Ok =>
+                        'Ok,
+                      'Errs
+                        msgs =>
+                        'Err
+                          m%"
+                            contains: no elements matched
+                            %{std.string.join
+                              m%"
+                                
+                                
+                              "% msgs}
+                          "%,
+                    })
+                      (std.array.fold_right
+                        (fun
+                          x
+                          acc
+                          =>
+                          (match {
+                            'Ok =>
+                              'Ok,
+                            'Errs
+                              msgs =>
+                              (match {
+                                'Ok =>
+                                  'Ok,
+                                'Err
+                                  msg =>
+                                  'Errs ([ "  - %{msg}" ] @ msgs),
+                              }) (pred x),
+                          }) acc) ('Errs [  ]) x),
           items
-            : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]
-            "%
-            = fun preds x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : Array (Dyn -> [| 'Ok, 'Err String |])
+            -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]"
+            = fun
+                preds
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let length_to_check =
-                std.number.min (std.array.length preds) (std.array.length x)
-                in
-                
-                std.array.fold_right
-                (fun i acc => let result =
-                  std.array.at i preds (std.array.at i x)
-                  in
-                  
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                (std.array.range 0 length_to_check)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let length_to_check
+                      = std.number.min (std.array.length preds)
+                        (std.array.length x)
+                      in
+                    std.array.fold_right
+                        (fun
+                          i
+                          acc
+                          =>
+                          (match { 'Err msg => 'Err msg, 'Ok => acc, })
+                            (std.array.at i preds (std.array.at i x))) 'Ok
+                        (std.array.range 0 length_to_check),
           maxItems
-            : Number -> Dyn -> { success: Bool, error: String }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
+              `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
             "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (if (std.array.length (x | Array Dyn)) > n then
-                {
-                    error = m%"
-                        array is longer than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minItems
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
-            "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
-                else
-                (if (std.array.length (x | Array Dyn)) < n then
-                {
-                    error = m%"
-                        array is shorter than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          uniqueItems
-            : Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Succeeds for any array if its elements are pairwise distinct.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
-            "%
-            = let find_duplicate 
-                : Array Dyn -> {
-                  has_duplicate: Bool,
-                  duplicate: Dyn,
-                  seen: { _ : Bool }
-                } =
-              std.array.fold_right
-                (fun elt acc => if acc.has_duplicate then acc else
-                  (let index = std.serialize 'Json elt in
-                  if std.record.has_field index acc.seen then
-                  { duplicate = elt, has_duplicate = true, seen = acc.seen, }
+                  if (std.array.length (x | Array Dyn)) > n then
+                    'Err
+                      "array is longer than %{std.string.from_number n} items"
                   else
-                  {
-                    duplicate = null,
-                    has_duplicate = false,
-                    seen = std.record.insert index true acc.seen,
-                  }))
-                { duplicate = null, has_duplicate = false, seen = {  }, }
-              in
-              
-              fun x => if !(std.is_array x) then
-                { error = "", success = true, }
+                    'Ok,
+          minItems
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let {has_duplicate  | Dyn, duplicate  | Dyn, ..} =
-                find_duplicate (x | Array Dyn)
+                  if (std.array.length (x | Array Dyn)) < n then
+                    'Err
+                      "array is shorter than %{std.string.from_number n} items"
+                  else
+                    'Ok,
+          uniqueItems
+            : Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              Succeeds for any array if its elements are pairwise distinct.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
+            "%
+            = let find_duplicate
+                : Array Dyn
+                -> {
+                  has_duplicate : Bool,
+                  duplicate : Dyn,
+                  seen : { _ : Bool }
+                }
+                = std.array.fold_right
+                  (fun
+                    elt
+                    acc
+                    =>
+                    if acc.has_duplicate then
+                      acc
+                    else
+                      let index
+                        = std.serialize 'Json elt
+                        in
+                      if std.record.has_field index acc.seen then
+                          {
+                            duplicate = elt,
+                            has_duplicate = true,
+                            seen = acc.seen,
+                          }
+                        else
+                          {
+                            duplicate = null,
+                            has_duplicate = false,
+                            seen = std.record.insert index true acc.seen,
+                          })
+                  { duplicate = null, has_duplicate = false, seen = {}, }
                 in
-                
-                if has_duplicate then
-                {
-                    error = m%"
-                        duplicate found: %{std.serialize 'Json duplicate}
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
+              fun
+                  x
+                  =>
+                  if !(std.is_array x) then
+                    'Ok
+                  else
+                    let { has_duplicate, duplicate, .. }
+                      = find_duplicate (x | Array Dyn)
+                      in
+                    if has_duplicate then
+                        'Err "duplicate found: %{std.serialize 'Json duplicate}"
+                      else
+                        'Ok,
         },
     const
-      : Dyn -> Dyn -> { success: Bool, error: String }
+      : Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `const value x` succeeds if and only if `x` is equalt to `value`
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
+        `const value x` succeeds if and only if `x` is equal to `value`
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
       "%
-      = fun value x => if x == value then { error = "", success = true, } else
-          {
-            error = m%"
-                expected %{std.serialize 'Json value}
-                "%,
-            success = false,
-          },
+      = fun
+          value
+          x
+          =>
+          if x == value then
+            'Ok
+          else
+            'Err "expected %{std.serialize 'Json value}",
     contract_from_predicate
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> Dyn -> Dyn
-      = fun predicate label value => let {success  | Dyn, error  | Dyn} =
-          predicate value
-          in
-          
-          if success then value else
-          ((std.contract.blame_with_message error label) | Dyn),
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> Dyn -> Dyn
+      = fun
+          predicate
+          label
+          value
+          =>
+          (match {
+            'Ok =>
+              value,
+            'Err
+              msg =>
+              (std.contract.blame_with_message msg label)
+              | Dyn,
+          }) (predicate value),
     enum
-      : Array Dyn -> Dyn -> { success: Bool, error: String }
+      : Array Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
+        `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
       "%
-      = let checkEqual =
-        fun input variant => (input == variant) ||
-            ((std.is_enum input) &&
-            (((std.string.from_enum input) == variant) | Bool))
-        in
-        
-        fun values x => std.array.fold_right
-          (fun value acc => if checkEqual x value then
-            { error = "", success = true, }
-            else
-            acc)
-          {
-            error = m%"
-                expected one of %{std.serialize 'Json (values | Dyn)}
-                "%,
-            success = false,
-          }
-          values,
+      = let checkEqual
+          = fun
+            input
+            variant
+            =>
+            (input == variant)
+            || ((std.is_enum input)
+            && (((std.string.from_enum input) == variant)
+            | Bool))
+          in
+        fun
+            values
+            x
+            =>
+            std.array.fold_right
+              (fun value acc => if checkEqual x value then 'Ok else acc)
+              ('Err "expected one of %{std.serialize 'Json (values | Dyn)}")
+              values,
     from_simple_predicate
-      : String -> (Dyn -> Bool) -> Dyn -> { success: Bool, error: String }
-      | doc m%"
-      Convert a simple boolean predicate into a predicate supporting error messages
-      "%
-      = fun error' pred x => { error = error', success = pred x, },
+      : String -> (Dyn -> Bool) -> Dyn -> [| 'Ok, 'Err String |]
+      | doc "Convert a simple boolean predicate into a predicate supporting error messages"
+      = fun error' pred x => if pred x then 'Ok else 'Err error',
     ifThenElse
-      : (Dyn -> { success: Bool, error: String }) -> (Dyn -> {
-        success: Bool,
-        error: String
-      }) -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
+        `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
       "%
-      = fun i t e x => let {success  | Dyn, ..} = i x in
-          if success then t x else (e x),
+      = fun i t e x => (match { 'Ok => t x, 'Err msg => e x, }) (i x),
     isType
       : [| '"Array", '"Bool", 'Integer, 'Null, '"Number", 'Record, '"String" |]
-      -> Dyn -> { success: Bool, error: String }
-      = fun t => (match {'Integer => from_simple_predicate "expected an integer"
-            (fun x => (std.is_number x) &&
-              (std.number.is_integer (x | Number))),
-            'Null => from_simple_predicate "expected `null`"
-            (fun x => x == null),
-            _ => from_simple_predicate
-            m%"
-            value is not of type %{std.string.from_enum t}
-            "%
-            (fun x => (std.typeof x) == t)
-          })
-          t,
-    never : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "never", success = false, },
+      -> Dyn -> [| 'Ok, 'Err String |]
+      = fun
+          t
+          =>
+          (match {
+            'Null =>
+              from_simple_predicate "expected `null`" (fun x => x == null),
+            'Integer =>
+              from_simple_predicate "expected an integer"
+                (fun
+                  x
+                  =>
+                  (std.is_number x) && (std.number.is_integer (x | Number))),
+            _ =>
+              from_simple_predicate
+                "value is not of type %{std.string.from_enum t}"
+                (fun x => (std.typeof x) == t),
+          }) t,
+    never : Dyn -> [| 'Ok, 'Err String |] = std.function.const ('Err "never"),
     not
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `not pred` succeeds if and only if `pred` fails
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
+        `not pred` succeeds if and only if `pred` fails
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
       "%
-      = fun pred x => let result = pred x in
-          if result.success then
-          {
-              error = "Inverted predicate succeeded unexpectedly",
-              success = false,
-            }
-          else
-          { error = "", success = true, },
-    numbers = {
+      = fun
+          pred
+          x
+          =>
+          (match {
+            'Ok =>
+              'Err "Inverted predicate succeeded unexpectedly",
+            'Err
+              msg =>
+              'Ok,
+          }) (pred x),
+    numbers =
+      {
           exclusiveMaximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) < limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive maximum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) < limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive maximum of %{std.string.from_number
+                        limit}",
           exclusiveMinimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) > limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive minimum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) > limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive minimum of %{std.string.from_number
+                        limit}",
           maximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a maximum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a maximum of %{std.string.from_number limit}",
           minimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a minimum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a minimum of %{std.string.from_number limit}",
           multipleOf
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]
-            "%
-            = fun mult x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]"
+            = fun
+                mult
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if std.number.is_integer ((x | Number) / mult) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a multiple of %{std.string.from_number mult}
-                      "%,
-                  success = false,
-                }),
+                  if std.number.is_integer ((x | Number) / mult) then
+                    'Ok
+                  else
+                    'Err
+                      "expected a multiple of %{std.string.from_number mult}",
         },
     oneOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
+        `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
       "%
-      = fun preds x => let count_true 
-            : Array { success: Bool, error: String } -> Number =
-          fun results => std.array.fold_left
-              (fun n b => if b.success then n + 1 else n)
-              0
+      = fun
+          preds
+          x
+          =>
+          let count_ok
+            : Array [| 'Ok, 'Err String |] -> Number
+            = fun
               results
-          in
-          
-          let results = std.array.map (fun pred => pred x) preds in
-          let count = count_true results in
-          if count == 0 then
-          let errors =
-            std.array.map
-              (fun result => m%"
-                - %{result.error}
-                "%)
-              results
+              =>
+              std.array.fold_left (fun n b => if b == 'Ok then n + 1 else n) 0
+                results
             in
-            
-            {
-              error = m%"
-                  oneOf: none of the options matched%{std.string.join "\n"
-                  errors}
-                  "%,
-              success = false,
-            }
-          else
-          (if count > 1 then
-          {
-              error = "oneOf: more than one of the options matched",
-              success = false,
-            }
-          else
-          { error = "", success = true, }),
-    records = {
-          dependencies
-            : { _ : Dyn } -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]
-            "%
-            = let mustHaveFields 
-                : Array String -> { _ : Dyn } -> {
-                  success: Bool,
-                  error: String
-                } =
-              fun fields x => std.array.fold_right
-                  (fun field acc => if !(std.record.has_field field x) then
-                    {
-                        error = m%"
-                            expected field `%{field}`
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc)
-                  { error = "", success = true, }
-                  fields
+          let results
+              = std.array.map (fun pred => pred x) preds
               in
-              
-              fun deps x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (let x  | { _ : Dyn } = x in
-                std.array.fold_right
-                (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                  if !(std.record.has_field field x) then acc else
-                    (let result =
-                    if std.is_array value then
-                      mustHaveFields (value | Array String) x
-                      else
-                      (let pred  | Dyn -> { success: Bool, error: String } =
-                      value
-                      in
-                      
-                      pred (x | Dyn))
+            let count
+                = count_ok results
+                in
+              if count == 0 then
+                  let errors
+                    = std.array.flat_map
+                      (fun
+                        result
+                        =>
+                        (match { 'Ok => [  ], 'Err s => [ "  - %{s}" ], })
+                          result) results
                     in
-                    
-                    if !result.success then
-                    {
-                        error = m%"
-                            dependency of `%{field}` failed: %{result.error}
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc))
-                { error = "", success = true, }
-                (std.record.to_array deps)),
-          maxProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
+                  'Err
+                      m%"
+                        oneOf: none of the options matched
+                        %{std.string.join
+                          m%"
+                            
+                            
+                          "% errors}
+                      "%
                 else
-                (if (std.record.length (x | { _ : Dyn })) > n then
-                {
-                    error = m%"
-                        record contains more than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (if (std.record.length (x | { _ : Dyn })) < n then
-                {
-                    error = m%"
-                        record contains fewer than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          propertyNames
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]
-            "%
-            = fun pred x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => let result = pred (field | Dyn) in
-                  if !result.success then
-                  {
-                      error = m%"
-                          field `%{field}` did not validate against `propertyNames` schema
-                          "%,
-                      success = false,
-                    }
+                  if count > 1 then
+                    'Err "oneOf: more than one of the options matched"
                   else
-                  acc)
-                { error = "", success = true, }
-                (std.record.fields (x | { _ : Dyn }))),
-          record
-            : { _ : Dyn -> { success: Bool, error: String } } -> { _ : Dyn -> {
-              success: Bool,
-              error: String
-            } } -> Bool -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            `record properties patternProperties additionalAllowed
-            additionalProperties x` is a combination of the `properties`,
-            `patternProperties` and `additionalProperties` validation keywords in
-            JSON schema.
-            
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
-            "%
-            =
-            fun properties patternProperties additionalAllowed additionalProperties x =>
-              if !(std.is_record x) then { error = "", success = true, } else
-                (let x  | { _ : Dyn } = x in
-                let check_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                    if !(std.record.has_field field x) then acc else
-                      (let result = value x."%{field}" in
-                      if !result.success then
-                      {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
-                      else
-                      {
-                        checked = std.record.insert field true acc.checked,
-                        error = acc.error,
-                        success = acc.success,
-                      }))
-                  { checked = {  }, error = "", success = true, }
-                  (std.record.to_array properties)
-                in
-                
-                let matching_fields  : String -> { _ : Dyn } =
-                fun pattern => let matcher = std.string.is_match pattern in
-                    std.array.fold_left
-                    (fun acc => fun {field  | Dyn, value  | Dyn} => if matcher
-                        field then
-                        std.record.insert field value acc
-                        else
-                        acc)
-                    {  }
-                    (std.record.to_array x)
-                in
-                
-                let check_pattern_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn = pattern, value  | Dyn = pred} =>
-                  fun acc => let result =
-                      std.array.fold_right
-                        (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                          let result = pred value in
-                            if !result.success then
-                            {
-                                checked : { _ : Bool }
-                                  = {  },
-                                error = m%"
-                                    field `%{field}` didn't validate: %{result.error}
-                                    "%,
-                                success = false,
-                              }
-                            else
-                            {
-                              checked = std.record.insert field true
-                                  acc.checked,
-                              error = acc.error,
-                              success = acc.success,
-                            })
-                        {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = "",
-                          success = true,
-                        }
-                        (std.record.to_array (matching_fields pattern))
-                      in
-                      
-                      if !result.success then result else
-                      {
-                        checked = std.array.fold_left
-                            (fun r field => if !(std.record.has_field field
-                              r) then
-                              std.record.insert field true r
-                              else
-                              r)
-                            acc.checked
-                            (std.record.fields result.checked),
-                        error = acc.error,
-                        success = acc.success,
-                      })
-                  { checked : { _ : Bool } = {  }, error = "", success = true, }
-                  (std.record.to_array patternProperties)
-                in
-                
-                let remaining_fields =
-                std.array.fold_left
-                  (fun acc field => if !(std.record.has_field field acc) then
-                    acc
-                    else
-                    (std.record.remove field acc))
+                    'Ok,
+    records =
+      {
+          dependencies
+            : { _ : Dyn } -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]"
+            = let mustHaveFields
+                : Array String -> { _ : Dyn } -> [| 'Ok, 'Err String |]
+                = fun
+                  fields
                   x
-                  ((std.record.fields check_properties.checked) @
-                    (std.record.fields check_pattern_properties.checked))
-                in
-                
-                let check_additional_properties 
-                  : { success: Bool, error: String } =
-                if (!additionalAllowed) &&
-                  (!(std.record.is_empty remaining_fields)) then
-                  {
-                      error = m%"
-                          extra fields %{std.serialize 'Json
-                          ((std.record.fields remaining_fields) | Dyn)}
-                          "%,
-                      success = false,
-                    }
-                  else
-                  (std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc => let result =
-                      additionalProperties value
-                      in
-                      
-                      if !result.success then
-                      {
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
+                  =>
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field x) then
+                        'Err "expected field `%{field}`"
                       else
-                      acc)
-                  { error = "", success = true, }
-                  (std.record.to_array remaining_fields))
+                        acc) 'Ok fields
                 in
-                
-                if !check_properties.success then
-                { error = check_properties.error, success = false, }
-                else
-                (if !check_pattern_properties.success then
-                { error = check_pattern_properties.error, success = false, }
-                else
-                check_additional_properties)),
-          required
-            : Array String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]
-            "%
-            = fun fields x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => if !(std.record.has_field field
-                  (x | { _ : Dyn })) then
-                  {
-                      error = m%"
-                          missing required field %{field}
-                          "%,
-                      success = false,
-                    }
+              fun
+                  deps
+                  x
+                  =>
+                  if !(std.is_record x) then
+                    'Ok
                   else
-                  acc)
-                { error = "", success = true, }
-                fields),
+                    let x
+                      | { _ : Dyn }
+                      = x
+                      in
+                    std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              let result
+                                = if std.is_array value then
+                                  mustHaveFields (value | Array String) x
+                                else
+                                  let pred
+                                    | Dyn -> [| 'Ok, 'Err String |]
+                                    = value
+                                    in
+                                  pred (x | Dyn)
+                                in
+                              (match {
+                                  'Err
+                                    msg =>
+                                    'Err
+                                      "dependency of `%{field}` failed: %{msg}",
+                                  'Ok =>
+                                    acc,
+                                }) result) 'Ok (std.record.to_array deps),
+          maxProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) > n then
+                    'Err
+                      "record contains more than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          minProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) < n then
+                    'Err
+                      "record contains fewer than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          propertyNames
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      (match {
+                        'Err
+                          msg =>
+                          'Err
+                            "field `%{field}` did not validate against `propertyNames` schema",
+                        'Ok =>
+                          acc,
+                      }) (pred (field | Dyn))) 'Ok
+                    (std.record.fields (x | { _ : Dyn })),
+          record
+            : { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> Bool
+            -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `record properties patternProperties additionalAllowed
+              additionalProperties x` is a combination of the `properties`,
+              `patternProperties` and `additionalProperties` validation keywords in
+              JSON schema.
+              
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
+            "%
+            = fun
+                properties
+                patternProperties
+                additionalAllowed
+                additionalProperties
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  let x
+                    | { _ : Dyn }
+                    = x
+                    in
+                  let check_properties
+                      : {
+                        result : [| 'Ok, 'Err String |],
+                        checked : { _ : Bool }
+                      }
+                      = std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              (match {
+                                'Err
+                                  msg =>
+                                  {
+                                    checked : { _ : Bool } = {},
+                                    result =
+                                      'Err
+                                          "field `%{field}` didn't validate: %{msg}",
+                                  },
+                                'Ok =>
+                                  {
+                                    checked =
+                                      std.record.insert field true acc.checked,
+                                    result = acc.result,
+                                  },
+                              }) (value x."%{field}"))
+                        { checked = {}, result = 'Ok, }
+                        (std.record.to_array properties)
+                      in
+                    let matching_fields
+                        : String -> { _ : Dyn }
+                        = fun
+                          pattern
+                          =>
+                          let matcher
+                            = std.string.is_match pattern
+                            in
+                          std.array.fold_left
+                              (fun
+                                acc
+                                =>
+                                fun
+                                  { field, value, }
+                                  =>
+                                  if matcher field then
+                                    std.record.insert field value acc
+                                  else
+                                    acc) {} (std.record.to_array x)
+                        in
+                      let check_pattern_properties
+                          : {
+                            result : [| 'Ok, 'Err String |],
+                            checked : { _ : Bool }
+                          }
+                          = std.array.fold_right
+                            (fun
+                              { field = pattern, value = pred, }
+                              =>
+                              fun
+                                acc
+                                =>
+                                (match {
+                                  r @ { result = 'Err msg, .. } =>
+                                    r,
+                                  { result = 'Ok, checked = ch, } =>
+                                    {
+                                      checked =
+                                        std.array.fold_left
+                                            (fun
+                                              r
+                                              field
+                                              =>
+                                              if !(std.record.has_field field
+                                                r) then
+                                                std.record.insert field true r
+                                              else
+                                                r) acc.checked
+                                            (std.record.fields ch),
+                                      result = acc.result,
+                                    },
+                                })
+                                  (std.array.fold_right
+                                    (fun
+                                      { field, value, }
+                                      =>
+                                      fun
+                                        acc
+                                        =>
+                                        (match {
+                                          'Err
+                                            msg =>
+                                            {
+                                              checked : { _ : Bool } = {},
+                                              result =
+                                                'Err
+                                                    "field `%{field}` didn't validate: %{msg}",
+                                            },
+                                          'Ok =>
+                                            {
+                                              checked =
+                                                std.record.insert field true
+                                                    acc.checked,
+                                              result = acc.result,
+                                            },
+                                        }) (pred value))
+                                    {
+                                      checked : { _ : Bool } = {},
+                                      result = 'Ok,
+                                    }
+                                    (std.record.to_array
+                                      (matching_fields pattern))))
+                            { checked : { _ : Bool } = {}, result = 'Ok, }
+                            (std.record.to_array patternProperties)
+                          in
+                        let remaining_fields
+                            = std.array.fold_left
+                              (fun
+                                acc
+                                field
+                                =>
+                                if !(std.record.has_field field acc) then
+                                  acc
+                                else
+                                  std.record.remove field acc) x
+                              ((std.record.fields check_properties.checked)
+                              @ (std.record.fields
+                                check_pattern_properties.checked))
+                            in
+                          let check_additional_properties
+                              : [| 'Ok, 'Err String |]
+                              = if (!additionalAllowed)
+                              && (!(std.record.is_empty remaining_fields)) then
+                                'Err
+                                  "extra fields %{std.serialize 'Json
+                                    ((std.record.fields remaining_fields)
+                                    | Dyn)}"
+                              else
+                                std.array.fold_right
+                                  (fun
+                                    { field, value, }
+                                    =>
+                                    fun
+                                      acc
+                                      =>
+                                      (match {
+                                        'Err
+                                          msg =>
+                                          'Err
+                                            "field `%{field}` didn't validate: %{msg}",
+                                        'Ok =>
+                                          acc,
+                                      }) (additionalProperties value)) 'Ok
+                                  (std.record.to_array remaining_fields)
+                              in
+                            (match {
+                                'Err
+                                  msg =>
+                                  check_properties.result,
+                                'Ok =>
+                                  (match {
+                                    'Err
+                                      msg =>
+                                      check_pattern_properties.result,
+                                    'Ok =>
+                                      check_additional_properties,
+                                  }) check_pattern_properties.result,
+                              }) check_properties.result,
+          required
+            : Array String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]"
+            = fun
+                fields
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field (x | { _ : Dyn })) then
+                        'Err "missing required field %{field}"
+                      else
+                        acc) 'Ok fields,
         },
-    strings = {
+    strings =
+      {
           maxLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no larger than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no larger than %{std.string.from_number
+                        limit}",
           minLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no smaller than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no smaller than %{std.string.from_number
+                        limit}",
           pattern
-            : String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]
-            "%
-            = fun pattern x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]"
+            = fun
+                pattern
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if std.string.is_match pattern (x | String) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string matching the pattern `%{pattern}`
-                      "%,
-                  success = false,
-                }),
+                  if std.string.is_match pattern (x | String) then
+                    'Ok
+                  else
+                    'Err "expected a string matching the pattern `%{pattern}`",
         },
   }
-in
-
-let rec definitions =
-{
-    contract = {
-          AWSElasticBlockStoreVolumeSource = {
-                fsType | String | optional,
-                partition | std.number.Integer | optional,
-                readOnly | Bool | optional,
-                volumeID | String | optional,
-              },
-          AddonConfig = {
-                name | String | optional,
-                version | String | optional,
-              },
-          Agent = {
-                container | String | optional,
-                dir | String | optional,
-                image | String | optional,
-                label | String | optional,
-              },
-          AzureDiskVolumeSource = {
-                cachingMode | String | optional,
-                diskName | String | optional,
-                diskURI | String | optional,
-                fsType | String | optional,
-                kind | String | optional,
-                readOnly | Bool | optional,
-              },
-          AzureFileVolumeSource = {
-                readOnly | Bool | optional,
-                secretName | String | optional,
-                shareName | String | optional,
-              },
-          CSIVolumeSource = {
-                driver | String | optional,
-                fsType | String | optional,
-                nodePublishSecretRef
-                  | definitions.contract.LocalObjectReference
-                  | optional,
-                readOnly | Bool | optional,
-                volumeAttributes
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.record {  }
-                    { ".*" = predicates.isType '"String", }
-                    true
-                    predicates.always
-                  ])
-                  | optional,
-              },
-          CephFSVolumeSource = {
-                monitors
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | optional,
-                path | String | optional,
-                readOnly | Bool | optional,
-                secretFile | String | optional,
-                secretRef
-                  | definitions.contract.LocalObjectReference
-                  | optional,
-                user | String | optional,
-              },
-          ChatConfig = {
-                developerChannel | String | optional,
-                kind | String | optional,
-                url | String | optional,
-                userChannel | String | optional,
-              },
-          CinderVolumeSource = {
-                fsType | String | optional,
-                readOnly | Bool | optional,
-                secretRef
-                  | definitions.contract.LocalObjectReference
-                  | optional,
-                volumeID | String | optional,
-              },
-          ConfigMapKeySelector = {
-                key | String | optional,
-                name | String | optional,
-                "optional" | Bool | optional,
-              },
-          ConfigMapProjection = {
-                items
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.KeyToPath
-                  ])
-                  | optional,
-                name | String | optional,
-                "optional" | Bool | optional,
-              },
-          ConfigMapVolumeSource = {
-                defaultMode | std.number.Integer | optional,
-                items
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.KeyToPath
-                  ])
-                  | optional,
-                name | String | optional,
-                "optional" | Bool | optional,
-              },
-          Container = {  .. },
-          DownwardAPIProjection = {
-                items
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    definitions.predicate.DownwardAPIVolumeFile
-                  ])
-                  | optional,
-              },
-          DownwardAPIVolumeFile = {
-                fieldRef | definitions.contract.ObjectFieldSelector | optional,
-                mode | std.number.Integer | optional,
-                path | String | optional,
-                resourceFieldRef
-                  | definitions.contract.ResourceFieldSelector
-                  | optional,
-              },
-          DownwardAPIVolumeSource = {
-                defaultMode | std.number.Integer | optional,
-                items
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    definitions.predicate.DownwardAPIVolumeFile
-                  ])
-                  | optional,
-              },
-          EmptyDirVolumeSource = {
-                medium | String | optional,
-                sizeLimit | definitions.contract.Quantity | optional,
-              },
-          EnvVar = {
-                name | String | optional,
-                value | String | optional,
-                valueFrom
-                  | predicates.contract_from_predicate
-                  definitions.predicate.EnvVarSource
-                  | optional,
-              },
-          EnvVarSource = {
-                configMapKeyRef
-                  | predicates.contract_from_predicate
-                  definitions.predicate.ConfigMapKeySelector
-                  | optional,
-                fieldRef
-                  | predicates.contract_from_predicate
-                  definitions.predicate.ObjectFieldSelector
-                  | optional,
-                resourceFieldRef
-                  | predicates.contract_from_predicate
-                  definitions.predicate.ResourceFieldSelector
-                  | optional,
-                secretKeyRef
-                  | predicates.contract_from_predicate
-                  definitions.predicate.SecretKeySelector
-                  | optional,
-              },
-          FCVolumeSource = {
-                fsType | String | optional,
-                lun | std.number.Integer | optional,
-                readOnly | Bool | optional,
-                targetWWNs
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | optional,
-                wwids
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | optional,
-              },
-          FlexVolumeSource = {
-                driver | String | optional,
-                fsType | String | optional,
-                options
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.record {  }
-                    { ".*" = predicates.isType '"String", }
-                    true
-                    predicates.always
-                  ])
-                  | optional,
-                readOnly | Bool | optional,
-                secretRef
-                  | definitions.contract.LocalObjectReference
-                  | optional,
-              },
-          FlockerVolumeSource = {
-                datasetName | String | optional,
-                datasetUUID | String | optional,
-              },
-          GCEPersistentDiskVolumeSource = {
-                fsType | String | optional,
-                partition | std.number.Integer | optional,
-                pdName | String | optional,
-                readOnly | Bool | optional,
-              },
-          GitRepoVolumeSource = {
-                directory | String | optional,
-                repository | String | optional,
-                revision | String | optional,
-              },
-          GlusterfsVolumeSource = {
-                endpoints | String | optional,
-                path | String | optional,
-                readOnly | Bool | optional,
-              },
-          HostPathVolumeSource = {
-                path | String | optional,
-                type | String | optional,
-              },
-          ISCSIVolumeSource = {
-                chapAuthDiscovery | Bool | optional,
-                chapAuthSession | Bool | optional,
-                fsType | String | optional,
-                initiatorName | String | optional,
-                iqn | String | optional,
-                iscsiInterface | String | optional,
-                lun | std.number.Integer | optional,
-                portals
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | optional,
-                readOnly | Bool | optional,
-                secretRef
-                  | predicates.contract_from_predicate
-                  definitions.predicate.LocalObjectReference
-                  | optional,
-                targetPortal | String | optional,
-              },
-          IssueTrackerConfig = {
-                kind | String | optional,
-                project | String | optional,
-                url | String | optional,
-              },
-          KeyToPath = {
-                key | String | optional,
-                mode | std.number.Integer | optional,
-                path | String | optional,
-              },
-          LocalObjectReference = { name | String | optional, },
-          Loop = {
-                steps
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Step
-                  ])
-                  | optional,
-                values
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | optional,
-                variable | String | optional,
-              },
-          NFSVolumeSource = {
-                path | String | optional,
-                readOnly | Bool | optional,
-                server | String | optional,
-              },
-          ObjectFieldSelector = {
-                apiVersion | String | optional,
-                fieldPath | String | optional,
-              },
-          ParsedPipeline = {
-                agent | definitions.contract.Agent | optional,
-                dir | String | optional,
-                env
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.EnvVar
-                  ])
-                  | optional,
-                environment
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.EnvVar
-                  ])
-                  | optional,
-                options
-                  | predicates.contract_from_predicate
-                  definitions.predicate.RootOptions
-                  | optional,
-                post
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Post
-                  ])
-                  | optional,
-                stages
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Stage
-                  ])
-                  | optional,
-              },
-          PersistentVolumeClaimVolumeSource = {
-                claimName | String | optional,
-                readOnly | Bool | optional,
-              },
-          PhotonPersistentDiskVolumeSource = {
-                fsType | String | optional,
-                pdID | String | optional,
-              },
-          PipelineConfig = {
-                agent
-                  | predicates.contract_from_predicate
-                  definitions.predicate.Agent
-                  | optional,
-                containerOptions | definitions.contract.Container | optional,
-                env
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.EnvVar
-                  ])
-                  | optional,
-                environment | String | optional,
-                extends
-                  | predicates.contract_from_predicate
-                  definitions.predicate.PipelineExtends
-                  | optional,
-                pipelines
-                  | predicates.contract_from_predicate
-                  definitions.predicate.Pipelines
-                  | optional,
-              },
-          PipelineExtends = {
-                file | String | optional,
-                "import" | String | optional,
-              },
-          PipelineLifecycle = {
-                preSteps
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Step
-                  ])
-                  | optional,
-                replace | Bool | optional,
-                steps
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Step
-                  ])
-                  | optional,
-              },
-          PipelineLifecycles = {
-                build | definitions.contract.PipelineLifecycle | optional,
-                pipeline
-                  | predicates.contract_from_predicate
-                  definitions.predicate.ParsedPipeline
-                  | optional,
-                postBuild | definitions.contract.PipelineLifecycle | optional,
-                preBuild | definitions.contract.PipelineLifecycle | optional,
-                promote | definitions.contract.PipelineLifecycle | optional,
-                setVersion | definitions.contract.PipelineLifecycle | optional,
-                setup
-                  | predicates.contract_from_predicate
-                  definitions.predicate.PipelineLifecycle
-                  | optional,
-              },
-          PipelineOverride = {
-                agent | definitions.contract.Agent | optional,
-                containerOptions | definitions.contract.Container | optional,
-                name | String | optional,
-                pipeline | String | optional,
-                sidecars
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Container
-                  ])
-                  | optional,
-                stage | String | optional,
-                step | definitions.contract.Step | optional,
-                steps
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Step
-                  ])
-                  | optional,
-                type | String | optional,
-                volumes
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Volume
-                  ])
-                  | optional,
-              },
-          Pipelines = {
-                "default" | definitions.contract.ParsedPipeline | optional,
-                feature | definitions.contract.PipelineLifecycles | optional,
-                overrides
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    definitions.predicate.PipelineOverride
-                  ])
-                  | optional,
-                post | definitions.contract.PipelineLifecycle | optional,
-                pullRequest
-                  | predicates.contract_from_predicate
-                  definitions.predicate.PipelineLifecycles
-                  | optional,
-                release | definitions.contract.PipelineLifecycles | optional,
-              },
-          PortworxVolumeSource = {
-                fsType | String | optional,
-                readOnly | Bool | optional,
-                volumeID | String | optional,
-              },
-          Post = {
-                actions
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.PostAction
-                  ])
-                  | optional,
-                condition | String | optional,
-              },
-          PostAction = {
-                name | String | optional,
-                options
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.record {  }
-                    { ".*" = predicates.isType '"String", }
-                    true
-                    predicates.always
-                  ])
-                  | optional,
-              },
-          PreviewEnvironmentConfig = {
-                disabled | Bool | optional,
-                maximumInstances | std.number.Integer | optional,
-              },
-          ProjectConfig = {
-                addons
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.AddonConfig
-                  ])
-                  | optional,
-                buildPack | String | optional,
-                buildPackGitRef | String | optional,
-                buildPackGitURL | String | optional,
-                chat
-                  | predicates.contract_from_predicate
-                  definitions.predicate.ChatConfig
-                  | optional,
-                dockerRegistryHost | String | optional,
-                dockerRegistryOwner | String | optional,
-                env
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.EnvVar
-                  ])
-                  | optional,
-                issueTracker
-                  | predicates.contract_from_predicate
-                  definitions.predicate.IssueTrackerConfig
-                  | optional,
-                noReleasePrepare | Bool | optional,
-                pipelineConfig
-                  | predicates.contract_from_predicate
-                  definitions.predicate.PipelineConfig
-                  | optional,
-                previewEnvironments
-                  | predicates.contract_from_predicate
-                  definitions.predicate.PreviewEnvironmentConfig
-                  | optional,
-                wiki
-                  | predicates.contract_from_predicate
-                  definitions.predicate.WikiConfig
-                  | optional,
-              },
-          ProjectedVolumeSource = {
-                defaultMode | std.number.Integer | optional,
-                sources
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    definitions.predicate.VolumeProjection
-                  ])
-                  | optional,
-              },
-          Quantity = {  },
-          QuobyteVolumeSource = {
-                group | String | optional,
-                readOnly | Bool | optional,
-                registry | String | optional,
-                tenant | String | optional,
-                user | String | optional,
-                volume | String | optional,
-              },
-          RBDVolumeSource = {
-                fsType | String | optional,
-                image | String | optional,
-                keyring | String | optional,
-                monitors
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | optional,
-                pool | String | optional,
-                readOnly | Bool | optional,
-                secretRef
-                  | definitions.contract.LocalObjectReference
-                  | optional,
-                user | String | optional,
-              },
-          ResourceFieldSelector = {
-                containerName | String | optional,
-                divisor
-                  | predicates.contract_from_predicate
-                  definitions.predicate.Quantity
-                  | optional,
-                resource | String | optional,
-              },
-          RootOptions = {
-                containerOptions
-                  | predicates.contract_from_predicate
-                  definitions.predicate.Container
-                  | optional,
-                distributeParallelAcrossNodes | Bool | optional,
-                podLabels
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.record {  }
-                    { ".*" = predicates.isType '"String", }
-                    true
-                    predicates.always
-                  ])
-                  | optional,
-                retry | std.number.Integer | optional,
-                sidecars
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Container
-                  ])
-                  | optional,
-                timeout
-                  | predicates.contract_from_predicate
-                  definitions.predicate.Timeout
-                  | optional,
-                tolerations
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Toleration
-                  ])
-                  | optional,
-                volumes
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Volume
-                  ])
-                  | optional,
-              },
-          ScaleIOVolumeSource = {
-                fsType | String | optional,
-                gateway | String | optional,
-                protectionDomain | String | optional,
-                readOnly | Bool | optional,
-                secretRef
-                  | definitions.contract.LocalObjectReference
-                  | optional,
-                sslEnabled | Bool | optional,
-                storageMode | String | optional,
-                storagePool | String | optional,
-                system | String | optional,
-                volumeName | String | optional,
-              },
-          SecretKeySelector = {
-                key | String | optional,
-                name | String | optional,
-                "optional" | Bool | optional,
-              },
-          SecretProjection = {
-                items
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.KeyToPath
-                  ])
-                  | optional,
-                name | String | optional,
-                "optional" | Bool | optional,
-              },
-          SecretVolumeSource = {
-                defaultMode | std.number.Integer | optional,
-                items
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.KeyToPath
-                  ])
-                  | optional,
-                "optional" | Bool | optional,
-                secretName | String | optional,
-              },
-          ServiceAccountTokenProjection = {
-                audience | String | optional,
-                expirationSeconds | std.number.Integer | optional,
-                path | String | optional,
-              },
-          Stage = {
-                agent | definitions.contract.Agent | optional,
-                dir | String | optional,
-                env
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.EnvVar
-                  ])
-                  | optional,
-                environment
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.EnvVar
-                  ])
-                  | optional,
-                name | String | optional,
-                options
-                  | predicates.contract_from_predicate
-                  definitions.predicate.StageOptions
-                  | optional,
-                parallel
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Stage
-                  ])
-                  | optional,
-                post
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Post
-                  ])
-                  | optional,
-                stages
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Stage
-                  ])
-                  | optional,
-                steps
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Step
-                  ])
-                  | optional,
-              },
-          StageOptions = {
-                containerOptions | definitions.contract.Container | optional,
-                distributeParallelAcrossNodes | Bool | optional,
-                podLabels
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.record {  }
-                    { ".*" = predicates.isType '"String", }
-                    true
-                    predicates.always
-                  ])
-                  | optional,
-                retry | std.number.Integer | optional,
-                sidecars
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Container
-                  ])
-                  | optional,
-                stash
-                  | predicates.contract_from_predicate
-                  definitions.predicate.Stash
-                  | optional,
-                timeout | definitions.contract.Timeout | optional,
-                tolerations
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Toleration
-                  ])
-                  | optional,
-                unstash
-                  | predicates.contract_from_predicate
-                  definitions.predicate.Unstash
-                  | optional,
-                volumes
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Volume
-                  ])
-                  | optional,
-                workspace | String | optional,
-              },
-          Stash = { files | String | optional, name | String | optional, },
-          Step = {
-                agent | definitions.contract.Agent | optional,
-                args
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | optional,
-                command | String | optional,
-                comment | String | optional,
-                container | String | optional,
-                dir | String | optional,
-                env
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.EnvVar
-                  ])
-                  | optional,
-                groovy | String | optional,
-                image | String | optional,
-                loop
-                  | predicates.contract_from_predicate
-                  definitions.predicate.Loop
-                  | optional,
-                name | String | optional,
-                options
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.record {  }
-                    { ".*" = predicates.isType '"String", }
-                    true
-                    predicates.always
-                  ])
-                  | optional,
-                sh | String | optional,
-                step | String | optional,
-                steps
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Step
-                  ])
-                  | optional,
-                when | String | optional,
-              },
-          StorageOSVolumeSource = {
-                fsType | String | optional,
-                readOnly | Bool | optional,
-                secretRef
-                  | definitions.contract.LocalObjectReference
-                  | optional,
-                volumeName | String | optional,
-                volumeNamespace | String | optional,
-              },
-          Timeout = {
-                time | std.number.Integer | optional,
-                unit | String | optional,
-              },
-          Toleration = {
-                effect | String | optional,
-                key | String | optional,
-                operator | String | optional,
-                tolerationSeconds | std.number.Integer | optional,
-                value | String | optional,
-              },
-          Unstash = { dir | String | optional, name | String | optional, },
-          Volume = {
-                awsElasticBlockStore
-                  | predicates.contract_from_predicate
-                  definitions.predicate.AWSElasticBlockStoreVolumeSource
-                  | optional,
-                azureDisk
-                  | predicates.contract_from_predicate
-                  definitions.predicate.AzureDiskVolumeSource
-                  | optional,
-                azureFile
-                  | predicates.contract_from_predicate
-                  definitions.predicate.AzureFileVolumeSource
-                  | optional,
-                cephfs
-                  | predicates.contract_from_predicate
-                  definitions.predicate.CephFSVolumeSource
-                  | optional,
-                cinder
-                  | predicates.contract_from_predicate
-                  definitions.predicate.CinderVolumeSource
-                  | optional,
-                configMap
-                  | predicates.contract_from_predicate
-                  definitions.predicate.ConfigMapVolumeSource
-                  | optional,
-                csi
-                  | predicates.contract_from_predicate
-                  definitions.predicate.CSIVolumeSource
-                  | optional,
-                downwardAPI
-                  | predicates.contract_from_predicate
-                  definitions.predicate.DownwardAPIVolumeSource
-                  | optional,
-                emptyDir
-                  | predicates.contract_from_predicate
-                  definitions.predicate.EmptyDirVolumeSource
-                  | optional,
-                fc
-                  | predicates.contract_from_predicate
-                  definitions.predicate.FCVolumeSource
-                  | optional,
-                flexVolume
-                  | predicates.contract_from_predicate
-                  definitions.predicate.FlexVolumeSource
-                  | optional,
-                flocker
-                  | predicates.contract_from_predicate
-                  definitions.predicate.FlockerVolumeSource
-                  | optional,
-                gcePersistentDisk
-                  | predicates.contract_from_predicate
-                  definitions.predicate.GCEPersistentDiskVolumeSource
-                  | optional,
-                gitRepo
-                  | predicates.contract_from_predicate
-                  definitions.predicate.GitRepoVolumeSource
-                  | optional,
-                glusterfs
-                  | predicates.contract_from_predicate
-                  definitions.predicate.GlusterfsVolumeSource
-                  | optional,
-                hostPath
-                  | predicates.contract_from_predicate
-                  definitions.predicate.HostPathVolumeSource
-                  | optional,
-                iscsi
-                  | predicates.contract_from_predicate
-                  definitions.predicate.ISCSIVolumeSource
-                  | optional,
-                name | String | optional,
-                nfs
-                  | predicates.contract_from_predicate
-                  definitions.predicate.NFSVolumeSource
-                  | optional,
-                persistentVolumeClaim
-                  | predicates.contract_from_predicate
-                  definitions.predicate.PersistentVolumeClaimVolumeSource
-                  | optional,
-                photonPersistentDisk
-                  | predicates.contract_from_predicate
-                  definitions.predicate.PhotonPersistentDiskVolumeSource
-                  | optional,
-                portworxVolume
-                  | predicates.contract_from_predicate
-                  definitions.predicate.PortworxVolumeSource
-                  | optional,
-                projected
-                  | predicates.contract_from_predicate
-                  definitions.predicate.ProjectedVolumeSource
-                  | optional,
-                quobyte
-                  | predicates.contract_from_predicate
-                  definitions.predicate.QuobyteVolumeSource
-                  | optional,
-                rbd
-                  | predicates.contract_from_predicate
-                  definitions.predicate.RBDVolumeSource
-                  | optional,
-                scaleIO
-                  | predicates.contract_from_predicate
-                  definitions.predicate.ScaleIOVolumeSource
-                  | optional,
-                secret
-                  | predicates.contract_from_predicate
-                  definitions.predicate.SecretVolumeSource
-                  | optional,
-                storageos
-                  | predicates.contract_from_predicate
-                  definitions.predicate.StorageOSVolumeSource
-                  | optional,
-                vsphereVolume
-                  | predicates.contract_from_predicate
-                  definitions.predicate.VsphereVirtualDiskVolumeSource
-                  | optional,
-              },
-          VolumeProjection = {
-                configMap
-                  | predicates.contract_from_predicate
-                  definitions.predicate.ConfigMapProjection
-                  | optional,
-                downwardAPI
-                  | predicates.contract_from_predicate
-                  definitions.predicate.DownwardAPIProjection
-                  | optional,
-                secret
-                  | predicates.contract_from_predicate
-                  definitions.predicate.SecretProjection
-                  | optional,
-                serviceAccountToken
-                  | predicates.contract_from_predicate
-                  definitions.predicate.ServiceAccountTokenProjection
-                  | optional,
-              },
-          VsphereVirtualDiskVolumeSource = {
-                fsType | String | optional,
-                storagePolicyID | String | optional,
-                storagePolicyName | String | optional,
-                volumePath | String | optional,
-              },
-          WikiConfig = {
-                kind | String | optional,
-                space | String | optional,
-                url | String | optional,
-              },
-        },
-    predicate = {
-          AWSElasticBlockStoreVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+  in
+let rec _js2n__-refsenv
+    = {
+      "_js2n__-:definitions/AWSElasticBlockStoreVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  fsType = predicates.isType '"String",
-                  partition = predicates.isType 'Integer,
-                  readOnly = predicates.isType '"Bool",
-                  volumeID = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          AddonConfig = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  fsType = _js2n__-prdslib.isType '"String",
+                  partition = _js2n__-prdslib.isType 'Integer,
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  volumeID = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/AddonConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  name = predicates.isType '"String",
-                  version = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Agent = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  name = _js2n__-prdslib.isType '"String",
+                  version = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Agent!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  container = predicates.isType '"String",
-                  dir = predicates.isType '"String",
-                  image = predicates.isType '"String",
-                  label = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          AzureDiskVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  container = _js2n__-prdslib.isType '"String",
+                  dir = _js2n__-prdslib.isType '"String",
+                  image = _js2n__-prdslib.isType '"String",
+                  label = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/AzureDiskVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  cachingMode = predicates.isType '"String",
-                  diskName = predicates.isType '"String",
-                  diskURI = predicates.isType '"String",
-                  fsType = predicates.isType '"String",
-                  kind = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          AzureFileVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  cachingMode = _js2n__-prdslib.isType '"String",
+                  diskName = _js2n__-prdslib.isType '"String",
+                  diskURI = _js2n__-prdslib.isType '"String",
+                  fsType = _js2n__-prdslib.isType '"String",
+                  kind = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/AzureFileVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  readOnly = predicates.isType '"Bool",
-                  secretName = predicates.isType '"String",
-                  shareName = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          CSIVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  secretName = _js2n__-prdslib.isType '"String",
+                  shareName = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/CSIVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  driver = predicates.isType '"String",
-                  fsType = predicates.isType '"String",
+                  driver = _js2n__-prdslib.isType '"String",
+                  fsType = _js2n__-prdslib.isType '"String",
                   nodePublishSecretRef =
-                    definitions.predicate.LocalObjectReference,
-                  readOnly = predicates.isType '"Bool",
-                  volumeAttributes = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        { ".*" = predicates.isType '"String", }
-                        true
-                        predicates.always
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          CephFSVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                    _js2n__-refsenv."_js2n__-:definitions/LocalObjectReference!predicate",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  volumeAttributes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            { ".*" = _js2n__-prdslib.isType '"String", } true
+                            _js2n__-prdslib.always
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/CephFSVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  monitors = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  path = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                  secretFile = predicates.isType '"String",
-                  secretRef = definitions.predicate.LocalObjectReference,
-                  user = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ChatConfig = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  monitors =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  path = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  secretFile = _js2n__-prdslib.isType '"String",
+                  secretRef =
+                    _js2n__-refsenv."_js2n__-:definitions/LocalObjectReference!predicate",
+                  user = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ChatConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  developerChannel = predicates.isType '"String",
-                  kind = predicates.isType '"String",
-                  url = predicates.isType '"String",
-                  userChannel = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          CinderVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  developerChannel = _js2n__-prdslib.isType '"String",
+                  kind = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                  userChannel = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/CinderVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  fsType = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                  secretRef = definitions.predicate.LocalObjectReference,
-                  volumeID = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ConfigMapKeySelector = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  fsType = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  secretRef =
+                    _js2n__-refsenv."_js2n__-:definitions/LocalObjectReference!predicate",
+                  volumeID = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ConfigMapKeySelector!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  key = predicates.isType '"String",
-                  name = predicates.isType '"String",
-                  "optional" = predicates.isType '"Bool",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ConfigMapProjection = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  key = _js2n__-prdslib.isType '"String",
+                  name = _js2n__-prdslib.isType '"String",
+                  "optional" = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ConfigMapProjection!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  items = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.KeyToPath
-                      ],
-                  name = predicates.isType '"String",
-                  "optional" = predicates.isType '"Bool",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ConfigMapVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  items =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/KeyToPath!predicate"
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  "optional" = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ConfigMapVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  defaultMode = predicates.isType 'Integer,
-                  items = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.KeyToPath
-                      ],
-                  name = predicates.isType '"String",
-                  "optional" = predicates.isType '"Bool",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Container = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record {  } {  } true predicates.always
-              ],
-          DownwardAPIProjection = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  defaultMode = _js2n__-prdslib.isType 'Integer,
+                  items =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/KeyToPath!predicate"
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  "optional" = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Container!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/DownwardAPIProjection!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  items = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.DownwardAPIVolumeFile
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          DownwardAPIVolumeFile = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  items =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/DownwardAPIVolumeFile!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DownwardAPIVolumeFile!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  fieldRef = definitions.predicate.ObjectFieldSelector,
-                  mode = predicates.isType 'Integer,
-                  path = predicates.isType '"String",
+                  fieldRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ObjectFieldSelector!predicate",
+                  mode = _js2n__-prdslib.isType 'Integer,
+                  path = _js2n__-prdslib.isType '"String",
                   resourceFieldRef =
-                    definitions.predicate.ResourceFieldSelector,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          DownwardAPIVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                    _js2n__-refsenv."_js2n__-:definitions/ResourceFieldSelector!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DownwardAPIVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  defaultMode = predicates.isType 'Integer,
-                  items = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.DownwardAPIVolumeFile
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          EmptyDirVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  defaultMode = _js2n__-prdslib.isType 'Integer,
+                  items =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/DownwardAPIVolumeFile!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/EmptyDirVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  medium = predicates.isType '"String",
-                  sizeLimit = definitions.predicate.Quantity,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          EnvVar = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  medium = _js2n__-prdslib.isType '"String",
+                  sizeLimit =
+                    _js2n__-refsenv."_js2n__-:definitions/Quantity!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/EnvVar!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  name = predicates.isType '"String",
-                  value = predicates.isType '"String",
-                  valueFrom = definitions.predicate.EnvVarSource,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          EnvVarSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  name = _js2n__-prdslib.isType '"String",
+                  value = _js2n__-prdslib.isType '"String",
+                  valueFrom =
+                    _js2n__-refsenv."_js2n__-:definitions/EnvVarSource!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/EnvVarSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  configMapKeyRef = definitions.predicate.ConfigMapKeySelector,
-                  fieldRef = definitions.predicate.ObjectFieldSelector,
+                  configMapKeyRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConfigMapKeySelector!predicate",
+                  fieldRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ObjectFieldSelector!predicate",
                   resourceFieldRef =
-                    definitions.predicate.ResourceFieldSelector,
-                  secretKeyRef = definitions.predicate.SecretKeySelector,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          FCVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                    _js2n__-refsenv."_js2n__-:definitions/ResourceFieldSelector!predicate",
+                  secretKeyRef =
+                    _js2n__-refsenv."_js2n__-:definitions/SecretKeySelector!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/FCVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  fsType = predicates.isType '"String",
-                  lun = predicates.isType 'Integer,
-                  readOnly = predicates.isType '"Bool",
-                  targetWWNs = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  wwids = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          FlexVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  fsType = _js2n__-prdslib.isType '"String",
+                  lun = _js2n__-prdslib.isType 'Integer,
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  targetWWNs =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  wwids =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/FlexVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  driver = predicates.isType '"String",
-                  fsType = predicates.isType '"String",
-                  options = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        { ".*" = predicates.isType '"String", }
-                        true
-                        predicates.always
-                      ],
-                  readOnly = predicates.isType '"Bool",
-                  secretRef = definitions.predicate.LocalObjectReference,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          FlockerVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  driver = _js2n__-prdslib.isType '"String",
+                  fsType = _js2n__-prdslib.isType '"String",
+                  options =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            { ".*" = _js2n__-prdslib.isType '"String", } true
+                            _js2n__-prdslib.always
+                        ],
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  secretRef =
+                    _js2n__-refsenv."_js2n__-:definitions/LocalObjectReference!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/FlockerVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  datasetName = predicates.isType '"String",
-                  datasetUUID = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          GCEPersistentDiskVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  datasetName = _js2n__-prdslib.isType '"String",
+                  datasetUUID = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/GCEPersistentDiskVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  fsType = predicates.isType '"String",
-                  partition = predicates.isType 'Integer,
-                  pdName = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          GitRepoVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  fsType = _js2n__-prdslib.isType '"String",
+                  partition = _js2n__-prdslib.isType 'Integer,
+                  pdName = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/GitRepoVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  directory = predicates.isType '"String",
-                  repository = predicates.isType '"String",
-                  revision = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          GlusterfsVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  directory = _js2n__-prdslib.isType '"String",
+                  repository = _js2n__-prdslib.isType '"String",
+                  revision = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/GlusterfsVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  endpoints = predicates.isType '"String",
-                  path = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          HostPathVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  endpoints = _js2n__-prdslib.isType '"String",
+                  path = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/HostPathVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  path = predicates.isType '"String",
-                  type = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ISCSIVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  path = _js2n__-prdslib.isType '"String",
+                  type = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ISCSIVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  chapAuthDiscovery = predicates.isType '"Bool",
-                  chapAuthSession = predicates.isType '"Bool",
-                  fsType = predicates.isType '"String",
-                  initiatorName = predicates.isType '"String",
-                  iqn = predicates.isType '"String",
-                  iscsiInterface = predicates.isType '"String",
-                  lun = predicates.isType 'Integer,
-                  portals = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  readOnly = predicates.isType '"Bool",
-                  secretRef = definitions.predicate.LocalObjectReference,
-                  targetPortal = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          IssueTrackerConfig = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  chapAuthDiscovery = _js2n__-prdslib.isType '"Bool",
+                  chapAuthSession = _js2n__-prdslib.isType '"Bool",
+                  fsType = _js2n__-prdslib.isType '"String",
+                  initiatorName = _js2n__-prdslib.isType '"String",
+                  iqn = _js2n__-prdslib.isType '"String",
+                  iscsiInterface = _js2n__-prdslib.isType '"String",
+                  lun = _js2n__-prdslib.isType 'Integer,
+                  portals =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  secretRef =
+                    _js2n__-refsenv."_js2n__-:definitions/LocalObjectReference!predicate",
+                  targetPortal = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/IssueTrackerConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  kind = predicates.isType '"String",
-                  project = predicates.isType '"String",
-                  url = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          KeyToPath = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  kind = _js2n__-prdslib.isType '"String",
+                  project = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/KeyToPath!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  key = predicates.isType '"String",
-                  mode = predicates.isType 'Integer,
-                  path = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          LocalObjectReference = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                { name = predicates.isType '"String", }
-                {  }
-                false
-                predicates.never
-              ],
-          Loop = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  key = _js2n__-prdslib.isType '"String",
+                  mode = _js2n__-prdslib.isType 'Integer,
+                  path = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LocalObjectReference!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { name = _js2n__-prdslib.isType '"String", } {} false
+                _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Loop!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  steps = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Step
-                      ],
-                  values = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  variable = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          NFSVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  steps =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Step!predicate"
+                        ],
+                  values =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  variable = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/NFSVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  path = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                  server = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ObjectFieldSelector = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  path = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  server = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ObjectFieldSelector!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  apiVersion = predicates.isType '"String",
-                  fieldPath = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ParsedPipeline = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  apiVersion = _js2n__-prdslib.isType '"String",
+                  fieldPath = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ParsedPipeline!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  agent = definitions.predicate.Agent,
-                  dir = predicates.isType '"String",
-                  env = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.EnvVar
-                      ],
-                  environment = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.EnvVar
-                      ],
-                  options = definitions.predicate.RootOptions,
-                  post = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Post
-                      ],
-                  stages = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Stage
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          PersistentVolumeClaimVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  agent =
+                    _js2n__-refsenv."_js2n__-:definitions/Agent!predicate",
+                  dir = _js2n__-prdslib.isType '"String",
+                  env =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/EnvVar!predicate"
+                        ],
+                  environment =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/EnvVar!predicate"
+                        ],
+                  options =
+                    _js2n__-refsenv."_js2n__-:definitions/RootOptions!predicate",
+                  post =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Post!predicate"
+                        ],
+                  stages =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Stage!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PersistentVolumeClaimVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  claimName = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          PhotonPersistentDiskVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  claimName = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PhotonPersistentDiskVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  fsType = predicates.isType '"String",
-                  pdID = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          PipelineConfig = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  fsType = _js2n__-prdslib.isType '"String",
+                  pdID = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PipelineConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  agent = definitions.predicate.Agent,
-                  containerOptions = definitions.predicate.Container,
-                  env = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.EnvVar
-                      ],
-                  environment = predicates.isType '"String",
-                  extends = definitions.predicate.PipelineExtends,
-                  pipelines = definitions.predicate.Pipelines,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          PipelineExtends = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  agent =
+                    _js2n__-refsenv."_js2n__-:definitions/Agent!predicate",
+                  containerOptions =
+                    _js2n__-refsenv."_js2n__-:definitions/Container!predicate",
+                  env =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/EnvVar!predicate"
+                        ],
+                  environment = _js2n__-prdslib.isType '"String",
+                  extends =
+                    _js2n__-refsenv."_js2n__-:definitions/PipelineExtends!predicate",
+                  pipelines =
+                    _js2n__-refsenv."_js2n__-:definitions/Pipelines!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PipelineExtends!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  file = predicates.isType '"String",
-                  "import" = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          PipelineLifecycle = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  file = _js2n__-prdslib.isType '"String",
+                  "import" = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PipelineLifecycle!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  preSteps = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Step
-                      ],
-                  replace = predicates.isType '"Bool",
-                  steps = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Step
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          PipelineLifecycles = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  preSteps =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Step!predicate"
+                        ],
+                  replace = _js2n__-prdslib.isType '"Bool",
+                  steps =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Step!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PipelineLifecycles!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  build = definitions.predicate.PipelineLifecycle,
-                  pipeline = definitions.predicate.ParsedPipeline,
-                  postBuild = definitions.predicate.PipelineLifecycle,
-                  preBuild = definitions.predicate.PipelineLifecycle,
-                  promote = definitions.predicate.PipelineLifecycle,
-                  setVersion = definitions.predicate.PipelineLifecycle,
-                  setup = definitions.predicate.PipelineLifecycle,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          PipelineOverride = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  build =
+                    _js2n__-refsenv."_js2n__-:definitions/PipelineLifecycle!predicate",
+                  pipeline =
+                    _js2n__-refsenv."_js2n__-:definitions/ParsedPipeline!predicate",
+                  postBuild =
+                    _js2n__-refsenv."_js2n__-:definitions/PipelineLifecycle!predicate",
+                  preBuild =
+                    _js2n__-refsenv."_js2n__-:definitions/PipelineLifecycle!predicate",
+                  promote =
+                    _js2n__-refsenv."_js2n__-:definitions/PipelineLifecycle!predicate",
+                  setVersion =
+                    _js2n__-refsenv."_js2n__-:definitions/PipelineLifecycle!predicate",
+                  setup =
+                    _js2n__-refsenv."_js2n__-:definitions/PipelineLifecycle!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PipelineOverride!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  agent = definitions.predicate.Agent,
-                  containerOptions = definitions.predicate.Container,
-                  name = predicates.isType '"String",
-                  pipeline = predicates.isType '"String",
-                  sidecars = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.Container
-                      ],
-                  stage = predicates.isType '"String",
-                  step = definitions.predicate.Step,
-                  steps = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Step
-                      ],
-                  type = predicates.isType '"String",
-                  volumes = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Volume
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Pipelines = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  agent =
+                    _js2n__-refsenv."_js2n__-:definitions/Agent!predicate",
+                  containerOptions =
+                    _js2n__-refsenv."_js2n__-:definitions/Container!predicate",
+                  name = _js2n__-prdslib.isType '"String",
+                  pipeline = _js2n__-prdslib.isType '"String",
+                  sidecars =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Container!predicate"
+                        ],
+                  stage = _js2n__-prdslib.isType '"String",
+                  step = _js2n__-refsenv."_js2n__-:definitions/Step!predicate",
+                  steps =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Step!predicate"
+                        ],
+                  type = _js2n__-prdslib.isType '"String",
+                  volumes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Volume!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Pipelines!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  "default" = definitions.predicate.ParsedPipeline,
-                  feature = definitions.predicate.PipelineLifecycles,
-                  overrides = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.PipelineOverride
-                      ],
-                  post = definitions.predicate.PipelineLifecycle,
-                  pullRequest = definitions.predicate.PipelineLifecycles,
-                  release = definitions.predicate.PipelineLifecycles,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          PortworxVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  "default" =
+                    _js2n__-refsenv."_js2n__-:definitions/ParsedPipeline!predicate",
+                  feature =
+                    _js2n__-refsenv."_js2n__-:definitions/PipelineLifecycles!predicate",
+                  overrides =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/PipelineOverride!predicate"
+                        ],
+                  post =
+                    _js2n__-refsenv."_js2n__-:definitions/PipelineLifecycle!predicate",
+                  pullRequest =
+                    _js2n__-refsenv."_js2n__-:definitions/PipelineLifecycles!predicate",
+                  release =
+                    _js2n__-refsenv."_js2n__-:definitions/PipelineLifecycles!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PortworxVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  fsType = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                  volumeID = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Post = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  fsType = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  volumeID = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Post!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  actions = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.PostAction
-                      ],
-                  condition = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          PostAction = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  actions =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/PostAction!predicate"
+                        ],
+                  condition = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PostAction!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  name = predicates.isType '"String",
-                  options = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        { ".*" = predicates.isType '"String", }
-                        true
-                        predicates.always
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          PreviewEnvironmentConfig = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  name = _js2n__-prdslib.isType '"String",
+                  options =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            { ".*" = _js2n__-prdslib.isType '"String", } true
+                            _js2n__-prdslib.always
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PreviewEnvironmentConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  disabled = predicates.isType '"Bool",
-                  maximumInstances = predicates.isType 'Integer,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ProjectConfig = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  disabled = _js2n__-prdslib.isType '"Bool",
+                  maximumInstances = _js2n__-prdslib.isType 'Integer,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ProjectConfig!contract" =
+        {
+            addons
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  _js2n__-refsenv."_js2n__-:definitions/AddonConfig!predicate"
+              )
+              | optional,
+            buildPack | String | optional,
+            buildPackGitRef | String | optional,
+            buildPackGitURL | String | optional,
+            chat
+              | _js2n__-prdslib.contract_from_predicate
+                _js2n__-refsenv."_js2n__-:definitions/ChatConfig!predicate"
+              | optional,
+            dockerRegistryHost | String | optional,
+            dockerRegistryOwner | String | optional,
+            env
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  _js2n__-refsenv."_js2n__-:definitions/EnvVar!predicate"
+              )
+              | optional,
+            issueTracker
+              | _js2n__-prdslib.contract_from_predicate
+                _js2n__-refsenv."_js2n__-:definitions/IssueTrackerConfig!predicate"
+              | optional,
+            noReleasePrepare | Bool | optional,
+            pipelineConfig
+              | _js2n__-prdslib.contract_from_predicate
+                _js2n__-refsenv."_js2n__-:definitions/PipelineConfig!predicate"
+              | optional,
+            previewEnvironments
+              | _js2n__-prdslib.contract_from_predicate
+                _js2n__-refsenv."_js2n__-:definitions/PreviewEnvironmentConfig!predicate"
+              | optional,
+            wiki
+              | _js2n__-prdslib.contract_from_predicate
+                _js2n__-refsenv."_js2n__-:definitions/WikiConfig!predicate"
+              | optional,
+          },
+      "_js2n__-:definitions/ProjectedVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  addons = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.AddonConfig
-                      ],
-                  buildPack = predicates.isType '"String",
-                  buildPackGitRef = predicates.isType '"String",
-                  buildPackGitURL = predicates.isType '"String",
-                  chat = definitions.predicate.ChatConfig,
-                  dockerRegistryHost = predicates.isType '"String",
-                  dockerRegistryOwner = predicates.isType '"String",
-                  env = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.EnvVar
-                      ],
-                  issueTracker = definitions.predicate.IssueTrackerConfig,
-                  noReleasePrepare = predicates.isType '"Bool",
-                  pipelineConfig = definitions.predicate.PipelineConfig,
-                  previewEnvironments =
-                    definitions.predicate.PreviewEnvironmentConfig,
-                  wiki = definitions.predicate.WikiConfig,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ProjectedVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  defaultMode = _js2n__-prdslib.isType 'Integer,
+                  sources =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/VolumeProjection!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Quantity!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/QuobyteVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  defaultMode = predicates.isType 'Integer,
-                  sources = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.VolumeProjection
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Quantity = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record {  } {  } false predicates.never
-              ],
-          QuobyteVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  group = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  registry = _js2n__-prdslib.isType '"String",
+                  tenant = _js2n__-prdslib.isType '"String",
+                  user = _js2n__-prdslib.isType '"String",
+                  volume = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/RBDVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  group = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                  registry = predicates.isType '"String",
-                  tenant = predicates.isType '"String",
-                  user = predicates.isType '"String",
-                  volume = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          RBDVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  fsType = _js2n__-prdslib.isType '"String",
+                  image = _js2n__-prdslib.isType '"String",
+                  keyring = _js2n__-prdslib.isType '"String",
+                  monitors =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  pool = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  secretRef =
+                    _js2n__-refsenv."_js2n__-:definitions/LocalObjectReference!predicate",
+                  user = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ResourceFieldSelector!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  fsType = predicates.isType '"String",
-                  image = predicates.isType '"String",
-                  keyring = predicates.isType '"String",
-                  monitors = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  pool = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                  secretRef = definitions.predicate.LocalObjectReference,
-                  user = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ResourceFieldSelector = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  containerName = _js2n__-prdslib.isType '"String",
+                  divisor =
+                    _js2n__-refsenv."_js2n__-:definitions/Quantity!predicate",
+                  resource = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/RootOptions!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  containerName = predicates.isType '"String",
-                  divisor = definitions.predicate.Quantity,
-                  resource = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          RootOptions = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  containerOptions =
+                    _js2n__-refsenv."_js2n__-:definitions/Container!predicate",
+                  distributeParallelAcrossNodes =
+                    _js2n__-prdslib.isType '"Bool",
+                  podLabels =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            { ".*" = _js2n__-prdslib.isType '"String", } true
+                            _js2n__-prdslib.always
+                        ],
+                  retry = _js2n__-prdslib.isType 'Integer,
+                  sidecars =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Container!predicate"
+                        ],
+                  timeout =
+                    _js2n__-refsenv."_js2n__-:definitions/Timeout!predicate",
+                  tolerations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Toleration!predicate"
+                        ],
+                  volumes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Volume!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ScaleIOVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  containerOptions = definitions.predicate.Container,
-                  distributeParallelAcrossNodes = predicates.isType '"Bool",
-                  podLabels = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        { ".*" = predicates.isType '"String", }
-                        true
-                        predicates.always
-                      ],
-                  retry = predicates.isType 'Integer,
-                  sidecars = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.Container
-                      ],
-                  timeout = definitions.predicate.Timeout,
-                  tolerations = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.Toleration
-                      ],
-                  volumes = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Volume
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ScaleIOVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  fsType = _js2n__-prdslib.isType '"String",
+                  gateway = _js2n__-prdslib.isType '"String",
+                  protectionDomain = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  secretRef =
+                    _js2n__-refsenv."_js2n__-:definitions/LocalObjectReference!predicate",
+                  sslEnabled = _js2n__-prdslib.isType '"Bool",
+                  storageMode = _js2n__-prdslib.isType '"String",
+                  storagePool = _js2n__-prdslib.isType '"String",
+                  system = _js2n__-prdslib.isType '"String",
+                  volumeName = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SecretKeySelector!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  fsType = predicates.isType '"String",
-                  gateway = predicates.isType '"String",
-                  protectionDomain = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                  secretRef = definitions.predicate.LocalObjectReference,
-                  sslEnabled = predicates.isType '"Bool",
-                  storageMode = predicates.isType '"String",
-                  storagePool = predicates.isType '"String",
-                  system = predicates.isType '"String",
-                  volumeName = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          SecretKeySelector = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  key = _js2n__-prdslib.isType '"String",
+                  name = _js2n__-prdslib.isType '"String",
+                  "optional" = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SecretProjection!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  key = predicates.isType '"String",
-                  name = predicates.isType '"String",
-                  "optional" = predicates.isType '"Bool",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          SecretProjection = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  items =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/KeyToPath!predicate"
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  "optional" = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SecretVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  items = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.KeyToPath
-                      ],
-                  name = predicates.isType '"String",
-                  "optional" = predicates.isType '"Bool",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          SecretVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  defaultMode = _js2n__-prdslib.isType 'Integer,
+                  items =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/KeyToPath!predicate"
+                        ],
+                  "optional" = _js2n__-prdslib.isType '"Bool",
+                  secretName = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ServiceAccountTokenProjection!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  defaultMode = predicates.isType 'Integer,
-                  items = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.KeyToPath
-                      ],
-                  "optional" = predicates.isType '"Bool",
-                  secretName = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ServiceAccountTokenProjection = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  audience = _js2n__-prdslib.isType '"String",
+                  expirationSeconds = _js2n__-prdslib.isType 'Integer,
+                  path = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Stage!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  audience = predicates.isType '"String",
-                  expirationSeconds = predicates.isType 'Integer,
-                  path = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Stage = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  agent =
+                    _js2n__-refsenv."_js2n__-:definitions/Agent!predicate",
+                  dir = _js2n__-prdslib.isType '"String",
+                  env =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/EnvVar!predicate"
+                        ],
+                  environment =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/EnvVar!predicate"
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  options =
+                    _js2n__-refsenv."_js2n__-:definitions/StageOptions!predicate",
+                  parallel =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Stage!predicate"
+                        ],
+                  post =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Post!predicate"
+                        ],
+                  stages =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Stage!predicate"
+                        ],
+                  steps =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Step!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/StageOptions!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  agent = definitions.predicate.Agent,
-                  dir = predicates.isType '"String",
-                  env = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.EnvVar
-                      ],
-                  environment = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.EnvVar
-                      ],
-                  name = predicates.isType '"String",
-                  options = definitions.predicate.StageOptions,
-                  parallel = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Stage
-                      ],
-                  post = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Post
-                      ],
-                  stages = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Stage
-                      ],
-                  steps = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Step
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          StageOptions = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  containerOptions =
+                    _js2n__-refsenv."_js2n__-:definitions/Container!predicate",
+                  distributeParallelAcrossNodes =
+                    _js2n__-prdslib.isType '"Bool",
+                  podLabels =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            { ".*" = _js2n__-prdslib.isType '"String", } true
+                            _js2n__-prdslib.always
+                        ],
+                  retry = _js2n__-prdslib.isType 'Integer,
+                  sidecars =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Container!predicate"
+                        ],
+                  stash =
+                    _js2n__-refsenv."_js2n__-:definitions/Stash!predicate",
+                  timeout =
+                    _js2n__-refsenv."_js2n__-:definitions/Timeout!predicate",
+                  tolerations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Toleration!predicate"
+                        ],
+                  unstash =
+                    _js2n__-refsenv."_js2n__-:definitions/Unstash!predicate",
+                  volumes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Volume!predicate"
+                        ],
+                  workspace = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Stash!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  containerOptions = definitions.predicate.Container,
-                  distributeParallelAcrossNodes = predicates.isType '"Bool",
-                  podLabels = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        { ".*" = predicates.isType '"String", }
-                        true
-                        predicates.always
-                      ],
-                  retry = predicates.isType 'Integer,
-                  sidecars = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.Container
-                      ],
-                  stash = definitions.predicate.Stash,
-                  timeout = definitions.predicate.Timeout,
-                  tolerations = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.Toleration
-                      ],
-                  unstash = definitions.predicate.Unstash,
-                  volumes = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Volume
-                      ],
-                  workspace = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Stash = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  files = _js2n__-prdslib.isType '"String",
+                  name = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Step!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  files = predicates.isType '"String",
-                  name = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Step = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  agent =
+                    _js2n__-refsenv."_js2n__-:definitions/Agent!predicate",
+                  args =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  command = _js2n__-prdslib.isType '"String",
+                  comment = _js2n__-prdslib.isType '"String",
+                  container = _js2n__-prdslib.isType '"String",
+                  dir = _js2n__-prdslib.isType '"String",
+                  env =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/EnvVar!predicate"
+                        ],
+                  groovy = _js2n__-prdslib.isType '"String",
+                  image = _js2n__-prdslib.isType '"String",
+                  loop = _js2n__-refsenv."_js2n__-:definitions/Loop!predicate",
+                  name = _js2n__-prdslib.isType '"String",
+                  options =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            { ".*" = _js2n__-prdslib.isType '"String", } true
+                            _js2n__-prdslib.always
+                        ],
+                  sh = _js2n__-prdslib.isType '"String",
+                  step = _js2n__-prdslib.isType '"String",
+                  steps =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Step!predicate"
+                        ],
+                  when = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/StorageOSVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  agent = definitions.predicate.Agent,
-                  args = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  command = predicates.isType '"String",
-                  comment = predicates.isType '"String",
-                  container = predicates.isType '"String",
-                  dir = predicates.isType '"String",
-                  env = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.EnvVar
-                      ],
-                  groovy = predicates.isType '"String",
-                  image = predicates.isType '"String",
-                  loop = definitions.predicate.Loop,
-                  name = predicates.isType '"String",
-                  options = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record {  }
-                        { ".*" = predicates.isType '"String", }
-                        true
-                        predicates.always
-                      ],
-                  sh = predicates.isType '"String",
-                  step = predicates.isType '"String",
-                  steps = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Step
-                      ],
-                  when = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          StorageOSVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  fsType = _js2n__-prdslib.isType '"String",
+                  readOnly = _js2n__-prdslib.isType '"Bool",
+                  secretRef =
+                    _js2n__-refsenv."_js2n__-:definitions/LocalObjectReference!predicate",
+                  volumeName = _js2n__-prdslib.isType '"String",
+                  volumeNamespace = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Timeout!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  fsType = predicates.isType '"String",
-                  readOnly = predicates.isType '"Bool",
-                  secretRef = definitions.predicate.LocalObjectReference,
-                  volumeName = predicates.isType '"String",
-                  volumeNamespace = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Timeout = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  time = _js2n__-prdslib.isType 'Integer,
+                  unit = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Toleration!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  time = predicates.isType 'Integer,
-                  unit = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Toleration = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  effect = _js2n__-prdslib.isType '"String",
+                  key = _js2n__-prdslib.isType '"String",
+                  operator = _js2n__-prdslib.isType '"String",
+                  tolerationSeconds = _js2n__-prdslib.isType 'Integer,
+                  value = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Unstash!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  effect = predicates.isType '"String",
-                  key = predicates.isType '"String",
-                  operator = predicates.isType '"String",
-                  tolerationSeconds = predicates.isType 'Integer,
-                  value = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Unstash = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  dir = predicates.isType '"String",
-                  name = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Volume = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  dir = _js2n__-prdslib.isType '"String",
+                  name = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Volume!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
                   awsElasticBlockStore =
-                    definitions.predicate.AWSElasticBlockStoreVolumeSource,
-                  azureDisk = definitions.predicate.AzureDiskVolumeSource,
-                  azureFile = definitions.predicate.AzureFileVolumeSource,
-                  cephfs = definitions.predicate.CephFSVolumeSource,
-                  cinder = definitions.predicate.CinderVolumeSource,
-                  configMap = definitions.predicate.ConfigMapVolumeSource,
-                  csi = definitions.predicate.CSIVolumeSource,
-                  downwardAPI = definitions.predicate.DownwardAPIVolumeSource,
-                  emptyDir = definitions.predicate.EmptyDirVolumeSource,
-                  fc = definitions.predicate.FCVolumeSource,
-                  flexVolume = definitions.predicate.FlexVolumeSource,
-                  flocker = definitions.predicate.FlockerVolumeSource,
+                    _js2n__-refsenv."_js2n__-:definitions/AWSElasticBlockStoreVolumeSource!predicate",
+                  azureDisk =
+                    _js2n__-refsenv."_js2n__-:definitions/AzureDiskVolumeSource!predicate",
+                  azureFile =
+                    _js2n__-refsenv."_js2n__-:definitions/AzureFileVolumeSource!predicate",
+                  cephfs =
+                    _js2n__-refsenv."_js2n__-:definitions/CephFSVolumeSource!predicate",
+                  cinder =
+                    _js2n__-refsenv."_js2n__-:definitions/CinderVolumeSource!predicate",
+                  configMap =
+                    _js2n__-refsenv."_js2n__-:definitions/ConfigMapVolumeSource!predicate",
+                  csi =
+                    _js2n__-refsenv."_js2n__-:definitions/CSIVolumeSource!predicate",
+                  downwardAPI =
+                    _js2n__-refsenv."_js2n__-:definitions/DownwardAPIVolumeSource!predicate",
+                  emptyDir =
+                    _js2n__-refsenv."_js2n__-:definitions/EmptyDirVolumeSource!predicate",
+                  fc =
+                    _js2n__-refsenv."_js2n__-:definitions/FCVolumeSource!predicate",
+                  flexVolume =
+                    _js2n__-refsenv."_js2n__-:definitions/FlexVolumeSource!predicate",
+                  flocker =
+                    _js2n__-refsenv."_js2n__-:definitions/FlockerVolumeSource!predicate",
                   gcePersistentDisk =
-                    definitions.predicate.GCEPersistentDiskVolumeSource,
-                  gitRepo = definitions.predicate.GitRepoVolumeSource,
-                  glusterfs = definitions.predicate.GlusterfsVolumeSource,
-                  hostPath = definitions.predicate.HostPathVolumeSource,
-                  iscsi = definitions.predicate.ISCSIVolumeSource,
-                  name = predicates.isType '"String",
-                  nfs = definitions.predicate.NFSVolumeSource,
+                    _js2n__-refsenv."_js2n__-:definitions/GCEPersistentDiskVolumeSource!predicate",
+                  gitRepo =
+                    _js2n__-refsenv."_js2n__-:definitions/GitRepoVolumeSource!predicate",
+                  glusterfs =
+                    _js2n__-refsenv."_js2n__-:definitions/GlusterfsVolumeSource!predicate",
+                  hostPath =
+                    _js2n__-refsenv."_js2n__-:definitions/HostPathVolumeSource!predicate",
+                  iscsi =
+                    _js2n__-refsenv."_js2n__-:definitions/ISCSIVolumeSource!predicate",
+                  name = _js2n__-prdslib.isType '"String",
+                  nfs =
+                    _js2n__-refsenv."_js2n__-:definitions/NFSVolumeSource!predicate",
                   persistentVolumeClaim =
-                    definitions.predicate.PersistentVolumeClaimVolumeSource,
+                    _js2n__-refsenv."_js2n__-:definitions/PersistentVolumeClaimVolumeSource!predicate",
                   photonPersistentDisk =
-                    definitions.predicate.PhotonPersistentDiskVolumeSource,
-                  portworxVolume = definitions.predicate.PortworxVolumeSource,
-                  projected = definitions.predicate.ProjectedVolumeSource,
-                  quobyte = definitions.predicate.QuobyteVolumeSource,
-                  rbd = definitions.predicate.RBDVolumeSource,
-                  scaleIO = definitions.predicate.ScaleIOVolumeSource,
-                  secret = definitions.predicate.SecretVolumeSource,
-                  storageos = definitions.predicate.StorageOSVolumeSource,
+                    _js2n__-refsenv."_js2n__-:definitions/PhotonPersistentDiskVolumeSource!predicate",
+                  portworxVolume =
+                    _js2n__-refsenv."_js2n__-:definitions/PortworxVolumeSource!predicate",
+                  projected =
+                    _js2n__-refsenv."_js2n__-:definitions/ProjectedVolumeSource!predicate",
+                  quobyte =
+                    _js2n__-refsenv."_js2n__-:definitions/QuobyteVolumeSource!predicate",
+                  rbd =
+                    _js2n__-refsenv."_js2n__-:definitions/RBDVolumeSource!predicate",
+                  scaleIO =
+                    _js2n__-refsenv."_js2n__-:definitions/ScaleIOVolumeSource!predicate",
+                  secret =
+                    _js2n__-refsenv."_js2n__-:definitions/SecretVolumeSource!predicate",
+                  storageos =
+                    _js2n__-refsenv."_js2n__-:definitions/StorageOSVolumeSource!predicate",
                   vsphereVolume =
-                    definitions.predicate.VsphereVirtualDiskVolumeSource,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          VolumeProjection = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                    _js2n__-refsenv."_js2n__-:definitions/VsphereVirtualDiskVolumeSource!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/VolumeProjection!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  configMap = definitions.predicate.ConfigMapProjection,
-                  downwardAPI = definitions.predicate.DownwardAPIProjection,
-                  secret = definitions.predicate.SecretProjection,
+                  configMap =
+                    _js2n__-refsenv."_js2n__-:definitions/ConfigMapProjection!predicate",
+                  downwardAPI =
+                    _js2n__-refsenv."_js2n__-:definitions/DownwardAPIProjection!predicate",
+                  secret =
+                    _js2n__-refsenv."_js2n__-:definitions/SecretProjection!predicate",
                   serviceAccountToken =
-                    definitions.predicate.ServiceAccountTokenProjection,
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          VsphereVirtualDiskVolumeSource = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                    _js2n__-refsenv."_js2n__-:definitions/ServiceAccountTokenProjection!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/VsphereVirtualDiskVolumeSource!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  fsType = predicates.isType '"String",
-                  storagePolicyID = predicates.isType '"String",
-                  storagePolicyName = predicates.isType '"String",
-                  volumePath = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          WikiConfig = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  fsType = _js2n__-prdslib.isType '"String",
+                  storagePolicyID = _js2n__-prdslib.isType '"String",
+                  storagePolicyName = _js2n__-prdslib.isType '"String",
+                  volumePath = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/WikiConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  kind = predicates.isType '"String",
-                  space = predicates.isType '"String",
-                  url = predicates.isType '"String",
-                }
-                {  }
-                false
-                predicates.never
-              ],
-        },
-  }
-in
-
-definitions.contract.ProjectConfig
+                  kind = _js2n__-prdslib.isType '"String",
+                  space = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+    }
+    in
+  _js2n__-refsenv."_js2n__-:definitions/ProjectConfig!contract"

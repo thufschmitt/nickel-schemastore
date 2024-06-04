@@ -1,2422 +1,1759 @@
 # DO NOT EDIT
 # This file was automatically generated using json-schema-to-nickel
-let predicates =
-{
+let _js2n__-prdslib
+  = {
     allOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `allOf preds` succeeds if all of the predicates in `preds` succeed
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
+        `allOf preds` succeeds if all of the predicates in `preds` succeed
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.1]
       "%
-      = fun preds x => std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if !result.success then result else acc)
-          { error = "", success = true, }
-          preds,
-    always : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "", success = true, },
+      = fun
+          preds
+          x
+          =>
+          std.array.fold_right
+            (fun pred acc => (match { 'Ok => acc, 'Err s => 'Err s, }) (pred x))
+            'Ok preds,
+    always : Dyn -> [| 'Ok, 'Err String |] = std.function.const 'Ok,
     anyOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
+        `anyOf preds` succeeds if at least one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.2]
       "%
-      = fun preds x => (fun result => if result.success then
-            { error = "", success = true, }
-            else
-            {
-              error = m%"
-                  anyOf: none of the options matched%{std.string.join "\n"
-                  result.errors}
-                  "%,
-              success = false,
-            })
-          (std.array.fold_right
-          (fun pred acc => let result = pred x in
-            if result.success || acc.success then
-            { errors = [  ], success = true, }
-            else
-            {
-              errors = [
-                      m%"
-                      - %{result.error}
-                      "%
-                    ] @
-                    acc.errors,
-              success = false,
-            })
-          { errors = [  ], success = false, }
-          preds),
-    arrays = {
+      = fun
+          preds
+          x
+          =>
+          (match {
+            'Ok =>
+              'Ok,
+            'Errs
+              msgs =>
+              'Err
+                m%"
+                  anyOf: none of the options matched
+                  %{std.string.join
+                    m%"
+                      
+                      
+                    "% msgs}
+                "%,
+          })
+            (std.array.fold_right
+              (fun
+                pred
+                acc
+                =>
+                (match {
+                  'Ok =>
+                    'Ok,
+                  'Errs
+                    msgs =>
+                    (match {
+                      'Ok =>
+                        'Ok,
+                      'Err
+                        msg =>
+                        'Errs ([ "  - %{msg}" ] @ msgs),
+                    }) (pred x),
+                }) acc) ('Errs [  ]) preds),
+    arrays =
+      {
           additionalItems
-            : (Dyn -> { success: Bool, error: String }) -> Number -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]
-            "%
-            = fun pred start x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |])
+            -> Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.2]"
+            = fun
+                pred
+                start
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let value_length = std.array.length x in
-                if start >= value_length then
-                { error = "", success = true, }
-                else
-                (arrayOf pred ((std.array.slice start value_length x) | Dyn))),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let value_length
+                      = std.array.length x
+                      in
+                    if start >= value_length then
+                        'Ok
+                      else
+                        arrayOf pred
+                          ((std.array.slice start value_length x)
+                          | Dyn),
           arrayOf
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            Apply a predicate to all elements of an array, succeeding if all
-            applications succeed. If the value isn't an array, fail.
+              Apply a predicate to all elements of an array, succeeding if all
+              applications succeed.
             "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                x),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  std.array.fold_right
+                      (fun
+                        x
+                        acc
+                        =>
+                        (match { 'Ok => acc, 'Err msg => 'Err msg, }) (pred x))
+                      'Ok x,
           contains
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]
-            "%
-            = fun pred x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.6]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                (fun result => if result.success then
-                  { error = "", success = true, }
-                  else
-                  {
-                    error = m%"
-                        contains: no elements matched%{std.string.join "\n"
-                        result.errors}
-                        "%,
-                    success = false,
-                  })
-                (std.array.fold_right
-                (fun x acc => let result = pred x in
-                  if result.success || acc.success then
-                  { errors = [  ], success = true, }
-                  else
-                  {
-                    errors = [
-                            m%"
-                            - %{result.error}
-                            "%
-                          ] @
-                          acc.errors,
-                    success = false,
-                  })
-                { errors = [  ], success = false, }
-                x)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  (match {
+                      'Ok =>
+                        'Ok,
+                      'Errs
+                        msgs =>
+                        'Err
+                          m%"
+                            contains: no elements matched
+                            %{std.string.join
+                              m%"
+                                
+                                
+                              "% msgs}
+                          "%,
+                    })
+                      (std.array.fold_right
+                        (fun
+                          x
+                          acc
+                          =>
+                          (match {
+                            'Ok =>
+                              'Ok,
+                            'Errs
+                              msgs =>
+                              (match {
+                                'Ok =>
+                                  'Ok,
+                                'Err
+                                  msg =>
+                                  'Errs ([ "  - %{msg}" ] @ msgs),
+                              }) (pred x),
+                          }) acc) ('Errs [  ]) x),
           items
-            : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]
-            "%
-            = fun preds x => if !(std.is_array x) then
-                { error = "", success = true, }
+            : Array (Dyn -> [| 'Ok, 'Err String |])
+            -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.1]"
+            = fun
+                preds
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let x  | Array Dyn = x in
-                let length_to_check =
-                std.number.min (std.array.length preds) (std.array.length x)
-                in
-                
-                std.array.fold_right
-                (fun i acc => let result =
-                  std.array.at i preds (std.array.at i x)
-                  in
-                  
-                  if !result.success then result else acc)
-                { error = "", success = true, }
-                (std.array.range 0 length_to_check)),
+                  let x
+                    | Array Dyn
+                    = x
+                    in
+                  let length_to_check
+                      = std.number.min (std.array.length preds)
+                        (std.array.length x)
+                      in
+                    std.array.fold_right
+                        (fun
+                          i
+                          acc
+                          =>
+                          (match { 'Err msg => 'Err msg, 'Ok => acc, })
+                            (std.array.at i preds (std.array.at i x))) 'Ok
+                        (std.array.range 0 length_to_check),
           maxItems
-            : Number -> Dyn -> { success: Bool, error: String }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
             | doc m%"
-            `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
+              `maxItems n x` fails if `x` is an array of length strictly greater than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.3]
             "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (if (std.array.length (x | Array Dyn)) > n then
-                {
-                    error = m%"
-                        array is longer than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minItems
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
-            "%
-            = fun n x => if !(std.is_array x) then
-                { error = "", success = true, }
-                else
-                (if (std.array.length (x | Array Dyn)) < n then
-                {
-                    error = m%"
-                        array is shorter than %{std.string.from_number n} items
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          uniqueItems
-            : Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Succeeds for any array if its elements are pairwise distinct.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
-            "%
-            = let find_duplicate 
-                : Array Dyn -> {
-                  has_duplicate: Bool,
-                  duplicate: Dyn,
-                  seen: { _ : Bool }
-                } =
-              std.array.fold_right
-                (fun elt acc => if acc.has_duplicate then acc else
-                  (let index = std.serialize 'Json elt in
-                  if std.record.has_field index acc.seen then
-                  { duplicate = elt, has_duplicate = true, seen = acc.seen, }
+                  if (std.array.length (x | Array Dyn)) > n then
+                    'Err
+                      "array is longer than %{std.string.from_number n} items"
                   else
-                  {
-                    duplicate = null,
-                    has_duplicate = false,
-                    seen = std.record.insert index true acc.seen,
-                  }))
-                { duplicate = null, has_duplicate = false, seen = {  }, }
-              in
-              
-              fun x => if !(std.is_array x) then
-                { error = "", success = true, }
+                    'Ok,
+          minItems
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minItems n x` fails if `x` is an array of length strictly smaller than `n` and succeeds otherwise.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.4]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_array x) then
+                  'Ok
                 else
-                (let {has_duplicate  | Dyn, duplicate  | Dyn, ..} =
-                find_duplicate (x | Array Dyn)
+                  if (std.array.length (x | Array Dyn)) < n then
+                    'Err
+                      "array is shorter than %{std.string.from_number n} items"
+                  else
+                    'Ok,
+          uniqueItems
+            : Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              Succeeds for any array if its elements are pairwise distinct.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.4.5]
+            "%
+            = let find_duplicate
+                : Array Dyn
+                -> {
+                  has_duplicate : Bool,
+                  duplicate : Dyn,
+                  seen : { _ : Bool }
+                }
+                = std.array.fold_right
+                  (fun
+                    elt
+                    acc
+                    =>
+                    if acc.has_duplicate then
+                      acc
+                    else
+                      let index
+                        = std.serialize 'Json elt
+                        in
+                      if std.record.has_field index acc.seen then
+                          {
+                            duplicate = elt,
+                            has_duplicate = true,
+                            seen = acc.seen,
+                          }
+                        else
+                          {
+                            duplicate = null,
+                            has_duplicate = false,
+                            seen = std.record.insert index true acc.seen,
+                          })
+                  { duplicate = null, has_duplicate = false, seen = {}, }
                 in
-                
-                if has_duplicate then
-                {
-                    error = m%"
-                        duplicate found: %{std.serialize 'Json duplicate}
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
+              fun
+                  x
+                  =>
+                  if !(std.is_array x) then
+                    'Ok
+                  else
+                    let { has_duplicate, duplicate, .. }
+                      = find_duplicate (x | Array Dyn)
+                      in
+                    if has_duplicate then
+                        'Err "duplicate found: %{std.serialize 'Json duplicate}"
+                      else
+                        'Ok,
         },
     const
-      : Dyn -> Dyn -> { success: Bool, error: String }
+      : Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `const value x` succeeds if and only if `x` is equalt to `value`
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
+        `const value x` succeeds if and only if `x` is equal to `value`
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.3]
       "%
-      = fun value x => if x == value then { error = "", success = true, } else
-          {
-            error = m%"
-                expected %{std.serialize 'Json value}
-                "%,
-            success = false,
-          },
+      = fun
+          value
+          x
+          =>
+          if x == value then
+            'Ok
+          else
+            'Err "expected %{std.serialize 'Json value}",
     contract_from_predicate
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> Dyn -> Dyn
-      = fun predicate label value => let {success  | Dyn, error  | Dyn} =
-          predicate value
-          in
-          
-          if success then value else
-          ((std.contract.blame_with_message error label) | Dyn),
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> Dyn -> Dyn
+      = fun
+          predicate
+          label
+          value
+          =>
+          (match {
+            'Ok =>
+              value,
+            'Err
+              msg =>
+              (std.contract.blame_with_message msg label)
+              | Dyn,
+          }) (predicate value),
     enum
-      : Array Dyn -> Dyn -> { success: Bool, error: String }
+      : Array Dyn -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
+        `enum values x` succeeds if and only if `x` is equal to one of the elements of `values`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.1.2]
       "%
-      = let checkEqual =
-        fun input variant => (input == variant) ||
-            ((std.is_enum input) &&
-            (((std.string.from_enum input) == variant) | Bool))
-        in
-        
-        fun values x => std.array.fold_right
-          (fun value acc => if checkEqual x value then
-            { error = "", success = true, }
-            else
-            acc)
-          {
-            error = m%"
-                expected one of %{std.serialize 'Json (values | Dyn)}
-                "%,
-            success = false,
-          }
-          values,
+      = let checkEqual
+          = fun
+            input
+            variant
+            =>
+            (input == variant)
+            || ((std.is_enum input)
+            && (((std.string.from_enum input) == variant)
+            | Bool))
+          in
+        fun
+            values
+            x
+            =>
+            std.array.fold_right
+              (fun value acc => if checkEqual x value then 'Ok else acc)
+              ('Err "expected one of %{std.serialize 'Json (values | Dyn)}")
+              values,
     from_simple_predicate
-      : String -> (Dyn -> Bool) -> Dyn -> { success: Bool, error: String }
-      | doc m%"
-      Convert a simple boolean predicate into a predicate supporting error messages
-      "%
-      = fun error' pred x => { error = error', success = pred x, },
+      : String -> (Dyn -> Bool) -> Dyn -> [| 'Ok, 'Err String |]
+      | doc "Convert a simple boolean predicate into a predicate supporting error messages"
+      = fun error' pred x => if pred x then 'Ok else 'Err error',
     ifThenElse
-      : (Dyn -> { success: Bool, error: String }) -> (Dyn -> {
-        success: Bool,
-        error: String
-      }) -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |])
+      -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
+        `ifThenElse i t e` first checks if the predicate `i` succeeds. If it does, it's equivalent to `t`, otherwise it's equivalent to `e`.
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.6]
       "%
-      = fun i t e x => let {success  | Dyn, ..} = i x in
-          if success then t x else (e x),
+      = fun i t e x => (match { 'Ok => t x, 'Err msg => e x, }) (i x),
     isType
       : [| '"Array", '"Bool", 'Integer, 'Null, '"Number", 'Record, '"String" |]
-      -> Dyn -> { success: Bool, error: String }
-      = fun t => (match {'Integer => from_simple_predicate "expected an integer"
-            (fun x => (std.is_number x) &&
-              (std.number.is_integer (x | Number))),
-            'Null => from_simple_predicate "expected `null`"
-            (fun x => x == null),
-            _ => from_simple_predicate
-            m%"
-            value is not of type %{std.string.from_enum t}
-            "%
-            (fun x => (std.typeof x) == t)
-          })
-          t,
-    never : Dyn -> { success: Bool, error: String }
-      = std.function.const { error = "never", success = false, },
+      -> Dyn -> [| 'Ok, 'Err String |]
+      = fun
+          t
+          =>
+          (match {
+            'Null =>
+              from_simple_predicate "expected `null`" (fun x => x == null),
+            'Integer =>
+              from_simple_predicate "expected an integer"
+                (fun
+                  x
+                  =>
+                  (std.is_number x) && (std.number.is_integer (x | Number))),
+            _ =>
+              from_simple_predicate
+                "value is not of type %{std.string.from_enum t}"
+                (fun x => (std.typeof x) == t),
+          }) t,
+    never : Dyn -> [| 'Ok, 'Err String |] = std.function.const ('Err "never"),
     not
-      : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `not pred` succeeds if and only if `pred` fails
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
+        `not pred` succeeds if and only if `pred` fails
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.4]
       "%
-      = fun pred x => let result = pred x in
-          if result.success then
-          {
-              error = "Inverted predicate succeeded unexpectedly",
-              success = false,
-            }
-          else
-          { error = "", success = true, },
-    numbers = {
+      = fun
+          pred
+          x
+          =>
+          (match {
+            'Ok =>
+              'Err "Inverted predicate succeeded unexpectedly",
+            'Err
+              msg =>
+              'Ok,
+          }) (pred x),
+    numbers =
+      {
           exclusiveMaximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.3]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) < limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive maximum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) < limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive maximum of %{std.string.from_number
+                        limit}",
           exclusiveMinimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.5]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) > limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected an exclusive minimum of %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) > limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected an exclusive minimum of %{std.string.from_number
+                        limit}",
           maximum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a maximum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a maximum of %{std.string.from_number limit}",
           minimum
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]
-            "%
-            = fun limit x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.4]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if (x | Number) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a minimum of %{std.string.from_number limit}
-                      "%,
-                  success = false,
-                }),
+                  if (x | Number) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a minimum of %{std.string.from_number limit}",
           multipleOf
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]
-            "%
-            = fun mult x => if !(std.is_number x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.2.1]"
+            = fun
+                mult
+                x
+                =>
+                if !(std.is_number x) then
+                  'Ok
                 else
-                (if std.number.is_integer ((x | Number) / mult) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a multiple of %{std.string.from_number mult}
-                      "%,
-                  success = false,
-                }),
+                  if std.number.is_integer ((x | Number) / mult) then
+                    'Ok
+                  else
+                    'Err
+                      "expected a multiple of %{std.string.from_number mult}",
         },
     oneOf
-      : Array (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-        success: Bool,
-        error: String
-      }
+      : Array (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
       | doc m%"
-      `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
-      Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
+        `oneOf preds` succeeds if precisely one of the predicates in `preds` succeeds
+        Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.7.3]
       "%
-      = fun preds x => let count_true 
-            : Array { success: Bool, error: String } -> Number =
-          fun results => std.array.fold_left
-              (fun n b => if b.success then n + 1 else n)
-              0
+      = fun
+          preds
+          x
+          =>
+          let count_ok
+            : Array [| 'Ok, 'Err String |] -> Number
+            = fun
               results
-          in
-          
-          let results = std.array.map (fun pred => pred x) preds in
-          let count = count_true results in
-          if count == 0 then
-          let errors =
-            std.array.map
-              (fun result => m%"
-                - %{result.error}
-                "%)
-              results
+              =>
+              std.array.fold_left (fun n b => if b == 'Ok then n + 1 else n) 0
+                results
             in
-            
-            {
-              error = m%"
-                  oneOf: none of the options matched%{std.string.join "\n"
-                  errors}
-                  "%,
-              success = false,
-            }
-          else
-          (if count > 1 then
-          {
-              error = "oneOf: more than one of the options matched",
-              success = false,
-            }
-          else
-          { error = "", success = true, }),
-    records = {
-          dependencies
-            : { _ : Dyn } -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]
-            "%
-            = let mustHaveFields 
-                : Array String -> { _ : Dyn } -> {
-                  success: Bool,
-                  error: String
-                } =
-              fun fields x => std.array.fold_right
-                  (fun field acc => if !(std.record.has_field field x) then
-                    {
-                        error = m%"
-                            expected field `%{field}`
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc)
-                  { error = "", success = true, }
-                  fields
+          let results
+              = std.array.map (fun pred => pred x) preds
               in
-              
-              fun deps x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (let x  | { _ : Dyn } = x in
-                std.array.fold_right
-                (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                  if !(std.record.has_field field x) then acc else
-                    (let result =
-                    if std.is_array value then
-                      mustHaveFields (value | Array String) x
-                      else
-                      (let pred  | Dyn -> { success: Bool, error: String } =
-                      value
-                      in
-                      
-                      pred (x | Dyn))
+            let count
+                = count_ok results
+                in
+              if count == 0 then
+                  let errors
+                    = std.array.flat_map
+                      (fun
+                        result
+                        =>
+                        (match { 'Ok => [  ], 'Err s => [ "  - %{s}" ], })
+                          result) results
                     in
-                    
-                    if !result.success then
-                    {
-                        error = m%"
-                            dependency of `%{field}` failed: %{result.error}
-                            "%,
-                        success = false,
-                      }
-                    else
-                    acc))
-                { error = "", success = true, }
-                (std.record.to_array deps)),
-          maxProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
+                  'Err
+                      m%"
+                        oneOf: none of the options matched
+                        %{std.string.join
+                          m%"
+                            
+                            
+                          "% errors}
+                      "%
                 else
-                (if (std.record.length (x | { _ : Dyn })) > n then
-                {
-                    error = m%"
-                        record contains more than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          minProperties
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
-            "%
-            = fun n x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (if (std.record.length (x | { _ : Dyn })) < n then
-                {
-                    error = m%"
-                        record contains fewer than %{std.string.from_number
-                        n} fields
-                        "%,
-                    success = false,
-                  }
-                else
-                { error = "", success = true, }),
-          propertyNames
-            : (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]
-            "%
-            = fun pred x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => let result = pred (field | Dyn) in
-                  if !result.success then
-                  {
-                      error = m%"
-                          field `%{field}` did not validate against `propertyNames` schema
-                          "%,
-                      success = false,
-                    }
+                  if count > 1 then
+                    'Err "oneOf: more than one of the options matched"
                   else
-                  acc)
-                { error = "", success = true, }
-                (std.record.fields (x | { _ : Dyn }))),
-          record
-            : { _ : Dyn -> { success: Bool, error: String } } -> { _ : Dyn -> {
-              success: Bool,
-              error: String
-            } } -> Bool -> (Dyn -> { success: Bool, error: String }) -> Dyn -> {
-              success: Bool,
-              error: String
-            }
-            | doc m%"
-            `record properties patternProperties additionalAllowed
-            additionalProperties x` is a combination of the `properties`,
-            `patternProperties` and `additionalProperties` validation keywords in
-            JSON schema.
-            
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
-            "%
-            =
-            fun properties patternProperties additionalAllowed additionalProperties x =>
-              if !(std.is_record x) then { error = "", success = true, } else
-                (let x  | { _ : Dyn } = x in
-                let check_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                    if !(std.record.has_field field x) then acc else
-                      (let result = value x."%{field}" in
-                      if !result.success then
-                      {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
-                      else
-                      {
-                        checked = std.record.insert field true acc.checked,
-                        error = acc.error,
-                        success = acc.success,
-                      }))
-                  { checked = {  }, error = "", success = true, }
-                  (std.record.to_array properties)
-                in
-                
-                let matching_fields  : String -> { _ : Dyn } =
-                fun pattern => let matcher = std.string.is_match pattern in
-                    std.array.fold_left
-                    (fun acc => fun {field  | Dyn, value  | Dyn} => if matcher
-                        field then
-                        std.record.insert field value acc
-                        else
-                        acc)
-                    {  }
-                    (std.record.to_array x)
-                in
-                
-                let check_pattern_properties 
-                  : { success: Bool, error: String, checked: { _ : Bool } } =
-                std.array.fold_right
-                  (fun {field  | Dyn = pattern, value  | Dyn = pred} =>
-                  fun acc => let result =
-                      std.array.fold_right
-                        (fun {field  | Dyn, value  | Dyn} => fun acc =>
-                          let result = pred value in
-                            if !result.success then
-                            {
-                                checked : { _ : Bool }
-                                  = {  },
-                                error = m%"
-                                    field `%{field}` didn't validate: %{result.error}
-                                    "%,
-                                success = false,
-                              }
-                            else
-                            {
-                              checked = std.record.insert field true
-                                  acc.checked,
-                              error = acc.error,
-                              success = acc.success,
-                            })
-                        {
-                          checked : { _ : Bool }
-                            = {  },
-                          error = "",
-                          success = true,
-                        }
-                        (std.record.to_array (matching_fields pattern))
-                      in
-                      
-                      if !result.success then result else
-                      {
-                        checked = std.array.fold_left
-                            (fun r field => if !(std.record.has_field field
-                              r) then
-                              std.record.insert field true r
-                              else
-                              r)
-                            acc.checked
-                            (std.record.fields result.checked),
-                        error = acc.error,
-                        success = acc.success,
-                      })
-                  { checked : { _ : Bool } = {  }, error = "", success = true, }
-                  (std.record.to_array patternProperties)
-                in
-                
-                let remaining_fields =
-                std.array.fold_left
-                  (fun acc field => if !(std.record.has_field field acc) then
-                    acc
-                    else
-                    (std.record.remove field acc))
+                    'Ok,
+    records =
+      {
+          dependencies
+            : { _ : Dyn } -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.7]"
+            = let mustHaveFields
+                : Array String -> { _ : Dyn } -> [| 'Ok, 'Err String |]
+                = fun
+                  fields
                   x
-                  ((std.record.fields check_properties.checked) @
-                    (std.record.fields check_pattern_properties.checked))
-                in
-                
-                let check_additional_properties 
-                  : { success: Bool, error: String } =
-                if (!additionalAllowed) &&
-                  (!(std.record.is_empty remaining_fields)) then
-                  {
-                      error = m%"
-                          extra fields %{std.serialize 'Json
-                          ((std.record.fields remaining_fields) | Dyn)}
-                          "%,
-                      success = false,
-                    }
-                  else
-                  (std.array.fold_right
-                  (fun {field  | Dyn, value  | Dyn} => fun acc => let result =
-                      additionalProperties value
-                      in
-                      
-                      if !result.success then
-                      {
-                          error = m%"
-                              field `%{field}` didn't validate: %{result.error}
-                              "%,
-                          success = false,
-                        }
+                  =>
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field x) then
+                        'Err "expected field `%{field}`"
                       else
-                      acc)
-                  { error = "", success = true, }
-                  (std.record.to_array remaining_fields))
+                        acc) 'Ok fields
                 in
-                
-                if !check_properties.success then
-                { error = check_properties.error, success = false, }
-                else
-                (if !check_pattern_properties.success then
-                { error = check_pattern_properties.error, success = false, }
-                else
-                check_additional_properties)),
-          required
-            : Array String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]
-            "%
-            = fun fields x => if !(std.is_record x) then
-                { error = "", success = true, }
-                else
-                (std.array.fold_right
-                (fun field acc => if !(std.record.has_field field
-                  (x | { _ : Dyn })) then
-                  {
-                      error = m%"
-                          missing required field %{field}
-                          "%,
-                      success = false,
-                    }
+              fun
+                  deps
+                  x
+                  =>
+                  if !(std.is_record x) then
+                    'Ok
                   else
-                  acc)
-                { error = "", success = true, }
-                fields),
+                    let x
+                      | { _ : Dyn }
+                      = x
+                      in
+                    std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              let result
+                                = if std.is_array value then
+                                  mustHaveFields (value | Array String) x
+                                else
+                                  let pred
+                                    | Dyn -> [| 'Ok, 'Err String |]
+                                    = value
+                                    in
+                                  pred (x | Dyn)
+                                in
+                              (match {
+                                  'Err
+                                    msg =>
+                                    'Err
+                                      "dependency of `%{field}` failed: %{msg}",
+                                  'Ok =>
+                                    acc,
+                                }) result) 'Ok (std.record.to_array deps),
+          maxProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `maxProperties n x` fails if `x` is a record containing stricly more than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) > n then
+                    'Err
+                      "record contains more than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          minProperties
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `minProperties n x` fails if `x` is a record containing stricly less than `n` fields.
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.1]
+            "%
+            = fun
+                n
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  if (std.record.length (x | { _ : Dyn })) < n then
+                    'Err
+                      "record contains fewer than %{std.string.from_number
+                        n} fields"
+                  else
+                    'Ok,
+          propertyNames
+            : (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.8]"
+            = fun
+                pred
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      (match {
+                        'Err
+                          msg =>
+                          'Err
+                            "field `%{field}` did not validate against `propertyNames` schema",
+                        'Ok =>
+                          acc,
+                      }) (pred (field | Dyn))) 'Ok
+                    (std.record.fields (x | { _ : Dyn })),
+          record
+            : { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> { _ : Dyn -> [| 'Ok, 'Err String |] }
+            -> Bool
+            -> (Dyn -> [| 'Ok, 'Err String |]) -> Dyn -> [| 'Ok, 'Err String |]
+            | doc m%"
+              `record properties patternProperties additionalAllowed
+              additionalProperties x` is a combination of the `properties`,
+              `patternProperties` and `additionalProperties` validation keywords in
+              JSON schema.
+              
+              Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5]
+            "%
+            = fun
+                properties
+                patternProperties
+                additionalAllowed
+                additionalProperties
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  let x
+                    | { _ : Dyn }
+                    = x
+                    in
+                  let check_properties
+                      : {
+                        result : [| 'Ok, 'Err String |],
+                        checked : { _ : Bool }
+                      }
+                      = std.array.fold_right
+                        (fun
+                          { field, value, }
+                          =>
+                          fun
+                            acc
+                            =>
+                            if !(std.record.has_field field x) then
+                              acc
+                            else
+                              (match {
+                                'Err
+                                  msg =>
+                                  {
+                                    checked : { _ : Bool } = {},
+                                    result =
+                                      'Err
+                                          "field `%{field}` didn't validate: %{msg}",
+                                  },
+                                'Ok =>
+                                  {
+                                    checked =
+                                      std.record.insert field true acc.checked,
+                                    result = acc.result,
+                                  },
+                              }) (value x."%{field}"))
+                        { checked = {}, result = 'Ok, }
+                        (std.record.to_array properties)
+                      in
+                    let matching_fields
+                        : String -> { _ : Dyn }
+                        = fun
+                          pattern
+                          =>
+                          let matcher
+                            = std.string.is_match pattern
+                            in
+                          std.array.fold_left
+                              (fun
+                                acc
+                                =>
+                                fun
+                                  { field, value, }
+                                  =>
+                                  if matcher field then
+                                    std.record.insert field value acc
+                                  else
+                                    acc) {} (std.record.to_array x)
+                        in
+                      let check_pattern_properties
+                          : {
+                            result : [| 'Ok, 'Err String |],
+                            checked : { _ : Bool }
+                          }
+                          = std.array.fold_right
+                            (fun
+                              { field = pattern, value = pred, }
+                              =>
+                              fun
+                                acc
+                                =>
+                                (match {
+                                  r @ { result = 'Err msg, .. } =>
+                                    r,
+                                  { result = 'Ok, checked = ch, } =>
+                                    {
+                                      checked =
+                                        std.array.fold_left
+                                            (fun
+                                              r
+                                              field
+                                              =>
+                                              if !(std.record.has_field field
+                                                r) then
+                                                std.record.insert field true r
+                                              else
+                                                r) acc.checked
+                                            (std.record.fields ch),
+                                      result = acc.result,
+                                    },
+                                })
+                                  (std.array.fold_right
+                                    (fun
+                                      { field, value, }
+                                      =>
+                                      fun
+                                        acc
+                                        =>
+                                        (match {
+                                          'Err
+                                            msg =>
+                                            {
+                                              checked : { _ : Bool } = {},
+                                              result =
+                                                'Err
+                                                    "field `%{field}` didn't validate: %{msg}",
+                                            },
+                                          'Ok =>
+                                            {
+                                              checked =
+                                                std.record.insert field true
+                                                    acc.checked,
+                                              result = acc.result,
+                                            },
+                                        }) (pred value))
+                                    {
+                                      checked : { _ : Bool } = {},
+                                      result = 'Ok,
+                                    }
+                                    (std.record.to_array
+                                      (matching_fields pattern))))
+                            { checked : { _ : Bool } = {}, result = 'Ok, }
+                            (std.record.to_array patternProperties)
+                          in
+                        let remaining_fields
+                            = std.array.fold_left
+                              (fun
+                                acc
+                                field
+                                =>
+                                if !(std.record.has_field field acc) then
+                                  acc
+                                else
+                                  std.record.remove field acc) x
+                              ((std.record.fields check_properties.checked)
+                              @ (std.record.fields
+                                check_pattern_properties.checked))
+                            in
+                          let check_additional_properties
+                              : [| 'Ok, 'Err String |]
+                              = if (!additionalAllowed)
+                              && (!(std.record.is_empty remaining_fields)) then
+                                'Err
+                                  "extra fields %{std.serialize 'Json
+                                    ((std.record.fields remaining_fields)
+                                    | Dyn)}"
+                              else
+                                std.array.fold_right
+                                  (fun
+                                    { field, value, }
+                                    =>
+                                    fun
+                                      acc
+                                      =>
+                                      (match {
+                                        'Err
+                                          msg =>
+                                          'Err
+                                            "field `%{field}` didn't validate: %{msg}",
+                                        'Ok =>
+                                          acc,
+                                      }) (additionalProperties value)) 'Ok
+                                  (std.record.to_array remaining_fields)
+                              in
+                            (match {
+                                'Err
+                                  msg =>
+                                  check_properties.result,
+                                'Ok =>
+                                  (match {
+                                    'Err
+                                      msg =>
+                                      check_pattern_properties.result,
+                                    'Ok =>
+                                      check_additional_properties,
+                                  }) check_pattern_properties.result,
+                              }) check_properties.result,
+          required
+            : Array String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.5.3]"
+            = fun
+                fields
+                x
+                =>
+                if !(std.is_record x) then
+                  'Ok
+                else
+                  std.array.fold_right
+                    (fun
+                      field
+                      acc
+                      =>
+                      if !(std.record.has_field field (x | { _ : Dyn })) then
+                        'Err "missing required field %{field}"
+                      else
+                        acc) 'Ok fields,
         },
-    strings = {
+    strings =
+      {
           maxLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.1]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) <= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no larger than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) <= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no larger than %{std.string.from_number
+                        limit}",
           minLength
-            : Number -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]
-            "%
-            = fun limit x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : Number -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.2]"
+            = fun
+                limit
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if (std.string.length (x | String)) >= limit then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string of length no smaller than %{std.string.from_number
-                      limit}
-                      "%,
-                  success = false,
-                }),
+                  if (std.string.length (x | String)) >= limit then
+                    'Ok
+                  else
+                    'Err
+                      "expected a string of length no smaller than %{std.string.from_number
+                        limit}",
           pattern
-            : String -> Dyn -> { success: Bool, error: String }
-            | doc m%"
-            Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]
-            "%
-            = fun pattern x => if !(std.is_string x) then
-                { error = "", success = true, }
+            : String -> Dyn -> [| 'Ok, 'Err String |]
+            | doc "Cf. [https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01#section-6.3.3]"
+            = fun
+                pattern
+                x
+                =>
+                if !(std.is_string x) then
+                  'Ok
                 else
-                (if std.string.is_match pattern (x | String) then
-                { error = "", success = true, }
-                else
-                {
-                  error = m%"
-                      expected a string matching the pattern `%{pattern}`
-                      "%,
-                  success = false,
-                }),
+                  if std.string.is_match pattern (x | String) then
+                    'Ok
+                  else
+                    'Err "expected a string matching the pattern `%{pattern}`",
         },
   }
-in
-
-let rec definitions =
-{
-    contract = {
-          Action = predicates.contract_from_predicate
-              definitions.predicate.Action,
-          ActionChain
-            | doc m%"
-            A chain of actions in sequential order
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.ActionChain,
-          ActionType
-            | doc m%"
-            An identifier/name for an action
-            "%
-            = String,
-          AwaitReference
-            | doc m%"
-            A reference that returns its result after the value at the referenced path is received
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.AwaitReference,
-          Boolean
-            | doc m%"
-            A boolean value is either one of "true", true, "false", or false
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Boolean,
-          Border
-            | doc m%"
-            Border styles
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Border,
-          BorderPreset1
-            | doc m%"
-            Removes border including the radius
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.BorderPreset1,
-          BorderPreset2
-            | doc m%"
-            Removes border from all sides (including radius) except the bottom. This will create an underline effect
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.BorderPreset2,
-          BorderPreset3
-            | doc m%"
-            Applies a solid border to all sides
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.BorderPreset3,
-          BorderPreset4
-            | doc m%"
-            Sets the border to be a dashed border
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.BorderPreset4,
-          BorderPreset5
-            | doc m%"
-            Removes border from all sides
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.BorderPreset5,
-          BorderPreset6
-            | doc m%"
-            Sets the border to be a solid border. This will also remove border radius from all sides
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.BorderPreset6,
-          BorderStylePreset
-            | doc m%"
-            A set of border presets, each applying a different style
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.BorderStylePreset,
-          BuiltInEval
-            | doc m%"
-            Objects that become built in functions when parsed/serialized
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.BuiltInEval,
-          Color = predicates.contract_from_predicate
-              definitions.predicate.Color,
-          Component
-            | doc m%"
-            Components are the building blocks that construct to user interfaces
-            "%
-            = {
-                audioStream | Bool | optional,
-                borderRadius | definitions.contract.NoodlUnit | optional,
-                children
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    (predicates.oneOf
-                    [
-                      definitions.predicate.Component,
-                      definitions.predicate.Reference
-                    ])
-                  ])
-                  | optional,
-                contentType | definitions.contract.ContentType | optional,
-                dataKey | definitions.contract.DataKey | optional,
-                ecosObj | String | optional,
-                global | definitions.contract.Boolean | optional,
-                image | String | optional,
-                imgPath | String | optional,
-                isEdit | definitions.contract.Boolean | optional,
-                isEditable
-                  | predicates.contract_from_predicate
-                  (predicates.anyOf
-                  [
-                    definitions.predicate.Boolean,
-                    predicates.isType '"String"
-                  ])
-                  | optional,
-                itemObject
-                  | String
-                  | doc m%"
-                  This is a common value used for iteratorVar
-                  "%
-                  | optional,
-                iteratorVar | String | optional,
-                listObject
-                  | predicates.contract_from_predicate
-                  (predicates.anyOf
-                  [
-                    definitions.predicate.Empty,
-                    definitions.predicate.Reference,
-                    predicates.isType '"Array"
-                  ])
-                  | optional,
-                onBlur
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    definitions.predicate.ActionChain,
-                    definitions.predicate.UserEvent
-                  ])
-                  | optional,
-                onChange
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    definitions.predicate.ActionChain,
-                    definitions.predicate.UserEvent
-                  ])
-                  | optional,
-                onClick
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    definitions.predicate.ActionChain,
-                    definitions.predicate.UserEvent
-                  ])
-                  | optional,
-                onEvent | String | optional,
-                onFocus
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    definitions.predicate.ActionChain,
-                    definitions.predicate.UserEvent
-                  ])
-                  | optional,
-                onHover
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    definitions.predicate.ActionChain,
-                    definitions.predicate.UserEvent
-                  ])
-                  | optional,
-                onInput
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    definitions.predicate.ActionChain,
-                    definitions.predicate.UserEvent
-                  ])
-                  | optional,
-                onMouseEnter
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    definitions.predicate.ActionChain,
-                    definitions.predicate.UserEvent
-                  ])
-                  | optional,
-                onMouseLeave
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    definitions.predicate.ActionChain,
-                    definitions.predicate.UserEvent
-                  ])
-                  | optional,
-                onMouseOut
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    definitions.predicate.ActionChain,
-                    definitions.predicate.UserEvent
-                  ])
-                  | optional,
-                onMouseOver
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    definitions.predicate.ActionChain,
-                    definitions.predicate.UserEvent
-                  ])
-                  | optional,
-                options
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [ predicates.isType '"String", predicates.isType '"Array" ])
-                  | optional,
-                overflow | String | optional,
-                path | definitions.contract.Path | optional,
-                placeholder
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [
-                    predicates.isType '"String",
-                    definitions.predicate.If,
-                    predicates.allOf
-                    [
-                      predicates.isType 'Record,
-                      predicates.records.record
-                      { emit = definitions.predicate.Emit, }
-                      {  }
-                      true
-                      predicates.always
-                    ]
-                  ])
-                  | optional,
-                popUpView | String | optional,
-                postMessage | Array Dyn | optional,
-                poster
-                  | String
-                  | doc m%"
-                  A cover image used on video components. When a video has not been interacted with by a user, a cover image is displayed. This value can be used for the cover image
-                  "%
-                  | optional,
-                required
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [ predicates.isType '"String", predicates.isType '"Bool" ])
-                  | optional,
-                resource | String | optional,
-                style | definitions.contract.Style | optional,
-                text | definitions.contract.Text | optional,
-                "text=func"
-                  | String
-                  | doc m%"
-                  A function to transform a component's text. A component must have the 'text' property.
-                  "%
-                  | optional,
-                textAlign | definitions.contract.TextAlign | optional,
-                textBoard | definitions.contract.TextBoard | optional,
-                type | definitions.contract.ComponentType | optional,
-                videoFormat | String | optional,
-                videoStream | Bool | optional,
-                viewTag | definitions.contract.ViewTag | optional,
-                zIndex | Number | optional,
-                ..
-              },
-          ComponentType = String,
-          ConfigVersionObjectByDevice = {
-                cadlVersion
-                  | { stable | String | optional, test | String | optional, .. }
-                  | optional,
-              },
-          ContentType
-            | doc m%"
-            Determines the content type of the component. For example, a textField component may be a date textField if it has contentType: date, or a password textField with contentType: password, etc
-            "%
-            = String,
-          DataIn
-            | doc m%"
-            Argument(s) to the surrounding built in function
-            "%
-            = definitions.contract.Value,
-          DataKey
-            | doc m%"
-            A value/pointer to a a property of an object
-            "%
-            = predicates.contract_from_predicate definitions.predicate.DataKey,
-          DataKeyObject
-            | doc m%"
-            Data key in the emit object
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.DataKeyObject,
-          DataKeyString
-            | doc m%"
-            The path to a data object or value. It might provide a different behavior depending on where it is placed. For example, a dataKey set on a textField component will bind its value to the path in the dataKey, enabling it to mutate the value while updating textField's value
-            "%
-            = String,
-          DataObject
-            | doc m%"
-            An object that contains data. It is most commonly used in actions such as updateObject as a way to update its data values
-            "%
-            = String,
-          DataOut
-            | doc m%"
-            Return value(s) to the surrounding built in function
-            "%
-            = definitions.contract.Value,
-          Emit
-            | doc m%"
-            An emit is a special type of action that usually contains a dataKey paired with a list of actions that are called in order. Some emits can contain just a list of actions. When paired with a dataKey it is usually mutating the value at the path in the dataKey
-            "%
-            = {
-                actions
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf
-                    (predicates.anyOf
-                    [
-                      definitions.predicate.Action,
-                      definitions.predicate.BuiltInEval
-                    ])
-                  ]),
-                dataKey
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [ predicates.isType '"String", predicates.isType 'Record ])
-                  | optional,
-              },
-          Empty
-            | doc m%"
-            Empty value (empty string)
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Empty,
-          Goto
-            | doc m%"
-            The destination the user should navigate to
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Goto,
-          GotoObject = { destination | String | optional, .. },
-          GotoPage = String,
-          GotoPageComponentUrl = predicates.contract_from_predicate
-              definitions.predicate.GotoPageComponentUrl,
-          If
-            | doc m%"
-            If objects contain an array with three items used for conditional checks. The first item is used as a test for truthiness which can be in the form of any data type such as a string, number, boolean, object, etc. Either the second or third item is returned depending on the result of the truthiness test
-            "%
-            = {
-                "if"
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.Value,
-                    predicates.arrays.maxItems 3,
-                    predicates.arrays.minItems 3
-                  ])
-                  | optional,
-                ..
-              },
-          Init
-            | doc m%"
-            One or more action(s) which will occur when entering a page
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Init,
-          LocalEvalReference
-            | doc m%"
-            Mutates the value at the referenced path after receiving its result
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.LocalEvalReference,
-          LocalReference
-            | doc m%"
-            A reference whose scope is within the page object, making them invisible to the objects outside of its scope
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.LocalReference,
-          MixedActionChain
-            | doc m%"
-            An ActionChain but also includes the BuiltInEval objects =.builtIn.* as well as await/eval references
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.MixedActionChain,
-          NoodlUnit
-            | doc m%"
-            A measurement adaptive to the size of the viewport
-            "%
-            = String,
-          Page
-            | doc m%"
-            A page object
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Page,
-          PageActions = predicates.contract_from_predicate
-              definitions.predicate.PageActions,
-          PageModule = String,
-          PageNumber
-            | doc m%"
-            A page number may help distinguish between pages with similar names
-            "%
-            = String,
-          Path
-            | doc m%"
-            A path can be in the form of a string, an if object, or an emit object
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Path,
-          Reference
-            | doc m%"
-            Placeholder values that obtain their real values at a later time
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.Reference,
-          Root
-            | doc m%"
-            The root/base object. It is global to all descendants
-            "%
-            = {
-                BaseCSS
-                  | { Style | definitions.contract.Style | optional, .. }
-                  | optional,
-                BaseDataModel
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.record
+  in
+let rec _js2n__-refsenv
+    = {
+      "_js2n__-:definitions/Action!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  actionType =
+                    _js2n__-refsenv."_js2n__-:definitions/ActionType!predicate",
+                  contentType =
+                    _js2n__-refsenv."_js2n__-:definitions/ContentType!predicate",
+                  dataKey =
+                    _js2n__-refsenv."_js2n__-:definitions/DataKeyString!predicate",
+                  dataObject =
+                    _js2n__-refsenv."_js2n__-:definitions/DataObject!predicate",
+                  dismissOnTouchOutside = _js2n__-prdslib.isType '"Bool",
+                  emit = _js2n__-refsenv."_js2n__-:definitions/Emit!predicate",
+                  funcName = _js2n__-prdslib.isType '"String",
+                  goto = _js2n__-refsenv."_js2n__-:definitions/Goto!predicate",
+                  object =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.isType '"Array"
+                        ],
+                  popUpView = _js2n__-prdslib.isType '"String",
+                  reload = _js2n__-prdslib.isType '"Bool",
+                  timer = _js2n__-prdslib.isType '"String",
+                  timerTag = _js2n__-prdslib.isType '"String",
+                  viewTag =
+                    _js2n__-refsenv."_js2n__-:definitions/ViewTag!predicate",
+                  wait =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType '"Number"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/ActionChain!predicate"
+        | doc "A chain of actions in sequential order"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/UserEvent!predicate"
+            ],
+      "_js2n__-:definitions/ActionType!predicate"
+        | doc "An identifier/name for an action"
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/AwaitReference!predicate"
+        | doc "A reference that returns its result after the value at the referenced path is received"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^[=.]*[a-zA-Z0-9]+.*@$"
+            ],
+      "_js2n__-:definitions/Boolean!predicate"
+        | doc "A boolean value is either one of \"true\", true, \"false\", or false"
+        = _js2n__-prdslib.enum [ "true", "false", true, false ],
+      "_js2n__-:definitions/Border!predicate"
+        | doc "Border styles"
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record
                     {
-                      Config = definitions.predicate.RootConfig,
-                      Global = predicates.isType 'Record,
-                    }
-                    {  }
-                    true
-                    (predicates.isType 'Record)
-                  ])
-                  | optional,
-                BasePage | {  .. } | optional,
-                Config | definitions.contract.RootConfig | optional,
-                Global
-                  | {  .. }
-                  | doc m%"
-                  This can be accessed and mutated by any object at any time
-                  "%
-                  | optional,
-                ..
-              },
-          RootConfig = {
-                android
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    definitions.predicate.ConfigVersionObjectByDevice
-                  ])
-                  | optional,
-                apiCheck | {  .. } | optional,
-                apiHost | String | optional,
-                apiPort | String | optional,
-                appApiHost | String | optional,
-                cadlBaseUrl | String | optional,
-                cadlMain | String | optional,
-                cadlVersion | {  .. } | optional,
-                connectiontimeout | String | optional,
-                debug
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [ predicates.isType '"String", predicates.isType 'Record ])
-                  | optional,
-                elasticClient | {  .. } | optional,
-                ios
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    definitions.predicate.ConfigVersionObjectByDevice
-                  ])
-                  | optional,
-                isGetPosition | definitions.contract.Boolean | optional,
-                keywords
-                  | predicates.contract_from_predicate
-                  (predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf (predicates.isType '"String")
-                  ])
-                  | optional,
-                loadingLevel | Number | optional,
-                log | String | optional,
-                myBaseUrl | String | optional,
-                searchLink | {  .. } | optional,
-                syncHost | String | optional,
-                timestamp | Number | optional,
-                viewWidthHeightRatio
-                  | { max | Number | optional, min | Number | optional, .. }
-                  | optional,
-                web
-                  | definitions.contract.ConfigVersionObjectByDevice
-                  | optional,
-                webApiHost | String | optional,
-                ..
-              },
-          RootEvalReference
-            | doc m%"
-            Mutates the value at the root referenced path after receiving its result
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.RootEvalReference,
-          RootReference
-            | doc m%"
-            A reference whose scope is at the global level
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.RootReference,
-          SelectOptions
-            | doc m%"
-            Options for a select component. These are the items that appear in the drop down menu when interacting with a select component
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.SelectOptions,
-          Style = {
-                align
-                  | String
-                  | doc m%"
-                  The alignment in a block. If align is horizontal, siblings will align horizontally, vice versa. This is functionally equivalent to the "axis" keyword
-                  "%
-                  | optional,
-                axis
-                  | String
-                  | doc m%"
-                  The axis in a block. If axis is horizontal, siblings will align horizontally, vice versa. This was previously used in list/listItem components
-                  "%
-                  | optional,
-                backgroundColor | String | optional,
-                border | definitions.contract.Border | optional,
-                borderBottom | String | optional,
-                borderColor | String | optional,
-                borderRadius | definitions.contract.NoodlUnit | optional,
-                borderWidth | definitions.contract.NoodlUnit | optional,
-                boxShadow
-                  | String
-                  | doc m%"
-                  Applies a box shadow style effect
-                  "%
-                  | optional,
-                boxSizing | String | optional,
-                color | String | optional,
-                fontFamily | String | optional,
-                fontSize | definitions.contract.NoodlUnit | optional,
-                fontStyle | String | optional,
-                fontWeight
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [ predicates.isType '"Number", predicates.isType '"String" ])
-                  | optional,
-                height | definitions.contract.NoodlUnit | optional,
-                isEditable | definitions.contract.Boolean | optional,
-                isHidden
-                  | definitions.contract.Boolean
-                  | doc m%"
-                  Used for hiding/showing components
-                  "%
-                  | optional,
-                justifyContent | String | optional,
-                left
-                  | definitions.contract.NoodlUnit
-                  | doc m%"
-                  Left position. The greater the value, the further away from the left position
-                  "%
-                  | optional,
-                letterSpacing
-                  | String
-                  | doc m%"
-                  Spacing between each letter
-                  "%
-                  | optional,
-                lineHeight
-                  | String
-                  | doc m%"
-                  Spacing between each line
-                  "%
-                  | optional,
-                margin | definitions.contract.NoodlUnit | optional,
-                marginTop | definitions.contract.NoodlUnit | optional,
-                opacity
-                  | Number
-                  | doc m%"
-                  Applies a transparenct style effect. The lower the opacity, the more the transparent effect is applied
-                  "%
-                  | optional,
-                overflow
-                  | String
-                  | doc m%"
-                  If hidden, any styles flowing outside of a component's bounds will be invisible
-                  "%
-                  | optional,
-                paddingBottom | definitions.contract.NoodlUnit | optional,
-                paddingLeft | definitions.contract.NoodlUnit | optional,
-                position | String | optional,
-                required | String | optional,
-                shadow
-                  | predicates.contract_from_predicate
-                  (predicates.oneOf
-                  [ predicates.isType '"String", predicates.isType '"Bool" ])
-                  | doc m%"
-                  Applies a box shadow effect
-                  "%
-                  | optional,
-                textAlign | definitions.contract.TextAlign | optional,
-                textColor | definitions.contract.Color | optional,
-                textIndent | String | optional,
-                top
-                  | definitions.contract.NoodlUnit
-                  | doc m%"
-                  Top position. The greater the value, the further away from the top position
-                  "%
-                  | optional,
-                width | definitions.contract.NoodlUnit | optional,
-                zIndex
-                  | String
-                  | doc m%"
-                  Applies a level of precedence/importance to a component. The higher the zIndex the higher level the component will be placed. For example, if a child 3 levels down applies a higher zIndex than the parent, then the child will appear to be on top in the page
-                  "%
-                  | optional,
-                ..
-              },
-          Text
-            | doc m%"
-            Used to display text in the user interface. Most commonly used in label components
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Text,
-          TextAlign = predicates.contract_from_predicate
-              definitions.predicate.TextAlign,
-          TextAlignEnum = String,
-          TextAlignObject = {
-                x | String | optional,
-                y | String | optional,
-                ..
-              },
-          TextBoard
-            | doc m%"
-            A component that contains children of text that are positioned inline (side by side)
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.TextBoard,
-          UserEvent
-            | doc m%"
-            An event in the form of an ActionChain that triggers from user interactions, like onClick and onFocus
-            "%
-            = predicates.contract_from_predicate
-              definitions.predicate.UserEvent,
-          Value
-            | doc m%"
-            A valid value in accordance to the noodl specification
-            "%
-            = predicates.contract_from_predicate definitions.predicate.Value,
-          ViewTag
-            | doc m%"
-            An identifier which is used to bind a component and an action together. Actions can define a viewTag that invokes certain behavior towards a component. The component must also contain the same viewTag key/value. If multiple components have the same viewTag, then the action will effect multiple components
-            "%
-            = String,
-        },
-    predicate = {
-          Action = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  actionType = definitions.predicate.ActionType,
-                  contentType = definitions.predicate.ContentType,
-                  dataKey = definitions.predicate.DataKeyString,
-                  dataObject = definitions.predicate.DataObject,
-                  dismissOnTouchOutside = predicates.isType '"Bool",
-                  emit = definitions.predicate.Emit,
-                  funcName = predicates.isType '"String",
-                  goto = definitions.predicate.Goto,
-                  object = predicates.anyOf
-                      [
-                        predicates.isType '"String",
-                        predicates.isType 'Record,
-                        predicates.isType '"Array"
-                      ],
-                  popUpView = predicates.isType '"String",
-                  reload = predicates.isType '"Bool",
-                  timer = predicates.isType '"String",
-                  timerTag = predicates.isType '"String",
-                  viewTag = definitions.predicate.ViewTag,
-                  wait = predicates.oneOf
-                      [
-                        predicates.isType '"Bool",
-                        predicates.isType '"Number"
-                      ],
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          ActionChain
-            | doc m%"
-            A chain of actions in sequential order
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf definitions.predicate.UserEvent
-              ],
-          ActionType
-            | doc m%"
-            An identifier/name for an action
-            "%
-            = predicates.isType '"String",
-          AwaitReference
-            | doc m%"
-            A reference that returns its result after the value at the referenced path is received
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.strings.pattern "^[=.]*[a-zA-Z0-9]+.*@$"
-              ],
-          Boolean
-            | doc m%"
-            A boolean value is either one of "true", true, "false", or false
-            "%
-            = predicates.enum [ "true", "false", true, false ],
-          Border
-            | doc m%"
-            Border styles
-            "%
-            = predicates.oneOf
-              [
-                predicates.isType '"String",
-                predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    color = definitions.predicate.Color,
-                    line = predicates.isType '"String",
-                    style = definitions.predicate.BorderStylePreset,
-                    width = definitions.predicate.NoodlUnit,
-                  }
-                  {  }
-                  true
-                  predicates.always
+                      color =
+                        _js2n__-refsenv."_js2n__-:definitions/Color!predicate",
+                      line = _js2n__-prdslib.isType '"String",
+                      style =
+                        _js2n__-refsenv."_js2n__-:definitions/BorderStylePreset!predicate",
+                      width =
+                        _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                    } {} true _js2n__-prdslib.always
                 ]
-              ],
-          BorderPreset1
-            | doc m%"
-            Removes border including the radius
-            "%
-            = predicates.allOf
-              [
-                predicates.enum [ "1", 1 ],
-                predicates.oneOf
-                [ predicates.isType '"String", predicates.isType '"Number" ]
-              ],
-          BorderPreset2
-            | doc m%"
-            Removes border from all sides (including radius) except the bottom. This will create an underline effect
-            "%
-            = predicates.allOf
-              [
-                predicates.enum [ 2, "2" ],
-                predicates.oneOf
-                [ predicates.isType '"String", predicates.isType '"Number" ]
-              ],
-          BorderPreset3
-            | doc m%"
-            Applies a solid border to all sides
-            "%
-            = predicates.allOf
-              [
-                predicates.enum [ "3", 3 ],
-                predicates.oneOf
-                [ predicates.isType '"String", predicates.isType '"Number" ]
-              ],
-          BorderPreset4
-            | doc m%"
-            Sets the border to be a dashed border
-            "%
-            = predicates.allOf
-              [
-                predicates.enum [ "4", 4 ],
-                predicates.oneOf
-                [ predicates.isType '"String", predicates.isType '"Number" ]
-              ],
-          BorderPreset5
-            | doc m%"
-            Removes border from all sides
-            "%
-            = predicates.allOf
-              [
-                predicates.enum [ "5", 5 ],
-                predicates.oneOf
-                [ predicates.isType '"String", predicates.isType '"Number" ]
-              ],
-          BorderPreset6
-            | doc m%"
-            Sets the border to be a solid border. This will also remove border radius from all sides
-            "%
-            = predicates.allOf
-              [
-                predicates.enum [ "6", 6 ],
-                predicates.oneOf
-                [ predicates.isType '"String", predicates.isType '"Number" ]
-              ],
-          BorderStylePreset
-            | doc m%"
-            A set of border presets, each applying a different style
-            "%
-            = predicates.oneOf
-              [
-                definitions.predicate.BorderPreset1,
-                definitions.predicate.BorderPreset2,
-                definitions.predicate.BorderPreset3,
-                definitions.predicate.BorderPreset4,
-                definitions.predicate.BorderPreset5,
-                definitions.predicate.BorderPreset6
-              ],
-          BuiltInEval
-            | doc m%"
-            Objects that become built in functions when parsed/serialized
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record {  }
+            ],
+      "_js2n__-:definitions/BorderPreset1!predicate"
+        | doc "Removes border including the radius"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.enum [ "1", 1 ],
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType '"Number"
+                ]
+            ],
+      "_js2n__-:definitions/BorderPreset2!predicate"
+        | doc "Removes border from all sides (including radius) except the bottom. This will create an underline effect"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.enum [ 2, "2" ],
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType '"Number"
+                ]
+            ],
+      "_js2n__-:definitions/BorderPreset3!predicate"
+        | doc "Applies a solid border to all sides"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.enum [ "3", 3 ],
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType '"Number"
+                ]
+            ],
+      "_js2n__-:definitions/BorderPreset4!predicate"
+        | doc "Sets the border to be a dashed border"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.enum [ "4", 4 ],
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType '"Number"
+                ]
+            ],
+      "_js2n__-:definitions/BorderPreset5!predicate"
+        | doc "Removes border from all sides"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.enum [ "5", 5 ],
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType '"Number"
+                ]
+            ],
+      "_js2n__-:definitions/BorderPreset6!predicate"
+        | doc "Sets the border to be a solid border. This will also remove border radius from all sides"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.enum [ "6", 6 ],
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType '"Number"
+                ]
+            ],
+      "_js2n__-:definitions/BorderStylePreset!predicate"
+        | doc "A set of border presets, each applying a different style"
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/BorderPreset1!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/BorderPreset2!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/BorderPreset3!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/BorderPreset4!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/BorderPreset5!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/BorderPreset6!predicate"
+            ],
+      "_js2n__-:definitions/BuiltInEval!predicate"
+        | doc "Objects that become built in functions when parsed/serialized"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
                 {
-                  "^=.builtIn.[a-zA-Z0-9]+$" = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          dataIn = definitions.predicate.DataIn,
-                          dataOut = definitions.predicate.DataOut,
-                        }
-                        {  }
-                        true
-                        predicates.always
-                      ],
-                }
-                true
-                predicates.always
-              ],
-          Color = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.strings.pattern "^(0x)[a-zA-Z0-9]+$"
-              ],
-          Component
-            | doc m%"
-            Components are the building blocks that construct to user interfaces
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  audioStream = predicates.isType '"Bool",
-                  borderRadius = definitions.predicate.NoodlUnit,
-                  children = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        (predicates.oneOf
+                  "^=.builtIn.[a-zA-Z0-9]+$" =
+                    _js2n__-prdslib.allOf
                         [
-                          definitions.predicate.Component,
-                          definitions.predicate.Reference
-                        ])
-                      ],
-                  contentType = definitions.predicate.ContentType,
-                  dataKey = definitions.predicate.DataKey,
-                  ecosObj = predicates.isType '"String",
-                  global = definitions.predicate.Boolean,
-                  image = predicates.isType '"String",
-                  imgPath = predicates.isType '"String",
-                  isEdit = definitions.predicate.Boolean,
-                  isEditable = predicates.anyOf
-                      [
-                        definitions.predicate.Boolean,
-                        predicates.isType '"String"
-                      ],
-                  itemObject = predicates.isType '"String",
-                  iteratorVar = predicates.isType '"String",
-                  listObject = predicates.anyOf
-                      [
-                        definitions.predicate.Empty,
-                        definitions.predicate.Reference,
-                        predicates.isType '"Array"
-                      ],
-                  onBlur = predicates.oneOf
-                      [
-                        definitions.predicate.ActionChain,
-                        definitions.predicate.UserEvent
-                      ],
-                  onChange = predicates.oneOf
-                      [
-                        definitions.predicate.ActionChain,
-                        definitions.predicate.UserEvent
-                      ],
-                  onClick = predicates.oneOf
-                      [
-                        definitions.predicate.ActionChain,
-                        definitions.predicate.UserEvent
-                      ],
-                  onEvent = predicates.isType '"String",
-                  onFocus = predicates.oneOf
-                      [
-                        definitions.predicate.ActionChain,
-                        definitions.predicate.UserEvent
-                      ],
-                  onHover = predicates.oneOf
-                      [
-                        definitions.predicate.ActionChain,
-                        definitions.predicate.UserEvent
-                      ],
-                  onInput = predicates.oneOf
-                      [
-                        definitions.predicate.ActionChain,
-                        definitions.predicate.UserEvent
-                      ],
-                  onMouseEnter = predicates.oneOf
-                      [
-                        definitions.predicate.ActionChain,
-                        definitions.predicate.UserEvent
-                      ],
-                  onMouseLeave = predicates.oneOf
-                      [
-                        definitions.predicate.ActionChain,
-                        definitions.predicate.UserEvent
-                      ],
-                  onMouseOut = predicates.oneOf
-                      [
-                        definitions.predicate.ActionChain,
-                        definitions.predicate.UserEvent
-                      ],
-                  onMouseOver = predicates.oneOf
-                      [
-                        definitions.predicate.ActionChain,
-                        definitions.predicate.UserEvent
-                      ],
-                  options = predicates.oneOf
-                      [
-                        predicates.isType '"String",
-                        predicates.isType '"Array"
-                      ],
-                  overflow = predicates.isType '"String",
-                  path = definitions.predicate.Path,
-                  placeholder = predicates.oneOf
-                      [
-                        predicates.isType '"String",
-                        definitions.predicate.If,
-                        predicates.allOf
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              dataIn =
+                                _js2n__-refsenv."_js2n__-:definitions/DataIn!predicate",
+                              dataOut =
+                                _js2n__-refsenv."_js2n__-:definitions/DataOut!predicate",
+                            } {} true _js2n__-prdslib.always
+                        ],
+                } true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/Color!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^(0x)[a-zA-Z0-9]+$"
+            ],
+      "_js2n__-:definitions/Component!predicate"
+        | doc "Components are the building blocks that construct to user interfaces"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  audioStream = _js2n__-prdslib.isType '"Bool",
+                  borderRadius =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  children =
+                    _js2n__-prdslib.allOf
                         [
-                          predicates.isType 'Record,
-                          predicates.records.record
-                          { emit = definitions.predicate.Emit, }
-                          {  }
-                          true
-                          predicates.always
-                        ]
-                      ],
-                  popUpView = predicates.isType '"String",
-                  postMessage = predicates.isType '"Array",
-                  poster = predicates.isType '"String",
-                  required = predicates.oneOf
-                      [
-                        predicates.isType '"String",
-                        predicates.isType '"Bool"
-                      ],
-                  resource = predicates.isType '"String",
-                  style = definitions.predicate.Style,
-                  text = definitions.predicate.Text,
-                  "text=func" = predicates.isType '"String",
-                  textAlign = definitions.predicate.TextAlign,
-                  textBoard = definitions.predicate.TextBoard,
-                  type = definitions.predicate.ComponentType,
-                  videoFormat = predicates.isType '"String",
-                  videoStream = predicates.isType '"Bool",
-                  viewTag = definitions.predicate.ViewTag,
-                  zIndex = predicates.isType '"Number",
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          ComponentType = predicates.isType '"String",
-          ConfigVersionObjectByDevice = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  cadlVersion = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          stable = predicates.isType '"String",
-                          test = predicates.isType '"String",
-                        }
-                        {  }
-                        true
-                        predicates.always
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          ContentType
-            | doc m%"
-            Determines the content type of the component. For example, a textField component may be a date textField if it has contentType: date, or a password textField with contentType: password, etc
-            "%
-            = predicates.isType '"String",
-          DataIn
-            | doc m%"
-            Argument(s) to the surrounding built in function
-            "%
-            = definitions.predicate.Value,
-          DataKey
-            | doc m%"
-            A value/pointer to a a property of an object
-            "%
-            = predicates.anyOf
-              [
-                definitions.predicate.DataKeyString,
-                definitions.predicate.DataKeyObject
-              ],
-          DataKeyObject
-            | doc m%"
-            Data key in the emit object
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record {  }
-                { "^[a-zA-Z0-9]+$" = predicates.isType 'Record, }
-                true
-                predicates.always
-              ],
-          DataKeyString
-            | doc m%"
-            The path to a data object or value. It might provide a different behavior depending on where it is placed. For example, a dataKey set on a textField component will bind its value to the path in the dataKey, enabling it to mutate the value while updating textField's value
-            "%
-            = predicates.isType '"String",
-          DataObject
-            | doc m%"
-            An object that contains data. It is most commonly used in actions such as updateObject as a way to update its data values
-            "%
-            = predicates.isType '"String",
-          DataOut
-            | doc m%"
-            Return value(s) to the surrounding built in function
-            "%
-            = definitions.predicate.Value,
-          Emit
-            | doc m%"
-            An emit is a special type of action that usually contains a dataKey paired with a list of actions that are called in order. Some emits can contain just a list of actions. When paired with a dataKey it is usually mutating the value at the path in the dataKey
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.required [ "actions" ],
-                predicates.records.record
-                {
-                  actions = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        (predicates.anyOf
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/Component!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/Reference!predicate"
+                              ])
+                        ],
+                  contentType =
+                    _js2n__-refsenv."_js2n__-:definitions/ContentType!predicate",
+                  dataKey =
+                    _js2n__-refsenv."_js2n__-:definitions/DataKey!predicate",
+                  ecosObj = _js2n__-prdslib.isType '"String",
+                  global =
+                    _js2n__-refsenv."_js2n__-:definitions/Boolean!predicate",
+                  image = _js2n__-prdslib.isType '"String",
+                  imgPath = _js2n__-prdslib.isType '"String",
+                  isEdit =
+                    _js2n__-refsenv."_js2n__-:definitions/Boolean!predicate",
+                  isEditable =
+                    _js2n__-prdslib.anyOf
                         [
-                          definitions.predicate.Action,
-                          definitions.predicate.BuiltInEval
-                        ])
-                      ],
-                  dataKey = predicates.oneOf
-                      [
-                        predicates.isType '"String",
-                        predicates.isType 'Record
-                      ],
-                }
-                {  }
-                false
-                predicates.never
-              ],
-          Empty
-            | doc m%"
-            Empty value (empty string)
-            "%
-            = predicates.allOf
-              [ predicates.isType '"String", predicates.const "" ],
-          Goto
-            | doc m%"
-            The destination the user should navigate to
-            "%
-            = predicates.allOf
-              [
-                predicates.anyOf
-                [
-                  predicates.isType '"String",
-                  predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    definitions.predicate.GotoObject
-                  ],
-                  predicates.allOf
-                  [
-                    predicates.isType '"String",
-                    definitions.predicate.GotoPageComponentUrl
-                  ]
-                ],
-                predicates.not (predicates.isType '"Number")
-              ],
-          GotoObject = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                { destination = predicates.isType '"String", }
-                {  }
-                true
-                predicates.always
-              ],
-          GotoPage = predicates.isType '"String",
-          GotoPageComponentUrl = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.strings.pattern
-                "[a-zA-Z0-9]+@[a-zA-Z0-9]+#[a-zA-Z0-9]+"
-              ],
-          If
-            | doc m%"
-            If objects contain an array with three items used for conditional checks. The first item is used as a test for truthiness which can be in the form of any data type such as a string, number, boolean, object, etc. Either the second or third item is returned depending on the result of the truthiness test
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                          _js2n__-refsenv."_js2n__-:definitions/Boolean!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  itemObject = _js2n__-prdslib.isType '"String",
+                  iteratorVar = _js2n__-prdslib.isType '"String",
+                  listObject =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Empty!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/Reference!predicate",
+                          _js2n__-prdslib.isType '"Array"
+                        ],
+                  onBlur =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ActionChain!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/UserEvent!predicate"
+                        ],
+                  onChange =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ActionChain!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/UserEvent!predicate"
+                        ],
+                  onClick =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ActionChain!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/UserEvent!predicate"
+                        ],
+                  onEvent = _js2n__-prdslib.isType '"String",
+                  onFocus =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ActionChain!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/UserEvent!predicate"
+                        ],
+                  onHover =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ActionChain!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/UserEvent!predicate"
+                        ],
+                  onInput =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ActionChain!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/UserEvent!predicate"
+                        ],
+                  onMouseEnter =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ActionChain!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/UserEvent!predicate"
+                        ],
+                  onMouseLeave =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ActionChain!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/UserEvent!predicate"
+                        ],
+                  onMouseOut =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ActionChain!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/UserEvent!predicate"
+                        ],
+                  onMouseOver =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ActionChain!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/UserEvent!predicate"
+                        ],
+                  options =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType '"Array"
+                        ],
+                  overflow = _js2n__-prdslib.isType '"String",
+                  path = _js2n__-refsenv."_js2n__-:definitions/Path!predicate",
+                  placeholder =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-refsenv."_js2n__-:definitions/If!predicate",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  emit =
+                                    _js2n__-refsenv."_js2n__-:definitions/Emit!predicate",
+                                } {} true _js2n__-prdslib.always
+                            ]
+                        ],
+                  popUpView = _js2n__-prdslib.isType '"String",
+                  postMessage = _js2n__-prdslib.isType '"Array",
+                  poster = _js2n__-prdslib.isType '"String",
+                  required =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType '"Bool"
+                        ],
+                  resource = _js2n__-prdslib.isType '"String",
+                  style =
+                    _js2n__-refsenv."_js2n__-:definitions/Style!predicate",
+                  text = _js2n__-refsenv."_js2n__-:definitions/Text!predicate",
+                  "text=func" = _js2n__-prdslib.isType '"String",
+                  textAlign =
+                    _js2n__-refsenv."_js2n__-:definitions/TextAlign!predicate",
+                  textBoard =
+                    _js2n__-refsenv."_js2n__-:definitions/TextBoard!predicate",
+                  type =
+                    _js2n__-refsenv."_js2n__-:definitions/ComponentType!predicate",
+                  videoFormat = _js2n__-prdslib.isType '"String",
+                  videoStream = _js2n__-prdslib.isType '"Bool",
+                  viewTag =
+                    _js2n__-refsenv."_js2n__-:definitions/ViewTag!predicate",
+                  zIndex = _js2n__-prdslib.isType '"Number",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/ComponentType!predicate" =
+        _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/ConfigVersionObjectByDevice!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
                 {
-                  "if" = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf definitions.predicate.Value,
-                        predicates.arrays.maxItems 3,
-                        predicates.arrays.minItems 3
-                      ],
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          Init
-            | doc m%"
-            One or more action(s) which will occur when entering a page
-            "%
-            = predicates.anyOf
-              [
-                predicates.allOf
-                [
-                  predicates.isType '"Array",
-                  predicates.arrays.arrayOf
-                  (predicates.anyOf
-                  [
-                    definitions.predicate.If,
-                    predicates.isType '"String",
-                    definitions.predicate.Goto,
-                    predicates.allOf
-                    [ predicates.isType '"String", predicates.const [ "" ] ]
-                  ])
-                ],
-                definitions.predicate.MixedActionChain
-              ],
-          LocalEvalReference
-            | doc m%"
-            Mutates the value at the referenced path after receiving its result
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.strings.pattern "^=[.][.][a-zA-Z0-9]+.*$"
-              ],
-          LocalReference
-            | doc m%"
-            A reference whose scope is within the page object, making them invisible to the objects outside of its scope
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.strings.pattern "^[.][.][a-zA-Z0-9]+.*$"
-              ],
-          MixedActionChain
-            | doc m%"
-            An ActionChain but also includes the BuiltInEval objects =.builtIn.* as well as await/eval references
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf
-                (predicates.anyOf
-                [
-                  definitions.predicate.ActionChain,
-                  predicates.allOf
-                  [
-                    predicates.isType '"Array",
-                    predicates.arrays.arrayOf definitions.predicate.BuiltInEval
-                  ],
-                  predicates.allOf
-                  [
-                    predicates.isType 'Record,
-                    predicates.records.record {  }
-                    { "(=.[a-zA_Z0-9])*@$" = definitions.predicate.Value, }
-                    true
-                    predicates.always
-                  ]
-                ])
-              ],
-          NoodlUnit
-            | doc m%"
-            A measurement adaptive to the size of the viewport
-            "%
-            = predicates.isType '"String",
-          Page
-            | doc m%"
-            A page object
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
+                  cadlVersion =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              stable = _js2n__-prdslib.isType '"String",
+                              test = _js2n__-prdslib.isType '"String",
+                            } {} true _js2n__-prdslib.always
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ContentType!predicate"
+        | doc "Determines the content type of the component. For example, a textField component may be a date textField if it has contentType: date, or a password textField with contentType: password, etc"
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/DataIn!predicate"
+        | doc "Argument(s) to the surrounding built in function"
+        = _js2n__-refsenv."_js2n__-:definitions/Value!predicate",
+      "_js2n__-:definitions/DataKey!predicate"
+        | doc "A value/pointer to a a property of an object"
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/DataKeyString!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/DataKeyObject!predicate"
+            ],
+      "_js2n__-:definitions/DataKeyObject!predicate"
+        | doc "Data key in the emit object"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                { "^[a-zA-Z0-9]+$" = _js2n__-prdslib.isType 'Record, } true
+                _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/DataKeyString!predicate"
+        | doc "The path to a data object or value. It might provide a different behavior depending on where it is placed. For example, a dataKey set on a textField component will bind its value to the path in the dataKey, enabling it to mutate the value while updating textField's value"
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/DataObject!predicate"
+        | doc "An object that contains data. It is most commonly used in actions such as updateObject as a way to update its data values"
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/DataOut!predicate"
+        | doc "Return value(s) to the surrounding built in function"
+        = _js2n__-refsenv."_js2n__-:definitions/Value!predicate",
+      "_js2n__-:definitions/Emit!predicate"
+        | doc "An emit is a special type of action that usually contains a dataKey paired with a list of actions that are called in order. Some emits can contain just a list of actions. When paired with a dataKey it is usually mutating the value at the path in the dataKey"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "actions" ],
+              _js2n__-prdslib.records.record
                 {
-                  check = definitions.predicate.Init,
-                  components = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf
-                        definitions.predicate.Component
-                      ],
-                  init = predicates.oneOf
-                      [ definitions.predicate.Init, predicates.const "" ],
-                  module = definitions.predicate.PageModule,
-                  pageNumber = definitions.predicate.PageNumber,
-                  save = definitions.predicate.Init,
-                  title = predicates.isType '"String",
-                  update = definitions.predicate.Init,
-                  viewPort = predicates.isType '"String",
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          PageActions = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf
-                (predicates.allOf
+                  actions =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/Action!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BuiltInEval!predicate"
+                              ])
+                        ],
+                  dataKey =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Empty!predicate"
+        | doc "Empty value (empty string)"
+        = _js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.const "" ],
+      "_js2n__-:definitions/Goto!predicate"
+        | doc "The destination the user should navigate to"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
                 [
-                  predicates.isType '"Array",
-                  predicates.anyOf
-                  [
-                    definitions.predicate.If,
-                    predicates.allOf
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.allOf
                     [
-                      predicates.isType 'Record,
-                      predicates.records.record
-                      { emit = definitions.predicate.Emit, }
-                      {  }
-                      true
-                      predicates.always
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-refsenv."_js2n__-:definitions/GotoObject!predicate"
                     ],
-                    predicates.isType 'Record,
-                    definitions.predicate.BuiltInEval
-                  ]
-                ])
-              ],
-          PageModule = predicates.isType '"String",
-          PageNumber
-            | doc m%"
-            A page number may help distinguish between pages with similar names
-            "%
-            = predicates.isType '"String",
-          Path
-            | doc m%"
-            A path can be in the form of a string, an if object, or an emit object
-            "%
-            = predicates.oneOf
-              [
-                predicates.anyOf
-                [
-                  predicates.isType '"String",
-                  definitions.predicate.GotoPageComponentUrl
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-refsenv."_js2n__-:definitions/GotoPageComponentUrl!predicate"
+                    ]
                 ],
-                predicates.anyOf
+              _js2n__-prdslib.not (_js2n__-prdslib.isType '"Number")
+            ],
+      "_js2n__-:definitions/GotoObject!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { destination = _js2n__-prdslib.isType '"String", } {} true
+                _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/GotoPageComponentUrl!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern
+                "[a-zA-Z0-9]+@[a-zA-Z0-9]+#[a-zA-Z0-9]+"
+            ],
+      "_js2n__-:definitions/If!predicate"
+        | doc "If objects contain an array with three items used for conditional checks. The first item is used as a test for truthiness which can be in the form of any data type such as a string, number, boolean, object, etc. Either the second or third item is returned depending on the result of the truthiness test"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "if" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Value!predicate",
+                          _js2n__-prdslib.arrays.maxItems 3,
+                          _js2n__-prdslib.arrays.minItems 3
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/Init!predicate"
+        | doc "One or more action(s) which will occur when entering a page"
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
                 [
-                  definitions.predicate.BuiltInEval,
-                  definitions.predicate.If,
-                  predicates.allOf
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-refsenv."_js2n__-:definitions/If!predicate",
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-refsenv."_js2n__-:definitions/Goto!predicate",
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const [ "" ]
+                          ]
+                      ])
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/MixedActionChain!predicate"
+            ],
+      "_js2n__-:definitions/LocalEvalReference!predicate"
+        | doc "Mutates the value at the referenced path after receiving its result"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^=[.][.][a-zA-Z0-9]+.*$"
+            ],
+      "_js2n__-:definitions/LocalReference!predicate"
+        | doc "A reference whose scope is within the page object, making them invisible to the objects outside of its scope"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^[.][.][a-zA-Z0-9]+.*$"
+            ],
+      "_js2n__-:definitions/MixedActionChain!predicate"
+        | doc "An ActionChain but also includes the BuiltInEval objects =.builtIn.* as well as await/eval references"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.anyOf
                   [
-                    predicates.isType 'Record,
-                    predicates.records.record
-                    { emit = definitions.predicate.Emit, }
-                    {  }
-                    true
-                    predicates.always
-                  ]
-                ]
-              ],
-          Reference
-            | doc m%"
-            Placeholder values that obtain their real values at a later time
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.oneOf
-                [
-                  definitions.predicate.LocalReference,
-                  definitions.predicate.RootReference,
-                  definitions.predicate.LocalEvalReference,
-                  definitions.predicate.RootEvalReference,
-                  definitions.predicate.AwaitReference
-                ]
-              ],
-          Root
-            | doc m%"
-            The root/base object. It is global to all descendants
-            "%
-            = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  BaseCSS = predicates.allOf
+                    _js2n__-refsenv."_js2n__-:definitions/ActionChain!predicate",
+                    _js2n__-prdslib.allOf
                       [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        { Style = definitions.predicate.Style, }
-                        {  }
-                        true
-                        predicates.always
+                        _js2n__-prdslib.isType '"Array",
+                        _js2n__-prdslib.arrays.arrayOf
+                          _js2n__-refsenv."_js2n__-:definitions/BuiltInEval!predicate"
                       ],
-                  BaseDataModel = predicates.allOf
+                    _js2n__-prdslib.allOf
                       [
-                        predicates.isType 'Record,
-                        predicates.records.record
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record {}
+                          {
+                            "(=.[a-zA_Z0-9])*@$" =
+                              _js2n__-refsenv."_js2n__-:definitions/Value!predicate",
+                          } true _js2n__-prdslib.always
+                      ]
+                  ])
+            ],
+      "_js2n__-:definitions/NoodlUnit!predicate"
+        | doc "A measurement adaptive to the size of the viewport"
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/Page!predicate"
+        | doc "A page object"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  check = _js2n__-refsenv."_js2n__-:definitions/Init!predicate",
+                  components =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Component!predicate"
+                        ],
+                  init =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Init!predicate",
+                          _js2n__-prdslib.const ""
+                        ],
+                  module =
+                    _js2n__-refsenv."_js2n__-:definitions/PageModule!predicate",
+                  pageNumber =
+                    _js2n__-refsenv."_js2n__-:definitions/PageNumber!predicate",
+                  save = _js2n__-refsenv."_js2n__-:definitions/Init!predicate",
+                  title = _js2n__-prdslib.isType '"String",
+                  update =
+                    _js2n__-refsenv."_js2n__-:definitions/Init!predicate",
+                  viewPort = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/PageModule!predicate" =
+        _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/PageNumber!predicate"
+        | doc "A page number may help distinguish between pages with similar names"
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/Path!predicate"
+        | doc "A path can be in the form of a string, an if object, or an emit object"
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-refsenv."_js2n__-:definitions/GotoPageComponentUrl!predicate"
+                ],
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/BuiltInEval!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/If!predicate",
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
                         {
-                          Config = definitions.predicate.RootConfig,
-                          Global = predicates.isType 'Record,
-                        }
-                        {  }
-                        true
-                        (predicates.isType 'Record)
-                      ],
-                  BasePage = predicates.isType 'Record,
-                  Config = definitions.predicate.RootConfig,
-                  Global = predicates.isType 'Record,
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          RootConfig = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  android = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        definitions.predicate.ConfigVersionObjectByDevice
-                      ],
-                  apiCheck = predicates.isType 'Record,
-                  apiHost = predicates.isType '"String",
-                  apiPort = predicates.isType '"String",
-                  appApiHost = predicates.isType '"String",
-                  cadlBaseUrl = predicates.isType '"String",
-                  cadlMain = predicates.isType '"String",
-                  cadlVersion = predicates.isType 'Record,
-                  connectiontimeout = predicates.isType '"String",
-                  debug = predicates.oneOf
-                      [
-                        predicates.isType '"String",
-                        predicates.isType 'Record
-                      ],
-                  elasticClient = predicates.isType 'Record,
-                  ios = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        definitions.predicate.ConfigVersionObjectByDevice
-                      ],
-                  isGetPosition = definitions.predicate.Boolean,
-                  keywords = predicates.allOf
-                      [
-                        predicates.isType '"Array",
-                        predicates.arrays.arrayOf (predicates.isType '"String")
-                      ],
-                  loadingLevel = predicates.isType '"Number",
-                  log = predicates.isType '"String",
-                  myBaseUrl = predicates.isType '"String",
-                  searchLink = predicates.isType 'Record,
-                  syncHost = predicates.isType '"String",
-                  timestamp = predicates.isType '"Number",
-                  viewWidthHeightRatio = predicates.allOf
-                      [
-                        predicates.isType 'Record,
-                        predicates.records.record
-                        {
-                          max = predicates.isType '"Number",
-                          min = predicates.isType '"Number",
-                        }
-                        {  }
-                        true
-                        predicates.always
-                      ],
-                  web = definitions.predicate.ConfigVersionObjectByDevice,
-                  webApiHost = predicates.isType '"String",
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          RootEvalReference
-            | doc m%"
-            Mutates the value at the root referenced path after receiving its result
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.strings.pattern "^=[.][a-zA-Z0-9]+.*$"
-              ],
-          RootReference
-            | doc m%"
-            A reference whose scope is at the global level
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"String",
-                predicates.strings.pattern "^[.][a-zA-Z0-9]+.*$"
-              ],
-          SelectOptions
-            | doc m%"
-            Options for a select component. These are the items that appear in the drop down menu when interacting with a select component
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf
-                (predicates.anyOf
-                [ predicates.isType '"String", predicates.isType '"Number" ])
-              ],
-          Style = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  align = predicates.isType '"String",
-                  axis = predicates.isType '"String",
-                  backgroundColor = predicates.isType '"String",
-                  border = definitions.predicate.Border,
-                  borderBottom = predicates.isType '"String",
-                  borderColor = predicates.isType '"String",
-                  borderRadius = definitions.predicate.NoodlUnit,
-                  borderWidth = definitions.predicate.NoodlUnit,
-                  boxShadow = predicates.isType '"String",
-                  boxSizing = predicates.isType '"String",
-                  color = predicates.isType '"String",
-                  fontFamily = predicates.isType '"String",
-                  fontSize = definitions.predicate.NoodlUnit,
-                  fontStyle = predicates.isType '"String",
-                  fontWeight = predicates.oneOf
-                      [
-                        predicates.isType '"Number",
-                        predicates.isType '"String"
-                      ],
-                  height = definitions.predicate.NoodlUnit,
-                  isEditable = definitions.predicate.Boolean,
-                  isHidden = definitions.predicate.Boolean,
-                  justifyContent = predicates.isType '"String",
-                  left = definitions.predicate.NoodlUnit,
-                  letterSpacing = predicates.isType '"String",
-                  lineHeight = predicates.isType '"String",
-                  margin = definitions.predicate.NoodlUnit,
-                  marginTop = definitions.predicate.NoodlUnit,
-                  opacity = predicates.isType '"Number",
-                  overflow = predicates.isType '"String",
-                  paddingBottom = definitions.predicate.NoodlUnit,
-                  paddingLeft = definitions.predicate.NoodlUnit,
-                  position = predicates.isType '"String",
-                  required = predicates.isType '"String",
-                  shadow = predicates.oneOf
-                      [
-                        predicates.isType '"String",
-                        predicates.isType '"Bool"
-                      ],
-                  textAlign = definitions.predicate.TextAlign,
-                  textColor = definitions.predicate.Color,
-                  textIndent = predicates.isType '"String",
-                  top = definitions.predicate.NoodlUnit,
-                  width = definitions.predicate.NoodlUnit,
-                  zIndex = predicates.isType '"String",
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          Text
-            | doc m%"
-            Used to display text in the user interface. Most commonly used in label components
-            "%
-            = predicates.oneOf
-              [ predicates.isType '"String", definitions.predicate.If ],
-          TextAlign = predicates.oneOf
-              [
-                definitions.predicate.TextAlignEnum,
-                definitions.predicate.TextAlignObject
-              ],
-          TextAlignEnum = predicates.isType '"String",
-          TextAlignObject = predicates.allOf
-              [
-                predicates.isType 'Record,
-                predicates.records.record
-                {
-                  x = predicates.isType '"String",
-                  y = predicates.isType '"String",
-                }
-                {  }
-                true
-                predicates.always
-              ],
-          TextBoard
-            | doc m%"
-            A component that contains children of text that are positioned inline (side by side)
-            "%
-            = predicates.allOf
-              [
-                predicates.isType '"Array",
-                predicates.arrays.arrayOf
-                (predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  {
-                    color = predicates.isType '"String",
-                    text = definitions.predicate.Text,
-                  }
-                  {  }
-                  true
-                  predicates.always
-                ])
-              ],
-          UserEvent
-            | doc m%"
-            An event in the form of an ActionChain that triggers from user interactions, like onClick and onFocus
-            "%
-            = predicates.anyOf
-              [
-                predicates.allOf
-                [ predicates.isType 'Record, definitions.predicate.Action ],
-                definitions.predicate.Reference
-              ],
-          Value
-            | doc m%"
-            A valid value in accordance to the noodl specification
-            "%
-            = predicates.oneOf
-              [
-                predicates.isType '"String",
-                definitions.predicate.NoodlUnit,
-                predicates.isType '"Number",
-                predicates.isType 'Record,
-                predicates.isType '"Array",
-                definitions.predicate.Reference,
-                predicates.isType 'Null,
-                definitions.predicate.If,
-                predicates.allOf
-                [
-                  predicates.isType 'Record,
-                  predicates.records.record
-                  { emit = definitions.predicate.Emit, }
-                  {  }
-                  true
-                  predicates.always
+                          emit =
+                            _js2n__-refsenv."_js2n__-:definitions/Emit!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ]
                 ]
-              ],
-          ViewTag
-            | doc m%"
-            An identifier which is used to bind a component and an action together. Actions can define a viewTag that invokes certain behavior towards a component. The component must also contain the same viewTag key/value. If multiple components have the same viewTag, then the action will effect multiple components
-            "%
-            = predicates.isType '"String",
-        },
-  }
-in
-
-predicates.contract_from_predicate
-(predicates.allOf
-[
-  predicates.isType 'Record,
-  predicates.records.record {  }
-  {
-    "^[a-zA-Z0-9]*$" = predicates.allOf
-        [ predicates.isType 'Record, definitions.predicate.Page ],
-  }
-  true
-  predicates.always,
-  definitions.predicate.RootConfig
-])
+            ],
+      "_js2n__-:definitions/Reference!predicate"
+        | doc "Placeholder values that obtain their real values at a later time"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/LocalReference!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/RootReference!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/LocalEvalReference!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/RootEvalReference!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/AwaitReference!predicate"
+                ]
+            ],
+      "_js2n__-:definitions/RootConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  android =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-refsenv."_js2n__-:definitions/ConfigVersionObjectByDevice!predicate"
+                        ],
+                  apiCheck = _js2n__-prdslib.isType 'Record,
+                  apiHost = _js2n__-prdslib.isType '"String",
+                  apiPort = _js2n__-prdslib.isType '"String",
+                  appApiHost = _js2n__-prdslib.isType '"String",
+                  cadlBaseUrl = _js2n__-prdslib.isType '"String",
+                  cadlMain = _js2n__-prdslib.isType '"String",
+                  cadlVersion = _js2n__-prdslib.isType 'Record,
+                  connectiontimeout = _js2n__-prdslib.isType '"String",
+                  debug =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                  elasticClient = _js2n__-prdslib.isType 'Record,
+                  ios =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-refsenv."_js2n__-:definitions/ConfigVersionObjectByDevice!predicate"
+                        ],
+                  isGetPosition =
+                    _js2n__-refsenv."_js2n__-:definitions/Boolean!predicate",
+                  keywords =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  loadingLevel = _js2n__-prdslib.isType '"Number",
+                  log = _js2n__-prdslib.isType '"String",
+                  myBaseUrl = _js2n__-prdslib.isType '"String",
+                  searchLink = _js2n__-prdslib.isType 'Record,
+                  syncHost = _js2n__-prdslib.isType '"String",
+                  timestamp = _js2n__-prdslib.isType '"Number",
+                  viewWidthHeightRatio =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              max = _js2n__-prdslib.isType '"Number",
+                              min = _js2n__-prdslib.isType '"Number",
+                            } {} true _js2n__-prdslib.always
+                        ],
+                  web =
+                    _js2n__-refsenv."_js2n__-:definitions/ConfigVersionObjectByDevice!predicate",
+                  webApiHost = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/RootEvalReference!predicate"
+        | doc "Mutates the value at the root referenced path after receiving its result"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^=[.][a-zA-Z0-9]+.*$"
+            ],
+      "_js2n__-:definitions/RootReference!predicate"
+        | doc "A reference whose scope is at the global level"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^[.][a-zA-Z0-9]+.*$"
+            ],
+      "_js2n__-:definitions/Style!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  align = _js2n__-prdslib.isType '"String",
+                  axis = _js2n__-prdslib.isType '"String",
+                  backgroundColor = _js2n__-prdslib.isType '"String",
+                  border =
+                    _js2n__-refsenv."_js2n__-:definitions/Border!predicate",
+                  borderBottom = _js2n__-prdslib.isType '"String",
+                  borderColor = _js2n__-prdslib.isType '"String",
+                  borderRadius =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  borderWidth =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  boxShadow = _js2n__-prdslib.isType '"String",
+                  boxSizing = _js2n__-prdslib.isType '"String",
+                  color = _js2n__-prdslib.isType '"String",
+                  fontFamily = _js2n__-prdslib.isType '"String",
+                  fontSize =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  fontStyle = _js2n__-prdslib.isType '"String",
+                  fontWeight =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  height =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  isEditable =
+                    _js2n__-refsenv."_js2n__-:definitions/Boolean!predicate",
+                  isHidden =
+                    _js2n__-refsenv."_js2n__-:definitions/Boolean!predicate",
+                  justifyContent = _js2n__-prdslib.isType '"String",
+                  left =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  letterSpacing = _js2n__-prdslib.isType '"String",
+                  lineHeight = _js2n__-prdslib.isType '"String",
+                  margin =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  marginTop =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  opacity = _js2n__-prdslib.isType '"Number",
+                  overflow = _js2n__-prdslib.isType '"String",
+                  paddingBottom =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  paddingLeft =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  position = _js2n__-prdslib.isType '"String",
+                  required = _js2n__-prdslib.isType '"String",
+                  shadow =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType '"Bool"
+                        ],
+                  textAlign =
+                    _js2n__-refsenv."_js2n__-:definitions/TextAlign!predicate",
+                  textColor =
+                    _js2n__-refsenv."_js2n__-:definitions/Color!predicate",
+                  textIndent = _js2n__-prdslib.isType '"String",
+                  top =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  width =
+                    _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+                  zIndex = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/Text!predicate"
+        | doc "Used to display text in the user interface. Most commonly used in label components"
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-refsenv."_js2n__-:definitions/If!predicate"
+            ],
+      "_js2n__-:definitions/TextAlign!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/TextAlignEnum!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/TextAlignObject!predicate"
+            ],
+      "_js2n__-:definitions/TextAlignEnum!predicate" =
+        _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/TextAlignObject!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  x = _js2n__-prdslib.isType '"String",
+                  y = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/TextBoard!predicate"
+        | doc "A component that contains children of text that are positioned inline (side by side)"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        color = _js2n__-prdslib.isType '"String",
+                        text =
+                          _js2n__-refsenv."_js2n__-:definitions/Text!predicate",
+                      } {} true _js2n__-prdslib.always
+                  ])
+            ],
+      "_js2n__-:definitions/UserEvent!predicate"
+        | doc "An event in the form of an ActionChain that triggers from user interactions, like onClick and onFocus"
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-refsenv."_js2n__-:definitions/Action!predicate"
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/Reference!predicate"
+            ],
+      "_js2n__-:definitions/Value!predicate"
+        | doc "A valid value in accordance to the noodl specification"
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-refsenv."_js2n__-:definitions/NoodlUnit!predicate",
+              _js2n__-prdslib.isType '"Number",
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-refsenv."_js2n__-:definitions/Reference!predicate",
+              _js2n__-prdslib.isType 'Null,
+              _js2n__-refsenv."_js2n__-:definitions/If!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record
+                    {
+                      emit =
+                        _js2n__-refsenv."_js2n__-:definitions/Emit!predicate",
+                    } {} true _js2n__-prdslib.always
+                ]
+            ],
+      "_js2n__-:definitions/ViewTag!predicate"
+        | doc "An identifier which is used to bind a component and an action together. Actions can define a viewTag that invokes certain behavior towards a component. The component must also contain the same viewTag key/value. If multiple components have the same viewTag, then the action will effect multiple components"
+        = _js2n__-prdslib.isType '"String",
+    }
+    in
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.allOf
+        [
+          _js2n__-prdslib.isType 'Record,
+          _js2n__-prdslib.records.record {}
+            {
+              "^[a-zA-Z0-9]*$" =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-refsenv."_js2n__-:definitions/Page!predicate"
+                    ],
+            } true _js2n__-prdslib.always,
+          _js2n__-refsenv."_js2n__-:definitions/RootConfig!predicate"
+        ])
