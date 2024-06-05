@@ -57,5 +57,6 @@ in
     },
     on.schedule = [ { cron = "0 0 * * 0" } ],
     on.workflow_dispatch = {},
+    on.push = {},
   }
 } | { _ | gha }

@@ -23,6 +23,7 @@ jobs:
             --body "Automated update from {{ env.GITHUB_RUN_ID }}"
         fi
 on:
+  push: {}
   schedule:
   - cron: 0 0 * * 0
   workflow_dispatch: {}
