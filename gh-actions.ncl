@@ -31,7 +31,7 @@ in
           }
         ],
     },
-    on = "push",
+    on.schedule = [ { cron = "0 0 * * 0" } ],
   },
 
   ensure-up-to-date-schemas = {

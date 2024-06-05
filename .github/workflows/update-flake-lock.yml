@@ -14,4 +14,6 @@ jobs:
         name: nickel-schemastore
     - name: Update flake.lock
       uses: DeterminateSystems/update-flake-lock@v21
-on: push
+on:
+  schedule:
+  - cron: 0 0 * * 0
