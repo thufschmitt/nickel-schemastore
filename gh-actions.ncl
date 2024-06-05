@@ -46,6 +46,7 @@ in
             run = m%"
           nix develop --command python3 ./extract-schemas.py
           if ! git diff --exit-code; then
+            git checkout -b update-schemas-from-{{env.GITHUB_RUN_ID}}
             git add .
             git config user.name "Schemas update bot"
             git config user.email "noreply@schemaupdate.invalid"
