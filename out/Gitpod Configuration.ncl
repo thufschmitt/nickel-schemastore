@@ -1070,6 +1070,10 @@ let rec _js2n__-refsenv
             | _js2n__-refsenv."_js2n__-:definitions/jetbrainsProduct!contract"
             | doc "Configure RubyMine integration"
             | optional,
+          rustrover
+            | _js2n__-refsenv."_js2n__-:definitions/jetbrainsProduct!contract"
+            | doc "Configure RustRover integration"
+            | optional,
           webstorm
             | _js2n__-refsenv."_js2n__-:definitions/jetbrainsProduct!contract"
             | doc "Configure WebStorm integration"

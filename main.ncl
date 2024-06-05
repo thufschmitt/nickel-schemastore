@@ -866,4 +866,5 @@
 "changelogging" = import "out/changelogging.ncl",
 "Configu .cfgu files" = import "out/Configu .cfgu files.ncl",
 "Configu .configu file" = import "out/Configu .configu file.ncl",
+"Qt Creator workspace file" = import "out/Qt Creator workspace file.ncl",
 }
