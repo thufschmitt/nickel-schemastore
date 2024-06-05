@@ -46,6 +46,8 @@ in
           nix develop --command python3 ./extract-schemas.py
           if ! git diff --exit-code; then
             git add .
+            git config user.name "Schemas update bot"
+            git config user.email "noreply@schemaupdate.invalid"
             git commit --message="Re-generate the schema files"
             nix run --inputs-from . nixpkgs\#hub -- pr create \
               --title "Re-generate the schema files" \
