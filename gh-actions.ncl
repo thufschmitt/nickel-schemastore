@@ -67,4 +67,22 @@ in
     on.schedule = [{ cron = "0 0 * * 0" }],
     on.workflow_dispatch = {},
   },
+
+  check-up-to-date-action-files = {
+    on.push = {},
+    jobs.check-up-to-date-action-files = {
+      runs-on = "ubuntu-latest",
+      steps =
+        setup
+        @ [
+          {
+            name = "Check that the generated action files match the Nickel source",
+            run = m%"
+              nix run .#regenerate-files -L
+              git diff --exit-code
+            "%
+          }
+        ],
+    },
+  },
 } | { _ | gha }
