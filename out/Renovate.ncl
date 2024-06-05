@@ -2615,6 +2615,8 @@ let rec _js2n__-refsenv
                     replacementName = _js2n__-prdslib.isType '"String",
                     replacementNameTemplate = _js2n__-prdslib.isType '"String",
                     replacementVersion = _js2n__-prdslib.isType '"String",
+                    sourceDirectory = _js2n__-prdslib.isType '"String",
+                    sourceUrl = _js2n__-prdslib.isType '"String",
                   } {} true _js2n__-prdslib.always
               ])
         )

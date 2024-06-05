@@ -898,206 +898,44 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {}
     in
-  _js2n__-prdslib.contract_from_predicate
-      (_js2n__-prdslib.allOf
-        [
-          _js2n__-prdslib.isType 'Record,
-          _js2n__-prdslib.records.required [ "projectName", "projectOwner" ],
-          _js2n__-prdslib.records.record
-            {
-              badgeTemplate =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.strings.minLength 0
-                    ],
-              commit = _js2n__-prdslib.isType '"Bool",
-              commitConvention =
-                _js2n__-prdslib.enum
-                    [
-                      "angular",
-                      "atom",
-                      "ember",
-                      "eslint",
-                      "jshint",
-                      "gitmoji",
-                      "none"
-                    ],
-              contributorTemplate =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.strings.minLength 0
-                    ],
-              contributors =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.records.required
-                              [
-                                "avatar_url",
-                                "contributions",
-                                "login",
-                                "name",
-                                "profile"
-                              ],
-                            _js2n__-prdslib.records.record
-                              {
-                                avatar_url =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.strings.minLength 0
-                                      ],
-                                contributions =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"Array",
-                                        _js2n__-prdslib.arrays.arrayOf
-                                          (_js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [
-                                                  "a11y",
-                                                  "audio",
-                                                  "blog",
-                                                  "bug",
-                                                  "business",
-                                                  "code",
-                                                  "content",
-                                                  "data",
-                                                  "design",
-                                                  "doc",
-                                                  "eventOrganizing",
-                                                  "example",
-                                                  "financial",
-                                                  "fundingFinding",
-                                                  "ideas",
-                                                  "infra",
-                                                  "maintenance",
-                                                  "mentoring",
-                                                  "platform",
-                                                  "plugin",
-                                                  "projectManagement",
-                                                  "promotion",
-                                                  "question",
-                                                  "research",
-                                                  "review",
-                                                  "security",
-                                                  "talk",
-                                                  "test",
-                                                  "tool",
-                                                  "translation",
-                                                  "tutorial",
-                                                  "userTesting",
-                                                  "video"
-                                                ],
-                                              _js2n__-prdslib.strings.minLength
-                                                0
-                                            ]),
-                                        _js2n__-prdslib.arrays.minItems 1
-                                      ],
-                                login =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.strings.minLength 0
-                                      ],
-                                name =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.strings.minLength 0
-                                      ],
-                                profile =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.strings.minLength 0
-                                      ],
-                              } {} false _js2n__-prdslib.never
-                          ])
-                    ],
-              contributorsPerLine =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Number",
-                      _js2n__-prdslib.numbers.minimum 0
-                    ],
-              contributorsSortAlphabetically = _js2n__-prdslib.isType '"Bool",
-              files =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.strings.minLength 0
-                          ])
-                    ],
-              imageSize =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Number",
-                      _js2n__-prdslib.numbers.minimum 0
-                    ],
-              linkToUsage = _js2n__-prdslib.isType '"Bool",
-              projectName =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.strings.minLength 0
-                    ],
-              projectOwner =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.strings.minLength 0
-                    ],
-              repoHost =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.strings.minLength 0
-                    ],
-              repoType = _js2n__-prdslib.enum [ "github", "gitlab" ],
-              skipCi = _js2n__-prdslib.isType '"Bool",
-              types =
-                _js2n__-prdslib.allOf
+  {
+      "files.exclude"
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.items [ _js2n__-prdslib.isType '"String" ]
+            ])
+        | doc "Files to exclude from the project"
+        | optional,
+      targets
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.items
+                [
+                  _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record {} {} true
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.records.record
-                              {
-                                description =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.strings.minLength 0
-                                      ],
-                                link =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.strings.minLength 0
-                                      ],
-                                symbol =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.strings.minLength 0
-                                      ],
-                              } {} true _js2n__-prdslib.always
-                          ])
-                    ],
-            } {} false _js2n__-prdslib.never
-        ])
+                      _js2n__-prdslib.records.required [ "executable", "name" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          arguments =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.items
+                                    [ _js2n__-prdslib.isType '"String" ]
+                                ],
+                          executable = _js2n__-prdslib.isType '"String",
+                          name = _js2n__-prdslib.isType '"String",
+                          workingDirectory = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
+                    ]
+                ]
+            ])
+        | doc "A list of targets"
+        | optional,
+      ..
+    }

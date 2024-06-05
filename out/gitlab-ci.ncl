@@ -1788,6 +1788,7 @@ let rec _js2n__-refsenv
                         ],
                   interruptible =
                     _js2n__-refsenv."_js2n__-:definitions/interruptible!predicate",
+                  manual_confirmation = _js2n__-prdslib.isType '"String",
                   needs =
                     _js2n__-prdslib.allOf
                         [
