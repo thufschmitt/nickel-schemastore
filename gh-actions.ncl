@@ -44,11 +44,18 @@ in
             name = "Ensure that schema files don't need a rebuild",
             run = m%"
           nix develop --command python3 ./extract-schemas.py
-          git diff --exit-code
+          if ! git diff --exit-code; then
+            git add .
+            git commit --message="Re-generate the schema files"
+            nix run --inputs-from . nixpkgs\#hub -- pr create \
+              --title "Re-generate the schema files" \
+              --body "Automated update from {{ env.GITHUB_RUN_ID }}"
+          fi
         "%,
           }
         ],
     },
-    on = "push",
+    on.schedule = [ { cron = "0 0 * * 0" } ],
+    on.workflow_dispatch = {},
   }
 } | { _ | gha }
