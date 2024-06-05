@@ -41,6 +41,7 @@ in
         setup
         @ [
           {
+            env.GH_TOKEN = "${{ github.token }}",
             name = "Ensure that schema files don't need a rebuild",
             run = m%"
           nix develop --command python3 ./extract-schemas.py
