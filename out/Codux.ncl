@@ -1036,15 +1036,6 @@ let rec _js2n__-refsenv
           Options: "pascal-case" | "camel-case" | "kebab-case"
         "%
         | optional,
-      formatting
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.oneOf
-            [ _js2n__-prdslib.isType 'Null, _js2n__-prdslib.always ])
-        | doc m%"
-          Formats code styling in Codux code drawer.
-          Refer to https://help.codux.com/kb/en/article/kb21416 for more information.
-        "%
-        | optional,
       httpServerPort
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"Number")
@@ -1074,7 +1065,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   componentsPath = _js2n__-prdslib.isType '"String",
-                  templatesPath = _js2n__-prdslib.isType '"String",
+                  templatesConfig = _js2n__-prdslib.always,
+                  templatesPath = _js2n__-prdslib.always,
                 } {} true _js2n__-prdslib.always
             ])
         | doc m%"
