@@ -49,7 +49,7 @@ in
             git config user.name "Schemas update bot"
             git config user.email "noreply@schemaupdate.invalid"
             git commit --message="Re-generate the schema files"
-            nix run --inputs-from . nixpkgs\#hub -- pr create \
+            nix run --inputs-from . nixpkgs\#gh -- pr create \
               --title "Re-generate the schema files" \
               --body "Automated update from {{ env.GITHUB_RUN_ID }}"
           fi
