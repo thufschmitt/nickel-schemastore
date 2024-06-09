@@ -1050,6 +1050,7 @@ let rec _js2n__-refsenv
       skip_action_validation | Bool | optional,
       skip_list | Array (String) | optional,
       strict | Bool | optional,
+      supported_ansible_also | Array (String) | optional,
       tags | Array (String) | optional,
       task_name_prefix | String | optional,
       use_default_rules | Bool | optional,

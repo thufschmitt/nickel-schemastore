@@ -1722,6 +1722,10 @@ let rec _js2n__-refsenv
               When the block declares support for a specific spacing property, its attributes definition is extended to include the style attribute.
             "%
             | optional,
+          splitting
+            | Bool
+            | doc "This property indicates whether the block can split when the Enter key is pressed or when blocks are pasted."
+            | optional,
           typography
             | {
               fontSize

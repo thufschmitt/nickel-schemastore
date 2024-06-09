@@ -1635,509 +1635,6 @@ let rec _js2n__-refsenv
                                         } {} false _js2n__-prdslib.never
                                     ],
                               serviceBus =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          batchOptions =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.records.record
-                                                    {
-                                                      autoComplete =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      maxMessageCount =
-                                                        _js2n__-prdslib.isType
-                                                            'Integer,
-                                                      operationTimeout =
-                                                        _js2n__-prdslib.strings.pattern
-                                                            "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$",
-                                                    } {} false
-                                                    _js2n__-prdslib.never
-                                                ],
-                                          messageHandlerOptions =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.records.record
-                                                    {
-                                                      autoComplete =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      maxAutoRenewDuration =
-                                                        _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
-                                                            ],
-                                                      maxConcurrentCalls =
-                                                        _js2n__-prdslib.isType
-                                                            'Integer,
-                                                    } {} false
-                                                    _js2n__-prdslib.never
-                                                ],
-                                          prefetchCount =
-                                            _js2n__-prdslib.isType 'Integer,
-                                          sessionHandlerOptions =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.records.record
-                                                    {
-                                                      autoComplete =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      maxAutoRenewDuration =
-                                                        _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
-                                                            ],
-                                                      maxConcurrentSessions =
-                                                        _js2n__-prdslib.isType
-                                                            'Integer,
-                                                      messageWaitTimeout =
-                                                        _js2n__-prdslib.isType
-                                                            '"String",
-                                                    } {} false
-                                                    _js2n__-prdslib.never
-                                                ],
-                                        } {} false _js2n__-prdslib.never
-                                    ],
-                            } {} true _js2n__-prdslib.always
-                        ],
-                  functionTimeout =
-                    _js2n__-refsenv."_js2n__-:definitions/functionTimeout!predicate",
-                  functions =
-                    _js2n__-refsenv."_js2n__-:definitions/functions!predicate",
-                  healthMonitor =
-                    _js2n__-refsenv."_js2n__-:definitions/healthMonitor!predicate",
-                  languageWorker =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              workersDirectory =
-                                _js2n__-prdslib.isType '"String",
-                            } {} false _js2n__-prdslib.never
-                        ],
-                  logging =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              applicationInsights =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          enableDependencyTracking =
-                                            _js2n__-prdslib.isType '"Bool",
-                                          enableLiveMetrics =
-                                            _js2n__-prdslib.isType '"Bool",
-                                          enableLiveMetricsFilters =
-                                            _js2n__-prdslib.isType '"Bool",
-                                          enablePerformanceCountersCollection =
-                                            _js2n__-prdslib.isType '"Bool",
-                                          httpAutoCollectionOptions =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.records.record
-                                                    {
-                                                      enableHttpTriggerExtendedInfoCollection =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      enableResponseHeaderInjection =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      enableW3CDistributedTracing =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                    } {} false
-                                                    _js2n__-prdslib.never
-                                                ],
-                                          samplingSettings =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.records.record
-                                                    {
-                                                      evaluationInterval =
-                                                        _js2n__-prdslib.strings.pattern
-                                                            "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$",
-                                                      excludedTypes =
-                                                        _js2n__-prdslib.isType
-                                                            '"String",
-                                                      includedTypes =
-                                                        _js2n__-prdslib.isType
-                                                            '"String",
-                                                      initialSamplingPercentage =
-                                                        _js2n__-prdslib.isType
-                                                            '"Number",
-                                                      isEnabled =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      maxSamplingPercentage =
-                                                        _js2n__-prdslib.isType
-                                                            '"Number",
-                                                      maxTelemetryItemsPerSecond =
-                                                        _js2n__-prdslib.isType
-                                                            'Integer,
-                                                      minSamplingPercentage =
-                                                        _js2n__-prdslib.isType
-                                                            '"Number",
-                                                      movingAverageRatio =
-                                                        _js2n__-prdslib.isType
-                                                            '"Number",
-                                                      samplingPercentageDecreaseTimeout =
-                                                        _js2n__-prdslib.strings.pattern
-                                                            "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$",
-                                                      samplingPercentageIncreaseTimeout =
-                                                        _js2n__-prdslib.strings.pattern
-                                                            "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$",
-                                                    } {} true
-                                                    _js2n__-prdslib.always
-                                                ],
-                                          snapshotConfiguration =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.records.record
-                                                    {
-                                                      agentEndpoint =
-                                                        _js2n__-prdslib.oneOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [ null ]
-                                                            ],
-                                                      captureSnapshotMemoryWeight =
-                                                        _js2n__-prdslib.isType
-                                                            '"Number",
-                                                      failedRequestLimit =
-                                                        _js2n__-prdslib.isType
-                                                            'Integer,
-                                                      handleUntrackedExceptions =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      isEnabled =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      isEnabledInDeveloperMode =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      isEnabledWhenProfiling =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      isExceptionSnappointsEnabled =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      isLowPrioritySnapshotUploader =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      maximumCollectionPlanSize =
-                                                        _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                9999,
-                                                              _js2n__-prdslib.numbers.minimum
-                                                                1
-                                                            ],
-                                                      maximumSnapshotsRequired =
-                                                        _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                999,
-                                                              _js2n__-prdslib.numbers.minimum
-                                                                1
-                                                            ],
-                                                      problemCounterResetInterval =
-                                                        _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^(?:[01]\\d|2[0-4]):[0-5]\\d:[0-5]\\d$"
-                                                            ],
-                                                      provideAnonymousTelemetry =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      reconnectInterval =
-                                                        _js2n__-prdslib.strings.pattern
-                                                            "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$",
-                                                      shadowCopyFolder =
-                                                        _js2n__-prdslib.oneOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [ null ]
-                                                            ],
-                                                      shareUploaderProcess =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      snapshotInLowPriorityThread =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      snapshotsPerDayLimit =
-                                                        _js2n__-prdslib.isType
-                                                            'Integer,
-                                                      snapshotsPerTenMinutesLimit =
-                                                        _js2n__-prdslib.isType
-                                                            'Integer,
-                                                      tempFolder =
-                                                        _js2n__-prdslib.oneOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [ null ]
-                                                            ],
-                                                      thresholdForSnapshotting =
-                                                        _js2n__-prdslib.isType
-                                                            'Integer,
-                                                      uploaderProxy =
-                                                        _js2n__-prdslib.oneOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [ null ]
-                                                            ],
-                                                    } {} false
-                                                    _js2n__-prdslib.never
-                                                ],
-                                        } {} false _js2n__-prdslib.never
-                                    ],
-                              fileLoggingMode =
-                                _js2n__-prdslib.enum
-                                    [ "never", "always", "debugOnly" ],
-                              logLevel =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          "default" =
-                                            _js2n__-prdslib.enum
-                                                [
-                                                  "Critical",
-                                                  "Debug",
-                                                  "Error",
-                                                  "Information",
-                                                  "None",
-                                                  "Trace",
-                                                  "Warning"
-                                                ],
-                                        } {} true
-                                        (_js2n__-prdslib.enum
-                                          [
-                                            "Critical",
-                                            "Debug",
-                                            "Error",
-                                            "Information",
-                                            "None",
-                                            "Trace",
-                                            "Warning"
-                                          ])
-                                    ],
-                            } {} true _js2n__-prdslib.always
-                        ],
-                  managedDependency =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            { enabled = _js2n__-prdslib.isType '"Bool", } {}
-                            false _js2n__-prdslib.never
-                        ],
-                  retry =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              delayInterval =
-                                _js2n__-prdslib.oneOf
-                                    [
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"String",
-                                          _js2n__-prdslib.strings.pattern
-                                            "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
-                                        ],
-                                      _js2n__-prdslib.enum [ null ]
-                                    ],
-                              maxRetryCount = _js2n__-prdslib.isType 'Integer,
-                              maximumInterval =
-                                _js2n__-prdslib.oneOf
-                                    [
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"String",
-                                          _js2n__-prdslib.strings.pattern
-                                            "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
-                                        ],
-                                      _js2n__-prdslib.enum [ null ]
-                                    ],
-                              minimumInterval =
-                                _js2n__-prdslib.oneOf
-                                    [
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"String",
-                                          _js2n__-prdslib.strings.pattern
-                                            "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
-                                        ],
-                                      _js2n__-prdslib.enum [ null ]
-                                    ],
-                              strategy =
-                                _js2n__-prdslib.enum
-                                    [ "exponentialBackoff", "fixedDelay" ],
-                            } {} true _js2n__-prdslib.always
-                        ],
-                  sendCanceledInvocationsToWorker =
-                    _js2n__-prdslib.isType '"Bool",
-                  singleton =
-                    _js2n__-refsenv."_js2n__-:definitions/singleton!predicate",
-                  version = _js2n__-prdslib.enum [ "2.0" ],
-                  watchDirectories =
-                    _js2n__-refsenv."_js2n__-:definitions/watchDirectories!predicate",
-                  watchFiles =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.strings.minLength 1
-                              ]),
-                          _js2n__-prdslib.arrays.uniqueItems,
-                          _js2n__-prdslib.records.record {} {} false
-                            _js2n__-prdslib.never
-                        ],
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/version-2-ext-5!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "version" ],
-              _js2n__-prdslib.records.record
-                {
-                  aggregator =
-                    _js2n__-refsenv."_js2n__-:definitions/aggregator!predicate",
-                  concurrency =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              dynamicConcurrencyEnabled =
-                                _js2n__-prdslib.isType '"Bool",
-                              snapshotPersistenceEnabled =
-                                _js2n__-prdslib.isType '"Bool",
-                            } {} false _js2n__-prdslib.never
-                        ],
-                  customHandler =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              description =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          arguments =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"Array",
-                                                  _js2n__-prdslib.arrays.arrayOf
-                                                    (_js2n__-prdslib.isType
-                                                      '"String")
-                                                ],
-                                          defaultExecutablePath =
-                                            _js2n__-prdslib.isType '"String",
-                                          workingDirectory =
-                                            _js2n__-prdslib.isType '"String",
-                                        } {} true _js2n__-prdslib.always
-                                    ],
-                              enableForwardingHttpRequest =
-                                _js2n__-prdslib.isType '"Bool",
-                            } {} false _js2n__-prdslib.never
-                        ],
-                  extensionBundle =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              id = _js2n__-prdslib.isType '"String",
-                              version = _js2n__-prdslib.isType '"String",
-                            } {} false _js2n__-prdslib.never
-                        ],
-                  extensions =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              blobs =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          maxDegreeOfParallelism =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Integer,
-                                                  _js2n__-prdslib.numbers.minimum
-                                                    1
-                                                ],
-                                          poisonBlobThreshold =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Integer,
-                                                  _js2n__-prdslib.numbers.minimum
-                                                    1
-                                                ],
-                                        } {} false _js2n__-prdslib.never
-                                    ],
-                              cosmosDB =
-                                _js2n__-refsenv."_js2n__-:definitions/cosmosDB-extension-v2!predicate",
-                              durableTask =
-                                _js2n__-refsenv."_js2n__-:definitions/durableTask-extension!predicate",
-                              eventHubs =
                                 _js2n__-prdslib.oneOf
                                     [
                                       _js2n__-prdslib.allOf
@@ -2145,8 +1642,87 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.isType 'Record,
                                           _js2n__-prdslib.records.record
                                             {
-                                              batchCheckpointFrequency =
+                                              batchOptions =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Record,
+                                                      _js2n__-prdslib.records.record
+                                                        {
+                                                          autoComplete =
+                                                            _js2n__-prdslib.isType
+                                                                '"Bool",
+                                                          maxMessageCount =
+                                                            _js2n__-prdslib.isType
+                                                                'Integer,
+                                                          operationTimeout =
+                                                            _js2n__-prdslib.strings.pattern
+                                                                "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$",
+                                                        } {} false
+                                                        _js2n__-prdslib.never
+                                                    ],
+                                              messageHandlerOptions =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Record,
+                                                      _js2n__-prdslib.records.record
+                                                        {
+                                                          autoComplete =
+                                                            _js2n__-prdslib.isType
+                                                                '"Bool",
+                                                          maxAutoRenewDuration =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                                                                ],
+                                                          maxConcurrentCalls =
+                                                            _js2n__-prdslib.isType
+                                                                'Integer,
+                                                        } {} false
+                                                        _js2n__-prdslib.never
+                                                    ],
+                                              prefetchCount =
                                                 _js2n__-prdslib.isType 'Integer,
+                                              sessionHandlerOptions =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Record,
+                                                      _js2n__-prdslib.records.record
+                                                        {
+                                                          autoComplete =
+                                                            _js2n__-prdslib.isType
+                                                                '"Bool",
+                                                          maxAutoRenewDuration =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                                                                ],
+                                                          maxConcurrentSessions =
+                                                            _js2n__-prdslib.isType
+                                                                'Integer,
+                                                          messageWaitTimeout =
+                                                            _js2n__-prdslib.isType
+                                                                '"String",
+                                                        } {} false
+                                                        _js2n__-prdslib.never
+                                                    ],
+                                            } {} false _js2n__-prdslib.never
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              autoCompleteMessages =
+                                                _js2n__-prdslib.isType '"Bool",
                                               clientRetryOptions =
                                                 _js2n__-prdslib.allOf
                                                     [
@@ -2192,54 +1768,42 @@ let rec _js2n__-refsenv
                                                                   _js2n__-prdslib.strings.pattern
                                                                     "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
                                                                 ],
-                                                        } {} false
-                                                        _js2n__-prdslib.never
+                                                        } {} true
+                                                        _js2n__-prdslib.always
                                                     ],
-                                              customEndpointAddress =
-                                                _js2n__-prdslib.isType
-                                                    '"String",
-                                              initialOffsetOptions =
+                                              enableCrossEntityTransactions =
+                                                _js2n__-prdslib.isType '"Bool",
+                                              maxAutoLockRenewalDuration =
                                                 _js2n__-prdslib.allOf
                                                     [
                                                       _js2n__-prdslib.isType
-                                                        'Record,
-                                                      _js2n__-prdslib.records.record
-                                                        {
-                                                          enqueuedTimeUtc =
-                                                            _js2n__-prdslib.isType
-                                                                '"String",
-                                                          type =
-                                                            _js2n__-prdslib.allOf
-                                                                [
-                                                                  _js2n__-prdslib.isType
-                                                                    '"String",
-                                                                  _js2n__-prdslib.enum
-                                                                    [
-                                                                      "fromStart",
-                                                                      "fromEnd",
-                                                                      "fromEnqueuedTime"
-                                                                    ]
-                                                                ],
-                                                        } {} false
-                                                        _js2n__-prdslib.never
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
                                                     ],
-                                              maxEventBatchSize =
+                                              maxBatchWaitTime =
                                                 _js2n__-prdslib.allOf
                                                     [
                                                       _js2n__-prdslib.isType
-                                                        'Integer,
-                                                      _js2n__-prdslib.numbers.minimum
-                                                        1
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
                                                     ],
+                                              maxConcurrentCalls =
+                                                _js2n__-prdslib.isType 'Integer,
+                                              maxConcurrentSessions =
+                                                _js2n__-prdslib.isType 'Integer,
+                                              maxMessageBatchSize =
+                                                _js2n__-prdslib.isType 'Integer,
                                               prefetchCount =
                                                 _js2n__-prdslib.isType 'Integer,
-                                              targetUnprocessedEventThreshold =
+                                              sessionIdleTimeout =
                                                 _js2n__-prdslib.allOf
                                                     [
                                                       _js2n__-prdslib.isType
-                                                        'Integer,
-                                                      _js2n__-prdslib.numbers.minimum
-                                                        1
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
                                                     ],
                                               transportType =
                                                 _js2n__-prdslib.allOf
@@ -2256,188 +1820,9 @@ let rec _js2n__-refsenv
                                                 _js2n__-prdslib.isType
                                                     '"String",
                                             } {} false _js2n__-prdslib.never
-                                        ],
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.records.record
-                                            {
-                                              batchCheckpointFrequency =
-                                                _js2n__-prdslib.isType 'Integer,
-                                              eventProcessorOptions =
-                                                _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        'Record,
-                                                      _js2n__-prdslib.records.record
-                                                        {
-                                                          maxBatchSize =
-                                                            _js2n__-prdslib.isType
-                                                                'Integer,
-                                                          prefetchCount =
-                                                            _js2n__-prdslib.isType
-                                                                'Integer,
-                                                        } {} false
-                                                        _js2n__-prdslib.never
-                                                    ],
-                                              initialOffsetOptions =
-                                                _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        'Record,
-                                                      _js2n__-prdslib.records.record
-                                                        {
-                                                          type =
-                                                            _js2n__-prdslib.allOf
-                                                                [
-                                                                  _js2n__-prdslib.isType
-                                                                    '"String",
-                                                                  _js2n__-prdslib.enum
-                                                                    [
-                                                                      "fromStart",
-                                                                      "fromEnd",
-                                                                      "fromEnqueuedTime"
-                                                                    ]
-                                                                ],
-                                                        } {} false
-                                                        _js2n__-prdslib.never
-                                                    ],
-                                            } {} false _js2n__-prdslib.never
-                                        ],
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.records.record
-                                            {
-                                              batchCheckpointFrequency =
-                                                _js2n__-prdslib.isType 'Integer,
-                                              maxBatchSize =
-                                                _js2n__-prdslib.isType 'Integer,
-                                              prefetchCount =
-                                                _js2n__-prdslib.isType 'Integer,
-                                            } {} false _js2n__-prdslib.never
                                         ]
                                     ],
-                              http =
-                                _js2n__-refsenv."_js2n__-:definitions/http-extension!predicate",
-                              queues =
-                                _js2n__-refsenv."_js2n__-:definitions/queues-extension-v2!predicate",
-                              sendGrid =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          from =
-                                            _js2n__-prdslib.isType '"String",
-                                        } {} false _js2n__-prdslib.never
-                                    ],
-                              serviceBus =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          autoCompleteMessages =
-                                            _js2n__-prdslib.isType '"Bool",
-                                          clientRetryOptions =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.records.record
-                                                    {
-                                                      delay =
-                                                        _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d\\d$"
-                                                            ],
-                                                      maxDelay =
-                                                        _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
-                                                            ],
-                                                      maxRetries =
-                                                        _js2n__-prdslib.isType
-                                                            'Integer,
-                                                      mode =
-                                                        _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [
-                                                                  "exponential",
-                                                                  "fixed"
-                                                                ]
-                                                            ],
-                                                      tryTimeout =
-                                                        _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
-                                                            ],
-                                                    } {} true
-                                                    _js2n__-prdslib.always
-                                                ],
-                                          enableCrossEntityTransactions =
-                                            _js2n__-prdslib.isType '"Bool",
-                                          maxAutoLockRenewalDuration =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.strings.pattern
-                                                    "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
-                                                ],
-                                          maxBatchWaitTime =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.strings.pattern
-                                                    "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
-                                                ],
-                                          maxConcurrentCalls =
-                                            _js2n__-prdslib.isType 'Integer,
-                                          maxConcurrentSessions =
-                                            _js2n__-prdslib.isType 'Integer,
-                                          maxMessageBatchSize =
-                                            _js2n__-prdslib.isType 'Integer,
-                                          prefetchCount =
-                                            _js2n__-prdslib.isType 'Integer,
-                                          sessionIdleTimeout =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.strings.pattern
-                                                    "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
-                                                ],
-                                          transportType =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.enum
-                                                    [
-                                                      "amqpTcp",
-                                                      "amqpWebSockets"
-                                                    ]
-                                                ],
-                                          webProxy =
-                                            _js2n__-prdslib.isType '"String",
-                                        } {} false _js2n__-prdslib.never
-                                    ],
-                            } {} true _js2n__-prdslib.always
+                            } {} false _js2n__-prdslib.never
                         ],
                   functionTimeout =
                     _js2n__-refsenv."_js2n__-:definitions/functionTimeout!predicate",
@@ -2786,7 +2171,6 @@ let rec _js2n__-refsenv
           _js2n__-prdslib.oneOf
             [
               _js2n__-refsenv."_js2n__-:definitions/version-1!predicate",
-              _js2n__-refsenv."_js2n__-:definitions/version-2!predicate",
-              _js2n__-refsenv."_js2n__-:definitions/version-2-ext-5!predicate"
+              _js2n__-refsenv."_js2n__-:definitions/version-2!predicate"
             ]
         ])

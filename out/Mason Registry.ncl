@@ -907,6 +907,15 @@ let rec _js2n__-refsenv
                     "^[a-zA-Z0-9_\\-\\.]+$" = _js2n__-prdslib.isType '"String",
                   } false _js2n__-prdslib.never
               ]),
+      "_js2n__-:definitions/components:deprecation!contract" =
+        {
+            message
+              | String
+              | doc "Deprecation message shown to users. Should include alternative installation methods if available.",
+            since
+              | String
+              | doc "The version number when the deprecation was made.",
+          },
       "_js2n__-:definitions/components:opt!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.allOf
@@ -941,20 +950,64 @@ let rec _js2n__-refsenv
               ]),
       "_js2n__-:definitions/components:source!contract" =
         _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.oneOf
+            (_js2n__-prdslib.allOf
               [
-                _js2n__-refsenv."_js2n__-:definitions/components:sources:cargo!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/components:sources:composer!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/components:sources:gem!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/components:sources:generic!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/components:sources:github!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/components:sources:golang!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/components:sources:luarocks!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/components:sources:npm!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/components:sources:nuget!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/components:sources:opam!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/components:sources:pypi!predicate"
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        version_overrides =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.required
+                                                [ "constraint" ],
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  constraint =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^semver:(<=)?v?\\d+\\.\\d+\\.\\d+"
+                                                        ],
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                          _js2n__-refsenv."_js2n__-:definitions/components:source/definitions/Source!predicate"
+                                        ]
+                                    ])
+                              ],
+                      } {} true _js2n__-prdslib.always
+                  ],
+                _js2n__-refsenv."_js2n__-:definitions/components:source/definitions/Source!predicate"
               ]),
+      "_js2n__-:definitions/components:source/definitions/Source!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:cargo!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:composer!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:gem!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:generic!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:github!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:golang!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:luarocks!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:npm!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:nuget!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:opam!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:openvsx!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/components:sources:pypi!predicate"
+            ],
       "_js2n__-:definitions/components:sources:build!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1006,7 +1059,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/enums:platform!predicate"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:composer!predicate" =
         _js2n__-prdslib.allOf
@@ -1022,7 +1075,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.strings.pattern
                             "^pkg:composer/.+/.+@.+"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:gem!predicate" =
         _js2n__-prdslib.allOf
@@ -1051,7 +1104,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/enums:platform!predicate"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:generic!predicate" =
         _js2n__-prdslib.oneOf
@@ -1083,7 +1136,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern "^pkg:generic/.+@.+"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:generic:download!predicate" =
         _js2n__-prdslib.allOf
@@ -1109,7 +1162,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern "^pkg:generic/.+@.+"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:generic:download/definitions/Download!predicate" =
         _js2n__-prdslib.allOf
@@ -1176,7 +1229,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern "^pkg:github/.+/.+@.+"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:github:release!predicate" =
         _js2n__-prdslib.allOf
@@ -1186,102 +1239,75 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   asset =
-                    _js2n__-refsenv."_js2n__-:definitions/components:sources:github:release/definitions/Asset!predicate",
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required
+                                      [ "file", "target" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        file =
+                                          _js2n__-prdslib.oneOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.isType
+                                                        '"String")
+                                                  ],
+                                                _js2n__-prdslib.isType '"String"
+                                              ],
+                                        target =
+                                          _js2n__-prdslib.oneOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      _js2n__-refsenv."_js2n__-:definitions/enums:platform!predicate"
+                                                  ],
+                                                _js2n__-refsenv."_js2n__-:definitions/enums:platform!predicate"
+                                              ],
+                                      } {} true _js2n__-prdslib.always
+                                  ])
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.required [ "file" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  file =
+                                    _js2n__-prdslib.oneOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                } {} true _js2n__-prdslib.always
+                            ]
+                        ],
                   id =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern "^pkg:github/.+/.+@.+"
                         ],
-                  version_overrides =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType 'Record,
-                                _js2n__-prdslib.records.required
-                                  [ "asset", "constraint" ],
-                                _js2n__-prdslib.records.record
-                                  {
-                                    asset =
-                                      _js2n__-refsenv."_js2n__-:definitions/components:sources:github:release/definitions/Asset!predicate",
-                                    constraint =
-                                      _js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.strings.pattern
-                                              "^semver:(<=)?v?\\d+\\.\\d+\\.\\d+"
-                                          ],
-                                    id =
-                                      _js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.strings.pattern
-                                              "^pkg:github/.+/[^@]+$"
-                                          ],
-                                  } {} false _js2n__-prdslib.never
-                              ])
-                        ],
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/components:sources:github:release/definitions/Asset!predicate" =
-        _js2n__-prdslib.oneOf
-            [
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.arrays.arrayOf
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required [ "file", "target" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            file =
-                              _js2n__-prdslib.oneOf
-                                  [
-                                    _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"Array",
-                                        _js2n__-prdslib.arrays.arrayOf
-                                          (_js2n__-prdslib.isType '"String")
-                                      ],
-                                    _js2n__-prdslib.isType '"String"
-                                  ],
-                            target =
-                              _js2n__-prdslib.oneOf
-                                  [
-                                    _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"Array",
-                                        _js2n__-prdslib.arrays.arrayOf
-                                          _js2n__-refsenv."_js2n__-:definitions/enums:platform!predicate"
-                                      ],
-                                    _js2n__-refsenv."_js2n__-:definitions/enums:platform!predicate"
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ])
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.record
-                    {
-                      file =
-                        _js2n__-prdslib.oneOf
-                            [
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    (_js2n__-prdslib.isType '"String")
-                                ],
-                              _js2n__-prdslib.isType '"String"
-                            ],
-                    } {} true _js2n__-prdslib.always
-                ]
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:golang!predicate" =
         _js2n__-prdslib.allOf
@@ -1303,7 +1329,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern "^pkg:golang/.+/.+@.+"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:luarocks!predicate" =
         _js2n__-prdslib.allOf
@@ -1318,7 +1344,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern "^pkg:luarocks/.+@.+"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:npm!predicate" =
         _js2n__-prdslib.allOf
@@ -1340,7 +1366,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern "^pkg:npm/.+@.+"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:nuget!predicate" =
         _js2n__-prdslib.allOf
@@ -1355,7 +1381,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern "^pkg:nuget/.+@.+"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:opam!predicate" =
         _js2n__-prdslib.allOf
@@ -1370,7 +1396,107 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern "^pkg:opam/.+@.+"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/components:sources:openvsx!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "download", "id" ],
+              _js2n__-prdslib.records.record
+                {
+                  download =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required
+                                      [ "file", "target" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        file =
+                                          _js2n__-prdslib.oneOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.isType
+                                                        '"String")
+                                                  ],
+                                                _js2n__-prdslib.isType '"String"
+                                              ],
+                                        target =
+                                          _js2n__-prdslib.oneOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      _js2n__-refsenv."_js2n__-:definitions/enums:platform!predicate"
+                                                  ],
+                                                _js2n__-refsenv."_js2n__-:definitions/enums:platform!predicate"
+                                              ],
+                                        target_platform =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.enum
+                                                  [
+                                                    "in32-x64",
+                                                    "win32-ia32",
+                                                    "win32-arm64",
+                                                    "linux-x64",
+                                                    "linux-arm64",
+                                                    "linux-armhf",
+                                                    "alpine-x64",
+                                                    "alpine-arm64",
+                                                    "darwin-x64",
+                                                    "darwin-arm64",
+                                                    "web",
+                                                    "universal"
+                                                  ]
+                                              ],
+                                      } {} true _js2n__-prdslib.always
+                                  ])
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.required [ "file" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  file =
+                                    _js2n__-prdslib.oneOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                } {} true _js2n__-prdslib.always
+                            ]
+                        ],
+                  id =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^pkg:openvsx/.+/.+@.+"
+                        ],
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/components:sources:pypi!predicate" =
         _js2n__-prdslib.allOf
@@ -1399,170 +1525,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/enums:platform!predicate"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/enums:category!contract" =
         std.contract.Sequence
             [
               std.enum.TagOrString,
               [| 'Runtime, 'Linter, 'LSP, 'Formatter, 'DAP, 'Compiler |]
-            ],
-      "_js2n__-:definitions/enums:language!contract" =
-        std.contract.Sequence
-            [
-              std.enum.TagOrString,
-              [|
-                'Zsh,
-                'Zig,
-                'YARA,
-                'YAML,
-                'XML,
-                'WGSL,
-                'Vue,
-                'Visualforce,
-                'VimScript,
-                'Veryl,
-                'Vala,
-                'V,
-                'Typst,
-                'TypeScript,
-                'Twig,
-                'Text,
-                'Terraform,
-                'Teal,
-                'TOML,
-                'SystemVerilog,
-                'Svelte,
-                'Stylelint,
-                'Starlark,
-                'Sphinx,
-                'Solidity,
-                'Snakemake,
-                '"Standard ML",
-                'Smithy,
-                'Slint,
-                'Shell,
-                'Sh,
-                'Scala,
-                'Sass,
-                'Salt,
-                'SQL,
-                'SCSS,
-                'Rust,
-                'Ruby,
-                '"Robot Framework",
-                'Reason,
-                'ReScript,
-                'Raku,
-                'R,
-                'Python,
-                'PureScript,
-                'Puppet,
-                'Protobuf,
-                'Progress,
-                'Prisma,
-                'PowerShell,
-                'Perl,
-                'PHP,
-                'OpenSCAD,
-                'OpenFOAM,
-                'OpenEdge,
-                'OpenCL,
-                'OpenAPI,
-                'OneScript,
-                'Odin,
-                'OCaml,
-                'Nunjucks,
-                'Nix,
-                'Nim,
-                'Nickel,
-                'Nginx,
-                'Mustache,
-                'Move,
-                'Mksh,
-                '"Metamath Zero",
-                'Markdown,
-                'Luau,
-                'Lua,
-                'Liquid,
-                'Lelwel,
-                'LaTeX,
-                'LESS,
-                'Ksh,
-                'Kotlin,
-                'Julia,
-                'Jsonnet,
-                'Jq,
-                'Jinja,
-                'JavaScript,
-                'Java,
-                'JSX,
-                'JSON,
-                'Hoon,
-                'Helm,
-                'Haxe,
-                'Haskell,
-                'Handlebars,
-                'Handlebargs,
-                'HTML,
-                'HAML,
-                'Groovy,
-                'GraphQL,
-                'Gradle,
-                'Go,
-                'Glimmer,
-                'Gleam,
-                'Fortran,
-                'Flux,
-                'Flow,
-                'Fennel,
-                '"F#",
-                'Erlang,
-                'Erg,
-                'Emmet,
-                'Ember,
-                'Elm,
-                'Elixir,
-                'Drools,
-                'Docker,
-                'Django,
-                'Dhall,
-                'Dart,
-                'DOT,
-                'D,
-                'Cue,
-                'Cucumber,
-                'Csh,
-                'Crystal,
-                'CodeQL,
-                'ClojureScript,
-                'Clojure,
-                'Clarity,
-                'CSS,
-                'CQL,
-                'CMake,
-                '"C++",
-                '"C#",
-                'C,
-                'BrighterScript,
-                'Blade,
-                'Bicep,
-                'Beancount,
-                'Bazel,
-                'Bash,
-                '"Azure Pipelines",
-                'Astro,
-                'Assembly,
-                'Arduino,
-                'Apex,
-                'Antlers,
-                'Ansible,
-                'Angular,
-                'Ada,
-                'AWK,
-                '"1С:Enterprise",
-                '".NET"
-              |]
             ],
       "_js2n__-:definitions/enums:platform!predicate" =
         _js2n__-prdslib.allOf
@@ -2134,6 +2103,9 @@ let rec _js2n__-refsenv
                 ]
             ])
         | optional,
+      deprecation
+        | _js2n__-refsenv."_js2n__-:definitions/components:deprecation!contract"
+        | optional,
       description
         | String
         | doc "The description of the package. Usually sourced upstream.",
@@ -2145,8 +2117,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.strings.pattern "^https?://"
             ])
         | doc "A URL to the package's homepage.",
-      languages
-        | Array _js2n__-refsenv."_js2n__-:definitions/enums:language!contract",
+      languages | Array (String),
       licenses
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

@@ -1304,8 +1304,7 @@ let rec _js2n__-refsenv
                               "vr-vsrx",
                               "vr-juniper_vsrx",
                               "juniper_vsrx",
-                              "vr-vjunosswitch",
-                              "vr-juniper_vjunosswitch",
+                              "juniper_vjunosrouter",
                               "juniper_vjunosswitch",
                               "juniper_vjunosevolved",
                               "vr-xrv",
@@ -1713,6 +1712,8 @@ let rec _js2n__-refsenv
                               juniper_crpd =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               juniper_vjunosevolved =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              juniper_vjunosrouter =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               juniper_vjunosswitch =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",

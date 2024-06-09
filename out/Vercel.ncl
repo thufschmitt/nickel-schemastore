@@ -1050,7 +1050,7 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.maxProperties 100,
+              _js2n__-prdslib.records.maxProperties 1000,
               _js2n__-prdslib.records.minProperties 0,
               _js2n__-prdslib.records.record {}
                 {
