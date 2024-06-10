@@ -937,6 +937,14 @@ let rec _js2n__-refsenv
                         (_js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required
+                              [
+                                "avatar_url",
+                                "contributions",
+                                "login",
+                                "name",
+                                "profile"
+                              ],
                             _js2n__-prdslib.records.record
                               {
                                 avatar_url =
@@ -953,6 +961,42 @@ let rec _js2n__-refsenv
                                           (_js2n__-prdslib.allOf
                                             [
                                               _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [
+                                                  "a11y",
+                                                  "audio",
+                                                  "blog",
+                                                  "bug",
+                                                  "business",
+                                                  "code",
+                                                  "content",
+                                                  "data",
+                                                  "design",
+                                                  "doc",
+                                                  "eventOrganizing",
+                                                  "example",
+                                                  "financial",
+                                                  "fundingFinding",
+                                                  "ideas",
+                                                  "infra",
+                                                  "maintenance",
+                                                  "mentoring",
+                                                  "platform",
+                                                  "plugin",
+                                                  "projectManagement",
+                                                  "promotion",
+                                                  "question",
+                                                  "research",
+                                                  "review",
+                                                  "security",
+                                                  "talk",
+                                                  "test",
+                                                  "tool",
+                                                  "translation",
+                                                  "tutorial",
+                                                  "userTesting",
+                                                  "video"
+                                                ],
                                               _js2n__-prdslib.strings.minLength
                                                 0
                                             ]),
@@ -976,7 +1020,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"String",
                                         _js2n__-prdslib.strings.minLength 0
                                       ],
-                              } {} true _js2n__-prdslib.always
+                              } {} false _js2n__-prdslib.never
                           ])
                     ],
               contributorsPerLine =

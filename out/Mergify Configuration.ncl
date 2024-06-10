@@ -1472,6 +1472,24 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/MergeMethod!predicate"
         | doc "merge method: `merge`, `squash`, `rebase` or `fast-forward`"
         = _js2n__-prdslib.enum [ "merge", "squash", "rebase", "fast-forward" ],
+      "_js2n__-:definitions/MergeProtection!contract" =
+        {
+            description
+              | String
+              | doc "The description of the protection."
+              | optional,
+            "if"
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/RuleCondition!contract"
+              | doc "A list of conditions that must match against the pull request for the protection to be applied.",
+            name
+              | String
+              | doc "The name of the protection. It's not possible to have two protections with the same name.",
+            success_conditions
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/RuleCondition!contract"
+              | doc "A list of conditions that must match against the pull request for the protection to be considered successful.",
+          },
       "_js2n__-:definitions/PartitionRule!contract" =
         {
             conditions
@@ -1838,6 +1856,9 @@ let rec _js2n__-refsenv
         }
         | optional,
       extends | String | optional,
+      merge_protections
+        | Array _js2n__-refsenv."_js2n__-:definitions/MergeProtection!contract"
+        | optional,
       partition_rules
         | Array _js2n__-refsenv."_js2n__-:definitions/PartitionRule!contract"
         | optional,

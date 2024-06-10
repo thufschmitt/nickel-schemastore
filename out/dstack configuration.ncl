@@ -944,6 +944,7 @@ let rec _js2n__-refsenv
                   "local",
                   "remote",
                   "nebius",
+                  "oci",
                   "runpod",
                   "tensordock",
                   "vastai"
@@ -1074,6 +1075,12 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/RegistryAuthRequest!predicate",
                   resources =
                     _js2n__-refsenv."_js2n__-:definitions/ResourcesSpecRequest!predicate",
+                  retry =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ProfileRetryRequest!predicate",
+                          _js2n__-prdslib.isType '"Bool"
+                        ],
                   retry_policy =
                     _js2n__-refsenv."_js2n__-:definitions/ProfileRetryPolicyRequest!predicate",
                   setup =
@@ -1223,6 +1230,28 @@ let rec _js2n__-refsenv
                   retry = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/ProfileRetryRequest!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "on_events" ],
+              _js2n__-prdslib.records.record
+                {
+                  duration =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  on_events =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/RetryEvent!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/PythonVersion!predicate"
         | doc "An enumeration."
         = _js2n__-prdslib.allOf
@@ -1306,14 +1335,8 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/ResourcesSpecRequest/definitions/DiskSpecRequest!predicate"
-        | doc m%"
-          The disk spec
-          
-          Attributes:
-              size (Range[Memory]): The size of the disk (e.g., `"100GB"`)
-        "%
-        = _js2n__-prdslib.allOf
+      "_js2n__-:definitions/ResourcesSpecRequest/definitions/DiskSpecRequest!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "size" ],
@@ -1340,18 +1363,8 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/ResourcesSpecRequest/definitions/GPUSpecRequest!predicate"
-        | doc m%"
-          The GPU spec
-          
-          Attributes:
-              name (Optional[List[str]]): The name of the GPU (e.g., `"A100"` or `"H100"`)
-              count (Optional[Range[int]]): The number of GPUs
-              memory (Optional[Range[Memory]]): The size of a single GPU memory (e.g., `"16GB"`)
-              total_memory (Optional[Range[Memory]]): The total size of all GPUs memory (e.g., `"32GB"`)
-              compute_capability (Optional[float]): The minimum compute capability of the GPU (e.g., `7.5`)
-        "%
-        = _js2n__-prdslib.allOf
+      "_js2n__-:definitions/ResourcesSpecRequest/definitions/GPUSpecRequest!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1495,6 +1508,13 @@ let rec _js2n__-refsenv
                   min = _js2n__-prdslib.isType 'Integer,
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/RetryEvent!predicate"
+        | doc "An enumeration."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "no-capacity", "interruption", "error" ]
+            ],
       "_js2n__-:definitions/ScalingSpecRequest!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1513,25 +1533,8 @@ let rec _js2n__-refsenv
                   target = _js2n__-prdslib.isType '"Number",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/ServiceConfigurationRequest!predicate"
-        | doc m%"
-          Attributes:
-              commands (List[str]): The bash commands to run
-              port (PortMapping): The port, that application listens to or the mapping
-              env (Dict[str, str]): The mapping or the list of environment variables
-              image (Optional[str]): The name of the Docker image to run
-              python (Optional[str]): The major version of Python
-              entrypoint (Optional[str]): The Docker entrypoint
-              registry_auth (Optional[RegistryAuth]): Credentials for pulling a private Docker image
-              home_dir (str): The absolute path to the home directory inside the container. Defaults to `/root`.
-              resources (Optional[ResourcesSpec]): The requirements to run the configuration.
-              model (Optional[ModelMapping]): Mapping of the model for the OpenAI-compatible endpoint.
-              https (bool): Enable HTTPS. Defaults to `True`.
-              auth (bool): Enable the authorization. Defaults to `True`.
-              replicas Range[int]: The range of the number of replicas. Defaults to `1`.
-              scaling: Optional[ScalingSpec]: The auto-scaling configuration.
-        "%
-        = _js2n__-prdslib.allOf
+      "_js2n__-:definitions/ServiceConfigurationRequest!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "port" ],
@@ -1660,6 +1663,12 @@ let rec _js2n__-refsenv
                         ],
                   resources =
                     _js2n__-refsenv."_js2n__-:definitions/ResourcesSpecRequest!predicate",
+                  retry =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ProfileRetryRequest!predicate",
+                          _js2n__-prdslib.isType '"Bool"
+                        ],
                   retry_policy =
                     _js2n__-refsenv."_js2n__-:definitions/ProfileRetryPolicyRequest!predicate",
                   scaling =
@@ -1730,20 +1739,8 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/TaskConfigurationRequest!predicate"
-        | doc m%"
-          Attributes:
-              commands (List[str]): The bash commands to run
-              ports (List[PortMapping]): Port numbers/mapping to expose
-              env (Dict[str, str]): The mapping or the list of environment variables
-              image (Optional[str]): The name of the Docker image to run
-              python (Optional[str]): The major version of Python
-              entrypoint (Optional[str]): The Docker entrypoint
-              registry_auth (Optional[RegistryAuth]): Credentials for pulling a private Docker image
-              home_dir (str): The absolute path to the home directory inside the container. Defaults to `/root`.
-              resources (Optional[ResourcesSpec]): The requirements to run the configuration.
-        "%
-        = _js2n__-prdslib.allOf
+      "_js2n__-:definitions/TaskConfigurationRequest!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1859,6 +1856,12 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/RegistryAuthRequest!predicate",
                   resources =
                     _js2n__-refsenv."_js2n__-:definitions/ResourcesSpecRequest!predicate",
+                  retry =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ProfileRetryRequest!predicate",
+                          _js2n__-prdslib.isType '"Bool"
+                        ],
                   retry_policy =
                     _js2n__-refsenv."_js2n__-:definitions/ProfileRetryPolicyRequest!predicate",
                   setup =

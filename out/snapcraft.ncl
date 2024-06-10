@@ -1365,7 +1365,11 @@ let rec _js2n__-refsenv
                                                     "ros2-foxy",
                                                     "ros2-foxy-ros-base",
                                                     "ros2-foxy-ros-core",
-                                                    "ros2-foxy-desktop"
+                                                    "ros2-foxy-desktop",
+                                                    "ros2-humble",
+                                                    "ros2-humble-ros-base",
+                                                    "ros2-humble-ros-core",
+                                                    "ros2-humble-desktop"
                                                   ]),
                                               _js2n__-prdslib.arrays.uniqueItems
                                             ],

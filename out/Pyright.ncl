@@ -897,6 +897,10 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/analyzeUnannotatedFunctions!predicate" =
+        _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/deprecateTypingAliases!predicate" =
+        _js2n__-prdslib.isType '"Bool",
       "_js2n__-:definitions/diagnostic!predicate" =
         _js2n__-prdslib.anyOf
             [
@@ -908,6 +912,205 @@ let rec _js2n__-refsenv
                     [ "none", "information", "warning", "error" ]
                 ]
             ],
+      "_js2n__-:definitions/disableBytesTypePromotions!predicate" =
+        _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/enableExperimentalFeatures!predicate" =
+        _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/enableTypeIgnoreComments!predicate" =
+        _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/extraPaths!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.pattern "^(.*)$"
+                  ])
+            ],
+      "_js2n__-:definitions/pythonPlatform!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^(Linux|Windows|Darwin|All)$"
+            ],
+      "_js2n__-:definitions/pythonVersion!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^3\\.[0-9]+$"
+            ],
+      "_js2n__-:definitions/reportAbstractUsage!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportArgumentType!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportAssertAlwaysTrue!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportAssertTypeFailure!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportAssignmentType!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportAttributeAccessIssue!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportCallInDefaultInitializer!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportCallIssue!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportConstantRedefinition!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportDeprecated!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportDuplicateImport!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportFunctionMemberAccess!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportGeneralTypeIssues!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportImplicitOverride!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportImplicitStringConcatenation!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportImportCycles!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportIncompatibleMethodOverride!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportIncompatibleVariableOverride!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportIncompleteStub!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportInconsistentConstructor!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportInconsistentOverload!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportIndexIssue!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportInvalidStringEscapeSequence!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportInvalidStubStatement!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportInvalidTypeArguments!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportInvalidTypeForm!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportInvalidTypeVarUse!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportMatchNotExhaustive!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportMissingImports!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportMissingModuleSource!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportMissingParameterType!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportMissingSuperCall!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportMissingTypeArgument!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportMissingTypeStubs!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportNoOverloadImplementation!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportOperatorIssue!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportOptionalCall!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportOptionalContextManager!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportOptionalIterable!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportOptionalMemberAccess!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportOptionalOperand!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportOptionalSubscript!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportOverlappingOverload!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportPossiblyUnboundVariable!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportPrivateImportUsage!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportPrivateUsage!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportPropertyTypeMismatch!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportRedeclaration!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportReturnType!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportSelfClsParameterName!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportShadowedImports!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportTypeCommentUsage!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportTypedDictNotRequiredAccess!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnboundVariable!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUndefinedVariable!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnhashable!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUninitializedInstanceVariable!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnknownArgumentType!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnknownLambdaType!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnknownMemberType!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnknownParameterType!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnknownVariableType!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnnecessaryCast!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnnecessaryComparison!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnnecessaryContains!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnnecessaryIsInstance!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnnecessaryTypeIgnoreComment!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnsupportedDunderAll!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUntypedBaseClass!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUntypedClassDecorator!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUntypedFunctionDecorator!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUntypedNamedTuple!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnusedCallResult!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnusedClass!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnusedCoroutine!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnusedExcept!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnusedExpression!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnusedFunction!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnusedImport!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportUnusedVariable!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/reportWildcardImportFromLibrary!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+      "_js2n__-:definitions/strictDictionaryInference!predicate" =
+        _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/strictListInference!predicate" =
+        _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/strictParameterNoneValue!predicate" =
+        _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/strictSetInference!predicate" =
+        _js2n__-prdslib.isType '"Bool",
     }
     in
   _js2n__-prdslib.contract_from_predicate
@@ -916,7 +1119,8 @@ let rec _js2n__-refsenv
           _js2n__-prdslib.isType 'Record,
           _js2n__-prdslib.records.record
             {
-              analyzeUnannotatedFunctions = _js2n__-prdslib.isType '"Bool",
+              analyzeUnannotatedFunctions =
+                _js2n__-refsenv."_js2n__-:definitions/analyzeUnannotatedFunctions!predicate",
               defineConstant =
                 _js2n__-prdslib.allOf
                     [
@@ -928,10 +1132,14 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.isType '"Bool"
                           ])
                     ],
-              deprecateTypingAliases = _js2n__-prdslib.isType '"Bool",
-              disableBytesTypePromotions = _js2n__-prdslib.isType '"Bool",
-              enableExperimentalFeatures = _js2n__-prdslib.isType '"Bool",
-              enableTypeIgnoreComments = _js2n__-prdslib.isType '"Bool",
+              deprecateTypingAliases =
+                _js2n__-refsenv."_js2n__-:definitions/deprecateTypingAliases!predicate",
+              disableBytesTypePromotions =
+                _js2n__-refsenv."_js2n__-:definitions/disableBytesTypePromotions!predicate",
+              enableExperimentalFeatures =
+                _js2n__-refsenv."_js2n__-:definitions/enableExperimentalFeatures!predicate",
+              enableTypeIgnoreComments =
+                _js2n__-refsenv."_js2n__-:definitions/enableTypeIgnoreComments!predicate",
               exclude =
                 _js2n__-prdslib.allOf
                     [
@@ -954,38 +1162,198 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.records.required [ "root" ],
                             _js2n__-prdslib.records.record
                               {
+                                analyzeUnannotatedFunctions =
+                                  _js2n__-refsenv."_js2n__-:definitions/analyzeUnannotatedFunctions!predicate",
+                                deprecateTypingAliases =
+                                  _js2n__-refsenv."_js2n__-:definitions/deprecateTypingAliases!predicate",
+                                disableBytesTypePromotions =
+                                  _js2n__-refsenv."_js2n__-:definitions/disableBytesTypePromotions!predicate",
+                                enableExperimentalFeatures =
+                                  _js2n__-refsenv."_js2n__-:definitions/enableExperimentalFeatures!predicate",
+                                enableTypeIgnoreComments =
+                                  _js2n__-refsenv."_js2n__-:definitions/enableTypeIgnoreComments!predicate",
                                 extraPaths =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"Array",
-                                        _js2n__-prdslib.arrays.arrayOf
-                                          (_js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^(.*)$"
-                                            ])
-                                      ],
+                                  _js2n__-refsenv."_js2n__-:definitions/extraPaths!predicate",
                                 pythonPlatform =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.strings.pattern
-                                          "^(Linux|Windows|Darwin|All)$"
-                                      ],
+                                  _js2n__-refsenv."_js2n__-:definitions/pythonPlatform!predicate",
                                 pythonVersion =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.strings.pattern
-                                          "^3\\.[0-9]+$"
-                                      ],
+                                  _js2n__-refsenv."_js2n__-:definitions/pythonVersion!predicate",
+                                reportAbstractUsage =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportAbstractUsage!predicate",
+                                reportArgumentType =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportArgumentType!predicate",
+                                reportAssertAlwaysTrue =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportAssertAlwaysTrue!predicate",
+                                reportAssertTypeFailure =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportAssertTypeFailure!predicate",
+                                reportAssignmentType =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportAssignmentType!predicate",
+                                reportAttributeAccessIssue =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportAttributeAccessIssue!predicate",
+                                reportCallInDefaultInitializer =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportCallInDefaultInitializer!predicate",
+                                reportCallIssue =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportCallIssue!predicate",
+                                reportConstantRedefinition =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportConstantRedefinition!predicate",
+                                reportDeprecated =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportDeprecated!predicate",
+                                reportDuplicateImport =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportDuplicateImport!predicate",
+                                reportFunctionMemberAccess =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportFunctionMemberAccess!predicate",
+                                reportGeneralTypeIssues =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportGeneralTypeIssues!predicate",
+                                reportImplicitOverride =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportImplicitOverride!predicate",
+                                reportImplicitStringConcatenation =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportImplicitStringConcatenation!predicate",
+                                reportImportCycles =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportImportCycles!predicate",
+                                reportIncompatibleMethodOverride =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportIncompatibleMethodOverride!predicate",
+                                reportIncompatibleVariableOverride =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportIncompatibleVariableOverride!predicate",
+                                reportIncompleteStub =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportIncompleteStub!predicate",
+                                reportInconsistentConstructor =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportInconsistentConstructor!predicate",
+                                reportInconsistentOverload =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportInconsistentOverload!predicate",
+                                reportIndexIssue =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportIndexIssue!predicate",
+                                reportInvalidStringEscapeSequence =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportInvalidStringEscapeSequence!predicate",
+                                reportInvalidStubStatement =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportInvalidStubStatement!predicate",
+                                reportInvalidTypeArguments =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportInvalidTypeArguments!predicate",
+                                reportInvalidTypeForm =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportInvalidTypeForm!predicate",
+                                reportInvalidTypeVarUse =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportInvalidTypeVarUse!predicate",
+                                reportMatchNotExhaustive =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportMatchNotExhaustive!predicate",
+                                reportMissingImports =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportMissingImports!predicate",
+                                reportMissingModuleSource =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportMissingModuleSource!predicate",
+                                reportMissingParameterType =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportMissingParameterType!predicate",
+                                reportMissingSuperCall =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportMissingSuperCall!predicate",
+                                reportMissingTypeArgument =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportMissingTypeArgument!predicate",
+                                reportMissingTypeStubs =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportMissingTypeStubs!predicate",
+                                reportNoOverloadImplementation =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportNoOverloadImplementation!predicate",
+                                reportOperatorIssue =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportOperatorIssue!predicate",
+                                reportOptionalCall =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportOptionalCall!predicate",
+                                reportOptionalContextManager =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportOptionalContextManager!predicate",
+                                reportOptionalIterable =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportOptionalIterable!predicate",
+                                reportOptionalMemberAccess =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportOptionalMemberAccess!predicate",
+                                reportOptionalOperand =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportOptionalOperand!predicate",
+                                reportOptionalSubscript =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportOptionalSubscript!predicate",
+                                reportOverlappingOverload =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportOverlappingOverload!predicate",
+                                reportPossiblyUnboundVariable =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportPossiblyUnboundVariable!predicate",
+                                reportPrivateImportUsage =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportPrivateImportUsage!predicate",
+                                reportPrivateUsage =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportPrivateUsage!predicate",
+                                reportPropertyTypeMismatch =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportPropertyTypeMismatch!predicate",
+                                reportRedeclaration =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportRedeclaration!predicate",
+                                reportReturnType =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportReturnType!predicate",
+                                reportSelfClsParameterName =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportSelfClsParameterName!predicate",
+                                reportShadowedImports =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportShadowedImports!predicate",
+                                reportTypeCommentUsage =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportTypeCommentUsage!predicate",
+                                reportTypedDictNotRequiredAccess =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportTypedDictNotRequiredAccess!predicate",
+                                reportUnboundVariable =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnboundVariable!predicate",
+                                reportUndefinedVariable =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUndefinedVariable!predicate",
+                                reportUnhashable =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnhashable!predicate",
+                                reportUninitializedInstanceVariable =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUninitializedInstanceVariable!predicate",
+                                reportUnknownArgumentType =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnknownArgumentType!predicate",
+                                reportUnknownLambdaType =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnknownLambdaType!predicate",
+                                reportUnknownMemberType =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnknownMemberType!predicate",
+                                reportUnknownParameterType =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnknownParameterType!predicate",
+                                reportUnknownVariableType =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnknownVariableType!predicate",
+                                reportUnnecessaryCast =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnnecessaryCast!predicate",
+                                reportUnnecessaryComparison =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnnecessaryComparison!predicate",
+                                reportUnnecessaryContains =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnnecessaryContains!predicate",
+                                reportUnnecessaryIsInstance =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnnecessaryIsInstance!predicate",
+                                reportUnnecessaryTypeIgnoreComment =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnnecessaryTypeIgnoreComment!predicate",
+                                reportUnsupportedDunderAll =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnsupportedDunderAll!predicate",
+                                reportUntypedBaseClass =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUntypedBaseClass!predicate",
+                                reportUntypedClassDecorator =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUntypedClassDecorator!predicate",
+                                reportUntypedFunctionDecorator =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUntypedFunctionDecorator!predicate",
+                                reportUntypedNamedTuple =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUntypedNamedTuple!predicate",
+                                reportUnusedCallResult =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnusedCallResult!predicate",
+                                reportUnusedClass =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnusedClass!predicate",
+                                reportUnusedCoroutine =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnusedCoroutine!predicate",
+                                reportUnusedExcept =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnusedExcept!predicate",
+                                reportUnusedExpression =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnusedExpression!predicate",
+                                reportUnusedFunction =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnusedFunction!predicate",
+                                reportUnusedImport =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnusedImport!predicate",
+                                reportUnusedVariable =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportUnusedVariable!predicate",
+                                reportWildcardImportFromLibrary =
+                                  _js2n__-refsenv."_js2n__-:definitions/reportWildcardImportFromLibrary!predicate",
                                 root =
                                   _js2n__-prdslib.allOf
                                       [
                                         _js2n__-prdslib.isType '"String",
                                         _js2n__-prdslib.strings.pattern "^(.*)$"
                                       ],
+                                strictDictionaryInference =
+                                  _js2n__-refsenv."_js2n__-:definitions/strictDictionaryInference!predicate",
+                                strictListInference =
+                                  _js2n__-refsenv."_js2n__-:definitions/strictListInference!predicate",
+                                strictParameterNoneValue =
+                                  _js2n__-refsenv."_js2n__-:definitions/strictParameterNoneValue!predicate",
+                                strictSetInference =
+                                  _js2n__-refsenv."_js2n__-:definitions/strictSetInference!predicate",
                               } {} true _js2n__-prdslib.always
                           ])
                     ],
@@ -996,16 +1364,7 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.strings.pattern "^(.*)$"
                     ],
               extraPaths =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.strings.pattern "^(.*)$"
-                          ])
-                    ],
+                _js2n__-refsenv."_js2n__-:definitions/extraPaths!predicate",
               ignore =
                 _js2n__-prdslib.allOf
                     [
@@ -1029,180 +1388,171 @@ let rec _js2n__-refsenv
                           ])
                     ],
               pythonPlatform =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.strings.pattern
-                        "^(Linux|Windows|Darwin|All)$"
-                    ],
+                _js2n__-refsenv."_js2n__-:definitions/pythonPlatform!predicate",
               pythonVersion =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.strings.pattern "^3\\.[0-9]+$"
-                    ],
+                _js2n__-refsenv."_js2n__-:definitions/pythonVersion!predicate",
               reportAbstractUsage =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportAbstractUsage!predicate",
               reportArgumentType =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportArgumentType!predicate",
               reportAssertAlwaysTrue =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportAssertAlwaysTrue!predicate",
               reportAssertTypeFailure =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportAssertTypeFailure!predicate",
               reportAssignmentType =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportAssignmentType!predicate",
               reportAttributeAccessIssue =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportAttributeAccessIssue!predicate",
               reportCallInDefaultInitializer =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportCallInDefaultInitializer!predicate",
               reportCallIssue =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportCallIssue!predicate",
               reportConstantRedefinition =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportConstantRedefinition!predicate",
               reportDeprecated =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportDeprecated!predicate",
               reportDuplicateImport =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportDuplicateImport!predicate",
               reportFunctionMemberAccess =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportFunctionMemberAccess!predicate",
               reportGeneralTypeIssues =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportGeneralTypeIssues!predicate",
               reportImplicitOverride =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportImplicitOverride!predicate",
               reportImplicitStringConcatenation =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportImplicitStringConcatenation!predicate",
               reportImportCycles =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportImportCycles!predicate",
               reportIncompatibleMethodOverride =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportIncompatibleMethodOverride!predicate",
               reportIncompatibleVariableOverride =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportIncompatibleVariableOverride!predicate",
               reportIncompleteStub =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportIncompleteStub!predicate",
               reportInconsistentConstructor =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportInconsistentConstructor!predicate",
               reportInconsistentOverload =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportInconsistentOverload!predicate",
               reportIndexIssue =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportIndexIssue!predicate",
               reportInvalidStringEscapeSequence =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportInvalidStringEscapeSequence!predicate",
               reportInvalidStubStatement =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportInvalidStubStatement!predicate",
               reportInvalidTypeArguments =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportInvalidTypeArguments!predicate",
               reportInvalidTypeForm =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportInvalidTypeForm!predicate",
               reportInvalidTypeVarUse =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportInvalidTypeVarUse!predicate",
               reportMatchNotExhaustive =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportMatchNotExhaustive!predicate",
               reportMissingImports =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportMissingImports!predicate",
               reportMissingModuleSource =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportMissingModuleSource!predicate",
               reportMissingParameterType =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportMissingParameterType!predicate",
               reportMissingSuperCall =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportMissingSuperCall!predicate",
               reportMissingTypeArgument =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportMissingTypeArgument!predicate",
               reportMissingTypeStubs =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportMissingTypeStubs!predicate",
               reportNoOverloadImplementation =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportNoOverloadImplementation!predicate",
               reportOperatorIssue =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportOperatorIssue!predicate",
               reportOptionalCall =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportOptionalCall!predicate",
               reportOptionalContextManager =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportOptionalContextManager!predicate",
               reportOptionalIterable =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportOptionalIterable!predicate",
               reportOptionalMemberAccess =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportOptionalMemberAccess!predicate",
               reportOptionalOperand =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportOptionalOperand!predicate",
               reportOptionalSubscript =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportOptionalSubscript!predicate",
               reportOverlappingOverload =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportOverlappingOverload!predicate",
               reportPossiblyUnboundVariable =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportPossiblyUnboundVariable!predicate",
               reportPrivateImportUsage =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportPrivateImportUsage!predicate",
               reportPrivateUsage =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportPrivateUsage!predicate",
               reportPropertyTypeMismatch =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportPropertyTypeMismatch!predicate",
               reportRedeclaration =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportRedeclaration!predicate",
               reportReturnType =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportReturnType!predicate",
               reportSelfClsParameterName =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportSelfClsParameterName!predicate",
               reportShadowedImports =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportShadowedImports!predicate",
               reportTypeCommentUsage =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportTypeCommentUsage!predicate",
               reportTypedDictNotRequiredAccess =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportTypedDictNotRequiredAccess!predicate",
               reportUnboundVariable =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnboundVariable!predicate",
               reportUndefinedVariable =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUndefinedVariable!predicate",
               reportUnhashable =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnhashable!predicate",
               reportUninitializedInstanceVariable =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUninitializedInstanceVariable!predicate",
               reportUnknownArgumentType =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnknownArgumentType!predicate",
               reportUnknownLambdaType =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnknownLambdaType!predicate",
               reportUnknownMemberType =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnknownMemberType!predicate",
               reportUnknownParameterType =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnknownParameterType!predicate",
               reportUnknownVariableType =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnknownVariableType!predicate",
               reportUnnecessaryCast =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnnecessaryCast!predicate",
               reportUnnecessaryComparison =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnnecessaryComparison!predicate",
               reportUnnecessaryContains =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnnecessaryContains!predicate",
               reportUnnecessaryIsInstance =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnnecessaryIsInstance!predicate",
               reportUnnecessaryTypeIgnoreComment =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnnecessaryTypeIgnoreComment!predicate",
               reportUnsupportedDunderAll =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnsupportedDunderAll!predicate",
               reportUntypedBaseClass =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUntypedBaseClass!predicate",
               reportUntypedClassDecorator =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUntypedClassDecorator!predicate",
               reportUntypedFunctionDecorator =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUntypedFunctionDecorator!predicate",
               reportUntypedNamedTuple =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUntypedNamedTuple!predicate",
               reportUnusedCallResult =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnusedCallResult!predicate",
               reportUnusedClass =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnusedClass!predicate",
               reportUnusedCoroutine =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnusedCoroutine!predicate",
               reportUnusedExcept =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnusedExcept!predicate",
               reportUnusedExpression =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnusedExpression!predicate",
               reportUnusedFunction =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnusedFunction!predicate",
               reportUnusedImport =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnusedImport!predicate",
               reportUnusedVariable =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportUnusedVariable!predicate",
               reportWildcardImportFromLibrary =
-                _js2n__-refsenv."_js2n__-:definitions/diagnostic!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/reportWildcardImportFromLibrary!predicate",
               strict =
                 _js2n__-prdslib.allOf
                     [
@@ -1214,10 +1564,14 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.strings.pattern "^(.*)$"
                           ])
                     ],
-              strictDictionaryInference = _js2n__-prdslib.isType '"Bool",
-              strictListInference = _js2n__-prdslib.isType '"Bool",
-              strictParameterNoneValue = _js2n__-prdslib.isType '"Bool",
-              strictSetInference = _js2n__-prdslib.isType '"Bool",
+              strictDictionaryInference =
+                _js2n__-refsenv."_js2n__-:definitions/strictDictionaryInference!predicate",
+              strictListInference =
+                _js2n__-refsenv."_js2n__-:definitions/strictListInference!predicate",
+              strictParameterNoneValue =
+                _js2n__-refsenv."_js2n__-:definitions/strictParameterNoneValue!predicate",
+              strictSetInference =
+                _js2n__-refsenv."_js2n__-:definitions/strictSetInference!predicate",
               stubPath =
                 _js2n__-prdslib.allOf
                     [

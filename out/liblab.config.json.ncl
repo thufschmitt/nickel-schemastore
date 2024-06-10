@@ -1430,8 +1430,44 @@ let rec _js2n__-refsenv
                                     {
                                       additionalConstructorParameters =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/go/properties/additionalConstructorParameters!predicate",
+                                      artifactid =
+                                        _js2n__-prdslib.isType '"String",
                                       authors =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/authors!predicate",
+                                      developers =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.required
+                                                      [
+                                                        "email",
+                                                        "name",
+                                                        "organization",
+                                                        "organizationUrl"
+                                                      ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        email =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        name =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        organization =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        organizationUrl =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ])
+                                            ],
                                       githubRepoName =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/githubRepoName!predicate",
                                       groupId =

@@ -1416,29 +1416,6 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/HostingEnvironment!predicate"
         | doc "An enumeration."
         = _js2n__-prdslib.enum [ "SELF_HOSTED", "ATLAS", "AWS_DOCUMENTDB" ],
-      "_js2n__-:definitions/IcebergCatalogConfig!predicate"
-        | doc m%"
-          Iceberg catalog config.
-          
-          https://py.iceberg.apache.org/configuration/
-        "%
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "config", "type" ],
-              _js2n__-prdslib.records.record
-                {
-                  config =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  name = _js2n__-prdslib.isType '"String",
-                  type = _js2n__-prdslib.isType '"String",
-                } {} false _js2n__-prdslib.never
-            ],
       "_js2n__-:definitions/IcebergProfilingConfig!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1679,6 +1656,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  ignore_non_path_spec_path = _js2n__-prdslib.isType '"Bool",
                   path_specs =
                     _js2n__-prdslib.allOf
                         [
@@ -3670,7 +3648,17 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   catalog =
-                    _js2n__-refsenv."_js2n__-:definitions/IcebergCatalogConfig!predicate",
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {} {} true
+                                  (_js2n__-prdslib.isType '"String")
+                              ])
+                        ],
                   env = _js2n__-prdslib.isType '"String",
                   group_ownership_property = _js2n__-prdslib.isType '"String",
                   platform_instance = _js2n__-prdslib.isType '"String",
@@ -5650,6 +5638,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/TagOption!predicate",
                   format_sql_queries = _js2n__-prdslib.isType '"Bool",
                   ignore_start_time_lineage = _js2n__-prdslib.isType '"Bool",
+                  include_assertion_results = _js2n__-prdslib.isType '"Bool",
                   include_column_lineage = _js2n__-prdslib.isType '"Bool",
                   include_external_url = _js2n__-prdslib.isType '"Bool",
                   include_operational_stats = _js2n__-prdslib.isType '"Bool",

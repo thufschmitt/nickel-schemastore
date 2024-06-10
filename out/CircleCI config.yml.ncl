@@ -1556,93 +1556,6 @@ let rec _js2n__-refsenv
                   type = _js2n__-prdslib.enum [ "approval" ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/jobs!contract"
-        | doc "Jobs are collections of steps. All of the steps in the job are executed in a single unit, either within a fresh container or VM."
-        = _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.allOf
-              [
-                _js2n__-prdslib.isType 'Record,
-                _js2n__-prdslib.records.record {} {} true
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-refsenv."_js2n__-:definitions/executorChoice!predicate",
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.required [ "executor" ],
-                              _js2n__-prdslib.records.record
-                                { executor = _js2n__-prdslib.isType '"String", }
-                                {} true _js2n__-prdslib.always
-                            ],
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.required [ "executor" ],
-                              _js2n__-prdslib.records.record
-                                {
-                                  executor =
-                                    _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.records.required
-                                            [ "name" ],
-                                          _js2n__-prdslib.records.record
-                                            {
-                                              name =
-                                                _js2n__-prdslib.isType
-                                                    '"String",
-                                            } {} true _js2n__-prdslib.always
-                                        ],
-                                } {} true _js2n__-prdslib.always
-                            ]
-                        ],
-                      _js2n__-prdslib.records.required [ "steps" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          branches =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    (_js2n__-prdslib.isType '"String")
-                                ],
-                          environment =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    (_js2n__-prdslib.anyOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.isType '"Number"
-                                      ])
-                                ],
-                          parallelism =
-                            _js2n__-prdslib.oneOf
-                                [
-                                  _js2n__-prdslib.isType 'Integer,
-                                  _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.strings.pattern
-                                        "^<<.+\\..+>>$"
-                                    ]
-                                ],
-                          shell = _js2n__-prdslib.isType '"String",
-                          steps =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    _js2n__-refsenv."_js2n__-:definitions/step!predicate"
-                                ],
-                          working_directory = _js2n__-prdslib.isType '"String",
-                        } {} true _js2n__-prdslib.always
-                    ])
-              ]),
       "_js2n__-:definitions/jobs!predicate"
         | doc "Jobs are collections of steps. All of the steps in the job are executed in a single unit, either within a fresh container or VM."
         = _js2n__-prdslib.allOf
@@ -2343,7 +2256,16 @@ let rec _js2n__-refsenv
       executors
         | _js2n__-refsenv."_js2n__-:definitions/executors!contract"
         | optional,
-      jobs | _js2n__-refsenv."_js2n__-:definitions/jobs!contract" | optional,
+      jobs
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.propertyNames
+                (_js2n__-prdslib.strings.pattern "^[A-Za-z][A-Za-z\\s\\d_-]*$"),
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always,
+              _js2n__-refsenv."_js2n__-:definitions/jobs!predicate"
+            ])
+        | optional,
       orbs | _js2n__-refsenv."_js2n__-:definitions/orbs!contract" | optional,
       version
         | _js2n__-prdslib.contract_from_predicate
