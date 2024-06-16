@@ -38210,7 +38210,7 @@ let rec _js2n__-refsenv
         | optional,
       meraki
         | {
-          regions
+          domains
             | Array
               {
                 name | String | doc "Name (String)",
@@ -38218,81 +38218,80 @@ let rec _js2n__-refsenv
                   | Array
                     {
                       administrators
-                        | Array
-                          {
-                            authentication_method
-                              | std.enum.TagOrString
-                              | [| 'Email, '"Cisco SecureX Sign-On" |]
-                              | doc m%"
-                                Authentication Method (String)
-                                - Allowed values: Cisco SecureX Sign-On, Email
-                              "%
-                              | optional,
-                            email | String | doc "Email (String)",
-                            name | String | doc "Name (String)",
-                            networks
-                              | Array
-                                {
-                                  access
-                                    | std.enum.TagOrString
-                                    | [|
-                                      'monitor-only,
-                                      'guest-ambassador,
-                                      'read-only,
-                                      'full
-                                    |]
-                                    | doc m%"
-                                      Access (String)
-                                      - Allowed values: full, read-only, guest-ambassador, monitor-only
-                                    "%
-                                    | optional,
-                                  name | String | doc "Name (String)",
-                                }
-                              | doc m%"
-                                Networks (List - Object)
-                                
-                                Elements:
-                                - name (required)
-                                - access
-                              "%
-                              | optional,
-                            organization_access
-                              | std.enum.TagOrString
-                              | [| 'read-only, 'none, 'full, 'enterprise |]
-                              | doc m%"
-                                Organization Access (String)
-                                - Allowed values: enterprise, full, none, read-only
-                              "%
-                              | optional,
-                            tags
-                              | Array
-                                {
-                                  access
-                                    | std.enum.TagOrString
-                                    | [|
-                                      'monitor-only,
-                                      'guest-ambassador,
-                                      'read-only,
-                                      'full
-                                    |]
-                                    | doc m%"
-                                      Access (String)
-                                      - Allowed values: full, read-only, guest-ambassador, monitor-only
-                                    "%
-                                    | optional,
-                                  name | String | doc "Name (String)",
-                                }
-                              | doc m%"
-                                Tags (List - Object)
-                                
-                                Elements:
-                                - name (required)
-                                - access
-                              "%
-                              | optional,
-                          }
+                        | {
+                          authentication_method
+                            | std.enum.TagOrString
+                            | [| 'Email, '"Cisco SecureX Sign-On" |]
+                            | doc m%"
+                              Authentication Method (String)
+                              - Allowed values: Cisco SecureX Sign-On, Email
+                            "%
+                            | optional,
+                          email | String | doc "Email (String)",
+                          name | String | doc "Name (String)",
+                          networks
+                            | Array
+                              {
+                                access
+                                  | std.enum.TagOrString
+                                  | [|
+                                    'monitor-only,
+                                    'guest-ambassador,
+                                    'read-only,
+                                    'full
+                                  |]
+                                  | doc m%"
+                                    Access (String)
+                                    - Allowed values: full, read-only, guest-ambassador, monitor-only
+                                  "%
+                                  | optional,
+                                name | String | doc "Name (String)",
+                              }
+                            | doc m%"
+                              Networks (List - Object)
+                              
+                              Elements:
+                              - name (required)
+                              - access
+                            "%
+                            | optional,
+                          organization_access
+                            | std.enum.TagOrString
+                            | [| 'read-only, 'none, 'full, 'enterprise |]
+                            | doc m%"
+                              Organization Access (String)
+                              - Allowed values: enterprise, full, none, read-only
+                            "%
+                            | optional,
+                          tags
+                            | Array
+                              {
+                                access
+                                  | std.enum.TagOrString
+                                  | [|
+                                    'monitor-only,
+                                    'guest-ambassador,
+                                    'read-only,
+                                    'full
+                                  |]
+                                  | doc m%"
+                                    Access (String)
+                                    - Allowed values: full, read-only, guest-ambassador, monitor-only
+                                  "%
+                                  | optional,
+                                name | String | doc "Name (String)",
+                              }
+                            | doc m%"
+                              Tags (List - Object)
+                              
+                              Elements:
+                              - name (required)
+                              - access
+                            "%
+                            | optional,
+                        }
                         | doc m%"
-                          Administrators (List - Object)
+                          Administrators (Object)
                           
                           Elements:
                           - name (required)
@@ -38303,6 +38302,74 @@ let rec _js2n__-refsenv
                           - tags
                         "%
                         | optional,
+                      login_security
+                        | {
+                          account_lockout_attempts
+                            | std.number.Integer
+                            | doc "Account Lockout Attempts (Integer)"
+                            | optional,
+                          enforce_account_lockout
+                            | Bool
+                            | doc "Enforce Account Lockout (Boolean)"
+                            | optional,
+                          enforce_different_passwords
+                            | Bool
+                            | doc "Enforce Different Passwords (Boolean)"
+                            | optional,
+                          enforce_idle_timeout
+                            | Bool
+                            | doc "Enforce Idle Timeout (Boolean)"
+                            | optional,
+                          enforce_login_ip_ranges
+                            | Bool
+                            | doc "Enforce Login IP Ranges (Boolean)"
+                            | optional,
+                          enforce_password_expiration
+                            | Bool
+                            | doc "Enforce Password Expiration (Boolean)"
+                            | optional,
+                          enforce_strong_passwords
+                            | Bool
+                            | doc "Enforce Strong Passwords (Boolean)"
+                            | optional,
+                          enforce_two_factor_auth
+                            | Bool
+                            | doc "Enforce Two Factor Auth (Boolean)"
+                            | optional,
+                          idle_timeout_minutes
+                            | std.number.Integer
+                            | doc "Idle Timeout Minutes (Integer)"
+                            | optional,
+                          login_ip_ranges
+                            | Array (String)
+                            | doc "Login IP Ranges (List - String)",
+                          num_different_passwords
+                            | std.number.Integer
+                            | doc "Num Different Passwords (Integer)"
+                            | optional,
+                          password_expiration_days
+                            | std.number.Integer
+                            | doc "Password Expiration Days (Integer)"
+                            | optional,
+                        }
+                        | doc m%"
+                          Login Security (Object)
+                          
+                          Elements:
+                          - enforce_password_expiration
+                          - password_expiration_days
+                          - enforce_different_passwords
+                          - num_different_passwords
+                          - enforce_strong_passwords
+                          - enforce_account_lockout
+                          - account_lockout_attempts
+                          - enforce_idle_timeout
+                          - idle_timeout_minutes
+                          - enforce_two_factor_auth
+                          - enforce_login_ip_ranges
+                          - login_ip_ranges (required)
+                        "%
+                        | optional,
                       name | String | doc "Name (String)",
                       networks
                         | Array
@@ -38311,72 +38378,7 @@ let rec _js2n__-refsenv
                               | String
                               | doc "Description (String)"
                               | optional,
-                            devices
-                              | Array
-                                {
-                                  claimed
-                                    | Bool
-                                    | doc "Claimed (Boolean)"
-                                    | optional,
-                                  device_templates
-                                    | {
-                                      name | String | doc "Name (String)",
-                                      product_type
-                                        | std.enum.TagOrString
-                                        | [|
-                                          'sensor,
-                                          'camera,
-                                          'wireless,
-                                          'switch,
-                                          'appliance
-                                        |]
-                                        | doc m%"
-                                          Product Type (String)
-                                          - Allowed values: appliance, switch, wireless, camera, sensor
-                                        "%,
-                                      tags
-                                        | Array (String)
-                                        | doc "Tags (List - String)"
-                                        | optional,
-                                    }
-                                    | doc m%"
-                                      Device Templates (Object)
-                                      
-                                      Elements:
-                                      - name (required)
-                                      - product_type (required)
-                                      - tags
-                                    "%,
-                                  model | String | doc "Model (String)",
-                                  name | String | doc "Name (String)",
-                                  serial | String | doc "Serial (String)",
-                                  tags
-                                    | Array (String)
-                                    | doc "Tags (List - String)"
-                                    | optional,
-                                }
-                              | doc m%"
-                                Devices (List - Object)
-                                
-                                Elements:
-                                - name (required)
-                                - serial (required)
-                                - model (required)
-                                - tags
-                                - claimed
-                                - device_templates (required)
-                              "%
-                              | optional,
                             name | String | doc "Name (String)",
-                            network_template
-                              | { name | String | doc "Name (String)", }
-                              | doc m%"
-                                Network Template (Object)
-                                
-                                Elements:
-                                - name (required)
-                              "%
-                              | optional,
                             notes | String | doc "Notes (String)" | optional,
                             product_types
                               | _js2n__-prdslib.contract_from_predicate
@@ -38396,75 +38398,6 @@ let rec _js2n__-refsenv
                                         ])
                                   ])
                               | doc "Product Types (List - String)",
-                            switch_stacks
-                              | Array
-                                {
-                                  devices
-                                    | Array
-                                      {
-                                        claimed
-                                          | Bool
-                                          | doc "Claimed (Boolean)"
-                                          | optional,
-                                        device_templates
-                                          | {
-                                            name | String | doc "Name (String)",
-                                            product_type
-                                              | std.enum.TagOrString
-                                              | [|
-                                                'sensor,
-                                                'camera,
-                                                'wireless,
-                                                'switch,
-                                                'appliance
-                                              |]
-                                              | doc m%"
-                                                Product Type (String)
-                                                - Allowed values: appliance, switch, wireless, camera, sensor
-                                              "%,
-                                            tags
-                                              | Array (String)
-                                              | doc "Tags (List - String)"
-                                              | optional,
-                                          }
-                                          | doc m%"
-                                            Device Templates (Object)
-                                            
-                                            Elements:
-                                            - name (required)
-                                            - product_type (required)
-                                            - tags
-                                          "%,
-                                        model | String | doc "Model (String)",
-                                        name | String | doc "Name (String)",
-                                        serial | String | doc "Serial (String)",
-                                        tags
-                                          | Array (String)
-                                          | doc "Tags (List - String)"
-                                          | optional,
-                                      }
-                                    | doc m%"
-                                      Devices (List - Object)
-                                      
-                                      Elements:
-                                      - name (required)
-                                      - serial (required)
-                                      - model (required)
-                                      - tags
-                                      - claimed
-                                      - device_templates (required)
-                                    "%
-                                    | optional,
-                                  name | String | doc "Name (String)",
-                                }
-                              | doc m%"
-                                Switch Stacks (List - Object)
-                                
-                                Elements:
-                                - name (required)
-                                - devices
-                              "%
-                              | optional,
                             tags
                               | Array (String)
                               | doc "Tags (List - String)"
@@ -38484,9 +38417,57 @@ let rec _js2n__-refsenv
                           - timezone
                           - product_types (required)
                           - tags
-                          - devices
-                          - switch_stacks
-                          - network_template
+                        "%
+                        | optional,
+                      snmp
+                        | {
+                          peer_ips
+                            | Array (String)
+                            | doc "Peer IPs (List - String)",
+                          v2c_enabled
+                            | Bool
+                            | doc "V2C Enabled (Boolean)"
+                            | optional,
+                          v3_auth_mode
+                            | std.enum.TagOrString
+                            | [| 'SHA, 'MD5 |]
+                            | doc m%"
+                              V3 Auth Mode (String)
+                              - Allowed values: MD5, SHA
+                            "%
+                            | optional,
+                          v3_auth_pass
+                            | String
+                            | doc "V3 Auth Pass (String)"
+                            | optional,
+                          v3_enabled
+                            | Bool
+                            | doc "V3 Enabled (Boolean)"
+                            | optional,
+                          v3_priv_mode
+                            | std.enum.TagOrString
+                            | [| 'DES, 'AES128 |]
+                            | doc m%"
+                              V3 Priv Mode (String)
+                              - Allowed values: AES128, DES
+                            "%
+                            | optional,
+                          v3_priv_pass
+                            | String
+                            | doc "V3 Priv Pass (String)"
+                            | optional,
+                        }
+                        | doc m%"
+                          SNMP (Object)
+                          
+                          Elements:
+                          - v2c_enabled
+                          - v3_enabled
+                          - v3_auth_mode
+                          - v3_auth_pass
+                          - v3_priv_mode
+                          - v3_priv_pass
+                          - peer_ips (required)
                         "%
                         | optional,
                     }
@@ -38497,11 +38478,13 @@ let rec _js2n__-refsenv
                     - name (required)
                     - networks
                     - administrators
+                    - login_security
+                    - snmp
                   "%
                   | optional,
               }
             | doc m%"
-              Regions (List - Object)
+              Domains (List - Object)
               
               Elements:
               - name (required)
@@ -38513,7 +38496,7 @@ let rec _js2n__-refsenv
           Meraki (Object)
           
           Elements:
-          - regions
+          - domains
         "%
         | optional,
       modules
@@ -64991,12 +64974,2513 @@ let rec _js2n__-refsenv
                   - config
                 "%
                 | optional,
+              system_profiles
+                | Array
+                  {
+                    aaa
+                      | {
+                        accounting_rules
+                          | Array
+                            {
+                              groups
+                                | Array (
+                                  _js2n__-prdslib.contract_from_predicate
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.maxLength 32,
+                                        _js2n__-prdslib.strings.minLength 1
+                                      ])
+                                )
+                                | doc "Groups (List - String)",
+                              id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 32
+                                    ])
+                                | doc m%"
+                                  ID (String)
+                                  - Maximum length: 32
+                                "%,
+                              level
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.enum [ 1, 15 ]
+                                    ])
+                                | doc m%"
+                                  Level (Integer)
+                                  - Allowed values: 1, 15
+                                "%
+                                | optional,
+                              method
+                                | std.enum.TagOrString
+                                | [| 'system, 'network, 'exec, 'commands |]
+                                | doc m%"
+                                  Method (String)
+                                  - Allowed values: commands, exec, network, system
+                                "%,
+                              start_stop
+                                | Bool
+                                | doc "Start Stop (Boolean)"
+                                | optional,
+                              start_stop_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Start Stop Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Accounting Rules (List - Object)
+                            
+                            Elements:
+                            - groups (required)
+                            - id (required)
+                            - level
+                            - method (required)
+                            - start_stop
+                            - start_stop_variable
+                          "%
+                          | optional,
+                        auth_order
+                          | Array (
+                            _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.maxLength 220,
+                                  _js2n__-prdslib.strings.minLength 1
+                                ])
+                          )
+                          | doc "Auth Order (List - String)"
+                          | optional,
+                        authorization_config_commands
+                          | Bool
+                          | doc "Authorization Config Commands (Boolean)"
+                          | optional,
+                        authorization_config_commands_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Authorization Config Commands Variable (String)"
+                          | optional,
+                        authorization_console
+                          | Bool
+                          | doc "Authorization Console (Boolean)"
+                          | optional,
+                        authorization_console_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Authorization Console Variable (String)"
+                          | optional,
+                        authorization_rules
+                          | Array
+                            {
+                              authenticated
+                                | Bool
+                                | doc "Authenticated (Boolean)"
+                                | optional,
+                              groups
+                                | Array (
+                                  _js2n__-prdslib.contract_from_predicate
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.maxLength 32,
+                                        _js2n__-prdslib.strings.minLength 1
+                                      ])
+                                )
+                                | doc "Groups (List - String)",
+                              id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 32
+                                    ])
+                                | doc m%"
+                                  ID (String)
+                                  - Maximum length: 32
+                                "%,
+                              level
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.enum [ 1, 15 ]
+                                    ])
+                                | doc m%"
+                                  Level (Integer)
+                                  - Allowed values: 1, 15
+                                "%
+                                | optional,
+                              method
+                                | std.enum.TagOrString
+                                | [| 'commands |]
+                                | doc m%"
+                                  Method (String)
+                                  - Allowed values: commands
+                                "%,
+                            }
+                          | doc m%"
+                            Authorization Rules (List - Object)
+                            
+                            Elements:
+                            - authenticated
+                            - groups (required)
+                            - id (required)
+                            - level
+                            - method (required)
+                          "%
+                          | optional,
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        dot1x_accounting
+                          | Bool
+                          | doc "Dot1X Accounting (Boolean)"
+                          | optional,
+                        dot1x_accounting_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Dot1X Accounting Variable (String)"
+                          | optional,
+                        dot1x_authentication
+                          | Bool
+                          | doc "Dot1X Authentication (Boolean)"
+                          | optional,
+                        dot1x_authentication_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Dot1X Authentication Variable (String)"
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)"
+                          | optional,
+                        radius_groups
+                          | Array
+                            {
+                              servers
+                                | Array
+                                  {
+                                    accounting_port
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Integer,
+                                            _js2n__-prdslib.numbers.maximum
+                                              65534,
+                                            _js2n__-prdslib.numbers.minimum 1
+                                          ])
+                                      | doc m%"
+                                        Accounting Port (Integer)
+                                        - Minimum value: 1
+                                        - Maximum value: 65534
+                                      "%
+                                      | optional,
+                                    accounting_port_variable
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                          ])
+                                      | doc "Accounting Port Variable (String)"
+                                      | optional,
+                                    address
+                                      | String
+                                      | doc m%"
+                                        Address (String)
+                                        - IPv4 or IPv6 address
+                                      "%,
+                                    authentication_port
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Integer,
+                                            _js2n__-prdslib.numbers.maximum
+                                              65534,
+                                            _js2n__-prdslib.numbers.minimum 1
+                                          ])
+                                      | doc m%"
+                                        Authentication Port (Integer)
+                                        - Minimum value: 1
+                                        - Maximum value: 65534
+                                      "%
+                                      | optional,
+                                    authentication_port_variable
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                          ])
+                                      | doc "Authentication Port Variable (String)"
+                                      | optional,
+                                    key
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.minLength 1
+                                          ])
+                                      | doc m%"
+                                        Key (String)
+                                        - Minimum length: 1
+                                      "%,
+                                    key_type
+                                      | std.enum.TagOrString
+                                      | [| 'pac, 'key |]
+                                      | doc m%"
+                                        Key Type (String)
+                                        - Allowed values: key, pac
+                                      "%
+                                      | optional,
+                                    key_type_variable
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                          ])
+                                      | doc "Key Type Variable (String)"
+                                      | optional,
+                                    retransmit
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Integer,
+                                            _js2n__-prdslib.numbers.maximum 100,
+                                            _js2n__-prdslib.numbers.minimum 1
+                                          ])
+                                      | doc m%"
+                                        Retransmit (Integer)
+                                        - Minimum value: 1
+                                        - Maximum value: 100
+                                      "%
+                                      | optional,
+                                    retransmit_variable
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                          ])
+                                      | doc "Retransmit Variable (String)"
+                                      | optional,
+                                    secret_key
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.maxLength
+                                              150,
+                                            _js2n__-prdslib.strings.minLength 1
+                                          ])
+                                      | doc m%"
+                                        Secret Key (String)
+                                        - Minimum length: 1
+                                        - Maximum length: 150
+                                      "%
+                                      | optional,
+                                    secret_key_variable
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                          ])
+                                      | doc "Secret Key Variable (String)"
+                                      | optional,
+                                    timeout
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Integer,
+                                            _js2n__-prdslib.numbers.maximum
+                                              1000,
+                                            _js2n__-prdslib.numbers.minimum 1
+                                          ])
+                                      | doc m%"
+                                        Timeout (Integer)
+                                        - Minimum value: 1
+                                        - Maximum value: 1000
+                                      "%
+                                      | optional,
+                                    timeout_variable
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                          ])
+                                      | doc "Timeout Variable (String)"
+                                      | optional,
+                                  }
+                                | doc m%"
+                                  Servers (List - Object)
+                                  
+                                  Elements:
+                                  - accounting_port
+                                  - accounting_port_variable
+                                  - address (required)
+                                  - authentication_port
+                                  - authentication_port_variable
+                                  - key (required)
+                                  - key_type
+                                  - key_type_variable
+                                  - retransmit
+                                  - retransmit_variable
+                                  - secret_key
+                                  - secret_key_variable
+                                  - timeout
+                                  - timeout_variable
+                                "%,
+                              source_interface
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 32
+                                    ])
+                                | doc m%"
+                                  Source Interface (String)
+                                  - Maximum length: 32
+                                "%
+                                | optional,
+                              source_interface_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Source Interface Variable (String)"
+                                | optional,
+                              vpn
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 65530
+                                    ])
+                                | doc m%"
+                                  VPN (Integer)
+                                  - Maximum value: 65530
+                                "%
+                                | optional,
+                            }
+                          | doc m%"
+                            Radius Groups (List - Object)
+                            
+                            Elements:
+                            - servers (required)
+                            - source_interface
+                            - source_interface_variable
+                            - vpn
+                          "%
+                          | optional,
+                        tacacs_groups
+                          | Array
+                            {
+                              servers
+                                | Array
+                                  {
+                                    address
+                                      | String
+                                      | doc m%"
+                                        Address (String)
+                                        - IPv4 or IPv6 address
+                                      "%,
+                                    key
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.minLength 1
+                                          ])
+                                      | doc m%"
+                                        Key (String)
+                                        - Minimum length: 1
+                                      "%,
+                                    port
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Integer,
+                                            _js2n__-prdslib.numbers.maximum
+                                              65535,
+                                            _js2n__-prdslib.numbers.minimum 1
+                                          ])
+                                      | doc m%"
+                                        Port (Integer)
+                                        - Minimum value: 1
+                                        - Maximum value: 65535
+                                      "%
+                                      | optional,
+                                    port_variable
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                          ])
+                                      | doc "Port Variable (String)"
+                                      | optional,
+                                    secret_key
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.maxLength
+                                              150,
+                                            _js2n__-prdslib.strings.minLength 1
+                                          ])
+                                      | doc m%"
+                                        Secret Key (String)
+                                        - Minimum length: 1
+                                        - Maximum length: 150
+                                      "%,
+                                    timeout
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Integer,
+                                            _js2n__-prdslib.numbers.maximum
+                                              1000,
+                                            _js2n__-prdslib.numbers.minimum 1
+                                          ])
+                                      | doc m%"
+                                        Timeout (Integer)
+                                        - Minimum value: 1
+                                        - Maximum value: 1000
+                                      "%
+                                      | optional,
+                                    timeout_variable
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                          ])
+                                      | doc "Timeout Variable (String)"
+                                      | optional,
+                                  }
+                                | doc m%"
+                                  Servers (List - Object)
+                                  
+                                  Elements:
+                                  - address (required)
+                                  - key (required)
+                                  - port
+                                  - port_variable
+                                  - secret_key (required)
+                                  - timeout
+                                  - timeout_variable
+                                "%,
+                              source_interface
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 32
+                                    ])
+                                | doc m%"
+                                  Source Interface (String)
+                                  - Maximum length: 32
+                                "%
+                                | optional,
+                              source_interface_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Source Interface Variable (String)"
+                                | optional,
+                              vpn
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 65530
+                                    ])
+                                | doc m%"
+                                  VPN (Integer)
+                                  - Maximum value: 65530
+                                "%
+                                | optional,
+                            }
+                          | doc m%"
+                            Tacacs Groups (List - Object)
+                            
+                            Elements:
+                            - servers (required)
+                            - source_interface
+                            - source_interface_variable
+                            - vpn
+                          "%
+                          | optional,
+                        users
+                          | Array
+                            {
+                              name
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 64,
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  Name (String)
+                                  - Minimum length: 1
+                                  - Maximum length: 64
+                                "%
+                                | optional,
+                              name_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Name Variable (String)"
+                                | optional,
+                              password
+                                | String
+                                | doc "Password (String)"
+                                | optional,
+                              password_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Password Variable (String)"
+                                | optional,
+                              privilege
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.enum [ 1, 15 ]
+                                    ])
+                                | doc m%"
+                                  Privilege (Integer)
+                                  - Allowed values: 1, 15
+                                "%
+                                | optional,
+                              privilege_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Privilege Variable (String)"
+                                | optional,
+                              public_key_chains
+                                | Array
+                                  {
+                                    key_string
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.maxLength
+                                              1024,
+                                            _js2n__-prdslib.strings.minLength 1
+                                          ])
+                                      | doc m%"
+                                        Key String (String)
+                                        - Minimum length: 1
+                                        - Maximum length: 1024
+                                      "%,
+                                    key_type
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.maxLength
+                                              32,
+                                            _js2n__-prdslib.strings.minLength 1
+                                          ])
+                                      | doc m%"
+                                        Key Type (String)
+                                        - Minimum length: 1
+                                        - Maximum length: 32
+                                      "%
+                                      | optional,
+                                    key_type_variable
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                          ])
+                                      | doc "Key Type Variable (String)"
+                                      | optional,
+                                  }
+                                | doc m%"
+                                  Public Key Chains (List - Object)
+                                  
+                                  Elements:
+                                  - key_type
+                                  - key_type_variable
+                                  - key_string (required)
+                                "%
+                                | optional,
+                            }
+                          | doc m%"
+                            Users (List - Object)
+                            
+                            Elements:
+                            - name
+                            - name_variable
+                            - password
+                            - password_variable
+                            - privilege
+                            - privilege_variable
+                            - public_key_chains
+                          "%,
+                      }
+                      | doc m%"
+                        AAA (Object)
+                        
+                        Elements:
+                        - name
+                        - description
+                        - accounting_rules
+                        - auth_order
+                        - authorization_config_commands
+                        - authorization_config_commands_variable
+                        - authorization_console
+                        - authorization_console_variable
+                        - authorization_rules
+                        - dot1x_accounting
+                        - dot1x_accounting_variable
+                        - dot1x_authentication
+                        - dot1x_authentication_variable
+                        - radius_groups
+                        - tacacs_groups
+                        - users (required)
+                      "%
+                      | optional,
+                    banner
+                      | {
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        login
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.maxLength 2048,
+                                _js2n__-prdslib.strings.minLength 1
+                              ])
+                          | doc m%"
+                            Login (String)
+                            - Minimum length: 1
+                            - Maximum length: 2048
+                          "%
+                          | optional,
+                        login_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Login Variable (String)"
+                          | optional,
+                        motd
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.maxLength 2048,
+                                _js2n__-prdslib.strings.minLength 1
+                              ])
+                          | doc m%"
+                            Motd (String)
+                            - Minimum length: 1
+                            - Maximum length: 2048
+                          "%
+                          | optional,
+                        motd_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Motd Variable (String)"
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)"
+                          | optional,
+                      }
+                      | doc m%"
+                        Banner (Object)
+                        
+                        Elements:
+                        - name
+                        - description
+                        - login
+                        - login_variable
+                        - motd
+                        - motd_variable
+                      "%
+                      | optional,
+                    bfd
+                      | {
+                        colors
+                          | Array
+                            {
+                              color
+                                | std.enum.TagOrString
+                                | [|
+                                  'private6,
+                                  'private5,
+                                  'private4,
+                                  'private3,
+                                  'private2,
+                                  'private1,
+                                  'custom3,
+                                  'custom2,
+                                  'custom1,
+                                  'bronze,
+                                  'silver,
+                                  'gold,
+                                  'blue,
+                                  'green,
+                                  'red,
+                                  '"3g",
+                                  'lte,
+                                  'public-internet,
+                                  'biz-internet,
+                                  'metro-ethernet,
+                                  'mpls,
+                                  '"default"
+                                |]
+                                | doc m%"
+                                  Color (String)
+                                  - Allowed values: default, mpls, metro-ethernet, biz-internet, public-internet, lte, 3g, red, green, blue, gold, silver, bronze, custom1, custom2, custom3, private1, private2, private3, private4, private5, private6
+                                "%
+                                | optional,
+                              color_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Color Variable (String)"
+                                | optional,
+                              default_dscp
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 63
+                                    ])
+                                | doc m%"
+                                  Default DSCP (Integer)
+                                  - Maximum value: 63
+                                "%
+                                | optional,
+                              default_dscp_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Default DSCP Variable (String)"
+                                | optional,
+                              hello_interval
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 300000,
+                                      _js2n__-prdslib.numbers.minimum 100
+                                    ])
+                                | doc m%"
+                                  Hello Interval (Integer)
+                                  - Minimum value: 100
+                                  - Maximum value: 300000
+                                "%
+                                | optional,
+                              hello_interval_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Hello Interval Variable (String)"
+                                | optional,
+                              multiplier
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 60,
+                                      _js2n__-prdslib.numbers.minimum 1
+                                    ])
+                                | doc m%"
+                                  Multiplier (Integer)
+                                  - Minimum value: 1
+                                  - Maximum value: 60
+                                "%
+                                | optional,
+                              multiplier_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Multiplier Variable (String)"
+                                | optional,
+                              path_mtu_discovery
+                                | Bool
+                                | doc "Path MTU Discovery (Boolean)"
+                                | optional,
+                              path_mtu_discovery_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Path MTU Discovery Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Colors (List - Object)
+                            
+                            Elements:
+                            - color
+                            - color_variable
+                            - default_dscp
+                            - default_dscp_variable
+                            - hello_interval
+                            - hello_interval_variable
+                            - multiplier
+                            - multiplier_variable
+                            - path_mtu_discovery
+                            - path_mtu_discovery_variable
+                          "%
+                          | optional,
+                        default_dscp
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 63
+                              ])
+                          | doc m%"
+                            Default DSCP (Integer)
+                            - Maximum value: 63
+                          "%
+                          | optional,
+                        default_dscp_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Default DSCP Variable (String)"
+                          | optional,
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        multiplier
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 6,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Multiplier (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 6
+                          "%
+                          | optional,
+                        multiplier_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Multiplier Variable (String)"
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)"
+                          | optional,
+                        poll_interval
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 4294967295,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Poll Interval (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 4294967295
+                          "%
+                          | optional,
+                        poll_interval_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Poll Interval Variable (String)"
+                          | optional,
+                      }
+                      | doc m%"
+                        BFD (Object)
+                        
+                        Elements:
+                        - name
+                        - description
+                        - colors
+                        - default_dscp
+                        - default_dscp_variable
+                        - multiplier
+                        - multiplier_variable
+                        - poll_interval
+                        - poll_interval_variable
+                      "%
+                      | optional,
+                    description
+                      | String
+                      | doc "Description (String)"
+                      | optional,
+                    flexible_port_speed
+                      | {
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)"
+                          | optional,
+                        port_type
+                          | std.enum.TagOrString
+                          | [|
+                            '"3 ports of 40GE + 1port of 100GE",
+                            '"8 ports of 1/10GE + 1 port of 40GE + 1 port of 100GE",
+                            '"12 ports of 1/10GE + 1 port of 100GE",
+                            '"2 ports of 100 GE",
+                            '"8 ports of 1/10GE + 4 ports of 40GE",
+                            '"12 ports of 1/10GE + 3 ports 40GE"
+                          |]
+                          | doc m%"
+                            Port Type (String)
+                            - Allowed values: 12 ports of 1/10GE + 3 ports 40GE, 8 ports of 1/10GE + 4 ports of 40GE, 2 ports of 100 GE, 12 ports of 1/10GE + 1 port of 100GE, 8 ports of 1/10GE + 1 port of 40GE + 1 port of 100GE, 3 ports of 40GE + 1port of 100GE
+                          "%
+                          | optional,
+                        port_type_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Port Type Variable (String)"
+                          | optional,
+                      }
+                      | doc m%"
+                        Flexible Port Speed (Object)
+                        
+                        Elements:
+                        - name
+                        - description
+                        - port_type
+                        - port_type_variable
+                      "%
+                      | optional,
+                    global
+                      | {
+                        arp_proxy | Bool | doc "ARP Proxy (Boolean)" | optional,
+                        arp_proxy_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "ARP Proxy Variable (String)"
+                          | optional,
+                        cdp | Bool | doc "CDP (Boolean)" | optional,
+                        cdp_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "CDP Variable (String)"
+                          | optional,
+                        console_logging
+                          | Bool
+                          | doc "Console Logging (Boolean)"
+                          | optional,
+                        console_logging_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Console Logging Variable (String)"
+                          | optional,
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        domain_lookup
+                          | Bool
+                          | doc "Domain Lookup (Boolean)"
+                          | optional,
+                        domain_lookup_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Domain Lookup Variable (String)"
+                          | optional,
+                        ftp_passive
+                          | Bool
+                          | doc "Ftp Passive (Boolean)"
+                          | optional,
+                        ftp_passive_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Ftp Passive Variable (String)"
+                          | optional,
+                        http_authentication
+                          | std.enum.TagOrString
+                          | [| 'aaa, 'local |]
+                          | doc m%"
+                            Http Authentication (String)
+                            - Allowed values: local, aaa
+                          "%
+                          | optional,
+                        http_authentication_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Http Authentication Variable (String)"
+                          | optional,
+                        http_server
+                          | Bool
+                          | doc "Http Server (Boolean)"
+                          | optional,
+                        http_server_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Http Server Variable (String)"
+                          | optional,
+                        https_server
+                          | Bool
+                          | doc "Https Server (Boolean)"
+                          | optional,
+                        https_server_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Https Server Variable (String)"
+                          | optional,
+                        ignore_bootp
+                          | Bool
+                          | doc "Ignore Bootp (Boolean)"
+                          | optional,
+                        ignore_bootp_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Ignore Bootp Variable (String)"
+                          | optional,
+                        ip_source_routing
+                          | Bool
+                          | doc "IP Source Routing (Boolean)"
+                          | optional,
+                        ip_source_routing_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "IP Source Routing Variable (String)"
+                          | optional,
+                        lldp | Bool | doc "LLDP (Boolean)" | optional,
+                        lldp_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "LLDP Variable (String)"
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)"
+                          | optional,
+                        nat64_tcp_timeout
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 536870,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Nat64 Tcp Timeout (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 536870
+                          "%
+                          | optional,
+                        nat64_tcp_timeout_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Nat64 Tcp Timeout Variable (String)"
+                          | optional,
+                        nat64_udp_timeout
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 536870,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Nat64 Udp Timeout (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 536870
+                          "%
+                          | optional,
+                        nat64_udp_timeout_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Nat64 Udp Timeout Variable (String)"
+                          | optional,
+                        rsh_rcp | Bool | doc "Rsh Rcp (Boolean)" | optional,
+                        rsh_rcp_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Rsh Rcp Variable (String)"
+                          | optional,
+                        snmp_ifindex_persist
+                          | Bool
+                          | doc "SNMP Ifindex Persist (Boolean)"
+                          | optional,
+                        snmp_ifindex_persist_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "SNMP Ifindex Persist Variable (String)"
+                          | optional,
+                        source_interface
+                          | String
+                          | doc "Source Interface (String)"
+                          | optional,
+                        source_interface_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Source Interface Variable (String)"
+                          | optional,
+                        ssh_version
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 2,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            SSH Version (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 2
+                          "%
+                          | optional,
+                        ssh_version_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "SSH Version Variable (String)"
+                          | optional,
+                        tcp_keepalives_in
+                          | Bool
+                          | doc "Tcp Keepalives In (Boolean)"
+                          | optional,
+                        tcp_keepalives_in_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Tcp Keepalives In Variable (String)"
+                          | optional,
+                        tcp_keepalives_out
+                          | Bool
+                          | doc "Tcp Keepalives Out (Boolean)"
+                          | optional,
+                        tcp_keepalives_out_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Tcp Keepalives Out Variable (String)"
+                          | optional,
+                        tcp_small_servers
+                          | Bool
+                          | doc "Tcp Small Servers (Boolean)"
+                          | optional,
+                        tcp_small_servers_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Tcp Small Servers Variable (String)"
+                          | optional,
+                        telnet_outbound
+                          | Bool
+                          | doc "Telnet Outbound (Boolean)"
+                          | optional,
+                        telnet_outbound_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Telnet Outbound Variable (String)"
+                          | optional,
+                        udp_small_servers
+                          | Bool
+                          | doc "Udp Small Servers (Boolean)"
+                          | optional,
+                        udp_small_servers_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Udp Small Servers Variable (String)"
+                          | optional,
+                        vty_logging
+                          | Bool
+                          | doc "Vty Logging (Boolean)"
+                          | optional,
+                        vty_logging_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Vty Logging Variable (String)"
+                          | optional,
+                      }
+                      | doc m%"
+                        Global (Object)
+                        
+                        Elements:
+                        - name
+                        - description
+                        - arp_proxy
+                        - arp_proxy_variable
+                        - cdp
+                        - cdp_variable
+                        - console_logging
+                        - console_logging_variable
+                        - domain_lookup
+                        - domain_lookup_variable
+                        - ftp_passive
+                        - ftp_passive_variable
+                        - http_authentication
+                        - http_authentication_variable
+                        - http_server
+                        - http_server_variable
+                        - https_server
+                        - https_server_variable
+                        - ignore_bootp
+                        - ignore_bootp_variable
+                        - ip_source_routing
+                        - ip_source_routing_variable
+                        - lldp
+                        - lldp_variable
+                        - nat64_udp_timeout
+                        - nat64_udp_timeout_variable
+                        - nat64_tcp_timeout
+                        - nat64_tcp_timeout_variable
+                        - rsh_rcp
+                        - rsh_rcp_variable
+                        - snmp_ifindex_persist
+                        - snmp_ifindex_persist_variable
+                        - source_interface
+                        - source_interface_variable
+                        - ssh_version
+                        - ssh_version_variable
+                        - tcp_keepalives_in
+                        - tcp_keepalives_in_variable
+                        - tcp_keepalives_out
+                        - tcp_keepalives_out_variable
+                        - tcp_small_servers
+                        - tcp_small_servers_variable
+                        - telnet_outbound
+                        - telnet_outbound_variable
+                        - udp_small_servers
+                        - udp_small_servers_variable
+                        - vty_logging
+                        - vty_logging_variable
+                      "%
+                      | optional,
+                    logging
+                      | {
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        disk_file_rotate
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 10,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Disk File Rotate (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 10
+                          "%
+                          | optional,
+                        disk_file_rotate_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Disk File Rotate Variable (String)"
+                          | optional,
+                        disk_file_size
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 20,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Disk File Size (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 20
+                          "%
+                          | optional,
+                        disk_file_size_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Disk File Size Variable (String)"
+                          | optional,
+                        ipv4_servers
+                          | Array
+                            {
+                              hostname_ip
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$"
+                                        ]
+                                    ])
+                                | doc "Hostname IP (String, String)"
+                                | optional,
+                              hostname_ip_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Hostname IP Variable (String)"
+                                | optional,
+                              severity
+                                | std.enum.TagOrString
+                                | [|
+                                  'emergency,
+                                  'alert,
+                                  'critical,
+                                  'error,
+                                  'warn,
+                                  'notice,
+                                  'debugging,
+                                  'informational
+                                |]
+                                | doc m%"
+                                  Severity (String)
+                                  - Allowed values: informational, debugging, notice, warn, error, critical, alert, emergency
+                                "%
+                                | optional,
+                              severity_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Severity Variable (String)"
+                                | optional,
+                              source_interface
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^(GigabitEthernet|Loopback|TenGigabitEthernet|TwoGigabitEthernet|FortyGigabitEthernet|HundredGigE|Vlan)(([1-9]\\d|\\d)/){0,2}(0|[1-9]\\d*)([:|\\.][1-9]\\d*)?"
+                                    ])
+                                | doc "Source Interface (String)"
+                                | optional,
+                              source_interface_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Source Interface Variable (String)"
+                                | optional,
+                              tls_enable
+                                | Bool
+                                | doc "TLS Enable (Boolean)"
+                                | optional,
+                              tls_enable_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "TLS Enable Variable (String)"
+                                | optional,
+                              tls_properties_custom_profile
+                                | Bool
+                                | doc "TLS Properties Custom Profile (Boolean)"
+                                | optional,
+                              tls_properties_custom_profile_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "TLS Properties Custom Profile Variable (String)"
+                                | optional,
+                              tls_properties_profile
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  TLS Properties Profile (String)
+                                  - Minimum length: 1
+                                "%
+                                | optional,
+                              tls_properties_profile_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "TLS Properties Profile Variable (String)"
+                                | optional,
+                              vpn_id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 65530
+                                    ])
+                                | doc m%"
+                                  VPN ID (Integer)
+                                  - Maximum value: 65530
+                                "%
+                                | optional,
+                              vpn_id_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "VPN ID Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Ipv4 Servers (List - Object)
+                            
+                            Elements:
+                            - hostname_ip
+                            - hostname_ip_variable
+                            - severity
+                            - severity_variable
+                            - source_interface
+                            - source_interface_variable
+                            - tls_enable
+                            - tls_enable_variable
+                            - tls_properties_custom_profile
+                            - tls_properties_custom_profile_variable
+                            - tls_properties_profile
+                            - tls_properties_profile_variable
+                            - vpn_id
+                            - vpn_id_variable
+                          "%
+                          | optional,
+                        ipv6_servers
+                          | Array
+                            {
+                              hostname_ip
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$"
+                                        ]
+                                    ])
+                                | doc "Hostname IP (String, String)"
+                                | optional,
+                              hostname_ip_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Hostname IP Variable (String)"
+                                | optional,
+                              severity
+                                | std.enum.TagOrString
+                                | [|
+                                  'emergency,
+                                  'alert,
+                                  'critical,
+                                  'error,
+                                  'warn,
+                                  'notice,
+                                  'debugging,
+                                  'informational
+                                |]
+                                | doc m%"
+                                  Severity (String)
+                                  - Allowed values: informational, debugging, notice, warn, error, critical, alert, emergency
+                                "%
+                                | optional,
+                              severity_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Severity Variable (String)"
+                                | optional,
+                              source_interface
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^(GigabitEthernet|Loopback|TenGigabitEthernet|TwoGigabitEthernet|FortyGigabitEthernet|HundredGigE|Vlan)(([1-9]\\d|\\d)/){0,2}(0|[1-9]\\d*)([:|\\.][1-9]\\d*)?"
+                                    ])
+                                | doc "Source Interface (String)"
+                                | optional,
+                              source_interface_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Source Interface Variable (String)"
+                                | optional,
+                              tls_enable
+                                | Bool
+                                | doc "TLS Enable (Boolean)"
+                                | optional,
+                              tls_enable_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "TLS Enable Variable (String)"
+                                | optional,
+                              tls_properties_custom_profile
+                                | Bool
+                                | doc "TLS Properties Custom Profile (Boolean)"
+                                | optional,
+                              tls_properties_custom_profile_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "TLS Properties Custom Profile Variable (String)"
+                                | optional,
+                              tls_properties_profile
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  TLS Properties Profile (String)
+                                  - Minimum length: 1
+                                "%
+                                | optional,
+                              tls_properties_profile_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "TLS Properties Profile Variable (String)"
+                                | optional,
+                              vpn_id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 65530
+                                    ])
+                                | doc m%"
+                                  VPN ID (Integer)
+                                  - Maximum value: 65530
+                                "%
+                                | optional,
+                              vpn_id_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "VPN ID Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            IPv6 Servers (List - Object)
+                            
+                            Elements:
+                            - hostname_ip
+                            - hostname_ip_variable
+                            - severity
+                            - severity_variable
+                            - source_interface
+                            - source_interface_variable
+                            - tls_enable
+                            - tls_enable_variable
+                            - tls_properties_custom_profile
+                            - tls_properties_custom_profile_variable
+                            - tls_properties_profile
+                            - tls_properties_profile_variable
+                            - vpn_id
+                            - vpn_id_variable
+                          "%
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)"
+                          | optional,
+                        tls_profiles
+                          | Array
+                            {
+                              cipher_suites
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.enum
+                                              [
+                                                "aes-128-cbc-sha",
+                                                "aes-256-cbc-sha",
+                                                "dhe-aes-cbc-sha2",
+                                                "dhe-aes-gcm-sha2",
+                                                "ecdhe-ecdsa-aes-gcm-sha2",
+                                                "ecdhe-rsa-aes-cbc-sha2",
+                                                "ecdhe-rsa-aes-gcm-sha2",
+                                                "rsa-aes-cbc-sha2",
+                                                "rsa-aes-gcm-sha2"
+                                              ]
+                                          ])
+                                    ])
+                                | doc "Cipher Suites (List - String)"
+                                | optional,
+                              cipher_suites_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Cipher Suites Variable (String)"
+                                | optional,
+                              name
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  Name (String)
+                                  - Minimum length: 1
+                                "%
+                                | optional,
+                              name_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Name Variable (String)"
+                                | optional,
+                              tls_version
+                                | std.enum.TagOrString
+                                | [| '"TLSv1.2", '"TLSv1.1" |]
+                                | doc m%"
+                                  TLS Version (String)
+                                  - Allowed values: TLSv1.1, TLSv1.2
+                                "%
+                                | optional,
+                              tls_version_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "TLS Version Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            TLS Profiles (List - Object)
+                            
+                            Elements:
+                            - cipher_suites
+                            - cipher_suites_variable
+                            - name
+                            - name_variable
+                            - tls_version
+                            - tls_version_variable
+                          "%
+                          | optional,
+                      }
+                      | doc m%"
+                        Logging (Object)
+                        
+                        Elements:
+                        - name
+                        - description
+                        - disk_file_size
+                        - disk_file_size_variable
+                        - disk_file_rotate
+                        - disk_file_rotate_variable
+                        - ipv4_servers
+                        - ipv6_servers
+                        - tls_profiles
+                      "%
+                      | optional,
+                    mrf
+                      | {
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        migration_bgp_community
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 4294967295,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Migration BGP Community (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 4294967295
+                          "%
+                          | optional,
+                        migration_to_mrf
+                          | std.enum.TagOrString
+                          | [| 'enabled-from-bgp-core, 'enabled |]
+                          | doc m%"
+                            Migration To Mrf (String)
+                            - Allowed values: enabled, enabled-from-bgp-core
+                          "%
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)"
+                          | optional,
+                        region_id
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 63,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Region ID (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 63
+                          "%
+                          | optional,
+                        role
+                          | std.enum.TagOrString
+                          | [| 'border-router, 'edge-router |]
+                          | doc m%"
+                            Role (String)
+                            - Allowed values: edge-router, border-router
+                          "%
+                          | optional,
+                        role_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Role Variable (String)"
+                          | optional,
+                        secondary_region_id
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 63,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Secondary Region ID (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 63
+                          "%
+                          | optional,
+                        secondary_region_id_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Secondary Region ID Variable (String)"
+                          | optional,
+                      }
+                      | doc m%"
+                        Mrf (Object)
+                        
+                        Elements:
+                        - name
+                        - description
+                        - migration_to_mrf
+                        - migration_bgp_community
+                        - region_id
+                        - role
+                        - role_variable
+                        - secondary_region_id
+                        - secondary_region_id_variable
+                      "%
+                      | optional,
+                    name
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern
+                              "^[^&<>! \"]{1,128}$"
+                          ])
+                      | doc "Name (String)",
+                    ntp
+                      | {
+                        authentication_keys
+                          | Array
+                            {
+                              id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 65535,
+                                      _js2n__-prdslib.numbers.minimum 1
+                                    ])
+                                | doc m%"
+                                  ID (Integer)
+                                  - Minimum value: 1
+                                  - Maximum value: 65535
+                                "%
+                                | optional,
+                              id_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "ID Variable (String)"
+                                | optional,
+                              md5_value
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  MD5 Value (String)
+                                  - Minimum length: 1
+                                "%
+                                | optional,
+                              md5_value_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "MD5 Value Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Authentication Keys (List - Object)
+                            
+                            Elements:
+                            - id
+                            - id_variable
+                            - md5_value
+                            - md5_value_variable
+                          "%
+                          | optional,
+                        authoritative_ntp_server
+                          | Bool
+                          | doc "Authoritative NTP Server (Boolean)"
+                          | optional,
+                        authoritative_ntp_server_source_interface
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^(GigabitEthernet|Loopback|TenGigabitEthernet|TwoGigabitEthernet|FortyGigabitEthernet|HundredGigE|Vlan)(([1-9]\\d|\\d)/){0,2}(0|[1-9]\\d*)([:|\\.][1-9]\\d*)?"
+                              ])
+                          | doc "Authoritative NTP Server Source Interface (String)"
+                          | optional,
+                        authoritative_ntp_server_source_interface_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Authoritative NTP Server Source Interface Variable (String)"
+                          | optional,
+                        authoritative_ntp_server_stratum
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 15,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Authoritative NTP Server Stratum (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 15
+                          "%
+                          | optional,
+                        authoritative_ntp_server_stratum_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Authoritative NTP Server Stratum Variable (String)"
+                          | optional,
+                        authoritative_ntp_server_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Authoritative NTP Server Variable (String)"
+                          | optional,
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)"
+                          | optional,
+                        servers
+                          | Array
+                            {
+                              authentication_key
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 65535,
+                                      _js2n__-prdslib.numbers.minimum 1
+                                    ])
+                                | doc m%"
+                                  Authentication Key (Integer)
+                                  - Minimum value: 1
+                                  - Maximum value: 65535
+                                "%
+                                | optional,
+                              authentication_key_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Authentication Key Variable (String)"
+                                | optional,
+                              hostname_ip
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$"
+                                        ]
+                                    ])
+                                | doc "Hostname IP (String, String)"
+                                | optional,
+                              hostname_ip_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Hostname IP Variable (String)"
+                                | optional,
+                              ntp_version
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 4
+                                    ])
+                                | doc m%"
+                                  NTP Version (Integer)
+                                  - Maximum value: 4
+                                "%
+                                | optional,
+                              ntp_version_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "NTP Version Variable (String)"
+                                | optional,
+                              prefer | Bool | doc "Prefer (Boolean)" | optional,
+                              prefer_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Prefer Variable (String)"
+                                | optional,
+                              source_interface
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^(GigabitEthernet|Loopback|TenGigabitEthernet|TwoGigabitEthernet|FortyGigabitEthernet|HundredGigE|Vlan)(([1-9]\\d|\\d)/){0,2}(0|[1-9]\\d*)([:|\\.][1-9]\\d*)?"
+                                    ])
+                                | doc "Source Interface (String)"
+                                | optional,
+                              source_interface_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Source Interface Variable (String)"
+                                | optional,
+                              vpn_id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 65530
+                                    ])
+                                | doc m%"
+                                  VPN ID (Integer)
+                                  - Maximum value: 65530
+                                "%
+                                | optional,
+                              vpn_id_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "VPN ID Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Servers (List - Object)
+                            
+                            Elements:
+                            - authentication_key
+                            - authentication_key_variable
+                            - hostname_ip
+                            - hostname_ip_variable
+                            - prefer
+                            - prefer_variable
+                            - source_interface
+                            - source_interface_variable
+                            - ntp_version
+                            - ntp_version_variable
+                            - vpn_id
+                            - vpn_id_variable
+                          "%
+                          | optional,
+                        trusted_keys
+                          | Array (
+                            _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.numbers.maximum 65535,
+                                  _js2n__-prdslib.numbers.minimum 1
+                                ])
+                          )
+                          | doc "Trusted Keys (List - Integer)"
+                          | optional,
+                        trusted_keys_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Trusted Keys Variable (String)"
+                          | optional,
+                      }
+                      | doc m%"
+                        NTP (Object)
+                        
+                        Elements:
+                        - name
+                        - description
+                        - authentication_keys
+                        - authoritative_ntp_server
+                        - authoritative_ntp_server_variable
+                        - authoritative_ntp_server_source_interface
+                        - authoritative_ntp_server_source_interface_variable
+                        - authoritative_ntp_server_stratum
+                        - authoritative_ntp_server_stratum_variable
+                        - servers
+                        - trusted_keys
+                        - trusted_keys_variable
+                      "%
+                      | optional,
+                  }
+                | doc m%"
+                  System Profiles (List - Object)
+                  
+                  Elements:
+                  - name (required)
+                  - description
+                  - aaa
+                  - banner
+                  - bfd
+                  - flexible_port_speed
+                  - global
+                  - logging
+                  - mrf
+                  - ntp
+                "%
+                | optional,
             }
             | doc m%"
               Feature Profiles (Object)
               
               Elements:
               - cli_profiles
+              - system_profiles
             "%
             | optional,
           localized_policies
@@ -68313,6 +70797,2776 @@ let rec _js2n__-refsenv
           - multi_region_fabric
           - centralized_policies
           - feature_profiles
+        "%
+        | optional,
+      vxlan
+        | {
+          global
+            | {
+              anycast_gateway_mac
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.pattern
+                        "^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$"
+                    ])
+                | doc m%"
+                  Anycast Gateway MAC (String)
+                  - Default value: 20:20:00:00:00:aa
+                  - MAC address (XX:XX:XX:XX:XX:XX)
+                "%
+                | optional,
+              auth_proto
+                | std.enum.TagOrString
+                | [| 'SHA_AES, 'SHA_DES, 'MD5_AES, 'MD5_DES, 'SHA, 'MD5 |]
+                | doc m%"
+                  Auth Proto (String)
+                  - Default value: MD5
+                  - Allowed values: MD5, SHA, MD5_DES, MD5_AES, SHA_DES, SHA_AES
+                "%
+                | optional,
+              bgp_asn
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Integer,
+                      _js2n__-prdslib.numbers.maximum 4294967295,
+                      _js2n__-prdslib.numbers.minimum 1
+                    ])
+                | doc m%"
+                  BGP Asn (Integer)
+                  - Minimum value: 1
+                  - Maximum value: 4294967295
+                "%,
+              dns_servers
+                | Array
+                  {
+                    ip_address
+                      | String
+                      | doc m%"
+                        IP Address (String)
+                        - IPv4 or IPv6 address
+                      "%,
+                    vrf | String | doc "VRF (String)" | optional,
+                  }
+                | doc m%"
+                  DNS Servers (List - Object)
+                  
+                  Elements:
+                  - ip_address (required)
+                  - vrf
+                "%
+                | optional,
+              name | String | doc "Name (String)",
+              ntp_servers
+                | Array
+                  {
+                    ip_address
+                      | String
+                      | doc m%"
+                        IP Address (String)
+                        - IPv4 or IPv6 address
+                      "%,
+                    vrf | String | doc "VRF (String)" | optional,
+                  }
+                | doc m%"
+                  NTP Servers (List - Object)
+                  
+                  Elements:
+                  - ip_address (required)
+                  - vrf
+                "%
+                | optional,
+              route_reflectors
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Integer,
+                      _js2n__-prdslib.numbers.minimum 1
+                    ])
+                | doc m%"
+                  Route Reflectors (Integer)
+                  - Default value: 2
+                  - Minimum value: 1
+                "%
+                | optional,
+              syslog_servers
+                | Array
+                  {
+                    ip_address
+                      | String
+                      | doc m%"
+                        IP Address (String)
+                        - IPv4 or IPv6 address
+                      "%,
+                    severity
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 7
+                          ])
+                      | doc m%"
+                        Severity (Integer)
+                        - Maximum value: 7
+                      "%
+                      | optional,
+                    vrf | String | doc "VRF (String)" | optional,
+                  }
+                | doc m%"
+                  Syslog Servers (List - Object)
+                  
+                  Elements:
+                  - ip_address (required)
+                  - vrf
+                  - severity
+                "%
+                | optional,
+              vpc
+                | {
+                  advertise_pip
+                    | Bool
+                    | doc m%"
+                      Advertise Pip (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  advertise_pip_border_only
+                    | Bool
+                    | doc m%"
+                      Advertise Pip Border Only (Boolean)
+                      - Default value: true
+                    "%
+                    | optional,
+                  auto_recovery_time
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 3600,
+                          _js2n__-prdslib.numbers.minimum 240
+                        ])
+                    | doc m%"
+                      Auto Recovery Time (Integer)
+                      - Default value: 360
+                      - Minimum value: 240
+                      - Maximum value: 3600
+                    "%
+                    | optional,
+                  delay_restore_time
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 3600,
+                          _js2n__-prdslib.numbers.minimum 1
+                        ])
+                    | doc m%"
+                      Delay Restore Time (Integer)
+                      - Default value: 150
+                      - Minimum value: 1
+                      - Maximum value: 3600
+                    "%
+                    | optional,
+                  domain_id_range
+                    | String
+                    | doc m%"
+                      Domain ID Range (String)
+                      - Default value: 1-1000
+                    "%
+                    | optional,
+                  peer_keep_alive
+                    | std.enum.TagOrString
+                    | [| 'management, 'loopback |]
+                    | doc m%"
+                      Peer Keep Alive (String)
+                      - Default value: management
+                      - Allowed values: loopback, management
+                    "%
+                    | optional,
+                  peer_link_port_channel_id
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 4096,
+                          _js2n__-prdslib.numbers.minimum 1
+                        ])
+                    | doc m%"
+                      Peer Link Port Channel ID (Integer)
+                      - Default value: 500
+                      - Minimum value: 1
+                      - Maximum value: 4096
+                    "%
+                    | optional,
+                  peer_link_vlan
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 4094,
+                          _js2n__-prdslib.numbers.minimum 2
+                        ])
+                    | doc m%"
+                      Peer Link Vlan (Integer)
+                      - Default value: 3600
+                      - Minimum value: 2
+                      - Maximum value: 4094
+                    "%
+                    | optional,
+                }
+                | doc m%"
+                  vPC (Object)
+                  
+                  Elements:
+                  - peer_link_vlan
+                  - peer_keep_alive
+                  - auto_recovery_time
+                  - delay_restore_time
+                  - peer_link_port_channel_id
+                  - advertise_pip
+                  - advertise_pip_border_only
+                  - domain_id_range
+                "%
+                | optional,
+            }
+            | doc m%"
+              Global (Object)
+              
+              Elements:
+              - name (required)
+              - bgp_asn (required)
+              - route_reflectors
+              - anycast_gateway_mac
+              - vpc
+              - auth_proto
+              - dns_servers
+              - ntp_servers
+              - syslog_servers
+            "%
+            | optional,
+          overlay_extensions
+            | {
+              vrf_lites
+                | Array
+                  {
+                    dot1q
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 4094,
+                            _js2n__-prdslib.numbers.minimum 1
+                          ])
+                      | doc m%"
+                        Dot1Q (Integer)
+                        - Minimum value: 1
+                        - Maximum value: 4094
+                      "%,
+                    interface
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern
+                              "^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                          ])
+                      | doc "Interface (String)",
+                    neighbor_ipv4
+                      | String
+                      | doc m%"
+                        Neighbor Ipv4 (String)
+                        - IPv4 or IPv6 address
+                      "%
+                      | optional,
+                    neighbor_ipv6
+                      | String
+                      | doc m%"
+                        Neighbor IPv6 (String)
+                        - IPv4 or IPv6 address
+                      "%
+                      | optional,
+                    remote_asn
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 4294967295,
+                            _js2n__-prdslib.numbers.minimum 1
+                          ])
+                      | doc m%"
+                        Remote Asn (Integer)
+                        - Minimum value: 1
+                        - Maximum value: 4294967295
+                      "%,
+                    vrf_name | String | doc "VRF Name (String)",
+                  }
+                | doc m%"
+                  VRF Lites (List - Object)
+                  
+                  Elements:
+                  - interface (required)
+                  - vrf_name (required)
+                  - dot1q (required)
+                  - remote_asn (required)
+                  - neighbor_ipv4
+                  - neighbor_ipv6
+                "%
+                | optional,
+            }
+            | doc m%"
+              Overlay Extensions (Object)
+              
+              Elements:
+              - vrf_lites
+            "%
+            | optional,
+          overlay_services
+            | {
+              network_attach_groups
+                | Array
+                  {
+                    name | String | doc "Name (String)",
+                    switches
+                      | Array
+                        {
+                          hostname | String | doc "Hostname (String)",
+                          ports
+                            | Array (
+                              _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "(?i)^(po|port-channel)([1-9]|[1-9][0-9]{1,3}|[1-3][0-9]{3}|40([0-8][0-9]|9[0-6]))$"
+                                      ]
+                                  ])
+                            )
+                            | doc "Ports (List - String)"
+                            | optional,
+                        }
+                      | doc m%"
+                        Switches (List - Object)
+                        
+                        Elements:
+                        - hostname (required)
+                        - ports
+                      "%
+                      | optional,
+                  }
+                | doc m%"
+                  Network Attach Groups (List - Object)
+                  
+                  Elements:
+                  - name (required)
+                  - switches
+                "%
+                | optional,
+              networks
+                | Array
+                  {
+                    arp_suppress
+                      | Bool
+                      | doc "ARP Suppress (Boolean)"
+                      | optional,
+                    attach_group
+                      | String
+                      | doc "Attach Group (String)"
+                      | optional,
+                    dhcp_loopback_id
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 1023
+                          ])
+                      | doc m%"
+                        DHCP Loopback ID (Integer)
+                        - Maximum value: 1023
+                      "%
+                      | optional,
+                    dhcp_servers
+                      | Array
+                        {
+                          ip_address
+                            | String
+                            | doc m%"
+                              IP Address (String)
+                              - IPv4 or IPv6 address
+                            "%,
+                          vrf | String | doc "VRF (String)",
+                        }
+                      | doc m%"
+                        DHCP Servers (List - Object)
+                        
+                        Elements:
+                        - ip_address (required)
+                        - vrf (required)
+                      "%
+                      | optional,
+                    gw_ip_address
+                      | String
+                      | doc m%"
+                        Gw IP Address (String)
+                        - IPv4 or IPv6 address
+                      "%
+                      | optional,
+                    gw_ipv6_address
+                      | String
+                      | doc "Gw IPv6 Address (String)"
+                      | optional,
+                    int_desc | String | doc "Int Desc (String)" | optional,
+                    is_l2_only
+                      | Bool
+                      | doc m%"
+                        Is L2 Only (Boolean)
+                        - Default value: false
+                      "%
+                      | optional,
+                    l3gw_on_border
+                      | Bool
+                      | doc m%"
+                        L3Gw On Border (Boolean)
+                        - Default value: false
+                      "%
+                      | optional,
+                    mtu_l3intf
+                      | std.number.Integer
+                      | doc m%"
+                        MTU L3Intf (Integer)
+                        - Default value: 9216
+                      "%
+                      | optional,
+                    multicast_group_address
+                      | String
+                      | doc m%"
+                        Multicast Group Address (String)
+                        - Default value: 239.1.1.1
+                        - IPv4 or IPv6 address
+                      "%
+                      | optional,
+                    name | String | doc "Name (String)",
+                    net_id
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 1677215,
+                            _js2n__-prdslib.numbers.minimum 4096
+                          ])
+                      | doc m%"
+                        Net ID (Integer)
+                        - Minimum value: 4096
+                        - Maximum value: 1677215
+                      "%
+                      | optional,
+                    netflow_enable
+                      | Bool
+                      | doc m%"
+                        Netflow Enable (Boolean)
+                        - Default value: false
+                      "%
+                      | optional,
+                    route_tag
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 4294967295
+                          ])
+                      | doc m%"
+                        Route Tag (Integer)
+                        - Default value: 12345
+                        - Maximum value: 4294967295
+                      "%
+                      | optional,
+                    route_target_both
+                      | Bool
+                      | doc m%"
+                        Route Target Both (Boolean)
+                        - Default value: false
+                      "%
+                      | optional,
+                    secondary_ip_addresses
+                      | Array
+                        {
+                          ip_address
+                            | String
+                            | doc m%"
+                              IP Address (String)
+                              - IPv4 or IPv6 address
+                            "%,
+                          route_tag
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.numbers.maximum 4294967295
+                                ])
+                            | doc m%"
+                              Route Tag (Integer)
+                              - Maximum value: 4294967295
+                            "%
+                            | optional,
+                        }
+                      | doc m%"
+                        Secondary IP Addresses (List - Object)
+                        
+                        Elements:
+                        - ip_address (required)
+                        - route_tag
+                      "%
+                      | optional,
+                    trm_enable
+                      | Bool
+                      | doc m%"
+                        Trm Enable (Boolean)
+                        - Default value: false
+                      "%
+                      | optional,
+                    vlan_id
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 4094,
+                            _js2n__-prdslib.numbers.minimum 1
+                          ])
+                      | doc m%"
+                        Vlan ID (Integer)
+                        - Minimum value: 1
+                        - Maximum value: 4094
+                      "%
+                      | optional,
+                    vlan_name | String | doc "Vlan Name (String)" | optional,
+                    vlan_netflow_monitor
+                      | String
+                      | doc "Vlan Netflow Monitor (String)"
+                      | optional,
+                    vrf_name | String | doc "VRF Name (String)" | optional,
+                  }
+                | doc m%"
+                  Networks (List - Object)
+                  
+                  Elements:
+                  - name (required)
+                  - is_l2_only
+                  - vrf_name
+                  - net_id
+                  - vlan_id
+                  - vlan_name
+                  - gw_ip_address
+                  - arp_suppress
+                  - dhcp_loopback_id
+                  - dhcp_servers
+                  - gw_ipv6_address
+                  - int_desc
+                  - l3gw_on_border
+                  - mtu_l3intf
+                  - multicast_group_address
+                  - netflow_enable
+                  - route_target_both
+                  - route_tag
+                  - secondary_ip_addresses
+                  - trm_enable
+                  - vlan_netflow_monitor
+                  - attach_group
+                "%
+                | optional,
+              vrf_attach_groups
+                | Array
+                  {
+                    name | String | doc "Name (String)",
+                    switches
+                      | Array { hostname | String | doc "Hostname (String)", }
+                      | doc m%"
+                        Switches (List - Object)
+                        
+                        Elements:
+                        - hostname (required)
+                      "%
+                      | optional,
+                  }
+                | doc m%"
+                  VRF Attach Groups (List - Object)
+                  
+                  Elements:
+                  - name (required)
+                  - switches
+                "%
+                | optional,
+              vrfs
+                | Array
+                  {
+                    adv_default_routes
+                      | Bool
+                      | doc m%"
+                        Adv Default Routes (Boolean)
+                        - Default value: true
+                      "%
+                      | optional,
+                    adv_host_routes
+                      | Bool
+                      | doc m%"
+                        Adv Host Routes (Boolean)
+                        - Default value: false
+                      "%
+                      | optional,
+                    attach_group
+                      | String
+                      | doc "Attach Group (String)"
+                      | optional,
+                    bgp_password
+                      | String
+                      | doc "BGP Password (String)"
+                      | optional,
+                    bgp_password_encryption_type
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.enum [ 3, 7 ]
+                          ])
+                      | doc m%"
+                        BGP Password Encryption Type (Integer)
+                        - Allowed values: 3, 7
+                      "%
+                      | optional,
+                    disable_rt_auto
+                      | Bool
+                      | doc m%"
+                        Disable Rt Auto (Boolean)
+                        - Default value: false
+                      "%
+                      | optional,
+                    export_evpn_rt
+                      | String
+                      | doc "Export Evpn Rt (String)"
+                      | optional,
+                    export_mvpn_rt
+                      | String
+                      | doc "Export Mvpn Rt (String)"
+                      | optional,
+                    export_vpn_rt
+                      | String
+                      | doc "Export VPN Rt (String)"
+                      | optional,
+                    import_evpn_rt
+                      | String
+                      | doc "Import Evpn Rt (String)"
+                      | optional,
+                    import_mvpn_rt
+                      | String
+                      | doc "Import Mvpn Rt (String)"
+                      | optional,
+                    import_vpn_rt
+                      | String
+                      | doc "Import VPN Rt (String)"
+                      | optional,
+                    ipv6_linklocal_enable
+                      | Bool
+                      | doc m%"
+                        IPv6 Linklocal Enable (Boolean)
+                        - Default value: true
+                      "%
+                      | optional,
+                    loopback_route_tag
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 4294967295
+                          ])
+                      | doc m%"
+                        Loopback Route Tag (Integer)
+                        - Default value: 12345
+                        - Maximum value: 4294967295
+                      "%
+                      | optional,
+                    max_bgp_paths
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 128,
+                            _js2n__-prdslib.numbers.minimum 1
+                          ])
+                      | doc m%"
+                        Max BGP Paths (Integer)
+                        - Default value: 1
+                        - Minimum value: 1
+                        - Maximum value: 128
+                      "%
+                      | optional,
+                    max_ibgp_paths
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 128,
+                            _js2n__-prdslib.numbers.minimum 1
+                          ])
+                      | doc m%"
+                        Max Ibgp Paths (Integer)
+                        - Default value: 2
+                        - Minimum value: 1
+                        - Maximum value: 128
+                      "%
+                      | optional,
+                    name | String | doc "Name (String)",
+                    netflow_enable
+                      | Bool
+                      | doc m%"
+                        Netflow Enable (Boolean)
+                        - Default value: false
+                      "%
+                      | optional,
+                    netflow_monitor
+                      | String
+                      | doc "Netflow Monitor (String)"
+                      | optional,
+                    no_rp
+                      | Bool
+                      | doc m%"
+                        No Rp (Boolean)
+                        - Default value: false
+                      "%
+                      | optional,
+                    overlay_multicast_group
+                      | String
+                      | doc "Overlay Multicast Group (String)"
+                      | optional,
+                    redist_direct_routemap
+                      | String
+                      | doc m%"
+                        Redist Direct Routemap (String)
+                        - Default value: FABRIC-RMAP-REDIST-SUBNET
+                      "%
+                      | optional,
+                    rp_address
+                      | String
+                      | doc m%"
+                        Rp Address (String)
+                        - IPv4 or IPv6 address
+                      "%
+                      | optional,
+                    rp_external | Bool | doc "Rp External (Boolean)" | optional,
+                    rp_loopback_id
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 1023
+                          ])
+                      | doc m%"
+                        Rp Loopback ID (Integer)
+                        - Maximum value: 1023
+                      "%
+                      | optional,
+                    static_default_route
+                      | Bool
+                      | doc m%"
+                        Static Default Route (Boolean)
+                        - Default value: true
+                      "%
+                      | optional,
+                    trm_bgw_msite
+                      | Bool
+                      | doc m%"
+                        Trm Bgw Msite (Boolean)
+                        - Default value: false
+                      "%
+                      | optional,
+                    trm_enable
+                      | Bool
+                      | doc m%"
+                        Trm Enable (Boolean)
+                        - Default value: false
+                      "%
+                      | optional,
+                    underlay_mcast_ip
+                      | String
+                      | doc m%"
+                        Underlay Mcast IP (String)
+                        - IPv4 or IPv6 address
+                      "%
+                      | optional,
+                    vlan_id
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 4094,
+                            _js2n__-prdslib.numbers.minimum 1
+                          ])
+                      | doc m%"
+                        Vlan ID (Integer)
+                        - Minimum value: 1
+                        - Maximum value: 4094
+                      "%
+                      | optional,
+                    vrf_description
+                      | String
+                      | doc m%"
+                        VRF Description (String)
+                        - Default value: Configured by Ansible NetAsCode
+                      "%
+                      | optional,
+                    vrf_id
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 1677215,
+                            _js2n__-prdslib.numbers.minimum 4096
+                          ])
+                      | doc m%"
+                        VRF ID (Integer)
+                        - Minimum value: 4096
+                        - Maximum value: 1677215
+                      "%
+                      | optional,
+                    vrf_int_mtu
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 9216,
+                            _js2n__-prdslib.numbers.minimum 1500
+                          ])
+                      | doc m%"
+                        VRF Int MTU (Integer)
+                        - Default value: 9216
+                        - Minimum value: 1500
+                        - Maximum value: 9216
+                      "%
+                      | optional,
+                    vrf_intf_desc
+                      | String
+                      | doc "VRF Intf Desc (String)"
+                      | optional,
+                    vrf_vlan_name
+                      | String
+                      | doc "VRF Vlan Name (String)"
+                      | optional,
+                  }
+                | doc m%"
+                  VRFs (List - Object)
+                  
+                  Elements:
+                  - name (required)
+                  - vrf_id
+                  - vlan_id
+                  - vrf_vlan_name
+                  - vrf_intf_desc
+                  - vrf_description
+                  - vrf_int_mtu
+                  - loopback_route_tag
+                  - max_bgp_paths
+                  - max_ibgp_paths
+                  - ipv6_linklocal_enable
+                  - adv_host_routes
+                  - adv_default_routes
+                  - static_default_route
+                  - bgp_password
+                  - bgp_password_encryption_type
+                  - disable_rt_auto
+                  - export_evpn_rt
+                  - export_mvpn_rt
+                  - export_vpn_rt
+                  - import_evpn_rt
+                  - import_mvpn_rt
+                  - import_vpn_rt
+                  - netflow_enable
+                  - netflow_monitor
+                  - no_rp
+                  - overlay_multicast_group
+                  - redist_direct_routemap
+                  - rp_address
+                  - rp_external
+                  - rp_loopback_id
+                  - trm_enable
+                  - trm_bgw_msite
+                  - underlay_mcast_ip
+                  - attach_group
+                "%
+                | optional,
+            }
+            | doc m%"
+              Overlay Services (Object)
+              
+              Elements:
+              - vrfs
+              - networks
+              - vrf_attach_groups
+              - network_attach_groups
+            "%
+            | optional,
+          topology
+            | {
+              edge_connections
+                | Array
+                  {
+                    dest_device | String | doc "Dest Device (String)",
+                    dest_fabric | String | doc "Dest Fabric (String)",
+                    dest_interface | String | doc "Dest Interface (String)",
+                    source_device | String | doc "Source Device (String)",
+                    source_interface | String | doc "Source Interface (String)",
+                  }
+                | doc m%"
+                  Edge Connections (List - Object)
+                  
+                  Elements:
+                  - dest_fabric (required)
+                  - source_device (required)
+                  - dest_device (required)
+                  - source_interface (required)
+                  - dest_interface (required)
+                "%
+                | optional,
+              fabric_links
+                | Array
+                  {
+                    dest_device | String | doc "Dest Device (String)",
+                    dest_interface
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern
+                              "^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                          ])
+                      | doc "Dest Interface (String)",
+                    source_device | String | doc "Source Device (String)",
+                    source_interface
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern
+                              "^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                          ])
+                      | doc "Source Interface (String)",
+                  }
+                | doc m%"
+                  Fabric Links (List - Object)
+                  
+                  Elements:
+                  - source_device (required)
+                  - source_interface (required)
+                  - dest_device (required)
+                  - dest_interface (required)
+                "%
+                | optional,
+              switches
+                | Array
+                  {
+                    freeforms
+                      | Array
+                        {
+                          description
+                            | String
+                            | doc "Description (String)"
+                            | optional,
+                          file_path
+                            | String
+                            | doc "File Path (String)"
+                            | optional,
+                        }
+                      | doc m%"
+                        Freeforms (List - Object)
+                        
+                        Elements:
+                        - description
+                        - file_path
+                      "%
+                      | optional,
+                    interfaces
+                      | Array (
+                        _js2n__-prdslib.contract_from_predicate
+                          (_js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "mode", "name" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      access_vlan =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4094,
+                                              _js2n__-prdslib.numbers.minimum 1
+                                            ],
+                                      description =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.maxLength
+                                                256
+                                            ],
+                                      enable_bpdu_guard =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      enabled = _js2n__-prdslib.isType '"Bool",
+                                      mode =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum [ "access" ]
+                                            ],
+                                      mtu =
+                                        _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Integer,
+                                                  _js2n__-prdslib.numbers.maximum
+                                                    9216,
+                                                  _js2n__-prdslib.numbers.minimum
+                                                    1500
+                                                ],
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [ "default", "jumbo" ]
+                                                ]
+                                            ],
+                                      name =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                                            ],
+                                      spanning_tree_portfast =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      speed =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(auto|100mb|1gb|10gb|25gb|40gb|100gb|200gb|400gb|800gb)$"
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "mode", "name" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      description =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.maxLength
+                                                256
+                                            ],
+                                      enable_bpdu_guard =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      enabled = _js2n__-prdslib.isType '"Bool",
+                                      mode =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum [ "trunk" ]
+                                            ],
+                                      mtu =
+                                        _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Integer,
+                                                  _js2n__-prdslib.numbers.maximum
+                                                    9216,
+                                                  _js2n__-prdslib.numbers.minimum
+                                                    1500
+                                                ],
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [ "default", "jumbo" ]
+                                                ]
+                                            ],
+                                      name =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                                            ],
+                                      spanning_tree_portfast =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      speed =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(auto|100mb|1gb|10gb|25gb|40gb|100gb|200gb|400gb|800gb)$"
+                                            ],
+                                      trunk_allowed_vlans =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.required
+                                                      [ "from" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        from =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4094,
+                                                                _js2n__-prdslib.numbers.minimum
+                                                                  1
+                                                              ],
+                                                        to =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4094,
+                                                                _js2n__-prdslib.numbers.minimum
+                                                                  1
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ])
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "members", "mode", "name" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      access_vlan =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4094,
+                                              _js2n__-prdslib.numbers.minimum 1
+                                            ],
+                                      description =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.maxLength
+                                                256
+                                            ],
+                                      enable_bpdu_guard =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      enabled = _js2n__-prdslib.isType '"Bool",
+                                      members =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "(?i)^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                                                  ])
+                                            ],
+                                      mode =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum [ "access" ]
+                                            ],
+                                      mtu =
+                                        _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Integer,
+                                                  _js2n__-prdslib.numbers.maximum
+                                                    9216,
+                                                  _js2n__-prdslib.numbers.minimum
+                                                    1500
+                                                ],
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [ "default", "jumbo" ]
+                                                ]
+                                            ],
+                                      name =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(po|port-channel)([1-9]|[1-9][0-9]{1,3}|[1-3][0-9]{3}|40([0-8][0-9]|9[0-6]))$"
+                                            ],
+                                      pc_mode =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "active", "on", "passive" ]
+                                            ],
+                                      spanning_tree_portfast =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      speed =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(auto|100mb|1gb|10gb|25gb|40gb|100gb|200gb|400gb|800gb)$"
+                                            ],
+                                      vpc_id =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4906,
+                                              _js2n__-prdslib.numbers.minimum 1
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "members", "mode", "name" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      description =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.maxLength
+                                                256
+                                            ],
+                                      enable_bpdu_guard =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      enabled = _js2n__-prdslib.isType '"Bool",
+                                      members =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "(?i)^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                                                  ])
+                                            ],
+                                      mode =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum [ "trunk" ]
+                                            ],
+                                      mtu =
+                                        _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Integer,
+                                                  _js2n__-prdslib.numbers.maximum
+                                                    9216,
+                                                  _js2n__-prdslib.numbers.minimum
+                                                    1500
+                                                ],
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [ "default", "jumbo" ]
+                                                ]
+                                            ],
+                                      name =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(po|port-channel)([1-9]|[1-9][0-9]{1,3}|[1-3][0-9]{3}|40([0-8][0-9]|9[0-6]))$"
+                                            ],
+                                      pc_mode =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "active", "on", "passive" ]
+                                            ],
+                                      spanning_tree_portfast =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      speed =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(auto|100mb|1gb|10gb|25gb|40gb|100gb|200gb|400gb|800gb)$"
+                                            ],
+                                      trunk_allowed_vlans =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.required
+                                                      [ "from" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        from =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4094,
+                                                                _js2n__-prdslib.numbers.minimum
+                                                                  1
+                                                              ],
+                                                        to =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4094,
+                                                                _js2n__-prdslib.numbers.minimum
+                                                                  1
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ])
+                                            ],
+                                      vpc_id =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4906,
+                                              _js2n__-prdslib.numbers.minimum 1
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "mode", "name" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      description =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.maxLength
+                                                256
+                                            ],
+                                      enabled = _js2n__-prdslib.isType '"Bool",
+                                      ipv4_address =
+                                        _js2n__-prdslib.isType '"String",
+                                      ipv4_route_tag =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4294967295
+                                            ],
+                                      ipv6_address =
+                                        _js2n__-prdslib.isType '"String",
+                                      ipv6_route_tag =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4294967295
+                                            ],
+                                      mode =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum [ "routed" ]
+                                            ],
+                                      mtu =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                9216,
+                                              _js2n__-prdslib.numbers.minimum
+                                                1500
+                                            ],
+                                      name =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                                            ],
+                                      secondary_ipv4_addresses =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.required
+                                                      [ "ip_address" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        ip_address =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        route_tag =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4294967295
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ])
+                                            ],
+                                      secondary_ipv6_addresses =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.required
+                                                      [ "ip_address" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        ip_address =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        route_tag =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4294967295
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ])
+                                            ],
+                                      speed =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(auto|100mb|1gb|10gb|25gb|40gb|100gb|200gb|400gb|800gb)$"
+                                            ],
+                                      vrf = _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "dot1q_id", "mode", "name" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      description =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.maxLength
+                                                256
+                                            ],
+                                      dot1q_id =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4096,
+                                              _js2n__-prdslib.numbers.minimum 1
+                                            ],
+                                      enabled = _js2n__-prdslib.isType '"Bool",
+                                      ipv4_address =
+                                        _js2n__-prdslib.isType '"String",
+                                      ipv4_route_tag =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4294967295
+                                            ],
+                                      ipv6_address =
+                                        _js2n__-prdslib.isType '"String",
+                                      ipv6_route_tag =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4294967295
+                                            ],
+                                      mode =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "routed_sub" ]
+                                            ],
+                                      mtu =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                9216,
+                                              _js2n__-prdslib.numbers.minimum
+                                                1500
+                                            ],
+                                      name =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}\\.\\d{1,4}$"
+                                            ],
+                                      secondary_ipv4_addresses =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.required
+                                                      [ "ip_address" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        ip_address =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        route_tag =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4294967295
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ])
+                                            ],
+                                      secondary_ipv6_addresses =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.required
+                                                      [ "ip_address" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        ip_address =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        route_tag =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4294967295
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ])
+                                            ],
+                                      speed =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(auto|100mb|1gb|10gb|25gb|40gb|100gb|200gb|400gb|800gb)$"
+                                            ],
+                                      vrf = _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "mode", "name" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      description =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.maxLength
+                                                256
+                                            ],
+                                      enabled = _js2n__-prdslib.isType '"Bool",
+                                      ipv4_address =
+                                        _js2n__-prdslib.isType '"String",
+                                      ipv4_route_tag =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4294967295
+                                            ],
+                                      ipv6_address =
+                                        _js2n__-prdslib.isType '"String",
+                                      ipv6_route_tag =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4294967295
+                                            ],
+                                      members =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "(?i)^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                                                  ])
+                                            ],
+                                      mode =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "routed_po" ]
+                                            ],
+                                      mtu =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                9216,
+                                              _js2n__-prdslib.numbers.minimum
+                                                1500
+                                            ],
+                                      name =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(po|port-channel)([1-9]|[1-9][0-9]{1,3}|[1-3][0-9]{3}|40([0-8][0-9]|9[0-6]))$"
+                                            ],
+                                      pc_mode =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "active", "on", "passive" ]
+                                            ],
+                                      secondary_ipv4_addresses =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.required
+                                                      [ "ip_address" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        ip_address =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        route_tag =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4294967295
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ])
+                                            ],
+                                      secondary_ipv6_addresses =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.required
+                                                      [ "ip_address" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        ip_address =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        route_tag =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4294967295
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ])
+                                            ],
+                                      speed =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(auto|100mb|1gb|10gb|25gb|40gb|100gb|200gb|400gb|800gb)$"
+                                            ],
+                                      vrf = _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "mode", "name" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      description =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.maxLength
+                                                256
+                                            ],
+                                      enabled = _js2n__-prdslib.isType '"Bool",
+                                      ipv4_address =
+                                        _js2n__-prdslib.isType '"String",
+                                      ipv4_route_tag =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4294967295
+                                            ],
+                                      ipv6_address =
+                                        _js2n__-prdslib.isType '"String",
+                                      ipv6_route_tag =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                4294967295
+                                            ],
+                                      mode =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [
+                                                  "loopback",
+                                                  "fabric_loopback",
+                                                  "mpls_loopback"
+                                                ]
+                                            ],
+                                      name =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "(?i)^(lo|loopback)([0-9]|[1-9][0-9]{1,2}|10[0-1][0-9]|102[0-3])$"
+                                            ],
+                                      secondary_ipv4_addresses =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.required
+                                                      [ "ip_address" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        ip_address =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        route_tag =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4294967295
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ])
+                                            ],
+                                      secondary_ipv6_addresses =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.required
+                                                      [ "ip_address" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        ip_address =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                        route_tag =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  4294967295
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ])
+                                            ],
+                                      vrf = _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ]
+                            ])
+                      )
+                      | doc m%"
+                        Interfaces (List - Object)
+                        
+                        Elements:
+                        - name (required)
+                        - mode (required)
+                        - description
+                        - mtu
+                        - speed
+                        - enabled
+                        - access_vlan
+                        - spanning_tree_portfast
+                        - enable_bpdu_guard
+                        - trunk_allowed_vlans
+                        - vpc_id
+                        - pc_mode
+                        - members (required)
+                        - vrf
+                        - ipv4_address
+                        - ipv4_route_tag
+                        - secondary_ipv4_addresses
+                        - ipv6_address
+                        - ipv6_route_tag
+                        - secondary_ipv6_addresses
+                        - dot1q_id (required)
+                      "%
+                      | optional,
+                    management
+                      | {
+                        default_gateway_v4
+                          | String
+                          | doc m%"
+                            Default Gateway V4 (String)
+                            - IPv4 or IPv6 address
+                          "%
+                          | optional,
+                        default_gateway_v6
+                          | String
+                          | doc m%"
+                            Default Gateway V6 (String)
+                            - IPv4 or IPv6 address
+                          "%
+                          | optional,
+                        management_ipv4_address
+                          | String
+                          | doc m%"
+                            Management Ipv4 Address (String)
+                            - IPv4 or IPv6 address
+                          "%
+                          | optional,
+                        management_ipv6_address
+                          | String
+                          | doc m%"
+                            Management IPv6 Address (String)
+                            - IPv4 or IPv6 address
+                          "%
+                          | optional,
+                      }
+                      | doc m%"
+                        Management (Object)
+                        
+                        Elements:
+                        - default_gateway_v4
+                        - default_gateway_v6
+                        - management_ipv4_address
+                        - management_ipv6_address
+                      "%
+                      | optional,
+                    name | String | doc "Name (String)",
+                    role
+                      | std.enum.TagOrString
+                      | [|
+                        'tor,
+                        'border_gateway_super_spine,
+                        'border_super_spine,
+                        'super_spine,
+                        'border_gateway_spine,
+                        'border_gateway,
+                        'boder_spine,
+                        'border,
+                        'leaf,
+                        'spine
+                      |]
+                      | doc m%"
+                        Role (String)
+                        - Allowed values: spine, leaf, border, boder_spine, border_gateway, border_gateway_spine, super_spine, border_super_spine, border_gateway_super_spine, tor
+                      "%
+                      | optional,
+                    routing_loopback_id
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 1023
+                          ])
+                      | doc m%"
+                        Routing Loopback ID (Integer)
+                        - Maximum value: 1023
+                      "%
+                      | optional,
+                    serial_number
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern
+                              "^[a-zA-Z0-9_.:-]{1,16}$"
+                          ])
+                      | doc "Serial Number (String)"
+                      | optional,
+                    vtep_loopback_id
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 1023
+                          ])
+                      | doc m%"
+                        Vtep Loopback ID (Integer)
+                        - Default value: 1
+                        - Maximum value: 1023
+                      "%
+                      | optional,
+                  }
+                | doc m%"
+                  Switches (List - Object)
+                  
+                  Elements:
+                  - name (required)
+                  - serial_number
+                  - role
+                  - management
+                  - routing_loopback_id
+                  - vtep_loopback_id
+                  - freeforms
+                  - interfaces
+                "%
+                | optional,
+              vpc_peers
+                | Array
+                  {
+                    domain_id
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.numbers.maximum 1000,
+                            _js2n__-prdslib.numbers.minimum 1
+                          ])
+                      | doc m%"
+                        Domain ID (Integer)
+                        - Default value: 1
+                        - Minimum value: 1
+                        - Maximum value: 1000
+                      "%
+                      | optional,
+                    fabric_peering
+                      | Bool
+                      | doc "Fabric Peering (Boolean)"
+                      | optional,
+                    peer1 | String | doc "Peer1 (String)",
+                    peer1_peerlink_interfaces
+                      | Array
+                        {
+                          name
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                                ])
+                            | doc "Name (String)",
+                        }
+                      | doc m%"
+                        Peer1 Peerlink Interfaces (List - Object)
+                        
+                        Elements:
+                        - name (required)
+                      "%
+                      | optional,
+                    peer2 | String | doc "Peer2 (String)",
+                    peer2_peerlink_interfaces
+                      | Array
+                        {
+                          name
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^(?:e|eth(?:ernet)?)\\d(?:\\/\\d+){1,2}$"
+                                ])
+                            | doc "Name (String)",
+                        }
+                      | doc m%"
+                        Peer2 Peerlink Interfaces (List - Object)
+                        
+                        Elements:
+                        - name (required)
+                      "%
+                      | optional,
+                    vpc_interfaces
+                      | Array
+                        {
+                          vpc_id
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.numbers.maximum 4096,
+                                  _js2n__-prdslib.numbers.minimum 1
+                                ])
+                            | doc m%"
+                              vPC ID (Integer)
+                              - Minimum value: 1
+                              - Maximum value: 4096
+                            "%,
+                        }
+                      | doc m%"
+                        vPC Interfaces (List - Object)
+                        
+                        Elements:
+                        - vpc_id (required)
+                      "%
+                      | optional,
+                    vtep_vip
+                      | String
+                      | doc m%"
+                        Vtep Vip (String)
+                        - IPv4 or IPv6 address
+                      "%
+                      | optional,
+                  }
+                | doc m%"
+                  vPC Peers (List - Object)
+                  
+                  Elements:
+                  - peer1 (required)
+                  - peer1_peerlink_interfaces
+                  - peer2 (required)
+                  - peer2_peerlink_interfaces
+                  - fabric_peering
+                  - domain_id
+                  - vtep_vip
+                  - vpc_interfaces
+                "%
+                | optional,
+            }
+            | doc m%"
+              Topology (Object)
+              
+              Elements:
+              - switches
+              - vpc_peers
+              - fabric_links
+              - edge_connections
+            "%
+            | optional,
+          underlay
+            | {
+              bfd
+                | {
+                  authentication_enable
+                    | Bool
+                    | doc m%"
+                      Authentication Enable (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  authentication_key
+                    | String
+                    | doc "Authentication Key (String)"
+                    | optional,
+                  authentication_key_id
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 65535
+                        ])
+                    | doc m%"
+                      Authentication Key ID (Integer)
+                      - Default value: 100
+                      - Maximum value: 65535
+                    "%
+                    | optional,
+                  enable
+                    | Bool
+                    | doc m%"
+                      Enable (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  ibgp
+                    | Bool
+                    | doc m%"
+                      Ibgp (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  isis
+                    | Bool
+                    | doc m%"
+                      ISIS (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  ospf
+                    | Bool
+                    | doc m%"
+                      OSPF (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  pim
+                    | Bool
+                    | doc m%"
+                      Pim (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                }
+                | doc m%"
+                  BFD (Object)
+                  
+                  Elements:
+                  - enable
+                  - ibgp
+                  - ospf
+                  - isis
+                  - pim
+                  - authentication_enable
+                  - authentication_key_id
+                  - authentication_key
+                "%
+                | optional,
+              bgp
+                | {
+                  authentication_enable
+                    | Bool
+                    | doc m%"
+                      Authentication Enable (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  authentication_key
+                    | String
+                    | doc "Authentication Key (String)"
+                    | optional,
+                  authentication_key_type
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.enum [ 3, 7 ]
+                        ])
+                    | doc m%"
+                      Authentication Key Type (Integer)
+                      - Default value: 3
+                      - Allowed values: 3, 7
+                    "%
+                    | optional,
+                }
+                | doc m%"
+                  BGP (Object)
+                  
+                  Elements:
+                  - authentication_enable
+                  - authentication_key_type
+                  - authentication_key
+                "%
+                | optional,
+              general
+                | {
+                  enable_ipv6_underlay
+                    | Bool
+                    | doc m%"
+                      Enable IPv6 Underlay (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  fabric_interface_numbering
+                    | std.enum.TagOrString
+                    | [| 'unnumbered, 'p2p |]
+                    | doc m%"
+                      Fabric Interface Numbering (String)
+                      - Default value: p2p
+                      - Allowed values: p2p, unnumbered
+                    "%
+                    | optional,
+                  intra_fabric_interface_mtu
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 9216
+                        ])
+                    | doc m%"
+                      Intra Fabric Interface MTU (Integer)
+                      - Default value: 9216
+                      - Maximum value: 9216
+                    "%
+                    | optional,
+                  layer2_host_interfacde_mtu
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 9216
+                        ])
+                    | doc m%"
+                      Layer2 Host Interfacde MTU (Integer)
+                      - Default value: 9216
+                      - Maximum value: 9216
+                    "%
+                    | optional,
+                  manual_underlay_allocation
+                    | Bool
+                    | doc m%"
+                      Manual Underlay Allocation (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  replication_mode
+                    | std.enum.TagOrString
+                    | [| 'ingress, 'multicast |]
+                    | doc m%"
+                      Replication Mode (String)
+                      - Default value: multicast
+                      - Allowed values: multicast, ingress
+                    "%
+                    | optional,
+                  routing_protocol
+                    | std.enum.TagOrString
+                    | [| 'bgp, 'is-is, 'ospf |]
+                    | doc m%"
+                      Routing Protocol (String)
+                      - Default value: ospf
+                      - Allowed values: ospf, is-is, bgp
+                    "%
+                    | optional,
+                  subnet_mask
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 31,
+                          _js2n__-prdslib.numbers.minimum 30
+                        ])
+                    | doc m%"
+                      Subnet Mask (Integer)
+                      - Default value: 30
+                      - Minimum value: 30
+                      - Maximum value: 31
+                    "%
+                    | optional,
+                  underlay_routing_loopback_id
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 1023
+                        ])
+                    | doc m%"
+                      Underlay Routing Loopback ID (Integer)
+                      - Maximum value: 1023
+                    "%
+                    | optional,
+                  underlay_routing_protocol_tag
+                    | String
+                    | doc m%"
+                      Underlay Routing Protocol Tag (String)
+                      - Default value: UNDERLAY
+                    "%
+                    | optional,
+                  underlay_rp_loopback_id
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 1023
+                        ])
+                    | doc m%"
+                      Underlay Rp Loopback ID (Integer)
+                      - Default value: 254
+                      - Maximum value: 1023
+                    "%
+                    | optional,
+                  underlay_vtep_loopback_id
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 1023
+                        ])
+                    | doc m%"
+                      Underlay Vtep Loopback ID (Integer)
+                      - Default value: 1
+                      - Maximum value: 1023
+                    "%
+                    | optional,
+                  unshut_host_interfaces
+                    | Bool
+                    | doc m%"
+                      Unshut Host Interfaces (Boolean)
+                      - Default value: true
+                    "%
+                    | optional,
+                }
+                | doc m%"
+                  General (Object)
+                  
+                  Elements:
+                  - routing_protocol
+                  - enable_ipv6_underlay
+                  - replication_mode
+                  - fabric_interface_numbering
+                  - subnet_mask
+                  - manual_underlay_allocation
+                  - underlay_routing_loopback_id
+                  - underlay_vtep_loopback_id
+                  - underlay_routing_protocol_tag
+                  - underlay_rp_loopback_id
+                  - intra_fabric_interface_mtu
+                  - layer2_host_interfacde_mtu
+                  - unshut_host_interfaces
+                "%
+                | optional,
+              ipv4
+                | {
+                  underlay_routing_loopback_ip_range
+                    | String
+                    | doc m%"
+                      Underlay Routing Loopback IP Range (String)
+                      - Default value: 10.2.0.0/22
+                      - IPv4 or IPv6 address
+                    "%
+                    | optional,
+                  underlay_rp_loopback_ip_range
+                    | String
+                    | doc m%"
+                      Underlay Rp Loopback IP Range (String)
+                      - Default value: 10.254.254.0/24
+                      - IPv4 or IPv6 address
+                    "%
+                    | optional,
+                  underlay_subnet_ip_range
+                    | String
+                    | doc m%"
+                      Underlay Subnet IP Range (String)
+                      - Default value: 10.4.0.0/16
+                      - IPv4 or IPv6 address
+                    "%
+                    | optional,
+                  underlay_vtep_loopback_ip_range
+                    | String
+                    | doc m%"
+                      Underlay Vtep Loopback IP Range (String)
+                      - Default value: 10.3.0.0/22
+                      - IPv4 or IPv6 address
+                    "%
+                    | optional,
+                }
+                | doc m%"
+                  Ipv4 (Object)
+                  
+                  Elements:
+                  - underlay_routing_loopback_ip_range
+                  - underlay_vtep_loopback_ip_range
+                  - underlay_rp_loopback_ip_range
+                  - underlay_subnet_ip_range
+                "%
+                | optional,
+              ipv6
+                | {
+                  enable_ipv6_link_local_address
+                    | Bool
+                    | doc m%"
+                      Enable IPv6 Link Local Address (Boolean)
+                      - Default value: true
+                    "%
+                    | optional,
+                  underlay_subnet_mask
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 128,
+                          _js2n__-prdslib.numbers.minimum 16
+                        ])
+                    | doc m%"
+                      Underlay Subnet Mask (Integer)
+                      - Default value: 126
+                      - Minimum value: 16
+                      - Maximum value: 128
+                    "%
+                    | optional,
+                }
+                | doc m%"
+                  IPv6 (Object)
+                  
+                  Elements:
+                  - enable_ipv6_link_local_address
+                  - underlay_subnet_mask
+                "%
+                | optional,
+              isis
+                | {
+                  authentication_enable
+                    | Bool
+                    | doc m%"
+                      Authentication Enable (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  authentication_key
+                    | String
+                    | doc "Authentication Key (String)"
+                    | optional,
+                  authentication_key_id
+                    | std.number.Integer
+                    | doc m%"
+                      Authentication Key ID (Integer)
+                      - Default value: 127
+                    "%
+                    | optional,
+                  level
+                    | std.enum.TagOrString
+                    | [| 'level-2, 'level-1 |]
+                    | doc m%"
+                      Level (String)
+                      - Default value: level-2
+                      - Allowed values: level-1, level-2
+                    "%
+                    | optional,
+                  network_point_to_point
+                    | Bool
+                    | doc m%"
+                      Network Point To Point (Boolean)
+                      - Default value: true
+                    "%
+                    | optional,
+                  overload_bit
+                    | Bool
+                    | doc m%"
+                      Overload Bit (Boolean)
+                      - Default value: true
+                    "%
+                    | optional,
+                  overload_bit_elapsed_time
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 86400,
+                          _js2n__-prdslib.numbers.minimum 5
+                        ])
+                    | doc m%"
+                      Overload Bit Elapsed Time (Integer)
+                      - Default value: 60
+                      - Minimum value: 5
+                      - Maximum value: 86400
+                    "%
+                    | optional,
+                }
+                | doc m%"
+                  ISIS (Object)
+                  
+                  Elements:
+                  - level
+                  - network_point_to_point
+                  - authentication_enable
+                  - authentication_key_id
+                  - authentication_key
+                  - overload_bit
+                  - overload_bit_elapsed_time
+                "%
+                | optional,
+              multicast
+                | {
+                  group_subnet
+                    | String
+                    | doc m%"
+                      Group Subnet (String)
+                      - Default value: 239.1.1.0/25
+                      - IPv4 or IPv6 address
+                    "%
+                    | optional,
+                  rendezvous_points
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.enum [ 2, 4 ]
+                        ])
+                    | doc m%"
+                      Rendezvous Points (Integer)
+                      - Default value: 2
+                      - Allowed values: 2, 4
+                    "%
+                    | optional,
+                  rp_mode
+                    | std.enum.TagOrString
+                    | [| 'bidr, 'asm |]
+                    | doc m%"
+                      Rp Mode (String)
+                      - Default value: asm
+                      - Allowed values: asm, bidr
+                    "%
+                    | optional,
+                  trm_default_group
+                    | String
+                    | doc m%"
+                      Trm Default Group (String)
+                      - Default value: 239.1.1.0
+                      - IPv4 or IPv6 address
+                    "%
+                    | optional,
+                  trm_enable
+                    | Bool
+                    | doc m%"
+                      Trm Enable (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  underlay_backup_rp_loopback_id
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 1023
+                        ])
+                    | doc m%"
+                      Underlay Backup Rp Loopback ID (Integer)
+                      - Default value: 3
+                      - Maximum value: 1023
+                    "%
+                    | optional,
+                  underlay_primary_rp_loopback_id
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 1023
+                        ])
+                    | doc m%"
+                      Underlay Primary Rp Loopback ID (Integer)
+                      - Default value: 2
+                      - Maximum value: 1023
+                    "%
+                    | optional,
+                  underlay_rp_loopback_id
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 1023
+                        ])
+                    | doc m%"
+                      Underlay Rp Loopback ID (Integer)
+                      - Default value: 254
+                      - Maximum value: 1023
+                    "%
+                    | optional,
+                  underlay_second_backup_rp_loopback_id
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 1023
+                        ])
+                    | doc m%"
+                      Underlay Second Backup Rp Loopback ID (Integer)
+                      - Default value: 4
+                      - Maximum value: 1023
+                    "%
+                    | optional,
+                  underlay_third_backup_rp_loopback_id
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 1023
+                        ])
+                    | doc m%"
+                      Underlay Third Backup Rp Loopback ID (Integer)
+                      - Default value: 5
+                      - Maximum value: 1023
+                    "%
+                    | optional,
+                }
+                | doc m%"
+                  Multicast (Object)
+                  
+                  Elements:
+                  - group_subnet
+                  - rendezvous_points
+                  - rp_mode
+                  - underlay_rp_loopback_id
+                  - trm_enable
+                  - trm_default_group
+                  - underlay_primary_rp_loopback_id
+                  - underlay_backup_rp_loopback_id
+                  - underlay_second_backup_rp_loopback_id
+                  - underlay_third_backup_rp_loopback_id
+                "%
+                | optional,
+              ospf
+                | {
+                  area_id
+                    | String
+                    | doc m%"
+                      Area ID (String)
+                      - Default value: 0.0.0.0
+                    "%
+                    | optional,
+                  authentication_enable
+                    | Bool
+                    | doc m%"
+                      Authentication Enable (Boolean)
+                      - Default value: false
+                    "%
+                    | optional,
+                  authentication_key
+                    | String
+                    | doc "Authentication Key (String)"
+                    | optional,
+                  authentication_key_id
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 255
+                        ])
+                    | doc m%"
+                      Authentication Key ID (Integer)
+                      - Default value: 127
+                      - Maximum value: 255
+                    "%
+                    | optional,
+                }
+                | doc m%"
+                  OSPF (Object)
+                  
+                  Elements:
+                  - area_id
+                  - authentication_enable
+                  - authentication_key_id
+                  - authentication_key
+                "%
+                | optional,
+            }
+            | doc m%"
+              Underlay (Object)
+              
+              Elements:
+              - general
+              - ipv4
+              - ipv6
+              - ospf
+              - bgp
+              - isis
+              - multicast
+              - bfd
+            "%
+            | optional,
+        }
+        | doc m%"
+          Vxlan (Object)
+          
+          Elements:
+          - global
+          - topology
+          - underlay
+          - overlay_services
+          - overlay_extensions
         "%
         | optional,
     }

@@ -3421,6 +3421,9 @@ let rec _js2n__-refsenv
                                                           ],
                                                         _js2n__-prdslib.records.record
                                                           {
+                                                            armRequired =
+                                                              _js2n__-prdslib.isType
+                                                                  '"Bool",
                                                             name =
                                                               _js2n__-prdslib.isType
                                                                   '"String",

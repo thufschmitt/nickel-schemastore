@@ -903,6 +903,10 @@ let rec _js2n__-refsenv
         | String
         | doc "The schema version of this devbox.json file."
         | optional,
+      description
+        | String
+        | doc "A description of the Devbox development environment."
+        | optional,
       env
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -918,6 +922,10 @@ let rec _js2n__-refsenv
       include
         | Array (String)
         | doc "List of additional plugins to activate within your devbox shell"
+        | optional,
+      name
+        | String
+        | doc "The name of the Devbox development environment."
         | optional,
       packages
         | _js2n__-prdslib.contract_from_predicate

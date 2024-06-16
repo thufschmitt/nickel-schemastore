@@ -944,7 +944,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.strings.pattern "^\\${.*?}$"
+                              _js2n__-prdslib.strings.pattern "^\\$\\{.*?\\}$"
                             ],
                           _js2n__-prdslib.allOf
                             [
@@ -996,7 +996,8 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.allOf
                                   [
                                     _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern "^\\${.*?}$"
+                                    _js2n__-prdslib.strings.pattern
+                                      "^\\$\\{.*?\\}$"
                                   ]
                               ])
                         ],

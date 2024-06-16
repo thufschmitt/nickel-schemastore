@@ -1354,6 +1354,7 @@ let rec _js2n__-refsenv
                               "cumulus_cvx",
                               "openbsd",
                               "freebsd",
+                              "generic_vm",
                               "fortinet_fortigate"
                             ]
                         ],
@@ -1704,6 +1705,8 @@ let rec _js2n__-refsenv
                               ext-container =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               freebsd =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              generic_vm =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               host =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",

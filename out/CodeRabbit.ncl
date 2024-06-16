@@ -897,479 +897,454 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/enum_monitoring_commands!contract" =
-        std.contract.Sequence
-            [
-              std.enum.TagOrString,
-              [|
-                'UNUSED_LICENSES,
-                'MISSING_ATTRIBUTES,
-                'METADATA_STATUS,
-                'UNUSED_METADATAS,
-                'LINT_ACCESS,
-                'LEGACY_API,
-                'AUDIT_TRAIL
+      "_js2n__-:definitions/schema!contract" =
+        {
+            chat
+              | {
+                auto_reply
+                  | Bool
+                  | doc "Enable the bot to reply automatically without requiring the user to tag it."
+                  | optional,
+              }
+              | optional,
+            early_access
+              | Bool
+              | doc "Enable early-access features."
+              | optional,
+            enable_free_tier
+              | Bool
+              | doc "Enable free tier features for users not on a paid plan."
+              | optional,
+            knowledge_base
+              | {
+                issues
+                  | {
+                    scope
+                      | std.enum.TagOrString
+                      | [| 'auto, 'global, 'local |]
+                      | doc "Issues | Specify the scope of git platform (GitHub/GitLab) issues to use for the knowledge base. 'local' uses the repository's issues, 'global' uses the organization's issues, and 'auto' uses repository's issues for public repositories and organization's issues for private repositories."
+                      | optional,
+                  }
+                  | optional,
+                jira
+                  | {
+                    project_keys
+                      | Array (String)
+                      | doc "Jira Project Keys | Specify the Jira project keys to use for the knowledge base."
+                      | optional,
+                  }
+                  | optional,
+                learnings
+                  | {
+                    scope
+                      | std.enum.TagOrString
+                      | [| 'auto, 'global, 'local |]
+                      | doc "Learnings | Specify the scope of learnings to use for the knowledge base. 'local' uses the repository's learnings, 'global' uses the organization's learnings, and 'auto' uses repository's learnings for public repositories and organization's learnings for private repositories."
+                      | optional,
+                  }
+                  | optional,
+                linear
+                  | {
+                    team_keys
+                      | Array (String)
+                      | doc "Linear Team Keys | Specify the Linear project keys to use for the knowledge base."
+                      | optional,
+                  }
+                  | optional,
+              }
+              | optional,
+            language
+              | std.enum.TagOrString
+              | [|
+                'fr-FR,
+                'de-LU,
+                'sv-SE,
+                'fa-IR,
+                'it-IT,
+                'es-ES,
+                'de-DE-x-simple-language-DE,
+                'nl-NL,
+                'no,
+                'nb,
+                'crh,
+                'crh-UA,
+                'zh,
+                'zh-CN,
+                'uk,
+                'uk-UA,
+                'tr,
+                'tl,
+                'tl-PH,
+                'ta,
+                'ta-IN,
+                'sv,
+                'sl,
+                'sl-SI,
+                'sk,
+                'sk-SK,
+                'ru,
+                'ru-RU,
+                'ro,
+                'ro-RO,
+                'pl,
+                'pl-PL,
+                'ko,
+                'ko-KR,
+                'km,
+                'km-KH,
+                'ja,
+                'ja-JP,
+                'it,
+                'gl,
+                'gl-ES,
+                'ga,
+                'ga-IE,
+                'fa,
+                'eo,
+                'el,
+                'el-GR,
+                'de-DE-x-simple-language,
+                'da,
+                'da-DK,
+                'ca-ES-balear,
+                'ca-ES-valencia,
+                'ca,
+                'ca-ES,
+                'br,
+                'br-FR,
+                'be,
+                'be-BY,
+                'ast,
+                'ast-ES,
+                'ar,
+                'pt-PT,
+                'pt-MZ,
+                'pt-BR,
+                'pt,
+                'pt-AO,
+                'nl-BE,
+                'nl,
+                'fr-BE,
+                'fr-CH,
+                'fr-CA,
+                'fr,
+                'es-AR,
+                'es,
+                'en-ZA,
+                'en-NZ,
+                'en-CA,
+                'en-GB,
+                'en-AU,
+                'en-US,
+                'en,
+                'de-CH,
+                'de-AT,
+                'de-DE,
+                'de
               |]
-            ],
-      "_js2n__-:definitions/enum_notification_types!contract" =
-        std.contract.Sequence
-            [
-              std.enum.TagOrString,
-              [|
-                'UNUSED_LICENSES,
-                'MISSING_ATTRIBUTES,
-                'METADATA_STATUS,
-                'UNUSED_METADATAS,
-                'LINT_ACCESS,
-                'LEGACY_API,
-                'DEPLOYMENT,
-                'BACKUP,
-                'APEX_TESTS,
-                'AUDIT_TRAIL
-              |]
-            ],
+              | doc "Set the language for reviews by using the corresponding ISO language code."
+              | optional,
+            reviews
+              | {
+                abort_on_close
+                  | Bool
+                  | doc "Abort the in-progress review if the pull request is closed or merged."
+                  | optional,
+                auto_review
+                  | {
+                    auto_incremental_review
+                      | Bool
+                      | doc "Enable Automatic Incremental Review | Automatic incremental code review on each push"
+                      | optional,
+                    base_branches
+                      | Array (String)
+                      | doc "Base branches (other than the default branch) to review. Accepts regex patterns."
+                      | optional,
+                    drafts | Bool | doc "Review draft PRs/MRs." | optional,
+                    enabled
+                      | Bool
+                      | doc "Enable Automatic Review | Automatic code review"
+                      | optional,
+                    ignore_title_keywords
+                      | Array (String)
+                      | doc "Ignore reviewing if the title of the pull request contains any of these keywords (case-insensitive)."
+                      | optional,
+                    labels
+                      | Array (String)
+                      | doc "Restrict automatic reviews to only those pull requests that match one of the specified labels."
+                      | optional,
+                  }
+                  | optional,
+                auto_title_placeholder
+                  | String
+                  | doc "Add this keyword in the PR/MR title to auto-generate the title."
+                  | optional,
+                collapse_walkthrough
+                  | Bool
+                  | doc "Generate walkthrough in a markdown collapsible section."
+                  | optional,
+                high_level_summary
+                  | Bool
+                  | doc "Generate a high level summary of the changes in the PR/MR description."
+                  | optional,
+                high_level_summary_placeholder
+                  | String
+                  | doc "Placeholder in the PR/MR description that gets replaced with the high level summary."
+                  | optional,
+                path_filters
+                  | Array (String)
+                  | doc "Specify file patterns to exclude or include for a review. Accepts glob patterns. Example: !dist/**, src/**"
+                  | optional,
+                path_instructions
+                  | Array
+                    {
+                      instructions
+                        | _js2n__-prdslib.contract_from_predicate
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.maxLength 3000
+                            ])
+                        | doc "Provides specific additional guidelines for code review based on file paths.",
+                      path
+                        | String
+                        | doc "File path glob pattern. Example: **/*.js",
+                    }
+                  | doc "Path Instructions | Provide specific additional guidelines for code review based on file paths."
+                  | optional,
+                poem
+                  | Bool
+                  | doc "Generate a poem in the walkthrough comment."
+                  | optional,
+                profile
+                  | std.enum.TagOrString
+                  | [| 'assertive, 'chill |]
+                  | doc "Set the profile for reviews."
+                  | optional,
+                request_changes_workflow
+                  | Bool
+                  | doc "Approve the review once CodeRabbit's comments are resolved. Note: In GitLab, all discussions must be resolved."
+                  | optional,
+                review_status
+                  | Bool
+                  | doc "Post review details on each review. Additionally, post a review status when a review is skipped in certain cases."
+                  | optional,
+                tools
+                  | {
+                    ast-grep
+                      | {
+                        essential_rules
+                          | Bool
+                          | doc "Use ast-grep essentials package."
+                          | optional,
+                        packages
+                          | Array (String)
+                          | doc "Predefined packages to be used."
+                          | optional,
+                        rule_dirs
+                          | Array (String)
+                          | doc "List of rules directories."
+                          | optional,
+                        util_dirs
+                          | Array (String)
+                          | doc "List of utils directories."
+                          | optional,
+                      }
+                      | doc "ast-grep is a code analysis tool that helps you to find patterns in your codebase using abstract syntax trees patterns."
+                      | optional,
+                    biome
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable Biome | Biome is a fast formatter, linter, and analyzer for web projects. | Enable Biome integration."
+                          | optional,
+                      }
+                      | doc "Biome is a fast formatter, linter, and analyzer for web projects."
+                      | optional,
+                    github-checks
+                      | {
+                        enabled
+                          | Bool
+                          | doc m%"
+                            Enable GitHub Checks
+                            			| Enable integration, defaults to true
+                            			| Enable GitHub Checks integration.
+                          "%
+                          | optional,
+                        timeout_ms
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Number",
+                                _js2n__-prdslib.numbers.maximum 300000,
+                                _js2n__-prdslib.numbers.minimum 0
+                              ])
+                          | doc "Time in milliseconds to wait for all GitHub Checks to conclude."
+                          | optional,
+                      }
+                      | doc "GitHub Checks integration configuration."
+                      | optional,
+                    gitleaks
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable Gitleaks | Gitleaks is a secret scanner. | Enable Gitleaks integration."
+                          | optional,
+                      }
+                      | doc "Gitleaks is a secret scanner."
+                      | optional,
+                    golangci-lint
+                      | {
+                        config_file
+                          | String
+                          | doc "Optional path to the golangci-lint configuration file relative to the repository. Useful when the configuration file is named differently than the default '.golangci.yml', '.golangci.yaml', '.golangci.toml', '.golangci.json'."
+                          | optional,
+                        enabled
+                          | Bool
+                          | doc "Enable golangci-lint | golangci-lint is a fast linters runner for Go. | Enable golangci-lint integration."
+                          | optional,
+                      }
+                      | doc "golangci-lint is a fast linters runner for Go."
+                      | optional,
+                    hadolint
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable Hadolint | Hadolint is a Dockerfile linter. | Enable Hadolint integration."
+                          | optional,
+                      }
+                      | doc "Hadolint is a Dockerfile linter."
+                      | optional,
+                    languagetool
+                      | {
+                        disabled_categories
+                          | Array (String)
+                          | doc "IDs of categories to be disabled."
+                          | optional,
+                        disabled_rules
+                          | Array (String)
+                          | doc "IDs of rules to be disabled."
+                          | optional,
+                        enabled
+                          | Bool
+                          | doc "Enable LanguageTool | Enable LanguageTool integration."
+                          | optional,
+                        enabled_categories
+                          | Array (String)
+                          | doc "IDs of categories to be enabled."
+                          | optional,
+                        enabled_only
+                          | Bool
+                          | doc "Only the rules and categories whose IDs are specified with 'enabledRules' or 'enabledCategories' are enabled."
+                          | optional,
+                        enabled_rules
+                          | Array (String)
+                          | doc "IDs of rules to be enabled. The rule won't run unless 'level' is set to a level that activates the rule."
+                          | optional,
+                        level
+                          | std.enum.TagOrString
+                          | [| 'picky, '"default" |]
+                          | doc "If set to 'picky', additional rules will be activated, i.e. rules that you might only find useful when checking formal text."
+                          | optional,
+                      }
+                      | doc "LanguageTool is a style and grammar checker for 30+ languages."
+                      | optional,
+                    markdownlint
+                      | {
+                        enabled
+                          | Bool
+                          | doc m%"
+                            Enable Markdownlint
+                            				| Markdownlint is a static analysis tool for Node.js with a library of rules to enforce standards and consistency for Markdown files.
+                            				| Enable markdownlint integration.
+                          "%
+                          | optional,
+                      }
+                      | doc "Markdownlint is a static analysis tool to enforce standards and consistency for Markdown files."
+                      | optional,
+                    phpstan
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable PHPStan | PHPStan requires [config file](https://phpstan.org/config-reference#config-file) in your repository root."
+                          | optional,
+                        level
+                          | std.enum.TagOrString
+                          | [|
+                            'max,
+                            '"9",
+                            '"8",
+                            '"7",
+                            '"6",
+                            '"5",
+                            '"4",
+                            '"3",
+                            '"2",
+                            '"1",
+                            '"0",
+                            '"default"
+                          |]
+                          | doc "Level | Specify the [rule level](https://phpstan.org/user-guide/rule-levels) to run."
+                          | optional,
+                      }
+                      | doc "PHPStan is a tool to analyze PHP code."
+                      | optional,
+                    ruff
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable Ruff | Ruff is a Python linter and code formatter. |  Enable ruff integration."
+                          | optional,
+                      }
+                      | doc "Ruff is a Python linter and code formatter."
+                      | optional,
+                    shellcheck
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable ShellCheck | ShellCheck is a static analysis tool that finds bugs in your shell. | Enable shellcheck integration."
+                          | optional,
+                      }
+                      | doc "Shellcheck is a static analysis tool that finds bugs in your shell scripts."
+                      | optional,
+                    swiftlint
+                      | {
+                        config_file
+                          | String
+                          | doc "Optional path to the SwiftLint configuration file relative to the repository. This is useful when the configuration file is named differently than the default '.swiftlint.yml' or '.swiftlint.yaml'."
+                          | optional,
+                        enabled
+                          | Bool
+                          | doc "Enable SwiftLint | SwiftLint is a Swift linter. | Enable SwiftLint integration."
+                          | optional,
+                      }
+                      | doc "SwiftLint integration configuration object."
+                      | optional,
+                    yamllint
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable Yamllint | yamllint is a fast linters runner for yaml. | Enable yamllint integration."
+                          | optional,
+                      }
+                      | doc "Yamllint is a fast linters runner for yaml."
+                      | optional,
+                  }
+                  | doc "Tools that provide additional context to code reviews."
+                  | optional,
+              }
+              | doc "Settings related to reviews."
+              | optional,
+            tone_instructions
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.maxLength 250
+                  ])
+              | doc "Set the tone of reviews and chat. Example: 'You must use talk like Mr. T. I pity the fool who doesn't!'"
+              | optional,
+          },
     }
     in
-  {
-      allowedOrgTypes
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.enum [ "sandbox", "scratch" ]
-                  ])
-            ])
-        | doc "Types of orgs allowed for config & development. If not set, sandbox and scratch are allowed by default"
-        | optional,
-      apexTestsMinCoverageOrgWide
-        | Number
-        | doc "Minimum percentage of apex code coverage accepted"
-        | optional,
-      autoCleanTypes
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.enum
-                      [
-                        "caseentitlement",
-                        "checkPermissions",
-                        "dashboards",
-                        "datadotcom",
-                        "destructivechanges",
-                        "flowPositions",
-                        "localfields",
-                        "listViewsMine",
-                        "minimizeProfiles",
-                        "productrequest",
-                        "systemDebug"
-                      ]
-                  ])
-            ])
-        | doc "When saving a sfdx-hardis task, the list of cleanings will be automatically applied to sfdx sources"
-        | optional,
-      autoRemoveUserPermissions
-        | Array (String)
-        | doc "When saving a sfdx-hardis task, these permissions will be removed from profiles"
-        | optional,
-      autoRetrieveWhenPull
-        | Array (String)
-        | doc "When calling hardis:scratch:pull, if you define metadatas (named or not), they will also be retrieved using force:source:retrieve"
-        | optional,
-      availableProjects
-        | Array (String)
-        | doc "List of business projects that are managed in the same repository. Will be used to build git branch name when using hardis:work:new"
-        | optional,
-      availableTargetBranches
-        | Array (String)
-        | doc "List of git branches that can be used as target for merge requests"
-        | optional,
-      branchPrefixChoices
-        | Array Dyn
-        | doc "When calling hardis:work:new, you can override the default branch prefixes. Input title, value and description for each of them"
-        | optional,
-      cleanXmlPatterns
-        | Array
-          {
-            globPattern
-              | String
-              | doc "Glob pattern to identify XML files to clean",
-            xpaths
-              | Array (String)
-              | doc "XPaths to identify elements to remove",
-          }
-        | doc "List of patterns to automatically clean XML files"
-        | optional,
-      commandsPostDeploy
-        | Array
-          {
-            command | String | doc "Command line to run",
-            id | String | doc "Identifier of the command (can be any string)",
-            label | String | doc "Label of the command (what does it do ?)",
-            skipIfError
-              | Bool
-              | doc "Do not run the command if there is a deployment error"
-              | optional,
-          }
-        | doc "List of commands to run after a deployment"
-        | optional,
-      commandsPreDeploy
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record
-                      {
-                        command = _js2n__-prdslib.isType '"String",
-                        id = _js2n__-prdslib.isType '"String",
-                        label = _js2n__-prdslib.isType '"String",
-                      } {} false _js2n__-prdslib.never
-                  ]),
-              _js2n__-prdslib.records.required [ "command", "id", "label" ],
-              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
-            ])
-        | doc "List of commands to run before a deployment"
-        | optional,
-      customCommands
-        | Array
-          {
-            commands
-              | Array
-                {
-                  command
-                    | String
-                    | doc "Command line to run when clicking on the menu",
-                  helpUrl
-                    | String
-                    | doc "URL for help page of the command"
-                    | optional,
-                  icon
-                    | String
-                    | doc "Icon (can be any of svg icons of this list: https://github.com/hardisgroupcom/vscode-sfdx-hardis/tree/master/resources"
-                    | optional,
-                  id
-                    | String
-                    | doc "Identifier of the command (can be any string)",
-                  label
-                    | String
-                    | doc "Label of the command that will appear in menu",
-                  tooltip
-                    | String
-                    | doc "Text that will appear when user will hover the command"
-                    | optional,
-                }
-              | doc "List of commands of the menu"
-              | optional,
-            id | String | doc "Identifier of the menu (can be any string)",
-            label | String | doc "Label of the menu",
-          }
-        | doc "List of custom commands for VsCode SFDX-Hardis extension"
-        | optional,
-      customCommandsPosition
-        | std.enum.TagOrString
-        | [| 'last, 'first |]
-        | doc "Position of custom commands in the menu (first or last)"
-        | optional,
-      customOrgColors
-        | {  .. }
-        | doc "Custom colors set by VsCode SFDX Hardis"
-        | optional,
-      customPlugins
-        | Array
-          {
-            helpUrl
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Url of plugin documentation"
-              | optional,
-            name
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Name of the plugin npm package"
-              | optional,
-          }
-        | doc "List of additional plugins that will be displayed in VsCode SFDX-Hardis Dependencies panel"
-        | optional,
-      dataPackages
-        | Array
-          {
-            dataPath | String | doc "Path to SFDMU project",
-            importInScratchOrgs | Bool | doc "Path to SFDMU project",
-          }
-        | doc "List of data packages"
-        | optional,
-      defaultPackageInstallationKey
-        | String
-        | doc "When generating a new package version protected with password, use this value as default package installation key"
-        | optional,
-      deploymentPlan
-        | {
-          packages
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.arrays.arrayOf
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.record
-                          {
-                            dataPath = _js2n__-prdslib.isType '"String",
-                            label = _js2n__-prdslib.isType '"String",
-                            order = _js2n__-prdslib.isType '"Number",
-                            packageXmlFile = _js2n__-prdslib.isType '"String",
-                            waitAfter = _js2n__-prdslib.isType '"Number",
-                          } {} false _js2n__-prdslib.never
-                      ]),
-                  _js2n__-prdslib.records.required [ "label", "order" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ])
-            | doc "During deployment, main package.xml will be split into these packages. Can also contain data packages"
-            | optional,
-          ..
-        }
-        | doc "Deployment plan that will be performed during deployments. Can be based on packageXmlFile for sources or on dataPath for sfdmu data deployments"
-        | optional,
-      devHubAlias
-        | String
-        | doc "Dev Hub alias, usually DevHub_ProjectName"
-        | optional,
-      devHubUsername
-        | String
-        | doc "Dev Hub username, used to authenticate to DevHub from CI jobs"
-        | optional,
-      developmentBranch
-        | String
-        | doc "When creating a new sfdx-hardis task, this git branch is used as base to create the feature/debug sub branch. The merge request will later have this branch as target."
-        | optional,
-      extends
-        | String
-        | doc "You can base your local sfdx-hardis configuration on a remote config file. That allows you to have the same config base for all your projects"
-        | optional,
-      initPermissionSets
-        | Array (
-          _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.allOf
-              [
-                _js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.isType '"String"
-                  ],
-                _js2n__-prdslib.records.record
-                  { name = _js2n__-prdslib.isType '"String", } {} false
-                  _js2n__-prdslib.never
-              ])
-        )
-        | doc "When creating a scratch org, Admin user will be automatically assigned to those permission sets"
-        | optional,
-      installPackagesDuringCheckDeploy
-        | Bool
-        | doc "When calling deployment check command, installs any package referred within installedPackages property"
-        | optional,
-      installedPackages
-        | Array
-          {
-            Id
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageId
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageName
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageNamespace
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.isType 'Null
-                  ])
-              | optional,
-            SubscriberPackageVersionId
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String"),
-            SubscriberPackageVersionName
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageVersionNumber
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            installDuringDeployments
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"Bool")
-              | doc "If true, during deployments this package will be installed in target org if not installed yet"
-              | optional,
-            installOnScratchOrgs
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"Bool")
-              | doc "If true, this package will be installed when creating a new scratch org with sfdx-hardis"
-              | optional,
-            installationkey
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Installation key for key-protected package"
-              | optional,
-          }
-        | doc "Defines the list of packages installed on the project. Use "
-        | optional,
-      instanceUrl
-        | String
-        | doc "Salesforce instance URL used by CI for deployment or backups"
-        | optional,
-      linterIgnoreRightMetadataFile
-        | String
-        | doc "Ignore profiles or permission sets"
-        | optional,
-      listViewsToSetToMine
-        | Array (String)
-        | doc "List of ListView items to set to Mine after a delivery (that does not accept value 'Everything')"
-        | optional,
-      monitoringAllowedSectionsActions
-        | {  .. }
-        | doc "Override list of Setup Audit Trail elements that won't be considered as suspect by monitoring tools"
-        | optional,
-      monitoringCommands
-        | Array
-          {
-            command | String | doc "Bash command to run",
-            frequency | String | doc "daily or weekly" | optional,
-            key
-              | String
-              | doc "Unique identifier of the monitoring command. Can be used with monitoringDisable"
-              | optional,
-            title | String | doc "Title of the command (will appear in logs)",
-          }
-        | doc "List of monitoring commands to run with command hardis:org:monitor:all"
-        | optional,
-      monitoringDisable
-        | Array
-          _js2n__-refsenv."_js2n__-:definitions/enum_monitoring_commands!contract"
-        | doc "List of commands to skip during monitoring jobs"
-        | optional,
-      monitoringExcludeUsernames
-        | Array (String)
-        | doc "List of usernames to exclude while running monitoring commands"
-        | optional,
-      msTeamsWebhookUrl
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send ALL notifications"
-        | optional,
-      msTeamsWebhookUrlCritical
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send CRITICAL notifications"
-        | optional,
-      msTeamsWebhookUrlInfo
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send INFO notifications"
-        | optional,
-      msTeamsWebhookUrlSevere
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send SEVERE notifications"
-        | optional,
-      msTeamsWebhookUrlWarning
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send WARNING notifications"
-        | optional,
-      notificationsDisable
-        | Array
-          _js2n__-refsenv."_js2n__-:definitions/enum_notification_types!contract"
-        | doc "List of notifications types to skip sending"
-        | optional,
-      poolConfig
-        | {
-          maxScratchOrgsNumber
-            | Number
-            | doc "Maximum number of active scratch orgs in the scratch org pool"
-            | optional,
-          maxScratchOrgsNumberToCreateOnce
-            | Number
-            | doc "Maximum number of scratch orgs to create in one CI job"
-            | optional,
-          minScratchOrgRemainingDays
-            | Number
-            | doc "When pool scratch org is less than this number, it is deleted and another one is created"
-            | optional,
-          storageService
-            | String
-            | doc "Remote service allowing to store scratch org pool details"
-            | optional,
-          ..
-        }
-        | doc "Configuration allowing to generate and fetch scratch orgs from scratch org pool"
-        | optional,
-      productionBranch
-        | String
-        | doc "Name of the git branch corresponding to production environment"
-        | optional,
-      projectName
-        | String
-        | doc "Identifier for the project (can be the client and project)"
-        | optional,
-      retrofitBranch
-        | String
-        | doc "Name of the git branch where retrofit merge requests targets to"
-        | optional,
-      retrofitIgnoredFiles
-        | Array (String)
-        | doc "When calling hardis:org:retrieve:sources:retrofit, list of files to ignore (discard just after retrieve)"
-        | optional,
-      scratchOrgDuration
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Number",
-              _js2n__-prdslib.numbers.maximum 30,
-              _js2n__-prdslib.numbers.minimum 1
-            ])
-        | doc "Defines the lifespan of the scratch org in number of days, from 1 to 30"
-        | optional,
-      scratchOrgInitApexScripts
-        | Array (String)
-        | doc "Apex scripts to call after scratch org initialization"
-        | optional,
-      sfdmuCanModify
-        | String
-        | doc "Instance host name to allow SFDMU to deploy data in a production org"
-        | optional,
-      skipUpdateForceIgnore
-        | Bool
-        | doc "Defines if sfdx-hardis will propose to upgrade local .forceignore file"
-        | optional,
-      skipUpdateGitIgnore
-        | Bool
-        | doc "Defines if sfdx-hardis will propose to upgrade local .gitignore file"
-        | optional,
-      sourcesToRetrofit
-        | Array (String)
-        | doc "List of metadata to retrieve for retrofit job"
-        | optional,
-      targetUsername
-        | String
-        | doc "Salesforce username used by CI for deployment or backups"
-        | optional,
-      useDeltaDeployment
-        | Bool
-        | doc "Defines if sfdx-hardis will deploy in delta from minor to major branches"
-        | optional,
-    }
+  _js2n__-refsenv."_js2n__-:definitions/schema!contract"

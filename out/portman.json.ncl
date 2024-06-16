@@ -1058,6 +1058,7 @@ let rec _js2n__-refsenv
                           ])
                     ])
                 | optional,
+              remove | Bool | optional,
             }
             | optional,
           separatorSymbol | String | optional,
@@ -1275,6 +1276,7 @@ let rec _js2n__-refsenv
                             ])
                       ])
                   | optional,
+                remove | Bool | optional,
               }
               | optional,
           }

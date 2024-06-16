@@ -1090,7 +1090,9 @@ let rec _js2n__-refsenv
                               "numberFacet",
                               "objectId",
                               "string",
-                              "stringFacet"
+                              "stringFacet",
+                              "token",
+                              "uuid"
                             ]
                         ],
                 } {} false _js2n__-prdslib.never,

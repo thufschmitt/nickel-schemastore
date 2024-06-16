@@ -1140,9 +1140,13 @@ let rec _js2n__-refsenv
                 | String
                 | doc "regular expression for what can come after %"
                 | optional,
-              notPreceededBy
+              notPrecededBy
                 | String
                 | doc "regular expression for what can NOT come before %, for example \\%"
+                | optional,
+              notPreceededBy
+                | String
+                | doc "please use notPrecededBy instead"
                 | optional,
               ..
             }

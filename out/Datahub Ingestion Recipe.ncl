@@ -2126,6 +2126,8 @@ let rec _js2n__-refsenv
                   extra_client_options = _js2n__-prdslib.isType 'Record,
                   extract_column_lineage = _js2n__-prdslib.isType '"Bool",
                   extract_lineage_from_catalog = _js2n__-prdslib.isType '"Bool",
+                  extract_policy_tags_from_catalog =
+                    _js2n__-prdslib.isType '"Bool",
                   include_data_platform_instance =
                     _js2n__-prdslib.isType '"Bool",
                   include_external_url = _js2n__-prdslib.isType '"Bool",
@@ -3264,6 +3266,8 @@ let rec _js2n__-refsenv
                   env = _js2n__-prdslib.isType '"String",
                   fivetran_log_config =
                     _js2n__-refsenv."_js2n__-:definitions/FivetranLogConfig!predicate",
+                  history_sync_lookback_period =
+                    _js2n__-prdslib.isType 'Integer,
                   include_column_lineage = _js2n__-prdslib.isType '"Bool",
                   platform_instance = _js2n__-prdslib.isType '"String",
                   sources_to_database =

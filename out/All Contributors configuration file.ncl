@@ -923,6 +923,7 @@ let rec _js2n__-refsenv
                       "gitmoji",
                       "none"
                     ],
+              commitType = _js2n__-prdslib.isType '"String",
               contributorTemplate =
                 _js2n__-prdslib.allOf
                     [
@@ -958,47 +959,56 @@ let rec _js2n__-refsenv
                                       [
                                         _js2n__-prdslib.isType '"Array",
                                         _js2n__-prdslib.arrays.arrayOf
-                                          (_js2n__-prdslib.allOf
+                                          (_js2n__-prdslib.anyOf
                                             [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
+                                              _js2n__-prdslib.allOf
                                                 [
-                                                  "a11y",
-                                                  "audio",
-                                                  "blog",
-                                                  "bug",
-                                                  "business",
-                                                  "code",
-                                                  "content",
-                                                  "data",
-                                                  "design",
-                                                  "doc",
-                                                  "eventOrganizing",
-                                                  "example",
-                                                  "financial",
-                                                  "fundingFinding",
-                                                  "ideas",
-                                                  "infra",
-                                                  "maintenance",
-                                                  "mentoring",
-                                                  "platform",
-                                                  "plugin",
-                                                  "projectManagement",
-                                                  "promotion",
-                                                  "question",
-                                                  "research",
-                                                  "review",
-                                                  "security",
-                                                  "talk",
-                                                  "test",
-                                                  "tool",
-                                                  "translation",
-                                                  "tutorial",
-                                                  "userTesting",
-                                                  "video"
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [
+                                                      "a11y",
+                                                      "audio",
+                                                      "blog",
+                                                      "bug",
+                                                      "business",
+                                                      "code",
+                                                      "content",
+                                                      "data",
+                                                      "design",
+                                                      "doc",
+                                                      "eventOrganizing",
+                                                      "example",
+                                                      "financial",
+                                                      "fundingFinding",
+                                                      "ideas",
+                                                      "infra",
+                                                      "maintenance",
+                                                      "mentoring",
+                                                      "platform",
+                                                      "plugin",
+                                                      "projectManagement",
+                                                      "promotion",
+                                                      "question",
+                                                      "research",
+                                                      "review",
+                                                      "security",
+                                                      "talk",
+                                                      "test",
+                                                      "tool",
+                                                      "translation",
+                                                      "tutorial",
+                                                      "userTesting",
+                                                      "video"
+                                                    ]
                                                 ],
-                                              _js2n__-prdslib.strings.minLength
-                                                0
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.strings.minLength
+                                                    0
+                                                ]
                                             ]),
                                         _js2n__-prdslib.arrays.minItems 1
                                       ],

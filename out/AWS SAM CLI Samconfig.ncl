@@ -1178,8 +1178,13 @@ let rec _js2n__-refsenv
                                               tags =
                                                 _js2n__-prdslib.allOf
                                                     [
-                                                      _js2n__-prdslib.isType
-                                                        '"Array",
+                                                      _js2n__-prdslib.anyOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"Array",
+                                                          _js2n__-prdslib.isType
+                                                            '"String"
+                                                        ],
                                                       _js2n__-prdslib.arrays.arrayOf
                                                         (_js2n__-prdslib.isType
                                                           '"String")
@@ -2342,8 +2347,13 @@ let rec _js2n__-refsenv
                                               tags =
                                                 _js2n__-prdslib.allOf
                                                     [
-                                                      _js2n__-prdslib.isType
-                                                        '"Array",
+                                                      _js2n__-prdslib.anyOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"Array",
+                                                          _js2n__-prdslib.isType
+                                                            '"String"
+                                                        ],
                                                       _js2n__-prdslib.arrays.arrayOf
                                                         (_js2n__-prdslib.isType
                                                           '"String")

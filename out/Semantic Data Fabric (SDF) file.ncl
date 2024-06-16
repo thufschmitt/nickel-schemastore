@@ -1142,13 +1142,6 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType '"String",
                                   _js2n__-prdslib.isType 'Null
                                 ],
-                          bucket-region-map =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    (_js2n__-prdslib.isType '"String")
-                                ],
                           default-region =
                             _js2n__-prdslib.anyOf
                                 [
@@ -1174,6 +1167,12 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType 'Null
                                 ],
                           secret-access-key =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                          session-token =
                             _js2n__-prdslib.anyOf
                                 [
                                   _js2n__-prdslib.isType '"String",
@@ -1209,7 +1208,7 @@ let rec _js2n__-refsenv
                         } {} true _js2n__-prdslib.always
                     ]
                 ],
-              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.required [ "name", "source-locations" ],
               _js2n__-prdslib.records.record
                 {
                   description =
@@ -1227,6 +1226,22 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/FilePath!predicate"
                         ],
                 } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/DataBucket!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "uri" ],
+              _js2n__-prdslib.records.record
+                {
+                  region =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  uri = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Defaults!predicate" =
         _js2n__-prdslib.allOf
@@ -1738,7 +1753,7 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "append", "merge" ]
+              _js2n__-prdslib.enum [ "append", "merge", "delete+insert" ]
             ],
       "_js2n__-:definitions/IndexMethod!predicate" =
         _js2n__-prdslib.allOf
@@ -1952,28 +1967,11 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.enum
                 [ "none", "jinja", "sql-vars", "sql-logic-test", "all" ]
             ],
-      "_js2n__-:definitions/ProviderNamespace!predicate"
-        | doc "A target defines a view on a workspace/environment renaming all modified tables"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "target" ],
-              _js2n__-prdslib.records.record
-                {
-                  rename-as =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                  target = _js2n__-prdslib.isType '"String",
-                } {} false _js2n__-prdslib.never
-            ],
       "_js2n__-:definitions/ProviderType!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "glue", "redshift", "snowflake" ]
+              _js2n__-prdslib.enum [ "glue", "redshift", "snowflake", "s3" ]
             ],
       "_js2n__-:definitions/Reclassify!predicate" =
         _js2n__-prdslib.allOf
@@ -2022,8 +2020,21 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "pattern" ],
               _js2n__-prdslib.records.record
-                { pattern = _js2n__-prdslib.isType '"String", } {} false
-                _js2n__-prdslib.never
+                {
+                  pattern = _js2n__-prdslib.isType '"String",
+                  preload =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  rename-from =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/SyncType!predicate" =
         _js2n__-prdslib.oneOf
@@ -2356,7 +2367,7 @@ let rec _js2n__-refsenv
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/TargetProvider!predicate"
-        | doc "Table providers manage tables in in catalogs"
+        | doc "Table providers manage tables in in catalogs (OLD_PROVIDERS)"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -2373,6 +2384,13 @@ let rec _js2n__-refsenv
                             ],
                           _js2n__-prdslib.numbers.minimum 0
                         ],
+                  buckets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/DataBucket!predicate"
+                        ],
                   cluster-identifier =
                     _js2n__-prdslib.anyOf
                         [
@@ -2384,13 +2402,6 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
-                        ],
-                  namespaces =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/ProviderNamespace!predicate"
                         ],
                   sources =
                     _js2n__-prdslib.allOf

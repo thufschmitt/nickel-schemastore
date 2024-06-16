@@ -897,6 +897,107 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/http_checks!predicate"
+        | doc "HTTP-based health checks run against the `internal_port`. These checks will pass when receiving a 2xx response. Any other response is considered a failure."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        grace_period =
+                          _js2n__-prdslib.oneOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.isType '"String"
+                              ],
+                        headers = _js2n__-prdslib.isType 'Record,
+                        interval =
+                          _js2n__-prdslib.oneOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.isType '"String"
+                              ],
+                        method = _js2n__-prdslib.isType '"String",
+                        path = _js2n__-prdslib.isType '"String",
+                        protocol =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum [ "http", "https" ]
+                              ],
+                        restart_limit = _js2n__-prdslib.isType 'Integer,
+                        timeout =
+                          _js2n__-prdslib.oneOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.isType '"String"
+                              ],
+                        tls_skip_verify = _js2n__-prdslib.isType '"Bool",
+                      } {} true _js2n__-prdslib.always
+                  ])
+            ],
+      "_js2n__-:definitions/metrics!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  path = _js2n__-prdslib.isType '"String",
+                  port = _js2n__-prdslib.isType 'Integer,
+                  processes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/mounts!predicate"
+        | doc m%"
+          Mount [persistent storage volumes](https://fly.io/docs/reference/volumes) previously setup via `flyctl`. Both settings are required. Example:
+          
+          ```toml
+          [mounts]
+            source = "myapp_data"
+            destination = "/data"
+          ```
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "destination", "source" ],
+              _js2n__-prdslib.records.record
+                {
+                  auto_extend_size_increment = _js2n__-prdslib.isType '"String",
+                  auto_extend_size_limit = _js2n__-prdslib.isType '"String",
+                  auto_extend_size_threshold = _js2n__-prdslib.isType 'Integer,
+                  destination = _js2n__-prdslib.isType '"String",
+                  initial_size =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Integer
+                        ],
+                  processes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.minLength 1
+                              ])
+                        ],
+                  snapshot_retention = _js2n__-prdslib.isType 'Integer,
+                  source = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/services!predicate"
         | doc m%"
           Configure the mapping of ports from the public Fly proxy to your application.
@@ -931,6 +1032,9 @@ let rec _js2n__-refsenv
                             } {} true _js2n__-prdslib.always
                         ],
                   http_checks =
+                    _js2n__-refsenv."_js2n__-:definitions/http_checks!predicate",
+                  internal_port = _js2n__-prdslib.isType 'Integer,
+                  machine_checks =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
@@ -938,44 +1042,43 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [
+                                    "command",
+                                    "entrypoint",
+                                    "image",
+                                    "kill_signal",
+                                    "kill_timeout"
+                                  ],
                                 _js2n__-prdslib.records.record
                                   {
-                                    grace_period =
-                                      _js2n__-prdslib.oneOf
+                                    command =
+                                      _js2n__-prdslib.allOf
                                           [
-                                            _js2n__-prdslib.isType 'Integer,
-                                            _js2n__-prdslib.isType '"String"
+                                            _js2n__-prdslib.isType '"Array",
+                                            _js2n__-prdslib.arrays.arrayOf
+                                              (_js2n__-prdslib.isType '"String")
                                           ],
-                                    headers = _js2n__-prdslib.isType 'Record,
-                                    interval =
-                                      _js2n__-prdslib.oneOf
+                                    entrypoint =
+                                      _js2n__-prdslib.allOf
                                           [
-                                            _js2n__-prdslib.isType 'Integer,
-                                            _js2n__-prdslib.isType '"String"
+                                            _js2n__-prdslib.isType '"Array",
+                                            _js2n__-prdslib.arrays.arrayOf
+                                              (_js2n__-prdslib.isType '"String")
                                           ],
-                                    method = _js2n__-prdslib.isType '"String",
-                                    path = _js2n__-prdslib.isType '"String",
-                                    protocol =
+                                    image = _js2n__-prdslib.isType '"String",
+                                    kill_signal =
+                                      _js2n__-prdslib.isType '"String",
+                                    kill_timeout =
                                       _js2n__-prdslib.allOf
                                           [
                                             _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.enum
-                                              [ "http", "https" ]
+                                            _js2n__-prdslib.strings.pattern
+                                              "^\\d+s$"
                                           ],
-                                    restart_limit =
-                                      _js2n__-prdslib.isType 'Integer,
-                                    timeout =
-                                      _js2n__-prdslib.oneOf
-                                          [
-                                            _js2n__-prdslib.isType 'Integer,
-                                            _js2n__-prdslib.isType '"String"
-                                          ],
-                                    tls_skip_verify =
-                                      _js2n__-prdslib.isType '"Bool",
                                   } {} true _js2n__-prdslib.always
                               ])
                         ],
-                  internal_port = _js2n__-prdslib.isType 'Integer,
                   min_machines_running = _js2n__-prdslib.isType 'Integer,
                   ports =
                     _js2n__-prdslib.allOf
@@ -1199,12 +1302,14 @@ let rec _js2n__-refsenv
                           image = _js2n__-prdslib.isType '"String",
                         } {} false _js2n__-prdslib.never
                     ],
+              console_command = _js2n__-prdslib.isType '"String",
               deploy =
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.record
                         {
+                          max_unavailable = _js2n__-prdslib.isType '"Number",
                           release_command = _js2n__-prdslib.isType '"String",
                           strategy =
                             _js2n__-prdslib.allOf
@@ -1259,6 +1364,139 @@ let rec _js2n__-refsenv
                           private_network = _js2n__-prdslib.isType '"Bool",
                         } {} true _js2n__-prdslib.always
                     ],
+              files =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required [ "guest_path" ],
+                            _js2n__-prdslib.records.record
+                              {
+                                guest_path = _js2n__-prdslib.isType '"String",
+                                local_path = _js2n__-prdslib.isType '"String",
+                                processes =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          (_js2n__-prdslib.isType '"String")
+                                      ],
+                                raw_value = _js2n__-prdslib.isType '"String",
+                                secret_name = _js2n__-prdslib.isType '"String",
+                              } {} true _js2n__-prdslib.always
+                          ])
+                    ],
+              host_dedication_id = _js2n__-prdslib.isType '"String",
+              http_checks =
+                _js2n__-refsenv."_js2n__-:definitions/http_checks!predicate",
+              http_service =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          auto_start_machines = _js2n__-prdslib.isType '"Bool",
+                          auto_stop_machines = _js2n__-prdslib.isType '"Bool",
+                          checks =
+                            _js2n__-refsenv."_js2n__-:definitions/http_checks!predicate",
+                          concurrency =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      hard_limit =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      soft_limit =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      type =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "connections", "requests" ]
+                                            ],
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          force_https = _js2n__-prdslib.isType '"Bool",
+                          http_options =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      h2_backend =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      response =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  headers =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {} {} true
+                                                            (_js2n__-prdslib.oneOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  '"Bool",
+                                                                _js2n__-prdslib.isType
+                                                                  '"String",
+                                                                _js2n__-prdslib.allOf
+                                                                  [
+                                                                    _js2n__-prdslib.isType
+                                                                      '"Array",
+                                                                    _js2n__-prdslib.arrays.arrayOf
+                                                                      (_js2n__-prdslib.isType
+                                                                        '"String")
+                                                                  ]
+                                                              ])
+                                                        ],
+                                                  pristine =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          internal_port = _js2n__-prdslib.isType 'Integer,
+                          min_machines_running =
+                            _js2n__-prdslib.isType 'Integer,
+                          tls_options =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      alpn =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      default_self_signed =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      versions =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                        } {} true _js2n__-prdslib.always
+                    ],
               kill_signal =
                 _js2n__-prdslib.allOf
                     [
@@ -1280,40 +1518,35 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType 'Integer,
                       _js2n__-prdslib.isType '"String"
                     ],
+              metrics =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/metrics!predicate"
+                        ],
+                      _js2n__-refsenv."_js2n__-:definitions/metrics!predicate"
+                    ],
               mounts =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/mounts!predicate",
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/mounts!predicate"
+                        ]
+                    ],
+              primary_region = _js2n__-prdslib.isType '"String",
+              processes =
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.required
-                        [ "destination", "source" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          auto_extend_size_increment =
-                            _js2n__-prdslib.isType '"String",
-                          auto_extend_size_limit =
-                            _js2n__-prdslib.isType '"String",
-                          auto_extend_size_threshold =
-                            _js2n__-prdslib.isType 'Integer,
-                          destination = _js2n__-prdslib.isType '"String",
-                          initial_size =
-                            _js2n__-prdslib.anyOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.isType 'Integer
-                                ],
-                          processes =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    (_js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.strings.minLength 1
-                                      ])
-                                ],
-                          source = _js2n__-prdslib.isType '"String",
-                        } {} false _js2n__-prdslib.never
+                      _js2n__-prdslib.records.record {} {} true
+                        (_js2n__-prdslib.isType '"String")
                     ],
               services =
                 _js2n__-prdslib.oneOf
@@ -1327,7 +1560,7 @@ let rec _js2n__-refsenv
                         ]
                     ],
               statics =
-                _js2n__-prdslib.anyOf
+                _js2n__-prdslib.oneOf
                     [
                       _js2n__-refsenv."_js2n__-:definitions/statics!predicate",
                       _js2n__-prdslib.allOf
@@ -1337,6 +1570,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/statics!predicate"
                         ]
                     ],
+              swap_size_mb = _js2n__-prdslib.isType 'Integer,
               vm =
                 _js2n__-prdslib.allOf
                     [
@@ -1380,7 +1614,17 @@ let rec _js2n__-refsenv
                                       ],
                                 host_dedication_id =
                                   _js2n__-prdslib.isType '"String",
-                                kernel_args = _js2n__-prdslib.isType '"String",
+                                kernel_args =
+                                  _js2n__-prdslib.oneOf
+                                      [
+                                        _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"Array",
+                                            _js2n__-prdslib.arrays.arrayOf
+                                              (_js2n__-prdslib.isType '"String")
+                                          ],
+                                        _js2n__-prdslib.isType '"String"
+                                      ],
                                 memory =
                                   _js2n__-prdslib.oneOf
                                       [
