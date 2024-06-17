@@ -944,6 +944,7 @@ let rec _js2n__-refsenv
                               "1.19",
                               "1.20",
                               "1.21",
+                              "1.22",
                               "latest"
                             ],
                       nodejs =
@@ -963,9 +964,11 @@ let rec _js2n__-refsenv
                               "3.12",
                               "latest",
                               "miniconda3-4.7",
+                              "miniconda3-3.12-24.1",
                               "miniconda-latest",
                               "mambaforge-4.10",
                               "mambaforge-22.9",
+                              "mambaforge-23.11",
                               "mambaforge-latest"
                             ],
                       ruby = _js2n__-prdslib.enum [ "3.3", "latest" ],
@@ -977,6 +980,7 @@ let rec _js2n__-refsenv
                               "1.64",
                               "1.70",
                               "1.75",
+                              "1.78",
                               "latest"
                             ],
                     } {} false _js2n__-prdslib.never

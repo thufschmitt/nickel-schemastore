@@ -1458,6 +1458,19 @@ let rec _js2n__-refsenv
             enable_url_validation | Bool | optional,
             url_upload_max_size | String | optional,
           },
+      "_js2n__-:definitions/messenger!contract" =
+        {
+            routing_overwrite
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.isType '"String"),
+                    _js2n__-prdslib.arrays.uniqueItems
+                  ])
+              | optional,
+          },
       "_js2n__-:definitions/number_range!contract" =
         {
             config | { dsn | String | optional, } | optional,
@@ -1611,6 +1624,9 @@ let rec _js2n__-refsenv
             media
               | _js2n__-refsenv."_js2n__-:definitions/media!contract"
               | optional,
+            messenger
+              | _js2n__-refsenv."_js2n__-:definitions/messenger!contract"
+              | optional,
             number_range
               | _js2n__-refsenv."_js2n__-:definitions/number_range!contract"
               | optional,
@@ -1632,6 +1648,7 @@ let rec _js2n__-refsenv
             store
               | _js2n__-refsenv."_js2n__-:definitions/shopware_store!contract"
               | optional,
+            system_config | {  .. } | optional,
             twig
               | _js2n__-refsenv."_js2n__-:definitions/twig!contract"
               | optional,

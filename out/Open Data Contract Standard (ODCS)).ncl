@@ -896,480 +896,126 @@ let _js2n__-prdslib
   }
   in
 let rec _js2n__-refsenv
-    = {
-      "_js2n__-:definitions/enum_monitoring_commands!contract" =
-        std.contract.Sequence
-            [
-              std.enum.TagOrString,
-              [|
-                'UNUSED_LICENSES,
-                'MISSING_ATTRIBUTES,
-                'METADATA_STATUS,
-                'UNUSED_METADATAS,
-                'LINT_ACCESS,
-                'LEGACY_API,
-                'AUDIT_TRAIL
-              |]
-            ],
-      "_js2n__-:definitions/enum_notification_types!contract" =
-        std.contract.Sequence
-            [
-              std.enum.TagOrString,
-              [|
-                'UNUSED_LICENSES,
-                'MISSING_ATTRIBUTES,
-                'METADATA_STATUS,
-                'UNUSED_METADATAS,
-                'LINT_ACCESS,
-                'LEGACY_API,
-                'DEPLOYMENT,
-                'BACKUP,
-                'APEX_TESTS,
-                'AUDIT_TRAIL
-              |]
-            ],
-    }
+    = {}
     in
   {
-      allowedOrgTypes
+      apiVersion
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.enum [ "sandbox", "scratch" ]
-                  ])
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^v[0-9]+\\.[0-9]+\\.[0-9]+"
             ])
-        | doc "Types of orgs allowed for config & development. If not set, sandbox and scratch are allowed by default"
+        | doc "Version of the standard used to build data contract. Default value is v2.2.2."
         | optional,
-      apexTestsMinCoverageOrgWide
-        | Number
-        | doc "Minimum percentage of apex code coverage accepted"
+      database
+        | String
+        | doc "The database where the dataset resides."
         | optional,
-      autoCleanTypes
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.enum
-                      [
-                        "caseentitlement",
-                        "checkPermissions",
-                        "dashboards",
-                        "datadotcom",
-                        "destructivechanges",
-                        "flowPositions",
-                        "localfields",
-                        "listViewsMine",
-                        "minimizeProfiles",
-                        "productrequest",
-                        "systemDebug"
-                      ]
-                  ])
-            ])
-        | doc "When saving a sfdx-hardis task, the list of cleanings will be automatically applied to sfdx sources"
+      dataset | Array (Dyn),
+      datasetDomain
+        | String
+        | doc "Name of the logical domain dataset the contract describes. This field is only required for output data contracts."
         | optional,
-      autoRemoveUserPermissions
-        | Array (String)
-        | doc "When saving a sfdx-hardis task, these permissions will be removed from profiles"
+      datasetKind
+        | String
+        | doc "The kind of dataset being cataloged; Expected values are `virtualDataset` or `managedDataset`."
         | optional,
-      autoRetrieveWhenPull
-        | Array (String)
-        | doc "When calling hardis:scratch:pull, if you define metadatas (named or not), they will also be retrieved using force:source:retrieve"
+      datasetName
+        | String
+        | doc "May be required in cloud instance like GCP BigQuery dataset name.",
+      description
+        | {
+          limitations | String | doc "Limitations of the dataset." | optional,
+          purpose | String | doc "Purpose of the dataset." | optional,
+          usage | String | doc "Intended usage of the dataset." | optional,
+          ..
+        }
+        | doc "High level description of the dataset."
         | optional,
-      availableProjects
-        | Array (String)
-        | doc "List of business projects that are managed in the same repository. Will be used to build git branch name when using hardis:work:new"
+      driver
+        | String
+        | doc "The connection driver required to connect to the dataset."
         | optional,
-      availableTargetBranches
-        | Array (String)
-        | doc "List of git branches that can be used as target for merge requests"
+      driverVersion
+        | String
+        | doc "The version of the connection driver to be used to connect to the dataset."
         | optional,
-      branchPrefixChoices
-        | Array Dyn
-        | doc "When calling hardis:work:new, you can override the default branch prefixes. Input title, value and description for each of them"
-        | optional,
-      cleanXmlPatterns
-        | Array
-          {
-            globPattern
-              | String
-              | doc "Glob pattern to identify XML files to clean",
-            xpaths
-              | Array (String)
-              | doc "XPaths to identify elements to remove",
-          }
-        | doc "List of patterns to automatically clean XML files"
-        | optional,
-      commandsPostDeploy
-        | Array
-          {
-            command | String | doc "Command line to run",
-            id | String | doc "Identifier of the command (can be any string)",
-            label | String | doc "Label of the command (what does it do ?)",
-            skipIfError
-              | Bool
-              | doc "Do not run the command if there is a deployment error"
-              | optional,
-          }
-        | doc "List of commands to run after a deployment"
-        | optional,
-      commandsPreDeploy
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record
-                      {
-                        command = _js2n__-prdslib.isType '"String",
-                        id = _js2n__-prdslib.isType '"String",
-                        label = _js2n__-prdslib.isType '"String",
-                      } {} false _js2n__-prdslib.never
-                  ]),
-              _js2n__-prdslib.records.required [ "command", "id", "label" ],
-              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
-            ])
-        | doc "List of commands to run before a deployment"
-        | optional,
-      customCommands
-        | Array
-          {
-            commands
-              | Array
-                {
-                  command
-                    | String
-                    | doc "Command line to run when clicking on the menu",
-                  helpUrl
-                    | String
-                    | doc "URL for help page of the command"
-                    | optional,
-                  icon
-                    | String
-                    | doc "Icon (can be any of svg icons of this list: https://github.com/hardisgroupcom/vscode-sfdx-hardis/tree/master/resources"
-                    | optional,
-                  id
-                    | String
-                    | doc "Identifier of the command (can be any string)",
-                  label
-                    | String
-                    | doc "Label of the command that will appear in menu",
-                  tooltip
-                    | String
-                    | doc "Text that will appear when user will hover the command"
-                    | optional,
-                }
-              | doc "List of commands of the menu"
-              | optional,
-            id | String | doc "Identifier of the menu (can be any string)",
-            label | String | doc "Label of the menu",
-          }
-        | doc "List of custom commands for VsCode SFDX-Hardis extension"
-        | optional,
-      customCommandsPosition
+      kind
         | std.enum.TagOrString
-        | [| 'last, 'first |]
-        | doc "Position of custom commands in the menu (first or last)"
-        | optional,
-      customOrgColors
-        | {  .. }
-        | doc "Custom colors set by VsCode SFDX Hardis"
-        | optional,
-      customPlugins
-        | Array
-          {
-            helpUrl
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Url of plugin documentation"
-              | optional,
-            name
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Name of the plugin npm package"
-              | optional,
-          }
-        | doc "List of additional plugins that will be displayed in VsCode SFDX-Hardis Dependencies panel"
-        | optional,
-      dataPackages
-        | Array
-          {
-            dataPath | String | doc "Path to SFDMU project",
-            importInScratchOrgs | Bool | doc "Path to SFDMU project",
-          }
-        | doc "List of data packages"
-        | optional,
-      defaultPackageInstallationKey
+        | [| 'DataContract |]
+        | doc "The kind of file this is. Valid value is `DataContract`.",
+      password
         | String
-        | doc "When generating a new package version protected with password, use this value as default package installation key"
+        | doc "User credentials for connecting to the dataset; how the credentials will be stored/passed is out of the scope of this contract."
         | optional,
-      deploymentPlan
-        | {
-          packages
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.arrays.arrayOf
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.record
-                          {
-                            dataPath = _js2n__-prdslib.isType '"String",
-                            label = _js2n__-prdslib.isType '"String",
-                            order = _js2n__-prdslib.isType '"Number",
-                            packageXmlFile = _js2n__-prdslib.isType '"String",
-                            waitAfter = _js2n__-prdslib.isType '"Number",
-                          } {} false _js2n__-prdslib.never
-                      ]),
-                  _js2n__-prdslib.records.required [ "label", "order" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ])
-            | doc "During deployment, main package.xml will be split into these packages. Can also contain data packages"
-            | optional,
-          ..
-        }
-        | doc "Deployment plan that will be performed during deployments. Can be based on packageXmlFile for sources or on dataPath for sfdmu data deployments"
-        | optional,
-      devHubAlias
+      price | Dyn | optional,
+      productDl
         | String
-        | doc "Dev Hub alias, usually DevHub_ProjectName"
+        | doc "The email distribution list (DL) of the persons or team responsible for maintaining the dataset."
         | optional,
-      devHubUsername
+      productFeedbackUrl
         | String
-        | doc "Dev Hub username, used to authenticate to DevHub from CI jobs"
+        | doc "The URL for submitting feedback to the team responsible for maintaining the dataset."
         | optional,
-      developmentBranch
+      productSlackChannel
         | String
-        | doc "When creating a new sfdx-hardis task, this git branch is used as base to create the feature/debug sub branch. The merge request will later have this branch as target."
+        | doc "Slack channel of the team responsible for maintaining the dataset."
         | optional,
-      extends
+      project
         | String
-        | doc "You can base your local sfdx-hardis configuration on a remote config file. That allows you to have the same config base for all your projects"
+        | doc "Associated project name, can be used for billing or administrative purpose. Used to be datasetProject."
         | optional,
-      initPermissionSets
-        | Array (
-          _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.allOf
-              [
-                _js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.isType '"String"
-                  ],
-                _js2n__-prdslib.records.record
-                  { name = _js2n__-prdslib.isType '"String", } {} false
-                  _js2n__-prdslib.never
-              ])
-        )
-        | doc "When creating a scratch org, Admin user will be automatically assigned to those permission sets"
-        | optional,
-      installPackagesDuringCheckDeploy
-        | Bool
-        | doc "When calling deployment check command, installs any package referred within installedPackages property"
-        | optional,
-      installedPackages
-        | Array
-          {
-            Id
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageId
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageName
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageNamespace
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.isType 'Null
-                  ])
-              | optional,
-            SubscriberPackageVersionId
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String"),
-            SubscriberPackageVersionName
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageVersionNumber
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            installDuringDeployments
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"Bool")
-              | doc "If true, during deployments this package will be installed in target org if not installed yet"
-              | optional,
-            installOnScratchOrgs
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"Bool")
-              | doc "If true, this package will be installed when creating a new scratch org with sfdx-hardis"
-              | optional,
-            installationkey
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Installation key for key-protected package"
-              | optional,
-          }
-        | doc "Defines the list of packages installed on the project. Use "
-        | optional,
-      instanceUrl
+      quantumName
         | String
-        | doc "Salesforce instance URL used by CI for deployment or backups"
+        | doc "The name of the data quantum or data product.",
+      roles
+        | Array (Dyn)
+        | doc "A list of roles that will provide user access to the dataset."
         | optional,
-      linterIgnoreRightMetadataFile
+      server | String | doc "The server where the dataset resides." | optional,
+      slaDefaultColumn
         | String
-        | doc "Ignore profiles or permission sets"
+        | doc "Columns (using the Table.Column notation) to do the checks on. By default, it is the partition column."
         | optional,
-      listViewsToSetToMine
+      slaProperties
+        | Array (Dyn)
+        | doc "A list of key/value pairs for SLA specific properties. There is no limit on the type of properties (more details to come)."
+        | optional,
+      sourcePlatform
+        | String
+        | doc "The platform where the dataset resides. Expected value is GoogleCloudPlatform, IBMCloud, Azure..."
+        | optional,
+      sourceSystem
+        | String
+        | doc "The system where the dataset resides. Expected value can be BigQuery."
+        | optional,
+      stakeholders | Array (Dyn) | optional,
+      status
+        | String
+        | doc "Current status of the dataset. Valid values are `production`, `test`, or `development`.",
+      tags
         | Array (String)
-        | doc "List of ListView items to set to Mine after a delivery (that does not accept value 'Everything')"
+        | doc "A list of tags that may be assigned to the dataset, table or column; the `tags` keyword may appear at any level."
         | optional,
-      monitoringAllowedSectionsActions
-        | {  .. }
-        | doc "Override list of Setup Audit Trail elements that won't be considered as suspect by monitoring tools"
-        | optional,
-      monitoringCommands
-        | Array
-          {
-            command | String | doc "Bash command to run",
-            frequency | String | doc "daily or weekly" | optional,
-            key
-              | String
-              | doc "Unique identifier of the monitoring command. Can be used with monitoringDisable"
-              | optional,
-            title | String | doc "Title of the command (will appear in logs)",
-          }
-        | doc "List of monitoring commands to run with command hardis:org:monitor:all"
-        | optional,
-      monitoringDisable
-        | Array
-          _js2n__-refsenv."_js2n__-:definitions/enum_monitoring_commands!contract"
-        | doc "List of commands to skip during monitoring jobs"
-        | optional,
-      monitoringExcludeUsernames
-        | Array (String)
-        | doc "List of usernames to exclude while running monitoring commands"
-        | optional,
-      msTeamsWebhookUrl
+      tenant
         | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send ALL notifications"
+        | doc "Indicates the property the data is primarily associated with. Value is case insensitive."
         | optional,
-      msTeamsWebhookUrlCritical
+      type
         | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send CRITICAL notifications"
-        | optional,
-      msTeamsWebhookUrlInfo
+        | doc "Identifies the types of objects in the dataset. For BigQuery or any other database, the expected value would be Tables.",
+      userConsumptionMode
         | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send INFO notifications"
+        | doc "List of data modes for which the dataset may be used.  Expected sample values might be `analytical` or `operational`. <br/>Note: in the future, this will probably be replaced by ports."
         | optional,
-      msTeamsWebhookUrlSevere
+      username
         | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send SEVERE notifications"
+        | doc "User credentials for connecting to the dataset; how the credentials will be stored/passed is outside of the scope of the contract."
         | optional,
-      msTeamsWebhookUrlWarning
+      uuid
         | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send WARNING notifications"
-        | optional,
-      notificationsDisable
-        | Array
-          _js2n__-refsenv."_js2n__-:definitions/enum_notification_types!contract"
-        | doc "List of notifications types to skip sending"
-        | optional,
-      poolConfig
-        | {
-          maxScratchOrgsNumber
-            | Number
-            | doc "Maximum number of active scratch orgs in the scratch org pool"
-            | optional,
-          maxScratchOrgsNumberToCreateOnce
-            | Number
-            | doc "Maximum number of scratch orgs to create in one CI job"
-            | optional,
-          minScratchOrgRemainingDays
-            | Number
-            | doc "When pool scratch org is less than this number, it is deleted and another one is created"
-            | optional,
-          storageService
-            | String
-            | doc "Remote service allowing to store scratch org pool details"
-            | optional,
-          ..
-        }
-        | doc "Configuration allowing to generate and fetch scratch orgs from scratch org pool"
-        | optional,
-      productionBranch
-        | String
-        | doc "Name of the git branch corresponding to production environment"
-        | optional,
-      projectName
-        | String
-        | doc "Identifier for the project (can be the client and project)"
-        | optional,
-      retrofitBranch
-        | String
-        | doc "Name of the git branch where retrofit merge requests targets to"
-        | optional,
-      retrofitIgnoredFiles
-        | Array (String)
-        | doc "When calling hardis:org:retrieve:sources:retrofit, list of files to ignore (discard just after retrieve)"
-        | optional,
-      scratchOrgDuration
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Number",
-              _js2n__-prdslib.numbers.maximum 30,
-              _js2n__-prdslib.numbers.minimum 1
-            ])
-        | doc "Defines the lifespan of the scratch org in number of days, from 1 to 30"
-        | optional,
-      scratchOrgInitApexScripts
-        | Array (String)
-        | doc "Apex scripts to call after scratch org initialization"
-        | optional,
-      sfdmuCanModify
-        | String
-        | doc "Instance host name to allow SFDMU to deploy data in a production org"
-        | optional,
-      skipUpdateForceIgnore
-        | Bool
-        | doc "Defines if sfdx-hardis will propose to upgrade local .forceignore file"
-        | optional,
-      skipUpdateGitIgnore
-        | Bool
-        | doc "Defines if sfdx-hardis will propose to upgrade local .gitignore file"
-        | optional,
-      sourcesToRetrofit
-        | Array (String)
-        | doc "List of metadata to retrieve for retrofit job"
-        | optional,
-      targetUsername
-        | String
-        | doc "Salesforce username used by CI for deployment or backups"
-        | optional,
-      useDeltaDeployment
-        | Bool
-        | doc "Defines if sfdx-hardis will deploy in delta from minor to major branches"
-        | optional,
+        | doc "A unique identifier used to reduce the risk of dataset name collisions; initially the UUID will be created using a UUID generator tool ([example](https://www.uuidgenerator.net/)). However, we may want to develop a method that accepts a seed value using a combination of fields–such as name, kind and source–to create a repeatable value.",
+      version | String | doc "Current version of the data contract.",
+      ..
     }

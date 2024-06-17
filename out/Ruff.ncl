@@ -2585,7 +2585,7 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
-                [ "py37", "py38", "py39", "py310", "py311", "py312" ]
+                [ "py37", "py38", "py39", "py310", "py311", "py312", "py313" ]
             ],
       "_js2n__-:definitions/Quote!predicate" =
         _js2n__-prdslib.oneOf
@@ -2674,6 +2674,8 @@ let rec _js2n__-refsenv
                   "ASYNC100",
                   "ASYNC101",
                   "ASYNC102",
+                  "ASYNC11",
+                  "ASYNC116",
                   "B",
                   "B0",
                   "B00",
@@ -2716,6 +2718,7 @@ let rec _js2n__-refsenv
                   "B035",
                   "B9",
                   "B90",
+                  "B901",
                   "B904",
                   "B905",
                   "B909",
@@ -3053,6 +3056,7 @@ let rec _js2n__-refsenv
                   "FURB148",
                   "FURB15",
                   "FURB152",
+                  "FURB154",
                   "FURB157",
                   "FURB16",
                   "FURB161",
@@ -3218,6 +3222,7 @@ let rec _js2n__-refsenv
                   "PLC02",
                   "PLC020",
                   "PLC0205",
+                  "PLC0206",
                   "PLC0208",
                   "PLC04",
                   "PLC041",
@@ -3563,10 +3568,14 @@ let rec _js2n__-refsenv
                   "PYI054",
                   "PYI055",
                   "PYI056",
+                  "PYI057",
                   "PYI058",
                   "PYI059",
                   "PYI06",
                   "PYI062",
+                  "PYI063",
+                  "PYI064",
+                  "PYI066",
                   "Q",
                   "Q0",
                   "Q00",
@@ -3933,6 +3942,7 @@ let rec _js2n__-refsenv
                   "github",
                   "gitlab",
                   "pylint",
+                  "rdjson",
                   "azure",
                   "sarif"
                 ]

@@ -897,479 +897,330 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/enum_monitoring_commands!contract" =
+      "_js2n__-:definitions/validationAbsoluteLinkValues!contract" =
         std.contract.Sequence
             [
               std.enum.TagOrString,
-              [|
-                'UNUSED_LICENSES,
-                'MISSING_ATTRIBUTES,
-                'METADATA_STATUS,
-                'UNUSED_METADATAS,
-                'LINT_ACCESS,
-                'LEGACY_API,
-                'AUDIT_TRAIL
-              |]
+              [| 'relative_to_docs, 'ignore, 'info, 'warn |]
             ],
-      "_js2n__-:definitions/enum_notification_types!contract" =
+      "_js2n__-:definitions/validationValues!contract" =
         std.contract.Sequence
-            [
-              std.enum.TagOrString,
-              [|
-                'UNUSED_LICENSES,
-                'MISSING_ATTRIBUTES,
-                'METADATA_STATUS,
-                'UNUSED_METADATAS,
-                'LINT_ACCESS,
-                'LEGACY_API,
-                'DEPLOYMENT,
-                'BACKUP,
-                'APEX_TESTS,
-                'AUDIT_TRAIL
-              |]
-            ],
+            [ std.enum.TagOrString, [| 'ignore, 'info, 'warn |] ],
     }
     in
   {
-      allowedOrgTypes
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.enum [ "sandbox", "scratch" ]
-                  ])
-            ])
-        | doc "Types of orgs allowed for config & development. If not set, sandbox and scratch are allowed by default"
+      INHERIT
+        | String
+        | doc m%"
+          Define the parent for a configuration file. The path must be relative to the location of the primary file.
+          https://www.mkdocs.org/user-guide/configuration/#configuration-inheritance
+        "%
         | optional,
-      apexTestsMinCoverageOrgWide
-        | Number
-        | doc "Minimum percentage of apex code coverage accepted"
+      copyright
+        | String
+        | doc m%"
+          Set the copyright information to be included in the documentation by the theme.
+          https://www.mkdocs.org/user-guide/configuration/#copyright
+        "%
         | optional,
-      autoCleanTypes
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.enum
-                      [
-                        "caseentitlement",
-                        "checkPermissions",
-                        "dashboards",
-                        "datadotcom",
-                        "destructivechanges",
-                        "flowPositions",
-                        "localfields",
-                        "listViewsMine",
-                        "minimizeProfiles",
-                        "productrequest",
-                        "systemDebug"
-                      ]
-                  ])
-            ])
-        | doc "When saving a sfdx-hardis task, the list of cleanings will be automatically applied to sfdx sources"
+      dev_addr
+        | String
+        | doc m%"
+          Determines the address used when running mkdocs serve. Must be of the format IP:PORT.
+          https://www.mkdocs.org/user-guide/configuration/#dev_addr
+        "%
         | optional,
-      autoRemoveUserPermissions
-        | Array (String)
-        | doc "When saving a sfdx-hardis task, these permissions will be removed from profiles"
+      docs_dir
+        | String
+        | doc m%"
+          The directory containing the documentation source markdown files. This can either be a relative directory, in which case it is resolved relative to the directory containing your configuration file, or it can be an absolute directory path from the root of your local file system.
+          https://www.mkdocs.org/user-guide/configuration/#docs_dir
+        "%
         | optional,
-      autoRetrieveWhenPull
-        | Array (String)
-        | doc "When calling hardis:scratch:pull, if you define metadatas (named or not), they will also be retrieved using force:source:retrieve"
+      draft_docs
+        | String
+        | doc m%"
+          This config defines patterns of files (under docs_dir) to be treated as a draft. Draft files are available during mkdocs serve and include a "DRAFT" mark but will not be included in the build. To prevent this effect and make "serve" behave the same as "build", you can run mkdocs serve --clean.
+          https://www.mkdocs.org/user-guide/configuration/#draft_docs
+        "%
         | optional,
-      availableProjects
-        | Array (String)
-        | doc "List of business projects that are managed in the same repository. Will be used to build git branch name when using hardis:work:new"
+      edit_uri
+        | String
+        | doc m%"
+          The path from the base repo_url to the docs directory when directly viewing a page, accounting for specifics of the repository host (e.g. GitHub, Bitbucket, etc), the branch, and the docs directory itself.
+          https://www.mkdocs.org/user-guide/configuration/#edit_uri
+        "%
         | optional,
-      availableTargetBranches
-        | Array (String)
-        | doc "List of git branches that can be used as target for merge requests"
+      edit_uri_template
+        | String
+        | doc m%"
+          The more flexible variant of edit_uri.
+          https://www.mkdocs.org/user-guide/configuration/#edit_uri_template
+        "%
         | optional,
-      branchPrefixChoices
-        | Array Dyn
-        | doc "When calling hardis:work:new, you can override the default branch prefixes. Input title, value and description for each of them"
+      exclude_docs
+        | String
+        | doc m%"
+          This config defines patterns of files (under docs_dir) to not be picked up into the built site.
+          https://www.mkdocs.org/user-guide/configuration/#exclude_docs
+        "%
         | optional,
-      cleanXmlPatterns
-        | Array
-          {
-            globPattern
-              | String
-              | doc "Glob pattern to identify XML files to clean",
-            xpaths
-              | Array (String)
-              | doc "XPaths to identify elements to remove",
-          }
-        | doc "List of patterns to automatically clean XML files"
-        | optional,
-      commandsPostDeploy
-        | Array
-          {
-            command | String | doc "Command line to run",
-            id | String | doc "Identifier of the command (can be any string)",
-            label | String | doc "Label of the command (what does it do ?)",
-            skipIfError
-              | Bool
-              | doc "Do not run the command if there is a deployment error"
-              | optional,
-          }
-        | doc "List of commands to run after a deployment"
-        | optional,
-      commandsPreDeploy
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record
-                      {
-                        command = _js2n__-prdslib.isType '"String",
-                        id = _js2n__-prdslib.isType '"String",
-                        label = _js2n__-prdslib.isType '"String",
-                      } {} false _js2n__-prdslib.never
-                  ]),
-              _js2n__-prdslib.records.required [ "command", "id", "label" ],
-              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
-            ])
-        | doc "List of commands to run before a deployment"
-        | optional,
-      customCommands
-        | Array
-          {
-            commands
-              | Array
-                {
-                  command
-                    | String
-                    | doc "Command line to run when clicking on the menu",
-                  helpUrl
-                    | String
-                    | doc "URL for help page of the command"
-                    | optional,
-                  icon
-                    | String
-                    | doc "Icon (can be any of svg icons of this list: https://github.com/hardisgroupcom/vscode-sfdx-hardis/tree/master/resources"
-                    | optional,
-                  id
-                    | String
-                    | doc "Identifier of the command (can be any string)",
-                  label
-                    | String
-                    | doc "Label of the command that will appear in menu",
-                  tooltip
-                    | String
-                    | doc "Text that will appear when user will hover the command"
-                    | optional,
-                }
-              | doc "List of commands of the menu"
-              | optional,
-            id | String | doc "Identifier of the menu (can be any string)",
-            label | String | doc "Label of the menu",
-          }
-        | doc "List of custom commands for VsCode SFDX-Hardis extension"
-        | optional,
-      customCommandsPosition
-        | std.enum.TagOrString
-        | [| 'last, 'first |]
-        | doc "Position of custom commands in the menu (first or last)"
-        | optional,
-      customOrgColors
+      extra
         | {  .. }
-        | doc "Custom colors set by VsCode SFDX Hardis"
+        | doc m%"
+          A set of key-value pairs, where the values can be any valid YAML construct, that will be passed to the template. This allows for great flexibility when creating custom themes.
+          https://www.mkdocs.org/user-guide/configuration/#extra
+        "%
         | optional,
-      customPlugins
-        | Array
-          {
-            helpUrl
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Url of plugin documentation"
-              | optional,
-            name
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Name of the plugin npm package"
-              | optional,
-          }
-        | doc "List of additional plugins that will be displayed in VsCode SFDX-Hardis Dependencies panel"
+      extra_css
+        | Array (String)
+        | doc m%"
+          Set a list of CSS files (relative to docs_dir) to be included by the theme, typically as <link> tags.
+          https://www.mkdocs.org/user-guide/configuration/#extra_css
+        "%
         | optional,
-      dataPackages
-        | Array
-          {
-            dataPath | String | doc "Path to SFDMU project",
-            importInScratchOrgs | Bool | doc "Path to SFDMU project",
-          }
-        | doc "List of data packages"
-        | optional,
-      defaultPackageInstallationKey
-        | String
-        | doc "When generating a new package version protected with password, use this value as default package installation key"
-        | optional,
-      deploymentPlan
-        | {
-          packages
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.arrays.arrayOf
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.record
-                          {
-                            dataPath = _js2n__-prdslib.isType '"String",
-                            label = _js2n__-prdslib.isType '"String",
-                            order = _js2n__-prdslib.isType '"Number",
-                            packageXmlFile = _js2n__-prdslib.isType '"String",
-                            waitAfter = _js2n__-prdslib.isType '"Number",
-                          } {} false _js2n__-prdslib.never
-                      ]),
-                  _js2n__-prdslib.records.required [ "label", "order" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ])
-            | doc "During deployment, main package.xml will be split into these packages. Can also contain data packages"
-            | optional,
-          ..
-        }
-        | doc "Deployment plan that will be performed during deployments. Can be based on packageXmlFile for sources or on dataPath for sfdmu data deployments"
-        | optional,
-      devHubAlias
-        | String
-        | doc "Dev Hub alias, usually DevHub_ProjectName"
-        | optional,
-      devHubUsername
-        | String
-        | doc "Dev Hub username, used to authenticate to DevHub from CI jobs"
-        | optional,
-      developmentBranch
-        | String
-        | doc "When creating a new sfdx-hardis task, this git branch is used as base to create the feature/debug sub branch. The merge request will later have this branch as target."
-        | optional,
-      extends
-        | String
-        | doc "You can base your local sfdx-hardis configuration on a remote config file. That allows you to have the same config base for all your projects"
-        | optional,
-      initPermissionSets
+      extra_javascript
         | Array (
           _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.allOf
+            (_js2n__-prdslib.anyOf
               [
-                _js2n__-prdslib.anyOf
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.isType '"String"
-                  ],
-                _js2n__-prdslib.records.record
-                  { name = _js2n__-prdslib.isType '"String", } {} false
-                  _js2n__-prdslib.never
+                    _js2n__-prdslib.records.required [ "path" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        async = _js2n__-prdslib.isType '"Bool",
+                        defer = _js2n__-prdslib.isType '"Bool",
+                        path = _js2n__-prdslib.isType '"String",
+                        type = _js2n__-prdslib.isType '"String",
+                      } {} true _js2n__-prdslib.always
+                  ]
               ])
         )
-        | doc "When creating a scratch org, Admin user will be automatically assigned to those permission sets"
+        | doc m%"
+          Set a list of JavaScript files in your docs_dir to be included by the theme, as <script> tags.
+          https://www.mkdocs.org/user-guide/configuration/#extra_javascript
+        "%
         | optional,
-      installPackagesDuringCheckDeploy
+      extra_templates
+        | Array (String)
+        | doc m%"
+          Set a list of templates in your docs_dir to be built by MkDocs. To see more about writing templates for MkDocs read the documentation about [custom themes] and specifically the section about the [available variables] to templates. See the example in extra_css for usage.
+          https://www.mkdocs.org/user-guide/configuration/#extra_templates
+        "%
+        | optional,
+      hooks
+        | Array Dyn
+        | doc m%"
+          A list of paths to Python scripts (relative to mkdocs.yml) that are loaded and used as plugin instances.
+          https://www.mkdocs.org/user-guide/configuration/#hooks
+        "%
+        | optional,
+      markdown_extensions
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"Array", _js2n__-prdslib.isType 'Record ])
+        | doc m%"
+          This setting lets you enable a list of extensions beyond the ones that MkDocs uses by default (meta, toc, tables, and fenced_code).
+          https://www.mkdocs.org/user-guide/configuration/#markdown_extensions
+        "%
+        | optional,
+      nav
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.anyOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.isType '"String"
+              ])
+        )
+        | doc m%"
+          This setting is used to determine the format and layout of the global navigation for the site.
+          https://www.mkdocs.org/user-guide/configuration/#nav
+        "%
+        | optional,
+      not_in_nav
+        | String
+        | doc m%"
+          If you want to include some docs into the site but intentionally exclude them from the nav, normally MkDocs warns about this.
+          https://www.mkdocs.org/user-guide/configuration/#not_in_nav
+        "%
+        | optional,
+      plugins
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"Array", _js2n__-prdslib.isType 'Record ])
+        | doc m%"
+          A list of plugins (with optional configuration settings) to use when building the site. See the Plugins documentation for full details.
+          https://www.mkdocs.org/user-guide/configuration/#plugins
+        "%
+        | optional,
+      remote_branch
+        | String
+        | doc m%"
+          Set the remote branch to commit to when using gh-deploy to deploy to GitHub Pages. This option can be overridden by a command line option in gh-deploy.
+          https://www.mkdocs.org/user-guide/configuration/#remote_branch
+        "%
+        | optional,
+      remote_name
+        | String
+        | doc m%"
+          Set the remote name to push to when using gh-deploy to deploy to GitHub Pages. This option can be overridden by a command line option in gh-deploy.
+          https://www.mkdocs.org/user-guide/configuration/#remote_name
+        "%
+        | optional,
+      repo_name
+        | String
+        | doc m%"
+          When set, provides the name for the link to your repository on each page.
+          https://www.mkdocs.org/user-guide/configuration/#repo_name
+        "%
+        | optional,
+      repo_url
+        | String
+        | doc m%"
+          When set, provides a link to your repository (GitHub, Bitbucket, GitLab, ...) on each page.
+          https://www.mkdocs.org/user-guide/configuration/#repo_url
+        "%
+        | optional,
+      site_author
+        | String
+        | doc m%"
+          Set the name of the author. This will add a meta tag to the generated HTML header.
+          https://www.mkdocs.org/user-guide/configuration/#site_author
+        "%
+        | optional,
+      site_description
+        | String
+        | doc m%"
+          Set the site description. This will add a meta tag to the generated HTML header.
+          https://www.mkdocs.org/user-guide/configuration/#site_description
+        "%
+        | optional,
+      site_dir
+        | String
+        | doc m%"
+          The directory where the output HTML and other files are created. This can either be a relative directory, in which case it is resolved relative to the directory containing your configuration file, or it can be an absolute directory path from the root of your local file system.
+          https://www.mkdocs.org/user-guide/configuration/#site_dir
+        "%
+        | optional,
+      site_name
+        | String
+        | doc m%"
+          This is a required setting, and should be a string that is used as the main title for the project documentation.
+          https://www.mkdocs.org/user-guide/configuration/#site_name
+        "%,
+      site_url
+        | String
+        | doc m%"
+          Set the canonical URL of the site. This will add a link tag with the canonical URL to the head section of each HTML page. If the 'root' of the MkDocs site will be within a subdirectory of a domain, be sure to include that subdirectory in the setting (https://example.com/foo/).
+          https://www.mkdocs.org/user-guide/configuration/#site_url
+        "%
+        | optional,
+      strict
         | Bool
-        | doc "When calling deployment check command, installs any package referred within installedPackages property"
+        | doc m%"
+          Determines how warnings are handled. Set to true to halt processing when a warning is raised. Set to false to print a warning and continue processing.
+          https://www.mkdocs.org/user-guide/configuration/#strict
+        "%
         | optional,
-      installedPackages
-        | Array
-          {
-            Id
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageId
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageName
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageNamespace
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.isType 'Null
-                  ])
-              | optional,
-            SubscriberPackageVersionId
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String"),
-            SubscriberPackageVersionName
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageVersionNumber
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            installDuringDeployments
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"Bool")
-              | doc "If true, during deployments this package will be installed in target org if not installed yet"
-              | optional,
-            installOnScratchOrgs
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"Bool")
-              | doc "If true, this package will be installed when creating a new scratch org with sfdx-hardis"
-              | optional,
-            installationkey
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Installation key for key-protected package"
-              | optional,
-          }
-        | doc "Defines the list of packages installed on the project. Use "
+      theme
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record
+                    {
+                      custom_dir = _js2n__-prdslib.isType '"String",
+                      locale = _js2n__-prdslib.isType '"String",
+                      name =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                      static_templates = _js2n__-prdslib.isType '"Array",
+                    } {} true _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.isType '"String"
+            ])
+        | doc m%"
+          Sets the theme and theme specific configuration of your documentation site.
+          https://www.mkdocs.org/user-guide/configuration/#theme
+        "%
         | optional,
-      instanceUrl
-        | String
-        | doc "Salesforce instance URL used by CI for deployment or backups"
+      use_directory_urls
+        | Bool
+        | doc m%"
+          This setting controls the style used for linking to pages within the documentation.
+          https://www.mkdocs.org/user-guide/configuration/#use_directory_urls
+        "%
         | optional,
-      linterIgnoreRightMetadataFile
-        | String
-        | doc "Ignore profiles or permission sets"
-        | optional,
-      listViewsToSetToMine
-        | Array (String)
-        | doc "List of ListView items to set to Mine after a delivery (that does not accept value 'Everything')"
-        | optional,
-      monitoringAllowedSectionsActions
-        | {  .. }
-        | doc "Override list of Setup Audit Trail elements that won't be considered as suspect by monitoring tools"
-        | optional,
-      monitoringCommands
-        | Array
-          {
-            command | String | doc "Bash command to run",
-            frequency | String | doc "daily or weekly" | optional,
-            key
-              | String
-              | doc "Unique identifier of the monitoring command. Can be used with monitoringDisable"
-              | optional,
-            title | String | doc "Title of the command (will appear in logs)",
-          }
-        | doc "List of monitoring commands to run with command hardis:org:monitor:all"
-        | optional,
-      monitoringDisable
-        | Array
-          _js2n__-refsenv."_js2n__-:definitions/enum_monitoring_commands!contract"
-        | doc "List of commands to skip during monitoring jobs"
-        | optional,
-      monitoringExcludeUsernames
-        | Array (String)
-        | doc "List of usernames to exclude while running monitoring commands"
-        | optional,
-      msTeamsWebhookUrl
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send ALL notifications"
-        | optional,
-      msTeamsWebhookUrlCritical
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send CRITICAL notifications"
-        | optional,
-      msTeamsWebhookUrlInfo
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send INFO notifications"
-        | optional,
-      msTeamsWebhookUrlSevere
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send SEVERE notifications"
-        | optional,
-      msTeamsWebhookUrlWarning
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send WARNING notifications"
-        | optional,
-      notificationsDisable
-        | Array
-          _js2n__-refsenv."_js2n__-:definitions/enum_notification_types!contract"
-        | doc "List of notifications types to skip sending"
-        | optional,
-      poolConfig
+      validation
         | {
-          maxScratchOrgsNumber
-            | Number
-            | doc "Maximum number of active scratch orgs in the scratch org pool"
+          absolute_links
+            | _js2n__-refsenv."_js2n__-:definitions/validationAbsoluteLinkValues!contract"
             | optional,
-          maxScratchOrgsNumberToCreateOnce
-            | Number
-            | doc "Maximum number of scratch orgs to create in one CI job"
+          anchors
+            | _js2n__-refsenv."_js2n__-:definitions/validationValues!contract"
             | optional,
-          minScratchOrgRemainingDays
-            | Number
-            | doc "When pool scratch org is less than this number, it is deleted and another one is created"
+          links
+            | {
+              absolute_links
+                | _js2n__-refsenv."_js2n__-:definitions/validationAbsoluteLinkValues!contract"
+                | optional,
+              anchors
+                | _js2n__-refsenv."_js2n__-:definitions/validationValues!contract"
+                | optional,
+              not_found
+                | _js2n__-refsenv."_js2n__-:definitions/validationValues!contract"
+                | optional,
+              unrecognized_links
+                | _js2n__-refsenv."_js2n__-:definitions/validationValues!contract"
+                | optional,
+              ..
+            }
             | optional,
-          storageService
-            | String
-            | doc "Remote service allowing to store scratch org pool details"
+          nav
+            | {
+              absolute_links
+                | _js2n__-refsenv."_js2n__-:definitions/validationValues!contract"
+                | optional,
+              not_found
+                | _js2n__-refsenv."_js2n__-:definitions/validationValues!contract"
+                | optional,
+              omitted_files
+                | _js2n__-refsenv."_js2n__-:definitions/validationValues!contract"
+                | optional,
+              ..
+            }
+            | optional,
+          not_found
+            | _js2n__-refsenv."_js2n__-:definitions/validationValues!contract"
+            | optional,
+          omitted_files
+            | _js2n__-refsenv."_js2n__-:definitions/validationValues!contract"
+            | optional,
+          unrecognized_links
+            | _js2n__-refsenv."_js2n__-:definitions/validationValues!contract"
             | optional,
           ..
         }
-        | doc "Configuration allowing to generate and fetch scratch orgs from scratch org pool"
+        | doc m%"
+          Configure the strictness of MkDocs' diagnostic messages when validating links to documents.
+          https://www.mkdocs.org/user-guide/configuration/#validation
+        "%
         | optional,
-      productionBranch
-        | String
-        | doc "Name of the git branch corresponding to production environment"
-        | optional,
-      projectName
-        | String
-        | doc "Identifier for the project (can be the client and project)"
-        | optional,
-      retrofitBranch
-        | String
-        | doc "Name of the git branch where retrofit merge requests targets to"
-        | optional,
-      retrofitIgnoredFiles
+      watch
         | Array (String)
-        | doc "When calling hardis:org:retrieve:sources:retrofit, list of files to ignore (discard just after retrieve)"
+        | doc m%"
+          Determines additional directories to watch when running mkdocs serve.
+          https://www.mkdocs.org/user-guide/configuration/#watch
+        "%
         | optional,
-      scratchOrgDuration
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Number",
-              _js2n__-prdslib.numbers.maximum 30,
-              _js2n__-prdslib.numbers.minimum 1
-            ])
-        | doc "Defines the lifespan of the scratch org in number of days, from 1 to 30"
-        | optional,
-      scratchOrgInitApexScripts
-        | Array (String)
-        | doc "Apex scripts to call after scratch org initialization"
-        | optional,
-      sfdmuCanModify
-        | String
-        | doc "Instance host name to allow SFDMU to deploy data in a production org"
-        | optional,
-      skipUpdateForceIgnore
-        | Bool
-        | doc "Defines if sfdx-hardis will propose to upgrade local .forceignore file"
-        | optional,
-      skipUpdateGitIgnore
-        | Bool
-        | doc "Defines if sfdx-hardis will propose to upgrade local .gitignore file"
-        | optional,
-      sourcesToRetrofit
-        | Array (String)
-        | doc "List of metadata to retrieve for retrofit job"
-        | optional,
-      targetUsername
-        | String
-        | doc "Salesforce username used by CI for deployment or backups"
-        | optional,
-      useDeltaDeployment
-        | Bool
-        | doc "Defines if sfdx-hardis will deploy in delta from minor to major branches"
-        | optional,
+      ..
     }

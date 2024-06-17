@@ -3267,6 +3267,7 @@ let rec _js2n__-refsenv
                       "debian",
                       "docker",
                       "git",
+                      "glasskube",
                       "go-mod-directive",
                       "gradle",
                       "hashicorp",

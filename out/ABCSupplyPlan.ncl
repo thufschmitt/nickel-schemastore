@@ -1029,8 +1029,10 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/AnnotationMap!predicate",
                   plannedOrders =
                     _js2n__-refsenv."_js2n__-:definitions/PositiveDateMap!predicate",
+                  planningFrequencies =
+                    _js2n__-refsenv."_js2n__-:definitions/PositiveIntegerTimeDependentValues!predicate",
                   shelfLives =
-                    _js2n__-refsenv."_js2n__-:definitions/NonNegativeNonNegativeIntegerTimeDependentValues!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/NonNegativeIntegerTimeDependentValues!predicate",
                   showQuantitiesAs =
                     _js2n__-prdslib.allOf
                         [
@@ -1038,7 +1040,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "Units", "Lots", "Cost" ]
                         ],
                   stopshipBuffers =
-                    _js2n__-refsenv."_js2n__-:definitions/NonNegativeNonNegativeIntegerTimeDependentValues!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/NonNegativeIntegerTimeDependentValues!predicate",
                   targetMFC =
                     _js2n__-prdslib.allOf
                         [
@@ -1179,13 +1181,44 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/TemplateTimeDependentValue!predicate",
               _js2n__-refsenv."_js2n__-:definitions/NonNegativeIntegerConstraints!predicate"
             ],
-      "_js2n__-:definitions/NonNegativeNonNegativeIntegerTimeDependentValues!predicate"
+      "_js2n__-:definitions/NonNegativeIntegerTimeDependentValues!predicate"
         | doc "Array of time-dependent integer values, ensuring each is non-negative."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
                 _js2n__-refsenv."_js2n__-:definitions/NonNegativeIntegerTimeDependentValue!predicate"
+            ],
+      "_js2n__-:definitions/NonNegativeNumberConstraints!predicate"
+        | doc "Defines constraints for numbers to ensure they are non-negative, used in various contexts."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "timeDependentValue" ],
+              _js2n__-prdslib.records.record
+                {
+                  timeDependentValue =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/NonNegativeNumberTimeDependentValue!predicate"
+        | doc "Defines a time-specific number within a valid range, ensuring it is non-negative."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/TemplateTimeDependentValue!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/NonNegativeNumberConstraints!predicate"
+            ],
+      "_js2n__-:definitions/NonNegativeNumberTimeDependentValues!predicate"
+        | doc "Array of time-dependent non-negative numbers."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/NonNegativeNumberTimeDependentValue!predicate"
             ],
       "_js2n__-:definitions/PercentTimeDependentValue!predicate"
         | doc "Defines a time-specific percentage value within a valid date range, adhering to percentage constraints."
@@ -1234,15 +1267,59 @@ let rec _js2n__-refsenv
                         ],
                 } false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/PositiveIntegerConstraints!predicate"
+        | doc "Defines constraints for integer values to ensure they are positive, used in various configurations where a strictly positive value is required."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "timeDependentValue" ],
+              _js2n__-prdslib.records.record
+                {
+                  timeDependentValue =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.minimum 1
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/PositiveIntegerTimeDependentValue!predicate"
+        | doc "Defines a time-specific integer value that must always be positive, ensuring it meets the requirements of scenarios where zero or negative numbers are not permitted."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/TemplateTimeDependentValue!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/PositiveIntegerConstraints!predicate"
+            ],
+      "_js2n__-:definitions/PositiveIntegerTimeDependentValues!predicate"
+        | doc "Array of time-dependent integer values, ensuring each is positive. This setup is intended for scenarios where values must always be greater than zero."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/PositiveIntegerTimeDependentValue!predicate"
+            ],
       "_js2n__-:definitions/RecipeState!predicate"
         | doc "Defines a recipe within the system, including its components and yields."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required
-                [ "percentAllocations", "percentYield", "recipe" ],
+                [
+                  "allocationMethod",
+                  "percentAllocations",
+                  "percentYield",
+                  "priorityAllocations",
+                  "recipe"
+                ],
               _js2n__-prdslib.records.record
                 {
+                  allocationMethod =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "PercentAllocation", "PriorityAllocation" ]
+                        ],
                   percentAllocations =
                     _js2n__-refsenv."_js2n__-:definitions/PercentTimeDependentValues!predicate",
                   percentYield =
@@ -1251,6 +1328,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Number",
                           _js2n__-prdslib.numbers.minimum 0
                         ],
+                  priorityAllocations =
+                    _js2n__-refsenv."_js2n__-:definitions/NonNegativeNumberTimeDependentValues!predicate",
                   recipe =
                     _js2n__-prdslib.allOf
                         [
@@ -1284,6 +1363,10 @@ let rec _js2n__-refsenv
     }
     in
   {
+      "$schema"
+        | std.enum.TagOrString
+        | [| '"https://json.schemastore.org/abc-supply-plan-3.0.0.json" |]
+        | doc "Link to https://json.schemastore.org/abc-supply-plan-3.0.0.json",
       abcMaterialsMap
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1318,5 +1401,5 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/RecipeState!predicate",
                 } false _js2n__-prdslib.never
             ])
-        | doc "A mapping of recipes, representing the relationships and dependencies between materials.",
+        | doc "A mapping of recipes, representing the acyclic relationships among materials. abcAreAllocationMethodsHomogeneous requires no mixing of Allocation Methods.  A downstream material cannot have mixed upstream recipes.  An upstream material cannot have mixed downstream recipes.",
     }

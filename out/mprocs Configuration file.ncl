@@ -897,479 +897,198 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/enum_monitoring_commands!contract" =
-        std.contract.Sequence
+      "_js2n__-:definitions/c!predicate"
+        | doc "Command to run when keybind is triggered."
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/keymap!contract"
+        | doc "Keymap configuration"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.record
+                  { reset = _js2n__-prdslib.isType '"Bool", }
+                  {
+                    "^<[^>]+>$" =
+                      _js2n__-prdslib.oneOf
+                          [
+                            _js2n__-prdslib.isType 'Null,
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required [ "c" ],
+                                _js2n__-prdslib.records.record
+                                  {
+                                    c =
+                                      _js2n__-refsenv."_js2n__-:definitions/c!predicate",
+                                    cmds =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"Array",
+                                            _js2n__-prdslib.arrays.arrayOf
+                                              (_js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.required
+                                                    [ "c" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      c =
+                                                        _js2n__-refsenv."_js2n__-:definitions/c!predicate",
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ])
+                                          ],
+                                  } {} true _js2n__-prdslib.always
+                              ]
+                          ],
+                  } true _js2n__-prdslib.always
+              ]),
+      "_js2n__-:definitions/selectOperator!predicate"
+        | doc "Operator for OS-specific configurations"
+        = _js2n__-prdslib.allOf
             [
-              std.enum.TagOrString,
-              [|
-                'UNUSED_LICENSES,
-                'MISSING_ATTRIBUTES,
-                'METADATA_STATUS,
-                'UNUSED_METADATAS,
-                'LINT_ACCESS,
-                'LEGACY_API,
-                'AUDIT_TRAIL
-              |]
-            ],
-      "_js2n__-:definitions/enum_notification_types!contract" =
-        std.contract.Sequence
-            [
-              std.enum.TagOrString,
-              [|
-                'UNUSED_LICENSES,
-                'MISSING_ATTRIBUTES,
-                'METADATA_STATUS,
-                'UNUSED_METADATAS,
-                'LINT_ACCESS,
-                'LEGACY_API,
-                'DEPLOYMENT,
-                'BACKUP,
-                'APEX_TESTS,
-                'AUDIT_TRAIL
-              |]
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "$select" ],
+              _js2n__-prdslib.records.record
+                {
+                  "$else" = _js2n__-prdslib.isType '"String",
+                  "$select" = _js2n__-prdslib.const "os",
+                }
+                {
+                  "^(windows|macos|linux|android|freebsd|openbsd|netbsd|dragonfly|solaris|illumos|ios)$" =
+                    _js2n__-prdslib.isType '"String",
+                } false _js2n__-prdslib.never
             ],
     }
     in
   {
-      allowedOrgTypes
+      hide_keymap_window
+        | Bool
+        | doc "Hide the pane at the bottom of the screen showing key bindings."
+        | optional,
+      keymap_copy
+        | _js2n__-refsenv."_js2n__-:definitions/keymap!contract"
+        | doc "Key bindings for copy mode."
+        | optional,
+      keymap_procs
+        | _js2n__-refsenv."_js2n__-:definitions/keymap!contract"
+        | doc "Key bindings for process list."
+        | optional,
+      keymap_term
+        | _js2n__-refsenv."_js2n__-:definitions/keymap!contract"
+        | doc "Key bindings for terminal window."
+        | optional,
+      mouse_scroll_speed
+        | std.number.Integer
+        | doc "Number of lines to scroll per one mouse scroll."
+        | optional,
+      proc_list_width
+        | std.number.Integer
+        | doc "Process list window width."
+        | optional,
+      procs
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.enum [ "sandbox", "scratch" ]
-                  ])
-            ])
-        | doc "Types of orgs allowed for config & development. If not set, sandbox and scratch are allowed by default"
-        | optional,
-      apexTestsMinCoverageOrgWide
-        | Number
-        | doc "Minimum percentage of apex code coverage accepted"
-        | optional,
-      autoCleanTypes
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.enum
-                      [
-                        "caseentitlement",
-                        "checkPermissions",
-                        "dashboards",
-                        "datadotcom",
-                        "destructivechanges",
-                        "flowPositions",
-                        "localfields",
-                        "listViewsMine",
-                        "minimizeProfiles",
-                        "productrequest",
-                        "systemDebug"
-                      ]
-                  ])
-            ])
-        | doc "When saving a sfdx-hardis task, the list of cleanings will be automatically applied to sfdx sources"
-        | optional,
-      autoRemoveUserPermissions
-        | Array (String)
-        | doc "When saving a sfdx-hardis task, these permissions will be removed from profiles"
-        | optional,
-      autoRetrieveWhenPull
-        | Array (String)
-        | doc "When calling hardis:scratch:pull, if you define metadatas (named or not), they will also be retrieved using force:source:retrieve"
-        | optional,
-      availableProjects
-        | Array (String)
-        | doc "List of business projects that are managed in the same repository. Will be used to build git branch name when using hardis:work:new"
-        | optional,
-      availableTargetBranches
-        | Array (String)
-        | doc "List of git branches that can be used as target for merge requests"
-        | optional,
-      branchPrefixChoices
-        | Array Dyn
-        | doc "When calling hardis:work:new, you can override the default branch prefixes. Input title, value and description for each of them"
-        | optional,
-      cleanXmlPatterns
-        | Array
-          {
-            globPattern
-              | String
-              | doc "Glob pattern to identify XML files to clean",
-            xpaths
-              | Array (String)
-              | doc "XPaths to identify elements to remove",
-          }
-        | doc "List of patterns to automatically clean XML files"
-        | optional,
-      commandsPostDeploy
-        | Array
-          {
-            command | String | doc "Command line to run",
-            id | String | doc "Identifier of the command (can be any string)",
-            label | String | doc "Label of the command (what does it do ?)",
-            skipIfError
-              | Bool
-              | doc "Do not run the command if there is a deployment error"
-              | optional,
-          }
-        | doc "List of commands to run after a deployment"
-        | optional,
-      commandsPreDeploy
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record
-                      {
-                        command = _js2n__-prdslib.isType '"String",
-                        id = _js2n__-prdslib.isType '"String",
-                        label = _js2n__-prdslib.isType '"String",
-                      } {} false _js2n__-prdslib.never
-                  ]),
-              _js2n__-prdslib.records.required [ "command", "id", "label" ],
-              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
-            ])
-        | doc "List of commands to run before a deployment"
-        | optional,
-      customCommands
-        | Array
-          {
-            commands
-              | Array
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
                 {
-                  command
-                    | String
-                    | doc "Command line to run when clicking on the menu",
-                  helpUrl
-                    | String
-                    | doc "URL for help page of the command"
-                    | optional,
-                  icon
-                    | String
-                    | doc "Icon (can be any of svg icons of this list: https://github.com/hardisgroupcom/vscode-sfdx-hardis/tree/master/resources"
-                    | optional,
-                  id
-                    | String
-                    | doc "Identifier of the command (can be any string)",
-                  label
-                    | String
-                    | doc "Label of the command that will appear in menu",
-                  tooltip
-                    | String
-                    | doc "Text that will appear when user will hover the command"
-                    | optional,
-                }
-              | doc "List of commands of the menu"
-              | optional,
-            id | String | doc "Identifier of the menu (can be any string)",
-            label | String | doc "Label of the menu",
-          }
-        | doc "List of custom commands for VsCode SFDX-Hardis extension"
-        | optional,
-      customCommandsPosition
-        | std.enum.TagOrString
-        | [| 'last, 'first |]
-        | doc "Position of custom commands in the menu (first or last)"
-        | optional,
-      customOrgColors
-        | {  .. }
-        | doc "Custom colors set by VsCode SFDX Hardis"
-        | optional,
-      customPlugins
-        | Array
-          {
-            helpUrl
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Url of plugin documentation"
-              | optional,
-            name
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Name of the plugin npm package"
-              | optional,
-          }
-        | doc "List of additional plugins that will be displayed in VsCode SFDX-Hardis Dependencies panel"
-        | optional,
-      dataPackages
-        | Array
-          {
-            dataPath | String | doc "Path to SFDMU project",
-            importInScratchOrgs | Bool | doc "Path to SFDMU project",
-          }
-        | doc "List of data packages"
-        | optional,
-      defaultPackageInstallationKey
-        | String
-        | doc "When generating a new package version protected with password, use this value as default package installation key"
-        | optional,
-      deploymentPlan
-        | {
-          packages
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.arrays.arrayOf
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.record
-                          {
-                            dataPath = _js2n__-prdslib.isType '"String",
-                            label = _js2n__-prdslib.isType '"String",
-                            order = _js2n__-prdslib.isType '"Number",
-                            packageXmlFile = _js2n__-prdslib.isType '"String",
-                            waitAfter = _js2n__-prdslib.isType '"Number",
-                          } {} false _js2n__-prdslib.never
-                      ]),
-                  _js2n__-prdslib.records.required [ "label", "order" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ])
-            | doc "During deployment, main package.xml will be split into these packages. Can also contain data packages"
-            | optional,
-          ..
-        }
-        | doc "Deployment plan that will be performed during deployments. Can be based on packageXmlFile for sources or on dataPath for sfdmu data deployments"
-        | optional,
-      devHubAlias
-        | String
-        | doc "Dev Hub alias, usually DevHub_ProjectName"
-        | optional,
-      devHubUsername
-        | String
-        | doc "Dev Hub username, used to authenticate to DevHub from CI jobs"
-        | optional,
-      developmentBranch
-        | String
-        | doc "When creating a new sfdx-hardis task, this git branch is used as base to create the feature/debug sub branch. The merge request will later have this branch as target."
-        | optional,
-      extends
-        | String
-        | doc "You can base your local sfdx-hardis configuration on a remote config file. That allows you to have the same config base for all your projects"
-        | optional,
-      initPermissionSets
-        | Array (
-          _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.allOf
-              [
-                _js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.isType '"String"
-                  ],
-                _js2n__-prdslib.records.record
-                  { name = _js2n__-prdslib.isType '"String", } {} false
-                  _js2n__-prdslib.never
-              ])
-        )
-        | doc "When creating a scratch org, Admin user will be automatically assigned to those permission sets"
-        | optional,
-      installPackagesDuringCheckDeploy
-        | Bool
-        | doc "When calling deployment check command, installs any package referred within installedPackages property"
-        | optional,
-      installedPackages
-        | Array
-          {
-            Id
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageId
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageName
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageNamespace
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.isType 'Null
-                  ])
-              | optional,
-            SubscriberPackageVersionId
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String"),
-            SubscriberPackageVersionName
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            SubscriberPackageVersionNumber
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | optional,
-            installDuringDeployments
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"Bool")
-              | doc "If true, during deployments this package will be installed in target org if not installed yet"
-              | optional,
-            installOnScratchOrgs
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"Bool")
-              | doc "If true, this package will be installed when creating a new scratch org with sfdx-hardis"
-              | optional,
-            installationkey
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"String")
-              | doc "Installation key for key-protected package"
-              | optional,
-          }
-        | doc "Defines the list of packages installed on the project. Use "
-        | optional,
-      instanceUrl
-        | String
-        | doc "Salesforce instance URL used by CI for deployment or backups"
-        | optional,
-      linterIgnoreRightMetadataFile
-        | String
-        | doc "Ignore profiles or permission sets"
-        | optional,
-      listViewsToSetToMine
-        | Array (String)
-        | doc "List of ListView items to set to Mine after a delivery (that does not accept value 'Everything')"
-        | optional,
-      monitoringAllowedSectionsActions
-        | {  .. }
-        | doc "Override list of Setup Audit Trail elements that won't be considered as suspect by monitoring tools"
-        | optional,
-      monitoringCommands
-        | Array
-          {
-            command | String | doc "Bash command to run",
-            frequency | String | doc "daily or weekly" | optional,
-            key
-              | String
-              | doc "Unique identifier of the monitoring command. Can be used with monitoringDisable"
-              | optional,
-            title | String | doc "Title of the command (will appear in logs)",
-          }
-        | doc "List of monitoring commands to run with command hardis:org:monitor:all"
-        | optional,
-      monitoringDisable
-        | Array
-          _js2n__-refsenv."_js2n__-:definitions/enum_monitoring_commands!contract"
-        | doc "List of commands to skip during monitoring jobs"
-        | optional,
-      monitoringExcludeUsernames
-        | Array (String)
-        | doc "List of usernames to exclude while running monitoring commands"
-        | optional,
-      msTeamsWebhookUrl
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send ALL notifications"
-        | optional,
-      msTeamsWebhookUrlCritical
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send CRITICAL notifications"
-        | optional,
-      msTeamsWebhookUrlInfo
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send INFO notifications"
-        | optional,
-      msTeamsWebhookUrlSevere
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send SEVERE notifications"
-        | optional,
-      msTeamsWebhookUrlWarning
-        | String
-        | doc "Url of the Ms Teams channel Web Hook that can be used to send WARNING notifications"
-        | optional,
-      notificationsDisable
-        | Array
-          _js2n__-refsenv."_js2n__-:definitions/enum_notification_types!contract"
-        | doc "List of notifications types to skip sending"
-        | optional,
-      poolConfig
-        | {
-          maxScratchOrgsNumber
-            | Number
-            | doc "Maximum number of active scratch orgs in the scratch org pool"
-            | optional,
-          maxScratchOrgsNumberToCreateOnce
-            | Number
-            | doc "Maximum number of scratch orgs to create in one CI job"
-            | optional,
-          minScratchOrgRemainingDays
-            | Number
-            | doc "When pool scratch org is less than this number, it is deleted and another one is created"
-            | optional,
-          storageService
-            | String
-            | doc "Remote service allowing to store scratch org pool details"
-            | optional,
-          ..
-        }
-        | doc "Configuration allowing to generate and fetch scratch orgs from scratch org pool"
-        | optional,
-      productionBranch
-        | String
-        | doc "Name of the git branch corresponding to production environment"
-        | optional,
-      projectName
-        | String
-        | doc "Identifier for the project (can be the client and project)"
-        | optional,
-      retrofitBranch
-        | String
-        | doc "Name of the git branch where retrofit merge requests targets to"
-        | optional,
-      retrofitIgnoredFiles
-        | Array (String)
-        | doc "When calling hardis:org:retrieve:sources:retrofit, list of files to ignore (discard just after retrieve)"
-        | optional,
-      scratchOrgDuration
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Number",
-              _js2n__-prdslib.numbers.maximum 30,
-              _js2n__-prdslib.numbers.minimum 1
+                  "^[a-zA-Z0-9_-]+$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.oneOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required [ "shell" ],
+                                  _js2n__-prdslib.records.record {} {} true
+                                    _js2n__-prdslib.always
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required [ "cmd" ],
+                                  _js2n__-prdslib.records.record {} {} true
+                                    _js2n__-prdslib.always
+                                ]
+                            ],
+                          _js2n__-prdslib.records.record
+                            {
+                              add_path =
+                                _js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                      _js2n__-refsenv."_js2n__-:definitions/selectOperator!predicate"
+                                    ],
+                              autorestart = _js2n__-prdslib.isType '"Bool",
+                              autostart = _js2n__-prdslib.isType '"Bool",
+                              cmd =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
+                              cwd = _js2n__-prdslib.isType '"String",
+                              env =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {} {} true
+                                        (_js2n__-prdslib.oneOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.isType 'Null,
+                                            _js2n__-refsenv."_js2n__-:definitions/selectOperator!predicate"
+                                          ])
+                                    ],
+                              shell =
+                                _js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-refsenv."_js2n__-:definitions/selectOperator!predicate",
+                                      _js2n__-prdslib.isType '"String"
+                                    ],
+                              stop =
+                                _js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "SIGINT",
+                                          "SIGTERM",
+                                          "SIGKILL",
+                                          "hard-kill"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.required
+                                            [ "send-keys" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              send-keys =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.isType
+                                                          '"String")
+                                                    ],
+                                            } {} true _js2n__-prdslib.always
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                } true _js2n__-prdslib.always
             ])
-        | doc "Defines the lifespan of the scratch org in number of days, from 1 to 30"
-        | optional,
-      scratchOrgInitApexScripts
-        | Array (String)
-        | doc "Apex scripts to call after scratch org initialization"
-        | optional,
-      sfdmuCanModify
-        | String
-        | doc "Instance host name to allow SFDMU to deploy data in a production org"
-        | optional,
-      skipUpdateForceIgnore
-        | Bool
-        | doc "Defines if sfdx-hardis will propose to upgrade local .forceignore file"
-        | optional,
-      skipUpdateGitIgnore
-        | Bool
-        | doc "Defines if sfdx-hardis will propose to upgrade local .gitignore file"
-        | optional,
-      sourcesToRetrofit
-        | Array (String)
-        | doc "List of metadata to retrieve for retrofit job"
-        | optional,
-      targetUsername
-        | String
-        | doc "Salesforce username used by CI for deployment or backups"
-        | optional,
-      useDeltaDeployment
-        | Bool
-        | doc "Defines if sfdx-hardis will deploy in delta from minor to major branches"
+        | doc "Processes to run. Only allowed in local config."
         | optional,
     }

@@ -1279,6 +1279,15 @@ let rec _js2n__-refsenv
                 ])
             | doc "Height of the command log view"
             | optional,
+          commitAuthorFormat
+            | std.enum.TagOrString
+            | [| 'full, 'short, 'auto |]
+            | doc m%"
+              Whether to show full author names or their shortened form in the commit graph.
+              One of 'auto' (default) | 'full' | 'short'
+              If 'auto', initials will be shown in small windows, and full names - in larger ones.
+            "%
+            | optional,
           commitHashLength
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.allOf

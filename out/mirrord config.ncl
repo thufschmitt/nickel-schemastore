@@ -923,7 +923,7 @@ let rec _js2n__-refsenv
           
           For more information, check the file operations [technical reference](https://mirrord.dev/docs/reference/fileops/).
           
-          ```json { "feature": { "fs": { "mode": "write", "read_write": ".+\.json" , "read_only": [ ".+\.yaml", ".+important-file\.txt" ], "local": [ ".+\.js", ".+\.mjs" ], "not_found": [ "\.config/gcloud" ] } } } ```
+          ```json { "feature": { "fs": { "mode": "write", "read_write": ".+\\.json" , "read_only": [ ".+\\.yaml", ".+important-file\\.txt" ], "local": [ ".+\\.js", ".+\\.mjs" ], "not_found": [ "\\.config/gcloud" ] } } } ```
         "%
         = _js2n__-prdslib.allOf
             [
@@ -968,7 +968,7 @@ let rec _js2n__-refsenv
           
           We provide sane defaults for this option, so you don't have to set up anything here.
           
-          ```json { "agent": { "log_level": "info", "json_log": false, "namespace": "default", "image": "ghcr.io/metalbear-co/mirrord:latest", "image_pull_policy": "IfNotPresent", "image_pull_secrets": [ { "secret-key": "secret" } ], "ttl": 30, "ephemeral": false, "communication_timeout": 30, "startup_timeout": 360, "network_interface": "eth0", "flush_connections": false, } } ```
+          ```json { "agent": { "log_level": "info", "json_log": false, "namespace": "default", "image": "ghcr.io/metalbear-co/mirrord:latest", "image_pull_policy": "IfNotPresent", "image_pull_secrets": [ { "secret-key": "secret" } ], "ttl": 30, "ephemeral": false, "communication_timeout": 30, "startup_timeout": 360, "network_interface": "eth0", "flush_connections": false } } ```
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1227,6 +1227,22 @@ let rec _js2n__-refsenv
                     } {} false _js2n__-prdslib.never
                 ]
             ],
+      "_js2n__-:definitions/CronJobTarget!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "cron_job" ],
+              _js2n__-prdslib.records.record
+                {
+                  container =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  cron_job = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/DeploymentTarget!predicate"
         | doc "<!--${internal}--> Mirror the deployment specified by [`DeploymentTarget::deployment`]."
         = _js2n__-prdslib.allOf
@@ -1303,6 +1319,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  readlink =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   tcp_ping4_mock =
                     _js2n__-prdslib.anyOf
                         [
@@ -1319,7 +1341,7 @@ let rec _js2n__-refsenv
           
           The [`env`](#feature-env), [`fs`](#feature-fs) and [`network`](#feature-network) options have support for a shortened version, that you can see [here](#root-shortened).
           
-          ```json { "feature": { "env": { "include": "DATABASE_USER;PUBLIC_ENV", "exclude": "DATABASE_PASSWORD;SECRET_ENV", "override": { "DATABASE_CONNECTION": "db://localhost:7777/my-db", "LOCAL_BEAR": "panda" } }, "fs": { "mode": "write", "read_write": ".+\.json" , "read_only": [ ".+\.yaml", ".+important-file\.txt" ], "local": [ ".+\.js", ".+\.mjs" ] }, "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000] }, "outgoing": { "tcp": true, "udp": true, "filter": { "local": ["tcp://1.1.1.0/24:1337", "1.1.5.0/24", "google.com", ":53"] }, "ignore_localhost": false, "unix_streams": "bear.+" }, "dns": false }, "copy_target": false, "hostname": true } } ```
+          ```json { "feature": { "env": { "include": "DATABASE_USER;PUBLIC_ENV", "exclude": "DATABASE_PASSWORD;SECRET_ENV", "override": { "DATABASE_CONNECTION": "db://localhost:7777/my-db", "LOCAL_BEAR": "panda" } }, "fs": { "mode": "write", "read_write": ".+\\.json" , "read_only": [ ".+\\.yaml", ".+important-file\\.txt" ], "local": [ ".+\\.js", ".+\\.mjs" ] }, "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000] }, "outgoing": { "tcp": true, "udp": true, "filter": { "local": ["tcp://1.1.1.0/24:1337", "1.1.5.0/24", "google.com", ":53"] }, "ignore_localhost": false, "unix_streams": "bear.+" }, "dns": false }, "copy_target": false, "hostname": true } } ```
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1431,7 +1453,7 @@ let rec _js2n__-refsenv
           
           ### Advanced `fs` config {#fs-advanced}
           
-          ```json { "feature": { "fs": { "mode": "write", "read_write": ".+\.json" , "read_only": [ ".+\.yaml", ".+important-file\.txt" ], "local": [ ".+\.js", ".+\.mjs" ] } } } ```
+          ```json { "feature": { "fs": { "mode": "write", "read_write": ".+\\.json" , "read_only": [ ".+\\.yaml", ".+important-file\\.txt" ], "local": [ ".+\\.js", ".+\\.mjs" ] } } } ```
         "%
         = _js2n__-prdslib.anyOf
             [
@@ -1446,13 +1468,13 @@ let rec _js2n__-refsenv
           
           Only does something when [`feature.network.incoming.mode`](#feature-network-incoming-mode) is set as `"steal"`, ignored otherwise.
           
-          For example, to filter based on header: ```json { "header_filter": "host: api\..+", } ``` Setting that filter will make mirrord only steal requests with the `host` header set to hosts that start with "api", followed by a dot, and then at least one more character.
+          For example, to filter based on header: ```json { "header_filter": "host: api\\..+" } ``` Setting that filter will make mirrord only steal requests with the `host` header set to hosts that start with "api", followed by a dot, and then at least one more character.
           
-          For example, to filter based on path: ```json { "path_filter": "^/api/", } ``` Setting this filter will make mirrord only steal requests to URIs starting with "/api/".
+          For example, to filter based on path: ```json { "path_filter": "^/api/" } ``` Setting this filter will make mirrord only steal requests to URIs starting with "/api/".
           
-          This can be useful for filtering out Kubernetes liveness, readiness and startup probes. For example, for avoiding stealing any probe sent by kubernetes, you can set this filter: ```json { "header_filter": "^User-Agent: (?!kube-probe)", } ``` Setting this filter will make mirrord only steal requests that **do** have a user agent that **does not** begin with "kube-probe".
+          This can be useful for filtering out Kubernetes liveness, readiness and startup probes. For example, for avoiding stealing any probe sent by kubernetes, you can set this filter: ```json { "header_filter": "^User-Agent: (?!kube-probe)" } ``` Setting this filter will make mirrord only steal requests that **do** have a user agent that **does not** begin with "kube-probe".
           
-          Similarly, you can exclude certain paths using a negative look-ahead: ```json { "path_filter": "^(?!/health/)", } ``` Setting this filter will make mirrord only steal requests to URIs that do not start with "/health/".
+          Similarly, you can exclude certain paths using a negative look-ahead: ```json { "path_filter": "^(?!/health/)" } ``` Setting this filter will make mirrord only steal requests to URIs that do not start with "/health/".
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1618,7 +1640,7 @@ let rec _js2n__-refsenv
           
           ### Advanced `incoming` config
           
-          ```json { "feature": { "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000] "listen_ports": [[80, 8111]] } } } } ```
+          ```json { "feature": { "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000] "listen_ports": [[80, 8111]] } } } } ```
         "%
         = _js2n__-prdslib.anyOf
             [
@@ -1665,7 +1687,7 @@ let rec _js2n__-refsenv
           
           This is seldom used, but if you get `ConnectionRefused` errors, you might want to increase the timeouts a bit.
           
-          ```json { "internal_proxy": { "start_idle_timeout": 30, "idle_timeout": 5, } } ```
+          ```json { "internal_proxy": { "start_idle_timeout": 30, "idle_timeout": 5 } } ```
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1735,7 +1757,7 @@ let rec _js2n__-refsenv
           
           See the network traffic [reference](https://mirrord.dev/docs/reference/traffic/) for more details.
           
-          ```json { "feature": { "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000] }, "outgoing": { "tcp": true, "udp": true, "filter": { "local": ["tcp://1.1.1.0/24:1337", "1.1.5.0/24", "google.com", ":53"] }, "ignore_localhost": false, "unix_streams": "bear.+" }, "dns": false } } } ```
+          ```json { "feature": { "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000] }, "outgoing": { "tcp": true, "udp": true, "filter": { "local": ["tcp://1.1.1.0/24:1337", "1.1.5.0/24", "google.com", ":53"] }, "ignore_localhost": false, "unix_streams": "bear.+" }, "dns": false } } } ```
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1897,13 +1919,29 @@ let rec _js2n__-refsenv
                   rollout = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/StatefulSetTarget!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "stateful_set" ],
+              _js2n__-prdslib.records.record
+                {
+                  container =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  stateful_set = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/Target!predicate"
         | doc m%"
           <!--${internal}--> ## path
           
           Specifies the running pod (or deployment) to mirror.
           
-          Supports: - `pod/{sample-pod}`; - `podname/{sample-pod}`; - `deployment/{sample-deployment}`; - `container/{sample-container}`; - `containername/{sample-container}`. - `job/{sample-job}`;
+          Supports: - `pod/{sample-pod}`; - `podname/{sample-pod}`; - `deployment/{sample-deployment}`; - `container/{sample-container}`; - `containername/{sample-container}`. - `job/{sample-job}`; - `cronjob/{sample-cronjob}`; - `statefulset/{sample-statefulset}`;
         "%
         = _js2n__-prdslib.anyOf
             [
@@ -1911,6 +1949,8 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/PodTarget!predicate",
               _js2n__-refsenv."_js2n__-:definitions/RolloutTarget!predicate",
               _js2n__-refsenv."_js2n__-:definitions/JobTarget!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/CronJobTarget!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/StatefulSetTarget!predicate",
               _js2n__-prdslib.isType 'Null
             ],
       "_js2n__-:definitions/TargetFileConfig!predicate" =

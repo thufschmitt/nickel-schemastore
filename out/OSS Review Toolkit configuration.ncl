@@ -1134,7 +1134,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/Archive!predicate",
                   config =
                     _js2n__-refsenv."_js2n__-:definitions/ScannerConfig!predicate",
-                  createMissingArchives = _js2n__-prdslib.isType '"Bool",
                   detectedLicenseMapping =
                     _js2n__-refsenv."_js2n__-:definitions/DetectedLicenseMapping!predicate",
                   fileListStorage =

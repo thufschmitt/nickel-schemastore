@@ -908,10 +908,10 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   source_id =
-                    _js2n__-refsenv."_js2n__-:properties/containers/additionalProperties/properties/image/properties/origin/oneOf/5/properties/details/properties/source_id!predicate",
+                    _js2n__-refsenv."_js2n__-:properties/containers/additionalProperties/properties/image/properties/origin/oneOf/4/properties/details/properties/source_id!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:properties/containers/additionalProperties/properties/image/properties/origin/oneOf/5/properties/details/properties/source_id!predicate"
+      "_js2n__-:properties/containers/additionalProperties/properties/image/properties/origin/oneOf/4/properties/details/properties/source_id!predicate"
         | doc "The ID referencing the image source where this image originated."
         = _js2n__-prdslib.isType '"String",
       "_js2n__-:properties/scoped_variables/items/properties/access/properties/internal_api/properties/duration/anyOf/0!predicate"
@@ -5260,7 +5260,7 @@ let rec _js2n__-refsenv
                                                                             _js2n__-prdslib.records.record
                                                                               {
                                                                                 source_id =
-                                                                                  _js2n__-refsenv."_js2n__-:properties/containers/additionalProperties/properties/image/properties/origin/oneOf/5/properties/details/properties/source_id!predicate",
+                                                                                  _js2n__-refsenv."_js2n__-:properties/containers/additionalProperties/properties/image/properties/origin/oneOf/4/properties/details/properties/source_id!predicate",
                                                                               }
                                                                               {}
                                                                               true
@@ -5312,200 +5312,196 @@ let rec _js2n__-refsenv
                                                                   'Record,
                                                                 _js2n__-prdslib.records.required
                                                                   [
-                                                                    "auth",
                                                                     "target",
                                                                     "url"
                                                                   ],
                                                                 _js2n__-prdslib.records.record
                                                                   {
                                                                     auth =
-                                                                      _js2n__-prdslib.anyOf
+                                                                      _js2n__-prdslib.allOf
                                                                           [
-                                                                            _js2n__-prdslib.allOf
-                                                                              [
-                                                                                _js2n__-prdslib.isType
-                                                                                  'Record,
-                                                                                _js2n__-prdslib.oneOf
-                                                                                  [
-                                                                                    _js2n__-prdslib.allOf
-                                                                                      [
-                                                                                        _js2n__-prdslib.isType
-                                                                                          'Record,
-                                                                                        _js2n__-prdslib.records.required
-                                                                                          [
-                                                                                            "details",
-                                                                                            "type"
-                                                                                          ],
-                                                                                        _js2n__-prdslib.records.record
-                                                                                          {
-                                                                                            details =
-                                                                                              _js2n__-prdslib.allOf
-                                                                                                  [
-                                                                                                    _js2n__-prdslib.isType
-                                                                                                      'Record,
-                                                                                                    _js2n__-prdslib.records.record
-                                                                                                      {
-                                                                                                        token =
-                                                                                                          _js2n__-prdslib.isType
-                                                                                                              '"String",
-                                                                                                        username =
-                                                                                                          _js2n__-prdslib.isType
-                                                                                                              '"String",
-                                                                                                      }
-                                                                                                      {}
-                                                                                                      true
-                                                                                                      _js2n__-prdslib.always
-                                                                                                  ],
-                                                                                            type =
-                                                                                              _js2n__-prdslib.allOf
-                                                                                                  [
-                                                                                                    _js2n__-prdslib.isType
-                                                                                                      '"String",
-                                                                                                    _js2n__-prdslib.enum
-                                                                                                      [
-                                                                                                        "user"
-                                                                                                      ]
-                                                                                                  ],
-                                                                                          }
-                                                                                          {}
-                                                                                          true
-                                                                                          _js2n__-prdslib.always
-                                                                                      ],
-                                                                                    _js2n__-prdslib.allOf
-                                                                                      [
-                                                                                        _js2n__-prdslib.isType
-                                                                                          'Record,
-                                                                                        _js2n__-prdslib.records.required
-                                                                                          [
-                                                                                            "details",
-                                                                                            "type"
-                                                                                          ],
-                                                                                        _js2n__-prdslib.records.record
-                                                                                          {
-                                                                                            details =
-                                                                                              _js2n__-prdslib.allOf
-                                                                                                  [
-                                                                                                    _js2n__-prdslib.isType
-                                                                                                      'Record,
-                                                                                                    _js2n__-prdslib.records.required
-                                                                                                      [
-                                                                                                        "credentials",
-                                                                                                        "flavor"
-                                                                                                      ],
-                                                                                                    _js2n__-prdslib.records.record
-                                                                                                      {
-                                                                                                        credentials =
-                                                                                                          _js2n__-prdslib.allOf
-                                                                                                              [
-                                                                                                                _js2n__-prdslib.isType
-                                                                                                                  'Record,
-                                                                                                                _js2n__-prdslib.records.record
-                                                                                                                  {
-                                                                                                                    api_key =
-                                                                                                                      _js2n__-prdslib.isType
-                                                                                                                          '"String",
-                                                                                                                    client_id =
-                                                                                                                      _js2n__-prdslib.isType
-                                                                                                                          '"String",
-                                                                                                                    config =
-                                                                                                                      _js2n__-prdslib.isType
-                                                                                                                          '"String",
-                                                                                                                    namespace =
-                                                                                                                      _js2n__-prdslib.isType
-                                                                                                                          '"String",
-                                                                                                                    region =
-                                                                                                                      _js2n__-prdslib.isType
-                                                                                                                          '"String",
-                                                                                                                    secret =
-                                                                                                                      _js2n__-prdslib.isType
-                                                                                                                          '"String",
-                                                                                                                    subscription_id =
-                                                                                                                      _js2n__-prdslib.isType
-                                                                                                                          '"String",
-                                                                                                                  }
-                                                                                                                  {}
-                                                                                                                  true
-                                                                                                                  _js2n__-prdslib.always
-                                                                                                              ],
-                                                                                                        flavor =
-                                                                                                          _js2n__-prdslib.allOf
-                                                                                                              [
-                                                                                                                _js2n__-prdslib.isType
-                                                                                                                  '"String",
-                                                                                                                _js2n__-prdslib.enum
-                                                                                                                  [
-                                                                                                                    "ecr"
-                                                                                                                  ]
-                                                                                                              ],
-                                                                                                      }
-                                                                                                      {}
-                                                                                                      true
-                                                                                                      _js2n__-prdslib.always
-                                                                                                  ],
-                                                                                            type =
-                                                                                              _js2n__-prdslib.allOf
-                                                                                                  [
-                                                                                                    _js2n__-prdslib.isType
-                                                                                                      '"String",
-                                                                                                    _js2n__-prdslib.enum
-                                                                                                      [
-                                                                                                        "provider"
-                                                                                                      ]
-                                                                                                  ],
-                                                                                          }
-                                                                                          {}
-                                                                                          true
-                                                                                          _js2n__-prdslib.always
-                                                                                      ],
-                                                                                    _js2n__-prdslib.allOf
-                                                                                      [
-                                                                                        _js2n__-prdslib.isType
-                                                                                          'Record,
-                                                                                        _js2n__-prdslib.records.required
-                                                                                          [
-                                                                                            "details",
-                                                                                            "type"
-                                                                                          ],
-                                                                                        _js2n__-prdslib.records.record
-                                                                                          {
-                                                                                            details =
-                                                                                              _js2n__-prdslib.allOf
-                                                                                                  [
-                                                                                                    _js2n__-prdslib.isType
-                                                                                                      'Record,
-                                                                                                    _js2n__-prdslib.records.required
-                                                                                                      [
-                                                                                                        "url"
-                                                                                                      ],
-                                                                                                    _js2n__-prdslib.records.record
-                                                                                                      {
-                                                                                                        url =
-                                                                                                          _js2n__-prdslib.isType
-                                                                                                              '"String",
-                                                                                                      }
-                                                                                                      {}
-                                                                                                      true
-                                                                                                      _js2n__-prdslib.always
-                                                                                                  ],
-                                                                                            type =
-                                                                                              _js2n__-prdslib.allOf
-                                                                                                  [
-                                                                                                    _js2n__-prdslib.isType
-                                                                                                      '"String",
-                                                                                                    _js2n__-prdslib.enum
-                                                                                                      [
-                                                                                                        "webhook"
-                                                                                                      ]
-                                                                                                  ],
-                                                                                          }
-                                                                                          {}
-                                                                                          true
-                                                                                          _js2n__-prdslib.always
-                                                                                      ]
-                                                                                  ]
-                                                                              ],
                                                                             _js2n__-prdslib.isType
-                                                                              'Null
+                                                                              'Record,
+                                                                            _js2n__-prdslib.oneOf
+                                                                              [
+                                                                                _js2n__-prdslib.allOf
+                                                                                  [
+                                                                                    _js2n__-prdslib.isType
+                                                                                      'Record,
+                                                                                    _js2n__-prdslib.records.required
+                                                                                      [
+                                                                                        "details",
+                                                                                        "type"
+                                                                                      ],
+                                                                                    _js2n__-prdslib.records.record
+                                                                                      {
+                                                                                        details =
+                                                                                          _js2n__-prdslib.allOf
+                                                                                              [
+                                                                                                _js2n__-prdslib.isType
+                                                                                                  'Record,
+                                                                                                _js2n__-prdslib.records.record
+                                                                                                  {
+                                                                                                    token =
+                                                                                                      _js2n__-prdslib.isType
+                                                                                                          '"String",
+                                                                                                    username =
+                                                                                                      _js2n__-prdslib.isType
+                                                                                                          '"String",
+                                                                                                  }
+                                                                                                  {}
+                                                                                                  true
+                                                                                                  _js2n__-prdslib.always
+                                                                                              ],
+                                                                                        type =
+                                                                                          _js2n__-prdslib.allOf
+                                                                                              [
+                                                                                                _js2n__-prdslib.isType
+                                                                                                  '"String",
+                                                                                                _js2n__-prdslib.enum
+                                                                                                  [
+                                                                                                    "user"
+                                                                                                  ]
+                                                                                              ],
+                                                                                      }
+                                                                                      {}
+                                                                                      true
+                                                                                      _js2n__-prdslib.always
+                                                                                  ],
+                                                                                _js2n__-prdslib.allOf
+                                                                                  [
+                                                                                    _js2n__-prdslib.isType
+                                                                                      'Record,
+                                                                                    _js2n__-prdslib.records.required
+                                                                                      [
+                                                                                        "details",
+                                                                                        "type"
+                                                                                      ],
+                                                                                    _js2n__-prdslib.records.record
+                                                                                      {
+                                                                                        details =
+                                                                                          _js2n__-prdslib.allOf
+                                                                                              [
+                                                                                                _js2n__-prdslib.isType
+                                                                                                  'Record,
+                                                                                                _js2n__-prdslib.records.required
+                                                                                                  [
+                                                                                                    "credentials",
+                                                                                                    "flavor"
+                                                                                                  ],
+                                                                                                _js2n__-prdslib.records.record
+                                                                                                  {
+                                                                                                    credentials =
+                                                                                                      _js2n__-prdslib.allOf
+                                                                                                          [
+                                                                                                            _js2n__-prdslib.isType
+                                                                                                              'Record,
+                                                                                                            _js2n__-prdslib.records.record
+                                                                                                              {
+                                                                                                                api_key =
+                                                                                                                  _js2n__-prdslib.isType
+                                                                                                                      '"String",
+                                                                                                                client_id =
+                                                                                                                  _js2n__-prdslib.isType
+                                                                                                                      '"String",
+                                                                                                                config =
+                                                                                                                  _js2n__-prdslib.isType
+                                                                                                                      '"String",
+                                                                                                                namespace =
+                                                                                                                  _js2n__-prdslib.isType
+                                                                                                                      '"String",
+                                                                                                                region =
+                                                                                                                  _js2n__-prdslib.isType
+                                                                                                                      '"String",
+                                                                                                                secret =
+                                                                                                                  _js2n__-prdslib.isType
+                                                                                                                      '"String",
+                                                                                                                subscription_id =
+                                                                                                                  _js2n__-prdslib.isType
+                                                                                                                      '"String",
+                                                                                                              }
+                                                                                                              {}
+                                                                                                              true
+                                                                                                              _js2n__-prdslib.always
+                                                                                                          ],
+                                                                                                    flavor =
+                                                                                                      _js2n__-prdslib.allOf
+                                                                                                          [
+                                                                                                            _js2n__-prdslib.isType
+                                                                                                              '"String",
+                                                                                                            _js2n__-prdslib.enum
+                                                                                                              [
+                                                                                                                "ecr"
+                                                                                                              ]
+                                                                                                          ],
+                                                                                                  }
+                                                                                                  {}
+                                                                                                  true
+                                                                                                  _js2n__-prdslib.always
+                                                                                              ],
+                                                                                        type =
+                                                                                          _js2n__-prdslib.allOf
+                                                                                              [
+                                                                                                _js2n__-prdslib.isType
+                                                                                                  '"String",
+                                                                                                _js2n__-prdslib.enum
+                                                                                                  [
+                                                                                                    "provider"
+                                                                                                  ]
+                                                                                              ],
+                                                                                      }
+                                                                                      {}
+                                                                                      true
+                                                                                      _js2n__-prdslib.always
+                                                                                  ],
+                                                                                _js2n__-prdslib.allOf
+                                                                                  [
+                                                                                    _js2n__-prdslib.isType
+                                                                                      'Record,
+                                                                                    _js2n__-prdslib.records.required
+                                                                                      [
+                                                                                        "details",
+                                                                                        "type"
+                                                                                      ],
+                                                                                    _js2n__-prdslib.records.record
+                                                                                      {
+                                                                                        details =
+                                                                                          _js2n__-prdslib.allOf
+                                                                                              [
+                                                                                                _js2n__-prdslib.isType
+                                                                                                  'Record,
+                                                                                                _js2n__-prdslib.records.required
+                                                                                                  [
+                                                                                                    "url"
+                                                                                                  ],
+                                                                                                _js2n__-prdslib.records.record
+                                                                                                  {
+                                                                                                    url =
+                                                                                                      _js2n__-prdslib.isType
+                                                                                                          '"String",
+                                                                                                  }
+                                                                                                  {}
+                                                                                                  true
+                                                                                                  _js2n__-prdslib.always
+                                                                                              ],
+                                                                                        type =
+                                                                                          _js2n__-prdslib.allOf
+                                                                                              [
+                                                                                                _js2n__-prdslib.isType
+                                                                                                  '"String",
+                                                                                                _js2n__-prdslib.enum
+                                                                                                  [
+                                                                                                    "webhook"
+                                                                                                  ]
+                                                                                              ],
+                                                                                      }
+                                                                                      {}
+                                                                                      true
+                                                                                      _js2n__-prdslib.always
+                                                                                  ],
+                                                                                _js2n__-prdslib.isType
+                                                                                  'Null
+                                                                              ]
                                                                           ],
                                                                     existing =
                                                                       _js2n__-refsenv."_js2n__-:properties/containers/additionalProperties/properties/image/properties/origin/oneOf/2/properties/details/properties/existing!predicate",
@@ -5526,46 +5522,6 @@ let rec _js2n__-refsenv
                                                                 _js2n__-prdslib.enum
                                                                   [
                                                                     "oci-registry"
-                                                                  ]
-                                                              ],
-                                                      } {} true
-                                                      _js2n__-prdslib.always
-                                                  ],
-                                                _js2n__-prdslib.allOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      'Record,
-                                                    _js2n__-prdslib.records.record
-                                                      {
-                                                        details =
-                                                          _js2n__-prdslib.allOf
-                                                              [
-                                                                _js2n__-prdslib.isType
-                                                                  'Record,
-                                                                _js2n__-prdslib.records.required
-                                                                  [
-                                                                    "expires",
-                                                                    "token"
-                                                                  ],
-                                                                _js2n__-prdslib.records.record
-                                                                  {
-                                                                    expires =
-                                                                      _js2n__-prdslib.isType
-                                                                          '"String",
-                                                                    token =
-                                                                      _js2n__-prdslib.isType
-                                                                          '"String",
-                                                                  } {} true
-                                                                  _js2n__-prdslib.always
-                                                              ],
-                                                        type =
-                                                          _js2n__-prdslib.allOf
-                                                              [
-                                                                _js2n__-prdslib.isType
-                                                                  '"String",
-                                                                _js2n__-prdslib.enum
-                                                                  [
-                                                                    "cycle-upload"
                                                                   ]
                                                               ],
                                                       } {} true
@@ -5605,28 +5561,6 @@ let rec _js2n__-refsenv
                                                                   [
                                                                     "cycle-source"
                                                                   ]
-                                                              ],
-                                                      } {} true
-                                                      _js2n__-prdslib.always
-                                                  ],
-                                                _js2n__-prdslib.allOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      'Record,
-                                                    _js2n__-prdslib.records.required
-                                                      [ "type" ],
-                                                    _js2n__-prdslib.records.record
-                                                      {
-                                                        details =
-                                                          _js2n__-prdslib.isType
-                                                              'Record,
-                                                        type =
-                                                          _js2n__-prdslib.allOf
-                                                              [
-                                                                _js2n__-prdslib.isType
-                                                                  '"String",
-                                                                _js2n__-prdslib.enum
-                                                                  [ "none" ]
                                                               ],
                                                       } {} true
                                                       _js2n__-prdslib.always
