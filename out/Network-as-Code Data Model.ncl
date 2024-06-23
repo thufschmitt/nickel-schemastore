@@ -5573,6 +5573,20 @@ let rec _js2n__-refsenv
                   vpc_policies
                     | Array
                       {
+                        delay_restore_timer
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 600,
+                                _js2n__-prdslib.numbers.minimum 120
+                              ])
+                          | doc m%"
+                            Delay Restore Timer (Integer)
+                            - Minimum value: 120
+                            - Maximum value: 600
+                          "%
+                          | optional,
                         name
                           | _js2n__-prdslib.contract_from_predicate
                             (_js2n__-prdslib.allOf
@@ -5604,6 +5618,7 @@ let rec _js2n__-refsenv
                       Elements:
                       - name (required)
                       - peer_dead_interval
+                      - delay_restore_timer
                     "%
                     | optional,
                 }
@@ -8526,6 +8541,15 @@ let rec _js2n__-refsenv
                             "^[a-zA-Z0-9_.:-]{1,64}$"
                         ])
                     | doc "Name (String)",
+                  peering_type
+                    | std.enum.TagOrString
+                    | [| 'route_reflector, 'full_mesh |]
+                    | doc m%"
+                      Peering Type (String)
+                      - Default value: full_mesh
+                      - Allowed values: full_mesh, route_reflector
+                    "%
+                    | optional,
                   route_target
                     | String
                     | doc m%"
@@ -8590,6 +8614,7 @@ let rec _js2n__-refsenv
                   - name (required)
                   - fabric_id
                   - site_id
+                  - peering_type
                   - bgp_password
                   - route_target
                   - routing_profiles
@@ -9408,6 +9433,60 @@ let rec _js2n__-refsenv
                   - level_4
                   - level_5
                   - level_6
+                "%
+                | optional,
+              interface_policies
+                | {
+                  link_level_policies
+                    | Array
+                      {
+                        description
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[a-zA-Z0-9\\\\!#$%()*,-./:;@ _{|}~?&+]{1,128}$"
+                              ])
+                          | doc "Description (String)"
+                          | optional,
+                        link_debounce_interval
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 5000
+                              ])
+                          | doc m%"
+                            Link Debounce Interval (Integer)
+                            - Maximum value: 5000
+                          "%
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[a-zA-Z0-9_.:-]{1,64}$"
+                              ])
+                          | doc "Name (String)",
+                      }
+                    | doc m%"
+                      Link Level Policies (List - Object)
+                      
+                      Elements:
+                      - name (required)
+                      - description
+                      - link_debounce_interval
+                    "%
+                    | optional,
+                }
+                | doc m%"
+                  Interface Policies (Object)
+                  
+                  Elements:
+                  - link_level_policies
                 "%
                 | optional,
               ip_aging
@@ -12942,6 +13021,15 @@ let rec _js2n__-refsenv
                         - Allowed values: read-only, read-write
                       "%
                       | optional,
+                    allocation
+                      | std.enum.TagOrString
+                      | [| 'static, 'dynamic |]
+                      | doc m%"
+                        Allocation (String)
+                        - Default value: dynamic
+                        - Allowed values: dynamic, static
+                      "%
+                      | optional,
                     credential_policies
                       | Array
                         {
@@ -13327,6 +13415,7 @@ let rec _js2n__-refsenv
                   - delimiter
                   - tag_collection
                   - vlan_pool
+                  - allocation
                   - security_domains
                   - vswitch
                   - credential_policies
@@ -13392,6 +13481,7 @@ let rec _js2n__-refsenv
               - smart_licensing
               - l2_mtu_policies
               - system_performance
+              - interface_policies
             "%
             | optional,
           interface_policies
@@ -30381,6 +30471,27 @@ let rec _js2n__-refsenv
                               - subinterfaces
                             "%
                             | optional,
+                          vnis
+                            | Array
+                              {
+                                name
+                                  | _js2n__-prdslib.contract_from_predicate
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^[a-zA-Z0-9_.+-]{1,64}$"
+                                      ])
+                                  | doc "Name (String)"
+                                  | optional,
+                              }
+                            | doc m%"
+                              Vnis (List - Object)
+                              
+                              Elements:
+                              - name
+                            "%
+                            | optional,
                         }
                       | doc m%"
                         Devices (List - Object)
@@ -30389,6 +30500,7 @@ let rec _js2n__-refsenv
                         - name (required)
                         - physical_interfaces
                         - ipv4_static_routes
+                        - vnis
                       "%
                       | optional,
                     file_policies
@@ -30452,6 +30564,26 @@ let rec _js2n__-refsenv
                       "%
                       | optional,
                     name | String | doc "Name (String)",
+                    network_analysis_policies
+                      | Array
+                        {
+                          name
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^[a-zA-Z0-9_.+ -]{1,64}$"
+                                ])
+                            | doc "Name (String)",
+                        }
+                      | doc m%"
+                        Network Analysis Policies (List - Object)
+                        
+                        Elements:
+                        - name (required)
+                      "%
+                      | optional,
                     objects
                       | {
                         dynamic_objects
@@ -30469,6 +30601,26 @@ let rec _js2n__-refsenv
                             }
                           | doc m%"
                             Dynamic Objects (List - Object)
+                            
+                            Elements:
+                            - name (required)
+                          "%
+                          | optional,
+                        extended_access_lists
+                          | Array
+                            {
+                              name
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[a-zA-Z0-9_.+-]{1,64}$"
+                                    ])
+                                | doc "Name (String)",
+                            }
+                          | doc m%"
+                            Extended Access Lists (List - Object)
                             
                             Elements:
                             - name (required)
@@ -30623,6 +30775,26 @@ let rec _js2n__-refsenv
                             - name (required)
                           "%
                           | optional,
+                        standard_access_lists
+                          | Array
+                            {
+                              name
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[a-zA-Z0-9_.+-]{1,64}$"
+                                    ])
+                                | doc "Name (String)",
+                            }
+                          | doc m%"
+                            Standard Access Lists (List - Object)
+                            
+                            Elements:
+                            - name (required)
+                          "%
+                          | optional,
                         urls
                           | Array
                             {
@@ -30658,6 +30830,8 @@ let rec _js2n__-refsenv
                         - dynamic_objects
                         - sgts
                         - security_zones
+                        - standard_access_lists
+                        - extended_access_lists
                       "%
                       | optional,
                     prefilter_policies
@@ -30680,6 +30854,26 @@ let rec _js2n__-refsenv
                         - name (required)
                       "%
                       | optional,
+                    syslog_alerts
+                      | Array
+                        {
+                          name
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^[a-zA-Z0-9_.+ -]{1,64}$"
+                                ])
+                            | doc "Name (String)",
+                        }
+                      | doc m%"
+                        Syslog Alerts (List - Object)
+                        
+                        Elements:
+                        - name (required)
+                      "%
+                      | optional,
                   }
                 | doc m%"
                   Domains (List - Object)
@@ -30692,17 +30886,32 @@ let rec _js2n__-refsenv
                   - access_policies
                   - ftd_nat_policies
                   - ips_policies
-                  - prefilter_policies
                   - file_policies
+                  - prefilter_policies
+                  - network_analysis_policies
+                  - syslog_alerts
                 "%
                 | optional,
               name | String | doc "Name (String)",
+              smart_license
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 255
+                    ])
+                | doc m%"
+                  Smart License (String)
+                  - Maximum length: 255
+                "%
+                | optional,
             }
             | doc m%"
               Fmc (Object)
               
               Elements:
               - domains
+              - smart_license
               - name (required)
             "%
             | optional,
@@ -31166,7 +31375,13 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.isType '"String",
                                     _js2n__-prdslib.enum
-                                      [ "BASE", "THREAT", "MALWARE" ]
+                                      [
+                                        "BASE",
+                                        "THREAT",
+                                        "MALWARE",
+                                        "ESSENTIALS",
+                                        "IPS"
+                                      ]
                                   ])
                             ])
                         | doc "Licenses (List - String)"
@@ -31295,8 +31510,18 @@ let rec _js2n__-refsenv
                               "%
                               | optional,
                             mtu
-                              | std.number.Integer
-                              | doc "MTU (Integer)"
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.numbers.maximum 9000,
+                                    _js2n__-prdslib.numbers.minimum 64
+                                  ])
+                              | doc m%"
+                                MTU (Integer)
+                                - Minimum value: 64
+                                - Maximum value: 9000
+                              "%
                               | optional,
                             name
                               | _js2n__-prdslib.contract_from_predicate
@@ -31314,15 +31539,24 @@ let rec _js2n__-refsenv
                             subinterfaces
                               | Array
                                 {
-                                  enable_ipv6
-                                    | Bool
-                                    | doc "Enable IPv6 (Boolean)"
-                                    | optional,
                                   enabled
                                     | Bool
                                     | doc "Enabled (Boolean)"
                                     | optional,
-                                  id | std.number.Integer | doc "ID (Integer)",
+                                  id
+                                    | _js2n__-prdslib.contract_from_predicate
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.maximum
+                                            4294967295,
+                                          _js2n__-prdslib.numbers.minimum 1
+                                        ])
+                                    | doc m%"
+                                      ID (Integer)
+                                      - Minimum value: 1
+                                      - Maximum value: 4294967295
+                                    "%,
                                   ipv4_dhcp
                                     | Bool
                                     | doc "Ipv4 DHCP (Boolean)"
@@ -31359,9 +31593,10 @@ let rec _js2n__-refsenv
                                       - Maximum value: 31
                                     "%
                                     | optional,
-                                  ipv6
+                                  ipv6 | Bool | doc "IPv6 (Boolean)" | optional,
+                                  ipv6_address
                                     | String
-                                    | doc "IPv6 (String)"
+                                    | doc "IPv6 Address (String)"
                                     | optional,
                                   ipv6_enforce_eui
                                     | String
@@ -31379,7 +31614,20 @@ let rec _js2n__-refsenv
                                     | String
                                     | doc "Mode (String)"
                                     | optional,
-                                  mtu | String | doc "MTU (String)" | optional,
+                                  mtu
+                                    | _js2n__-prdslib.contract_from_predicate
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.maximum 9000,
+                                          _js2n__-prdslib.numbers.minimum 64
+                                        ])
+                                    | doc m%"
+                                      MTU (Integer)
+                                      - Minimum value: 64
+                                      - Maximum value: 9000
+                                    "%
+                                    | optional,
                                   name
                                     | _js2n__-prdslib.contract_from_predicate
                                       (_js2n__-prdslib.allOf
@@ -31390,16 +31638,34 @@ let rec _js2n__-refsenv
                                         ])
                                     | doc "Name (String)",
                                   "priority"
-                                    | String
-                                    | doc "Priority (String)"
+                                    | _js2n__-prdslib.contract_from_predicate
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.maximum 65535
+                                        ])
+                                    | doc m%"
+                                      Priority (Integer)
+                                      - Maximum value: 65535
+                                    "%
                                     | optional,
                                   security_zone
                                     | String
                                     | doc "Security Zone (String)"
                                     | optional,
                                   vlan
-                                    | std.number.Integer
-                                    | doc "Vlan (Integer)",
+                                    | _js2n__-prdslib.contract_from_predicate
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.maximum 4094,
+                                          _js2n__-prdslib.numbers.minimum 1
+                                        ])
+                                    | doc m%"
+                                      Vlan (Integer)
+                                      - Minimum value: 1
+                                      - Maximum value: 4094
+                                    "%,
                                 }
                               | doc m%"
                                 Subinterfaces (List - Object)
@@ -31408,13 +31674,13 @@ let rec _js2n__-refsenv
                                 - name (required)
                                 - id (required)
                                 - vlan (required)
-                                - enable_ipv6
                                 - enabled
                                 - ipv4_dhcp
                                 - ipv4_dhcp_route_metric
                                 - ipv4_static_address
                                 - ipv4_static_netmask
                                 - ipv6
+                                - ipv6_address
                                 - ipv6_enforce_eui
                                 - ipv6_prefix
                                 - management_only
@@ -31422,6 +31688,42 @@ let rec _js2n__-refsenv
                                 - mtu
                                 - priority
                                 - security_zone
+                              "%
+                              | optional,
+                            vteps
+                              | Array
+                                {
+                                  encapsulation_port
+                                    | _js2n__-prdslib.contract_from_predicate
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.maximum 65535,
+                                          _js2n__-prdslib.numbers.minimum 1024
+                                        ])
+                                    | doc m%"
+                                      Encapsulation Port (Integer)
+                                      - Minimum value: 1024
+                                      - Maximum value: 65535
+                                    "%,
+                                  encapsulation_type
+                                    | std.enum.TagOrString
+                                    | [| 'VXLAN, 'GENEVE |]
+                                    | doc m%"
+                                      Encapsulation Type (String)
+                                      - Allowed values: GENEVE, VXLAN
+                                    "%,
+                                  nve_enabled
+                                    | Bool
+                                    | doc "Nve Enabled (Boolean)",
+                                }
+                              | doc m%"
+                                Vteps (List - Object)
+                                
+                                Elements:
+                                - nve_enabled (required)
+                                - encapsulation_port (required)
+                                - encapsulation_type (required)
                               "%
                               | optional,
                           }
@@ -31445,11 +31747,156 @@ let rec _js2n__-refsenv
                           - ipv6_prefix
                           - ipv6_enforce_eui64
                           - subinterfaces
+                          - vteps
                         "%
                         | optional,
                       registration_key
                         | String
                         | doc "Registration Key (String)"
+                        | optional,
+                      vnis
+                        | Array
+                          {
+                            description
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.maxLength 255
+                                  ])
+                              | doc m%"
+                                Description (String)
+                                - Default value: VNI Interface
+                                - Maximum length: 255
+                              "%
+                              | optional,
+                            enabed | Bool | doc "Enabed (Boolean)" | optional,
+                            ipv4_dhcp
+                              | Bool
+                              | doc "Ipv4 DHCP (Boolean)"
+                              | optional,
+                            ipv4_dhcp_default_route
+                              | Bool
+                              | doc "Ipv4 DHCP Default Route (Boolean)"
+                              | optional,
+                            ipv4_dhcp_route_metric
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.numbers.maximum 255,
+                                    _js2n__-prdslib.numbers.minimum 1
+                                  ])
+                              | doc m%"
+                                Ipv4 DHCP Route Metric (Integer)
+                                - Minimum value: 1
+                                - Maximum value: 255
+                              "%
+                              | optional,
+                            ipv4_static_address
+                              | String
+                              | doc m%"
+                                Ipv4 Static Address (String)
+                                - IPv4 or IPv6 address
+                              "%
+                              | optional,
+                            ipv4_static_netmask
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.numbers.maximum 31,
+                                    _js2n__-prdslib.numbers.minimum 1
+                                  ])
+                              | doc m%"
+                                Ipv4 Static Netmask (Integer)
+                                - Minimum value: 1
+                                - Maximum value: 31
+                              "%
+                              | optional,
+                            multicast_group_address
+                              | String
+                              | doc m%"
+                                Multicast Group Address (String)
+                                - IPv4 or IPv6 address
+                              "%
+                              | optional,
+                            name
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.pattern
+                                      "^[a-zA-Z0-9_.+-]{1,64}$"
+                                  ])
+                              | doc "Name (String)",
+                            "priority"
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.numbers.maximum 65535
+                                  ])
+                              | doc m%"
+                                Priority (Integer)
+                                - Maximum value: 65535
+                              "%
+                              | optional,
+                            security_zone
+                              | String
+                              | doc "Security Zone (String)"
+                              | optional,
+                            vne_to_vtep_mapping
+                              | Bool
+                              | doc "Vne To Vtep Mapping (Boolean)"
+                              | optional,
+                            vni_id
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.numbers.maximum 10000,
+                                    _js2n__-prdslib.numbers.minimum 1
+                                  ])
+                              | doc m%"
+                                Vni ID (Integer)
+                                - Minimum value: 1
+                                - Maximum value: 10000
+                              "%,
+                            vni_segment_id
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.numbers.maximum 16777215,
+                                    _js2n__-prdslib.numbers.minimum 1
+                                  ])
+                              | doc m%"
+                                Vni Segment ID (Integer)
+                                - Minimum value: 1
+                                - Maximum value: 16777215
+                              "%
+                              | optional,
+                          }
+                        | doc m%"
+                          Vnis (List - Object)
+                          
+                          Elements:
+                          - name (required)
+                          - enabed
+                          - vni_id (required)
+                          - description
+                          - security_zone
+                          - priority
+                          - vni_segment_id
+                          - multicast_group_address
+                          - vne_to_vtep_mapping
+                          - ipv4_static_address
+                          - ipv4_static_netmask
+                          - ipv4_dhcp
+                          - ipv4_dhcp_route_metric
+                          - ipv4_dhcp_default_route
+                        "%
                         | optional,
                     }
                   | doc m%"
@@ -31469,6 +31916,7 @@ let rec _js2n__-refsenv
                     - deploy
                     - deploy_ignore_warning
                     - deploy_force
+                    - vnis
                   "%
                   | optional,
                 ftd_nat_policies
@@ -31899,6 +32347,62 @@ let rec _js2n__-refsenv
                   "%
                   | optional,
                 name | String | doc "Name (String)",
+                network_analysis_policies
+                  | Array
+                    {
+                      base_policy
+                        | std.enum.TagOrString
+                        | [|
+                          '"Security Over Connectivity",
+                          '"Maximum Detection",
+                          '"Connectivity Over Security",
+                          '"Balanced Security and Connectivity"
+                        |]
+                        | doc m%"
+                          Base Policy (String)
+                          - Allowed values: Balanced Security and Connectivity, Connectivity Over Security, Maximum Detection, Security Over Connectivity
+                        "%,
+                      description
+                        | _js2n__-prdslib.contract_from_predicate
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.maxLength 255
+                            ])
+                        | doc m%"
+                          Description (String)
+                          - Maximum length: 255
+                        "%
+                        | optional,
+                      name
+                        | _js2n__-prdslib.contract_from_predicate
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^[a-zA-Z0-9_.+ -]{1,64}$"
+                            ])
+                        | doc "Name (String)",
+                      snort_engine
+                        | std.enum.TagOrString
+                        | [| 'SNORT3, 'SNORT2 |]
+                        | doc m%"
+                          Snort Engine (String)
+                          - Default value: SNORT2
+                          - Allowed values: SNORT2, SNORT3
+                        "%
+                        | optional,
+                    }
+                  | doc m%"
+                    Network Analysis Policies (List - Object)
+                    
+                    Elements:
+                    - name (required)
+                    - base_policy (required)
+                    - description
+                    - snort_engine
+                  "%
+                  | optional,
                 objects
                   | {
                     dynamic_objects
@@ -31941,6 +32445,187 @@ let rec _js2n__-refsenv
                         - name (required)
                         - type
                         - description
+                      "%
+                      | optional,
+                    extended_access_lists
+                      | Array
+                        {
+                          entries
+                            | Array
+                              {
+                                action
+                                  | std.enum.TagOrString
+                                  | [| 'PERMIT, 'DENY |]
+                                  | doc m%"
+                                    Action (String)
+                                    - Allowed values: DENY, PERMIT
+                                  "%,
+                                destination_network_literals
+                                  | Array (String)
+                                  | doc "Destination Network Literals (List - String)"
+                                  | optional,
+                                destination_network_objects
+                                  | Array (String)
+                                  | doc "Destination Network Objects (List - String)"
+                                  | optional,
+                                destination_port_literals
+                                  | Array
+                                    {
+                                      port
+                                        | _js2n__-prdslib.contract_from_predicate
+                                          (_js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                65535,
+                                              _js2n__-prdslib.numbers.minimum 1
+                                            ])
+                                        | doc m%"
+                                          Port (Integer)
+                                          - Minimum value: 1
+                                          - Maximum value: 65535
+                                        "%,
+                                      protocol
+                                        | std.enum.TagOrString
+                                        | [| 'UDP, 'TCP |]
+                                        | doc m%"
+                                          Protocol (String)
+                                          - Allowed values: TCP, UDP
+                                        "%,
+                                    }
+                                  | doc m%"
+                                    Destination Port Literals (List - Object)
+                                    
+                                    Elements:
+                                    - port (required)
+                                    - protocol (required)
+                                  "%
+                                  | optional,
+                                destination_port_objects
+                                  | Array (String)
+                                  | doc "Destination Port Objects (List - String)"
+                                  | optional,
+                                source_network_literal_values
+                                  | Array (String)
+                                  | doc "Source Network Literal Values (List - String)"
+                                  | optional,
+                                source_network_objects
+                                  | Array (String)
+                                  | doc "Source Network Objects (List - String)"
+                                  | optional,
+                                source_port_literals
+                                  | Array
+                                    {
+                                      port
+                                        | _js2n__-prdslib.contract_from_predicate
+                                          (_js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum
+                                                65535,
+                                              _js2n__-prdslib.numbers.minimum 1
+                                            ])
+                                        | doc m%"
+                                          Port (Integer)
+                                          - Minimum value: 1
+                                          - Maximum value: 65535
+                                        "%,
+                                      protocol
+                                        | std.enum.TagOrString
+                                        | [| 'UDP, 'TCP |]
+                                        | doc m%"
+                                          Protocol (String)
+                                          - Allowed values: TCP, UDP
+                                        "%,
+                                    }
+                                  | doc m%"
+                                    Source Port Literals (List - Object)
+                                    
+                                    Elements:
+                                    - port (required)
+                                    - protocol (required)
+                                  "%
+                                  | optional,
+                                source_port_objects
+                                  | Array (String)
+                                  | doc "Source Port Objects (List - String)"
+                                  | optional,
+                              }
+                            | doc m%"
+                              Entries (List - Object)
+                              
+                              Elements:
+                              - action (required)
+                              - destination_network_literals
+                              - destination_network_objects
+                              - destination_port_literals
+                              - destination_port_objects
+                              - source_network_literal_values
+                              - source_network_objects
+                              - source_port_literals
+                              - source_port_objects
+                            "%
+                            | optional,
+                          log_interval
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.numbers.maximum 600,
+                                  _js2n__-prdslib.numbers.minimum 1
+                                ])
+                            | doc m%"
+                              Log Interval (Integer)
+                              - Default value: 300
+                              - Minimum value: 1
+                              - Maximum value: 600
+                            "%
+                            | optional,
+                          log_level
+                            | std.enum.TagOrString
+                            | [|
+                              'WARNING,
+                              'NOTICE,
+                              'INFORMATIONAL,
+                              'ERR,
+                              'EMERG,
+                              'DEBUG,
+                              'CRIT,
+                              'ALERT
+                            |]
+                            | doc m%"
+                              Log Level (String)
+                              - Default value: INFORMATIONAL
+                              - Allowed values: ALERT, CRIT, DEBUG, EMERG, ERR, INFORMATIONAL, NOTICE, WARNING
+                            "%
+                            | optional,
+                          logging
+                            | std.enum.TagOrString
+                            | [| 'DISABLED, 'DEFAULT, 'PER_ACCESS_LIST_ENTRY |]
+                            | doc m%"
+                              Logging (String)
+                              - Default value: DISABLED
+                              - Allowed values: PER_ACCESS_LIST_ENTRY, DEFAULT, DISABLED
+                            "%,
+                          name
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^[a-zA-Z0-9_.+-]{1,64}$"
+                                ])
+                            | doc "Name (String)",
+                        }
+                      | doc m%"
+                        Extended Access Lists (List - Object)
+                        
+                        Elements:
+                        - name (required)
+                        - logging (required)
+                        - log_level
+                        - log_interval
+                        - entries
                       "%
                       | optional,
                     fqdns
@@ -32259,6 +32944,268 @@ let rec _js2n__-refsenv
                         - interface_type
                       "%
                       | optional,
+                    sgts
+                      | Array
+                        {
+                          description
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.maxLength 255
+                                ])
+                            | doc m%"
+                              Description (String)
+                              - Maximum length: 255
+                            "%
+                            | optional,
+                          name
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^[a-zA-Z0-9_.+-]{1,64}$"
+                                ])
+                            | doc "Name (String)",
+                          tag
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.numbers.maximum 65534
+                                ])
+                            | doc m%"
+                              Tag (Integer)
+                              - Maximum value: 65534
+                            "%
+                            | optional,
+                        }
+                      | doc m%"
+                        SGTs (List - Object)
+                        
+                        Elements:
+                        - name (required)
+                        - tag
+                        - description
+                      "%
+                      | optional,
+                    standard_access_lists
+                      | Array
+                        {
+                          entries
+                            | Array
+                              {
+                                action
+                                  | std.enum.TagOrString
+                                  | [| 'PERMIT, 'DENY |]
+                                  | doc m%"
+                                    Action (String)
+                                    - Allowed values: DENY, PERMIT
+                                  "%,
+                                literals
+                                  | Array (String)
+                                  | doc "Literals (List - String)"
+                                  | optional,
+                                objects
+                                  | Array (String)
+                                  | doc "Objects (List - String)"
+                                  | optional,
+                              }
+                            | doc m%"
+                              Entries (List - Object)
+                              
+                              Elements:
+                              - action (required)
+                              - objects
+                              - literals
+                            "%
+                            | optional,
+                          name
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^[a-zA-Z0-9_.+-]{1,64}$"
+                                ])
+                            | doc "Name (String)",
+                        }
+                      | doc m%"
+                        Standard Access Lists (List - Object)
+                        
+                        Elements:
+                        - name (required)
+                        - entries
+                      "%
+                      | optional,
+                    time_ranges
+                      | Array
+                        {
+                          description
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.maxLength 255
+                                ])
+                            | doc m%"
+                              Description (String)
+                              - Maximum length: 255
+                            "%
+                            | optional,
+                          effective_end_date
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^\\d{4}-\\d{2}-\\d{2}T([01]?[0-9]|2[0-4]):([0-5][0-9])$"
+                                ])
+                            | doc "Effective End Date (String)",
+                          effective_start_date
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^\\d{4}-\\d{2}-\\d{2}T([01]?[0-9]|2[0-4]):([0-5][0-9])$"
+                                ])
+                            | doc "Effective Start Date (String)",
+                          name | String | doc "Name (String)",
+                          recurrences
+                            | Array
+                              {
+                                daily_end_time
+                                  | _js2n__-prdslib.contract_from_predicate
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^([01]?[0-9]|2[0-4]):([0-5][0-9])$"
+                                      ])
+                                  | doc "Daily End Time (String)"
+                                  | optional,
+                                daily_start_time
+                                  | _js2n__-prdslib.contract_from_predicate
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^([01]?[0-9]|2[0-4]):([0-5][0-9])$"
+                                      ])
+                                  | doc "Daily Start Time (String)"
+                                  | optional,
+                                days
+                                  | _js2n__-prdslib.contract_from_predicate
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          (_js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [
+                                                  "MON",
+                                                  "TUE",
+                                                  "WED",
+                                                  "THU",
+                                                  "FRI",
+                                                  "SAT",
+                                                  "SUN"
+                                                ]
+                                            ])
+                                      ])
+                                  | doc "Days (List - String)"
+                                  | optional,
+                                end_day
+                                  | std.enum.TagOrString
+                                  | [|
+                                    'SUN,
+                                    'SAT,
+                                    'FRI,
+                                    'THU,
+                                    'WED,
+                                    'TUE,
+                                    'MON
+                                  |]
+                                  | doc m%"
+                                    End Day (String)
+                                    - Allowed values: MON, TUE, WED, THU, FRI, SAT, SUN
+                                  "%
+                                  | optional,
+                                end_time
+                                  | _js2n__-prdslib.contract_from_predicate
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^([01]?[0-9]|2[0-4]):([0-5][0-9])$"
+                                      ])
+                                  | doc "End Time (String)"
+                                  | optional,
+                                recurrence_type
+                                  | std.enum.TagOrString
+                                  | [| 'RANGE, 'DAILY_INTERVAL |]
+                                  | doc m%"
+                                    Recurrence Type (String)
+                                    - Allowed values: DAILY_INTERVAL, RANGE
+                                  "%
+                                  | optional,
+                                start_day
+                                  | std.enum.TagOrString
+                                  | [|
+                                    'SUN,
+                                    'SAT,
+                                    'FRI,
+                                    'THU,
+                                    'WED,
+                                    'TUE,
+                                    'MON
+                                  |]
+                                  | doc m%"
+                                    Start Day (String)
+                                    - Allowed values: MON, TUE, WED, THU, FRI, SAT, SUN
+                                  "%
+                                  | optional,
+                                start_time
+                                  | _js2n__-prdslib.contract_from_predicate
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^([01]?[0-9]|2[0-4]):([0-5][0-9])$"
+                                      ])
+                                  | doc "Start Time (String)"
+                                  | optional,
+                              }
+                            | doc m%"
+                              Recurrences (List - Object)
+                              
+                              Elements:
+                              - recurrence_type
+                              - daily_end_time
+                              - daily_start_time
+                              - days
+                              - end_day
+                              - end_time
+                              - start_day
+                              - start_time
+                            "%
+                            | optional,
+                        }
+                      | doc m%"
+                        Time Ranges (List - Object)
+                        
+                        Elements:
+                        - name (required)
+                        - description
+                        - effective_start_date (required)
+                        - effective_end_date (required)
+                        - recurrences
+                      "%
+                      | optional,
                     url_groups
                       | Array
                         {
@@ -32351,8 +33298,12 @@ let rec _js2n__-refsenv
                     - ports
                     - icmp_v4s
                     - fqdns
+                    - time_ranges
                     - dynamic_objects
+                    - sgts
                     - security_zones
+                    - standard_access_lists
+                    - extended_access_lists
                   "%
                   | optional,
                 prefilter_policies
@@ -32368,8 +33319,16 @@ let rec _js2n__-refsenv
                         "%
                         | optional,
                       description
-                        | String
-                        | doc "Description (String)"
+                        | _js2n__-prdslib.contract_from_predicate
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.maxLength 255
+                            ])
+                        | doc m%"
+                          Description (String)
+                          - Maximum length: 255
+                        "%
                         | optional,
                       log_begin | Bool | doc "Log Begin (Boolean)" | optional,
                       name
@@ -32410,6 +33369,7 @@ let rec _js2n__-refsenv
               - ftd_nat_policies
               - ips_policies
               - prefilter_policies
+              - network_analysis_policies
             "%
             | optional,
           name | String | doc "Name (String)",
@@ -65795,6 +66755,1189 @@ let rec _js2n__-refsenv
                         - motd_variable
                       "%
                       | optional,
+                    basic
+                      | {
+                        admin_tech_on_failure
+                          | Bool
+                          | doc "Admin Tech On Failure (Boolean)"
+                          | optional,
+                        admin_tech_on_failure_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Admin Tech On Failure Variable (String)"
+                          | optional,
+                        affinity_group_number
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 63,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Affinity Group Number (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 63
+                          "%
+                          | optional,
+                        affinity_group_number_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Affinity Group Number Variable (String)"
+                          | optional,
+                        affinity_group_preferences
+                          | Array (
+                            _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.numbers.maximum 63,
+                                  _js2n__-prdslib.numbers.minimum 1
+                                ])
+                          )
+                          | doc "Affinity Group Preferences (List - Integer)"
+                          | optional,
+                        affinity_group_preferences_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Affinity Group Preferences Variable (String)"
+                          | optional,
+                        affinity_per_vrfs
+                          | Array
+                            {
+                              affinity_group_number
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 63,
+                                      _js2n__-prdslib.numbers.minimum 1
+                                    ])
+                                | doc m%"
+                                  Affinity Group Number (Integer)
+                                  - Minimum value: 1
+                                  - Maximum value: 63
+                                "%
+                                | optional,
+                              affinity_group_number_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Affinity Group Number Variable (String)"
+                                | optional,
+                              vrf_range
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^\\d+|\\d+-\\d+$"
+                                    ])
+                                | doc "VRF Range (String)"
+                                | optional,
+                              vrf_range_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "VRF Range Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Affinity Per VRFs (List - Object)
+                            
+                            Elements:
+                            - affinity_group_number
+                            - affinity_group_number_variable
+                            - vrf_range
+                            - vrf_range_variable
+                          "%
+                          | optional,
+                        affinity_preference_auto
+                          | Bool
+                          | doc "Affinity Preference Auto (Boolean)"
+                          | optional,
+                        affinity_preference_auto_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Affinity Preference Auto Variable (String)"
+                          | optional,
+                        console_baud_rate
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.enum
+                                  [
+                                    1200,
+                                    2400,
+                                    4800,
+                                    9600,
+                                    19200,
+                                    38400,
+                                    57600,
+                                    115200
+                                  ]
+                              ])
+                          | doc m%"
+                            Console Baud Rate (Integer)
+                            - Allowed values: 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200
+                          "%
+                          | optional,
+                        console_baud_rate_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Console Baud Rate Variable (String)"
+                          | optional,
+                        control_session_pps
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 65535,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Control Session PPS (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 65535
+                          "%
+                          | optional,
+                        control_session_pps_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Control Session PPS Variable (String)"
+                          | optional,
+                        controller_groups
+                          | Array (
+                            _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.numbers.maximum 100,
+                                  _js2n__-prdslib.numbers.minimum 1
+                                ])
+                          )
+                          | doc "Controller Groups (List - Integer)"
+                          | optional,
+                        controller_groups_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Controller Groups Variable (String)"
+                          | optional,
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        device_groups
+                          | Array (String)
+                          | doc "Device Groups (List - String)"
+                          | optional,
+                        device_groups_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Device Groups Variable (String)"
+                          | optional,
+                        enhanced_app_aware_routing
+                          | std.enum.TagOrString
+                          | [|
+                            'conservative,
+                            'moderate,
+                            'aggressive,
+                            'disabled
+                          |]
+                          | doc m%"
+                            Enhanced App Aware Routing (String)
+                            - Allowed values: disabled, aggressive, moderate, conservative
+                          "%
+                          | optional,
+                        enhanced_app_aware_routing_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Enhanced App Aware Routing Variable (String)"
+                          | optional,
+                        geo_fencing_enable
+                          | Bool
+                          | doc "Geo Fencing Enable (Boolean)"
+                          | optional,
+                        geo_fencing_range
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 10000,
+                                _js2n__-prdslib.numbers.minimum 100
+                              ])
+                          | doc m%"
+                            Geo Fencing Range (Integer)
+                            - Minimum value: 100
+                            - Maximum value: 10000
+                          "%
+                          | optional,
+                        geo_fencing_range_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Geo Fencing Range Variable (String)"
+                          | optional,
+                        geo_fencing_sms_enable
+                          | Bool
+                          | doc "Geo Fencing Sms Enable (Boolean)"
+                          | optional,
+                        geo_fencing_sms_mobile_numbers
+                          | Array
+                            {
+                              number
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "[+]?[0-9]{7,20}"
+                                    ])
+                                | doc "Number (String)"
+                                | optional,
+                              number_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Number Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Geo Fencing Sms Mobile Numbers (List - Object)
+                            
+                            Elements:
+                            - number
+                            - number_variable
+                          "%
+                          | optional,
+                        idle_timeout
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 300
+                              ])
+                          | doc m%"
+                            Idle Timeout (Integer)
+                            - Maximum value: 300
+                          "%
+                          | optional,
+                        idle_timeout_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Idle Timeout Variable (String)"
+                          | optional,
+                        latitude
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Number",
+                                _js2n__-prdslib.numbers.maximum 90,
+                                _js2n__-prdslib.numbers.minimum (-90)
+                              ])
+                          | doc m%"
+                            Latitude (Number)
+                            - Minimum value: -90
+                            - Maximum value: 90
+                          "%
+                          | optional,
+                        latitude_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Latitude Variable (String)"
+                          | optional,
+                        location
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.maxLength 128,
+                                _js2n__-prdslib.strings.minLength 1
+                              ])
+                          | doc m%"
+                            Location (String)
+                            - Minimum length: 1
+                            - Maximum length: 128
+                          "%
+                          | optional,
+                        location_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Location Variable (String)"
+                          | optional,
+                        longitude
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Number",
+                                _js2n__-prdslib.numbers.maximum 180,
+                                _js2n__-prdslib.numbers.minimum (-180)
+                              ])
+                          | doc m%"
+                            Longitude (Number)
+                            - Minimum value: -180
+                            - Maximum value: 180
+                          "%
+                          | optional,
+                        longitude_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Longitude Variable (String)"
+                          | optional,
+                        max_omp_sessions
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 100,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Max Omp Sessions (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 100
+                          "%
+                          | optional,
+                        max_omp_sessions_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Max Omp Sessions Variable (String)"
+                          | optional,
+                        multitenant
+                          | Bool
+                          | doc "Multitenant (Boolean)"
+                          | optional,
+                        multitenant_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Multitenant Variable (String)"
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)",
+                        on_demand_tunnel
+                          | Bool
+                          | doc "On Demand Tunnel (Boolean)"
+                          | optional,
+                        on_demand_tunnel_idle_timeout
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 65535,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            On Demand Tunnel Idle Timeout (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 65535
+                          "%
+                          | optional,
+                        on_demand_tunnel_idle_timeout_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "On Demand Tunnel Idle Timeout Variable (String)"
+                          | optional,
+                        on_demand_tunnel_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "On Demand Tunnel Variable (String)"
+                          | optional,
+                        overlay_id
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 4294967295,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Overlay ID (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 4294967295
+                          "%
+                          | optional,
+                        overlay_id_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Overlay ID Variable (String)"
+                          | optional,
+                        port_hopping
+                          | Bool
+                          | doc "Port Hopping (Boolean)"
+                          | optional,
+                        port_hopping_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Port Hopping Variable (String)"
+                          | optional,
+                        port_offset
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 19
+                              ])
+                          | doc m%"
+                            Port Offset (Integer)
+                            - Maximum value: 19
+                          "%
+                          | optional,
+                        port_offset_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Port Offset Variable (String)"
+                          | optional,
+                        site_types
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "type-1",
+                                          "type-2",
+                                          "type-3",
+                                          "cloud",
+                                          "branch",
+                                          "br",
+                                          "spoke"
+                                        ]
+                                    ])
+                              ])
+                          | doc "Site Types (List - String)"
+                          | optional,
+                        site_types_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Site Types Variable (String)"
+                          | optional,
+                        system_description
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.maxLength 32,
+                                _js2n__-prdslib.strings.minLength 1
+                              ])
+                          | doc m%"
+                            System Description (String)
+                            - Minimum length: 1
+                            - Maximum length: 32
+                          "%
+                          | optional,
+                        system_description_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "System Description Variable (String)"
+                          | optional,
+                        timezone
+                          | std.enum.TagOrString
+                          | [|
+                            'UTC,
+                            '"Africa/Harare",
+                            '"Africa/Lusaka",
+                            '"Africa/Johannesburg",
+                            '"Indian/Mayotte",
+                            '"Asia/Aden",
+                            '"Pacific/Apia",
+                            '"Pacific/Wallis",
+                            '"Pacific/Efate",
+                            '"Asia/Ho_Chi_Minh",
+                            '"America/St_Thomas",
+                            '"America/Tortola",
+                            '"America/Caracas",
+                            '"America/St_Vincent",
+                            '"Europe/Vatican",
+                            '"Asia/Tashkent",
+                            '"Asia/Samarkand",
+                            '"America/Montevideo",
+                            '"Pacific/Honolulu",
+                            '"America/Metlakatla",
+                            '"America/Adak",
+                            '"America/Nome",
+                            '"America/Yakutat",
+                            '"America/Sitka",
+                            '"America/Juneau",
+                            '"America/Anchorage",
+                            '"America/Los_Angeles",
+                            '"America/Phoenix",
+                            '"America/Boise",
+                            '"America/Denver",
+                            '"America/North_Dakota/Beulah",
+                            '"America/North_Dakota/New_Salem",
+                            '"America/North_Dakota/Center",
+                            '"America/Menominee",
+                            '"America/Indiana/Knox",
+                            '"America/Indiana/Tell_City",
+                            '"America/Chicago",
+                            '"America/Indiana/Vevay",
+                            '"America/Indiana/Petersburg",
+                            '"America/Indiana/Marengo",
+                            '"America/Indiana/Winamac",
+                            '"America/Indiana/Vincennes",
+                            '"America/Indiana/Indianapolis",
+                            '"America/Kentucky/Monticello",
+                            '"America/Kentucky/Louisville",
+                            '"America/Detroit",
+                            '"America/New_York",
+                            '"Pacific/Wake",
+                            '"Pacific/Midway",
+                            '"Pacific/Johnston",
+                            '"Africa/Kampala",
+                            '"Europe/Simferopol",
+                            '"Europe/Zaporozhye",
+                            '"Europe/Uzhgorod",
+                            '"Europe/Kiev",
+                            '"Africa/Dar_es_Salaam",
+                            '"Asia/Taipei",
+                            '"Pacific/Funafuti",
+                            '"America/Port_of_Spain",
+                            '"Europe/Istanbul",
+                            '"Pacific/Tongatapu",
+                            '"Africa/Tunis",
+                            '"Asia/Ashgabat",
+                            '"Asia/Dili",
+                            '"Pacific/Fakaofo",
+                            '"Asia/Dushanbe",
+                            '"Asia/Bangkok",
+                            '"Africa/Lome",
+                            '"Indian/Kerguelen",
+                            '"Africa/Ndjamena",
+                            '"America/Grand_Turk",
+                            '"Africa/Mbabane",
+                            '"Asia/Damascus",
+                            '"America/Lower_Princes",
+                            '"America/El_Salvador",
+                            '"Africa/Sao_Tome",
+                            '"Africa/Juba",
+                            '"America/Paramaribo",
+                            '"Africa/Mogadishu",
+                            '"Africa/Dakar",
+                            '"Europe/San_Marino",
+                            '"Africa/Freetown",
+                            '"Europe/Bratislava",
+                            '"Arctic/Longyearbyen",
+                            '"Europe/Ljubljana",
+                            '"Atlantic/St_Helena",
+                            '"Asia/Singapore",
+                            '"Europe/Stockholm",
+                            '"Africa/Khartoum",
+                            '"Indian/Mahe",
+                            '"Pacific/Guadalcanal",
+                            '"Asia/Riyadh",
+                            '"Africa/Kigali",
+                            '"Asia/Anadyr",
+                            '"Asia/Kamchatka",
+                            '"Asia/Magadan",
+                            '"Asia/Ust-Nera",
+                            '"Asia/Sakhalin",
+                            '"Asia/Vladivostok",
+                            '"Asia/Khandyga",
+                            '"Asia/Yakutsk",
+                            '"Asia/Irkutsk",
+                            '"Asia/Krasnoyarsk",
+                            '"Asia/Novokuznetsk",
+                            '"Asia/Novosibirsk",
+                            '"Asia/Omsk",
+                            '"Asia/Yekaterinburg",
+                            '"Europe/Samara",
+                            '"Europe/Volgograd",
+                            '"Europe/Moscow",
+                            '"Europe/Kaliningrad",
+                            '"Europe/Belgrade",
+                            '"Europe/Bucharest",
+                            '"Indian/Reunion",
+                            '"Asia/Qatar",
+                            '"America/Asuncion",
+                            '"Pacific/Palau",
+                            '"Atlantic/Azores",
+                            '"Atlantic/Madeira",
+                            '"Europe/Lisbon",
+                            '"Asia/Hebron",
+                            '"Asia/Gaza",
+                            '"America/Puerto_Rico",
+                            '"Pacific/Pitcairn",
+                            '"America/Miquelon",
+                            '"Europe/Warsaw",
+                            '"Asia/Karachi",
+                            '"Asia/Manila",
+                            '"Pacific/Port_Moresby",
+                            '"Pacific/Gambier",
+                            '"Pacific/Marquesas",
+                            '"Pacific/Tahiti",
+                            '"America/Lima",
+                            '"America/Panama",
+                            '"Asia/Muscat",
+                            '"Pacific/Chatham",
+                            '"Pacific/Auckland",
+                            '"Pacific/Niue",
+                            '"Pacific/Nauru",
+                            '"Asia/Kathmandu",
+                            '"Europe/Oslo",
+                            '"Europe/Amsterdam",
+                            '"America/Managua",
+                            '"Africa/Lagos",
+                            '"Pacific/Norfolk",
+                            '"Africa/Niamey",
+                            '"Pacific/Noumea",
+                            '"Africa/Windhoek",
+                            '"Africa/Maputo",
+                            '"Asia/Kuching",
+                            '"Asia/Kuala_Lumpur",
+                            '"America/Bahia_Banderas",
+                            '"America/Santa_Isabel",
+                            '"America/Tijuana",
+                            '"America/Hermosillo",
+                            '"America/Ojinaga",
+                            '"America/Chihuahua",
+                            '"America/Mazatlan",
+                            '"America/Matamoros",
+                            '"America/Monterrey",
+                            '"America/Merida",
+                            '"America/Cancun",
+                            '"America/Mexico_City",
+                            '"Africa/Blantyre",
+                            '"Indian/Maldives",
+                            '"Indian/Mauritius",
+                            '"Europe/Malta",
+                            '"America/Montserrat",
+                            '"Africa/Nouakchott",
+                            '"America/Martinique",
+                            '"Pacific/Saipan",
+                            '"Asia/Macau",
+                            '"Asia/Choibalsan",
+                            '"Asia/Hovd",
+                            '"Asia/Ulaanbaatar",
+                            '"Asia/Rangoon",
+                            '"Africa/Bamako",
+                            '"Europe/Skopje",
+                            '"Pacific/Kwajalein",
+                            '"Pacific/Majuro",
+                            '"Indian/Antananarivo",
+                            '"America/Marigot",
+                            '"Europe/Podgorica",
+                            '"Europe/Chisinau",
+                            '"Europe/Monaco",
+                            '"Africa/Casablanca",
+                            '"Africa/Tripoli",
+                            '"Europe/Riga",
+                            '"Europe/Luxembourg",
+                            '"Europe/Vilnius",
+                            '"Africa/Maseru",
+                            '"Africa/Monrovia",
+                            '"Asia/Colombo",
+                            '"Europe/Vaduz",
+                            '"America/St_Lucia",
+                            '"Asia/Beirut",
+                            '"Asia/Vientiane",
+                            '"Asia/Oral",
+                            '"Asia/Aqtau",
+                            '"Asia/Aqtobe",
+                            '"Asia/Qyzylorda",
+                            '"Asia/Almaty",
+                            '"America/Cayman",
+                            '"Asia/Kuwait",
+                            '"Asia/Seoul",
+                            '"Asia/Pyongyang",
+                            '"America/St_Kitts",
+                            '"Indian/Comoro",
+                            '"Pacific/Kiritimati",
+                            '"Pacific/Enderbury",
+                            '"Pacific/Tarawa",
+                            '"Asia/Phnom_Penh",
+                            '"Asia/Bishkek",
+                            '"Africa/Nairobi",
+                            '"Asia/Tokyo",
+                            '"Asia/Amman",
+                            '"America/Jamaica",
+                            '"Europe/Jersey",
+                            '"Europe/Rome",
+                            '"Atlantic/Reykjavik",
+                            '"Asia/Tehran",
+                            '"Asia/Baghdad",
+                            '"Indian/Chagos",
+                            '"Asia/Kolkata",
+                            '"Europe/Isle_of_Man",
+                            '"Asia/Jerusalem",
+                            '"Europe/Dublin",
+                            '"Asia/Jayapura",
+                            '"Asia/Makassar",
+                            '"Asia/Pontianak",
+                            '"Asia/Jakarta",
+                            '"Europe/Budapest",
+                            '"America/Port-au-Prince",
+                            '"Europe/Zagreb",
+                            '"America/Tegucigalpa",
+                            '"Asia/Hong_Kong",
+                            '"America/Guyana",
+                            '"Africa/Bissau",
+                            '"Pacific/Guam",
+                            '"America/Guatemala",
+                            '"Atlantic/South_Georgia",
+                            '"Europe/Athens",
+                            '"Africa/Malabo",
+                            '"America/Guadeloupe",
+                            '"Africa/Conakry",
+                            '"Africa/Banjul",
+                            '"America/Thule",
+                            '"America/Scoresbysund",
+                            '"America/Danmarkshavn",
+                            '"America/Godthab",
+                            '"Europe/Gibraltar",
+                            '"Africa/Accra",
+                            '"Europe/Guernsey",
+                            '"America/Cayenne",
+                            '"Asia/Tbilisi",
+                            '"America/Grenada",
+                            '"Europe/London",
+                            '"Africa/Libreville",
+                            '"Europe/Paris",
+                            '"Atlantic/Faroe",
+                            '"Pacific/Kosrae",
+                            '"Pacific/Pohnpei",
+                            '"Pacific/Chuuk",
+                            '"Atlantic/Stanley",
+                            '"Pacific/Fiji",
+                            '"Europe/Helsinki",
+                            '"Africa/Addis_Ababa",
+                            '"Atlantic/Canary",
+                            '"Africa/Ceuta",
+                            '"Europe/Madrid",
+                            '"Africa/Asmara",
+                            '"Africa/El_Aaiun",
+                            '"Africa/Cairo",
+                            '"Europe/Tallinn",
+                            '"Pacific/Galapagos",
+                            '"America/Guayaquil",
+                            '"Africa/Algiers",
+                            '"America/Santo_Domingo",
+                            '"America/Dominica",
+                            '"Europe/Copenhagen",
+                            '"Africa/Djibouti",
+                            '"Europe/Busingen",
+                            '"Europe/Berlin",
+                            '"Europe/Prague",
+                            '"Asia/Nicosia",
+                            '"Indian/Christmas",
+                            '"America/Curacao",
+                            '"Atlantic/Cape_Verde",
+                            '"America/Havana",
+                            '"America/Costa_Rica",
+                            '"America/Bogota",
+                            '"Asia/Kashgar",
+                            '"Asia/Urumqi",
+                            '"Asia/Chongqing",
+                            '"Asia/Harbin",
+                            '"Asia/Shanghai",
+                            '"Africa/Douala",
+                            '"Pacific/Easter",
+                            '"America/Santiago",
+                            '"Pacific/Rarotonga",
+                            '"Africa/Abidjan",
+                            '"Europe/Zurich",
+                            '"Africa/Brazzaville",
+                            '"Africa/Bangui",
+                            '"Africa/Lubumbashi",
+                            '"Africa/Kinshasa",
+                            '"Indian/Cocos",
+                            '"America/Dawson",
+                            '"America/Whitehorse",
+                            '"America/Vancouver",
+                            '"America/Dawson_Creek",
+                            '"America/Creston",
+                            '"America/Inuvik",
+                            '"America/Yellowknife",
+                            '"America/Cambridge_Bay",
+                            '"America/Edmonton",
+                            '"America/Swift_Current",
+                            '"America/Regina",
+                            '"America/Rainy_River",
+                            '"America/Winnipeg",
+                            '"America/Rankin_Inlet",
+                            '"America/Atikokan",
+                            '"America/Resolute",
+                            '"America/Pangnirtung",
+                            '"America/Iqaluit",
+                            '"America/Thunder_Bay",
+                            '"America/Nipigon",
+                            '"America/Toronto",
+                            '"America/Blanc-Sablon",
+                            '"America/Goose_Bay",
+                            '"America/Moncton",
+                            '"America/Glace_Bay",
+                            '"America/Halifax",
+                            '"America/St_Johns",
+                            '"America/Belize",
+                            '"Europe/Minsk",
+                            '"Africa/Gaborone",
+                            '"Asia/Thimphu",
+                            '"America/Nassau",
+                            '"America/Rio_Branco",
+                            '"America/Eirunepe",
+                            '"America/Manaus",
+                            '"America/Boa_Vista",
+                            '"America/Porto_Velho",
+                            '"America/Santarem",
+                            '"America/Cuiaba",
+                            '"America/Campo_Grande",
+                            '"America/Sao_Paulo",
+                            '"America/Bahia",
+                            '"America/Maceio",
+                            '"America/Araguaina",
+                            '"America/Recife",
+                            '"America/Fortaleza",
+                            '"America/Belem",
+                            '"America/Noronha",
+                            '"America/Kralendijk",
+                            '"America/La_Paz",
+                            '"Asia/Brunei",
+                            '"Atlantic/Bermuda",
+                            '"America/St_Barthelemy",
+                            '"Africa/Porto-Novo",
+                            '"Africa/Bujumbura",
+                            '"Asia/Bahrain",
+                            '"Europe/Sofia",
+                            '"Africa/Ouagadougou",
+                            '"Europe/Brussels",
+                            '"Asia/Dhaka",
+                            '"America/Barbados",
+                            '"Europe/Sarajevo",
+                            '"Asia/Baku",
+                            '"Europe/Mariehamn",
+                            '"America/Aruba",
+                            '"Australia/Eucla",
+                            '"Australia/Perth",
+                            '"Australia/Darwin",
+                            '"Australia/Adelaide",
+                            '"Australia/Lindeman",
+                            '"Australia/Brisbane",
+                            '"Australia/Broken_Hill",
+                            '"Australia/Sydney",
+                            '"Australia/Melbourne",
+                            '"Australia/Currie",
+                            '"Australia/Hobart",
+                            '"Antarctica/Macquarie",
+                            '"Australia/Lord_Howe",
+                            '"Europe/Vienna",
+                            '"Pacific/Pago_Pago",
+                            '"America/Argentina/Ushuaia",
+                            '"America/Argentina/Rio_Gallegos",
+                            '"America/Argentina/San_Luis",
+                            '"America/Argentina/Mendoza",
+                            '"America/Argentina/San_Juan",
+                            '"America/Argentina/La_Rioja",
+                            '"America/Argentina/Catamarca",
+                            '"America/Argentina/Tucuman",
+                            '"America/Argentina/Jujuy",
+                            '"America/Argentina/Salta",
+                            '"America/Argentina/Cordoba",
+                            '"America/Argentina/Buenos_Aires",
+                            '"Antarctica/Syowa",
+                            '"Antarctica/DumontDUrville",
+                            '"Antarctica/Vostok",
+                            '"Antarctica/Casey",
+                            '"Antarctica/Davis",
+                            '"Antarctica/Mawson",
+                            '"Antarctica/Palmer",
+                            '"Antarctica/Rothera",
+                            '"Antarctica/McMurdo",
+                            '"Africa/Luanda",
+                            '"Asia/Yerevan",
+                            '"Europe/Tirane",
+                            '"America/Anguilla",
+                            '"America/Antigua",
+                            '"Asia/Kabul",
+                            '"Asia/Dubai",
+                            '"Eursope/Andorra"
+                          |]
+                          | doc m%"
+                            Timezone (String)
+                            - Allowed values: Eursope/Andorra, Asia/Dubai, Asia/Kabul, America/Antigua, America/Anguilla, Europe/Tirane, Asia/Yerevan, Africa/Luanda, Antarctica/McMurdo, Antarctica/Rothera, Antarctica/Palmer, Antarctica/Mawson, Antarctica/Davis, Antarctica/Casey, Antarctica/Vostok, Antarctica/DumontDUrville, Antarctica/Syowa, America/Argentina/Buenos_Aires, America/Argentina/Cordoba, America/Argentina/Salta, America/Argentina/Jujuy, America/Argentina/Tucuman, America/Argentina/Catamarca, America/Argentina/La_Rioja, America/Argentina/San_Juan, America/Argentina/Mendoza, America/Argentina/San_Luis, America/Argentina/Rio_Gallegos, America/Argentina/Ushuaia, Pacific/Pago_Pago, Europe/Vienna, Australia/Lord_Howe, Antarctica/Macquarie, Australia/Hobart, Australia/Currie, Australia/Melbourne, Australia/Sydney, Australia/Broken_Hill, Australia/Brisbane, Australia/Lindeman, Australia/Adelaide, Australia/Darwin, Australia/Perth, Australia/Eucla, America/Aruba, Europe/Mariehamn, Asia/Baku, Europe/Sarajevo, America/Barbados, Asia/Dhaka, Europe/Brussels, Africa/Ouagadougou, Europe/Sofia, Asia/Bahrain, Africa/Bujumbura, Africa/Porto-Novo, America/St_Barthelemy, Atlantic/Bermuda, Asia/Brunei, America/La_Paz, America/Kralendijk, America/Noronha, America/Belem, America/Fortaleza, America/Recife, America/Araguaina, America/Maceio, America/Bahia, America/Sao_Paulo, America/Campo_Grande, America/Cuiaba, America/Santarem, America/Porto_Velho, America/Boa_Vista, America/Manaus, America/Eirunepe, America/Rio_Branco, America/Nassau, Asia/Thimphu, Africa/Gaborone, Europe/Minsk, America/Belize, America/St_Johns, America/Halifax, America/Glace_Bay, America/Moncton, America/Goose_Bay, America/Blanc-Sablon, America/Toronto, America/Nipigon, America/Thunder_Bay, America/Iqaluit, America/Pangnirtung, America/Resolute, America/Atikokan, America/Rankin_Inlet, America/Winnipeg, America/Rainy_River, America/Regina, America/Swift_Current, America/Edmonton, America/Cambridge_Bay, America/Yellowknife, America/Inuvik, America/Creston, America/Dawson_Creek, America/Vancouver, America/Whitehorse, America/Dawson, Indian/Cocos, Africa/Kinshasa, Africa/Lubumbashi, Africa/Bangui, Africa/Brazzaville, Europe/Zurich, Africa/Abidjan, Pacific/Rarotonga, America/Santiago, Pacific/Easter, Africa/Douala, Asia/Shanghai, Asia/Harbin, Asia/Chongqing, Asia/Urumqi, Asia/Kashgar, America/Bogota, America/Costa_Rica, America/Havana, Atlantic/Cape_Verde, America/Curacao, Indian/Christmas, Asia/Nicosia, Europe/Prague, Europe/Berlin, Europe/Busingen, Africa/Djibouti, Europe/Copenhagen, America/Dominica, America/Santo_Domingo, Africa/Algiers, America/Guayaquil, Pacific/Galapagos, Europe/Tallinn, Africa/Cairo, Africa/El_Aaiun, Africa/Asmara, Europe/Madrid, Africa/Ceuta, Atlantic/Canary, Africa/Addis_Ababa, Europe/Helsinki, Pacific/Fiji, Atlantic/Stanley, Pacific/Chuuk, Pacific/Pohnpei, Pacific/Kosrae, Atlantic/Faroe, Europe/Paris, Africa/Libreville, Europe/London, America/Grenada, Asia/Tbilisi, America/Cayenne, Europe/Guernsey, Africa/Accra, Europe/Gibraltar, America/Godthab, America/Danmarkshavn, America/Scoresbysund, America/Thule, Africa/Banjul, Africa/Conakry, America/Guadeloupe, Africa/Malabo, Europe/Athens, Atlantic/South_Georgia, America/Guatemala, Pacific/Guam, Africa/Bissau, America/Guyana, Asia/Hong_Kong, America/Tegucigalpa, Europe/Zagreb, America/Port-au-Prince, Europe/Budapest, Asia/Jakarta, Asia/Pontianak, Asia/Makassar, Asia/Jayapura, Europe/Dublin, Asia/Jerusalem, Europe/Isle_of_Man, Asia/Kolkata, Indian/Chagos, Asia/Baghdad, Asia/Tehran, Atlantic/Reykjavik, Europe/Rome, Europe/Jersey, America/Jamaica, Asia/Amman, Asia/Tokyo, Africa/Nairobi, Asia/Bishkek, Asia/Phnom_Penh, Pacific/Tarawa, Pacific/Enderbury, Pacific/Kiritimati, Indian/Comoro, America/St_Kitts, Asia/Pyongyang, Asia/Seoul, Asia/Kuwait, America/Cayman, Asia/Almaty, Asia/Qyzylorda, Asia/Aqtobe, Asia/Aqtau, Asia/Oral, Asia/Vientiane, Asia/Beirut, America/St_Lucia, Europe/Vaduz, Asia/Colombo, Africa/Monrovia, Africa/Maseru, Europe/Vilnius, Europe/Luxembourg, Europe/Riga, Africa/Tripoli, Africa/Casablanca, Europe/Monaco, Europe/Chisinau, Europe/Podgorica, America/Marigot, Indian/Antananarivo, Pacific/Majuro, Pacific/Kwajalein, Europe/Skopje, Africa/Bamako, Asia/Rangoon, Asia/Ulaanbaatar, Asia/Hovd, Asia/Choibalsan, Asia/Macau, Pacific/Saipan, America/Martinique, Africa/Nouakchott, America/Montserrat, Europe/Malta, Indian/Mauritius, Indian/Maldives, Africa/Blantyre, America/Mexico_City, America/Cancun, America/Merida, America/Monterrey, America/Matamoros, America/Mazatlan, America/Chihuahua, America/Ojinaga, America/Hermosillo, America/Tijuana, America/Santa_Isabel, America/Bahia_Banderas, Asia/Kuala_Lumpur, Asia/Kuching, Africa/Maputo, Africa/Windhoek, Pacific/Noumea, Africa/Niamey, Pacific/Norfolk, Africa/Lagos, America/Managua, Europe/Amsterdam, Europe/Oslo, Asia/Kathmandu, Pacific/Nauru, Pacific/Niue, Pacific/Auckland, Pacific/Chatham, Asia/Muscat, America/Panama, America/Lima, Pacific/Tahiti, Pacific/Marquesas, Pacific/Gambier, Pacific/Port_Moresby, Asia/Manila, Asia/Karachi, Europe/Warsaw, America/Miquelon, Pacific/Pitcairn, America/Puerto_Rico, Asia/Gaza, Asia/Hebron, Europe/Lisbon, Atlantic/Madeira, Atlantic/Azores, Pacific/Palau, America/Asuncion, Asia/Qatar, Indian/Reunion, Europe/Bucharest, Europe/Belgrade, Europe/Kaliningrad, Europe/Moscow, Europe/Volgograd, Europe/Samara, Asia/Yekaterinburg, Asia/Omsk, Asia/Novosibirsk, Asia/Novokuznetsk, Asia/Krasnoyarsk, Asia/Irkutsk, Asia/Yakutsk, Asia/Khandyga, Asia/Vladivostok, Asia/Sakhalin, Asia/Ust-Nera, Asia/Magadan, Asia/Kamchatka, Asia/Anadyr, Africa/Kigali, Asia/Riyadh, Pacific/Guadalcanal, Indian/Mahe, Africa/Khartoum, Europe/Stockholm, Asia/Singapore, Atlantic/St_Helena, Europe/Ljubljana, Arctic/Longyearbyen, Europe/Bratislava, Africa/Freetown, Europe/San_Marino, Africa/Dakar, Africa/Mogadishu, America/Paramaribo, Africa/Juba, Africa/Sao_Tome, America/El_Salvador, America/Lower_Princes, Asia/Damascus, Africa/Mbabane, America/Grand_Turk, Africa/Ndjamena, Indian/Kerguelen, Africa/Lome, Asia/Bangkok, Asia/Dushanbe, Pacific/Fakaofo, Asia/Dili, Asia/Ashgabat, Africa/Tunis, Pacific/Tongatapu, Europe/Istanbul, America/Port_of_Spain, Pacific/Funafuti, Asia/Taipei, Africa/Dar_es_Salaam, Europe/Kiev, Europe/Uzhgorod, Europe/Zaporozhye, Europe/Simferopol, Africa/Kampala, Pacific/Johnston, Pacific/Midway, Pacific/Wake, America/New_York, America/Detroit, America/Kentucky/Louisville, America/Kentucky/Monticello, America/Indiana/Indianapolis, America/Indiana/Vincennes, America/Indiana/Winamac, America/Indiana/Marengo, America/Indiana/Petersburg, America/Indiana/Vevay, America/Chicago, America/Indiana/Tell_City, America/Indiana/Knox, America/Menominee, America/North_Dakota/Center, America/North_Dakota/New_Salem, America/North_Dakota/Beulah, America/Denver, America/Boise, America/Phoenix, America/Los_Angeles, America/Anchorage, America/Juneau, America/Sitka, America/Yakutat, America/Nome, America/Adak, America/Metlakatla, Pacific/Honolulu, America/Montevideo, Asia/Samarkand, Asia/Tashkent, Europe/Vatican, America/St_Vincent, America/Caracas, America/Tortola, America/St_Thomas, Asia/Ho_Chi_Minh, Pacific/Efate, Pacific/Wallis, Pacific/Apia, Asia/Aden, Indian/Mayotte, Africa/Johannesburg, Africa/Lusaka, Africa/Harare, UTC
+                          "%
+                          | optional,
+                        timezone_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Timezone Variable (String)"
+                          | optional,
+                        track_default_gateway
+                          | Bool
+                          | doc "Track Default Gateway (Boolean)"
+                          | optional,
+                        track_default_gateway_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Track Default Gateway Variable (String)"
+                          | optional,
+                        track_interface_tag
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 4294967295,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Track Interface Tag (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 4294967295
+                          "%
+                          | optional,
+                        track_interface_tag_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Track Interface Tag Variable (String)"
+                          | optional,
+                        track_transport
+                          | Bool
+                          | doc "Track Transport (Boolean)"
+                          | optional,
+                        track_transport_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Track Transport Variable (String)"
+                          | optional,
+                        transport_gateway
+                          | Bool
+                          | doc "Transport Gateway (Boolean)"
+                          | optional,
+                        transport_gateway_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Transport Gateway Variable (String)"
+                          | optional,
+                      }
+                      | doc m%"
+                        Basic (Object)
+                        
+                        Elements:
+                        - name (required)
+                        - description
+                        - admin_tech_on_failure
+                        - admin_tech_on_failure_variable
+                        - affinity_group_number
+                        - affinity_group_number_variable
+                        - affinity_group_preferences
+                        - affinity_group_preferences_variable
+                        - affinity_per_vrfs
+                        - affinity_preference_auto
+                        - affinity_preference_auto_variable
+                        - console_baud_rate
+                        - console_baud_rate_variable
+                        - control_session_pps
+                        - control_session_pps_variable
+                        - controller_groups
+                        - controller_groups_variable
+                        - device_groups
+                        - device_groups_variable
+                        - enhanced_app_aware_routing
+                        - enhanced_app_aware_routing_variable
+                        - geo_fencing_enable
+                        - geo_fencing_sms_enable
+                        - geo_fencing_sms_mobile_numbers
+                        - geo_fencing_range
+                        - geo_fencing_range_variable
+                        - idle_timeout
+                        - idle_timeout_variable
+                        - latitude
+                        - latitude_variable
+                        - location
+                        - location_variable
+                        - longitude
+                        - longitude_variable
+                        - max_omp_sessions
+                        - max_omp_sessions_variable
+                        - multitenant
+                        - multitenant_variable
+                        - on_demand_tunnel
+                        - on_demand_tunnel_variable
+                        - on_demand_tunnel_idle_timeout
+                        - on_demand_tunnel_idle_timeout_variable
+                        - overlay_id
+                        - overlay_id_variable
+                        - port_hopping
+                        - port_hopping_variable
+                        - port_offset
+                        - port_offset_variable
+                        - site_types
+                        - site_types_variable
+                        - system_description
+                        - system_description_variable
+                        - timezone
+                        - timezone_variable
+                        - track_default_gateway
+                        - track_default_gateway_variable
+                        - track_interface_tag
+                        - track_interface_tag_variable
+                        - track_transport
+                        - track_transport_variable
+                        - transport_gateway
+                        - transport_gateway_variable
+                      "%
+                      | optional,
                     bfd
                       | {
                         colors
@@ -67457,6 +69600,1739 @@ let rec _js2n__-refsenv
                         - trusted_keys_variable
                       "%
                       | optional,
+                    omp
+                      | {
+                        advertise_ipv4_bgp
+                          | Bool
+                          | doc "Advertise Ipv4 BGP (Boolean)"
+                          | optional,
+                        advertise_ipv4_bgp_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise Ipv4 BGP Variable (String)"
+                          | optional,
+                        advertise_ipv4_connected
+                          | Bool
+                          | doc "Advertise Ipv4 Connected (Boolean)"
+                          | optional,
+                        advertise_ipv4_connected_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise Ipv4 Connected Variable (String)"
+                          | optional,
+                        advertise_ipv4_eigrp
+                          | Bool
+                          | doc "Advertise Ipv4 Eigrp (Boolean)"
+                          | optional,
+                        advertise_ipv4_eigrp_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise Ipv4 Eigrp Variable (String)"
+                          | optional,
+                        advertise_ipv4_isis
+                          | Bool
+                          | doc "Advertise Ipv4 ISIS (Boolean)"
+                          | optional,
+                        advertise_ipv4_isis_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise Ipv4 ISIS Variable (String)"
+                          | optional,
+                        advertise_ipv4_lisp
+                          | Bool
+                          | doc "Advertise Ipv4 Lisp (Boolean)"
+                          | optional,
+                        advertise_ipv4_lisp_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise Ipv4 Lisp Variable (String)"
+                          | optional,
+                        advertise_ipv4_ospf
+                          | Bool
+                          | doc "Advertise Ipv4 OSPF (Boolean)"
+                          | optional,
+                        advertise_ipv4_ospf_v3
+                          | Bool
+                          | doc "Advertise Ipv4 OSPF V3 (Boolean)"
+                          | optional,
+                        advertise_ipv4_ospf_v3_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise Ipv4 OSPF V3 Variable (String)"
+                          | optional,
+                        advertise_ipv4_ospf_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise Ipv4 OSPF Variable (String)"
+                          | optional,
+                        advertise_ipv4_static
+                          | Bool
+                          | doc "Advertise Ipv4 Static (Boolean)"
+                          | optional,
+                        advertise_ipv4_static_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise Ipv4 Static Variable (String)"
+                          | optional,
+                        advertise_ipv6_bgp
+                          | Bool
+                          | doc "Advertise IPv6 BGP (Boolean)"
+                          | optional,
+                        advertise_ipv6_bgp_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise IPv6 BGP Variable (String)"
+                          | optional,
+                        advertise_ipv6_connected
+                          | Bool
+                          | doc "Advertise IPv6 Connected (Boolean)"
+                          | optional,
+                        advertise_ipv6_connected_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise IPv6 Connected Variable (String)"
+                          | optional,
+                        advertise_ipv6_eigrp
+                          | Bool
+                          | doc "Advertise IPv6 Eigrp (Boolean)"
+                          | optional,
+                        advertise_ipv6_eigrp_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise IPv6 Eigrp Variable (String)"
+                          | optional,
+                        advertise_ipv6_isis
+                          | Bool
+                          | doc "Advertise IPv6 ISIS (Boolean)"
+                          | optional,
+                        advertise_ipv6_isis_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise IPv6 ISIS Variable (String)"
+                          | optional,
+                        advertise_ipv6_lisp
+                          | Bool
+                          | doc "Advertise IPv6 Lisp (Boolean)"
+                          | optional,
+                        advertise_ipv6_lisp_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise IPv6 Lisp Variable (String)"
+                          | optional,
+                        advertise_ipv6_ospf
+                          | Bool
+                          | doc "Advertise IPv6 OSPF (Boolean)"
+                          | optional,
+                        advertise_ipv6_ospf_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise IPv6 OSPF Variable (String)"
+                          | optional,
+                        advertise_ipv6_static
+                          | Bool
+                          | doc "Advertise IPv6 Static (Boolean)"
+                          | optional,
+                        advertise_ipv6_static_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertise IPv6 Static Variable (String)"
+                          | optional,
+                        advertisement_interval
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 65535,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Advertisement Interval (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 65535
+                          "%
+                          | optional,
+                        advertisement_interval_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Advertisement Interval Variable (String)"
+                          | optional,
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        ecmp_limit
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 16,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Ecmp Limit (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 16
+                          "%
+                          | optional,
+                        ecmp_limit_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Ecmp Limit Variable (String)"
+                          | optional,
+                        eor_timer
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 3600,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Eor Timer (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 3600
+                          "%
+                          | optional,
+                        eor_timer_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Eor Timer Variable (String)"
+                          | optional,
+                        graceful_restart
+                          | Bool
+                          | doc "Graceful Restart (Boolean)"
+                          | optional,
+                        graceful_restart_timer
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 604800,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Graceful Restart Timer (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 604800
+                          "%
+                          | optional,
+                        graceful_restart_timer_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Graceful Restart Timer Variable (String)"
+                          | optional,
+                        graceful_restart_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Graceful Restart Variable (String)"
+                          | optional,
+                        holdtime
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 65535,
+                                _js2n__-prdslib.numbers.minimum 3
+                              ])
+                          | doc m%"
+                            Holdtime (Integer)
+                            - Minimum value: 3
+                            - Maximum value: 65535
+                          "%
+                          | optional,
+                        holdtime_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Holdtime Variable (String)"
+                          | optional,
+                        ignore_region_path_length
+                          | Bool
+                          | doc "Ignore Region Path Length (Boolean)"
+                          | optional,
+                        ignore_region_path_length_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Ignore Region Path Length Variable (String)"
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)",
+                        omp_admin_distance_ipv4
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 255,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Omp Admin Distance Ipv4 (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 255
+                          "%
+                          | optional,
+                        omp_admin_distance_ipv4_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Omp Admin Distance Ipv4 Variable (String)"
+                          | optional,
+                        omp_admin_distance_ipv6
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 255,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Omp Admin Distance IPv6 (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 255
+                          "%
+                          | optional,
+                        omp_admin_distance_ipv6_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Omp Admin Distance IPv6 Variable (String)"
+                          | optional,
+                        overlay_as
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 4294967295,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Overlay AS (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 4294967295
+                          "%
+                          | optional,
+                        overlay_as_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Overlay AS Variable (String)"
+                          | optional,
+                        send_path_limit
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 16,
+                                _js2n__-prdslib.numbers.minimum 1
+                              ])
+                          | doc m%"
+                            Send Path Limit (Integer)
+                            - Minimum value: 1
+                            - Maximum value: 16
+                          "%
+                          | optional,
+                        send_path_limit_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Send Path Limit Variable (String)"
+                          | optional,
+                        shutdown | Bool | doc "Shutdown (Boolean)" | optional,
+                        shutdown_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Shutdown Variable (String)"
+                          | optional,
+                        site_types
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "type-1",
+                                          "type-2",
+                                          "type-3",
+                                          "cloud",
+                                          "branch",
+                                          "br",
+                                          "spoke"
+                                        ]
+                                    ])
+                              ])
+                          | doc "Site Types (List - String)"
+                          | optional,
+                        site_types_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Site Types Variable (String)"
+                          | optional,
+                        transport_gateway
+                          | std.enum.TagOrString
+                          | [| 'ecmp-with-direct-path, 'prefer |]
+                          | doc m%"
+                            Transport Gateway (String)
+                            - Allowed values: prefer, ecmp-with-direct-path
+                          "%
+                          | optional,
+                        transport_gateway_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Transport Gateway Variable (String)"
+                          | optional,
+                      }
+                      | doc m%"
+                        Omp (Object)
+                        
+                        Elements:
+                        - name (required)
+                        - description
+                        - advertise_ipv4_bgp
+                        - advertise_ipv4_bgp_variable
+                        - advertise_ipv4_connected
+                        - advertise_ipv4_connected_variable
+                        - advertise_ipv4_eigrp
+                        - advertise_ipv4_eigrp_variable
+                        - advertise_ipv4_isis
+                        - advertise_ipv4_isis_variable
+                        - advertise_ipv4_lisp
+                        - advertise_ipv4_lisp_variable
+                        - advertise_ipv4_ospf
+                        - advertise_ipv4_ospf_variable
+                        - advertise_ipv4_ospf_v3
+                        - advertise_ipv4_ospf_v3_variable
+                        - advertise_ipv4_static
+                        - advertise_ipv4_static_variable
+                        - advertise_ipv6_bgp
+                        - advertise_ipv6_bgp_variable
+                        - advertise_ipv6_connected
+                        - advertise_ipv6_connected_variable
+                        - advertise_ipv6_eigrp
+                        - advertise_ipv6_eigrp_variable
+                        - advertise_ipv6_isis
+                        - advertise_ipv6_isis_variable
+                        - advertise_ipv6_lisp
+                        - advertise_ipv6_lisp_variable
+                        - advertise_ipv6_ospf
+                        - advertise_ipv6_ospf_variable
+                        - advertise_ipv6_static
+                        - advertise_ipv6_static_variable
+                        - advertisement_interval
+                        - advertisement_interval_variable
+                        - ecmp_limit
+                        - ecmp_limit_variable
+                        - eor_timer
+                        - eor_timer_variable
+                        - graceful_restart
+                        - graceful_restart_variable
+                        - graceful_restart_timer
+                        - graceful_restart_timer_variable
+                        - holdtime
+                        - holdtime_variable
+                        - ignore_region_path_length
+                        - ignore_region_path_length_variable
+                        - omp_admin_distance_ipv4
+                        - omp_admin_distance_ipv4_variable
+                        - omp_admin_distance_ipv6
+                        - omp_admin_distance_ipv6_variable
+                        - overlay_as
+                        - overlay_as_variable
+                        - send_path_limit
+                        - send_path_limit_variable
+                        - shutdown
+                        - shutdown_variable
+                        - site_types
+                        - site_types_variable
+                        - transport_gateway
+                        - transport_gateway_variable
+                      "%
+                      | optional,
+                    performance_monitoring
+                      | {
+                        app_perf_monitor_app_groups
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "adp-group",
+                                          "amazon-group",
+                                          "aol-group",
+                                          "apple-group",
+                                          "apple-talk-group",
+                                          "atlassian-group",
+                                          "banyan-group",
+                                          "bittorrent-group",
+                                          "box-group",
+                                          "capwap-group",
+                                          "cisco-jabber-group",
+                                          "cisco-phone-group",
+                                          "concur-group",
+                                          "corba-group",
+                                          "dameware-group",
+                                          "demandware-group",
+                                          "dropbox-group",
+                                          "edonkey-emule-group",
+                                          "espn-group",
+                                          "fasttrack-group",
+                                          "flash-group",
+                                          "fring-group",
+                                          "ftp-group",
+                                          "gnutella-group",
+                                          "google-group",
+                                          "gotomeeting-group",
+                                          "hubspot-group",
+                                          "icq-group",
+                                          "imap-group",
+                                          "intuit-group",
+                                          "ipsec-group",
+                                          "irc-group",
+                                          "jive-group",
+                                          "kakao-group",
+                                          "kerberos-group",
+                                          "ldap-group",
+                                          "marketo-group",
+                                          "ms-cloud-group",
+                                          "msn-messenger-group",
+                                          "netbios-group",
+                                          "netsuite-group",
+                                          "nntp-group",
+                                          "npmp-group",
+                                          "oracle-group",
+                                          "pop3-group",
+                                          "prm-group",
+                                          "qq-group",
+                                          "ringcentral-group",
+                                          "salesforce-group",
+                                          "sap-group",
+                                          "servicenow-group",
+                                          "smtp-group",
+                                          "snmp-group",
+                                          "sqlsvr-group",
+                                          "stun-group",
+                                          "sugar-crm-group",
+                                          "telepresence-group",
+                                          "tftp-group",
+                                          "tiktok-group",
+                                          "vmware-group",
+                                          "vnc-group",
+                                          "wap-group",
+                                          "webex-group",
+                                          "workday-group",
+                                          "xns-xerox-group",
+                                          "xunlei-group",
+                                          "yahoo-group",
+                                          "yahoo-messenger-group",
+                                          "zendesk-group",
+                                          "zoho-crm-group",
+                                          "other"
+                                        ]
+                                    ])
+                              ])
+                          | doc "App Perf Monitor App Groups (List - String)"
+                          | optional,
+                        app_perf_monitor_enabled
+                          | Bool
+                          | doc "App Perf Monitor Enabled (Boolean)"
+                          | optional,
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        event_driven_config_enabled
+                          | Bool
+                          | doc "Event Driven Config Enabled (Boolean)"
+                          | optional,
+                        event_driven_events
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "SLA_CHANGE", "PMTU_CHANGE" ]
+                                    ])
+                              ])
+                          | doc "Event Driven Events (List - String)"
+                          | optional,
+                        monitoring_config_enabled
+                          | Bool
+                          | doc "Monitoring Config Enabled (Boolean)"
+                          | optional,
+                        monitoring_config_interval
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.enum [ 30, 60 ]
+                              ])
+                          | doc m%"
+                            Monitoring Config Interval (Integer)
+                            - Allowed values: 30, 60
+                          "%
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)",
+                      }
+                      | doc m%"
+                        Performance Monitoring (Object)
+                        
+                        Elements:
+                        - name (required)
+                        - description
+                        - app_perf_monitor_app_groups
+                        - app_perf_monitor_enabled
+                        - event_driven_config_enabled
+                        - event_driven_events
+                        - monitoring_config_enabled
+                        - monitoring_config_interval
+                      "%
+                      | optional,
+                    security
+                      | {
+                        anti_replay_window
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.enum
+                                  [ 64, 128, 256, 512, 1024, 2048, 4096, 8192 ]
+                              ])
+                          | doc m%"
+                            Anti Replay Window (Integer)
+                            - Allowed values: 64, 128, 256, 512, 1024, 2048, 4096, 8192
+                          "%
+                          | optional,
+                        anti_replay_window_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Anti Replay Window Variable (String)"
+                          | optional,
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        extended_anti_replay_window
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 2048,
+                                _js2n__-prdslib.numbers.minimum 10
+                              ])
+                          | doc m%"
+                            Extended Anti Replay Window (Integer)
+                            - Minimum value: 10
+                            - Maximum value: 2048
+                          "%
+                          | optional,
+                        extended_anti_replay_window_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Extended Anti Replay Window Variable (String)"
+                          | optional,
+                        integrity_types
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "esp",
+                                          "ip-udp-esp",
+                                          "none",
+                                          "ip-udp-esp-no-id"
+                                        ]
+                                    ])
+                              ])
+                          | doc "Integrity Types (List - String)"
+                          | optional,
+                        integrity_types_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Integrity Types Variable (String)"
+                          | optional,
+                        ipsec_pairwise_keying
+                          | Bool
+                          | doc "Ipsec Pairwise Keying (Boolean)"
+                          | optional,
+                        ipsec_pairwise_keying_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Ipsec Pairwise Keying Variable (String)"
+                          | optional,
+                        key_chains
+                          | Array
+                            {
+                              key_id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 2147483647
+                                    ])
+                                | doc m%"
+                                  Key ID (Integer)
+                                  - Maximum value: 2147483647
+                                "%,
+                              name
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 236
+                                    ])
+                                | doc m%"
+                                  Name (String)
+                                  - Maximum length: 236
+                                "%,
+                            }
+                          | doc m%"
+                            Key Chains (List - Object)
+                            
+                            Elements:
+                            - key_id (required)
+                            - name (required)
+                          "%
+                          | optional,
+                        keys
+                          | Array
+                            {
+                              accept_ao_mismatch
+                                | Bool
+                                | doc "Accept Ao Mismatch (Boolean)"
+                                | optional,
+                              accept_ao_mismatch_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Accept Ao Mismatch Variable (String)"
+                                | optional,
+                              accept_life_time_duration
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum
+                                        2147483646,
+                                      _js2n__-prdslib.numbers.minimum 1
+                                    ])
+                                | doc m%"
+                                  Accept Life Time Duration (Integer)
+                                  - Minimum value: 1
+                                  - Maximum value: 2147483646
+                                "%
+                                | optional,
+                              accept_life_time_exact
+                                | std.number.Integer
+                                | doc "Accept Life Time Exact (Integer)"
+                                | optional,
+                              accept_life_time_infinite
+                                | Bool
+                                | doc "Accept Life Time Infinite (Boolean)"
+                                | optional,
+                              accept_life_time_local
+                                | Bool
+                                | doc "Accept Life Time Local (Boolean)"
+                                | optional,
+                              accept_life_time_local_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Accept Life Time Local Variable (String)"
+                                | optional,
+                              accept_life_time_start_epoch
+                                | std.number.Integer
+                                | doc "Accept Life Time Start Epoch (Integer)",
+                              crypto_algorithm
+                                | std.enum.TagOrString
+                                | [|
+                                  'hmac-sha-256,
+                                  'hmac-sha-1,
+                                  'aes-128-cmac
+                                |]
+                                | doc m%"
+                                  Crypto Algorithm (String)
+                                  - Allowed values: aes-128-cmac, hmac-sha-1, hmac-sha-256
+                                "%,
+                              id | std.number.Integer | doc "ID (Integer)",
+                              include_tcp_options
+                                | Bool
+                                | doc "Include Tcp Options (Boolean)"
+                                | optional,
+                              include_tcp_options_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Include Tcp Options Variable (String)"
+                                | optional,
+                              key_chain_name
+                                | String
+                                | doc "Key Chain Name (String)",
+                              key_string
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  Key String (String)
+                                  - Minimum length: 1
+                                "%
+                                | optional,
+                              key_string_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Key String Variable (String)"
+                                | optional,
+                              receiver_id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 255
+                                    ])
+                                | doc m%"
+                                  Receiver ID (Integer)
+                                  - Maximum value: 255
+                                "%
+                                | optional,
+                              receiver_id_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Receiver ID Variable (String)"
+                                | optional,
+                              send_id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 255
+                                    ])
+                                | doc m%"
+                                  Send ID (Integer)
+                                  - Maximum value: 255
+                                "%
+                                | optional,
+                              send_id_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Send ID Variable (String)"
+                                | optional,
+                              send_life_time_duration
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum
+                                        2147483646,
+                                      _js2n__-prdslib.numbers.minimum 1
+                                    ])
+                                | doc m%"
+                                  Send Life Time Duration (Integer)
+                                  - Minimum value: 1
+                                  - Maximum value: 2147483646
+                                "%
+                                | optional,
+                              send_life_time_exact
+                                | std.number.Integer
+                                | doc "Send Life Time Exact (Integer)"
+                                | optional,
+                              send_life_time_infinite
+                                | Bool
+                                | doc "Send Life Time Infinite (Boolean)"
+                                | optional,
+                              send_life_time_local
+                                | Bool
+                                | doc "Send Life Time Local (Boolean)"
+                                | optional,
+                              send_life_time_local_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Send Life Time Local Variable (String)"
+                                | optional,
+                              send_life_time_start_epoch
+                                | std.number.Integer
+                                | doc "Send Life Time Start Epoch (Integer)",
+                            }
+                          | doc m%"
+                            Keys (List - Object)
+                            
+                            Elements:
+                            - id (required)
+                            - accept_ao_mismatch
+                            - accept_ao_mismatch_variable
+                            - accept_life_time_duration
+                            - accept_life_time_exact
+                            - accept_life_time_infinite
+                            - accept_life_time_local
+                            - accept_life_time_local_variable
+                            - accept_life_time_start_epoch (required)
+                            - crypto_algorithm (required)
+                            - include_tcp_options
+                            - include_tcp_options_variable
+                            - key_chain_name (required)
+                            - key_string
+                            - key_string_variable
+                            - receiver_id
+                            - receiver_id_variable
+                            - send_id
+                            - send_id_variable
+                            - send_life_time_duration
+                            - send_life_time_exact
+                            - send_life_time_infinite
+                            - send_life_time_local
+                            - send_life_time_local_variable
+                            - send_life_time_start_epoch (required)
+                          "%
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)",
+                        rekey_time
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.numbers.maximum 1209600,
+                                _js2n__-prdslib.numbers.minimum 10
+                              ])
+                          | doc m%"
+                            Rekey Time (Integer)
+                            - Minimum value: 10
+                            - Maximum value: 1209600
+                          "%
+                          | optional,
+                        rekey_time_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Rekey Time Variable (String)"
+                          | optional,
+                      }
+                      | doc m%"
+                        Security (Object)
+                        
+                        Elements:
+                        - name (required)
+                        - description
+                        - anti_replay_window
+                        - anti_replay_window_variable
+                        - extended_anti_replay_window
+                        - extended_anti_replay_window_variable
+                        - integrity_types
+                        - integrity_types_variable
+                        - ipsec_pairwise_keying
+                        - ipsec_pairwise_keying_variable
+                        - key_chains
+                        - keys
+                        - rekey_time
+                        - rekey_time_variable
+                      "%
+                      | optional,
+                    snmp
+                      | {
+                        communities
+                          | Array
+                            {
+                              authorization
+                                | std.enum.TagOrString
+                                | [| 'read-write, 'read-only |]
+                                | doc m%"
+                                  Authorization (String)
+                                  - Allowed values: read-only, read-write
+                                "%
+                                | optional,
+                              authorization_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Authorization Variable (String)"
+                                | optional,
+                              name
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern "^[\\S]+$"
+                                    ])
+                                | doc "Name (String)",
+                              user_label | String | doc "User Label (String)",
+                              view
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 32,
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  View (String)
+                                  - Minimum length: 1
+                                  - Maximum length: 32
+                                "%
+                                | optional,
+                              view_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "View Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Communities (List - Object)
+                            
+                            Elements:
+                            - authorization
+                            - authorization_variable
+                            - name (required)
+                            - user_label (required)
+                            - view
+                            - view_variable
+                          "%
+                          | optional,
+                        contact_person
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.maxLength 255,
+                                _js2n__-prdslib.strings.minLength 1
+                              ])
+                          | doc m%"
+                            Contact Person (String)
+                            - Minimum length: 1
+                            - Maximum length: 255
+                          "%
+                          | optional,
+                        contact_person_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Contact Person Variable (String)"
+                          | optional,
+                        description
+                          | String
+                          | doc "Description (String)"
+                          | optional,
+                        groups
+                          | Array
+                            {
+                              name
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 32,
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  Name (String)
+                                  - Minimum length: 1
+                                  - Maximum length: 32
+                                "%,
+                              security_level
+                                | std.enum.TagOrString
+                                | [|
+                                  'auth-priv,
+                                  'auth-no-priv,
+                                  'no-auth-no-priv
+                                |]
+                                | doc m%"
+                                  Security Level (String)
+                                  - Allowed values: no-auth-no-priv, auth-no-priv, auth-priv
+                                "%,
+                              view
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 32,
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  View (String)
+                                  - Minimum length: 1
+                                  - Maximum length: 32
+                                "%
+                                | optional,
+                              view_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "View Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Groups (List - Object)
+                            
+                            Elements:
+                            - name (required)
+                            - security_level (required)
+                            - view
+                            - view_variable
+                          "%
+                          | optional,
+                        location
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.maxLength 255,
+                                _js2n__-prdslib.strings.minLength 1
+                              ])
+                          | doc m%"
+                            Location (String)
+                            - Minimum length: 1
+                            - Maximum length: 255
+                          "%
+                          | optional,
+                        location_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Location Variable (String)"
+                          | optional,
+                        name
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                          | doc "Name (String)",
+                        shutdown | Bool | doc "Shutdown (Boolean)" | optional,
+                        shutdown_variable
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                              ])
+                          | doc "Shutdown Variable (String)"
+                          | optional,
+                        trap_target_servers
+                          | Array
+                            {
+                              ip
+                                | String
+                                | doc m%"
+                                  IP (String)
+                                  - IPv4 or IPv6 address
+                                "%
+                                | optional,
+                              ip_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "IP Variable (String)"
+                                | optional,
+                              port
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 65535,
+                                      _js2n__-prdslib.numbers.minimum 1
+                                    ])
+                                | doc m%"
+                                  Port (Integer)
+                                  - Minimum value: 1
+                                  - Maximum value: 65535
+                                "%
+                                | optional,
+                              port_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Port Variable (String)"
+                                | optional,
+                              source_interface
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^(GigabitEthernet|Loopback|TenGigabitEthernet|TwoGigabitEthernet|FortyGigabitEthernet|HundredGigE|Vlan)(([1-9]\\d|\\d)/){0,2}(0|[1-9]\\d*)([:|\\.][1-9]\\d*)?"
+                                    ])
+                                | doc "Source Interface (String)"
+                                | optional,
+                              source_interface_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Source Interface Variable (String)"
+                                | optional,
+                              user
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 32,
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  User (String)
+                                  - Minimum length: 1
+                                  - Maximum length: 32
+                                "%
+                                | optional,
+                              user_label
+                                | String
+                                | doc "User Label (String)"
+                                | optional,
+                              user_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "User Variable (String)"
+                                | optional,
+                              vpn_id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 65530
+                                    ])
+                                | doc m%"
+                                  VPN ID (Integer)
+                                  - Maximum value: 65530
+                                "%
+                                | optional,
+                              vpn_id_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "VPN ID Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Trap Target Servers (List - Object)
+                            
+                            Elements:
+                            - ip
+                            - ip_variable
+                            - port
+                            - port_variable
+                            - source_interface
+                            - source_interface_variable
+                            - user
+                            - user_variable
+                            - user_label
+                            - vpn_id
+                            - vpn_id_variable
+                          "%
+                          | optional,
+                        users
+                          | Array
+                            {
+                              authentication_password
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 128,
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  Authentication Password (String)
+                                  - Minimum length: 1
+                                  - Maximum length: 128
+                                "%
+                                | optional,
+                              authentication_password_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Authentication Password Variable (String)"
+                                | optional,
+                              authentication_protocol
+                                | std.enum.TagOrString
+                                | [| 'sha |]
+                                | doc m%"
+                                  Authentication Protocol (String)
+                                  - Allowed values: sha
+                                "%
+                                | optional,
+                              authentication_protocol_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Authentication Protocol Variable (String)"
+                                | optional,
+                              group
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 32,
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  Group (String)
+                                  - Minimum length: 1
+                                  - Maximum length: 32
+                                "%
+                                | optional,
+                              group_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Group Variable (String)"
+                                | optional,
+                              name
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 32,
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  Name (String)
+                                  - Minimum length: 1
+                                  - Maximum length: 32
+                                "%,
+                              privacy_password
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 128,
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  Privacy Password (String)
+                                  - Minimum length: 1
+                                  - Maximum length: 128
+                                "%
+                                | optional,
+                              privacy_password_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Privacy Password Variable (String)"
+                                | optional,
+                              privacy_protocol
+                                | std.enum.TagOrString
+                                | [| 'aes-256-cfb-128, 'aes-cfb-128 |]
+                                | doc m%"
+                                  Privacy Protocol (String)
+                                  - Allowed values: aes-cfb-128, aes-256-cfb-128
+                                "%
+                                | optional,
+                              privacy_protocol_variable
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                    ])
+                                | doc "Privacy Protocol Variable (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Users (List - Object)
+                            
+                            Elements:
+                            - authentication_password
+                            - authentication_password_variable
+                            - authentication_protocol
+                            - authentication_protocol_variable
+                            - group
+                            - group_variable
+                            - name (required)
+                            - privacy_password
+                            - privacy_password_variable
+                            - privacy_protocol
+                            - privacy_protocol_variable
+                          "%
+                          | optional,
+                        views
+                          | Array
+                            {
+                              name
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.maxLength 32,
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ])
+                                | doc m%"
+                                  Name (String)
+                                  - Minimum length: 1
+                                  - Maximum length: 32
+                                "%,
+                              oids
+                                | Array
+                                  {
+                                    exclude
+                                      | Bool
+                                      | doc "Exclude (Boolean)"
+                                      | optional,
+                                    exclude_variable
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                          ])
+                                      | doc "Exclude Variable (String)"
+                                      | optional,
+                                    id
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^(([0-1](\\.[1-3]?[0-9]))|(2\\.(0|([1-9]\\d*))))(\\.(0|\\*|([1-9]\\d*))){0,126}$"
+                                          ])
+                                      | doc "ID (String)"
+                                      | optional,
+                                    id_variable
+                                      | _js2n__-prdslib.contract_from_predicate
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[./\\[\\]a-zA-Z0-9_-]{1,64}$"
+                                          ])
+                                      | doc "ID Variable (String)"
+                                      | optional,
+                                  }
+                                | doc m%"
+                                  Oids (List - Object)
+                                  
+                                  Elements:
+                                  - exclude
+                                  - exclude_variable
+                                  - id
+                                  - id_variable
+                                "%
+                                | optional,
+                            }
+                          | doc m%"
+                            Views (List - Object)
+                            
+                            Elements:
+                            - name (required)
+                            - oids
+                          "%
+                          | optional,
+                      }
+                      | doc m%"
+                        SNMP (Object)
+                        
+                        Elements:
+                        - name (required)
+                        - description
+                        - communities
+                        - contact_person
+                        - contact_person_variable
+                        - groups
+                        - location
+                        - location_variable
+                        - shutdown
+                        - shutdown_variable
+                        - trap_target_servers
+                        - users
+                        - views
+                      "%
+                      | optional,
                   }
                 | doc m%"
                   System Profiles (List - Object)
@@ -67466,12 +71342,17 @@ let rec _js2n__-refsenv
                   - description
                   - aaa
                   - banner
+                  - basic
                   - bfd
                   - flexible_port_speed
                   - global
                   - logging
                   - mrf
                   - ntp
+                  - omp
+                  - performance_monitoring
+                  - security
+                  - snmp
                 "%
                 | optional,
             }
@@ -72768,14 +76649,14 @@ let rec _js2n__-refsenv
                         'super_spine,
                         'border_gateway_spine,
                         'border_gateway,
-                        'boder_spine,
+                        'border_spine,
                         'border,
                         'leaf,
                         'spine
                       |]
                       | doc m%"
                         Role (String)
-                        - Allowed values: spine, leaf, border, boder_spine, border_gateway, border_gateway_spine, super_spine, border_super_spine, border_gateway_super_spine, tor
+                        - Allowed values: spine, leaf, border, border_spine, border_gateway, border_gateway_spine, super_spine, border_super_spine, border_gateway_super_spine, tor
                       "%
                       | optional,
                     routing_loopback_id

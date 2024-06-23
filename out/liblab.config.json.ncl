@@ -897,6 +897,14 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:properties/customizations/properties/endpointCustomizations/anyOf/0/anyOf/1/additionalProperties/properties/get!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { operationId = _js2n__-prdslib.isType '"String", } {} false
+                _js2n__-prdslib.never
+            ],
       "_js2n__-:properties/customizations/properties/hookDependencies/items!predicate"
         | doc "A dependency that should be installed for the hook"
         = _js2n__-prdslib.allOf
@@ -1098,6 +1106,57 @@ let rec _js2n__-refsenv
                                                 } {} false _js2n__-prdslib.never
                                             ],
                                     } {} false _js2n__-prdslib.never
+                                ],
+                          endpointCustomizations =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.not
+                                        _js2n__-prdslib.always,
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record {} {}
+                                            true
+                                            (_js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    delete =
+                                                      _js2n__-refsenv."_js2n__-:properties/customizations/properties/endpointCustomizations/anyOf/0/anyOf/1/additionalProperties/properties/get!predicate",
+                                                    get =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Record,
+                                                            _js2n__-prdslib.records.record
+                                                              {
+                                                                operationId =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                              } {} false
+                                                              _js2n__-prdslib.never
+                                                          ],
+                                                    patch =
+                                                      _js2n__-refsenv."_js2n__-:properties/customizations/properties/endpointCustomizations/anyOf/0/anyOf/1/additionalProperties/properties/get!predicate",
+                                                    post =
+                                                      _js2n__-refsenv."_js2n__-:properties/customizations/properties/endpointCustomizations/anyOf/0/anyOf/1/additionalProperties/properties/get!predicate",
+                                                    put =
+                                                      _js2n__-refsenv."_js2n__-:properties/customizations/properties/endpointCustomizations/anyOf/0/anyOf/1/additionalProperties/properties/get!predicate",
+                                                  } {} true
+                                                  _js2n__-prdslib.always
+                                              ])
+                                        ]
+                                    ],
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[\\w./\\\\-]+$"
+                                    ],
+                                  _js2n__-prdslib.isType '"String"
                                 ],
                           environmentVariables =
                             _js2n__-prdslib.allOf

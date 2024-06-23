@@ -1115,6 +1115,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  fail-fast = _js2n__-prdslib.isType '"Bool",
                   jobs =
                     _js2n__-prdslib.allOf
                         [

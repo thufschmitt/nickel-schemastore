@@ -1248,7 +1248,18 @@ let rec _js2n__-refsenv
                                             ],
                                       plugin = _js2n__-prdslib.isType '"String",
                                       protoc_path =
-                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.oneOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.arrays.arrayOf
+                                                    (_js2n__-prdslib.isType
+                                                      '"String")
+                                                ]
+                                            ],
                                       remote = _js2n__-prdslib.isType '"String",
                                       revision =
                                         _js2n__-prdslib.allOf
@@ -1454,7 +1465,17 @@ let rec _js2n__-refsenv
                                   protoc_builtin =
                                     _js2n__-prdslib.isType '"String",
                                   protoc_path =
-                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.oneOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ]
+                                        ],
                                   remote = _js2n__-prdslib.isType '"String",
                                   revision =
                                     _js2n__-prdslib.allOf

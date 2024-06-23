@@ -1352,6 +1352,10 @@ let rec _js2n__-refsenv
         | String
         | doc "Instance host name to allow SFDMU to deploy data in a production org"
         | optional,
+      skipMinimizeProfiles
+        | Array (String)
+        | doc "These profiles will not be reformatted by command hardis:project:clean:minimizeprofiles"
+        | optional,
       skipUpdateForceIgnore
         | Bool
         | doc "Defines if sfdx-hardis will propose to upgrade local .forceignore file"

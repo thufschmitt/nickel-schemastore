@@ -965,7 +965,7 @@ let rec _js2n__-refsenv
       kmc
         | std.enum.TagOrString
         | [| 'extrande_mod, 'extrande, 'frm, 'rfkmc, '"" |]
-        | doc "KMC algorithm overwrite. Should be set by the reactions, but can be changed here."
+        | doc "KMC algorithm overwrite. Should be set by the reactions, but can be changed here. Not all reactions may support all algorithms."
         | optional,
       log
         | {
@@ -1190,6 +1190,11 @@ let rec _js2n__-refsenv
                 | _js2n__-prdslib.contract_from_predicate
                   (_js2n__-prdslib.isType '"String")
                 | doc "Explicitly include a moleculetype or list of moleculetypes as a space-separated string."
+                | optional,
+              nrexcl
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.isType 'Integer)
+                | doc "Explictly set the nrexcl value for the Reactive moleculetype. By default the value is taken from the first found reactive moleculetype."
                 | optional,
               ..
             }

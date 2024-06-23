@@ -988,6 +988,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  description = _js2n__-prdslib.isType '"String",
                   output_mode =
                     _js2n__-refsenv."_js2n__-:definitions/output_mode!predicate",
                   persistent = _js2n__-prdslib.isType '"Bool",

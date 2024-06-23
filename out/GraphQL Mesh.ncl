@@ -4012,19 +4012,8 @@ let rec _js2n__-refsenv
         "%
         | optional,
       logger
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.anyOf
-            [
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.isType '"Array"
-            ])
-        | doc "Logger instance that matches `Console` interface of NodeJS"
+        | String
+        | doc "Path to a file exporting a logger instance compatible with the `Logger` type from `@graphql-mesh/types`"
         | optional,
       merger | String | doc "Merge method" | optional,
       persistedOperations

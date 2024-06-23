@@ -926,7 +926,12 @@ let rec _js2n__-refsenv
           os
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.enum
-                [ "ubuntu-20.04", "ubuntu-22.04", "ubuntu-lts-latest" ])
+                [
+                  "ubuntu-20.04",
+                  "ubuntu-22.04",
+                  "ubuntu-24.04",
+                  "ubuntu-lts-latest"
+                ])
             | doc "Operating system to be used in the build.",
           tools
             | _js2n__-prdslib.contract_from_predicate

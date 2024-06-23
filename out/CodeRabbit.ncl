@@ -1324,10 +1324,10 @@ let rec _js2n__-refsenv
                       | {
                         enabled
                           | Bool
-                          | doc "Enable Yamllint | yamllint is a fast linters runner for yaml. | Enable yamllint integration."
+                          | doc "Enable Yamllint | yamllint is a linter for YAML files. | Enable yamllint integration."
                           | optional,
                       }
-                      | doc "Yamllint is a fast linters runner for yaml."
+                      | doc "yamllint is a linter for YAML files."
                       | optional,
                   }
                   | doc "Tools that provide additional context to code reviews."

@@ -911,6 +911,15 @@ let rec _js2n__-refsenv
         | Dyn
         | doc "ExportKubeConfig describes how vCluster should export the vCluster kubeConfig file."
         | optional,
+      external
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ])
+        | doc "External holds configuration for tools that are external to the vCluster."
+        | optional,
       global
         | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
         | doc "Global values shared across all (sub)charts"
@@ -922,10 +931,6 @@ let rec _js2n__-refsenv
       observability
         | Dyn
         | doc "Observability holds options to proxy metrics from the host cluster into the virtual cluster."
-        | optional,
-      platform
-        | Dyn
-        | doc "Platform holds options for connecting to vCluster Platform."
         | optional,
       plugin
         | _js2n__-prdslib.contract_from_predicate

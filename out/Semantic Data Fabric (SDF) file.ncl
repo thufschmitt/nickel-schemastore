@@ -903,6 +903,30 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "zero-or-one", "one", "zero-or-more" ]
             ],
+      "_js2n__-:definitions/CheckColsSpec!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "cols" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      cols =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "all" ]
+                ]
+            ],
       "_js2n__-:definitions/Classifier!predicate"
         | doc "A classifier defines the labels that can be attached to columns or a table."
         = _js2n__-prdslib.allOf
@@ -948,13 +972,6 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
-                  constraints =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/Constraint!predicate"
-                        ],
                   datatype =
                     _js2n__-prdslib.anyOf
                         [
@@ -964,6 +981,12 @@ let rec _js2n__-refsenv
                   default-severity =
                     _js2n__-refsenv."_js2n__-:definitions/Severity!predicate",
                   description = _js2n__-prdslib.isType '"String",
+                  forward-lineage =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Lineage!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   lineage =
                     _js2n__-prdslib.anyOf
                         [
@@ -984,6 +1007,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
+                        ],
+                  tests =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Constraint!predicate"
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1060,10 +1090,10 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "is" ],
+              _js2n__-prdslib.records.required [ "expect" ],
               _js2n__-prdslib.records.record
                 {
-                  is = _js2n__-prdslib.isType '"String",
+                  expect = _js2n__-prdslib.isType '"String",
                   severity =
                     _js2n__-prdslib.anyOf
                         [
@@ -1206,6 +1236,20 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.enum [ "openai" ]
                                 ],
                         } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "type" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          type =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum [ "empty" ]
+                                ],
+                        } {} true _js2n__-prdslib.always
                     ]
                 ],
               _js2n__-prdslib.records.required [ "name", "source-locations" ],
@@ -1241,6 +1285,20 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Null
                         ],
                   uri = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DataFusionSpec!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  udf =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Defaults!predicate" =
@@ -1309,16 +1367,16 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/IndexMethod!predicate",
                           _js2n__-prdslib.isType 'Null
                         ],
-                  library =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Null
-                        ],
                   materialization =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-refsenv."_js2n__-:definitions/Materialization!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  materialization-lib =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
                   preprocessor =
@@ -1343,6 +1401,18 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-refsenv."_js2n__-:definitions/SyncType!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  test-lib =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  utils-lib =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
                 } {} false _js2n__-prdslib.never
@@ -1371,6 +1441,13 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
+                        ],
+                  imports =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
                         ],
                   name = _js2n__-prdslib.isType '"String",
                   path =
@@ -1444,6 +1521,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/IncludePath!predicate"
+                        ],
+                  integrations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Integration!predicate"
                         ],
                   name = _js2n__-prdslib.isType '"String",
                   preprocessor =
@@ -1630,11 +1714,40 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/Volatility!predicate",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/FunctionImplSpec!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/FunctionImplSpec!predicate"
+        | doc "Indicates how a function's evaluation is implemented."
+        = _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "builtin", "sql", "native" ]
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "builtin" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "rust" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      rust =
+                        _js2n__-refsenv."_js2n__-:definitions/RustFunctionSpec!predicate",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "datafusion" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      datafusion =
+                        _js2n__-refsenv."_js2n__-:definitions/DataFusionSpec!predicate",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "sql" ]
+                ]
             ],
       "_js2n__-:definitions/FunctionKind!predicate" =
         _js2n__-prdslib.allOf
@@ -1739,6 +1852,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  on-schema-change =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/OnSchemaChange!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   strategy =
                     _js2n__-refsenv."_js2n__-:definitions/IncrementalStrategy!predicate",
                   unique-key =
@@ -1767,6 +1886,69 @@ let rec _js2n__-refsenv
                   "catalog-schema-table-name",
                   "scan-dbt"
                 ]
+            ],
+      "_js2n__-:definitions/Integration!predicate"
+        | doc "Table providers manage tables in in catalogs (OLD_PROVIDERS)"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "provider" ],
+              _js2n__-prdslib.records.record
+                {
+                  batch-size =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
+                  buckets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/DataBucket!predicate"
+                        ],
+                  cluster-identifier =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  credential =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  provider =
+                    _js2n__-refsenv."_js2n__-:definitions/ProviderType!predicate",
+                  sources =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/SourcePattern!predicate"
+                        ],
+                  targets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/TargetPattern!predicate"
+                        ],
+                  type =
+                    _js2n__-refsenv."_js2n__-:definitions/IntegrationType!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/IntegrationType!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "data", "metadata", "database" ]
             ],
       "_js2n__-:definitions/Label!predicate"
         | doc "A classifier element is a scoped classifier label (e.g. the element PII belongs to the classifier scope data)"
@@ -1833,7 +2015,27 @@ let rec _js2n__-refsenv
                   "view",
                   "materialized-view",
                   "incremental-table",
+                  "snapshot-table",
                   "recursive-table"
+                ]
+            ],
+      "_js2n__-:definitions/OnSchemaChange!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "fail" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "append" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "sync" ]
                 ]
             ],
       "_js2n__-:definitions/OptionalParameter!predicate"
@@ -1971,7 +2173,8 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "glue", "redshift", "snowflake", "s3" ]
+              _js2n__-prdslib.enum
+                [ "glue", "redshift", "snowflake", "s3", "sdf" ]
             ],
       "_js2n__-:definitions/Reclassify!predicate" =
         _js2n__-prdslib.allOf
@@ -1986,6 +2189,20 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Null
                         ],
                   to =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/RustFunctionSpec!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  name =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"String",
@@ -2012,6 +2229,36 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "warning", "error" ]
+            ],
+      "_js2n__-:definitions/SnapshotOptions!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "strategy", "unique-key" ],
+              _js2n__-prdslib.records.record
+                {
+                  check-cols =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/CheckColsSpec!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  strategy =
+                    _js2n__-refsenv."_js2n__-:definitions/SnapshotStrategy!predicate",
+                  unique-key = _js2n__-prdslib.isType '"String",
+                  updated-at =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SnapshotStrategy!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "timestamp", "check" ]
             ],
       "_js2n__-:definitions/SourcePattern!predicate"
         | doc "Sources defines the tables that are possibly remote"
@@ -2110,13 +2357,6 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/CompressionType!predicate",
                           _js2n__-prdslib.isType 'Null
                         ],
-                  constraints =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/Constraint!predicate"
-                        ],
                   creation-flags =
                     _js2n__-prdslib.anyOf
                         [
@@ -2128,6 +2368,13 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
+                        ],
+                  depended-on-by =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
                         ],
                   dependencies =
                     _js2n__-prdslib.allOf
@@ -2230,6 +2477,12 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/Severity!predicate",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  snapshot-options =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/SnapshotOptions!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   source-locations =
                     _js2n__-prdslib.allOf
                         [
@@ -2243,6 +2496,13 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-refsenv."_js2n__-:definitions/TableLocation!predicate",
                           _js2n__-prdslib.isType 'Null
+                        ],
+                  tests =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Constraint!predicate"
                         ],
                   with-header =
                     _js2n__-prdslib.anyOf
@@ -2525,6 +2785,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/IncludePath!predicate"
+                        ],
+                  integrations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Integration!predicate"
                         ],
                   name = _js2n__-prdslib.isType '"String",
                   providers =

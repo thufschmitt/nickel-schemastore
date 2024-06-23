@@ -1281,6 +1281,21 @@ let rec _js2n__-refsenv
                               ])
                         ],
                   version = _js2n__-prdslib.isType '"String",
+                  workspace-directories =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    source =
+                                      _js2n__-refsenv."_js2n__-:definitions/ScriptSource!predicate",
+                                  } {} true _js2n__-prdslib.always
+                              ])
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/GrainSpecSourceObject!predicate" =
@@ -1585,31 +1600,44 @@ let rec _js2n__-refsenv
         {
             cron | String | optional,
             event
-              | std.enum.TagOrString
-              | [|
-                '"environment idle",
-                '"collaborator added",
-                '"environment extended",
-                '"environment force ended",
-                '"environment ending failed",
-                '"environment active with error",
-                '"environment launched",
-                '"environment ended",
-                '"approval request triggered",
-                '"updates detected",
-                '"drift detected",
-                '"Environment Idle",
-                '"Collaborator Added",
-                '"Environment Extended",
-                '"Environment Force Ended",
-                '"Environment Ending Failed",
-                '"Environment Active With Error",
-                '"Environment Launched",
-                '"Environment Ended",
-                '"Approval Request Triggered",
-                '"Updates Detected",
-                '"Drift Detected"
-              |]
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "Drift Detected",
+                              "Updates Detected",
+                              "Approval Request Triggered",
+                              "Environment Ended",
+                              "Environment Launched",
+                              "Environment Active With Error",
+                              "Environment Ending Failed",
+                              "Environment Force Ended",
+                              "Environment Extended",
+                              "Collaborator Added",
+                              "Environment Idle",
+                              "drift detected",
+                              "updates detected",
+                              "approval request triggered",
+                              "environment ended",
+                              "environment launched",
+                              "environment active with error",
+                              "environment ending failed",
+                              "environment force ended",
+                              "environment extended",
+                              "collaborator added",
+                              "environment idle"
+                            ]
+                        ]),
+                    _js2n__-prdslib.arrays.uniqueItems,
+                    _js2n__-prdslib.arrays.contains
+                      (_js2n__-prdslib.isType '"String")
+                  ])
               | optional,
             overridable | Bool | optional,
             type
