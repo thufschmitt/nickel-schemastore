@@ -953,8 +953,11 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/CaptureBinding!predicate"
                         ],
+                  delete = _js2n__-prdslib.isType '"Bool",
                   endpoint =
                     _js2n__-refsenv."_js2n__-:definitions/CaptureEndpoint!predicate",
+                  expectPubId =
+                    _js2n__-refsenv."_js2n__-:definitions/Id!predicate",
                   interval =
                     _js2n__-prdslib.allOf
                         [
@@ -1030,8 +1033,11 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "key" ],
               _js2n__-prdslib.records.record
                 {
+                  delete = _js2n__-prdslib.isType '"Bool",
                   derive =
                     _js2n__-refsenv."_js2n__-:definitions/Derivation!predicate",
+                  expectPubId =
+                    _js2n__-refsenv."_js2n__-:definitions/Id!predicate",
                   journals =
                     _js2n__-refsenv."_js2n__-:definitions/JournalTemplate!predicate",
                   key =
@@ -1275,6 +1281,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/PartitionSelector!predicate",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/Id!predicate" = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/JournalTemplate!predicate"
         | doc "A JournalTemplate configures the journals which make up the physical partitions of a collection."
         = _js2n__-prdslib.allOf
@@ -1336,6 +1343,8 @@ let rec _js2n__-refsenv
                   disable = _js2n__-prdslib.isType '"Bool",
                   fields =
                     _js2n__-refsenv."_js2n__-:definitions/MaterializationFields!predicate",
+                  onIncompatibleSchemaChange =
+                    _js2n__-refsenv."_js2n__-:definitions/OnIncompatibleSchemaChange!predicate",
                   "priority" =
                     _js2n__-prdslib.allOf
                         [
@@ -1362,8 +1371,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/MaterializationBinding!predicate"
                         ],
+                  delete = _js2n__-prdslib.isType '"Bool",
                   endpoint =
                     _js2n__-refsenv."_js2n__-:definitions/MaterializationEndpoint!predicate",
+                  expectPubId =
+                    _js2n__-refsenv."_js2n__-:definitions/Id!predicate",
+                  onIncompatibleSchemaChange =
+                    _js2n__-refsenv."_js2n__-:definitions/OnIncompatibleSchemaChange!predicate",
                   shards =
                     _js2n__-refsenv."_js2n__-:definitions/ShardTemplate!predicate",
                   sourceCapture =
@@ -1419,6 +1433,31 @@ let rec _js2n__-refsenv
                         ],
                   recommended = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/OnIncompatibleSchemaChange!predicate"
+        | doc "Determines how to handle incompatible schema changes for a given binding."
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "abort" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "backfill" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "disableBinding" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "disableTask" ]
+                ]
             ],
       "_js2n__-:definitions/PartitionSelector!predicate"
         | doc "Partition selectors identify a desired subset of the available logical partitions of a collection."
@@ -1578,6 +1617,27 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/FullSource!predicate",
               _js2n__-refsenv."_js2n__-:definitions/Collection!predicate"
             ],
+      "_js2n__-:definitions/TestDef!predicate"
+        | doc "Test the behavior of reductions and derivations, through a sequence of test steps."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "steps" ],
+              _js2n__-prdslib.records.record
+                {
+                  delete = _js2n__-prdslib.isType '"Bool",
+                  description = _js2n__-prdslib.isType '"String",
+                  expectPubId =
+                    _js2n__-refsenv."_js2n__-:definitions/Id!predicate",
+                  steps =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/TestStep!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/TestDocuments!predicate"
         | doc "A test step describes either an \"ingest\" of document fixtures into a collection, or a \"verify\" of expected document fixtures from a collection."
         = _js2n__-prdslib.always,
@@ -1736,12 +1796,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {}
                 {
                   "^[\\p{Letter}\\p{Number}\\-_\\.]+(/[\\p{Letter}\\p{Number}\\-_\\.]+)*$" =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/TestStep!predicate"
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/TestDef!predicate",
                 } false _js2n__-prdslib.never
             ])
         | optional,

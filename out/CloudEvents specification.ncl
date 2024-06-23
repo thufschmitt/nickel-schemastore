@@ -897,277 +897,134 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/Build!predicate"
-        | doc "EAS Build configuration. Learn more: https://docs.expo.dev/build-reference/eas-json/"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {}
-                {
-                  ".*" =
-                    _js2n__-refsenv."_js2n__-:definitions/BuildProfile!predicate",
-                } true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/BuildCache!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  customPaths =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String"),
-                          _js2n__-prdslib.arrays.uniqueItems
-                        ],
-                  disabled = _js2n__-prdslib.isType '"Bool",
-                  key = _js2n__-prdslib.isType '"String",
-                  paths =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String"),
-                          _js2n__-prdslib.arrays.uniqueItems
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/BuildProfile!predicate"
-        | doc "The build profile configuration."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  android =
-                    _js2n__-refsenv."_js2n__-:definitions/BuildProfileAndroid!predicate",
-                  autoIncrement = _js2n__-prdslib.isType '"Bool",
-                  buildArtifactPaths =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  bun = _js2n__-prdslib.isType '"String",
-                  cache =
-                    _js2n__-refsenv."_js2n__-:definitions/BuildCache!predicate",
-                  channel = _js2n__-prdslib.isType '"String",
-                  config = _js2n__-prdslib.isType '"String",
-                  credentialsSource =
-                    _js2n__-prdslib.enum [ "remote", "local" ],
-                  developmentClient = _js2n__-prdslib.isType '"Bool",
-                  distribution = _js2n__-prdslib.enum [ "internal", "store" ],
-                  env =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {}
-                            { ".*" = _js2n__-prdslib.isType '"String", } true
-                            _js2n__-prdslib.always
-                        ],
-                  extends = _js2n__-prdslib.isType '"String",
-                  ios =
-                    _js2n__-refsenv."_js2n__-:definitions/BuildProfileIos!predicate",
-                  node = _js2n__-prdslib.isType '"String",
-                  pnpm = _js2n__-prdslib.isType '"String",
-                  prebuildCommand = _js2n__-prdslib.isType '"String",
-                  resourceClass =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.enum [ "default", "medium", "large" ],
-                          _js2n__-prdslib.isType '"String"
-                        ],
-                  withoutCredentials = _js2n__-prdslib.isType '"Bool",
-                  yarn = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/BuildProfileAndroid!predicate"
-        | doc "The Android-specific build profile configuration."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  applicationArchivePath = _js2n__-prdslib.isType '"String",
-                  artifactPath = _js2n__-prdslib.isType '"String",
-                  autoIncrement =
-                    _js2n__-prdslib.enum
-                        [ false, true, "versionCode", "version" ],
-                  buildType = _js2n__-prdslib.enum [ "app-bundle", "apk" ],
-                  config = _js2n__-prdslib.isType '"String",
-                  gradleCommand = _js2n__-prdslib.isType '"String",
-                  image =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.enum
-                            [
-                              "auto",
-                              "latest",
-                              "sdk-51",
-                              "sdk-50",
-                              "sdk-49",
-                              "ubuntu-22.04-jdk-17-ndk-r25b",
-                              "ubuntu-22.04-jdk-11-ndk-r23b",
-                              "ubuntu-20.04-jdk-11-ndk-r23b",
-                              "ubuntu-22.04-jdk-17-ndk-r21e",
-                              "ubuntu-22.04-jdk-11-ndk-r21e",
-                              "ubuntu-20.04-jdk-11-ndk-r21e",
-                              "ubuntu-22.04-jdk-8-ndk-r21e",
-                              "ubuntu-20.04-jdk-8-ndk-r21e",
-                              "ubuntu-20.04-jdk-11-ndk-r19c",
-                              "ubuntu-20.04-jdk-8-ndk-r19c"
-                            ],
-                          _js2n__-prdslib.enum [ "default", "stable" ]
-                        ],
-                  ndk = _js2n__-prdslib.isType '"String",
-                  resourceClass =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.enum [ "default", "medium", "large" ],
-                          _js2n__-prdslib.isType '"String"
-                        ],
-                  withoutCredentials = _js2n__-prdslib.isType '"Bool",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/BuildProfileIos!predicate"
-        | doc "The iOS-specific build profile configuration."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  applicationArchivePath = _js2n__-prdslib.isType '"String",
-                  artifactPath = _js2n__-prdslib.isType '"String",
-                  autoIncrement =
-                    _js2n__-prdslib.enum
-                        [ false, true, "buildNumber", "version" ],
-                  buildConfiguration = _js2n__-prdslib.isType '"String",
-                  bundler = _js2n__-prdslib.isType '"String",
-                  cocoapods = _js2n__-prdslib.isType '"String",
-                  config = _js2n__-prdslib.isType '"String",
-                  enterpriseProvisioning =
-                    _js2n__-prdslib.enum [ "universal", "adhoc" ],
-                  fastlane = _js2n__-prdslib.isType '"String",
-                  image =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.enum
-                            [
-                              "auto",
-                              "latest",
-                              "sdk-51",
-                              "sdk-50",
-                              "sdk-49",
-                              "macos-sonoma-14.4-xcode-15.3",
-                              "macos-ventura-13.6-xcode-15.2",
-                              "macos-ventura-13.6-xcode-15.1",
-                              "macos-ventura-13.6-xcode-15.0"
-                            ],
-                          _js2n__-prdslib.enum [ "default", "stable" ]
-                        ],
-                  resourceClass =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.enum
-                            [ "default", "medium", "large", "m-medium" ],
-                          _js2n__-prdslib.isType '"String"
-                        ],
-                  scheme = _js2n__-prdslib.isType '"String",
-                  simulator = _js2n__-prdslib.isType '"Bool",
-                  withoutCredentials = _js2n__-prdslib.isType '"Bool",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/Cli!predicate"
-        | doc "Configure the basic behavior of your project with the EAS CLI"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  appVersionSource = _js2n__-prdslib.enum [ "local", "remote" ],
-                  promptToConfigurePushNotifications =
-                    _js2n__-prdslib.isType '"Bool",
-                  requireCommit = _js2n__-prdslib.isType '"Bool",
-                  version = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/Submit!predicate"
-        | doc "EAS Submit configuration. Learn more: https://docs.expo.dev/submit/eas-json/"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {}
-                {
-                  ".*" =
-                    _js2n__-refsenv."_js2n__-:definitions/SubmitProfile!predicate",
-                } true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/SubmitProfile!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  android =
-                    _js2n__-refsenv."_js2n__-:definitions/SubmitProfileAndroid!predicate",
-                  extends = _js2n__-prdslib.isType '"String",
-                  ios =
-                    _js2n__-refsenv."_js2n__-:definitions/SubmitProfileIos!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/SubmitProfileAndroid!predicate"
-        | doc "The Android-specific submit profile configuration."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  applicationId = _js2n__-prdslib.isType '"String",
-                  changesNotSentForReview = _js2n__-prdslib.isType '"Bool",
-                  releaseStatus =
-                    _js2n__-prdslib.enum
-                        [ "draft", "inProgress", "halted", "completed" ],
-                  rollout = _js2n__-prdslib.isType '"Number",
-                  serviceAccountKeyPath = _js2n__-prdslib.isType '"String",
-                  track =
-                    _js2n__-prdslib.enum
-                        [ "beta", "alpha", "internal", "production" ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/SubmitProfileIos!predicate"
-        | doc "The iOS-specific submit profile configuration."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  appName = _js2n__-prdslib.isType '"String",
-                  appleId = _js2n__-prdslib.isType '"String",
-                  appleTeamId = _js2n__-prdslib.isType '"String",
-                  ascApiKeyId = _js2n__-prdslib.isType '"String",
-                  ascApiKeyIssuerId = _js2n__-prdslib.isType '"String",
-                  ascApiKeyPath = _js2n__-prdslib.isType '"String",
-                  ascAppId = _js2n__-prdslib.isType '"String",
-                  bundleIdentifier = _js2n__-prdslib.isType '"String",
-                  companyName = _js2n__-prdslib.isType '"String",
-                  language = _js2n__-prdslib.isType '"String",
-                  metadataPath = _js2n__-prdslib.isType '"String",
-                  sku = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
+      "_js2n__-:definitions/data_base64def!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.anyOf
+              [
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.isType 'Null
+              ]),
+      "_js2n__-:definitions/datacontenttypedef!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.strings.minLength 1
+              ]),
+      "_js2n__-:definitions/datadef!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.anyOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.isType '"Number",
+                _js2n__-prdslib.isType '"Array",
+                _js2n__-prdslib.isType '"Bool",
+                _js2n__-prdslib.isType 'Null
+              ]),
+      "_js2n__-:definitions/dataschemadef!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.strings.minLength 1
+              ]),
+      "_js2n__-:definitions/iddef!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.strings.minLength 1
+              ]),
+      "_js2n__-:definitions/sourcedef!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.strings.minLength 1
+              ]),
+      "_js2n__-:definitions/specversiondef!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.strings.minLength 1
+              ]),
+      "_js2n__-:definitions/subjectdef!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.strings.minLength 1
+              ]),
+      "_js2n__-:definitions/timedef!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ],
+                _js2n__-prdslib.strings.minLength 1
+              ]),
+      "_js2n__-:definitions/typedef!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.strings.minLength 1
+              ]),
     }
     in
-  _js2n__-prdslib.contract_from_predicate
-      (_js2n__-prdslib.allOf
-        [
-          _js2n__-prdslib.isType 'Record,
-          _js2n__-prdslib.records.record
-            {
-              build = _js2n__-refsenv."_js2n__-:definitions/Build!predicate",
-              cli = _js2n__-refsenv."_js2n__-:definitions/Cli!predicate",
-              submit = _js2n__-refsenv."_js2n__-:definitions/Submit!predicate",
-            } {} true _js2n__-prdslib.always
-        ])
+  {
+      data
+        | _js2n__-refsenv."_js2n__-:definitions/datadef!contract"
+        | doc "The event payload."
+        | optional,
+      data_base64
+        | _js2n__-refsenv."_js2n__-:definitions/data_base64def!contract"
+        | doc "Base64 encoded event payload. Must adhere to RFC4648."
+        | optional,
+      datacontenttype
+        | _js2n__-refsenv."_js2n__-:definitions/datacontenttypedef!contract"
+        | doc "Content type of the data value. Must adhere to RFC 2046 format."
+        | optional,
+      dataschema
+        | _js2n__-refsenv."_js2n__-:definitions/dataschemadef!contract"
+        | doc "Identifies the schema that data adheres to."
+        | optional,
+      id
+        | _js2n__-refsenv."_js2n__-:definitions/iddef!contract"
+        | doc "Identifies the event.",
+      source
+        | _js2n__-refsenv."_js2n__-:definitions/sourcedef!contract"
+        | doc "Identifies the context in which an event happened.",
+      specversion
+        | _js2n__-refsenv."_js2n__-:definitions/specversiondef!contract"
+        | doc "The version of the CloudEvents specification which the event uses.",
+      subject
+        | _js2n__-refsenv."_js2n__-:definitions/subjectdef!contract"
+        | doc "Describes the subject of the event in the context of the event producer (identified by source)."
+        | optional,
+      time
+        | _js2n__-refsenv."_js2n__-:definitions/timedef!contract"
+        | doc "Timestamp of when the occurrence happened. Must adhere to RFC 3339."
+        | optional,
+      type
+        | _js2n__-refsenv."_js2n__-:definitions/typedef!contract"
+        | doc "Describes the type of event related to the originating occurrence.",
+      ..
+    }

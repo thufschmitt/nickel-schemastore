@@ -1100,7 +1100,8 @@ let rec _js2n__-refsenv
             [
               _js2n__-refsenv."_js2n__-:definitions/DictionaryDefinitionInlineWords!predicate",
               _js2n__-refsenv."_js2n__-:definitions/DictionaryDefinitionInlineIgnoreWords!predicate",
-              _js2n__-refsenv."_js2n__-:definitions/DictionaryDefinitionInlineFlagWords!predicate"
+              _js2n__-refsenv."_js2n__-:definitions/DictionaryDefinitionInlineFlagWords!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/DictionaryDefinitionInlineSuggestWords!predicate"
             ],
       "_js2n__-:definitions/DictionaryDefinitionInlineFlagWords!predicate" =
         _js2n__-prdslib.allOf
@@ -1153,6 +1154,52 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "ignoreWords", "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  description = _js2n__-prdslib.isType '"String",
+                  flagWords =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  ignoreWords =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/DictionaryId!predicate",
+                  noSuggest = _js2n__-prdslib.isType '"Bool",
+                  repMap =
+                    _js2n__-refsenv."_js2n__-:definitions/ReplaceMap!predicate",
+                  suggestWords =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  type =
+                    _js2n__-refsenv."_js2n__-:definitions/DictionaryFileTypes!predicate",
+                  useCompounds = _js2n__-prdslib.isType '"Bool",
+                  words =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DictionaryDefinitionInlineSuggestWords!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name", "suggestWords" ],
               _js2n__-prdslib.records.record
                 {
                   description = _js2n__-prdslib.isType '"String",
@@ -1450,21 +1497,36 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/LanguageIdMultipleNeg!predicate"
             ],
       "_js2n__-:definitions/LanguageIdMultiple!predicate"
-        | doc "This can be 'typescript,cpp,json,literal haskell', etc."
+        | doc m%"
+          A single string with a comma separated list of file types:
+          - `typescript,cpp`
+          - `json,jsonc,yaml`
+          - etc.
+        "%
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.strings.pattern "^([-\\w_\\s]+)(,[-\\w_\\s]+)*$"
             ],
       "_js2n__-:definitions/LanguageIdMultipleNeg!predicate"
-        | doc "This can be 'typescript,cpp,json,literal haskell', etc."
+        | doc m%"
+          A Negative File Type used to exclude files of that type.
+          - `!typescript` - will exclude typescript files.
+          - `!cpp,!json` - will exclude cpp and json files.
+          - `!typescript,javascript` - will exclude typescript files and include javascript files.
+        "%
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.strings.pattern "^(![-\\w_\\s]+)(,![-\\w_\\s]+)*$"
+              _js2n__-prdslib.strings.pattern
+                "^(![-\\w_\\s]+)(,!?[-\\w_\\s]+)*$"
             ],
       "_js2n__-:definitions/LanguageIdSingle!predicate"
-        | doc "This can be '*', 'typescript', 'cpp', 'json', etc."
+        | doc m%"
+          A file type:
+          - `*` - will match ALL file types.
+          - `typescript`, `cpp`, `json`, etc.
+        "%
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
@@ -1570,7 +1632,7 @@ let rec _js2n__-refsenv
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/LocaleId!predicate"
-        | doc "This is a written language locale like: 'en', 'en-GB', 'fr', 'es', 'de', etc."
+        | doc "This is a written language locale like: `en`, `en-GB`, `fr`, `es`, `de` or `en,fr` for both English and French"
         = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/MatchingFileType!predicate" =
         _js2n__-prdslib.anyOf

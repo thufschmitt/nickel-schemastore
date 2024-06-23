@@ -895,4 +895,7 @@ let _js2n__-prdslib
         },
   }
   in
-let rec _js2n__-refsenv = {} in Dyn
+let rec _js2n__-refsenv
+    = {}
+    in
+  _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always

@@ -1025,6 +1025,7 @@ let rec _js2n__-refsenv
                 'REPOSITORY_SYFT,
                 'REPOSITORY_SEMGREP,
                 'REPOSITORY_SECRETLINT,
+                'REPOSITORY_LS_LINT,
                 'REPOSITORY_KICS,
                 'REPOSITORY_GRYPE,
                 'REPOSITORY_GOODCHECK,
@@ -2122,6 +2123,10 @@ let rec _js2n__-refsenv
             ])
         | doc "CSHARP_CSHARPIER: User custom arguments to remove before calling linter"
         | optional,
+      CSHARP_CSHARPIER_CONFIG_FILE
+        | String
+        | doc "CSHARP_CSHARPIER: User custom config file name if different from default"
+        | optional,
       CSHARP_CSHARPIER_DISABLE_ERRORS | Bool | optional,
       CSHARP_CSHARPIER_DISABLE_ERRORS_IF_LESS_THAN | Number | optional,
       CSHARP_CSHARPIER_FILE_EXTENSIONS | Array (String) | optional,
@@ -2133,6 +2138,10 @@ let rec _js2n__-refsenv
         | optional,
       CSHARP_CSHARPIER_PRE_COMMANDS
         | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+        | optional,
+      CSHARP_CSHARPIER_RULES_PATH
+        | String
+        | doc "CSHARP_CSHARPIER: Path where to find linter configuration file"
         | optional,
       CSHARP_CSHARPIER_UNSECURED_ENV_VARIABLES
         | Array (String)
@@ -5379,6 +5388,10 @@ let rec _js2n__-refsenv
         | optional,
       POWERSHELL_POWERSHELL_FORMATTER_FILTER_REGEX_EXCLUDE | String | optional,
       POWERSHELL_POWERSHELL_FORMATTER_FILTER_REGEX_INCLUDE | String | optional,
+      POWERSHELL_POWERSHELL_FORMATTER_OUTPUT_ENCODING
+        | String
+        | doc "POWERSHELL_POWERSHELL_FORMATTER: `-Encoding` to be used when writing content to the file"
+        | optional,
       POWERSHELL_POWERSHELL_FORMATTER_POST_COMMANDS
         | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
         | optional,
@@ -6270,6 +6283,9 @@ let rec _js2n__-refsenv
       REPOSITORY_GITLEAKS_PRE_COMMANDS
         | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
         | optional,
+      REPOSITORY_GITLEAKS_PR_COMMITS_SCAN | Bool | optional,
+      REPOSITORY_GITLEAKS_PR_SOURCE_SHA | String | optional,
+      REPOSITORY_GITLEAKS_PR_TARGET_SHA | String | optional,
       REPOSITORY_GITLEAKS_RULES_PATH
         | String
         | doc "REPOSITORY_GITLEAKS: Path where to find linter configuration file"
@@ -6440,6 +6456,53 @@ let rec _js2n__-refsenv
       REPOSITORY_KICS_UNSECURED_ENV_VARIABLES
         | Array (String)
         | doc "List of env variables explicitly not filtered before calling REPOSITORY_KICS and its pre/post commands"
+        | optional,
+      REPOSITORY_LS_LINT_ARGUMENTS
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType '"String"
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "REPOSITORY_LS_LINT: User custom arguments to add in linter CLI call"
+        | optional,
+      REPOSITORY_LS_LINT_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_LS_LINT_COMMAND_REMOVE_ARGUMENTS
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType '"String"
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "REPOSITORY_LS_LINT: User custom arguments to remove before calling linter"
+        | optional,
+      REPOSITORY_LS_LINT_CONFIG_FILE
+        | String
+        | doc "REPOSITORY_LS_LINT: User custom config file name if different from default"
+        | optional,
+      REPOSITORY_LS_LINT_DISABLE_ERRORS | Bool | optional,
+      REPOSITORY_LS_LINT_DISABLE_ERRORS_IF_LESS_THAN | Number | optional,
+      REPOSITORY_LS_LINT_POST_COMMANDS
+        | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+        | optional,
+      REPOSITORY_LS_LINT_PRE_COMMANDS
+        | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+        | optional,
+      REPOSITORY_LS_LINT_RULES_PATH
+        | String
+        | doc "REPOSITORY_LS_LINT: Path where to find linter configuration file"
+        | optional,
+      REPOSITORY_LS_LINT_UNSECURED_ENV_VARIABLES
+        | Array (String)
+        | doc "List of env variables explicitly not filtered before calling REPOSITORY_LS_LINT and its pre/post commands"
         | optional,
       REPOSITORY_POST_COMMANDS
         | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
@@ -8392,6 +8455,10 @@ let rec _js2n__-refsenv
         | String
         | doc "TERRAFORM_TFLINT: Path where to find linter configuration file"
         | optional,
+      TERRAFORM_TFLINT_SECURED_ENV
+        | Bool
+        | doc "TERRAFORM_TFLINT: Allows to send the full env to **tflint --init**. Initialized with default value `true`. Set to `false` to allow `tflint --init` to access your env vars."
+        | optional,
       TERRAFORM_TFLINT_UNSECURED_ENV_VARIABLES
         | Array (String)
         | doc "List of env variables explicitly not filtered before calling TERRAFORM_TFLINT and its pre/post commands"
@@ -8727,6 +8794,7 @@ let rec _js2n__-refsenv
             ])
         | doc "XML_XMLLINT: User custom arguments to add in linter CLI call"
         | optional,
+      XML_XMLLINT_AUTOFORMAT | Bool | optional,
       XML_XMLLINT_CLI_EXECUTABLE | Array (String) | optional,
       XML_XMLLINT_CLI_LINT_MODE
         | std.enum.TagOrString
@@ -8751,6 +8819,7 @@ let rec _js2n__-refsenv
       XML_XMLLINT_FILE_NAMES_REGEX | Array (String) | optional,
       XML_XMLLINT_FILTER_REGEX_EXCLUDE | String | optional,
       XML_XMLLINT_FILTER_REGEX_INCLUDE | String | optional,
+      XML_XMLLINT_INDENT | String | optional,
       XML_XMLLINT_POST_COMMANDS
         | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
         | optional,

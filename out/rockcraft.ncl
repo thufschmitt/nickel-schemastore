@@ -3675,7 +3675,7 @@ let rec _js2n__-refsenv
                 ]
             ])
         | optional,
-      license | String,
+      license | String | optional,
       name
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

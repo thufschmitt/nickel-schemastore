@@ -1485,7 +1485,7 @@ let rec _js2n__-refsenv
                       [
                         _js2n__-prdslib.isType 'Record,
                         _js2n__-prdslib.records.required
-                          [ "catalog", "host", "schema", "type" ],
+                          [ "catalog", "schema", "type" ],
                         _js2n__-prdslib.records.record
                           {
                             catalog = _js2n__-prdslib.isType '"String",

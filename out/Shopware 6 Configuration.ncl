@@ -1456,6 +1456,9 @@ let rec _js2n__-refsenv
         {
             enable_url_upload_feature | Bool | optional,
             enable_url_validation | Bool | optional,
+            remote_thumbnails
+              | { enable | Bool | optional, pattern | String | optional, }
+              | optional,
             url_upload_max_size | String | optional,
           },
       "_js2n__-:definitions/messenger!contract" =

@@ -969,7 +969,6 @@ let rec _js2n__-refsenv
               "name",
               "platforms",
               "publiccodeYmlVersion",
-              "releaseDate",
               "softwareType",
               "url"
             ],
@@ -1007,12 +1006,15 @@ let rec _js2n__-refsenv
                             "data-analytics",
                             "data-collection",
                             "data-visualization",
+                            "design",
+                            "design-system",
                             "digital-asset-management",
                             "digital-citizenship",
                             "document-management",
                             "donor-management",
                             "e-commerce",
                             "e-signature",
+                            "educational-content",
                             "email-management",
                             "email-marketing",
                             "employee-management",
@@ -1034,6 +1036,7 @@ let rec _js2n__-refsenv
                             "ide",
                             "identity-management",
                             "instant-messaging",
+                            "integrated-library-system",
                             "inventory-management",
                             "it-asset-management",
                             "it-development",
@@ -1059,6 +1062,7 @@ let rec _js2n__-refsenv
                             "project-management",
                             "property-management",
                             "real-estate-management",
+                            "regulations-and-directives",
                             "remote-support",
                             "resource-management",
                             "sales-management",
@@ -1081,6 +1085,7 @@ let rec _js2n__-refsenv
                             "web-collaboration",
                             "web-conferencing",
                             "website-builder",
+                            "whistleblowing",
                             "workflow-management"
                           ])
                     ],
@@ -1141,12 +1146,7 @@ let rec _js2n__-refsenv
                                       [
                                         _js2n__-prdslib.isType '"Array",
                                         _js2n__-prdslib.arrays.arrayOf
-                                          (_js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.maxLength
-                                                100
-                                            ])
+                                          (_js2n__-prdslib.isType '"String")
                                       ],
                                 genericName =
                                   _js2n__-prdslib.allOf
@@ -1161,7 +1161,7 @@ let rec _js2n__-refsenv
                                       [
                                         _js2n__-prdslib.isType '"String",
                                         _js2n__-prdslib.strings.maxLength 10000,
-                                        _js2n__-prdslib.strings.minLength 500
+                                        _js2n__-prdslib.strings.minLength 150
                                       ],
                                 screenshots =
                                   _js2n__-prdslib.allOf
@@ -1281,7 +1281,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"Bool",
                                       misureMinimeSicurezza =
                                         _js2n__-prdslib.isType '"Bool",
-                                      modelloInteroperatibilita =
+                                      modelloInteroperabilita =
                                         _js2n__-prdslib.isType '"Bool",
                                     } {} false _js2n__-prdslib.never
                                 ],
@@ -1295,6 +1295,7 @@ let rec _js2n__-refsenv
                                     {
                                       anpr = _js2n__-prdslib.isType '"Bool",
                                       cie = _js2n__-prdslib.isType '"Bool",
+                                      io = _js2n__-prdslib.isType '"Bool",
                                       pagopa = _js2n__-prdslib.isType '"Bool",
                                       spid = _js2n__-prdslib.isType '"Bool",
                                     } {} false _js2n__-prdslib.never
@@ -1384,15 +1385,7 @@ let rec _js2n__-refsenv
                     [
                       _js2n__-prdslib.isType '"Array",
                       _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.enum
-                          [
-                            "web",
-                            "windows",
-                            "mac",
-                            "linux",
-                            "ios",
-                            "android"
-                          ])
+                        (_js2n__-prdslib.isType '"String")
                     ],
               publiccodeYmlVersion = _js2n__-prdslib.isType '"String",
               releaseDate = _js2n__-prdslib.isType '"String",
