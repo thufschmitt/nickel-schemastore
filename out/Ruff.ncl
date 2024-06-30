@@ -2294,6 +2294,34 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/OutputFormat!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum
+                    [
+                      "concise",
+                      "full",
+                      "json",
+                      "json-lines",
+                      "junit",
+                      "grouped",
+                      "github",
+                      "gitlab",
+                      "pylint",
+                      "rdjson",
+                      "azure",
+                      "sarif"
+                    ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "text" ]
+                ]
+            ],
       "_js2n__-:definitions/ParametrizeNameType!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2672,10 +2700,23 @@ let rec _js2n__-refsenv
                   "ASYNC1",
                   "ASYNC10",
                   "ASYNC100",
-                  "ASYNC101",
-                  "ASYNC102",
+                  "ASYNC105",
+                  "ASYNC109",
                   "ASYNC11",
+                  "ASYNC110",
+                  "ASYNC115",
                   "ASYNC116",
+                  "ASYNC2",
+                  "ASYNC21",
+                  "ASYNC210",
+                  "ASYNC22",
+                  "ASYNC220",
+                  "ASYNC221",
+                  "ASYNC222",
+                  "ASYNC23",
+                  "ASYNC230",
+                  "ASYNC25",
+                  "ASYNC251",
                   "B",
                   "B0",
                   "B00",
@@ -3351,7 +3392,6 @@ let rec _js2n__-refsenv
                   "PLR1",
                   "PLR17",
                   "PLR170",
-                  "PLR1701",
                   "PLR1702",
                   "PLR1704",
                   "PLR171",
@@ -3630,6 +3670,8 @@ let rec _js2n__-refsenv
                   "RUF027",
                   "RUF028",
                   "RUF029",
+                  "RUF03",
+                  "RUF030",
                   "RUF1",
                   "RUF10",
                   "RUF100",
@@ -3815,15 +3857,6 @@ let rec _js2n__-refsenv
                   "TID251",
                   "TID252",
                   "TID253",
-                  "TRIO",
-                  "TRIO1",
-                  "TRIO10",
-                  "TRIO100",
-                  "TRIO105",
-                  "TRIO109",
-                  "TRIO11",
-                  "TRIO110",
-                  "TRIO115",
                   "TRY",
                   "TRY0",
                   "TRY00",
@@ -3924,27 +3957,6 @@ let rec _js2n__-refsenv
                   "YTT301",
                   "YTT302",
                   "YTT303"
-                ]
-            ],
-      "_js2n__-:definitions/SerializationFormat!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum
-                [
-                  "text",
-                  "concise",
-                  "full",
-                  "json",
-                  "json-lines",
-                  "junit",
-                  "grouped",
-                  "github",
-                  "gitlab",
-                  "pylint",
-                  "rdjson",
-                  "azure",
-                  "sarif"
                 ]
             ],
       "_js2n__-:definitions/Strictness!predicate" =
@@ -4558,7 +4570,7 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
-              _js2n__-refsenv."_js2n__-:definitions/SerializationFormat!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/OutputFormat!predicate",
               _js2n__-prdslib.isType 'Null
             ])
         | doc "The style in which violation messages should be formatted: `\"full\"` (shows source),`\"concise\"` (default), `\"grouped\"` (group messages by file), `\"json\"` (machine-readable), `\"junit\"` (machine-readable XML), `\"github\"` (GitHub Actions annotations), `\"gitlab\"` (GitLab CI code quality report), `\"pylint\"` (Pylint text format) or `\"azure\"` (Azure Pipeline logging commands)."
@@ -4686,12 +4698,6 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
         | doc "Whether to show an enumeration of all fixed lint violations (overridden by the `--show-fixes` command-line flag)."
-        | optional,
-      show-source
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
-        | doc "Whether to show source code snippets when reporting lint violations (overridden by the `--show-source` command-line flag)."
         | optional,
       src
         | _js2n__-prdslib.contract_from_predicate

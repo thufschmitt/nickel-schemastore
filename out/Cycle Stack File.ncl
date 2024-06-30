@@ -4588,16 +4588,12 @@ let rec _js2n__-refsenv
                                                               'Record,
                                                             _js2n__-prdslib.records.required
                                                               [
-                                                                "delta",
                                                                 "max",
                                                                 "max_server",
                                                                 "min_ttl"
                                                               ],
                                                             _js2n__-prdslib.records.record
                                                               {
-                                                                delta =
-                                                                  _js2n__-prdslib.isType
-                                                                      'Integer,
                                                                 max =
                                                                   _js2n__-prdslib.isType
                                                                       'Integer,
@@ -4639,11 +4635,11 @@ let rec _js2n__-refsenv
                                                                                         'Record,
                                                                                       _js2n__-prdslib.records.required
                                                                                         [
-                                                                                          "used"
+                                                                                          "usage"
                                                                                         ],
                                                                                       _js2n__-prdslib.records.record
                                                                                         {
-                                                                                          used =
+                                                                                          usage =
                                                                                             _js2n__-prdslib.isType
                                                                                                 '"String",
                                                                                         }

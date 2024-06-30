@@ -268,6 +268,12 @@
 "Error pages" = import "out/Error pages.ncl",
 "electron-builder configuration file" = import "out/electron-builder configuration file.ncl",
 "evcc.yaml" = import "out/evcc.yaml.ncl",
+"EveryVoice TTS Toolkit Aligner Configuration" = import "out/EveryVoice TTS Toolkit Aligner Configuration.ncl",
+"EveryVoice TTS Toolkit Data Configuration" = import "out/EveryVoice TTS Toolkit Data Configuration.ncl",
+"EveryVoice TTS Toolkit Text Configuration" = import "out/EveryVoice TTS Toolkit Text Configuration.ncl",
+"EveryVoice TTS Toolkit Vocoder Configuration" = import "out/EveryVoice TTS Toolkit Vocoder Configuration.ncl",
+"EveryVoice TTS Toolkit Feature Prediction Configuration" = import "out/EveryVoice TTS Toolkit Feature Prediction Configuration.ncl",
+"EveryVoice TTS Toolkit E2E Configuration" = import "out/EveryVoice TTS Toolkit E2E Configuration.ncl",
 "Expo SDK" = import "out/Expo SDK.ncl",
 "EAS config" = import "out/EAS config.ncl",
 "ezd task runner" = import "out/ezd task runner.ncl",
@@ -886,4 +892,5 @@
 "Configu .configu file" = import "out/Configu .configu file.ncl",
 "Qt Creator workspace file" = import "out/Qt Creator workspace file.ncl",
 "mprocs Configuration file" = import "out/mprocs Configuration file.ncl",
+"Any" = import "out/Any.ncl",
 }

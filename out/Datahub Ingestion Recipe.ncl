@@ -3663,12 +3663,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType 'Record,
-                                _js2n__-prdslib.records.record {} {} true
-                                  (_js2n__-prdslib.isType '"String")
-                              ])
+                            (_js2n__-prdslib.isType 'Record)
                         ],
                   env = _js2n__-prdslib.isType '"String",
                   group_ownership_property = _js2n__-prdslib.isType '"String",
@@ -5656,7 +5651,9 @@ let rec _js2n__-refsenv
                   include_assertion_results = _js2n__-prdslib.isType '"Bool",
                   include_column_lineage = _js2n__-prdslib.isType '"Bool",
                   include_external_url = _js2n__-prdslib.isType '"Bool",
+                  include_foreign_keys = _js2n__-prdslib.isType '"Bool",
                   include_operational_stats = _js2n__-prdslib.isType '"Bool",
+                  include_primary_keys = _js2n__-prdslib.isType '"Bool",
                   include_read_operational_stats =
                     _js2n__-prdslib.isType '"Bool",
                   include_table_lineage = _js2n__-prdslib.isType '"Bool",
@@ -5670,6 +5667,7 @@ let rec _js2n__-refsenv
                   include_view_lineage = _js2n__-prdslib.isType '"Bool",
                   include_views = _js2n__-prdslib.isType '"Bool",
                   incremental_lineage = _js2n__-prdslib.isType '"Bool",
+                  lazy_schema_resolver = _js2n__-prdslib.isType '"Bool",
                   match_fully_qualified_names = _js2n__-prdslib.isType '"Bool",
                   oauth_config =
                     _js2n__-refsenv."_js2n__-:definitions/OAuthConfiguration!predicate",

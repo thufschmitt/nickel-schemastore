@@ -1430,25 +1430,7 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  actions =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/action!predicate"
-                        ],
-                  data = _js2n__-refsenv."_js2n__-:definitions/data!predicate",
-                  minHeight =
-                    _js2n__-refsenv."_js2n__-:definitions/minHeight!predicate",
-                  options =
-                    _js2n__-prdslib.oneOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-refsenv."_js2n__-:definitions/simpleBinding!predicate"
-                        ],
-                } {} false _js2n__-prdslib.never
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/ContentType.Calendar!predicate"
         | doc "The calendar card is used to display a schedule of a single entity (such as person, resource) for a selected time interval"
@@ -2363,9 +2345,22 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  allow = _js2n__-prdslib.isType '"String",
+                  allowfullscreen =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-refsenv."_js2n__-:definitions/simpleBinding!predicate"
+                        ],
                   data = _js2n__-refsenv."_js2n__-:definitions/data!predicate",
                   minHeight =
                     _js2n__-refsenv."_js2n__-:definitions/minHeight!predicate",
+                  omitSandbox =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-refsenv."_js2n__-:definitions/simpleBinding!predicate"
+                        ],
                   sandbox = _js2n__-prdslib.isType '"String",
                   src = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
@@ -2685,6 +2680,12 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/MicroChart.StackedBar.Bar!predicate"
                         ],
                   displayValue = _js2n__-prdslib.isType '"String",
+                  displayZeroValue =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-refsenv."_js2n__-:definitions/simpleBinding!predicate"
+                        ],
                   maxValue =
                     _js2n__-prdslib.oneOf
                         [
@@ -3927,6 +3928,12 @@ let rec _js2n__-refsenv
                   alt = _js2n__-prdslib.isType '"String",
                   backgroundColor =
                     _js2n__-refsenv."_js2n__-:definitions/iconBackgroundColor!predicate",
+                  fitType =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.enum [ "Cover", "Contain" ],
+                          _js2n__-refsenv."_js2n__-:definitions/simpleBinding!predicate"
+                        ],
                   initials = _js2n__-prdslib.isType '"String",
                   shape =
                     _js2n__-prdslib.allOf
@@ -5650,6 +5657,7 @@ let rec _js2n__-refsenv
       _version
         | std.enum.TagOrString
         | [|
+          '"1.65.0",
           '"1.64.0",
           '"1.63.0",
           '"1.62.0",
@@ -6325,7 +6333,8 @@ let rec _js2n__-refsenv
                               "1.42.0",
                               "1.43.0",
                               "1.44.0",
-                              "1.45.0"
+                              "1.45.0",
+                              "1.46.0"
                             ]
                         ],
                   configuration =

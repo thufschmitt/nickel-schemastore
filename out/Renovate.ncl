@@ -3028,6 +3028,12 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
         | doc "Configuration object for the ruby-version manager"
         | optional,
+      runtime-version
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+        | doc "Configuration object for the runtime-version manager"
+        | optional,
       sbt
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -3129,7 +3135,6 @@ let rec _js2n__-refsenv
                         "branchAutomergeFailure",
                         "configErrorIssue",
                         "dependencyLookupWarnings",
-                        "deprecationWarningIssues",
                         "lockFileErrors",
                         "missingCredentialsError",
                         "onboardingClose",
@@ -3291,6 +3296,7 @@ let rec _js2n__-refsenv
                       "rez",
                       "rpm",
                       "ruby",
+                      "same-major",
                       "semver",
                       "semver-coerced",
                       "swift",

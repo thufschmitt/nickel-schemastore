@@ -911,6 +911,11 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.always,
               _js2n__-prdslib.ifThenElse
                 (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1177.305", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
                   { UETVersion = _js2n__-prdslib.const "2024.1168.700", } {}
                   true _js2n__-prdslib.always) _js2n__-prdslib.always
                 _js2n__-prdslib.always,
@@ -2006,6 +2011,7 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.enum
                     [
                       "BleedingEdge",
+                      "2024.1177.305",
                       "2024.1168.700",
                       "2024.1168.649",
                       "2024.1168.535",

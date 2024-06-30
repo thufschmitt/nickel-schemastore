@@ -937,7 +937,7 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.isType '"String",
                                     _js2n__-prdslib.enum
-                                      [ "and", "leftConcat", "rightConcat" ]
+                                      [ "and", "prepend", "append" ]
                                   ],
                             value = _js2n__-prdslib.isType '"String",
                           } {} true _js2n__-prdslib.always,
@@ -1362,6 +1362,66 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.isType '"String",
                                       _js2n__-prdslib.const "wmi"
                                     ],
+                            } {} true _js2n__-prdslib.always,
+                          _js2n__-prdslib.records.record
+                            {
+                              computes =
+                                _js2n__-refsenv."_js2n__-:definitions/computes!predicate",
+                              executeForEachEntryOf =
+                                _js2n__-refsenv."_js2n__-:definitions/executeForEachEntryOf!predicate",
+                              forceSerialization =
+                                _js2n__-prdslib.isType '"Bool",
+                              query = _js2n__-prdslib.isType '"String",
+                              tables =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                alias =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                columns =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"Array",
+                                                        _js2n__-prdslib.arrays.arrayOf
+                                                          (_js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                'Record,
+                                                              _js2n__-prdslib.records.record
+                                                                {
+                                                                  name =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"String",
+                                                                  number =
+                                                                    _js2n__-prdslib.isType
+                                                                        'Integer,
+                                                                  type =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"String",
+                                                                } {} true
+                                                                _js2n__-prdslib.always
+                                                            ])
+                                                      ],
+                                                source =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                              } {} true _js2n__-prdslib.always
+                                          ])
+                                    ],
+                              type =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.const "sql"
+                                    ],
                             } {} true _js2n__-prdslib.always
                         ]
                     ])
@@ -1558,6 +1618,65 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.isType '"String",
                                     _js2n__-prdslib.const "wmi"
+                                  ],
+                          } {} true _js2n__-prdslib.always,
+                        _js2n__-prdslib.records.record
+                          {
+                            computes =
+                              _js2n__-refsenv."_js2n__-:definitions/computes!predicate",
+                            executeForEachEntryOf =
+                              _js2n__-refsenv."_js2n__-:definitions/executeForEachEntryOf!predicate",
+                            forceSerialization = _js2n__-prdslib.isType '"Bool",
+                            query = _js2n__-prdslib.isType '"String",
+                            tables =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              alias =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              columns =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Record,
+                                                            _js2n__-prdslib.records.record
+                                                              {
+                                                                name =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                number =
+                                                                  _js2n__-prdslib.isType
+                                                                      'Integer,
+                                                                type =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                              } {} true
+                                                              _js2n__-prdslib.always
+                                                          ])
+                                                    ],
+                                              source =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} true _js2n__-prdslib.always
+                                        ])
+                                  ],
+                            type =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.const "sql"
                                   ],
                           } {} true _js2n__-prdslib.always
                       ]

@@ -2639,7 +2639,7 @@ let rec _js2n__-refsenv
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.argoproj.workflow.v1alpha1.StopStrategy!predicate"
-        | doc "StopStrategy defines if the cron workflow will stop being triggered once a certain condition has been reached, involving a number of runs of the workflow"
+        | doc "v3.6 and after: StopStrategy defines if the CronWorkflow should stop scheduling based on a condition"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,

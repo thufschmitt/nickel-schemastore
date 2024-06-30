@@ -1392,6 +1392,14 @@ let rec _js2n__-refsenv
                               ])
                         ],
                   runtimeClassName = _js2n__-prdslib.isType '"String",
+                  secrets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.strings.minLength 1,
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/step_kubernetes_secret!predicate"
+                        ],
                   securityContext =
                     _js2n__-refsenv."_js2n__-:definitions/step_backend_kubernetes_security_context!predicate",
                 } {} true _js2n__-prdslib.always
@@ -1480,6 +1488,23 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/step_image!predicate"
         | doc "Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#image"
         = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/step_kubernetes_secret!predicate"
+        | doc "A reference to a native Kubernetes secret"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  key = _js2n__-prdslib.isType '"String",
+                  name = _js2n__-prdslib.isType '"String",
+                  target =
+                    _js2n__-refsenv."_js2n__-:definitions/step_kubernetes_secret_target!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/step_kubernetes_secret_target!predicate"
+        | doc "A target which a native Kubernetes secret maps to."
+        = _js2n__-prdslib.oneOf
+            [ _js2n__-prdslib.always, _js2n__-prdslib.always ],
       "_js2n__-:definitions/step_list!contract"
         | doc "The steps section defines a list of steps which will be executed serially, in the order in which they are defined. Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#steps"
         = _js2n__-prdslib.contract_from_predicate

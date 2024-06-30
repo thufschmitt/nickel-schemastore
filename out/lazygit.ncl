@@ -1279,14 +1279,13 @@ let rec _js2n__-refsenv
                 ])
             | doc "Height of the command log view"
             | optional,
-          commitAuthorFormat
-            | std.enum.TagOrString
-            | [| 'full, 'short, 'auto |]
-            | doc m%"
-              Whether to show full author names or their shortened form in the commit graph.
-              One of 'auto' (default) | 'full' | 'short'
-              If 'auto', initials will be shown in small windows, and full names - in larger ones.
-            "%
+          commitAuthorLongLength
+            | std.number.Integer
+            | doc "Length of author name in expanded commits view. 2 means show initials only."
+            | optional,
+          commitAuthorShortLength
+            | std.number.Integer
+            | doc "Length of author name in (non-expanded) commits view. 2 means show initials only."
             | optional,
           commitHashLength
             | _js2n__-prdslib.contract_from_predicate
@@ -1574,6 +1573,18 @@ let rec _js2n__-refsenv
                     ])
                 | doc "Border color of non-focused windows"
                 | optional,
+              inactiveViewSelectedLineBgColor
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String"),
+                      _js2n__-prdslib.arrays.minItems 1,
+                      _js2n__-prdslib.arrays.uniqueItems
+                    ])
+                | doc "Background color of selected line when view doesn't have focus."
+                | optional,
               markedBaseCommitBgColor
                 | Array (String)
                 | doc "Background color of marked base commit (for rebase)"
@@ -1858,7 +1869,7 @@ let rec _js2n__-refsenv
             | String
             | doc m%"
               CopyToClipboardCmd is the command for copying to clipboard.
-              See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-command-for-copying-to-clipboard
+              See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-command-for-copying-to-and-pasting-from-clipboard
             "%
             | optional,
           edit
@@ -1937,6 +1948,13 @@ let rec _js2n__-refsenv
             | doc m%"
               OpenLinkCommand is the command for opening a link
               Deprecated: use OpenLink instead.
+            "%
+            | optional,
+          readFromClipboardCmd
+            | String
+            | doc m%"
+              ReadFromClipboardCmd is the command for reading the clipboard.
+              See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-command-for-copying-to-and-pasting-from-clipboard
             "%
             | optional,
         }

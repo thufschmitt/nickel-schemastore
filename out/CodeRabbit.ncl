@@ -1161,6 +1161,15 @@ let rec _js2n__-refsenv
                       }
                       | doc "Biome is a fast formatter, linter, and analyzer for web projects."
                       | optional,
+                    checkov
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable Checkov | Checkov is a static code analysis tool for infrastructure-as-code files."
+                          | optional,
+                      }
+                      | doc "Checkov is a static code analysis tool for infrastructure-as-code files."
+                      | optional,
                     github-checks
                       | {
                         enabled

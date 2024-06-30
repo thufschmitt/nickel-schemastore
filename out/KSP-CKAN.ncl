@@ -1352,6 +1352,7 @@ let rec _js2n__-refsenv
                           bugtracker = _js2n__-prdslib.isType '"String",
                           ci = _js2n__-prdslib.isType '"String",
                           curse = _js2n__-prdslib.isType '"String",
+                          discussions = _js2n__-prdslib.isType '"String",
                           homepage = _js2n__-prdslib.isType '"String",
                           license = _js2n__-prdslib.isType '"String",
                           manual = _js2n__-prdslib.isType '"String",

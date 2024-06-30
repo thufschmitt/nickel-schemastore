@@ -912,35 +912,35 @@ let rec _js2n__-refsenv
                 ]
             ])
         | doc m%"
-          Whether to provide user:password for basic authentication of the current site
+          Whether to provide user:password for basic authentication
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
       auth_zone
         | String
         | doc m%"
-          An auth realm name of the current site
+          An auth realm name
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
       auto_h1
         | Bool
         | doc m%"
-          Whether to add H1 title to files that do not have one of the current site
+          Whether to add H1 title to files that do not have one
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
       auto_nav
         | Bool
         | doc m%"
-          Whether to append navigation to directory READMEs of the current site
+          Whether to append navigation to directory READMEs
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
       auto_toc
         | Bool
         | doc m%"
-          Whether to enable table of contents of the current site
+          Whether to enable table of contents
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -957,7 +957,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Null
             ])
         | doc m%"
-          A server root path of the current site
+          Server root URI
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -969,14 +969,14 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.strings.pattern "^\\d+\\.\\d+\\.\\d+\\.\\d+$"
             ])
         | doc m%"
-          A server listen address of the current site
+          Server listening address
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
       copy_code
         | Bool
         | doc m%"
-          Whether to enable the copy to clipboard icon for code snippets of the current site
+          Whether to enable the copy to clipboard icon for code snippets
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -990,7 +990,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.uniqueItems
             ])
         | doc m%"
-          Excluded directories of the current site
+          Excluded directories
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -1007,21 +1007,28 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Null
             ])
         | doc m%"
-          Whether to show files with these extensions in the navigation and search of the current site
+          Show files with these extensions in the navigation
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
       highlighter
         | Bool
         | doc m%"
-          Whether to enable syntax highlighter for code snippets of the current site
+          Whether to enable syntax highlighter for code snippets
+          https://madness.dannyb.co/#configuration-file
+        "%
+        | optional,
+      mermaid
+        | Bool
+        | doc m%"
+          Whether to enable support for mermaid diagrams
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
       open
         | Bool
         | doc m%"
-          Whether to open the server URL in the browser of the current site
+          Whether to open the server URL in the browser
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -1033,7 +1040,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.strings.minLength 1
             ])
         | doc m%"
-          A path to the documentation root of the current site
+          Path to the documentation root
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -1045,7 +1052,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.numbers.minimum 0
             ])
         | doc m%"
-          A server port of the current site
+          Server port
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -1060,14 +1067,14 @@ let rec _js2n__-refsenv
       shortlinks
         | Bool
         | doc m%"
-          Whether to convert [[Links]] to [Links](Links) of the current site
+          Whether to convert [[Links]] to [Links](Links)
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
       sidebar
         | Bool
         | doc m%"
-          Whether to enable sidebar of the current site
+          Whether to enable sidebar
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -1075,7 +1082,7 @@ let rec _js2n__-refsenv
         | std.enum.TagOrString
         | [| 'mixed, 'dirs_first |]
         | doc m%"
-          The navigation sort order
+          Navigation sort order
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -1091,7 +1098,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Null
             ])
         | doc m%"
-          A link to the page source code
+          Template for source code links
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -1103,7 +1110,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.strings.minLength 1
             ])
         | doc m%"
-          A label for the page source code link
+          Label for the page source code link
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -1127,7 +1134,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Null
             ])
         | doc m%"
-          A theme directory of the current site
+          Theme directory
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
@@ -1143,7 +1150,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Null
             ])
         | doc m%"
-          Whether to generate a table of contents file with this name of the current site
+          Whether to generate a table of contents file with this name
           https://madness.dannyb.co/#configuration-file
         "%
         | optional,
