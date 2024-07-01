@@ -1105,10 +1105,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.required [ "location", "source" ],
+                  _js2n__-prdslib.records.required [ "source" ],
                   _js2n__-prdslib.records.record
                     {
-                      location = _js2n__-prdslib.isType '"String",
                       postdeploy =
                         _js2n__-prdslib.anyOf
                             [
@@ -1141,11 +1140,9 @@ let rec _js2n__-refsenv
                     (_js2n__-prdslib.allOf
                       [
                         _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "location", "source" ],
+                        _js2n__-prdslib.records.required [ "source" ],
                         _js2n__-prdslib.records.record
                           {
-                            location = _js2n__-prdslib.isType '"String",
                             postdeploy =
                               _js2n__-prdslib.anyOf
                                   [

@@ -1497,6 +1497,13 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/CustomVariable!predicate"
                         ],
                   filePath = _js2n__-prdslib.isType '"String",
+                  filePaths =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   maxDepth =
                     _js2n__-prdslib.allOf
                         [
@@ -1729,6 +1736,13 @@ let rec _js2n__-refsenv
                         ],
                   fakerEnabled = _js2n__-prdslib.isType '"Bool",
                   filePath = _js2n__-prdslib.isType '"String",
+                  filePaths =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   forbiddenVariables =
                     _js2n__-prdslib.allOf
                         [

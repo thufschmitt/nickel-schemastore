@@ -953,6 +953,17 @@ let rec _js2n__-refsenv
                   format = _js2n__-prdslib.isType '"String",
                   items =
                     _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
+                  links =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.minProperties 1,
+                          _js2n__-prdslib.records.propertyNames
+                            (_js2n__-prdslib.strings.pattern
+                              "^[a-zA-Z0-9_-]+$"),
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   maxLength = _js2n__-prdslib.isType 'Integer,
                   maximum = _js2n__-prdslib.isType '"Number",
                   minLength = _js2n__-prdslib.isType 'Integer,
@@ -1004,6 +1015,17 @@ let rec _js2n__-refsenv
                         exclusiveMaximum = _js2n__-prdslib.isType '"Number",
                         exclusiveMinimum = _js2n__-prdslib.isType '"Number",
                         format = _js2n__-prdslib.isType '"String",
+                        links =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.minProperties 1,
+                                _js2n__-prdslib.records.propertyNames
+                                  (_js2n__-prdslib.strings.pattern
+                                    "^[a-zA-Z0-9_-]+$"),
+                                _js2n__-prdslib.records.record {} {} true
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
                         maxLength = _js2n__-prdslib.isType 'Integer,
                         maximum = _js2n__-prdslib.isType '"Number",
                         minLength = _js2n__-prdslib.isType 'Integer,
@@ -1094,6 +1116,19 @@ let rec _js2n__-refsenv
           ..
         }
         | doc "Metadata and life cycle information about the data contract.",
+      links
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.minProperties 1,
+              _js2n__-prdslib.records.propertyNames
+                (_js2n__-prdslib.strings.pattern "^[a-zA-Z0-9_-]+$"),
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "Links to external resources."
+        | optional,
       models
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1221,6 +1256,21 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.isType '"String",
                                           items =
                                             _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
+                                          links =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.minProperties
+                                                    1,
+                                                  _js2n__-prdslib.records.propertyNames
+                                                    (_js2n__-prdslib.strings.pattern
+                                                      "^[a-zA-Z0-9_-]+$"),
+                                                  _js2n__-prdslib.records.record
+                                                    {} {} true
+                                                    (_js2n__-prdslib.isType
+                                                      '"String")
+                                                ],
                                           maxLength =
                                             _js2n__-prdslib.isType 'Integer,
                                           maximum =
@@ -1319,7 +1369,11 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true
+              _js2n__-prdslib.records.record
+                {
+                  description = _js2n__-prdslib.isType '"String",
+                  environment = _js2n__-prdslib.isType '"String",
+                } {} true
                 (_js2n__-prdslib.oneOf
                   [
                     _js2n__-prdslib.allOf
@@ -1625,6 +1679,25 @@ let rec _js2n__-refsenv
                       [
                         _js2n__-prdslib.isType 'Record,
                         _js2n__-prdslib.records.required
+                          [ "catalog", "host", "port", "schema", "type" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            catalog = _js2n__-prdslib.isType '"String",
+                            host = _js2n__-prdslib.isType '"String",
+                            port = _js2n__-prdslib.isType 'Integer,
+                            schema = _js2n__-prdslib.isType '"String",
+                            type =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.const "trino"
+                                  ],
+                          } {} true _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required
                           [ "format", "path", "type" ],
                         _js2n__-prdslib.records.record
                           {
@@ -1818,6 +1891,10 @@ let rec _js2n__-refsenv
           ..
         }
         | doc "Specifies the service level agreements for the provided data, including availability, data retention policies, latency requirements, data freshness, update frequency, support availability, and backup policies."
+        | optional,
+      tags
+        | Array (String)
+        | doc "Tags to facilitate searching and filtering."
         | optional,
       terms
         | {

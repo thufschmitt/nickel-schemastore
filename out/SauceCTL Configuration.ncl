@@ -2201,6 +2201,7 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.enum
                                           [
                                             "package.json",
+                                            "13.12.0",
                                             "13.10.0",
                                             "13.7.3",
                                             "13.6.6",
@@ -2209,8 +2210,7 @@ let rec _js2n__-refsenv
                                             "13.4.0",
                                             "13.3.0",
                                             "12.17.4",
-                                            "12.17.2",
-                                            "12.14.0"
+                                            "12.17.2"
                                           ],
                                   } {} false _js2n__-prdslib.never
                               ],
@@ -2685,6 +2685,7 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.enum
                                               [
                                                 "package.json",
+                                                "1.45.0",
                                                 "1.44.0",
                                                 "1.43.1",
                                                 "1.41.2",
@@ -2693,8 +2694,7 @@ let rec _js2n__-refsenv
                                                 "1.39.0",
                                                 "1.38.1",
                                                 "1.37.1",
-                                                "1.36.2",
-                                                "1.35.1"
+                                                "1.36.2"
                                               ],
                                             _js2n__-refsenv."_js2n__-:allOf/8/then/properties/playwright/properties/version!predicate"
                                           ],
@@ -3248,13 +3248,13 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.enum
                                               [
                                                 "package.json",
+                                                "3.6.1",
                                                 "3.6.0",
                                                 "3.5.0",
                                                 "3.4.0",
                                                 "3.3.0",
                                                 "3.2.0",
-                                                "3.0.1",
-                                                "2.6.2"
+                                                "3.0.1"
                                               ],
                                             _js2n__-refsenv."_js2n__-:allOf/8/then/properties/playwright/properties/version!predicate"
                                           ],

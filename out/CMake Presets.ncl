@@ -897,9 +897,37 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/$comment!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.isType '"String"),
+                  _js2n__-prdslib.arrays.minItems 1
+                ]
+            ],
       "_js2n__-:definitions/$schema!predicate"
         | doc "The schema against which to verify this document."
         = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/buildPresetsItemsV10!predicate"
+        | doc "An optional array of build preset objects. Used to specify arguments to cmake --build. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        "$comment" =
+                          _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                      } {} true _js2n__-prdslib.always
+                  ])
+            ],
       "_js2n__-:definitions/buildPresetsItemsV2!predicate"
         | doc "An optional array of build preset objects. Used to specify arguments to cmake --build. Available in version 2 and higher."
         = _js2n__-prdslib.allOf
@@ -909,7 +937,6 @@ let rec _js2n__-refsenv
                 (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.required [ "name" ],
                     _js2n__-prdslib.records.record
                       {
                         cleanFirst = _js2n__-prdslib.isType '"Bool",
@@ -989,20 +1016,7 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:definitions/buildPresetsItemsV3!predicate"
         | doc "An optional array of build preset objects. Used to specify arguments to cmake --build. Available in version 3 and higher."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record
-                      {
-                        condition =
-                          _js2n__-refsenv."_js2n__-:definitions/topCondition!predicate",
-                      } {} true _js2n__-prdslib.always
-                  ])
-            ],
+        = _js2n__-prdslib.isType '"Array",
       "_js2n__-:definitions/buildPresetsItemsV4!predicate"
         | doc "An optional array of build preset objects. Used to specify arguments to cmake --build. Available in version 4 and higher."
         = _js2n__-prdslib.allOf
@@ -1021,6 +1035,47 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.enum [ "on", "off", "only" ]
                               ],
                       } {} true _js2n__-prdslib.always
+                  ])
+            ],
+      "_js2n__-:definitions/buildPresetsV10!predicate"
+        | doc "An optional array of build preset objects. Used to specify arguments to cmake --build. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/buildPresetsItemsV10!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/buildPresetsItemsV4!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/buildPresetsItemsV3!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/buildPresetsItemsV2!predicate"
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "name" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        "$comment" = _js2n__-prdslib.always,
+                        cleanFirst = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV10!predicate",
+                        configuration = _js2n__-prdslib.always,
+                        configurePreset = _js2n__-prdslib.always,
+                        description = _js2n__-prdslib.always,
+                        displayName = _js2n__-prdslib.always,
+                        environment = _js2n__-prdslib.always,
+                        hidden = _js2n__-prdslib.always,
+                        inheritConfigureEnvironment = _js2n__-prdslib.always,
+                        inherits = _js2n__-prdslib.always,
+                        jobs = _js2n__-prdslib.always,
+                        name = _js2n__-prdslib.always,
+                        nativeToolOptions = _js2n__-prdslib.always,
+                        resolvePackageReferences = _js2n__-prdslib.always,
+                        targets = _js2n__-prdslib.always,
+                        vendor = _js2n__-prdslib.always,
+                        verbose = _js2n__-prdslib.always,
+                      } {} false _js2n__-prdslib.never
                   ])
             ],
       "_js2n__-:definitions/buildPresetsV2!predicate"
@@ -1072,7 +1127,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.record
                       {
                         cleanFirst = _js2n__-prdslib.always,
-                        condition = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV3!predicate",
                         configuration = _js2n__-prdslib.always,
                         configurePreset = _js2n__-prdslib.always,
                         description = _js2n__-prdslib.always,
@@ -1109,7 +1165,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.record
                       {
                         cleanFirst = _js2n__-prdslib.always,
-                        condition = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV3!predicate",
                         configuration = _js2n__-prdslib.always,
                         configurePreset = _js2n__-prdslib.always,
                         description = _js2n__-prdslib.always,
@@ -1128,8 +1185,8 @@ let rec _js2n__-refsenv
                       } {} false _js2n__-prdslib.never
                   ])
             ],
-      "_js2n__-:definitions/cmakeMinimumRequired!predicate"
-        | doc "An optional object representing the minimum version of CMake needed to build this project."
+      "_js2n__-:definitions/cmakeMinimumRequiredPropertiesV1!predicate"
+        | doc "An optional object representing the minimum version of CMake needed to build this project. Available in version 1 and higher."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -1138,140 +1195,379 @@ let rec _js2n__-refsenv
                   major = _js2n__-prdslib.isType 'Integer,
                   minor = _js2n__-prdslib.isType 'Integer,
                   patch = _js2n__-prdslib.isType 'Integer,
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/cmakeMinimumRequiredPropertiesV10!predicate"
+        | doc "An optional object representing the minimum version of CMake needed to build this project. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/cmakeMinimumRequiredV1!predicate"
+        | doc "An optional object representing the minimum version of CMake needed to build this project. Available in version 1 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredPropertiesV1!predicate",
+              _js2n__-prdslib.records.record
+                {
+                  major = _js2n__-prdslib.always,
+                  minor = _js2n__-prdslib.always,
+                  patch = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/condition!predicate" =
+      "_js2n__-:definitions/cmakeMinimumRequiredV10!predicate"
+        | doc "An optional object representing the minimum version of CMake needed to build this project. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredPropertiesV10!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredPropertiesV1!predicate"
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" = _js2n__-prdslib.always,
+                  major = _js2n__-prdslib.always,
+                  minor = _js2n__-prdslib.always,
+                  patch = _js2n__-prdslib.always,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/conditionAsBooleanV3!predicate"
+        | doc "A boolean which provides a constant value for the condition's evaluation."
+        = _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/conditionAsObjectAggregationV10!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionAsObjectAggregationV3!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  conditions = _js2n__-prdslib.isType '"Array",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "anyOf", "allOf" ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionAsObjectConstV10!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionAsObjectConstV3!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "const"
+                        ],
+                  value = _js2n__-prdslib.isType '"Bool",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionAsObjectEqualsV10!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionAsObjectEqualsV3!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  lhs = _js2n__-prdslib.isType '"String",
+                  rhs = _js2n__-prdslib.isType '"String",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "equals", "notEquals" ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionAsObjectInListV10!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionAsObjectInListV3!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  list =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  string = _js2n__-prdslib.isType '"String",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "inList", "notInList" ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionAsObjectMatchesV10!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionAsObjectMatchesV3!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  regex = _js2n__-prdslib.isType '"String",
+                  string = _js2n__-prdslib.isType '"String",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "matches", "notMatches" ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionAsObjectNotV10!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionAsObjectNotV3!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "not"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/conditionV10!predicate" =
         _js2n__-prdslib.anyOf
             [
-              _js2n__-prdslib.isType '"Bool",
+              _js2n__-refsenv."_js2n__-:definitions/conditionAsBooleanV3!predicate",
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectConstV10!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectConstV3!predicate"
+                    ],
                   _js2n__-prdslib.records.required [ "type", "value" ],
                   _js2n__-prdslib.records.record
                     {
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.const "const"
-                            ],
-                      value = _js2n__-prdslib.isType '"Bool",
+                      "$comment" = _js2n__-prdslib.always,
+                      type = _js2n__-prdslib.always,
+                      value = _js2n__-prdslib.always,
                     } {} false _js2n__-prdslib.never
                 ],
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectEqualsV10!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectEqualsV3!predicate"
+                    ],
                   _js2n__-prdslib.records.required [ "lhs", "rhs", "type" ],
                   _js2n__-prdslib.records.record
                     {
-                      lhs = _js2n__-prdslib.isType '"String",
-                      rhs = _js2n__-prdslib.isType '"String",
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.const "equals"
-                            ],
+                      "$comment" = _js2n__-prdslib.always,
+                      lhs = _js2n__-prdslib.always,
+                      rhs = _js2n__-prdslib.always,
+                      type = _js2n__-prdslib.always,
                     } {} false _js2n__-prdslib.never
                 ],
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.required [ "lhs", "rhs", "type" ],
-                  _js2n__-prdslib.records.record
-                    {
-                      lhs = _js2n__-prdslib.isType '"String",
-                      rhs = _js2n__-prdslib.isType '"String",
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.const "notEquals"
-                            ],
-                    } {} false _js2n__-prdslib.never
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectInListV10!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectInListV3!predicate"
+                    ],
                   _js2n__-prdslib.records.required [ "list", "string", "type" ],
                   _js2n__-prdslib.records.record
                     {
-                      list =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.isType '"String")
-                            ],
-                      string = _js2n__-prdslib.isType '"String",
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.const "inList"
-                            ],
+                      "$comment" = _js2n__-prdslib.always,
+                      list = _js2n__-prdslib.always,
+                      string = _js2n__-prdslib.always,
+                      type = _js2n__-prdslib.always,
                     } {} false _js2n__-prdslib.never
                 ],
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.required [ "list", "string", "type" ],
-                  _js2n__-prdslib.records.record
-                    {
-                      list =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.isType '"String")
-                            ],
-                      string = _js2n__-prdslib.isType '"String",
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.const "notInList"
-                            ],
-                    } {} false _js2n__-prdslib.never
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectMatchesV10!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectMatchesV3!predicate"
+                    ],
                   _js2n__-prdslib.records.required
                     [ "regex", "string", "type" ],
                   _js2n__-prdslib.records.record
                     {
-                      regex = _js2n__-prdslib.isType '"String",
-                      string = _js2n__-prdslib.isType '"String",
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.const "matches"
-                            ],
+                      "$comment" = _js2n__-prdslib.always,
+                      regex = _js2n__-prdslib.always,
+                      string = _js2n__-prdslib.always,
+                      type = _js2n__-prdslib.always,
                     } {} false _js2n__-prdslib.never
                 ],
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectAggregationV10!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectAggregationV3!predicate"
+                    ],
+                  _js2n__-prdslib.records.required [ "conditions", "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      "$comment" = _js2n__-prdslib.always,
+                      conditions =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                _js2n__-refsenv."_js2n__-:definitions/conditionV10!predicate"
+                            ],
+                      type = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectNotV10!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectNotV3!predicate"
+                    ],
+                  _js2n__-prdslib.records.required [ "condition", "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      "$comment" = _js2n__-prdslib.always,
+                      condition =
+                        _js2n__-refsenv."_js2n__-:definitions/conditionV10!predicate",
+                      type = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/conditionV3!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/conditionAsBooleanV3!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectConstV3!predicate",
+                  _js2n__-prdslib.records.required [ "type", "value" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      type = _js2n__-prdslib.always,
+                      value = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectEqualsV3!predicate",
+                  _js2n__-prdslib.records.required [ "lhs", "rhs", "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      lhs = _js2n__-prdslib.always,
+                      rhs = _js2n__-prdslib.always,
+                      type = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectInListV3!predicate",
+                  _js2n__-prdslib.records.required [ "list", "string", "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      list = _js2n__-prdslib.always,
+                      string = _js2n__-prdslib.always,
+                      type = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectMatchesV3!predicate",
                   _js2n__-prdslib.records.required
                     [ "regex", "string", "type" ],
                   _js2n__-prdslib.records.record
                     {
-                      regex = _js2n__-prdslib.isType '"String",
-                      string = _js2n__-prdslib.isType '"String",
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.const "notMatches"
-                            ],
+                      regex = _js2n__-prdslib.always,
+                      string = _js2n__-prdslib.always,
+                      type = _js2n__-prdslib.always,
                     } {} false _js2n__-prdslib.never
                 ],
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
+                  _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectAggregationV3!predicate",
                   _js2n__-prdslib.records.required [ "conditions", "type" ],
                   _js2n__-prdslib.records.record
                     {
@@ -1280,56 +1576,168 @@ let rec _js2n__-refsenv
                             [
                               _js2n__-prdslib.isType '"Array",
                               _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/condition!predicate"
+                                _js2n__-refsenv."_js2n__-:definitions/conditionV3!predicate"
                             ],
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.const "anyOf"
-                            ],
+                      type = _js2n__-prdslib.always,
                     } {} false _js2n__-prdslib.never
                 ],
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.required [ "conditions", "type" ],
-                  _js2n__-prdslib.records.record
-                    {
-                      conditions =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/condition!predicate"
-                            ],
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.const "allOf"
-                            ],
-                    } {} false _js2n__-prdslib.never
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-refsenv."_js2n__-:definitions/conditionAsObjectNotV3!predicate",
                   _js2n__-prdslib.records.required [ "condition", "type" ],
                   _js2n__-prdslib.records.record
                     {
                       condition =
-                        _js2n__-refsenv."_js2n__-:definitions/condition!predicate",
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.const "not"
-                            ],
+                        _js2n__-refsenv."_js2n__-:definitions/conditionV3!predicate",
+                      type = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/configurePresetsArchitectureAsObjectV1!predicate"
+        | doc "An optional object representing the platform for generators that support it. Available in version 1 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  strategy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "set", "external" ]
+                        ],
+                  value = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/configurePresetsArchitectureAsObjectV10!predicate"
+        | doc "An optional object representing the platform for generators that support it. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/configurePresetsArchitectureAsStringV1!predicate"
+        | doc "An optional string representing the platform for generators that support it."
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/configurePresetsArchitectureV1!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/configurePresetsArchitectureAsStringV1!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsArchitectureAsObjectV1!predicate",
+                  _js2n__-prdslib.records.record
+                    {
+                      strategy = _js2n__-prdslib.always,
+                      value = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/configurePresetsArchitectureV10!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/configurePresetsArchitectureAsStringV1!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/configurePresetsArchitectureAsObjectV10!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/configurePresetsArchitectureAsObjectV1!predicate"
+                    ],
+                  _js2n__-prdslib.records.record
+                    {
+                      "$comment" = _js2n__-prdslib.always,
+                      strategy = _js2n__-prdslib.always,
+                      value = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsBooleanV1!predicate"
+        | doc "A boolean representing the value of the variable. Equivalent to \"TRUE\" or \"FALSE\"."
+        = _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsNullV1!predicate"
+        | doc "Setting a variable to null causes it to not be set, even if a value was inherited from another preset."
+        = _js2n__-prdslib.isType 'Null,
+      "_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsObjectV1!predicate"
+        | doc "An optional object representing the cache variables for generators that support it. Available in version 1 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  type = _js2n__-prdslib.isType '"String",
+                  value =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsObjectV10!predicate"
+        | doc "An optional object representing the cache variables for generators that support it. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsStringV1!predicate"
+        | doc "A string representing the value of the variable (which supports macro expansion)."
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesV1!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsNullV1!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsBooleanV1!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsStringV1!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsObjectV1!predicate",
+                  _js2n__-prdslib.records.required [ "value" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      type = _js2n__-prdslib.always,
+                      value = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesV10!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsNullV1!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsBooleanV1!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsStringV1!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsObjectV10!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesAsObjectV1!predicate"
+                    ],
+                  _js2n__-prdslib.records.required [ "value" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      "$comment" = _js2n__-prdslib.always,
+                      type = _js2n__-prdslib.always,
+                      value = _js2n__-prdslib.always,
                     } {} false _js2n__-prdslib.never
                 ]
             ],
       "_js2n__-:definitions/configurePresetsItemsV1!predicate"
-        | doc "An optional array of configure preset objects."
+        | doc "An optional array of configure preset objects. Available in version 1 and higher."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
@@ -1339,28 +1747,6 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType 'Record,
                     _js2n__-prdslib.records.record
                       {
-                        architecture =
-                          _js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType 'Record,
-                                    _js2n__-prdslib.records.record
-                                      {
-                                        strategy =
-                                          _js2n__-prdslib.allOf
-                                              [
-                                                _js2n__-prdslib.isType
-                                                  '"String",
-                                                _js2n__-prdslib.enum
-                                                  [ "set", "external" ]
-                                              ],
-                                        value =
-                                          _js2n__-prdslib.isType '"String",
-                                      } {} false _js2n__-prdslib.never
-                                  ]
-                              ],
                         binaryDir = _js2n__-prdslib.isType '"String",
                         cacheVariables =
                           _js2n__-prdslib.allOf
@@ -1369,32 +1755,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.records.propertyNames
                                   (_js2n__-prdslib.strings.pattern "^.+$"),
                                 _js2n__-prdslib.records.record {} {} true
-                                  (_js2n__-prdslib.anyOf
-                                    [
-                                      _js2n__-prdslib.isType 'Null,
-                                      _js2n__-prdslib.isType '"Bool",
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.records.required
-                                            [ "value" ],
-                                          _js2n__-prdslib.records.record
-                                            {
-                                              type =
-                                                _js2n__-prdslib.isType
-                                                    '"String",
-                                              value =
-                                                _js2n__-prdslib.anyOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"Bool",
-                                                      _js2n__-prdslib.isType
-                                                        '"String"
-                                                    ],
-                                            } {} false _js2n__-prdslib.never
-                                        ]
-                                    ])
+                                  _js2n__-prdslib.always
                               ],
                         cmakeExecutable = _js2n__-prdslib.isType '"String",
                         debug =
@@ -1406,7 +1767,7 @@ let rec _js2n__-refsenv
                                     find = _js2n__-prdslib.isType '"Bool",
                                     output = _js2n__-prdslib.isType '"Bool",
                                     tryCompile = _js2n__-prdslib.isType '"Bool",
-                                  } {} false _js2n__-prdslib.never
+                                  } {} true _js2n__-prdslib.always
                               ],
                         description = _js2n__-prdslib.isType '"String",
                         displayName = _js2n__-prdslib.isType '"String",
@@ -1431,7 +1792,7 @@ let rec _js2n__-refsenv
                                   {
                                     deprecated = _js2n__-prdslib.isType '"Bool",
                                     dev = _js2n__-prdslib.isType '"Bool",
-                                  } {} false _js2n__-prdslib.never
+                                  } {} true _js2n__-prdslib.always
                               ],
                         generator = _js2n__-prdslib.isType '"String",
                         hidden = _js2n__-prdslib.isType '"Bool",
@@ -1460,28 +1821,6 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ],
-                        toolset =
-                          _js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType 'Record,
-                                    _js2n__-prdslib.records.record
-                                      {
-                                        strategy =
-                                          _js2n__-prdslib.allOf
-                                              [
-                                                _js2n__-prdslib.isType
-                                                  '"String",
-                                                _js2n__-prdslib.enum
-                                                  [ "set", "external" ]
-                                              ],
-                                        value =
-                                          _js2n__-prdslib.isType '"String",
-                                      } {} false _js2n__-prdslib.never
-                                  ]
-                              ],
                         vendor = _js2n__-prdslib.isType 'Record,
                         warnings =
                           _js2n__-prdslib.allOf
@@ -1495,13 +1834,53 @@ let rec _js2n__-refsenv
                                     uninitialized =
                                       _js2n__-prdslib.isType '"Bool",
                                     unusedCli = _js2n__-prdslib.isType '"Bool",
-                                  } {} false _js2n__-prdslib.never
+                                  } {} true _js2n__-prdslib.always
                               ],
                       } {} true _js2n__-prdslib.always
                   ])
             ],
+      "_js2n__-:definitions/configurePresetsItemsV10!predicate"
+        | doc "An optional array of configure preset objects. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        "$comment" =
+                          _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                        debug =
+                          _js2n__-prdslib.records.record
+                              {
+                                "$comment" =
+                                  _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                              } {} true _js2n__-prdslib.always,
+                        errors =
+                          _js2n__-prdslib.records.record
+                              {
+                                "$comment" =
+                                  _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                              } {} true _js2n__-prdslib.always,
+                        trace =
+                          _js2n__-prdslib.records.record
+                              {
+                                "$comment" =
+                                  _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                              } {} true _js2n__-prdslib.always,
+                        warnings =
+                          _js2n__-prdslib.records.record
+                              {
+                                "$comment" =
+                                  _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                              } {} true _js2n__-prdslib.always,
+                      } {} true _js2n__-prdslib.always
+                  ])
+            ],
       "_js2n__-:definitions/configurePresetsItemsV3!predicate"
-        | doc "A configure preset object."
+        | doc "An optional array of configure preset objects. Available in version 3 and higher."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
@@ -1512,8 +1891,6 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.record
                       {
                         binaryDir = _js2n__-prdslib.isType '"String",
-                        condition =
-                          _js2n__-refsenv."_js2n__-:definitions/topCondition!predicate",
                         generator = _js2n__-prdslib.isType '"String",
                         installDir = _js2n__-prdslib.isType '"String",
                         toolchainFile = _js2n__-prdslib.isType '"String",
@@ -1521,7 +1898,7 @@ let rec _js2n__-refsenv
                   ])
             ],
       "_js2n__-:definitions/configurePresetsItemsV7!predicate"
-        | doc "A configure preset object."
+        | doc "An optional array of configure preset objects. Available in version 7 and higher."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
@@ -1575,13 +1952,78 @@ let rec _js2n__-refsenv
                                                     ])
                                               ]
                                           ],
-                                  } {} false _js2n__-prdslib.never
+                                  } {} true _js2n__-prdslib.always
                               ],
                       } {} true _js2n__-prdslib.always
                   ])
             ],
+      "_js2n__-:definitions/configurePresetsToolsetAsObjectV1!predicate"
+        | doc "An optional object representing the toolset for generators that support it. Available in version 1 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  strategy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "set", "external" ]
+                        ],
+                  value = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/configurePresetsToolsetAsObjectV10!predicate"
+        | doc "An optional object representing the toolset for generators that support it. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/configurePresetsToolsetAsStringV1!predicate"
+        | doc "An optional string representing the toolset for generators that support it."
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/configurePresetsToolsetV1!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/configurePresetsToolsetAsStringV1!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsToolsetAsObjectV1!predicate",
+                  _js2n__-prdslib.records.record
+                    {
+                      strategy = _js2n__-prdslib.always,
+                      value = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/configurePresetsToolsetV10!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/configurePresetsToolsetAsStringV1!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/configurePresetsToolsetAsObjectV10!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/configurePresetsToolsetAsObjectV1!predicate"
+                    ],
+                  _js2n__-prdslib.records.record
+                    {
+                      "$comment" = _js2n__-prdslib.always,
+                      strategy = _js2n__-prdslib.always,
+                      value = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
       "_js2n__-:definitions/configurePresetsV1!predicate"
-        | doc "An optional array of configure preset objects."
+        | doc "An optional array of configure preset objects. Available in version 1 and higher."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
@@ -1592,34 +2034,134 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.required [ "name" ],
                     _js2n__-prdslib.records.record
                       {
-                        architecture = _js2n__-prdslib.always,
+                        architecture =
+                          _js2n__-refsenv."_js2n__-:definitions/configurePresetsArchitectureV1!predicate",
                         binaryDir = _js2n__-prdslib.always,
-                        cacheVariables = _js2n__-prdslib.always,
+                        cacheVariables =
+                          _js2n__-prdslib.records.record {} {} true
+                              _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesV1!predicate",
                         cmakeExecutable = _js2n__-prdslib.always,
-                        debug = _js2n__-prdslib.always,
+                        debug =
+                          _js2n__-prdslib.records.record
+                              {
+                                find = _js2n__-prdslib.always,
+                                output = _js2n__-prdslib.always,
+                                tryCompile = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
                         description = _js2n__-prdslib.always,
                         displayName = _js2n__-prdslib.always,
                         environment = _js2n__-prdslib.always,
-                        errors = _js2n__-prdslib.always,
+                        errors =
+                          _js2n__-prdslib.records.record
+                              {
+                                deprecated = _js2n__-prdslib.always,
+                                dev = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
                         generator = _js2n__-prdslib.always,
                         hidden = _js2n__-prdslib.always,
                         inherits = _js2n__-prdslib.always,
                         name = _js2n__-prdslib.always,
-                        toolset = _js2n__-prdslib.always,
+                        toolset =
+                          _js2n__-refsenv."_js2n__-:definitions/configurePresetsToolsetV1!predicate",
                         vendor = _js2n__-prdslib.always,
-                        warnings = _js2n__-prdslib.always,
+                        warnings =
+                          _js2n__-prdslib.records.record
+                              {
+                                deprecated = _js2n__-prdslib.always,
+                                dev = _js2n__-prdslib.always,
+                                systemVars = _js2n__-prdslib.always,
+                                uninitialized = _js2n__-prdslib.always,
+                                unusedCli = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
+                      } {} false _js2n__-prdslib.never
+                  ])
+            ],
+      "_js2n__-:definitions/configurePresetsV10!predicate"
+        | doc "An optional array of configure preset objects. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV10!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV7!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV3!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV1!predicate"
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.records.required [ "name" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        "$comment" = _js2n__-prdslib.always,
+                        architecture =
+                          _js2n__-refsenv."_js2n__-:definitions/configurePresetsArchitectureV10!predicate",
+                        binaryDir = _js2n__-prdslib.always,
+                        cacheVariables =
+                          _js2n__-prdslib.records.record {} {} true
+                              _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesV10!predicate",
+                        cmakeExecutable = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV10!predicate",
+                        debug =
+                          _js2n__-prdslib.records.record
+                              {
+                                "$comment" = _js2n__-prdslib.always,
+                                find = _js2n__-prdslib.always,
+                                output = _js2n__-prdslib.always,
+                                tryCompile = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
+                        description = _js2n__-prdslib.always,
+                        displayName = _js2n__-prdslib.always,
+                        environment = _js2n__-prdslib.always,
+                        errors =
+                          _js2n__-prdslib.records.record
+                              {
+                                "$comment" = _js2n__-prdslib.always,
+                                deprecated = _js2n__-prdslib.always,
+                                dev = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
+                        generator = _js2n__-prdslib.always,
+                        hidden = _js2n__-prdslib.always,
+                        inherits = _js2n__-prdslib.always,
+                        installDir = _js2n__-prdslib.always,
+                        name = _js2n__-prdslib.always,
+                        toolchainFile = _js2n__-prdslib.always,
+                        toolset =
+                          _js2n__-refsenv."_js2n__-:definitions/configurePresetsToolsetV10!predicate",
+                        trace =
+                          _js2n__-prdslib.records.record
+                              {
+                                "$comment" = _js2n__-prdslib.always,
+                                format = _js2n__-prdslib.always,
+                                mode = _js2n__-prdslib.always,
+                                redirect = _js2n__-prdslib.always,
+                                source = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
+                        vendor = _js2n__-prdslib.always,
+                        warnings =
+                          _js2n__-prdslib.records.record
+                              {
+                                "$comment" = _js2n__-prdslib.always,
+                                deprecated = _js2n__-prdslib.always,
+                                dev = _js2n__-prdslib.always,
+                                systemVars = _js2n__-prdslib.always,
+                                uninitialized = _js2n__-prdslib.always,
+                                unusedCli = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
                       } {} false _js2n__-prdslib.never
                   ])
             ],
       "_js2n__-:definitions/configurePresetsV3!predicate"
-        | doc "An optional array of configure preset objects."
+        | doc "An optional array of configure preset objects. Available in version 3 and higher."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.allOf
                 [
-                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV1!predicate",
-                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV3!predicate"
+                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV3!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV1!predicate"
                 ],
               _js2n__-prdslib.arrays.arrayOf
                 (_js2n__-prdslib.allOf
@@ -1627,38 +2169,62 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.required [ "name" ],
                     _js2n__-prdslib.records.record
                       {
-                        architecture = _js2n__-prdslib.always,
+                        architecture =
+                          _js2n__-refsenv."_js2n__-:definitions/configurePresetsArchitectureV1!predicate",
                         binaryDir = _js2n__-prdslib.always,
-                        cacheVariables = _js2n__-prdslib.always,
+                        cacheVariables =
+                          _js2n__-prdslib.records.record {} {} true
+                              _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesV1!predicate",
                         cmakeExecutable = _js2n__-prdslib.always,
-                        condition = _js2n__-prdslib.always,
-                        debug = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV3!predicate",
+                        debug =
+                          _js2n__-prdslib.records.record
+                              {
+                                find = _js2n__-prdslib.always,
+                                output = _js2n__-prdslib.always,
+                                tryCompile = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
                         description = _js2n__-prdslib.always,
                         displayName = _js2n__-prdslib.always,
                         environment = _js2n__-prdslib.always,
-                        errors = _js2n__-prdslib.always,
+                        errors =
+                          _js2n__-prdslib.records.record
+                              {
+                                deprecated = _js2n__-prdslib.always,
+                                dev = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
                         generator = _js2n__-prdslib.always,
                         hidden = _js2n__-prdslib.always,
                         inherits = _js2n__-prdslib.always,
                         installDir = _js2n__-prdslib.always,
                         name = _js2n__-prdslib.always,
                         toolchainFile = _js2n__-prdslib.always,
-                        toolset = _js2n__-prdslib.always,
+                        toolset =
+                          _js2n__-refsenv."_js2n__-:definitions/configurePresetsToolsetV1!predicate",
                         vendor = _js2n__-prdslib.always,
-                        warnings = _js2n__-prdslib.always,
+                        warnings =
+                          _js2n__-prdslib.records.record
+                              {
+                                deprecated = _js2n__-prdslib.always,
+                                dev = _js2n__-prdslib.always,
+                                systemVars = _js2n__-prdslib.always,
+                                uninitialized = _js2n__-prdslib.always,
+                                unusedCli = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
                       } {} false _js2n__-prdslib.never
                   ])
             ],
       "_js2n__-:definitions/configurePresetsV7!predicate"
-        | doc "An optional array of configure preset objects."
+        | doc "An optional array of configure preset objects. Available in version 7 and higher."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.allOf
                 [
-                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV1!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV7!predicate",
                   _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV3!predicate",
-                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV7!predicate"
+                  _js2n__-refsenv."_js2n__-:definitions/configurePresetsItemsV1!predicate"
                 ],
               _js2n__-prdslib.arrays.arrayOf
                 (_js2n__-prdslib.allOf
@@ -1666,26 +2232,57 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.required [ "name" ],
                     _js2n__-prdslib.records.record
                       {
-                        architecture = _js2n__-prdslib.always,
+                        architecture =
+                          _js2n__-refsenv."_js2n__-:definitions/configurePresetsArchitectureV1!predicate",
                         binaryDir = _js2n__-prdslib.always,
-                        cacheVariables = _js2n__-prdslib.always,
+                        cacheVariables =
+                          _js2n__-prdslib.records.record {} {} true
+                              _js2n__-refsenv."_js2n__-:definitions/configurePresetsCacheVariablesAdditionalPropertiesV1!predicate",
                         cmakeExecutable = _js2n__-prdslib.always,
-                        condition = _js2n__-prdslib.always,
-                        debug = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV3!predicate",
+                        debug =
+                          _js2n__-prdslib.records.record
+                              {
+                                find = _js2n__-prdslib.always,
+                                output = _js2n__-prdslib.always,
+                                tryCompile = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
                         description = _js2n__-prdslib.always,
                         displayName = _js2n__-prdslib.always,
                         environment = _js2n__-prdslib.always,
-                        errors = _js2n__-prdslib.always,
+                        errors =
+                          _js2n__-prdslib.records.record
+                              {
+                                deprecated = _js2n__-prdslib.always,
+                                dev = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
                         generator = _js2n__-prdslib.always,
                         hidden = _js2n__-prdslib.always,
                         inherits = _js2n__-prdslib.always,
                         installDir = _js2n__-prdslib.always,
                         name = _js2n__-prdslib.always,
                         toolchainFile = _js2n__-prdslib.always,
-                        toolset = _js2n__-prdslib.always,
-                        trace = _js2n__-prdslib.always,
+                        toolset =
+                          _js2n__-refsenv."_js2n__-:definitions/configurePresetsToolsetV1!predicate",
+                        trace =
+                          _js2n__-prdslib.records.record
+                              {
+                                format = _js2n__-prdslib.always,
+                                mode = _js2n__-prdslib.always,
+                                redirect = _js2n__-prdslib.always,
+                                source = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
                         vendor = _js2n__-prdslib.always,
-                        warnings = _js2n__-prdslib.always,
+                        warnings =
+                          _js2n__-prdslib.records.record
+                              {
+                                deprecated = _js2n__-prdslib.always,
+                                dev = _js2n__-prdslib.always,
+                                systemVars = _js2n__-prdslib.always,
+                                uninitialized = _js2n__-prdslib.always,
+                                unusedCli = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never,
                       } {} false _js2n__-prdslib.never
                   ])
             ],
@@ -1696,6 +2293,32 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
             ],
+      "_js2n__-:definitions/packagePresetsItemsV10!predicate"
+        | doc "An optional array of package preset objects. Used to specify arguments to cpack. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        "$comment" =
+                          _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                        output =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    "$comment" =
+                                      _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                                  } {} true _js2n__-prdslib.always
+                              ],
+                      } {} true _js2n__-prdslib.always
+                  ])
+            ],
       "_js2n__-:definitions/packagePresetsItemsV6!predicate"
         | doc "An optional array of package preset objects. Used to specify arguments to cpack. Available in version 6 and higher."
         = _js2n__-prdslib.allOf
@@ -1705,11 +2328,8 @@ let rec _js2n__-refsenv
                 (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.required [ "name" ],
                     _js2n__-prdslib.records.record
                       {
-                        condition =
-                          _js2n__-refsenv."_js2n__-:definitions/topCondition!predicate",
                         configFile = _js2n__-prdslib.isType '"String",
                         configurations =
                           _js2n__-prdslib.allOf
@@ -1782,7 +2402,7 @@ let rec _js2n__-refsenv
                                   {
                                     debug = _js2n__-prdslib.isType '"Bool",
                                     verbose = _js2n__-prdslib.isType '"Bool",
-                                  } {} false _js2n__-prdslib.never
+                                  } {} true _js2n__-prdslib.always
                               ],
                         packageDirectory = _js2n__-prdslib.isType '"String",
                         packageName = _js2n__-prdslib.isType '"String",
@@ -1799,6 +2419,57 @@ let rec _js2n__-refsenv
                       } {} true _js2n__-prdslib.always
                   ])
             ],
+      "_js2n__-:definitions/packagePresetsV10!predicate"
+        | doc "An optional array of package preset objects. Used to specify arguments to cpack. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/packagePresetsItemsV10!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/packagePresetsItemsV6!predicate"
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "name" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        "$comment" = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV10!predicate",
+                        configFile = _js2n__-prdslib.always,
+                        configurations = _js2n__-prdslib.always,
+                        configurePreset = _js2n__-prdslib.always,
+                        description = _js2n__-prdslib.always,
+                        displayName = _js2n__-prdslib.always,
+                        environment = _js2n__-prdslib.always,
+                        generators = _js2n__-prdslib.always,
+                        hidden = _js2n__-prdslib.always,
+                        inheritConfigureEnvironment = _js2n__-prdslib.always,
+                        inherits = _js2n__-prdslib.always,
+                        name = _js2n__-prdslib.always,
+                        output =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    "$comment" = _js2n__-prdslib.always,
+                                    debug = _js2n__-prdslib.always,
+                                    verbose = _js2n__-prdslib.always,
+                                  } {} false _js2n__-prdslib.never
+                              ],
+                        packageDirectory = _js2n__-prdslib.always,
+                        packageName = _js2n__-prdslib.always,
+                        packageVersion = _js2n__-prdslib.always,
+                        variables = _js2n__-prdslib.always,
+                        vendor = _js2n__-prdslib.always,
+                        vendorName = _js2n__-prdslib.always,
+                      } {} false _js2n__-prdslib.never
+                  ])
+            ],
       "_js2n__-:definitions/packagePresetsV6!predicate"
         | doc "An optional array of package preset objects. Used to specify arguments to cpack. Available in version 6 and higher."
         = _js2n__-prdslib.allOf
@@ -1812,7 +2483,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.required [ "name" ],
                     _js2n__-prdslib.records.record
                       {
-                        condition = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV3!predicate",
                         configFile = _js2n__-prdslib.always,
                         configurations = _js2n__-prdslib.always,
                         configurePreset = _js2n__-prdslib.always,
@@ -1824,7 +2496,16 @@ let rec _js2n__-refsenv
                         inheritConfigureEnvironment = _js2n__-prdslib.always,
                         inherits = _js2n__-prdslib.always,
                         name = _js2n__-prdslib.always,
-                        output = _js2n__-prdslib.always,
+                        output =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    debug = _js2n__-prdslib.always,
+                                    verbose = _js2n__-prdslib.always,
+                                  } {} false _js2n__-prdslib.never
+                              ],
                         packageDirectory = _js2n__-prdslib.always,
                         packageName = _js2n__-prdslib.always,
                         packageVersion = _js2n__-prdslib.always,
@@ -1832,6 +2513,156 @@ let rec _js2n__-refsenv
                         vendor = _js2n__-prdslib.always,
                         vendorName = _js2n__-prdslib.always,
                       } {} false _js2n__-prdslib.never
+                  ])
+            ],
+      "_js2n__-:definitions/testPresetsFilterIncludeIndexAsObjectV10!predicate"
+        | doc "An optional object specifying tests to include by test index. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/testPresetsFilterIncludeIndexAsObjectV2!predicate"
+        | doc "An optional object specifying tests to include by test index. Available in version 2 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  end = _js2n__-prdslib.isType 'Integer,
+                  specificTests =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType 'Integer)
+                        ],
+                  start = _js2n__-prdslib.isType 'Integer,
+                  stride = _js2n__-prdslib.isType 'Integer,
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/testPresetsFilterIncludeIndexAsStringV2!predicate"
+        | doc "An optional string specifying a file with the command line syntax for --tests-information. Available in version 2 and higher."
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/testPresetsFilterIncludeIndexV10!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/testPresetsFilterIncludeIndexAsStringV2!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/testPresetsFilterIncludeIndexAsObjectV10!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/testPresetsFilterIncludeIndexAsObjectV2!predicate"
+                    ],
+                  _js2n__-prdslib.records.record
+                    {
+                      "$comment" = _js2n__-prdslib.always,
+                      end = _js2n__-prdslib.always,
+                      specificTests = _js2n__-prdslib.always,
+                      start = _js2n__-prdslib.always,
+                      stride = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/testPresetsFilterIncludeIndexV2!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/testPresetsFilterIncludeIndexAsStringV2!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsFilterIncludeIndexAsObjectV2!predicate",
+                  _js2n__-prdslib.records.record
+                    {
+                      end = _js2n__-prdslib.always,
+                      specificTests = _js2n__-prdslib.always,
+                      start = _js2n__-prdslib.always,
+                      stride = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/testPresetsItemsV10!predicate"
+        | doc "An optional array of test preset objects. Used to specify arguments to ctest. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        "$comment" =
+                          _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                        execution =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    "$comment" =
+                                      _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                                    repeat =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                "$comment" =
+                                                  _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                                              } {} true _js2n__-prdslib.always
+                                          ],
+                                  } {} true _js2n__-prdslib.always
+                              ],
+                        filter =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    "$comment" =
+                                      _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                                    exclude =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                "$comment" =
+                                                  _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                                                fixtures =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            "$comment" =
+                                                              _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                                                          } {} true
+                                                          _js2n__-prdslib.always
+                                                      ],
+                                              } {} true _js2n__-prdslib.always
+                                          ],
+                                    include =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                "$comment" =
+                                                  _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                                              } {} true _js2n__-prdslib.always
+                                          ],
+                                  } {} true _js2n__-prdslib.always
+                              ],
+                      } {} true _js2n__-prdslib.always
                   ])
             ],
       "_js2n__-:definitions/testPresetsItemsV2!predicate"
@@ -1843,7 +2674,6 @@ let rec _js2n__-refsenv
                 (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.required [ "name" ],
                     _js2n__-prdslib.records.record
                       {
                         configuration = _js2n__-prdslib.isType '"String",
@@ -1890,8 +2720,6 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.allOf
                                           [
                                             _js2n__-prdslib.isType 'Record,
-                                            _js2n__-prdslib.records.required
-                                              [ "count", "mode" ],
                                             _js2n__-prdslib.records.record
                                               {
                                                 count =
@@ -1909,7 +2737,7 @@ let rec _js2n__-refsenv
                                                             "after-timeout"
                                                           ]
                                                       ],
-                                              } {} false _js2n__-prdslib.never
+                                              } {} true _js2n__-prdslib.always
                                           ],
                                     resourceSpecFile =
                                       _js2n__-prdslib.isType '"String",
@@ -1926,7 +2754,7 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.isType '"Bool",
                                     testLoad = _js2n__-prdslib.isType 'Integer,
                                     timeout = _js2n__-prdslib.isType 'Integer,
-                                  } {} false _js2n__-prdslib.never
+                                  } {} true _js2n__-prdslib.always
                               ],
                         filter =
                           _js2n__-prdslib.allOf
@@ -1956,8 +2784,8 @@ let rec _js2n__-refsenv
                                                             setup =
                                                               _js2n__-prdslib.isType
                                                                   '"String",
-                                                          } {} false
-                                                          _js2n__-prdslib.never
+                                                          } {} true
+                                                          _js2n__-prdslib.always
                                                       ],
                                                 label =
                                                   _js2n__-prdslib.isType
@@ -1973,39 +2801,6 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.isType 'Record,
                                             _js2n__-prdslib.records.record
                                               {
-                                                index =
-                                                  _js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              'Record,
-                                                            _js2n__-prdslib.records.record
-                                                              {
-                                                                end =
-                                                                  _js2n__-prdslib.isType
-                                                                      'Integer,
-                                                                specificTests =
-                                                                  _js2n__-prdslib.allOf
-                                                                      [
-                                                                        _js2n__-prdslib.isType
-                                                                          '"Array",
-                                                                        _js2n__-prdslib.arrays.arrayOf
-                                                                          (_js2n__-prdslib.isType
-                                                                            'Integer)
-                                                                      ],
-                                                                start =
-                                                                  _js2n__-prdslib.isType
-                                                                      'Integer,
-                                                                stride =
-                                                                  _js2n__-prdslib.isType
-                                                                      'Integer,
-                                                              } {} false
-                                                              _js2n__-prdslib.never
-                                                          ],
-                                                        _js2n__-prdslib.isType
-                                                          '"String"
-                                                      ],
                                                 label =
                                                   _js2n__-prdslib.isType
                                                       '"String",
@@ -2015,9 +2810,9 @@ let rec _js2n__-refsenv
                                                 useUnion =
                                                   _js2n__-prdslib.isType
                                                       '"Bool",
-                                              } {} false _js2n__-prdslib.never
+                                              } {} true _js2n__-prdslib.always
                                           ],
-                                  } {} false _js2n__-prdslib.never
+                                  } {} true _js2n__-prdslib.always
                               ],
                         hidden = _js2n__-prdslib.isType '"Bool",
                         inheritConfigureEnvironment =
@@ -2093,20 +2888,7 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:definitions/testPresetsItemsV3!predicate"
         | doc "An optional array of test preset objects. Used to specify arguments to ctest. Available in version 3 and higher."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record
-                      {
-                        condition =
-                          _js2n__-refsenv."_js2n__-:definitions/topCondition!predicate",
-                      } {} true _js2n__-prdslib.always
-                  ])
-            ],
+        = _js2n__-prdslib.isType '"Array",
       "_js2n__-:definitions/testPresetsItemsV5!predicate"
         | doc "An optional array of test preset objects. Used to specify arguments to ctest. Available in version 5 and higher."
         = _js2n__-prdslib.allOf
@@ -2160,6 +2942,156 @@ let rec _js2n__-refsenv
                       } {} true _js2n__-prdslib.always
                   ])
             ],
+      "_js2n__-:definitions/testPresetsV10!predicate"
+        | doc "An optional array of test preset objects. Used to specify arguments to ctest. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV10!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV6!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV5!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV3!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV2!predicate"
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "name" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        "$comment" = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV10!predicate",
+                        configuration = _js2n__-prdslib.always,
+                        configurePreset = _js2n__-prdslib.always,
+                        description = _js2n__-prdslib.always,
+                        displayName = _js2n__-prdslib.always,
+                        environment = _js2n__-prdslib.always,
+                        execution =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    "$comment" = _js2n__-prdslib.always,
+                                    enableFailover = _js2n__-prdslib.always,
+                                    interactiveDebugging =
+                                      _js2n__-prdslib.always,
+                                    jobs = _js2n__-prdslib.always,
+                                    noTestsAction = _js2n__-prdslib.always,
+                                    repeat =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.required
+                                              [ "count", "mode" ],
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                "$comment" =
+                                                  _js2n__-prdslib.always,
+                                                count = _js2n__-prdslib.always,
+                                                mode = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    resourceSpecFile = _js2n__-prdslib.always,
+                                    scheduleRandom = _js2n__-prdslib.always,
+                                    showOnly = _js2n__-prdslib.always,
+                                    stopOnFailure = _js2n__-prdslib.always,
+                                    testLoad = _js2n__-prdslib.always,
+                                    timeout = _js2n__-prdslib.always,
+                                  } {} false _js2n__-prdslib.never
+                              ],
+                        filter =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    "$comment" = _js2n__-prdslib.always,
+                                    exclude =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                "$comment" =
+                                                  _js2n__-prdslib.always,
+                                                fixtures =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            "$comment" =
+                                                              _js2n__-prdslib.always,
+                                                            any =
+                                                              _js2n__-prdslib.always,
+                                                            cleanup =
+                                                              _js2n__-prdslib.always,
+                                                            setup =
+                                                              _js2n__-prdslib.always,
+                                                          } {} false
+                                                          _js2n__-prdslib.never
+                                                      ],
+                                                label = _js2n__-prdslib.always,
+                                                name = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    include =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                "$comment" =
+                                                  _js2n__-prdslib.always,
+                                                index =
+                                                  _js2n__-refsenv."_js2n__-:definitions/testPresetsFilterIncludeIndexV10!predicate",
+                                                label = _js2n__-prdslib.always,
+                                                name = _js2n__-prdslib.always,
+                                                useUnion =
+                                                  _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                  } {} false _js2n__-prdslib.never
+                              ],
+                        hidden = _js2n__-prdslib.always,
+                        inheritConfigureEnvironment = _js2n__-prdslib.always,
+                        inherits = _js2n__-prdslib.always,
+                        name = _js2n__-prdslib.always,
+                        output =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    debug = _js2n__-prdslib.always,
+                                    labelSummary = _js2n__-prdslib.always,
+                                    maxFailedTestOutputSize =
+                                      _js2n__-prdslib.always,
+                                    maxPassedTestOutputSize =
+                                      _js2n__-prdslib.always,
+                                    maxTestNameWidth = _js2n__-prdslib.always,
+                                    outputJUnitFile = _js2n__-prdslib.always,
+                                    outputLogFile = _js2n__-prdslib.always,
+                                    outputOnFailure = _js2n__-prdslib.always,
+                                    quiet = _js2n__-prdslib.always,
+                                    shortProgress = _js2n__-prdslib.always,
+                                    subprojectSummary = _js2n__-prdslib.always,
+                                    testOutputTruncation =
+                                      _js2n__-prdslib.always,
+                                    verbosity = _js2n__-prdslib.always,
+                                  } {} false _js2n__-prdslib.never
+                              ],
+                        overwriteConfigurationFile = _js2n__-prdslib.always,
+                        vendor = _js2n__-prdslib.always,
+                      } {} false _js2n__-prdslib.never
+                  ])
+            ],
       "_js2n__-:definitions/testPresetsV2!predicate"
         | doc "An optional array of test preset objects. Used to specify arguments to ctest. Available in version 2 and higher."
         = _js2n__-prdslib.allOf
@@ -2178,8 +3110,85 @@ let rec _js2n__-refsenv
                         description = _js2n__-prdslib.always,
                         displayName = _js2n__-prdslib.always,
                         environment = _js2n__-prdslib.always,
-                        execution = _js2n__-prdslib.always,
-                        filter = _js2n__-prdslib.always,
+                        execution =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    enableFailover = _js2n__-prdslib.always,
+                                    interactiveDebugging =
+                                      _js2n__-prdslib.always,
+                                    jobs = _js2n__-prdslib.always,
+                                    noTestsAction = _js2n__-prdslib.always,
+                                    repeat =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.required
+                                              [ "count", "mode" ],
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                count = _js2n__-prdslib.always,
+                                                mode = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    resourceSpecFile = _js2n__-prdslib.always,
+                                    scheduleRandom = _js2n__-prdslib.always,
+                                    showOnly = _js2n__-prdslib.always,
+                                    stopOnFailure = _js2n__-prdslib.always,
+                                    testLoad = _js2n__-prdslib.always,
+                                    timeout = _js2n__-prdslib.always,
+                                  } {} false _js2n__-prdslib.never
+                              ],
+                        filter =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    exclude =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                fixtures =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            any =
+                                                              _js2n__-prdslib.always,
+                                                            cleanup =
+                                                              _js2n__-prdslib.always,
+                                                            setup =
+                                                              _js2n__-prdslib.always,
+                                                          } {} false
+                                                          _js2n__-prdslib.never
+                                                      ],
+                                                label = _js2n__-prdslib.always,
+                                                name = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    include =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                index =
+                                                  _js2n__-refsenv."_js2n__-:definitions/testPresetsFilterIncludeIndexV2!predicate",
+                                                label = _js2n__-prdslib.always,
+                                                name = _js2n__-prdslib.always,
+                                                useUnion =
+                                                  _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                  } {} false _js2n__-prdslib.never
+                              ],
                         hidden = _js2n__-prdslib.always,
                         inheritConfigureEnvironment = _js2n__-prdslib.always,
                         inherits = _js2n__-prdslib.always,
@@ -2217,8 +3226,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.allOf
                 [
-                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV2!predicate",
-                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV3!predicate"
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV3!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV2!predicate"
                 ],
               _js2n__-prdslib.arrays.arrayOf
                 (_js2n__-prdslib.allOf
@@ -2227,14 +3236,92 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.required [ "name" ],
                     _js2n__-prdslib.records.record
                       {
-                        condition = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV3!predicate",
                         configuration = _js2n__-prdslib.always,
                         configurePreset = _js2n__-prdslib.always,
                         description = _js2n__-prdslib.always,
                         displayName = _js2n__-prdslib.always,
                         environment = _js2n__-prdslib.always,
-                        execution = _js2n__-prdslib.always,
-                        filter = _js2n__-prdslib.always,
+                        execution =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    enableFailover = _js2n__-prdslib.always,
+                                    interactiveDebugging =
+                                      _js2n__-prdslib.always,
+                                    jobs = _js2n__-prdslib.always,
+                                    noTestsAction = _js2n__-prdslib.always,
+                                    repeat =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.required
+                                              [ "count", "mode" ],
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                count = _js2n__-prdslib.always,
+                                                mode = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    resourceSpecFile = _js2n__-prdslib.always,
+                                    scheduleRandom = _js2n__-prdslib.always,
+                                    showOnly = _js2n__-prdslib.always,
+                                    stopOnFailure = _js2n__-prdslib.always,
+                                    testLoad = _js2n__-prdslib.always,
+                                    timeout = _js2n__-prdslib.always,
+                                  } {} false _js2n__-prdslib.never
+                              ],
+                        filter =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    exclude =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                fixtures =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            any =
+                                                              _js2n__-prdslib.always,
+                                                            cleanup =
+                                                              _js2n__-prdslib.always,
+                                                            setup =
+                                                              _js2n__-prdslib.always,
+                                                          } {} false
+                                                          _js2n__-prdslib.never
+                                                      ],
+                                                label = _js2n__-prdslib.always,
+                                                name = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    include =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                index =
+                                                  _js2n__-refsenv."_js2n__-:definitions/testPresetsFilterIncludeIndexV2!predicate",
+                                                label = _js2n__-prdslib.always,
+                                                name = _js2n__-prdslib.always,
+                                                useUnion =
+                                                  _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                  } {} false _js2n__-prdslib.never
+                              ],
                         hidden = _js2n__-prdslib.always,
                         inheritConfigureEnvironment = _js2n__-prdslib.always,
                         inherits = _js2n__-prdslib.always,
@@ -2272,9 +3359,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.allOf
                 [
-                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV2!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV5!predicate",
                   _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV3!predicate",
-                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV5!predicate"
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV2!predicate"
                 ],
               _js2n__-prdslib.arrays.arrayOf
                 (_js2n__-prdslib.allOf
@@ -2283,14 +3370,92 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.required [ "name" ],
                     _js2n__-prdslib.records.record
                       {
-                        condition = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV3!predicate",
                         configuration = _js2n__-prdslib.always,
                         configurePreset = _js2n__-prdslib.always,
                         description = _js2n__-prdslib.always,
                         displayName = _js2n__-prdslib.always,
                         environment = _js2n__-prdslib.always,
-                        execution = _js2n__-prdslib.always,
-                        filter = _js2n__-prdslib.always,
+                        execution =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    enableFailover = _js2n__-prdslib.always,
+                                    interactiveDebugging =
+                                      _js2n__-prdslib.always,
+                                    jobs = _js2n__-prdslib.always,
+                                    noTestsAction = _js2n__-prdslib.always,
+                                    repeat =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.required
+                                              [ "count", "mode" ],
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                count = _js2n__-prdslib.always,
+                                                mode = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    resourceSpecFile = _js2n__-prdslib.always,
+                                    scheduleRandom = _js2n__-prdslib.always,
+                                    showOnly = _js2n__-prdslib.always,
+                                    stopOnFailure = _js2n__-prdslib.always,
+                                    testLoad = _js2n__-prdslib.always,
+                                    timeout = _js2n__-prdslib.always,
+                                  } {} false _js2n__-prdslib.never
+                              ],
+                        filter =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    exclude =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                fixtures =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            any =
+                                                              _js2n__-prdslib.always,
+                                                            cleanup =
+                                                              _js2n__-prdslib.always,
+                                                            setup =
+                                                              _js2n__-prdslib.always,
+                                                          } {} false
+                                                          _js2n__-prdslib.never
+                                                      ],
+                                                label = _js2n__-prdslib.always,
+                                                name = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    include =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                index =
+                                                  _js2n__-refsenv."_js2n__-:definitions/testPresetsFilterIncludeIndexV2!predicate",
+                                                label = _js2n__-prdslib.always,
+                                                name = _js2n__-prdslib.always,
+                                                useUnion =
+                                                  _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                  } {} false _js2n__-prdslib.never
+                              ],
                         hidden = _js2n__-prdslib.always,
                         inheritConfigureEnvironment = _js2n__-prdslib.always,
                         inherits = _js2n__-prdslib.always,
@@ -2330,10 +3495,10 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.allOf
                 [
-                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV2!predicate",
-                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV3!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV6!predicate",
                   _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV5!predicate",
-                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV6!predicate"
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV3!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/testPresetsItemsV2!predicate"
                 ],
               _js2n__-prdslib.arrays.arrayOf
                 (_js2n__-prdslib.allOf
@@ -2342,14 +3507,92 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.required [ "name" ],
                     _js2n__-prdslib.records.record
                       {
-                        condition = _js2n__-prdslib.always,
+                        condition =
+                          _js2n__-refsenv."_js2n__-:definitions/topConditionV3!predicate",
                         configuration = _js2n__-prdslib.always,
                         configurePreset = _js2n__-prdslib.always,
                         description = _js2n__-prdslib.always,
                         displayName = _js2n__-prdslib.always,
                         environment = _js2n__-prdslib.always,
-                        execution = _js2n__-prdslib.always,
-                        filter = _js2n__-prdslib.always,
+                        execution =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    enableFailover = _js2n__-prdslib.always,
+                                    interactiveDebugging =
+                                      _js2n__-prdslib.always,
+                                    jobs = _js2n__-prdslib.always,
+                                    noTestsAction = _js2n__-prdslib.always,
+                                    repeat =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.required
+                                              [ "count", "mode" ],
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                count = _js2n__-prdslib.always,
+                                                mode = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    resourceSpecFile = _js2n__-prdslib.always,
+                                    scheduleRandom = _js2n__-prdslib.always,
+                                    showOnly = _js2n__-prdslib.always,
+                                    stopOnFailure = _js2n__-prdslib.always,
+                                    testLoad = _js2n__-prdslib.always,
+                                    timeout = _js2n__-prdslib.always,
+                                  } {} false _js2n__-prdslib.never
+                              ],
+                        filter =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    exclude =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                fixtures =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            any =
+                                                              _js2n__-prdslib.always,
+                                                            cleanup =
+                                                              _js2n__-prdslib.always,
+                                                            setup =
+                                                              _js2n__-prdslib.always,
+                                                          } {} false
+                                                          _js2n__-prdslib.never
+                                                      ],
+                                                label = _js2n__-prdslib.always,
+                                                name = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                    include =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                index =
+                                                  _js2n__-refsenv."_js2n__-:definitions/testPresetsFilterIncludeIndexV2!predicate",
+                                                label = _js2n__-prdslib.always,
+                                                name = _js2n__-prdslib.always,
+                                                useUnion =
+                                                  _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                  } {} false _js2n__-prdslib.never
+                              ],
                         hidden = _js2n__-prdslib.always,
                         inheritConfigureEnvironment = _js2n__-prdslib.always,
                         inherits = _js2n__-prdslib.always,
@@ -2383,15 +3626,55 @@ let rec _js2n__-refsenv
                       } {} false _js2n__-prdslib.never
                   ])
             ],
-      "_js2n__-:definitions/topCondition!predicate" =
+      "_js2n__-:definitions/topConditionAsNullV3!predicate"
+        | doc "Null indicates that the condition always evaluates to true and is not inherited."
+        = _js2n__-prdslib.isType 'Null,
+      "_js2n__-:definitions/topConditionV10!predicate" =
         _js2n__-prdslib.anyOf
             [
-              _js2n__-refsenv."_js2n__-:definitions/condition!predicate",
-              _js2n__-prdslib.isType 'Null
+              _js2n__-refsenv."_js2n__-:definitions/conditionV10!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/topConditionAsNullV3!predicate"
+            ],
+      "_js2n__-:definitions/topConditionV3!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/conditionV3!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/topConditionAsNullV3!predicate"
             ],
       "_js2n__-:definitions/vendor!predicate"
         | doc "An optional map containing vendor-specific information. CMake does not interpret the contents of this field except to verify that it is a map if it does exist. However, the keys should be a vendor-specific domain name followed by a /-separated path. For example, the Example IDE 1.0 could use example.com/ExampleIDE/1.0. The value of each field can be anything desired by the vendor, though will typically be a map."
         = _js2n__-prdslib.isType 'Record,
+      "_js2n__-:definitions/workflowPresetsItemsV10!predicate"
+        | doc "An optional array of workflow preset objects. Used to execute configure, build, test, and package presets in order. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        "$comment" =
+                          _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                        steps =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          "$comment" =
+                                            _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                                        } {} true _js2n__-prdslib.always
+                                    ])
+                              ],
+                      } {} true _js2n__-prdslib.always
+                  ])
+            ],
       "_js2n__-:definitions/workflowPresetsItemsV6!predicate"
         | doc "An optional array of workflow preset objects. Used to execute configure, build, test, and package presets in order. Available in version 6 and higher."
         = _js2n__-prdslib.allOf
@@ -2401,7 +3684,6 @@ let rec _js2n__-refsenv
                 (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.required [ "name", "steps" ],
                     _js2n__-prdslib.records.record
                       {
                         description = _js2n__-prdslib.isType '"String",
@@ -2420,8 +3702,6 @@ let rec _js2n__-refsenv
                                   (_js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.required
-                                        [ "name", "type" ],
                                       _js2n__-prdslib.records.record
                                         {
                                           name =
@@ -2445,10 +3725,53 @@ let rec _js2n__-refsenv
                                                       "package"
                                                     ]
                                                 ],
-                                        } {} false _js2n__-prdslib.never
+                                        } {} true _js2n__-prdslib.always
                                     ])
                               ],
                         vendor = _js2n__-prdslib.isType 'Record,
+                      } {} true _js2n__-prdslib.always
+                  ])
+            ],
+      "_js2n__-:definitions/workflowPresetsV10!predicate"
+        | doc "An optional array of workflow preset objects. Used to execute configure, build, test, and package presets in order. Available in version 10 and higher."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/workflowPresetsItemsV10!predicate",
+                  _js2n__-refsenv."_js2n__-:definitions/workflowPresetsItemsV6!predicate"
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "name", "steps" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        "$comment" = _js2n__-prdslib.always,
+                        description = _js2n__-prdslib.always,
+                        displayName = _js2n__-prdslib.always,
+                        name = _js2n__-prdslib.always,
+                        steps =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "name", "type" ],
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          "$comment" = _js2n__-prdslib.always,
+                                          name = _js2n__-prdslib.always,
+                                          type = _js2n__-prdslib.always,
+                                        } {} false _js2n__-prdslib.never
+                                    ])
+                              ],
+                        vendor = _js2n__-prdslib.always,
                       } {} false _js2n__-prdslib.never
                   ])
             ],
@@ -2468,7 +3791,23 @@ let rec _js2n__-refsenv
                         description = _js2n__-prdslib.always,
                         displayName = _js2n__-prdslib.always,
                         name = _js2n__-prdslib.always,
-                        steps = _js2n__-prdslib.always,
+                        steps =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "name", "type" ],
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          name = _js2n__-prdslib.always,
+                                          type = _js2n__-prdslib.always,
+                                        } {} false _js2n__-prdslib.never
+                                    ])
+                              ],
                         vendor = _js2n__-prdslib.always,
                       } {} false _js2n__-prdslib.never
                   ])
@@ -2484,7 +3823,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   cmakeMinimumRequired =
-                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequired!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredV1!predicate",
                   configurePresets =
                     _js2n__-refsenv."_js2n__-:definitions/configurePresetsV1!predicate",
                   vendor =
@@ -2496,7 +3835,7 @@ let rec _js2n__-refsenv
                   buildPresets =
                     _js2n__-refsenv."_js2n__-:definitions/buildPresetsV2!predicate",
                   cmakeMinimumRequired =
-                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequired!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredV1!predicate",
                   configurePresets =
                     _js2n__-refsenv."_js2n__-:definitions/configurePresetsV1!predicate",
                   testPresets =
@@ -2510,7 +3849,7 @@ let rec _js2n__-refsenv
                   buildPresets =
                     _js2n__-refsenv."_js2n__-:definitions/buildPresetsV3!predicate",
                   cmakeMinimumRequired =
-                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequired!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredV1!predicate",
                   configurePresets =
                     _js2n__-refsenv."_js2n__-:definitions/configurePresetsV3!predicate",
                   testPresets =
@@ -2524,7 +3863,7 @@ let rec _js2n__-refsenv
                   buildPresets =
                     _js2n__-refsenv."_js2n__-:definitions/buildPresetsV4!predicate",
                   cmakeMinimumRequired =
-                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequired!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredV1!predicate",
                   configurePresets =
                     _js2n__-refsenv."_js2n__-:definitions/configurePresetsV3!predicate",
                   include =
@@ -2540,7 +3879,7 @@ let rec _js2n__-refsenv
                   buildPresets =
                     _js2n__-refsenv."_js2n__-:definitions/buildPresetsV4!predicate",
                   cmakeMinimumRequired =
-                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequired!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredV1!predicate",
                   configurePresets =
                     _js2n__-refsenv."_js2n__-:definitions/configurePresetsV3!predicate",
                   include =
@@ -2556,7 +3895,7 @@ let rec _js2n__-refsenv
                   buildPresets =
                     _js2n__-refsenv."_js2n__-:definitions/buildPresetsV4!predicate",
                   cmakeMinimumRequired =
-                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequired!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredV1!predicate",
                   configurePresets =
                     _js2n__-refsenv."_js2n__-:definitions/configurePresetsV3!predicate",
                   include =
@@ -2576,7 +3915,7 @@ let rec _js2n__-refsenv
                   buildPresets =
                     _js2n__-refsenv."_js2n__-:definitions/buildPresetsV4!predicate",
                   cmakeMinimumRequired =
-                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequired!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredV1!predicate",
                   configurePresets =
                     _js2n__-refsenv."_js2n__-:definitions/configurePresetsV7!predicate",
                   include =
@@ -2598,7 +3937,7 @@ let rec _js2n__-refsenv
                   buildPresets =
                     _js2n__-refsenv."_js2n__-:definitions/buildPresetsV4!predicate",
                   cmakeMinimumRequired =
-                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequired!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredV1!predicate",
                   configurePresets =
                     _js2n__-refsenv."_js2n__-:definitions/configurePresetsV7!predicate",
                   include =
@@ -2620,7 +3959,7 @@ let rec _js2n__-refsenv
                   buildPresets =
                     _js2n__-refsenv."_js2n__-:definitions/buildPresetsV4!predicate",
                   cmakeMinimumRequired =
-                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequired!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredV1!predicate",
                   configurePresets =
                     _js2n__-refsenv."_js2n__-:definitions/configurePresetsV7!predicate",
                   include =
@@ -2634,6 +3973,30 @@ let rec _js2n__-refsenv
                   version = _js2n__-prdslib.const 9,
                   workflowPresets =
                     _js2n__-refsenv."_js2n__-:definitions/workflowPresetsV6!predicate",
+                } {} false _js2n__-prdslib.never,
+              _js2n__-prdslib.records.record
+                {
+                  "$comment" =
+                    _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
+                  "$schema" =
+                    _js2n__-refsenv."_js2n__-:definitions/$schema!predicate",
+                  buildPresets =
+                    _js2n__-refsenv."_js2n__-:definitions/buildPresetsV10!predicate",
+                  cmakeMinimumRequired =
+                    _js2n__-refsenv."_js2n__-:definitions/cmakeMinimumRequiredV10!predicate",
+                  configurePresets =
+                    _js2n__-refsenv."_js2n__-:definitions/configurePresetsV10!predicate",
+                  include =
+                    _js2n__-refsenv."_js2n__-:definitions/include!predicate",
+                  packagePresets =
+                    _js2n__-refsenv."_js2n__-:definitions/packagePresetsV10!predicate",
+                  testPresets =
+                    _js2n__-refsenv."_js2n__-:definitions/testPresetsV10!predicate",
+                  vendor =
+                    _js2n__-refsenv."_js2n__-:definitions/vendor!predicate",
+                  version = _js2n__-prdslib.const 10,
+                  workflowPresets =
+                    _js2n__-refsenv."_js2n__-:definitions/workflowPresetsV10!predicate",
                 } {} false _js2n__-prdslib.never
             ],
           _js2n__-prdslib.records.required [ "version" ],

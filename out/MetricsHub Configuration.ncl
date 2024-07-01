@@ -937,7 +937,7 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.isType '"String",
                                     _js2n__-prdslib.enum
-                                      [ "and", "leftConcat", "rightConcat" ]
+                                      [ "and", "prepend", "append" ]
                                   ],
                             value = _js2n__-prdslib.isType '"String",
                           } {} true _js2n__-prdslib.always,
@@ -1431,6 +1431,9 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.isType 'Record,
                                               _js2n__-prdslib.records.record
                                                 {
+                                                  hostname =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   https =
                                                     _js2n__-prdslib.isType
                                                         '"Bool",
@@ -1456,6 +1459,9 @@ let rec _js2n__-refsenv
                                                   bmcKey =
                                                     _js2n__-prdslib.isType
                                                         '"String",
+                                                  hostname =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   password =
                                                     _js2n__-prdslib.isType
                                                         '"String",
@@ -1475,6 +1481,9 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.isType 'Record,
                                               _js2n__-prdslib.records.record
                                                 {
+                                                  hostname =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   sudoCommand =
                                                     _js2n__-prdslib.isType
                                                         '"String",
@@ -1494,33 +1503,100 @@ let rec _js2n__-refsenv
                                                         ],
                                                 } {} true _js2n__-prdslib.always
                                             ],
+                                      ping =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  hostname =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  timeout =
+                                                    _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                                                } {} true _js2n__-prdslib.always
+                                            ],
                                       snmp =
                                         _js2n__-prdslib.allOf
                                             [
                                               _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.oneOf
-                                                [
-                                                  _js2n__-prdslib.records.record
-                                                    {
-                                                      community =
-                                                        _js2n__-prdslib.isType
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  community =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  hostname =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  port =
+                                                    _js2n__-prdslib.isType
+                                                        '"Number",
+                                                  timeout =
+                                                    _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                                                  version =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
                                                             '"String",
-                                                      port =
-                                                        _js2n__-prdslib.isType
-                                                            '"Number",
-                                                      timeout =
-                                                        _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
-                                                      version =
-                                                        _js2n__-prdslib.allOf
+                                                          _js2n__-prdslib.enum
+                                                            [ "v1", "v2c" ]
+                                                        ],
+                                                } {} true _js2n__-prdslib.always
+                                            ],
+                                      snmpv3 =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  authType =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
                                                             [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [ "v1", "v2c" ]
-                                                            ],
-                                                    } {} true
-                                                    _js2n__-prdslib.always
-                                                ]
+                                                              "NO_AUTH",
+                                                              "MD5",
+                                                              "SHA"
+                                                            ]
+                                                        ],
+                                                  contextName =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  hostname =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  password =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  port =
+                                                    _js2n__-prdslib.isType
+                                                        '"Number",
+                                                  privacy =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [
+                                                              "DES",
+                                                              "AES",
+                                                              "none"
+                                                            ]
+                                                        ],
+                                                  privacyPassword =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  retryIntervals =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  timeout =
+                                                    _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                                                  username =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} true _js2n__-prdslib.always
                                             ],
                                       ssh =
                                         _js2n__-prdslib.allOf
@@ -1528,6 +1604,9 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.isType 'Record,
                                               _js2n__-prdslib.records.record
                                                 {
+                                                  hostname =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   password =
                                                     _js2n__-prdslib.isType
                                                         '"String",
@@ -1562,6 +1641,9 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.isType 'Record,
                                               _js2n__-prdslib.records.record
                                                 {
+                                                  hostname =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   namespace =
                                                     _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                   password =
@@ -1602,6 +1684,9 @@ let rec _js2n__-refsenv
                                                                   ]
                                                               ])
                                                         ],
+                                                  hostname =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   namespace =
                                                     _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                   password =
@@ -1625,6 +1710,9 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.isType 'Record,
                                               _js2n__-prdslib.records.record
                                                 {
+                                                  hostname =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   namespace =
                                                     _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                   password =
@@ -1957,6 +2045,9 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.isType 'Record,
                                             _js2n__-prdslib.records.record
                                               {
+                                                hostname =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
                                                 https =
                                                   _js2n__-prdslib.isType
                                                       '"Bool",
@@ -1982,6 +2073,9 @@ let rec _js2n__-refsenv
                                                 bmcKey =
                                                   _js2n__-prdslib.isType
                                                       '"String",
+                                                hostname =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
                                                 password =
                                                   _js2n__-prdslib.isType
                                                       '"String",
@@ -2001,6 +2095,9 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.isType 'Record,
                                             _js2n__-prdslib.records.record
                                               {
+                                                hostname =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
                                                 sudoCommand =
                                                   _js2n__-prdslib.isType
                                                       '"String",
@@ -2020,33 +2117,100 @@ let rec _js2n__-refsenv
                                                       ],
                                               } {} true _js2n__-prdslib.always
                                           ],
+                                    ping =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                hostname =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                timeout =
+                                                  _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                                              } {} true _js2n__-prdslib.always
+                                          ],
                                     snmp =
                                       _js2n__-prdslib.allOf
                                           [
                                             _js2n__-prdslib.isType 'Record,
-                                            _js2n__-prdslib.oneOf
-                                              [
-                                                _js2n__-prdslib.records.record
-                                                  {
-                                                    community =
-                                                      _js2n__-prdslib.isType
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                community =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                hostname =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                port =
+                                                  _js2n__-prdslib.isType
+                                                      '"Number",
+                                                timeout =
+                                                  _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                                                version =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
                                                           '"String",
-                                                    port =
-                                                      _js2n__-prdslib.isType
-                                                          '"Number",
-                                                    timeout =
-                                                      _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
-                                                    version =
-                                                      _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.enum
+                                                          [ "v1", "v2c" ]
+                                                      ],
+                                              } {} true _js2n__-prdslib.always
+                                          ],
+                                    snmpv3 =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                authType =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"String",
+                                                        _js2n__-prdslib.enum
                                                           [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.enum
-                                                              [ "v1", "v2c" ]
-                                                          ],
-                                                  } {} true
-                                                  _js2n__-prdslib.always
-                                              ]
+                                                            "NO_AUTH",
+                                                            "MD5",
+                                                            "SHA"
+                                                          ]
+                                                      ],
+                                                contextName =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                hostname =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                password =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                port =
+                                                  _js2n__-prdslib.isType
+                                                      '"Number",
+                                                privacy =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"String",
+                                                        _js2n__-prdslib.enum
+                                                          [
+                                                            "DES",
+                                                            "AES",
+                                                            "none"
+                                                          ]
+                                                      ],
+                                                privacyPassword =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                retryIntervals =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                timeout =
+                                                  _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                                                username =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                              } {} true _js2n__-prdslib.always
                                           ],
                                     ssh =
                                       _js2n__-prdslib.allOf
@@ -2054,6 +2218,9 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.isType 'Record,
                                             _js2n__-prdslib.records.record
                                               {
+                                                hostname =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
                                                 password =
                                                   _js2n__-prdslib.isType
                                                       '"String",
@@ -2088,6 +2255,9 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.isType 'Record,
                                             _js2n__-prdslib.records.record
                                               {
+                                                hostname =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
                                                 namespace =
                                                   _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                 password =
@@ -2128,6 +2298,9 @@ let rec _js2n__-refsenv
                                                                 ]
                                                             ])
                                                       ],
+                                                hostname =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
                                                 namespace =
                                                   _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                 password =
@@ -2151,6 +2324,9 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.isType 'Record,
                                             _js2n__-prdslib.records.record
                                               {
+                                                hostname =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
                                                 namespace =
                                                   _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                 password =
@@ -2386,6 +2562,65 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.isType '"String",
                                     _js2n__-prdslib.const "wmi"
+                                  ],
+                          } {} true _js2n__-prdslib.always,
+                        _js2n__-prdslib.records.record
+                          {
+                            computes =
+                              _js2n__-refsenv."_js2n__-:definitions/computes!predicate",
+                            executeForEachEntryOf =
+                              _js2n__-refsenv."_js2n__-:definitions/executeForEachEntryOf!predicate",
+                            forceSerialization = _js2n__-prdslib.isType '"Bool",
+                            query = _js2n__-prdslib.isType '"String",
+                            tables =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              alias =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              columns =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Record,
+                                                            _js2n__-prdslib.records.record
+                                                              {
+                                                                name =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                number =
+                                                                  _js2n__-prdslib.isType
+                                                                      'Integer,
+                                                                type =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                              } {} true
+                                                              _js2n__-prdslib.always
+                                                          ])
+                                                    ],
+                                              source =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} true _js2n__-prdslib.always
+                                        ])
+                                  ],
+                            type =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.const "sql"
                                   ],
                           } {} true _js2n__-prdslib.always
                       ]

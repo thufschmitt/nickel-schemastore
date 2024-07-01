@@ -1088,6 +1088,13 @@ let rec _js2n__-refsenv
                                   ])
                             ]
                         ],
+                  label =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   path =
                     _js2n__-prdslib.oneOf
                         [
@@ -1259,6 +1266,13 @@ let rec _js2n__-refsenv
                                           ]
                                       ])
                                 ]
+                            ],
+                      label =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
                             ],
                       matcher =
                         _js2n__-prdslib.allOf
@@ -1574,6 +1588,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.never
                             ]
                         ],
+                  id_request = _js2n__-prdslib.isType '"String",
                   image =
                     _js2n__-prdslib.allOf
                         [
@@ -1605,6 +1620,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum
                             [ "always", "not_present", "on_start", "never" ]
                         ],
+                  report_as = _js2n__-prdslib.isType '"String",
                   ruleset =
                     _js2n__-refsenv."_js2n__-:definitions/Ruleset!predicate",
                   secrets =

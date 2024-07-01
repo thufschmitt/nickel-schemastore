@@ -964,7 +964,18 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.records.record {} {} true
                         _js2n__-prdslib.always
                     ],
-                  _js2n__-prdslib.always
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "trimHeader" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "skipPrerelease" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
                 ],
               _js2n__-prdslib.records.record
                 {
@@ -1000,6 +1011,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "asc", "desc", "ASC", "DESC" ]
                         ],
+                  trimHeader = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/CommitAuthor!predicate" =

@@ -1440,6 +1440,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType 'Record,
                     _js2n__-prdslib.records.record
                       {
+                        branch = _js2n__-prdslib.isType '"String",
+                        commit = _js2n__-prdslib.isType '"String",
                         path = _js2n__-prdslib.isType '"String",
                         source = _js2n__-prdslib.isType '"String",
                       } {} false _js2n__-prdslib.never
@@ -1612,7 +1614,9 @@ let rec _js2n__-refsenv
                             [
                               "Drift Detected",
                               "Updates Detected",
-                              "Approval Request Triggered",
+                              "Approval Request Approved",
+                              "Approval Request Denied",
+                              "Approval Request Cancelled",
                               "Environment Ended",
                               "Environment Launched",
                               "Environment Active With Error",
@@ -1623,7 +1627,9 @@ let rec _js2n__-refsenv
                               "Environment Idle",
                               "drift detected",
                               "updates detected",
-                              "approval request triggered",
+                              "approval request approved",
+                              "approval request denied",
+                              "approval request cancelled",
                               "environment ended",
                               "environment launched",
                               "environment active with error",

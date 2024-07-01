@@ -1274,6 +1274,13 @@ let rec _js2n__-refsenv
                     { version = _js2n__-prdslib.const "1.25.5", } {} true
                     _js2n__-prdslib.always,
                   _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.records.record
+                    { version = _js2n__-prdslib.const "1.26.2", } {} true
+                    _js2n__-prdslib.always,
+                  _js2n__-prdslib.always
                 ]
             ]
         ])

@@ -2942,6 +2942,7 @@ let rec _js2n__-refsenv
                         ],
                   commaRoundTrip = _js2n__-prdslib.isType '"Bool",
                   indices = _js2n__-prdslib.isType '"Bool",
+                  jsonStringify = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/RAMLHandler!predicate" =

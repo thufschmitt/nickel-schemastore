@@ -903,13 +903,25 @@ let rec _js2n__-refsenv
         anti-bloat
           | Array
             {
+              annotations
+                | std.enum.TagOrString
+                | [| 'no, 'yes, '"default" |]
+                | optional,
               append_plain | String | optional,
               append_result | String | optional,
+              asserts
+                | std.enum.TagOrString
+                | [| 'no, 'yes, '"default" |]
+                | optional,
               bloat-mode-overrides | {  .. } | optional,
               change_class | {  .. } | optional,
               change_function | {  .. } | optional,
               context | Array (String) | optional,
               description | String | optional,
+              doc_strings
+                | std.enum.TagOrString
+                | [| 'no, 'yes, '"default" |]
+                | optional,
               module_code | String | optional,
               no-auto-follow | {  .. } | optional,
               no-follow | {  .. } | optional,

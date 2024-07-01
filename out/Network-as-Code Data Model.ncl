@@ -74791,17 +74791,16 @@ let rec _js2n__-refsenv
                       | doc m%"
                         Severity (Integer)
                         - Maximum value: 7
-                      "%
-                      | optional,
-                    vrf | String | doc "VRF (String)" | optional,
+                      "%,
+                    vrf | String | doc "VRF (String)",
                   }
                 | doc m%"
                   Syslog Servers (List - Object)
                   
                   Elements:
                   - ip_address (required)
-                  - vrf
-                  - severity
+                  - vrf (required)
+                  - severity (required)
                 "%
                 | optional,
               vpc
@@ -75533,7 +75532,10 @@ let rec _js2n__-refsenv
                       | optional,
                     vrf_intf_desc
                       | String
-                      | doc "VRF Intf Desc (String)"
+                      | doc m%"
+                        VRF Intf Desc (String)
+                        - Default value: Configured by Ansible NetAsCode
+                      "%
                       | optional,
                     vrf_vlan_name
                       | String

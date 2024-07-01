@@ -897,112 +897,158 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/tools!contract" =
-        {
-            "404" | Bool | doc "Enable 404 detection" | optional,
-            betagouv | Bool | doc "Enable betagouv API data" | optional,
-            budget_page | Bool | doc "Enable budget page detection" | optional,
-            codescan | Bool | doc "Enable codescan alerts" | optional,
-            declaration-a11y
-              | Bool
-              | doc "Enable declaration a11y scan"
-              | optional,
-            declaration-rgpd
-              | Bool
-              | doc "Enable declaration RGPD scan"
-              | optional,
-            dependabot | Bool | doc "Enable dependabot alerts" | optional,
-            dsfr | Bool | doc "Enable DSFR detection" | optional,
-            ecoindex | Bool | doc "Enable ecoindex scan" | optional,
-            github_repository
-              | Bool
-              | doc "Enable GitHub repository detection (from betagouv data)"
-              | optional,
-            http | Bool | doc "Enable Mozilla HTTP Observatory scan" | optional,
-            lighthouse | Bool | doc "Enable Lighthouse" | optional,
-            nmap | Bool | doc "Enable nmapvuln scan" | optional,
-            nuclei | Bool | doc "Enable nuclei scan" | optional,
-            screenshot | Bool | doc "Enable screenshots" | optional,
-            sonarcloud | Bool | doc "Enable sonarcloud API results" | optional,
-            stats | Bool | doc "Enable /stats page check" | optional,
-            testssl | Bool | doc "Enable testssl.sh" | optional,
-            thirdparties | Bool | doc "Enable thirdparties scan" | optional,
-            trivy | Bool | doc "Enable trivy docker scans" | optional,
-            updownio | Bool | doc "Enable updown.io metrics" | optional,
-            wappalyzer | Bool | doc "Enable wappalyzer scan" | optional,
-            zap | Bool | doc "Enable ZaProxy baseline scan" | optional,
-          },
+      "_js2n__-:definitions/tools!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "404" = _js2n__-prdslib.isType '"Bool",
+                  betagouv = _js2n__-prdslib.isType '"Bool",
+                  budget_page = _js2n__-prdslib.isType '"Bool",
+                  codescan = _js2n__-prdslib.isType '"Bool",
+                  declaration-a11y = _js2n__-prdslib.isType '"Bool",
+                  declaration-rgpd = _js2n__-prdslib.isType '"Bool",
+                  dependabot = _js2n__-prdslib.isType '"Bool",
+                  dsfr = _js2n__-prdslib.isType '"Bool",
+                  ecoindex = _js2n__-prdslib.isType '"Bool",
+                  github_repository = _js2n__-prdslib.isType '"Bool",
+                  http = _js2n__-prdslib.isType '"Bool",
+                  lighthouse = _js2n__-prdslib.isType '"Bool",
+                  nmap = _js2n__-prdslib.isType '"Bool",
+                  nuclei = _js2n__-prdslib.isType '"Bool",
+                  screenshot = _js2n__-prdslib.isType '"Bool",
+                  sonarcloud = _js2n__-prdslib.isType '"Bool",
+                  stats = _js2n__-prdslib.isType '"Bool",
+                  testssl = _js2n__-prdslib.isType '"Bool",
+                  thirdparties = _js2n__-prdslib.isType '"Bool",
+                  trivy = _js2n__-prdslib.isType '"Bool",
+                  updownio = _js2n__-prdslib.isType '"Bool",
+                  wappalyzer = _js2n__-prdslib.isType '"Bool",
+                  zap = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
     }
     in
-  {
-      colmuns
-        | _js2n__-refsenv."_js2n__-:definitions/tools!contract"
-        | optional,
-      description | String | doc "Sous-titre du dashlord",
-      entity | String | doc "Nom de votre entité",
-      footer | String | doc "Message dans le footer" | optional,
-      loginUrl | String | optional,
-      marianne | Bool | doc "Affiche ou pas la Marianne" | optional,
-      matomoId | Number | optional,
-      matomoUrl | String | optional,
-      operator
-        | {
-          logo
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.allOf
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.allOf
+        [
+          _js2n__-prdslib.isType 'Record,
+          _js2n__-prdslib.records.required
+            [ "description", "entity", "title", "tools", "urls" ],
+          _js2n__-prdslib.records.record
+            {
+              columns = _js2n__-refsenv."_js2n__-:definitions/tools!predicate",
+              description = _js2n__-prdslib.isType '"String",
+              entity = _js2n__-prdslib.isType '"String",
+              footer = _js2n__-prdslib.isType '"String",
+              loginUrl = _js2n__-prdslib.isType '"String",
+              marianne = _js2n__-prdslib.isType '"Bool",
+              matomoId = _js2n__-prdslib.isType '"Number",
+              matomoUrl = _js2n__-prdslib.isType '"String",
+              operator =
+                _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.required [ "src" ],
+                      _js2n__-prdslib.records.required [ "logo", "name" ],
                       _js2n__-prdslib.records.record
                         {
-                          direction =
-                            _js2n__-prdslib.allOf
+                          logo =
+                            _js2n__-prdslib.oneOf
                                 [
                                   _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum
-                                    [ "horizontal", "vertical" ]
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "src" ],
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          direction =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [ "horizontal", "vertical" ]
+                                                ],
+                                          src =
+                                            _js2n__-prdslib.isType '"String",
+                                        } {} true _js2n__-prdslib.always
+                                    ]
                                 ],
-                          src = _js2n__-prdslib.isType '"String",
+                          name = _js2n__-prdslib.isType '"String",
                         } {} true _js2n__-prdslib.always
-                    ]
-                ]),
-          name | String,
-          ..
-        }
-        | doc "Ajoute un logo d'opérateur. Soit une URL, soit un objet avec src et direction"
-        | optional,
-      title | String | doc "Titre du DashLord",
-      tools | _js2n__-refsenv."_js2n__-:definitions/tools!contract",
-      updownioRecipients
-        | Array (String)
-        | doc "Notifications pour les nouvelles alertes updown.io (action updown-init)"
-        | optional,
-      updownioStatusPage
-        | String
-        | doc "URL de la page de status updown.io"
-        | optional,
-      urls
-        | Array
-          {
-            betaId | String | optional,
-            category | String | optional,
-            docker | Array (String) | doc "Docker images to scan" | optional,
-            pages
-              | Array (String)
-              | doc "Additionnal URLs to scan with LightHouse"
-              | optional,
-            repositories
-              | Array (String)
-              | doc "Repositories no GitHub"
-              | optional,
-            tags | Array (String) | optional,
-            title | String | optional,
-            tools
-              | _js2n__-refsenv."_js2n__-:definitions/tools!contract"
-              | optional,
-            url | String,
-          },
-    }
+                    ],
+              title = _js2n__-prdslib.isType '"String",
+              tools = _js2n__-refsenv."_js2n__-:definitions/tools!predicate",
+              updownioRecipients =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String")
+                    ],
+              updownioStatusPage = _js2n__-prdslib.isType '"String",
+              urls =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required [ "url" ],
+                            _js2n__-prdslib.records.record
+                              {
+                                betaId = _js2n__-prdslib.isType '"String",
+                                category = _js2n__-prdslib.isType '"String",
+                                docker =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          (_js2n__-prdslib.isType '"String")
+                                      ],
+                                pages =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          (_js2n__-prdslib.isType '"String")
+                                      ],
+                                repositories =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          (_js2n__-prdslib.isType '"String")
+                                      ],
+                                tags =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          (_js2n__-prdslib.isType '"String")
+                                      ],
+                                title = _js2n__-prdslib.isType '"String",
+                                tools =
+                                  _js2n__-refsenv."_js2n__-:definitions/tools!predicate",
+                                url = _js2n__-prdslib.isType '"String",
+                              } {} false _js2n__-prdslib.never
+                          ])
+                    ],
+            }
+            {
+              "^_.*" =
+                _js2n__-prdslib.anyOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.isType '"Number",
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.isType '"Bool",
+                      _js2n__-prdslib.isType 'Null
+                    ],
+            } false _js2n__-prdslib.never
+        ])

@@ -1258,6 +1258,37 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/SecretArgs!predicate"
                         ],
+                  sortOptions =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  legacySortOptions =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              orderFirst =
+                                                _js2n__-prdslib.isType '"Array",
+                                              orderLast =
+                                                _js2n__-prdslib.isType '"Array",
+                                            } {} false _js2n__-prdslib.never
+                                        ],
+                                  order = _js2n__-prdslib.enum [ "legacy" ],
+                                } {} false _js2n__-prdslib.never
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                { order = _js2n__-prdslib.enum [ "fifo" ], } {}
+                                false _js2n__-prdslib.never
+                            ]
+                        ],
                   transformers =
                     _js2n__-prdslib.allOf
                         [
