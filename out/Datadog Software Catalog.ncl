@@ -898,55 +898,52 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {}
     in
-  {
-      filter
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.oneOf
+        [
+          _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record
-                      {
-                        namespace = _js2n__-prdslib.isType '"String",
-                        path = _js2n__-prdslib.isType '"String",
-                      } {} false _js2n__-prdslib.never
-                  ])
-            ])
-        | doc m%"
-          Filter options for the current pack
-          https://minecraft.wiki/w/Data_pack
-        "%
-        | optional,
-      fusion | Dyn | optional,
-      pack
-        | {
-          description
-            | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
-            | doc m%"
-              A description for the current pack
-              https://minecraft.wiki/w/Data_pack#Contents
-            "%
-            | optional,
-          pack_format
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Integer,
-                  _js2n__-prdslib.numbers.maximum 48,
-                  _js2n__-prdslib.numbers.minimum 1
-                ])
-            | doc m%"
-              A version for the current pack
-              https://minecraft.wiki/w/Data_pack#Contents
-            "%
-            | optional,
-        }
-        | doc m%"
-          Options for the current pack
-          https://minecraft.wiki/w/Data_pack#Contents
-        "%
-        | optional,
-    }
+              _js2n__-prdslib.records.record
+                {
+                  apiVersion = _js2n__-prdslib.const "v3",
+                  kind = _js2n__-prdslib.const "service",
+                } {} true _js2n__-prdslib.always,
+              _js2n__-prdslib.always
+            ],
+          _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.record
+                {
+                  apiVersion = _js2n__-prdslib.const "v3",
+                  kind = _js2n__-prdslib.const "queue",
+                } {} true _js2n__-prdslib.always,
+              _js2n__-prdslib.always
+            ],
+          _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.record
+                {
+                  apiVersion = _js2n__-prdslib.const "v3",
+                  kind = _js2n__-prdslib.const "datastore",
+                } {} true _js2n__-prdslib.always,
+              _js2n__-prdslib.always
+            ],
+          _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.record
+                {
+                  apiVersion = _js2n__-prdslib.const "v3",
+                  kind = _js2n__-prdslib.const "system",
+                } {} true _js2n__-prdslib.always,
+              _js2n__-prdslib.always
+            ],
+          _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.record
+                {
+                  apiVersion = _js2n__-prdslib.const "v3",
+                  kind = _js2n__-prdslib.const "ui",
+                } {} true _js2n__-prdslib.always,
+              _js2n__-prdslib.always
+            ]
+        ])

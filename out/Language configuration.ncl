@@ -896,57 +896,237 @@ let _js2n__-prdslib
   }
   in
 let rec _js2n__-refsenv
-    = {}
-    in
-  {
-      filter
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
+    = {
+      "_js2n__-:definitions/charPair!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType '"Array",
+                _js2n__-prdslib.arrays.items
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType '"String"
+                  ],
+                _js2n__-prdslib.arrays.additionalItems _js2n__-prdslib.never 2,
+                _js2n__-prdslib.arrays.minItems 2
+              ]),
+      "_js2n__-:definitions/charPair!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.items
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType '"String"
+                ],
+              _js2n__-prdslib.arrays.additionalItems _js2n__-prdslib.never 2,
+              _js2n__-prdslib.arrays.minItems 2
+            ],
+      "_js2n__-:definitions/regexp!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true
-                (_js2n__-prdslib.allOf
+              _js2n__-prdslib.records.required [ "pattern" ],
+              _js2n__-prdslib.records.record
+                {
+                  flags = _js2n__-prdslib.isType '"String",
+                  pattern = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+    }
+    in
+  {
+      autoCloseBefore
+        | String
+        | doc "What characters must be after the cursor for bracket or quote autoclosing to occur."
+        | optional,
+      autoClosingPairs
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.anyOf
+              [
+                _js2n__-refsenv."_js2n__-:definitions/charPair!predicate",
+                _js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "close", "open" ],
                     _js2n__-prdslib.records.record
                       {
-                        namespace = _js2n__-prdslib.isType '"String",
-                        path = _js2n__-prdslib.isType '"String",
-                      } {} false _js2n__-prdslib.never
-                  ])
-            ])
-        | doc m%"
-          Filter options for the current pack
-          https://minecraft.wiki/w/Data_pack
-        "%
+                        close = _js2n__-prdslib.isType '"String",
+                        notIn =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        open = _js2n__-prdslib.isType '"String",
+                      } {} true _js2n__-prdslib.always
+                  ]
+              ])
+        )
+        | doc "The language's auto closing pairs. The 'close' character is automatically inserted with the 'open' character is typed."
         | optional,
-      fusion | Dyn | optional,
-      pack
+      brackets
+        | Array _js2n__-refsenv."_js2n__-:definitions/charPair!contract"
+        | doc "The language's brackets."
+        | optional,
+      comments
         | {
-          description
-            | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
-            | doc m%"
-              A description for the current pack
-              https://minecraft.wiki/w/Data_pack#Contents
-            "%
+          blockComment
+            | _js2n__-refsenv."_js2n__-:definitions/charPair!contract"
+            | doc "The block comment character pair, like `/* block comment *&#47;`"
             | optional,
-          pack_format
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Integer,
-                  _js2n__-prdslib.numbers.maximum 48,
-                  _js2n__-prdslib.numbers.minimum 1
-                ])
-            | doc m%"
-              A version for the current pack
-              https://minecraft.wiki/w/Data_pack#Contents
-            "%
+          lineComment
+            | String
+            | doc "The line comment token, like `// this is a comment`."
             | optional,
+          ..
         }
-        | doc m%"
-          Options for the current pack
-          https://minecraft.wiki/w/Data_pack#Contents
-        "%
+        | doc "The language's comment settings."
         | optional,
+      folding
+        | {
+          markers
+            | {
+              end
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.anyOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-refsenv."_js2n__-:definitions/regexp!predicate"
+                    ])
+                | optional,
+              start
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.anyOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-refsenv."_js2n__-:definitions/regexp!predicate"
+                    ])
+                | optional,
+              ..
+            }
+            | doc "Region markers used by the language."
+            | optional,
+          ..
+        }
+        | doc "The language's folding rules."
+        | optional,
+      indentationRules
+        | {
+          decreaseIndentPattern
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-refsenv."_js2n__-:definitions/regexp!predicate"
+                ])
+            | doc "If a line matches this pattern, then all the lines after it should be unindented once (until another rule matches).",
+          increaseIndentPattern
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-refsenv."_js2n__-:definitions/regexp!predicate"
+                ])
+            | doc "If a line matches this pattern, then all the lines after it should be indented once (until another rule matches).",
+          indentNextLinePattern
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-refsenv."_js2n__-:definitions/regexp!predicate"
+                ])
+            | doc "If a line matches this pattern, then only the next line after it should be indented once."
+            | optional,
+          unIndentedLinePattern
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-refsenv."_js2n__-:definitions/regexp!predicate"
+                ])
+            | doc "If a line matches this pattern, then its indentation should not be changed and it should not be evaluated against the other rules."
+            | optional,
+          ..
+        }
+        | doc "The language's indentation settings."
+        | optional,
+      onEnterRules
+        | Array
+          {
+            action
+              | {
+                appendText | String | optional,
+                indent
+                  | std.enum.TagOrString
+                  | [| 'outdent, 'indentOutdent, 'indent, 'none |],
+                removeText
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Integer,
+                        _js2n__-prdslib.numbers.minimum 1
+                      ])
+                  | optional,
+                ..
+              },
+            afterText
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-refsenv."_js2n__-:definitions/regexp!predicate"
+                  ])
+              | optional,
+            beforeText
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-refsenv."_js2n__-:definitions/regexp!predicate"
+                  ]),
+            previousLineText
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-refsenv."_js2n__-:definitions/regexp!predicate"
+                  ])
+              | optional,
+            ..
+          }
+        | doc "The language's rules to be evaluated when pressing Enter."
+        | optional,
+      surroundingPairs
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.anyOf
+              [
+                _js2n__-refsenv."_js2n__-:definitions/charPair!predicate",
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "close", "open" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        close = _js2n__-prdslib.isType '"String",
+                        open = _js2n__-prdslib.isType '"String",
+                      } {} true _js2n__-prdslib.always
+                  ]
+              ])
+        )
+        | doc "The language's surrounding pairs. When the 'open' character is typed on a selection, the selected string is surrounded by the open and close characters."
+        | optional,
+      wordPattern
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-refsenv."_js2n__-:definitions/regexp!predicate"
+            ])
+        | doc "The language's word definition."
+        | optional,
+      ..
     }

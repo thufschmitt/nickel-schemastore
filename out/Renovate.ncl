@@ -1178,6 +1178,10 @@ let rec _js2n__-refsenv
         | std.number.Integer
         | doc "Maximum duration in minutes to keep datasource cache entries."
         | optional,
+      cachePrivatePackages
+        | Bool
+        | doc "Cache private packages in the datasource cache. This is useful for self-hosted setups"
+        | optional,
       cacheTtlOverride
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

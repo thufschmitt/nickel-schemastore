@@ -383,6 +383,7 @@
 "KIMMDY config file" = import "out/KIMMDY config file.ncl",
 "KrakenD" = import "out/KrakenD.ncl",
 "Datadog Service Definition" = import "out/Datadog Service Definition.ncl",
+"Datadog Software Catalog" = import "out/Datadog Software Catalog.ncl",
 "Ory Keto configuration" = import "out/Ory Keto configuration.ncl",
 "kontinuous-values.yaml" = import "out/kontinuous-values.yaml.ncl",
 "kontinuous-config.yaml" = import "out/kontinuous-config.yaml.ncl",
@@ -892,5 +893,9 @@
 "Configu .configu file" = import "out/Configu .configu file.ncl",
 "Qt Creator workspace file" = import "out/Qt Creator workspace file.ncl",
 "mprocs Configuration file" = import "out/mprocs Configuration file.ncl",
+"Language configuration" = import "out/Language configuration.ncl",
 "Any" = import "out/Any.ncl",
+"zerops.yml" = import "out/zerops.yml.ncl",
+"zerops.io import file" = import "out/zerops.io import file.ncl",
+"spicepod.yaml" = import "out/spicepod.yaml.ncl",
 }

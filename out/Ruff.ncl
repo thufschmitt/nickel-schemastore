@@ -1465,7 +1465,7 @@ let rec _js2n__-refsenv
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/FormatOptions!predicate"
-        | doc "Configures the way ruff formats your code."
+        | doc "Configures the way Ruff formats your code."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -1878,7 +1878,7 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:definitions/LintOptions!predicate"
         | doc m%"
-          Configures how ruff checks your code.
+          Configures how Ruff checks your code.
           
           Options specified in the `lint` section take precedence over the deprecated top-level settings.
         "%
@@ -2757,6 +2757,7 @@ let rec _js2n__-refsenv
                   "B033",
                   "B034",
                   "B035",
+                  "B039",
                   "B9",
                   "B90",
                   "B901",
@@ -2900,6 +2901,7 @@ let rec _js2n__-refsenv
                   "E201",
                   "E202",
                   "E203",
+                  "E204",
                   "E21",
                   "E211",
                   "E22",
@@ -4079,7 +4081,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
             ])
         | doc m%"
-          A list of file patterns to omit from formatting and linting, in addition to those specified by `exclude`.
+          A list of file patterns to omit from formatting and linting, in addition to those specified by [`exclude`](#exclude).
           
           Exclusions are based on globs, and can be either:
           
@@ -4100,7 +4102,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.arrayOf
                 _js2n__-refsenv."_js2n__-:definitions/RuleSelector!predicate"
             ])
-        | doc "A list of rule codes or prefixes to consider fixable, in addition to those specified by `fixable`."
+        | doc "A list of rule codes or prefixes to consider fixable, in addition to those specified by [`fixable`](#lint_fixable)."
         | optional,
       extend-ignore
         | _js2n__-prdslib.contract_from_predicate
@@ -4128,7 +4130,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
             ])
         | doc m%"
-          A list of file patterns to include when linting, in addition to those specified by `include`.
+          A list of file patterns to include when linting, in addition to those specified by [`include`](#include).
           
           Inclusion are based on globs, and should be single-path patterns, like `*.pyw`, to include any file with the `.pyw` extension.
           
@@ -4152,7 +4154,7 @@ let rec _js2n__-refsenv
                       _js2n__-refsenv."_js2n__-:definitions/RuleSelector!predicate"
                   ])
             ])
-        | doc "A list of mappings from file pattern to rule codes or prefixes to exclude, in addition to any rules excluded by `per-file-ignores`."
+        | doc "A list of mappings from file pattern to rule codes or prefixes to exclude, in addition to any rules excluded by [`per-file-ignores`](#lint_per-file-ignores)."
         | optional,
       extend-safe-fixes
         | _js2n__-prdslib.contract_from_predicate
@@ -4180,7 +4182,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.arrayOf
                 _js2n__-refsenv."_js2n__-:definitions/RuleSelector!predicate"
             ])
-        | doc "A list of rule codes or prefixes to enable, in addition to those specified by `select`."
+        | doc "A list of rule codes or prefixes to enable, in addition to those specified by [`select`](#lint_select)."
         | optional,
       extend-unfixable
         | _js2n__-prdslib.contract_from_predicate
@@ -4194,7 +4196,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.arrayOf
                 _js2n__-refsenv."_js2n__-:definitions/RuleSelector!predicate"
             ])
-        | doc "A list of rule codes or prefixes to consider non-auto-fixable, in addition to those specified by `unfixable`."
+        | doc "A list of rule codes or prefixes to consider non-auto-fixable, in addition to those specified by [`unfixable`](#lint_unfixable)."
         | optional,
       extend-unsafe-fixes
         | _js2n__-prdslib.contract_from_predicate
@@ -4233,7 +4235,7 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
-        | doc "Like `fix`, but disables reporting on leftover violation. Implies `fix`."
+        | doc "Like [`fix`](#fix), but disables reporting on leftover violation. Implies [`fix`](#fix)."
         | optional,
       fixable
         | _js2n__-prdslib.contract_from_predicate
@@ -4407,7 +4409,7 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
         | doc m%"
-          Whether to enforce `exclude` and `extend-exclude` patterns, even for paths that are passed to Ruff explicitly. Typically, Ruff will lint any paths passed in directly, even if they would typically be excluded. Setting `force-exclude = true` will cause Ruff to respect these exclusions unequivocally.
+          Whether to enforce [`exclude`](#exclude) and [`extend-exclude`](#extend-exclude) patterns, even for paths that are passed to Ruff explicitly. Typically, Ruff will lint any paths passed in directly, even if they would typically be excluded. Setting `force-exclude = true` will cause Ruff to respect these exclusions unequivocally.
           
           This is useful for [`pre-commit`](https://pre-commit.com/), which explicitly passes all changed files to the [`ruff-pre-commit`](https://github.com/astral-sh/ruff-pre-commit) plugin, regardless of whether they're marked as excluded by Ruff's own settings.
         "%
@@ -4573,7 +4575,7 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/OutputFormat!predicate",
               _js2n__-prdslib.isType 'Null
             ])
-        | doc "The style in which violation messages should be formatted: `\"full\"` (shows source),`\"concise\"` (default), `\"grouped\"` (group messages by file), `\"json\"` (machine-readable), `\"junit\"` (machine-readable XML), `\"github\"` (GitHub Actions annotations), `\"gitlab\"` (GitLab CI code quality report), `\"pylint\"` (Pylint text format) or `\"azure\"` (Azure Pipeline logging commands)."
+        | doc "The style in which violation messages should be formatted: `\"full\"` (shows source), `\"concise\"` (default), `\"grouped\"` (group messages by file), `\"json\"` (machine-readable), `\"junit\"` (machine-readable XML), `\"github\"` (GitHub Actions annotations), `\"gitlab\"` (GitLab CI code quality report), `\"pylint\"` (Pylint text format) or `\"azure\"` (Azure Pipeline logging commands)."
         | optional,
       pep8-naming
         | _js2n__-prdslib.contract_from_predicate
@@ -4666,7 +4668,7 @@ let rec _js2n__-refsenv
           
           Useful for unifying results across many environments, e.g., with a `pyproject.toml` file.
           
-          Accepts a PEP 440 specifier, like `==0.3.1` or `>=0.3.1`.
+          Accepts a [PEP 440](https://peps.python.org/pep-0440/) specifier, like `==0.3.1` or `>=0.3.1`.
         "%
         | optional,
       respect-gitignore
@@ -4770,7 +4772,7 @@ let rec _js2n__-refsenv
         | doc m%"
           A list of task tags to recognize (e.g., "TODO", "FIXME", "XXX").
           
-          Comments starting with these tags will be ignored by commented-out code detection (`ERA`), and skipped by line-length rules (`E501`) if `ignore-overlong-task-comments` is set to `true`.
+          Comments starting with these tags will be ignored by commented-out code detection (`ERA`), and skipped by line-length rules (`E501`) if [`ignore-overlong-task-comments`](#lint_pycodestyle_ignore-overlong-task-comments) is set to `true`.
         "%
         | optional,
       typing-modules

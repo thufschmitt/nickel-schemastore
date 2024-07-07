@@ -1166,6 +1166,7 @@ let rec _js2n__-refsenv
                         ],
                   dataExtensions = _js2n__-prdslib.isType '"Bool",
                   dataModel = _js2n__-prdslib.isType '"Bool",
+                  dataModelInherits = _js2n__-prdslib.isType '"String",
                   dataSvcCaching = _js2n__-prdslib.isType '"Bool",
                   dataSvcCtor =
                     _js2n__-prdslib.allOf
@@ -1258,7 +1259,6 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   managerExtensions = _js2n__-prdslib.isType '"Bool",
-                  modelInherits = _js2n__-prdslib.isType '"String",
                   name = _js2n__-prdslib.isType '"String",
                   namespace = _js2n__-prdslib.isType '"String",
                   odataCollectionName = _js2n__-prdslib.isType '"String",

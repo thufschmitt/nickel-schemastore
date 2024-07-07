@@ -900,9 +900,9 @@ let rec _js2n__-refsenv
     in
   {
       name | String,
-      policy_assignments | Array (String),
-      policy_definitions | Array (String),
-      policy_set_definitions | Array (String),
-      role_definitions | Array (String),
+      policy_assignments | Array (String) | optional,
+      policy_definitions | Array (String) | optional,
+      policy_set_definitions | Array (String) | optional,
+      role_definitions | Array (String) | optional,
       ..
     }

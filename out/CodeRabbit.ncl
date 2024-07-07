@@ -1119,7 +1119,7 @@ let rec _js2n__-refsenv
                 profile
                   | std.enum.TagOrString
                   | [| 'assertive, 'chill |]
-                  | doc "Set the profile for reviews."
+                  | doc "Set the profile for reviews. Assertive profile yields more feedback, that may be considered nitpicky."
                   | optional,
                 request_changes_workflow
                   | Bool
@@ -1275,7 +1275,7 @@ let rec _js2n__-refsenv
                       | {
                         enabled
                           | Bool
-                          | doc "Enable PHPStan | PHPStan requires [config file](https://phpstan.org/config-reference#config-file) in your repository root."
+                          | doc "Enable PHPStan | PHPStan requires [config file](https://phpstan.org/config-reference#config-file) in your repository root. Please ensure that this file contains the `paths:` parameter."
                           | optional,
                         level
                           | std.enum.TagOrString

@@ -1402,7 +1402,7 @@ let rec _js2n__-refsenv
         | doc "UNSTABLE: Enables or disables the use of a local vendor folder as a local cache for remote modules and node_modules folder for npm packages. Alternatively, use the `--vendor` flag or override the config via `--vendor=false`. Requires Deno 1.36.1 or later."
         | optional,
       version | String | doc "The version of this JSR package." | optional,
-      workspaces
+      workspace
         | Array (String)
         | doc "The members of this workspace."
         | optional,

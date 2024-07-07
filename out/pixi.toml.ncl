@@ -1020,7 +1020,10 @@ let rec _js2n__-refsenv
             ])
         | doc "The PyPI dependencies"
         | optional,
-      pypi-options | Dyn | doc "Options related to PyPI indexes" | optional,
+      pypi-options
+        | Dyn
+        | doc "Options related to PyPI indexes, on the default feature"
+        | optional,
       system-requirements
         | Dyn
         | doc "The system requirements of the project"

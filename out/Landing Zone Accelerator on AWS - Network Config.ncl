@@ -2208,6 +2208,11 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/IPrefixListConfig!contract"
               | doc "An optional list of prefix list set configurations."
               | optional,
+            transitGatewayConnects
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/ITransitGatewayConnectConfig!contract"
+              | doc "An array of Transit Gateway Connect configurations."
+              | optional,
             transitGatewayPeering
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/ITransitGatewayPeeringConfig!contract"
@@ -3704,9 +3709,63 @@ let rec _js2n__-refsenv
               | Array _js2n__-refsenv."_js2n__-:definitions/ITag!contract"
               | doc "(OPTIONAL) An array of tag objects for the Transit Gateway."
               | optional,
+            transitGatewayCidrBlocks
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
+              | doc "(OPTIONAL) A list of transit gateway IPv4 CIDR blocks."
+              | optional,
+            transitGatewayIpv6CidrBlocks
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
+              | doc "(OPTIONAL) A list of transit gateway IPv6 CIDR blocks."
+              | optional,
             vpnEcmpSupport
               | _js2n__-refsenv."_js2n__-:definitions/EnableDisable!contract"
               | doc "Equal Cost Multipath (ECMP) routing support between VPN tunnels.",
+          },
+      "_js2n__-:definitions/ITransitGatewayConnectConfig!contract"
+        | doc "Use this configuration to define a Transit Gateway Connect attachment to your Direct Connect Gateway."
+        = {
+            directConnect
+              | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
+              | doc "(OPTIONAL) The Direct Connect Gateway Attachment that belongs to the Transit Gateway that a Transit Gateway Connect Attachment is being made for."
+              | optional,
+            name
+              | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
+              | doc "A friendly name for the Transit Gateway Connect attachment.",
+            options
+              | _js2n__-refsenv."_js2n__-:definitions/ITransitGatewayConnectOptionsConfig!contract"
+              | doc "(OPTIONAL) Options around the Transit Gateway Connect"
+              | optional,
+            region
+              | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
+              | doc "The AWS Region for the attachment.",
+            tags
+              | Array _js2n__-refsenv."_js2n__-:definitions/ITag!contract"
+              | doc "(OPTIONAL) An array of tag objects for the Transit Gateway attachment."
+              | optional,
+            transitGateway
+              | _js2n__-refsenv."_js2n__-:definitions/ITransitGatewayAttachmentTargetConfig!contract"
+              | doc "The Transit Gateway configuration object to set the Transit Gateway Connect.",
+            vpc
+              | _js2n__-refsenv."_js2n__-:definitions/ITransitGatewayConnectVpcConfig!contract"
+              | doc "The VPC Attachment that belongs to the Transit Gateway that a Transit Gateway Connect Attachment is being made for."
+              | optional,
+          },
+      "_js2n__-:definitions/ITransitGatewayConnectOptionsConfig!contract" =
+        {
+            protocol
+              | _js2n__-refsenv."_js2n__-:definitions/TransitGatewayConnectProtocol!contract"
+              | doc "The tunnel protocl for the Transit Gateway Connect",
+          },
+      "_js2n__-:definitions/ITransitGatewayConnectVpcConfig!contract" =
+        {
+            vpcAttachment
+              | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
+              | doc "The name of the VPC attachment",
+            vpcName
+              | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
+              | doc "The name of the VPC",
           },
       "_js2n__-:definitions/ITransitGatewayPeeringAccepterConfig!contract"
         | doc m%"
@@ -4933,6 +4992,13 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/TrafficType!contract" =
         std.contract.Sequence
             [ std.enum.TagOrString, [| 'REJECT, 'ACCEPT, 'ALL |] ],
+      "_js2n__-:definitions/TransitGatewayConnectProtocol!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.const "gre"
+              ]),
       "_js2n__-:definitions/VpnLoggingOutputFormatType!contract" =
         std.contract.Sequence [ std.enum.TagOrString, [| 'text, 'json |] ],
     }

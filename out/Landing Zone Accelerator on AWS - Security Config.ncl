@@ -1027,6 +1027,8 @@ let rec _js2n__-refsenv
                 We highly recommend enabling AWS Config across all accounts and enabled regions within your organization. `deploymentTargets` should only be used when more granular control is required, not as a default configuration.
                 
                 To enable AWS Config into Infrastructure organizational unit, you need to provide below value for this parameter.
+                
+                Note: The delegated admin account defined in centralSecurityServices will always have AwsConfig enabled
               "%
               | optional,
             enableConfigurationRecorder
@@ -1468,6 +1470,8 @@ let rec _js2n__-refsenv
                 (OPTIONAL) Deployment targets for GuardDuty
                 
                 We highly recommend enabling GuardDuty across all accounts and enabled regions within your organization. `deploymentTargets` should only be used when more granular control is required, not as a default configuration Please only specify one of the `deploymentTargets` or `excludeRegions` properties.
+                
+                Note: The delegated admin account defined in centralSecurityServices will always have GuardDuty enabled
               "%
               | optional,
             eksProtection
@@ -1964,7 +1968,27 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/ISecurityHubConfig!contract"
         | doc "Use this configuration to enable Amazon Security Hub for an AWS Organization along with it's auditing configuration."
         = {
-            enable | Bool | doc "Indicates whether AWS Security Hub enabled.",
+            autoEnableOrgMembers
+              | Bool
+              | doc m%"
+                (OPTIONAL) Enables/disables the auto enabling of SecurityHub for any account including the new accounts joining the organization
+                
+                It is recommended to set the value to `false` when using the `deploymentTargets` property to enable SecurityHub only on targeted accounts mentioned in the deploymentTargets. If you do not define or do not set it to `false` any new accounts joining the organization will automatically be enabled with SecurityHub.
+              "%
+              | optional,
+            deploymentTargets
+              | _js2n__-refsenv."_js2n__-:definitions/IDeploymentTargets!contract"
+              | doc m%"
+                (OPTIONAL) Deployment targets for SecurityHub
+                
+                We highly recommend enabling SecurityHub across all accounts and enabled regions within your organization. `deploymentTargets` should only be used when more granular control is required, not as a default configuration Please only specify one of the `deploymentTargets` or `excludeRegions` properties.
+                
+                Note: The delegated admin account defined in centralSecurityServices will always have SecurityHub enabled.
+              "%
+              | optional,
+            enable
+              | Bool
+              | doc "Indicates whether AWS Security Hub is enabled (AWSConfig is required for enabling SecurityHub)",
             excludeRegions
               | Array _js2n__-refsenv."_js2n__-:definitions/Region!contract"
               | doc "(OPTIONAL) List of AWS Region names to be excluded from configuring Security Hub"
@@ -2037,11 +2061,12 @@ let rec _js2n__-refsenv
                 '"",
                 '"PCI DSS v3.2.1",
                 '"NIST Special Publication 800-53 Revision 5",
+                '"CIS AWS Foundations Benchmark v3.0.0",
                 '"CIS AWS Foundations Benchmark v1.4.0",
                 '"CIS AWS Foundations Benchmark v1.2.0",
                 '"AWS Foundational Security Best Practices v1.0.0"
               |]
-              | doc "An enum value that specifies one of three security standards supported by Security Hub Possible values are 'AWS Foundational Security Best Practices v1.0.0', 'CIS AWS Foundations Benchmark v1.2.0', 'CIS AWS Foundations Benchmark v1.4.0', 'NIST Special Publication 800-53 Revision 5, and 'PCI DSS v3.2.1'",
+              | doc "An enum value that specifies one of three security standards supported by Security Hub Possible values are 'AWS Foundational Security Best Practices v1.0.0', 'CIS AWS Foundations Benchmark v1.2.0', 'CIS AWS Foundations Benchmark v1.4.0', 'CIS AWS Foundations Benchmark v3.0.0', 'NIST Special Publication 800-53 Revision 5, and 'PCI DSS v3.2.1'",
           },
       "_js2n__-:definitions/IShareTargets!contract" =
         {
