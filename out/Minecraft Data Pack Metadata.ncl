@@ -935,7 +935,7 @@ let rec _js2n__-refsenv
               (_js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Integer,
-                  _js2n__-prdslib.numbers.maximum 34,
+                  _js2n__-prdslib.numbers.maximum 48,
                   _js2n__-prdslib.numbers.minimum 1
                 ])
             | doc m%"

@@ -900,6 +900,10 @@ let rec _js2n__-refsenv
     in
   {
       annotations | Dyn | optional,
+      auto_install
+        | Bool
+        | doc "Whether to automatically install any required plugins on command invocation. A plugin will be auto-installed when its virtual environment does not already exist or `pip_url` is changed."
+        | optional,
       cli
         | {
           log_config

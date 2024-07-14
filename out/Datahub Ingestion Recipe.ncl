@@ -1624,6 +1624,14 @@ let rec _js2n__-refsenv
                   platform_instance = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/PowerBiProfilingConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { enabled = _js2n__-prdslib.isType '"Bool", } {} false
+                _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/ProvidedConfig!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -4872,6 +4880,10 @@ let rec _js2n__-refsenv
                   ownership =
                     _js2n__-refsenv."_js2n__-:definitions/OwnershipMapping!predicate",
                   platform_instance = _js2n__-prdslib.isType '"String",
+                  profile_pattern =
+                    _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
+                  profiling =
+                    _js2n__-refsenv."_js2n__-:definitions/PowerBiProfilingConfig!predicate",
                   scan_batch_size =
                     _js2n__-prdslib.allOf
                         [

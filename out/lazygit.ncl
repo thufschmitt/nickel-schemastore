@@ -1057,7 +1057,14 @@ let rec _js2n__-refsenv
         | {
           allBranchesLogCmd
             | String
-            | doc "Command used to display git log of all branches in the main window"
+            | doc m%"
+              Command used to display git log of all branches in the main window.
+              Deprecated: User `allBranchesLogCmds` instead.
+            "%
+            | optional,
+          allBranchesLogCmds
+            | Array (String)
+            | doc "Commands used to display git log of all branches in the main window, they will be cycled in order of appearance"
             | optional,
           autoFetch
             | Bool
@@ -1070,6 +1077,10 @@ let rec _js2n__-refsenv
           branchLogCmd
             | String
             | doc "Command used when displaying the current branch git log in the main window"
+            | optional,
+          branchPrefix
+            | String
+            | doc "See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#predefined-branch-name-prefix"
             | optional,
           commit
             | {
@@ -1180,6 +1191,10 @@ let rec _js2n__-refsenv
                   If true, run merges in a subprocess so that if a commit message is required, Lazygit will not hang
                   Only applicable to unix users.
                 "%
+                | optional,
+              squashMergeMessage
+                | String
+                | doc "The commit message to use for a squash merge commit. Can contain \"{{selectedRef}}\" and \"{{currentBranch}}\" placeholders."
                 | optional,
             }
             | doc "Config relating to merging"
@@ -1779,6 +1794,7 @@ let rec _js2n__-refsenv
               createPatchOptionsMenu | String | optional,
               createRebaseOptionsMenu | String | optional,
               decreaseContextInDiffView | String | optional,
+              decreaseRenameSimilarityThreshold | String | optional,
               diffingMenu | String | optional,
               diffingMenu-alt | String | optional,
               edit | String | optional,
@@ -1789,6 +1805,7 @@ let rec _js2n__-refsenv
               gotoBottom | String | optional,
               gotoTop | String | optional,
               increaseContextInDiffView | String | optional,
+              increaseRenameSimilarityThreshold | String | optional,
               jumpToBlock | Array (String) | optional,
               new | String | optional,
               nextBlock | String | optional,

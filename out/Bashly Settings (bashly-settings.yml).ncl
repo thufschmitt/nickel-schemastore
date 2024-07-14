@@ -981,6 +981,13 @@ let rec _js2n__-refsenv
           https://bashly.dannyb.co/usage/settings/#partials_extension
         "%
         | optional,
+      show_examples_on_error
+        | Bool
+        | doc m%"
+          Whether to show command examples when the input line is missing required arguments
+          https://bashly.dannyb.co/usage/settings/#show_examples_on_error
+        "%
+        | optional,
       source_dir
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1008,7 +1015,7 @@ let rec _js2n__-refsenv
       tab_indent
         | Bool
         | doc m%"
-          Whether to use tabs or spaces in the the generated script
+          Whether to use tabs or spaces in the generated script
           https://bashly.dannyb.co/usage/settings/#tab_indent
         "%
         | optional,

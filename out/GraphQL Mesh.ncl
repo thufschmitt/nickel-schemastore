@@ -3326,6 +3326,24 @@ let rec _js2n__-refsenv
               | String
               | doc "Path to GraphQL Endpoint (default: /graphql)"
               | optional,
+            extraParamNames
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.isType '"String")
+                  ])
+              | doc m%"
+                By default, GraphQL Mesh does not allow parameters in the request body except `query`, `variables`, `extensions`, and `operationName`.
+                
+                This option allows you to specify additional parameters that are allowed in the request body.
+                
+                @default []
+                
+                @example ['doc_id', 'id']
+              "%
+              | optional,
             fork
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.anyOf

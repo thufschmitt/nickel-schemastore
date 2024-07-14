@@ -1586,8 +1586,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType 'Integer,
                     _js2n__-prdslib.enum [ 2 ]
                   ]),
-            workflow | Bool | optional,
-            workflow-metadata
+            workflow
               | {
                 label-selector | String | optional,
                 scope | String | optional,
@@ -1643,6 +1642,16 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.arrays.uniqueItems,
                     _js2n__-prdslib.arrays.contains
                       (_js2n__-prdslib.isType '"String")
+                  ])
+              | optional,
+            groups
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.isType '"String"),
+                    _js2n__-prdslib.arrays.uniqueItems
                   ])
               | optional,
             overridable | Bool | optional,

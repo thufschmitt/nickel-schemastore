@@ -909,6 +909,36 @@ let rec _js2n__-refsenv
         | Array { macro_namespace | String, search_order | Dyn, }
         | optional,
       docs-paths | Dyn | optional,
+      flags
+        | {
+          cache_selected_only | Bool | optional,
+          debug | Bool | optional,
+          fail_fast | Bool | optional,
+          indirect_selection | String | optional,
+          log_format | String | optional,
+          log_format_file | String | optional,
+          log_level | String | optional,
+          log_level_file | String | optional,
+          partial_parse | Bool | optional,
+          populate_cache | Bool | optional,
+          printer_width | std.number.Integer | optional,
+          require_explicit_package_overrides_for_builtin_materializations
+            | Bool
+            | optional,
+          require_resource_names_without_spaces | Bool | optional,
+          send_anonymous_usage_stats | Bool | optional,
+          source_freshness_run_project_hooks | Bool | optional,
+          static_parser | Bool | optional,
+          use_colors | Bool | optional,
+          use_colors_file | Bool | optional,
+          use_experimental_parser | Bool | optional,
+          version_check | Bool | optional,
+          warn_error | Bool | optional,
+          warn_error_options | {  .. } | optional,
+          write_json | Bool | optional,
+          ..
+        }
+        | optional,
       log-path | String | optional,
       macro-paths | Dyn | optional,
       model-paths | Dyn | optional,

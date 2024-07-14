@@ -1164,6 +1164,10 @@ let rec _js2n__-refsenv
             launchTemplate
               | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
               | doc "Information used to specify the launch template and version to use to launch instances.",
+            maxInstanceLifetime
+              | Number
+              | doc "The maximum instance lifetime specifies the maximum amount of time (in seconds) that an instance can be in service before it is terminated and replaced. A common use case might be a requirement to replace your instances on a schedule because of internal security policies or external compliance controls. You must specify a value of at least 86,400 seconds (one day). To clear a previously set value, specify a new value of 0. This setting applies to all current and future instances in your Auto Scaling group"
+              | optional,
             maxSize | Number | doc "The maximum size of the group.",
             minSize | Number | doc "The minimum size of the group.",
             name
@@ -1377,6 +1381,7 @@ let rec _js2n__-refsenv
               subnets:
                 - firewall-subnet-a
                 - firewall-subnet-b
+              maxInstanceLifetime: 86400
             launchTemplate:
               name: firewall-lt
               blockDeviceMappings:

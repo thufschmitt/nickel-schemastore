@@ -1728,6 +1728,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType 'Record,
                                   _js2n__-prdslib.records.record
                                     {
+                                      additionalConstructorParameters =
+                                        _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/go/properties/additionalConstructorParameters!predicate",
                                       authors =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/authors!predicate",
                                       bundle = _js2n__-prdslib.isType '"Bool",
@@ -1839,6 +1841,17 @@ let rec _js2n__-refsenv
                                       ],
                               } {} false _js2n__-prdslib.never
                           ])
+                    ],
+              workflows =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "path" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          outputName = _js2n__-prdslib.isType '"String",
+                          path = _js2n__-prdslib.isType '"String",
+                        } {} false _js2n__-prdslib.never
                     ],
             } {} false _js2n__-prdslib.never
         ])

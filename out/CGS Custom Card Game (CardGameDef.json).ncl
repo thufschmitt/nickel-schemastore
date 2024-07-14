@@ -902,7 +902,8 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "move", "flip", "rotate", "tap", "zoom" ]
+              _js2n__-prdslib.enum
+                [ "move", "rotate", "tap", "flip", "discard" ]
             ],
       "_js2n__-:definitions/DeckFileTxtId!predicate"
         | doc ""

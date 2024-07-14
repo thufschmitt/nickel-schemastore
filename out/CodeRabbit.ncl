@@ -1054,7 +1054,7 @@ let rec _js2n__-refsenv
                   | {
                     auto_incremental_review
                       | Bool
-                      | doc "Enable Automatic Incremental Review | Automatic incremental code review on each push"
+                      | doc "Automatic Incremental Review | Automatic incremental code review on each push"
                       | optional,
                     base_branches
                       | Array (String)
@@ -1063,7 +1063,7 @@ let rec _js2n__-refsenv
                     drafts | Bool | doc "Review draft PRs/MRs." | optional,
                     enabled
                       | Bool
-                      | doc "Enable Automatic Review | Automatic code review"
+                      | doc "Automatic Review | Automatic code review"
                       | optional,
                     ignore_title_keywords
                       | Array (String)
@@ -1119,7 +1119,7 @@ let rec _js2n__-refsenv
                 profile
                   | std.enum.TagOrString
                   | [| 'assertive, 'chill |]
-                  | doc "Set the profile for reviews."
+                  | doc "Set the profile for reviews. Assertive profile yields more feedback, that may be considered nitpicky."
                   | optional,
                 request_changes_workflow
                   | Bool
@@ -1128,6 +1128,10 @@ let rec _js2n__-refsenv
                 review_status
                   | Bool
                   | doc "Post review details on each review. Additionally, post a review status when a review is skipped in certain cases."
+                  | optional,
+                sequence_diagrams
+                  | Bool
+                  | doc "Generate sequence diagrams in the walkthrough."
                   | optional,
                 tools
                   | {
@@ -1228,11 +1232,11 @@ let rec _js2n__-refsenv
                       | {
                         disabled_categories
                           | Array (String)
-                          | doc "IDs of categories to be disabled."
+                          | doc "IDs of categories to be disabled. Note: TYPOS, TYPOGRAPHY, and CASING are always disabled."
                           | optional,
                         disabled_rules
                           | Array (String)
-                          | doc "IDs of rules to be disabled."
+                          | doc "IDs of rules to be disabled. Note: EN_UNPAIRED_BRACKETS, and EN_UNPAIRED_QUOTES are always disabled."
                           | optional,
                         enabled
                           | Bool
@@ -1275,7 +1279,7 @@ let rec _js2n__-refsenv
                       | {
                         enabled
                           | Bool
-                          | doc "Enable PHPStan | PHPStan requires [config file](https://phpstan.org/config-reference#config-file) in your repository root."
+                          | doc "Enable PHPStan | PHPStan requires [config file](https://phpstan.org/config-reference#config-file) in your repository root. Please ensure that this file contains the `paths:` parameter."
                           | optional,
                         level
                           | std.enum.TagOrString
@@ -1293,7 +1297,7 @@ let rec _js2n__-refsenv
                             '"0",
                             '"default"
                           |]
-                          | doc "Level | Specify the [rule level](https://phpstan.org/user-guide/rule-levels) to run."
+                          | doc "Level | Specify the [rule level](https://phpstan.org/user-guide/rule-levels) to run. This setting is ignored if your configuration file already has a `level:` parameter."
                           | optional,
                       }
                       | doc "PHPStan is a tool to analyze PHP code."

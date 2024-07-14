@@ -897,9 +897,6 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:properties/containers/additionalProperties/properties/image/properties/builder/properties/integration_id!predicate"
-        | doc "The ID of the integration to use when building the image. The integration must support image building to be compatible."
-        = _js2n__-prdslib.isType '"String",
       "_js2n__-:properties/containers/additionalProperties/properties/image/properties/origin/oneOf/2/properties/details/properties/existing!predicate"
         | doc "In a stack, specifies an image source ID from which Cycle will derive any values not specified in the stack file. This is useful for avoiding direct placement of credentials in a stack file, for example."
         = _js2n__-prdslib.allOf
@@ -1383,26 +1380,7 @@ let rec _js2n__-refsenv
                                                                                                     _js2n__-prdslib.isType
                                                                                                       'Record,
                                                                                                     _js2n__-prdslib.records.record
-                                                                                                      {
-                                                                                                        disable_router_metrics =
-                                                                                                          _js2n__-prdslib.isType
-                                                                                                              '"Bool",
-                                                                                                        persist_restarts =
-                                                                                                          _js2n__-prdslib.anyOf
-                                                                                                              [
-                                                                                                                _js2n__-prdslib.isType
-                                                                                                                  '"Bool",
-                                                                                                                _js2n__-prdslib.isType
-                                                                                                                  'Null
-                                                                                                              ],
-                                                                                                        tracking_window =
-                                                                                                          _js2n__-prdslib.anyOf
-                                                                                                              [
-                                                                                                                _js2n__-refsenv."_js2n__-:properties/scoped_variables/items/properties/access/properties/internal_api/properties/duration/anyOf/0!predicate",
-                                                                                                                _js2n__-prdslib.isType
-                                                                                                                  'Null
-                                                                                                              ],
-                                                                                                      }
+                                                                                                      {}
                                                                                                       {}
                                                                                                       true
                                                                                                       _js2n__-prdslib.always
@@ -1479,36 +1457,8 @@ let rec _js2n__-refsenv
                                                                                                   [
                                                                                                     _js2n__-prdslib.isType
                                                                                                       'Record,
-                                                                                                    _js2n__-prdslib.records.required
-                                                                                                      [
-                                                                                                        "disable_router_metrics",
-                                                                                                        "disable_url_tracking"
-                                                                                                      ],
                                                                                                     _js2n__-prdslib.records.record
                                                                                                       {
-                                                                                                        disable_router_metrics =
-                                                                                                          _js2n__-prdslib.isType
-                                                                                                              '"Bool",
-                                                                                                        disable_url_tracking =
-                                                                                                          _js2n__-prdslib.isType
-                                                                                                              '"Bool",
-                                                                                                        group_paths =
-                                                                                                          _js2n__-prdslib.allOf
-                                                                                                              [
-                                                                                                                _js2n__-prdslib.anyOf
-                                                                                                                  [
-                                                                                                                    _js2n__-prdslib.isType
-                                                                                                                      'Record,
-                                                                                                                    _js2n__-prdslib.isType
-                                                                                                                      'Null
-                                                                                                                  ],
-                                                                                                                _js2n__-prdslib.records.record
-                                                                                                                  {}
-                                                                                                                  {}
-                                                                                                                  true
-                                                                                                                  (_js2n__-prdslib.isType
-                                                                                                                    '"String")
-                                                                                                              ],
                                                                                                         ignore_paths =
                                                                                                           _js2n__-prdslib.allOf
                                                                                                               [
@@ -1531,26 +1481,11 @@ let rec _js2n__-refsenv
                                                                                                                 _js2n__-prdslib.isType
                                                                                                                   'Null
                                                                                                               ],
-                                                                                                        persist_restarts =
-                                                                                                          _js2n__-prdslib.anyOf
-                                                                                                              [
-                                                                                                                _js2n__-prdslib.isType
-                                                                                                                  '"Bool",
-                                                                                                                _js2n__-prdslib.isType
-                                                                                                                  'Null
-                                                                                                              ],
                                                                                                         track_invalid_requests =
                                                                                                           _js2n__-prdslib.anyOf
                                                                                                               [
                                                                                                                 _js2n__-prdslib.isType
                                                                                                                   '"Bool",
-                                                                                                                _js2n__-prdslib.isType
-                                                                                                                  'Null
-                                                                                                              ],
-                                                                                                        tracking_window =
-                                                                                                          _js2n__-prdslib.anyOf
-                                                                                                              [
-                                                                                                                _js2n__-refsenv."_js2n__-:properties/scoped_variables/items/properties/access/properties/internal_api/properties/duration/anyOf/0!predicate",
                                                                                                                 _js2n__-prdslib.isType
                                                                                                                   'Null
                                                                                                               ],
@@ -1607,26 +1542,7 @@ let rec _js2n__-refsenv
                                                                                                     _js2n__-prdslib.isType
                                                                                                       'Record,
                                                                                                     _js2n__-prdslib.records.record
-                                                                                                      {
-                                                                                                        disable_router_metrics =
-                                                                                                          _js2n__-prdslib.isType
-                                                                                                              '"Bool",
-                                                                                                        persist_restarts =
-                                                                                                          _js2n__-prdslib.anyOf
-                                                                                                              [
-                                                                                                                _js2n__-prdslib.isType
-                                                                                                                  '"Bool",
-                                                                                                                _js2n__-prdslib.isType
-                                                                                                                  'Null
-                                                                                                              ],
-                                                                                                        tracking_window =
-                                                                                                          _js2n__-prdslib.anyOf
-                                                                                                              [
-                                                                                                                _js2n__-refsenv."_js2n__-:properties/scoped_variables/items/properties/access/properties/internal_api/properties/duration/anyOf/0!predicate",
-                                                                                                                _js2n__-prdslib.isType
-                                                                                                                  'Null
-                                                                                                              ],
-                                                                                                      }
+                                                                                                      {}
                                                                                                       {}
                                                                                                       true
                                                                                                       _js2n__-prdslib.always
@@ -1977,6 +1893,9 @@ let rec _js2n__-refsenv
                                                                                                                                   _js2n__-prdslib.isType
                                                                                                                                     'Null
                                                                                                                                 ],
+                                                                                                                          url =
+                                                                                                                            _js2n__-prdslib.isType
+                                                                                                                                '"String",
                                                                                                                         }
                                                                                                                         {}
                                                                                                                         true
@@ -2253,6 +2172,20 @@ let rec _js2n__-refsenv
                                                                             true
                                                                             _js2n__-prdslib.always
                                                                         ],
+                                                                  destination =
+                                                                    _js2n__-prdslib.allOf
+                                                                        [
+                                                                          _js2n__-prdslib.isType
+                                                                            'Record,
+                                                                          _js2n__-prdslib.records.record
+                                                                            {
+                                                                              container_id =
+                                                                                _js2n__-prdslib.isType
+                                                                                    '"String",
+                                                                            } {}
+                                                                            true
+                                                                            _js2n__-prdslib.always
+                                                                        ],
                                                                   "match" =
                                                                     _js2n__-prdslib.allOf
                                                                         [
@@ -2322,8 +2255,119 @@ let rec _js2n__-refsenv
                                                       ],
                                               } {} true _js2n__-prdslib.always
                                           ],
+                                    waf =
+                                      _js2n__-prdslib.anyOf
+                                          [
+                                            _js2n__-refsenv."_js2n__-:properties/services/properties/loadbalancer/anyOf/1/properties/config/anyOf/0/oneOf/1/properties/details/properties/waf/anyOf/0!predicate",
+                                            _js2n__-prdslib.isType 'Null
+                                          ],
                                   } {} true _js2n__-prdslib.always
                               ])
+                        ],
+                  waf =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.required [ "rules" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  rules =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.required
+                                                  [
+                                                    "conditions",
+                                                    "description",
+                                                    "skip",
+                                                    "type"
+                                                  ],
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    conditions =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"Array",
+                                                            _js2n__-prdslib.arrays.arrayOf
+                                                              (_js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    'Record,
+                                                                  _js2n__-prdslib.records.required
+                                                                    [
+                                                                      "operator",
+                                                                      "type",
+                                                                      "value"
+                                                                    ],
+                                                                  _js2n__-prdslib.records.record
+                                                                    {
+                                                                      operator =
+                                                                        _js2n__-prdslib.allOf
+                                                                            [
+                                                                              _js2n__-prdslib.isType
+                                                                                '"String",
+                                                                              _js2n__-prdslib.enum
+                                                                                [
+                                                                                  "==",
+                                                                                  "!=",
+                                                                                  ">",
+                                                                                  "<",
+                                                                                  ">=",
+                                                                                  "<="
+                                                                                ]
+                                                                            ],
+                                                                      type =
+                                                                        _js2n__-prdslib.allOf
+                                                                            [
+                                                                              _js2n__-prdslib.isType
+                                                                                '"String",
+                                                                              _js2n__-prdslib.enum
+                                                                                [
+                                                                                  "ip-match",
+                                                                                  "geo-match",
+                                                                                  "url-match",
+                                                                                  "method-match",
+                                                                                  "header-match"
+                                                                                ]
+                                                                            ],
+                                                                      value =
+                                                                        _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                    } {} true
+                                                                    _js2n__-prdslib.always
+                                                                ])
+                                                          ],
+                                                    description =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    skip =
+                                                      _js2n__-prdslib.isType
+                                                          '"Bool",
+                                                    type =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [
+                                                                "allow",
+                                                                "deny"
+                                                              ]
+                                                          ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always
+                                              ])
+                                        ],
+                                } {} true _js2n__-prdslib.always
+                            ],
+                          _js2n__-prdslib.isType 'Null
                         ],
                 } {} true _js2n__-prdslib.always
             ],
@@ -2405,26 +2449,7 @@ let rec _js2n__-refsenv
                                                                                   _js2n__-prdslib.isType
                                                                                     'Record,
                                                                                   _js2n__-prdslib.records.record
-                                                                                    {
-                                                                                      disable_router_metrics =
-                                                                                        _js2n__-prdslib.isType
-                                                                                            '"Bool",
-                                                                                      persist_restarts =
-                                                                                        _js2n__-prdslib.anyOf
-                                                                                            [
-                                                                                              _js2n__-prdslib.isType
-                                                                                                '"Bool",
-                                                                                              _js2n__-prdslib.isType
-                                                                                                'Null
-                                                                                            ],
-                                                                                      tracking_window =
-                                                                                        _js2n__-prdslib.anyOf
-                                                                                            [
-                                                                                              _js2n__-refsenv."_js2n__-:properties/scoped_variables/items/properties/access/properties/internal_api/properties/duration/anyOf/0!predicate",
-                                                                                              _js2n__-prdslib.isType
-                                                                                                'Null
-                                                                                            ],
-                                                                                    }
+                                                                                    {}
                                                                                     {}
                                                                                     true
                                                                                     _js2n__-prdslib.always
@@ -2498,36 +2523,8 @@ let rec _js2n__-refsenv
                                                                                 [
                                                                                   _js2n__-prdslib.isType
                                                                                     'Record,
-                                                                                  _js2n__-prdslib.records.required
-                                                                                    [
-                                                                                      "disable_router_metrics",
-                                                                                      "disable_url_tracking"
-                                                                                    ],
                                                                                   _js2n__-prdslib.records.record
                                                                                     {
-                                                                                      disable_router_metrics =
-                                                                                        _js2n__-prdslib.isType
-                                                                                            '"Bool",
-                                                                                      disable_url_tracking =
-                                                                                        _js2n__-prdslib.isType
-                                                                                            '"Bool",
-                                                                                      group_paths =
-                                                                                        _js2n__-prdslib.allOf
-                                                                                            [
-                                                                                              _js2n__-prdslib.anyOf
-                                                                                                [
-                                                                                                  _js2n__-prdslib.isType
-                                                                                                    'Record,
-                                                                                                  _js2n__-prdslib.isType
-                                                                                                    'Null
-                                                                                                ],
-                                                                                              _js2n__-prdslib.records.record
-                                                                                                {}
-                                                                                                {}
-                                                                                                true
-                                                                                                (_js2n__-prdslib.isType
-                                                                                                  '"String")
-                                                                                            ],
                                                                                       ignore_paths =
                                                                                         _js2n__-prdslib.allOf
                                                                                             [
@@ -2550,26 +2547,11 @@ let rec _js2n__-refsenv
                                                                                               _js2n__-prdslib.isType
                                                                                                 'Null
                                                                                             ],
-                                                                                      persist_restarts =
-                                                                                        _js2n__-prdslib.anyOf
-                                                                                            [
-                                                                                              _js2n__-prdslib.isType
-                                                                                                '"Bool",
-                                                                                              _js2n__-prdslib.isType
-                                                                                                'Null
-                                                                                            ],
                                                                                       track_invalid_requests =
                                                                                         _js2n__-prdslib.anyOf
                                                                                             [
                                                                                               _js2n__-prdslib.isType
                                                                                                 '"Bool",
-                                                                                              _js2n__-prdslib.isType
-                                                                                                'Null
-                                                                                            ],
-                                                                                      tracking_window =
-                                                                                        _js2n__-prdslib.anyOf
-                                                                                            [
-                                                                                              _js2n__-refsenv."_js2n__-:properties/scoped_variables/items/properties/access/properties/internal_api/properties/duration/anyOf/0!predicate",
                                                                                               _js2n__-prdslib.isType
                                                                                                 'Null
                                                                                             ],
@@ -2623,26 +2605,7 @@ let rec _js2n__-refsenv
                                                                                   _js2n__-prdslib.isType
                                                                                     'Record,
                                                                                   _js2n__-prdslib.records.record
-                                                                                    {
-                                                                                      disable_router_metrics =
-                                                                                        _js2n__-prdslib.isType
-                                                                                            '"Bool",
-                                                                                      persist_restarts =
-                                                                                        _js2n__-prdslib.anyOf
-                                                                                            [
-                                                                                              _js2n__-prdslib.isType
-                                                                                                '"Bool",
-                                                                                              _js2n__-prdslib.isType
-                                                                                                'Null
-                                                                                            ],
-                                                                                      tracking_window =
-                                                                                        _js2n__-prdslib.anyOf
-                                                                                            [
-                                                                                              _js2n__-refsenv."_js2n__-:properties/scoped_variables/items/properties/access/properties/internal_api/properties/duration/anyOf/0!predicate",
-                                                                                              _js2n__-prdslib.isType
-                                                                                                'Null
-                                                                                            ],
-                                                                                    }
+                                                                                    {}
                                                                                     {}
                                                                                     true
                                                                                     _js2n__-prdslib.always
@@ -2967,6 +2930,9 @@ let rec _js2n__-refsenv
                                                                                                                 _js2n__-prdslib.isType
                                                                                                                   'Null
                                                                                                               ],
+                                                                                                        url =
+                                                                                                          _js2n__-prdslib.isType
+                                                                                                              '"String",
                                                                                                       }
                                                                                                       {}
                                                                                                       true
@@ -3238,6 +3204,19 @@ let rec _js2n__-refsenv
                                                           } {} true
                                                           _js2n__-prdslib.always
                                                       ],
+                                                destination =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            container_id =
+                                                              _js2n__-prdslib.isType
+                                                                  '"String",
+                                                          } {} true
+                                                          _js2n__-prdslib.always
+                                                      ],
                                                 "match" =
                                                   _js2n__-prdslib.allOf
                                                       [
@@ -3304,6 +3283,108 @@ let rec _js2n__-refsenv
                                           ])
                                     ],
                             } {} true _js2n__-prdslib.always
+                        ],
+                  waf =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:properties/services/properties/loadbalancer/anyOf/1/properties/config/anyOf/0/oneOf/1/properties/details/properties/waf/anyOf/0!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:properties/services/properties/loadbalancer/anyOf/1/properties/config/anyOf/0/oneOf/1/properties/details/properties/controllers/items/properties/transport/properties/routers/items/properties/destination/properties/container_id!predicate"
+        | doc "Either a resource ID (objectid - i.e. 651586fca6078e98982dbd90) or a resource Identifier (human-readable)"
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:properties/services/properties/loadbalancer/anyOf/1/properties/config/anyOf/0/oneOf/1/properties/details/properties/waf/anyOf/0!predicate"
+        | doc "Additional configuration options for the web application firewall."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "rules" ],
+              _js2n__-prdslib.records.record
+                {
+                  rules =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [
+                                    "conditions",
+                                    "description",
+                                    "skip",
+                                    "type"
+                                  ],
+                                _js2n__-prdslib.records.record
+                                  {
+                                    conditions =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"Array",
+                                            _js2n__-prdslib.arrays.arrayOf
+                                              (_js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.required
+                                                    [
+                                                      "operator",
+                                                      "type",
+                                                      "value"
+                                                    ],
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      operator =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"String",
+                                                              _js2n__-prdslib.enum
+                                                                [
+                                                                  "==",
+                                                                  "!=",
+                                                                  ">",
+                                                                  "<",
+                                                                  ">=",
+                                                                  "<="
+                                                                ]
+                                                            ],
+                                                      type =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"String",
+                                                              _js2n__-prdslib.enum
+                                                                [
+                                                                  "ip-match",
+                                                                  "geo-match",
+                                                                  "url-match",
+                                                                  "method-match",
+                                                                  "header-match"
+                                                                ]
+                                                            ],
+                                                      value =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ])
+                                          ],
+                                    description =
+                                      _js2n__-prdslib.isType '"String",
+                                    skip = _js2n__-prdslib.isType '"Bool",
+                                    type =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.enum
+                                              [ "allow", "deny" ]
+                                          ],
+                                  } {} true _js2n__-prdslib.always
+                              ])
                         ],
                 } {} true _js2n__-prdslib.always
             ],
@@ -3865,7 +3946,7 @@ let rec _js2n__-refsenv
                                                                           _js2n__-prdslib.always
                                                                       ],
                                                                 integration_id =
-                                                                  _js2n__-refsenv."_js2n__-:properties/containers/additionalProperties/properties/image/properties/builder/properties/integration_id!predicate",
+                                                                  _js2n__-refsenv."_js2n__-:properties/services/properties/loadbalancer/anyOf/1/properties/config/anyOf/0/oneOf/1/properties/details/properties/controllers/items/properties/transport/properties/routers/items/properties/destination/properties/container_id!predicate",
                                                                 restore =
                                                                   _js2n__-prdslib.allOf
                                                                       [
@@ -4898,8 +4979,7 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.records.record
                                               {
                                                 integration_id =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:properties/services/properties/loadbalancer/anyOf/1/properties/config/anyOf/0/oneOf/1/properties/details/properties/controllers/items/properties/transport/properties/routers/items/properties/destination/properties/container_id!predicate",
                                               } {} true _js2n__-prdslib.always
                                           ],
                                     name =
@@ -6475,26 +6555,7 @@ let rec _js2n__-refsenv
                                                                                                                                                         _js2n__-prdslib.isType
                                                                                                                                                           'Record,
                                                                                                                                                         _js2n__-prdslib.records.record
-                                                                                                                                                          {
-                                                                                                                                                            disable_router_metrics =
-                                                                                                                                                              _js2n__-prdslib.isType
-                                                                                                                                                                  '"Bool",
-                                                                                                                                                            persist_restarts =
-                                                                                                                                                              _js2n__-prdslib.anyOf
-                                                                                                                                                                  [
-                                                                                                                                                                    _js2n__-prdslib.isType
-                                                                                                                                                                      '"Bool",
-                                                                                                                                                                    _js2n__-prdslib.isType
-                                                                                                                                                                      'Null
-                                                                                                                                                                  ],
-                                                                                                                                                            tracking_window =
-                                                                                                                                                              _js2n__-prdslib.anyOf
-                                                                                                                                                                  [
-                                                                                                                                                                    _js2n__-refsenv."_js2n__-:properties/scoped_variables/items/properties/access/properties/internal_api/properties/duration/anyOf/0!predicate",
-                                                                                                                                                                    _js2n__-prdslib.isType
-                                                                                                                                                                      'Null
-                                                                                                                                                                  ],
-                                                                                                                                                          }
+                                                                                                                                                          {}
                                                                                                                                                           {}
                                                                                                                                                           true
                                                                                                                                                           _js2n__-prdslib.always
@@ -6571,36 +6632,8 @@ let rec _js2n__-refsenv
                                                                                                                                                       [
                                                                                                                                                         _js2n__-prdslib.isType
                                                                                                                                                           'Record,
-                                                                                                                                                        _js2n__-prdslib.records.required
-                                                                                                                                                          [
-                                                                                                                                                            "disable_router_metrics",
-                                                                                                                                                            "disable_url_tracking"
-                                                                                                                                                          ],
                                                                                                                                                         _js2n__-prdslib.records.record
                                                                                                                                                           {
-                                                                                                                                                            disable_router_metrics =
-                                                                                                                                                              _js2n__-prdslib.isType
-                                                                                                                                                                  '"Bool",
-                                                                                                                                                            disable_url_tracking =
-                                                                                                                                                              _js2n__-prdslib.isType
-                                                                                                                                                                  '"Bool",
-                                                                                                                                                            group_paths =
-                                                                                                                                                              _js2n__-prdslib.allOf
-                                                                                                                                                                  [
-                                                                                                                                                                    _js2n__-prdslib.anyOf
-                                                                                                                                                                      [
-                                                                                                                                                                        _js2n__-prdslib.isType
-                                                                                                                                                                          'Record,
-                                                                                                                                                                        _js2n__-prdslib.isType
-                                                                                                                                                                          'Null
-                                                                                                                                                                      ],
-                                                                                                                                                                    _js2n__-prdslib.records.record
-                                                                                                                                                                      {}
-                                                                                                                                                                      {}
-                                                                                                                                                                      true
-                                                                                                                                                                      (_js2n__-prdslib.isType
-                                                                                                                                                                        '"String")
-                                                                                                                                                                  ],
                                                                                                                                                             ignore_paths =
                                                                                                                                                               _js2n__-prdslib.allOf
                                                                                                                                                                   [
@@ -6623,26 +6656,11 @@ let rec _js2n__-refsenv
                                                                                                                                                                     _js2n__-prdslib.isType
                                                                                                                                                                       'Null
                                                                                                                                                                   ],
-                                                                                                                                                            persist_restarts =
-                                                                                                                                                              _js2n__-prdslib.anyOf
-                                                                                                                                                                  [
-                                                                                                                                                                    _js2n__-prdslib.isType
-                                                                                                                                                                      '"Bool",
-                                                                                                                                                                    _js2n__-prdslib.isType
-                                                                                                                                                                      'Null
-                                                                                                                                                                  ],
                                                                                                                                                             track_invalid_requests =
                                                                                                                                                               _js2n__-prdslib.anyOf
                                                                                                                                                                   [
                                                                                                                                                                     _js2n__-prdslib.isType
                                                                                                                                                                       '"Bool",
-                                                                                                                                                                    _js2n__-prdslib.isType
-                                                                                                                                                                      'Null
-                                                                                                                                                                  ],
-                                                                                                                                                            tracking_window =
-                                                                                                                                                              _js2n__-prdslib.anyOf
-                                                                                                                                                                  [
-                                                                                                                                                                    _js2n__-refsenv."_js2n__-:properties/scoped_variables/items/properties/access/properties/internal_api/properties/duration/anyOf/0!predicate",
                                                                                                                                                                     _js2n__-prdslib.isType
                                                                                                                                                                       'Null
                                                                                                                                                                   ],
@@ -6699,26 +6717,7 @@ let rec _js2n__-refsenv
                                                                                                                                                         _js2n__-prdslib.isType
                                                                                                                                                           'Record,
                                                                                                                                                         _js2n__-prdslib.records.record
-                                                                                                                                                          {
-                                                                                                                                                            disable_router_metrics =
-                                                                                                                                                              _js2n__-prdslib.isType
-                                                                                                                                                                  '"Bool",
-                                                                                                                                                            persist_restarts =
-                                                                                                                                                              _js2n__-prdslib.anyOf
-                                                                                                                                                                  [
-                                                                                                                                                                    _js2n__-prdslib.isType
-                                                                                                                                                                      '"Bool",
-                                                                                                                                                                    _js2n__-prdslib.isType
-                                                                                                                                                                      'Null
-                                                                                                                                                                  ],
-                                                                                                                                                            tracking_window =
-                                                                                                                                                              _js2n__-prdslib.anyOf
-                                                                                                                                                                  [
-                                                                                                                                                                    _js2n__-refsenv."_js2n__-:properties/scoped_variables/items/properties/access/properties/internal_api/properties/duration/anyOf/0!predicate",
-                                                                                                                                                                    _js2n__-prdslib.isType
-                                                                                                                                                                      'Null
-                                                                                                                                                                  ],
-                                                                                                                                                          }
+                                                                                                                                                          {}
                                                                                                                                                           {}
                                                                                                                                                           true
                                                                                                                                                           _js2n__-prdslib.always
@@ -7075,6 +7074,9 @@ let rec _js2n__-refsenv
                                                                                                                                                                                       _js2n__-prdslib.isType
                                                                                                                                                                                         'Null
                                                                                                                                                                                     ],
+                                                                                                                                                                              url =
+                                                                                                                                                                                _js2n__-prdslib.isType
+                                                                                                                                                                                    '"String",
                                                                                                                                                                             }
                                                                                                                                                                             {}
                                                                                                                                                                             true
@@ -7352,6 +7354,21 @@ let rec _js2n__-refsenv
                                                                                                                                 true
                                                                                                                                 _js2n__-prdslib.always
                                                                                                                             ],
+                                                                                                                      destination =
+                                                                                                                        _js2n__-prdslib.allOf
+                                                                                                                            [
+                                                                                                                              _js2n__-prdslib.isType
+                                                                                                                                'Record,
+                                                                                                                              _js2n__-prdslib.records.record
+                                                                                                                                {
+                                                                                                                                  container_id =
+                                                                                                                                    _js2n__-prdslib.isType
+                                                                                                                                        '"String",
+                                                                                                                                }
+                                                                                                                                {}
+                                                                                                                                true
+                                                                                                                                _js2n__-prdslib.always
+                                                                                                                            ],
                                                                                                                       "match" =
                                                                                                                         _js2n__-prdslib.allOf
                                                                                                                             [
@@ -7427,11 +7444,137 @@ let rec _js2n__-refsenv
                                                                                                   true
                                                                                                   _js2n__-prdslib.always
                                                                                               ],
+                                                                                        waf =
+                                                                                          _js2n__-prdslib.anyOf
+                                                                                              [
+                                                                                                _js2n__-refsenv."_js2n__-:properties/services/properties/loadbalancer/anyOf/1/properties/config/anyOf/0/oneOf/1/properties/details/properties/waf/anyOf/0!predicate",
+                                                                                                _js2n__-prdslib.isType
+                                                                                                  'Null
+                                                                                              ],
                                                                                       }
                                                                                       {}
                                                                                       true
                                                                                       _js2n__-prdslib.always
                                                                                   ])
+                                                                            ],
+                                                                      waf =
+                                                                        _js2n__-prdslib.anyOf
+                                                                            [
+                                                                              _js2n__-prdslib.allOf
+                                                                                [
+                                                                                  _js2n__-prdslib.isType
+                                                                                    'Record,
+                                                                                  _js2n__-prdslib.records.required
+                                                                                    [
+                                                                                      "rules"
+                                                                                    ],
+                                                                                  _js2n__-prdslib.records.record
+                                                                                    {
+                                                                                      rules =
+                                                                                        _js2n__-prdslib.allOf
+                                                                                            [
+                                                                                              _js2n__-prdslib.isType
+                                                                                                '"Array",
+                                                                                              _js2n__-prdslib.arrays.arrayOf
+                                                                                                (_js2n__-prdslib.allOf
+                                                                                                  [
+                                                                                                    _js2n__-prdslib.isType
+                                                                                                      'Record,
+                                                                                                    _js2n__-prdslib.records.required
+                                                                                                      [
+                                                                                                        "conditions",
+                                                                                                        "description",
+                                                                                                        "skip",
+                                                                                                        "type"
+                                                                                                      ],
+                                                                                                    _js2n__-prdslib.records.record
+                                                                                                      {
+                                                                                                        conditions =
+                                                                                                          _js2n__-prdslib.allOf
+                                                                                                              [
+                                                                                                                _js2n__-prdslib.isType
+                                                                                                                  '"Array",
+                                                                                                                _js2n__-prdslib.arrays.arrayOf
+                                                                                                                  (_js2n__-prdslib.allOf
+                                                                                                                    [
+                                                                                                                      _js2n__-prdslib.isType
+                                                                                                                        'Record,
+                                                                                                                      _js2n__-prdslib.records.required
+                                                                                                                        [
+                                                                                                                          "operator",
+                                                                                                                          "type",
+                                                                                                                          "value"
+                                                                                                                        ],
+                                                                                                                      _js2n__-prdslib.records.record
+                                                                                                                        {
+                                                                                                                          operator =
+                                                                                                                            _js2n__-prdslib.allOf
+                                                                                                                                [
+                                                                                                                                  _js2n__-prdslib.isType
+                                                                                                                                    '"String",
+                                                                                                                                  _js2n__-prdslib.enum
+                                                                                                                                    [
+                                                                                                                                      "==",
+                                                                                                                                      "!=",
+                                                                                                                                      ">",
+                                                                                                                                      "<",
+                                                                                                                                      ">=",
+                                                                                                                                      "<="
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                          type =
+                                                                                                                            _js2n__-prdslib.allOf
+                                                                                                                                [
+                                                                                                                                  _js2n__-prdslib.isType
+                                                                                                                                    '"String",
+                                                                                                                                  _js2n__-prdslib.enum
+                                                                                                                                    [
+                                                                                                                                      "ip-match",
+                                                                                                                                      "geo-match",
+                                                                                                                                      "url-match",
+                                                                                                                                      "method-match",
+                                                                                                                                      "header-match"
+                                                                                                                                    ]
+                                                                                                                                ],
+                                                                                                                          value =
+                                                                                                                            _js2n__-prdslib.isType
+                                                                                                                                '"String",
+                                                                                                                        }
+                                                                                                                        {}
+                                                                                                                        true
+                                                                                                                        _js2n__-prdslib.always
+                                                                                                                    ])
+                                                                                                              ],
+                                                                                                        description =
+                                                                                                          _js2n__-prdslib.isType
+                                                                                                              '"String",
+                                                                                                        skip =
+                                                                                                          _js2n__-prdslib.isType
+                                                                                                              '"Bool",
+                                                                                                        type =
+                                                                                                          _js2n__-prdslib.allOf
+                                                                                                              [
+                                                                                                                _js2n__-prdslib.isType
+                                                                                                                  '"String",
+                                                                                                                _js2n__-prdslib.enum
+                                                                                                                  [
+                                                                                                                    "allow",
+                                                                                                                    "deny"
+                                                                                                                  ]
+                                                                                                              ],
+                                                                                                      }
+                                                                                                      {}
+                                                                                                      true
+                                                                                                      _js2n__-prdslib.always
+                                                                                                  ])
+                                                                                            ],
+                                                                                    }
+                                                                                    {}
+                                                                                    true
+                                                                                    _js2n__-prdslib.always
+                                                                                ],
+                                                                              _js2n__-prdslib.isType
+                                                                                'Null
                                                                             ],
                                                                     } {} true
                                                                     _js2n__-prdslib.always

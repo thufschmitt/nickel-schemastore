@@ -1156,6 +1156,7 @@ let rec _js2n__-refsenv
                                 {
                                   binary = _js2n__-prdslib.isType '"String",
                                   crate_name = _js2n__-prdslib.isType '"String",
+                                  "force" = _js2n__-prdslib.isType '"Bool",
                                   install_command =
                                     _js2n__-prdslib.isType '"String",
                                   min_version =

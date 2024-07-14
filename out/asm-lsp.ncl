@@ -907,6 +907,9 @@ let rec _js2n__-refsenv
           go
             | Bool
             | doc "Flag to turn features related to the Go Assembler on/off.",
+          z80
+            | Bool
+            | doc "Flag to turn features related to the z80 Assembler on/off.",
           ..
         }
         | doc "Options to manage assembler-dependent features.",
@@ -918,6 +921,9 @@ let rec _js2n__-refsenv
           x86_64
             | Bool
             | doc "Flag to turn features related to the x86_64 instruction set on/off.",
+          z80
+            | Bool
+            | doc "Flag to turn features related to the z80 instruction set on/off.",
           ..
         }
         | doc "Options to manage instruction set-dependent features.",

@@ -907,13 +907,13 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.records.record
-                    { schema_version = _js2n__-prdslib.const 1, } {} true
+                    { schemaVersion = _js2n__-prdslib.const 1, } {} true
                     _js2n__-prdslib.always,
                   _js2n__-prdslib.always
                 ]
             ],
-          _js2n__-prdslib.records.required [ "schema_version" ],
+          _js2n__-prdslib.records.required [ "schemaVersion" ],
           _js2n__-prdslib.records.record
-            { schema_version = _js2n__-prdslib.enum [ 1 ], } {} true
+            { schemaVersion = _js2n__-prdslib.enum [ 1 ], } {} true
             _js2n__-prdslib.always
         ])

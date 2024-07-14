@@ -1430,6 +1430,7 @@ let rec _js2n__-refsenv
                   password = _js2n__-prdslib.isType '"String",
                   readTimeout = _js2n__-prdslib.isType 'Integer,
                   sign = _js2n__-prdslib.isType '"Bool",
+                  snapshotSupported = _js2n__-prdslib.isType '"Bool",
                   sourceJar = _js2n__-prdslib.isType '"Bool",
                   stagingRepositories =
                     _js2n__-prdslib.allOf
@@ -1748,6 +1749,7 @@ let rec _js2n__-refsenv
                   password = _js2n__-prdslib.isType '"String",
                   readTimeout = _js2n__-prdslib.isType 'Integer,
                   sign = _js2n__-prdslib.isType '"Bool",
+                  snapshotSupported = _js2n__-prdslib.isType '"Bool",
                   sourceJar = _js2n__-prdslib.isType '"Bool",
                   stagingRepositories =
                     _js2n__-prdslib.allOf
@@ -1966,6 +1968,9 @@ let rec _js2n__-refsenv
         {
             active
               | _js2n__-refsenv."_js2n__-:definitions/Active!contract"
+              | optional,
+            github
+              | _js2n__-refsenv."_js2n__-:definitions/GithubCataloger!contract"
               | optional,
             sbom
               | _js2n__-refsenv."_js2n__-:definitions/Sbom!contract"
@@ -2925,6 +2930,177 @@ let rec _js2n__-refsenv
               | optional,
             variables | String | optional,
           },
+      "_js2n__-:definitions/EnvironmentVariables!contract" =
+        {
+            linux
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                        _js2n__-prdslib.records.record {} {} true
+                          (_js2n__-prdslib.isType '"String")
+                      ]
+                  ])
+              | optional,
+            osx
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                        _js2n__-prdslib.records.record {} {} true
+                          (_js2n__-prdslib.isType '"String")
+                      ]
+                  ])
+              | optional,
+            universal
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                        _js2n__-prdslib.records.record {} {} true
+                          (_js2n__-prdslib.isType '"String")
+                      ]
+                  ])
+              | optional,
+            unix
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                        _js2n__-prdslib.records.record {} {} true
+                          (_js2n__-prdslib.isType '"String")
+                      ]
+                  ])
+              | optional,
+            windows
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                        _js2n__-prdslib.records.record {} {} true
+                          (_js2n__-prdslib.isType '"String")
+                      ]
+                  ])
+              | optional,
+          },
+      "_js2n__-:definitions/EnvironmentVariables!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  linux =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.records.record {} {} true
+                                (_js2n__-prdslib.isType '"String")
+                            ]
+                        ],
+                  osx =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.records.record {} {} true
+                                (_js2n__-prdslib.isType '"String")
+                            ]
+                        ],
+                  universal =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.records.record {} {} true
+                                (_js2n__-prdslib.isType '"String")
+                            ]
+                        ],
+                  unix =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.records.record {} {} true
+                                (_js2n__-prdslib.isType '"String")
+                            ]
+                        ],
+                  windows =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.records.record {} {} true
+                                (_js2n__-prdslib.isType '"String")
+                            ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/Executable!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -3385,6 +3561,7 @@ let rec _js2n__-refsenv
                   password = _js2n__-prdslib.isType '"String",
                   readTimeout = _js2n__-prdslib.isType 'Integer,
                   sign = _js2n__-prdslib.isType '"Bool",
+                  snapshotSupported = _js2n__-prdslib.isType '"Bool",
                   sourceJar = _js2n__-prdslib.isType '"Bool",
                   stagingRepositories =
                     _js2n__-prdslib.allOf
@@ -3500,6 +3677,21 @@ let rec _js2n__-refsenv
                 } true
                 _js2n__-refsenv."_js2n__-:definitions/GiteaUploader!predicate"
             ],
+      "_js2n__-:definitions/GithubCataloger!contract" =
+        {
+            active
+              | _js2n__-refsenv."_js2n__-:definitions/Active!contract"
+              | optional,
+            artifacts | Bool | optional,
+            attestationName | String | optional,
+            deployables | Bool | optional,
+            excludes | Array (String) | optional,
+            extraProperties
+              | _js2n__-refsenv."_js2n__-:definitions/Properties!contract"
+              | optional,
+            files | Bool | optional,
+            includes | Array (String) | optional,
+          },
       "_js2n__-:definitions/GithubMavenDeployer!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -3527,6 +3719,7 @@ let rec _js2n__-refsenv
                   readTimeout = _js2n__-prdslib.isType 'Integer,
                   repository = _js2n__-prdslib.isType '"String",
                   sign = _js2n__-prdslib.isType '"Bool",
+                  snapshotSupported = _js2n__-prdslib.isType '"Bool",
                   sourceJar = _js2n__-prdslib.isType '"Bool",
                   stagingRepositories =
                     _js2n__-prdslib.allOf
@@ -3638,6 +3831,7 @@ let rec _js2n__-refsenv
                   projectIdentifier = _js2n__-prdslib.isType '"String",
                   readTimeout = _js2n__-prdslib.isType 'Integer,
                   sign = _js2n__-prdslib.isType '"Bool",
+                  snapshotSupported = _js2n__-prdslib.isType '"Bool",
                   sourceJar = _js2n__-prdslib.isType '"Bool",
                   stagingRepositories =
                     _js2n__-prdslib.allOf
@@ -4247,7 +4441,7 @@ let rec _js2n__-refsenv
               | optional,
           },
       "_js2n__-:definitions/JReleaserModel!contract"
-        | doc "JReleaser 1.12.0-SNAPSHOT"
+        | doc "JReleaser 1.14.0-SNAPSHOT"
         = {
             announce
               | _js2n__-refsenv."_js2n__-:definitions/Announce!contract"
@@ -4335,6 +4529,10 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  environmentVariables =
+                    _js2n__-refsenv."_js2n__-:definitions/EnvironmentVariables!predicate",
+                  jvmOptions =
+                    _js2n__-refsenv."_js2n__-:definitions/JvmOptions!predicate",
                   mainClass = _js2n__-prdslib.isType '"String",
                   mainModule = _js2n__-prdslib.isType '"String",
                   options =
@@ -4350,10 +4548,16 @@ let rec _js2n__-refsenv
         {
             artifactId | String | optional,
             enabled | Bool | optional,
+            environmentVariables
+              | _js2n__-refsenv."_js2n__-:definitions/EnvironmentVariables!contract"
+              | optional,
             extraProperties
               | _js2n__-refsenv."_js2n__-:definitions/Properties!contract"
               | optional,
             groupId | String | optional,
+            jvmOptions
+              | _js2n__-refsenv."_js2n__-:definitions/JvmOptions!contract"
+              | optional,
             mainClass | String | optional,
             mainModule | String | optional,
             multiProject | Bool | optional,
@@ -4368,9 +4572,13 @@ let rec _js2n__-refsenv
                 {
                   artifactId = _js2n__-prdslib.isType '"String",
                   enabled = _js2n__-prdslib.isType '"Bool",
+                  environmentVariables =
+                    _js2n__-refsenv."_js2n__-:definitions/EnvironmentVariables!predicate",
                   extraProperties =
                     _js2n__-refsenv."_js2n__-:definitions/Properties!predicate",
                   groupId = _js2n__-prdslib.isType '"String",
+                  jvmOptions =
+                    _js2n__-refsenv."_js2n__-:definitions/JvmOptions!predicate",
                   mainClass = _js2n__-prdslib.isType '"String",
                   mainModule = _js2n__-prdslib.isType '"String",
                   multiProject = _js2n__-prdslib.isType '"Bool",
@@ -5110,6 +5318,57 @@ let rec _js2n__-refsenv
                 } true
                 _js2n__-refsenv."_js2n__-:definitions/JpackageAssembler!predicate"
             ],
+      "_js2n__-:definitions/JvmOptions!contract" =
+        {
+            linux | Array (String) | optional,
+            osx | Array (String) | optional,
+            universal | Array (String) | optional,
+            unix | Array (String) | optional,
+            windows | Array (String) | optional,
+          },
+      "_js2n__-:definitions/JvmOptions!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  linux =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  osx =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  universal =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  unix =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  windows =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/Label!contract" =
         {
             color | String | optional,
@@ -5536,6 +5795,7 @@ let rec _js2n__-refsenv
                   readTimeout = _js2n__-prdslib.isType 'Integer,
                   retryDelay = _js2n__-prdslib.isType 'Integer,
                   sign = _js2n__-prdslib.isType '"Bool",
+                  snapshotSupported = _js2n__-prdslib.isType '"Bool",
                   sourceJar = _js2n__-prdslib.isType '"Bool",
                   stage =
                     _js2n__-refsenv."_js2n__-:definitions/Stage-1!predicate",
@@ -5730,6 +5990,7 @@ let rec _js2n__-refsenv
                   readTimeout = _js2n__-prdslib.isType 'Integer,
                   releaseRepository = _js2n__-prdslib.isType '"Bool",
                   sign = _js2n__-prdslib.isType '"Bool",
+                  snapshotSupported = _js2n__-prdslib.isType '"Bool",
                   snapshotUrl = _js2n__-prdslib.isType '"String",
                   sourceJar = _js2n__-prdslib.isType '"Bool",
                   stagingProfileId = _js2n__-prdslib.isType '"String",
@@ -6810,10 +7071,12 @@ let rec _js2n__-refsenv
             artifacts | Bool | optional,
             attestationName | String | optional,
             deployables | Bool | optional,
+            excludes | Array (String) | optional,
             extraProperties
               | _js2n__-refsenv."_js2n__-:definitions/Properties!contract"
               | optional,
             files | Bool | optional,
+            includes | Array (String) | optional,
           },
       "_js2n__-:definitions/SmtpAnnouncer!contract" =
         {

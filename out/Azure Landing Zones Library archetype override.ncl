@@ -907,55 +907,63 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.items [ _js2n__-prdslib.isType '"String" ]
-            ]),
+            ])
+        | optional,
       policy_assignments_to_remove
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.items [ _js2n__-prdslib.isType '"String" ]
-            ]),
+            ])
+        | optional,
       policy_definitions_to_add
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.items [ _js2n__-prdslib.isType '"String" ]
-            ]),
+            ])
+        | optional,
       policy_definitions_to_remove
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.items [ _js2n__-prdslib.isType '"String" ]
-            ]),
+            ])
+        | optional,
       policy_set_definitions_to_add
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.items [ _js2n__-prdslib.isType '"String" ]
-            ]),
+            ])
+        | optional,
       policy_set_definitions_to_remove
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.items [ _js2n__-prdslib.isType '"String" ]
-            ]),
+            ])
+        | optional,
       role_definitions_to_add
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.items [ _js2n__-prdslib.isType '"String" ]
-            ]),
+            ])
+        | optional,
       role_definitions_to_remove
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.items [ _js2n__-prdslib.isType '"String" ]
-            ]),
+            ])
+        | optional,
       ..
     }
