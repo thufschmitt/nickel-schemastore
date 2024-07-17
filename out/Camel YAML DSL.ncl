@@ -13393,6 +13393,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.rest.SecurityDefinition!predicate"
                         ],
                   skipBindingOnErrorCode = _js2n__-prdslib.isType '"Bool",
+                  streamCache = _js2n__-prdslib.isType '"Bool",
                   to =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.ToDefinition!predicate",
                   type = _js2n__-prdslib.isType '"String",
@@ -13447,6 +13448,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.rest.SecurityDefinition!predicate"
                         ],
                   skipBindingOnErrorCode = _js2n__-prdslib.isType '"Bool",
+                  streamCache = _js2n__-prdslib.isType '"Bool",
                   to =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.ToDefinition!predicate",
                   type = _js2n__-prdslib.isType '"String",
@@ -13501,6 +13503,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.rest.SecurityDefinition!predicate"
                         ],
                   skipBindingOnErrorCode = _js2n__-prdslib.isType '"Bool",
+                  streamCache = _js2n__-prdslib.isType '"Bool",
                   to =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.ToDefinition!predicate",
                   type = _js2n__-prdslib.isType '"String",
@@ -13683,6 +13686,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.rest.SecurityDefinition!predicate"
                         ],
                   skipBindingOnErrorCode = _js2n__-prdslib.isType '"Bool",
+                  streamCache = _js2n__-prdslib.isType '"Bool",
                   to =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.ToDefinition!predicate",
                   type = _js2n__-prdslib.isType '"String",
@@ -13737,6 +13741,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.rest.SecurityDefinition!predicate"
                         ],
                   skipBindingOnErrorCode = _js2n__-prdslib.isType '"Bool",
+                  streamCache = _js2n__-prdslib.isType '"Bool",
                   to =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.ToDefinition!predicate",
                   type = _js2n__-prdslib.isType '"String",
@@ -13791,6 +13796,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.rest.SecurityDefinition!predicate"
                         ],
                   skipBindingOnErrorCode = _js2n__-prdslib.isType '"Bool",
+                  streamCache = _js2n__-prdslib.isType '"Bool",
                   to =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.ToDefinition!predicate",
                   type = _js2n__-prdslib.isType '"String",

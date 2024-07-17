@@ -1107,6 +1107,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "dev-environment" ]
                         ],
                   version = _js2n__-prdslib.isType '"String",
+                  volumes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate"
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/EnvSentinelRequest!predicate" =
@@ -1696,6 +1703,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "service" ]
                         ],
+                  volumes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate"
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/SpotPolicy!predicate"
@@ -1887,6 +1901,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "task" ]
                         ],
+                  volumes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate"
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/TerminationPolicy!predicate"
@@ -1895,6 +1916,17 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "dont-destroy", "destroy-after-idle" ]
+            ],
+      "_js2n__-:definitions/VolumeMountPointRequest!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name", "path" ],
+              _js2n__-prdslib.records.record
+                {
+                  name = _js2n__-prdslib.isType '"String",
+                  path = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
             ],
     }
     in

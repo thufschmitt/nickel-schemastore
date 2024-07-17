@@ -1292,6 +1292,7 @@ let rec _js2n__-refsenv
                               "crpd",
                               "juniper_crpd",
                               "sonic-vs",
+                              "sonic-vm",
                               "vr-sros",
                               "nokia_sros",
                               "vr-nokia_sros",
@@ -1329,9 +1330,8 @@ let rec _js2n__-refsenv
                               "vr-cisco_n9kv",
                               "cisco_n9kv",
                               "cisco_ftdv",
-                              "vr-ftosv",
-                              "vr-dell_ftosv",
                               "dell_ftosv",
+                              "dell_sonic",
                               "vr-aoscx",
                               "vr-aruba_aoscx",
                               "aruba_aoscx",
@@ -1350,6 +1350,7 @@ let rec _js2n__-refsenv
                               "c8000",
                               "cisco_c8000",
                               "cisco_c8000v",
+                              "cisco_cat9kv",
                               "cvx",
                               "cumulus_cvx",
                               "openbsd",
@@ -1694,6 +1695,8 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               checkpoint_cloudguard =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              cisco_cat9kv =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               cisco_ftdv =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               crpd =
@@ -1701,6 +1704,10 @@ let rec _js2n__-refsenv
                               cumulus_cvx =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               cvx =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              dell_ftosv =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              dell_sonic =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               ext-container =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
@@ -1733,6 +1740,8 @@ let rec _js2n__-refsenv
                               ovs-bridge =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               rare =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              sonic-vm =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               sonic-vs =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",

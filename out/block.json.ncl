@@ -1797,60 +1797,74 @@ let rec _js2n__-refsenv
         "%
         | optional,
       variations
-        | Array
-          {
-            attributes
-              | {  .. }
-              | doc "Values that override block attributes."
-              | optional,
-            category
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.enum
-                      [ "text", "media", "design", "widgets", "theme", "embed" ]
-                  ])
-              | doc "A category classification, used in search interfaces to arrange block types by category."
-              | optional,
-            description
-              | String
-              | doc "A detailed variation description."
-              | optional,
-            example
-              | {  .. }
-              | doc "Example provides structured data for the block preview. You can set to undefined to disable the preview shown for the block type."
-              | optional,
-            icon
-              | String
-              | doc "An icon helping to visualize the variation. It can have the same shape as the block type."
-              | optional,
-            innerBlocks
-              | Array (Array Dyn)
-              | doc "Initial configuration of nested blocks."
-              | optional,
-            isActive
-              | Array (String)
-              | doc "The list of attributes that should be compared. Each attributes will be matched and the variation will be active if all of them are matching."
-              | optional,
-            isDefault
-              | Bool
-              | doc "Indicates whether the current variation is the default one."
-              | optional,
-            keywords
-              | Array (String)
-              | doc "An array of terms (which can be translated) that help users discover the variation while searching."
-              | optional,
-            name | String | doc "The unique and machine-readable name.",
-            scope
-              | Array (
-                _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.enum [ "inserter", "block", "transform" ])
-              )
-              | doc "The list of scopes where the variation is applicable."
-              | optional,
-            title | String | doc "A human-readable variation title.",
-          }
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "name", "title" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            attributes = _js2n__-prdslib.isType 'Record,
+                            category =
+                              _js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.enum
+                                      [
+                                        "text",
+                                        "media",
+                                        "design",
+                                        "widgets",
+                                        "theme",
+                                        "embed"
+                                      ]
+                                  ],
+                            description = _js2n__-prdslib.isType '"String",
+                            example = _js2n__-prdslib.isType 'Record,
+                            icon = _js2n__-prdslib.isType '"String",
+                            innerBlocks =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.isType '"Array")
+                                  ],
+                            isActive =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.isType '"String")
+                                  ],
+                            isDefault = _js2n__-prdslib.isType '"Bool",
+                            keywords =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.isType '"String")
+                                  ],
+                            name = _js2n__-prdslib.isType '"String",
+                            scope =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.enum
+                                        [ "inserter", "block", "transform" ])
+                                  ],
+                            title = _js2n__-prdslib.isType '"String",
+                          } {} false _js2n__-prdslib.never
+                      ])
+                ]
+            ])
         | doc "Block Variations is the API that allows a block to have similar versions of it, but all these versions share some common functionality."
         | optional,
       version

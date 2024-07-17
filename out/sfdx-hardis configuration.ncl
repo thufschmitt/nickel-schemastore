@@ -1334,6 +1334,10 @@ let rec _js2n__-refsenv
         | Array (String)
         | doc "When calling hardis:org:retrieve:sources:retrofit, list of files to ignore (discard just after retrieve)"
         | optional,
+      runtests
+        | String
+        | doc "WARNING: Use with caution, only in branch scoped config ! Can be a list of test classes if testLevel=RunSpecifiedTests, or a regex if testLevel=RunRepositoryTests"
+        | optional,
       scratchOrgDuration
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1351,6 +1355,10 @@ let rec _js2n__-refsenv
       sfdmuCanModify
         | String
         | doc "Instance host name to allow SFDMU to deploy data in a production org"
+        | optional,
+      skipCodeCoverage
+        | Bool
+        | doc "WARNING: Use with caution, only in branch scoped config ! Do not check code coverage for a deployment"
         | optional,
       skipMinimizeProfiles
         | Array (String)
@@ -1371,6 +1379,21 @@ let rec _js2n__-refsenv
       targetUsername
         | String
         | doc "Salesforce username used by CI for deployment or backups"
+        | optional,
+      testCoverageNotBlocking
+        | Bool
+        | doc "Does not make the deployment job fail if apex tests code coverage is failing"
+        | optional,
+      testLevel
+        | std.enum.TagOrString
+        | [|
+          'RunAllTestsInOrg,
+          'RunLocalTests,
+          'RunRepositoryTests,
+          'RunSpecifiedTests,
+          'NoTestRun
+        |]
+        | doc "WARNING: Use with caution, only in branch scoped config ! You can override default test level for deployments for special use cases, for example when you have SeeAllData=true you can use RunRepositoryTests associated with a regex in runtests option"
         | optional,
       useDeltaDeployment
         | Bool

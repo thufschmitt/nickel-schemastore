@@ -1043,6 +1043,18 @@ let rec _js2n__-refsenv
           https://bashly.dannyb.co/advanced/strings/#custom-strings
         "%
         | optional,
+      examples_caption_on_error
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.minLength 1
+            ])
+        | doc m%"
+          The string to show before the examples when show_examples_on_error is enabled
+          https://bashly.dannyb.co/advanced/strings/#custom-strings
+        "%
+        | optional,
       flag_requires_an_argument
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

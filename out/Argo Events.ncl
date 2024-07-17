@@ -3950,6 +3950,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   atLeastOnce = _js2n__-prdslib.isType '"Bool",
+                  dlqTrigger =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.Trigger!predicate",
                   parameters =
                     _js2n__-prdslib.allOf
                         [

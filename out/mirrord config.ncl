@@ -1331,6 +1331,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  trust_any_certificate =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/FeatureFileConfig!predicate"

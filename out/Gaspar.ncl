@@ -1027,6 +1027,16 @@ let rec _js2n__-refsenv
                                                   HelperFile =
                                                     _js2n__-prdslib.isType
                                                         '"String",
+                                                  Imports =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {} {} true
+                                                            (_js2n__-prdslib.isType
+                                                              '"String")
+                                                        ],
                                                   Location =
                                                     _js2n__-prdslib.always,
                                                   ModelPath =
@@ -1163,12 +1173,39 @@ let rec _js2n__-refsenv
                                 ],
                         } {} false _js2n__-prdslib.never
                     ],
-              CustomTypeTranslations =
+              GlobalTypeTranslations =
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.record {} {} true
                         (_js2n__-prdslib.isType '"String")
+                    ],
+              GroupTypes =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum
+                                    [
+                                      "Angular",
+                                      "CSharp",
+                                      "Ocelot",
+                                      "TypeScript",
+                                      "Proto",
+                                      "Python",
+                                      "Swift",
+                                      "Kotlin"
+                                    ]
+                                ]),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ])
                     ],
               IgnoreAnnotations = _js2n__-prdslib.isType '"Bool",
               IgnoreMissingOutputLocations = _js2n__-prdslib.isType '"Bool",
@@ -1204,24 +1241,39 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.allOf
                                           [
                                             _js2n__-prdslib.ifThenElse
-                                              (_js2n__-prdslib.records.record
-                                                {
-                                                  Type =
-                                                    _js2n__-prdslib.const
-                                                        "Proto",
-                                                } {} true
-                                                _js2n__-prdslib.always)
-                                              (_js2n__-prdslib.records.record
-                                                {
-                                                  Location =
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      Type =
+                                                        _js2n__-prdslib.const
+                                                            "Kotlin",
+                                                    } {} true
                                                     _js2n__-prdslib.always,
-                                                  PackageNamespace =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  Type = _js2n__-prdslib.always,
-                                                } {} false
-                                                _js2n__-prdslib.never)
-                                              _js2n__-prdslib.always,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      Type =
+                                                        _js2n__-prdslib.const
+                                                            "Proto",
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ])
+                                              (_js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.records.required
+                                                    [ "PackageNamespace" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      Location =
+                                                        _js2n__-prdslib.always,
+                                                      PackageNamespace =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      Type =
+                                                        _js2n__-prdslib.always,
+                                                    } {} false
+                                                    _js2n__-prdslib.never
+                                                ]) _js2n__-prdslib.always,
                                             _js2n__-prdslib.ifThenElse
                                               (_js2n__-prdslib.records.record
                                                 {
@@ -1263,7 +1315,13 @@ let rec _js2n__-refsenv
                                                     _js2n__-prdslib.isType
                                                       '"String",
                                                     _js2n__-prdslib.enum
-                                                      [ "Proto", "TypeScript" ]
+                                                      [
+                                                        "TypeScript",
+                                                        "Angular",
+                                                        "Swift",
+                                                        "Kotlin",
+                                                        "Proto"
+                                                      ]
                                                   ],
                                           } {} true _js2n__-prdslib.always
                                       ]),
@@ -1273,6 +1331,27 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.isType '"Bool",
                           UseEnumValue = _js2n__-prdslib.isType '"Bool",
                         } {} false _js2n__-prdslib.never
+                    ],
+              TypeTranslations =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.propertyNames
+                        (_js2n__-prdslib.enum
+                          [
+                            "TypeScript",
+                            "Angular",
+                            "Swift",
+                            "Kotlin",
+                            "Proto"
+                          ]),
+                      _js2n__-prdslib.records.record {} {} true
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {} {} true
+                              (_js2n__-prdslib.isType '"String")
+                          ])
                     ],
             } {} false _js2n__-prdslib.never
         ])

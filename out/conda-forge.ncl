@@ -1139,7 +1139,8 @@ let rec _js2n__-refsenv
                       "conda-build",
                       "conda-build+classic",
                       "conda-build+conda-libmamba-solver",
-                      "mambabuild"
+                      "mambabuild",
+                      "rattler-build"
                     ]
                 ],
               _js2n__-prdslib.isType 'Null

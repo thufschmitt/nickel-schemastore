@@ -1441,10 +1441,26 @@ let rec _js2n__-refsenv
                         [ "workspaces_per_user_quota" ],
                       _js2n__-prdslib.records.record {} {} true
                         _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required
+                        [ "default_max_hours_before_termination" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required
+                        [ "max_hours_before_termination_limit" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
                     ]
                 ],
               _js2n__-prdslib.records.record
                 {
+                  default_max_hours_before_termination =
+                    _js2n__-prdslib.isType 'Integer,
                   default_resources_per_workspace_container =
                     _js2n__-prdslib.allOf
                         [
@@ -1461,6 +1477,8 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/gitlab.agent.agentcfg.GitLabWorkspacesProxy!predicate"
                         ],
+                  max_hours_before_termination_limit =
+                    _js2n__-prdslib.isType 'Integer,
                   max_resources_per_workspace =
                     _js2n__-prdslib.allOf
                         [

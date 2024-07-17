@@ -1817,11 +1817,7 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
-                [
-                  "macos.x86.medium.gen2",
-                  "macos.m1.medium.gen1",
-                  "macos.m1.large.gen1"
-                ]
+                [ "macos.m1.medium.gen1", "macos.m1.large.gen1" ]
             ],
       "_js2n__-:definitions/machineExecutor!predicate"
         | doc "Options for the [machine executor](https://circleci.com/docs/configuration-reference#machine)"
@@ -2234,6 +2230,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
                 [
+                  "16.0.0",
                   "15.4.0",
                   "15.3.0",
                   "15.2.0",

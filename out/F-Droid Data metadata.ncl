@@ -931,7 +931,7 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType 'Record,
                   _js2n__-prdslib.records.record {}
                     {
-                      "^(Ads|Tracking|ApplicationDebuggable|KnownVuln|NonFreeAdd|NonFreeAssets|NonFreeDep|NonFreeNet|NoSourceSince|NSFW|UpstreamNonFree|Tracking)$" =
+                      "^(Adsg|ApplicationDebuggable|KnownVuln|NonFreeAdd|NonFreeAssets|NonFreeDep|NonFreeNet|NoSourceSince|NSFW|UpstreamNonFree|TetheredNet|Tracking)$" =
                         _js2n__-refsenv."_js2n__-:definitions/localized_string!predicate",
                     } false _js2n__-prdslib.never
                 ]

@@ -1004,7 +1004,10 @@ let rec _js2n__-refsenv
           Refer to https://help.codux.com/kb/en/article/kb25813 for more information.
         "%
         | optional,
-      defaultImagesDir | String | optional,
+      defaultImagesDir
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"String")
+        | optional,
       disableProjectSharing
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"Bool")
@@ -1048,6 +1051,13 @@ let rec _js2n__-refsenv
           Refer to https://help.codux.com/kb/en/article/kb14730 for more information.
         "%
         | optional,
+      "json-simple-ast.defaultJSONSchemas"
+        | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
+        | doc m%"
+          Configuration for adding additional json schemas to your project.
+          This can be used to centralise json schemas addition instead of using $schema and get autocompletion for json files when using Codux.
+        "%
+        | optional,
       maxThumbnailSnapshotDelayConfig
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"Number")
@@ -1056,7 +1066,19 @@ let rec _js2n__-refsenv
           Refer to https://help.codux.com/kb/en/article/kb20920 for more information.
         "%
         | optional,
-      newBoard | Dyn | optional,
+      newBoard
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  templatesConfig = _js2n__-prdslib.isType 'Record,
+                  templatesPath = _js2n__-prdslib.always,
+                } {} true _js2n__-prdslib.always
+            ])
+        | doc "Configures default path for board template folders and files."
+        | optional,
       newComponent
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1065,7 +1087,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   componentsPath = _js2n__-prdslib.isType '"String",
-                  templatesConfig = _js2n__-prdslib.always,
+                  templatesConfig = _js2n__-prdslib.isType 'Record,
                   templatesPath = _js2n__-prdslib.always,
                 } {} true _js2n__-prdslib.always
             ])
@@ -1214,17 +1236,14 @@ let rec _js2n__-refsenv
         "%
         | optional,
       styleFilesConfig
-        | {
-          commonStyleFilePattern
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.isType '"String")
-            | doc m%"
-              An extended glob pattern that describes the common CSS files used in the project.
-              The Style Panel will not suggest these files for adding new rules to an element or editing its style.
-            "%
-            | optional,
-          ..
-        }
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { commonStyleFilePattern = _js2n__-prdslib.isType '"String", }
+                {} true _js2n__-prdslib.always
+            ])
         | optional,
       styling
         | _js2n__-prdslib.contract_from_predicate
@@ -1266,6 +1285,9 @@ let rec _js2n__-refsenv
           Refer to https://help.codux.com/kb/en/article/kb17934 for more information.
         "%
         | optional,
-      tailwindcssConfig | String | optional,
+      tailwindcssConfig
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"String")
+        | optional,
       ..
     }

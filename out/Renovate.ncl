@@ -1178,6 +1178,10 @@ let rec _js2n__-refsenv
         | std.number.Integer
         | doc "Maximum duration in minutes to keep datasource cache entries."
         | optional,
+      cachePrivatePackages
+        | Bool
+        | doc "Cache private packages in the datasource cache. This is useful for self-hosted setups"
+        | optional,
       cacheTtlOverride
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -2175,6 +2179,12 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
         | doc "Configuration object for the mint manager"
         | optional,
+      mise
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+        | doc "Configuration object for the mise manager"
+        | optional,
       mix
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -2725,6 +2735,7 @@ let rec _js2n__-refsenv
                         "gomodTidy1.17",
                         "gomodTidyE",
                         "gomodUpdateImportPaths",
+                        "gomodSkipVendor",
                         "helmUpdateSubChartArchives",
                         "npmDedupe",
                         "pnpmDedupe",

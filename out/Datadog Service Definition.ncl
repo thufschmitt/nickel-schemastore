@@ -899,38 +899,34 @@ let rec _js2n__-refsenv
     = {}
     in
   _js2n__-prdslib.contract_from_predicate
-      (_js2n__-prdslib.allOf
+      (_js2n__-prdslib.oneOf
         [
-          _js2n__-prdslib.isType 'Record,
-          _js2n__-prdslib.oneOf
+          _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.record
-                    { version = _js2n__-prdslib.const "v1", } {} true
-                    _js2n__-prdslib.always,
-                  _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.record
-                    { version = _js2n__-prdslib.const "v2", } {} true
-                    _js2n__-prdslib.always,
-                  _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.record
-                    { version = _js2n__-prdslib.const "v2.1", } {} true
-                    _js2n__-prdslib.always,
-                  _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.record
-                    { version = _js2n__-prdslib.const "v2.2", } {} true
-                    _js2n__-prdslib.always,
-                  _js2n__-prdslib.always
-                ]
+              _js2n__-prdslib.records.record
+                { schema-version = _js2n__-prdslib.const "v1", } {} true
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.always
+            ],
+          _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.record
+                { schema-version = _js2n__-prdslib.const "v2", } {} true
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.always
+            ],
+          _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.record
+                { schema-version = _js2n__-prdslib.const "v2.1", } {} true
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.always
+            ],
+          _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.record
+                { schema-version = _js2n__-prdslib.const "v2.2", } {} true
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.always
             ]
         ])

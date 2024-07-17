@@ -1204,6 +1204,12 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType '"Bool",
                                   _js2n__-prdslib.isType 'Null
                                 ],
+                          isolatedDeclarations =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"Bool",
+                                  _js2n__-prdslib.isType 'Null
+                                ],
                           isolatedModules =
                             _js2n__-prdslib.anyOf
                                 [
@@ -1473,6 +1479,12 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.strings.pattern
                                         "^(CRLF|LF|crlf|lf)$"
                                     ]
+                                ],
+                          noCheck =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"Bool",
+                                  _js2n__-prdslib.isType 'Null
                                 ],
                           noEmit =
                             _js2n__-prdslib.anyOf

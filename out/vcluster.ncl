@@ -924,13 +924,13 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
         | doc "Global values shared across all (sub)charts"
         | optional,
+      integrations
+        | Dyn
+        | doc "Integrations holds config for vCluster integrations with other operators or tools running on the host cluster"
+        | optional,
       networking
         | Dyn
         | doc "Networking options related to the virtual cluster."
-        | optional,
-      observability
-        | Dyn
-        | doc "Observability holds options to proxy metrics from the host cluster into the virtual cluster."
         | optional,
       plugin
         | _js2n__-prdslib.contract_from_predicate

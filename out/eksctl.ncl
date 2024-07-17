@@ -1040,6 +1040,7 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.records.record
             {
               autoApplyPodIdentityAssociations = _js2n__-prdslib.isType '"Bool",
+              disableDefaultAddons = _js2n__-prdslib.isType '"Bool",
             } {} false _js2n__-prdslib.never,
       "_js2n__-:definitions/CapacityReservation!predicate"
         | doc "defines a nodegroup's Capacity Reservation targeting option"

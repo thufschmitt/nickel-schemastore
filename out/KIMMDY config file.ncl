@@ -1214,4 +1214,9 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.isType '"String")
         | doc ".trr file of a finished simulation for starting directly with a reaction"
         | optional,
+      xtc
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"String")
+        | doc ".xtc file of a finished simulation for starting directly with a reaction"
+        | optional,
     }
