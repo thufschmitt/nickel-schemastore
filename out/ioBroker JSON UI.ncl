@@ -1021,6 +1021,7 @@ let rec _js2n__-refsenv
                   "alive",
                   "autocomplete",
                   "cron",
+                  "deviceManager",
                   "fileSelector",
                   "text",
                   "textSendTo",
@@ -1061,7 +1062,8 @@ let rec _js2n__-refsenv
                   "checkLicense",
                   "uuid",
                   "timePicker",
-                  "datePicker"
+                  "datePicker",
+                  "qrCode"
                 ]
             ],
       "_js2n__-:definitions/cronProps!predicate" =
@@ -1144,6 +1146,39 @@ let rec _js2n__-refsenv
                   tooltip = _js2n__-prdslib.always,
                   type = _js2n__-prdslib.always,
                   url = _js2n__-prdslib.isType '"String",
+                  validator = _js2n__-prdslib.always,
+                  validatorErrorText = _js2n__-prdslib.always,
+                  validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xs = _js2n__-prdslib.always,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/deviceManagerProps!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  confirm = _js2n__-prdslib.always,
+                  darkStyle = _js2n__-prdslib.always,
+                  "default" = _js2n__-prdslib.always,
+                  defaultFunc = _js2n__-prdslib.always,
+                  defaultSendTo = _js2n__-prdslib.always,
+                  disabled = _js2n__-prdslib.always,
+                  help = _js2n__-prdslib.always,
+                  helpLink = _js2n__-prdslib.always,
+                  hidden = _js2n__-prdslib.always,
+                  hideOnlyControl = _js2n__-prdslib.always,
+                  label = _js2n__-prdslib.always,
+                  lg = _js2n__-prdslib.always,
+                  md = _js2n__-prdslib.always,
+                  newLine = _js2n__-prdslib.always,
+                  noMultiEdit = _js2n__-prdslib.always,
+                  noTranslation = _js2n__-prdslib.always,
+                  onChange = _js2n__-prdslib.always,
+                  sm = _js2n__-prdslib.always,
+                  style = _js2n__-prdslib.always,
+                  tooltip = _js2n__-prdslib.always,
+                  type = _js2n__-prdslib.always,
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
@@ -1432,6 +1467,44 @@ let rec _js2n__-refsenv
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
                   visible = _js2n__-prdslib.isType '"Bool",
+                  xs = _js2n__-prdslib.always,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/qrCodeProps!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "data", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  bgColor = _js2n__-prdslib.isType '"String",
+                  confirm = _js2n__-prdslib.always,
+                  darkStyle = _js2n__-prdslib.always,
+                  data = _js2n__-prdslib.isType '"String",
+                  "default" = _js2n__-prdslib.always,
+                  defaultFunc = _js2n__-prdslib.always,
+                  defaultSendTo = _js2n__-prdslib.always,
+                  disabled = _js2n__-prdslib.always,
+                  fgColor = _js2n__-prdslib.isType '"String",
+                  help = _js2n__-prdslib.always,
+                  helpLink = _js2n__-prdslib.always,
+                  hidden = _js2n__-prdslib.always,
+                  hideOnlyControl = _js2n__-prdslib.always,
+                  label = _js2n__-prdslib.always,
+                  level = _js2n__-prdslib.enum [ "L", "M", "Q", "H" ],
+                  lg = _js2n__-prdslib.always,
+                  md = _js2n__-prdslib.always,
+                  newLine = _js2n__-prdslib.always,
+                  noMultiEdit = _js2n__-prdslib.always,
+                  noTranslation = _js2n__-prdslib.always,
+                  onChange = _js2n__-prdslib.always,
+                  size = _js2n__-prdslib.isType '"Number",
+                  sm = _js2n__-prdslib.always,
+                  style = _js2n__-prdslib.always,
+                  tooltip = _js2n__-prdslib.always,
+                  type = _js2n__-prdslib.always,
+                  validator = _js2n__-prdslib.always,
+                  validatorErrorText = _js2n__-prdslib.always,
+                  validatorNoSaveOnError = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -2805,6 +2878,59 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.enum
                                                 [ "contained", "outlined" ]
                                             ],
+                                      xs = _js2n__-prdslib.always,
+                                    } {} false _js2n__-prdslib.never
+                                ]
+                            ]) _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.records.record
+                            { type = _js2n__-prdslib.const "qrCode", } {} true
+                            _js2n__-prdslib.always)
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/tableItemBaseProps!predicate",
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "data", "type" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      attr = _js2n__-prdslib.always,
+                                      bgColor =
+                                        _js2n__-prdslib.isType '"String",
+                                      confirm = _js2n__-prdslib.always,
+                                      darkStyle = _js2n__-prdslib.always,
+                                      data = _js2n__-prdslib.isType '"String",
+                                      "default" = _js2n__-prdslib.always,
+                                      defaultFunc = _js2n__-prdslib.always,
+                                      defaultSendTo = _js2n__-prdslib.always,
+                                      disabled = _js2n__-prdslib.always,
+                                      fgColor =
+                                        _js2n__-prdslib.isType '"String",
+                                      help = _js2n__-prdslib.always,
+                                      helpLink = _js2n__-prdslib.always,
+                                      hidden = _js2n__-prdslib.always,
+                                      hideOnlyControl = _js2n__-prdslib.always,
+                                      label = _js2n__-prdslib.always,
+                                      level =
+                                        _js2n__-prdslib.enum
+                                            [ "L", "M", "Q", "H" ],
+                                      lg = _js2n__-prdslib.always,
+                                      md = _js2n__-prdslib.always,
+                                      newLine = _js2n__-prdslib.always,
+                                      noMultiEdit = _js2n__-prdslib.always,
+                                      noTranslation = _js2n__-prdslib.always,
+                                      onChange = _js2n__-prdslib.always,
+                                      size = _js2n__-prdslib.isType '"Number",
+                                      sm = _js2n__-prdslib.always,
+                                      style = _js2n__-prdslib.always,
+                                      tooltip = _js2n__-prdslib.always,
+                                      type = _js2n__-prdslib.always,
+                                      validator = _js2n__-prdslib.always,
+                                      validatorErrorText =
+                                        _js2n__-prdslib.always,
+                                      validatorNoSaveOnError =
+                                        _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -4775,9 +4901,26 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.ifThenElse
                                         (_js2n__-prdslib.records.record
                                           {
+                                            type =
+                                              _js2n__-prdslib.const "qrCode",
+                                          } {} true _js2n__-prdslib.always)
+                                        _js2n__-refsenv."_js2n__-:definitions/qrCodeProps!predicate"
+                                        _js2n__-prdslib.always,
+                                      _js2n__-prdslib.ifThenElse
+                                        (_js2n__-prdslib.records.record
+                                          {
                                             type = _js2n__-prdslib.const "cron",
                                           } {} true _js2n__-prdslib.always)
                                         _js2n__-refsenv."_js2n__-:definitions/cronProps!predicate"
+                                        _js2n__-prdslib.always,
+                                      _js2n__-prdslib.ifThenElse
+                                        (_js2n__-prdslib.records.record
+                                          {
+                                            type =
+                                              _js2n__-prdslib.const
+                                                  "deviceManager",
+                                          } {} true _js2n__-prdslib.always)
+                                        _js2n__-refsenv."_js2n__-:definitions/deviceManagerProps!predicate"
                                         _js2n__-prdslib.always,
                                       _js2n__-prdslib.ifThenElse
                                         (_js2n__-prdslib.records.record
@@ -4886,6 +5029,9 @@ let rec _js2n__-refsenv
                                                 clone =
                                                   _js2n__-prdslib.isType
                                                       '"Bool",
+                                                compact =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -4898,6 +5044,15 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                encryptedAttributes =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"Array",
+                                                        _js2n__-prdslib.arrays.arrayOf
+                                                          (_js2n__-prdslib.isType
+                                                            '"String")
+                                                      ],
                                                 export =
                                                   _js2n__-prdslib.isType
                                                       '"Bool",
@@ -5753,8 +5908,6 @@ let rec _js2n__-refsenv
                                               [ "items", "type" ],
                                             _js2n__-prdslib.records.record
                                               {
-                                                allowAddByFilter =
-                                                  _js2n__-refsenv."_js2n__-:definitions/allowAddByFilterProp!predicate",
                                                 clone =
                                                   _js2n__-prdslib.isType
                                                       '"Bool",
@@ -5770,18 +5923,12 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
-                                                export =
-                                                  _js2n__-prdslib.isType
-                                                      '"Bool",
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
                                                 hidden = _js2n__-prdslib.always,
                                                 hideOnlyControl =
                                                   _js2n__-prdslib.always,
-                                                "import" =
-                                                  _js2n__-prdslib.isType
-                                                      '"Bool",
                                                 items =
                                                   _js2n__-refsenv."_js2n__-:definitions/tableItems!predicate",
                                                 label = _js2n__-prdslib.always,
@@ -5808,15 +5955,6 @@ let rec _js2n__-refsenv
                                                 tooltip =
                                                   _js2n__-prdslib.always,
                                                 type = _js2n__-prdslib.always,
-                                                uniqueColumns =
-                                                  _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"Array",
-                                                        _js2n__-prdslib.arrays.arrayOf
-                                                          (_js2n__-prdslib.isType
-                                                            '"String")
-                                                      ],
                                                 validator =
                                                   _js2n__-prdslib.always,
                                                 validatorErrorText =
@@ -6680,9 +6818,23 @@ let rec _js2n__-refsenv
                                   ]) _js2n__-prdslib.always,
                               _js2n__-prdslib.ifThenElse
                                 (_js2n__-prdslib.records.record
+                                  { type = _js2n__-prdslib.const "qrCode", } {}
+                                  true _js2n__-prdslib.always)
+                                _js2n__-refsenv."_js2n__-:definitions/qrCodeProps!predicate"
+                                _js2n__-prdslib.always,
+                              _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.records.record
                                   { type = _js2n__-prdslib.const "cron", } {}
                                   true _js2n__-prdslib.always)
                                 _js2n__-refsenv."_js2n__-:definitions/cronProps!predicate"
+                                _js2n__-prdslib.always,
+                              _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.records.record
+                                  {
+                                    type =
+                                      _js2n__-prdslib.const "deviceManager",
+                                  } {} true _js2n__-prdslib.always)
+                                _js2n__-refsenv."_js2n__-:definitions/deviceManagerProps!predicate"
                                 _js2n__-prdslib.always,
                               _js2n__-prdslib.ifThenElse
                                 (_js2n__-prdslib.records.record
@@ -6766,12 +6918,22 @@ let rec _js2n__-refsenv
                                         allowAddByFilter =
                                           _js2n__-refsenv."_js2n__-:definitions/allowAddByFilterProp!predicate",
                                         clone = _js2n__-prdslib.isType '"Bool",
+                                        compact =
+                                          _js2n__-prdslib.isType '"Bool",
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        encryptedAttributes =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String")
+                                              ],
                                         export = _js2n__-prdslib.isType '"Bool",
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
@@ -7400,8 +7562,6 @@ let rec _js2n__-refsenv
                                       [ "items", "type" ],
                                     _js2n__-prdslib.records.record
                                       {
-                                        allowAddByFilter =
-                                          _js2n__-refsenv."_js2n__-:definitions/allowAddByFilterProp!predicate",
                                         clone = _js2n__-prdslib.isType '"Bool",
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
@@ -7409,14 +7569,11 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
-                                        export = _js2n__-prdslib.isType '"Bool",
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
                                         hideOnlyControl =
                                           _js2n__-prdslib.always,
-                                        "import" =
-                                          _js2n__-prdslib.isType '"Bool",
                                         items =
                                           _js2n__-refsenv."_js2n__-:definitions/tableItems!predicate",
                                         label = _js2n__-prdslib.always,
@@ -7436,14 +7593,6 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.isType '"String",
                                         tooltip = _js2n__-prdslib.always,
                                         type = _js2n__-prdslib.always,
-                                        uniqueColumns =
-                                          _js2n__-prdslib.allOf
-                                              [
-                                                _js2n__-prdslib.isType '"Array",
-                                                _js2n__-prdslib.arrays.arrayOf
-                                                  (_js2n__-prdslib.isType
-                                                    '"String")
-                                              ],
                                         validator = _js2n__-prdslib.always,
                                         validatorErrorText =
                                           _js2n__-prdslib.always,
