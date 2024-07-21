@@ -1001,6 +1001,43 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/Catalog!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "from", "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  dataset_params =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Params!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  dependsOn =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  from = _js2n__-prdslib.isType '"String",
+                  include =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  params =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Params!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/ColumnEmbeddingConfig!predicate"
         | doc "Configuration for if and how a dataset's column should be embedded."
         = _js2n__-prdslib.allOf
@@ -1024,6 +1061,13 @@ let rec _js2n__-refsenv
                   use = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/ComponentOrReference_for_Catalog!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.anyOf
+              [
+                _js2n__-refsenv."_js2n__-:definitions/Catalog!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/ComponentReference!predicate"
+              ]),
       "_js2n__-:definitions/ComponentOrReference_for_Dataset!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.anyOf
@@ -1434,6 +1478,10 @@ let rec _js2n__-refsenv
     }
     in
   {
+      catalogs
+        | Array
+          _js2n__-refsenv."_js2n__-:definitions/ComponentOrReference_for_Catalog!contract"
+        | optional,
       datasets
         | Array
           _js2n__-refsenv."_js2n__-:definitions/ComponentOrReference_for_Dataset!contract"
@@ -1457,6 +1505,7 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           _js2n__-refsenv."_js2n__-:definitions/SpicepodKind!predicate"
         | doc "The kind of Spicepod",
+      metadata | {  .. } | optional,
       models
         | Array
           _js2n__-refsenv."_js2n__-:definitions/ComponentOrReference_for_Model!contract"

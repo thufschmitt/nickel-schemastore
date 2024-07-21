@@ -970,7 +970,8 @@ let rec _js2n__-refsenv
                         "listViewsMine",
                         "minimizeProfiles",
                         "productrequest",
-                        "systemDebug"
+                        "systemDebug",
+                        "v60"
                       ]
                   ])
             ])

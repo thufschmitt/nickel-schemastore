@@ -928,6 +928,16 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/im2deep!predicate"
+        | doc "Ion mobility feature generator configuration using IM2Deep"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { reference_dataset = _js2n__-prdslib.isType '"String", } {}
+                true _js2n__-prdslib.always,
+              _js2n__-refsenv."_js2n__-:definitions/feature_generator!predicate"
+            ],
       "_js2n__-:definitions/ionmob!predicate"
         | doc "Ion mobility feature generator configuration using Ionmob"
         = _js2n__-prdslib.allOf
@@ -956,6 +966,13 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  train_fdr =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.numbers.maximum 1,
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
                   write_flashlfq = _js2n__-prdslib.isType '"Bool",
                   write_txt = _js2n__-prdslib.isType '"Bool",
                   write_weights = _js2n__-prdslib.isType '"Bool",
@@ -1038,6 +1055,8 @@ let rec _js2n__-refsenv
                         _js2n__-refsenv."_js2n__-:definitions/basic!predicate",
                       deeplc =
                         _js2n__-refsenv."_js2n__-:definitions/deeplc!predicate",
+                      im2deep =
+                        _js2n__-refsenv."_js2n__-:definitions/im2deep!predicate",
                       ionmob =
                         _js2n__-refsenv."_js2n__-:definitions/ionmob!predicate",
                       maxquant =
@@ -1070,6 +1089,24 @@ let rec _js2n__-refsenv
             | Bool
             | doc "Bool indicating if lower score is better"
             | optional,
+          max_psm_rank_input
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Number",
+                  _js2n__-prdslib.numbers.minimum 1
+                ])
+            | doc "Maximum rank of PSMs to use as input for rescoring"
+            | optional,
+          max_psm_rank_output
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Number",
+                  _js2n__-prdslib.numbers.minimum 1
+                ])
+            | doc "Maximum rank of PSMs to return after rescoring, before final FDR calculation"
+            | optional,
           modification_mapping
             | {  .. }
             | doc "Mapping of modification labels to each replacement label."
@@ -1093,6 +1130,10 @@ let rec _js2n__-refsenv
                 ])
             | doc "Number of parallel processes to use; -1 for all available"
             | optional,
+          profile
+            | Bool
+            | doc "Write a txt report using cProfile for profiling"
+            | optional,
           psm_file
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.oneOf
@@ -1111,6 +1152,15 @@ let rec _js2n__-refsenv
             | String
             | doc "PSM file type. By default inferred from file extension."
             | optional,
+          psm_id_im_pattern
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc "Regex pattern to extract ion mobility from PSM identifier. Requires at least one capturing group."
+            | optional,
           psm_id_pattern
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.oneOf
@@ -1119,6 +1169,15 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType 'Null
                 ])
             | doc "Regex pattern to extract index or scan number from PSM file. Requires at least one capturing group."
+            | optional,
+          psm_id_rt_pattern
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc "Regex pattern to extract retention time from PSM identifier. Requires at least one capturing group."
             | optional,
           psm_reader_kwargs
             | {  .. }
