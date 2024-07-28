@@ -910,12 +910,6 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
-                  engine_secret =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Null
-                        ],
                   indexes =
                     _js2n__-prdslib.allOf
                         [
@@ -1001,6 +995,43 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/Catalog!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "from", "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  dataset_params =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Params!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  dependsOn =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  from = _js2n__-prdslib.isType '"String",
+                  include =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  params =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Params!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/ColumnEmbeddingConfig!predicate"
         | doc "Configuration for if and how a dataset's column should be embedded."
         = _js2n__-prdslib.allOf
@@ -1024,6 +1055,13 @@ let rec _js2n__-refsenv
                   use = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/ComponentOrReference_for_Catalog!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.anyOf
+              [
+                _js2n__-refsenv."_js2n__-:definitions/Catalog!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/ComponentReference!predicate"
+              ]),
       "_js2n__-:definitions/ComponentOrReference_for_Dataset!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.anyOf
@@ -1340,35 +1378,25 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ResultsCache!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Secrets!predicate"
+      "_js2n__-:definitions/Secret!contract"
         | doc m%"
           The secrets configuration for a Spicepod.
           
-          Example: ```yaml secrets: store: file ```
+          Example: ```yaml secrets: - from: env name: env - from: kubernetes:my_secret_name name: k8s ```
         "%
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "store" ],
-              _js2n__-prdslib.records.record
-                {
-                  store =
-                    _js2n__-refsenv."_js2n__-:definitions/SpiceSecretStore!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/SpiceSecretStore!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum
-                [
-                  "file",
-                  "env",
-                  "kubernetes",
-                  "keyring",
-                  "aws_secrets_manager"
-                ]
-            ],
+        = {
+            from | String,
+            name | String,
+            params
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/Params!predicate",
+                    _js2n__-prdslib.isType 'Null
+                  ])
+              | optional,
+            ..
+          },
       "_js2n__-:definitions/SpicepodKind!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1385,7 +1413,14 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "unix_seconds", "unix_millis", "ISO8601" ]
+              _js2n__-prdslib.enum
+                [
+                  "timestamp",
+                  "timestamptz",
+                  "unix_seconds",
+                  "unix_millis",
+                  "ISO8601"
+                ]
             ],
       "_js2n__-:definitions/View!predicate" =
         _js2n__-prdslib.allOf
@@ -1434,6 +1469,10 @@ let rec _js2n__-refsenv
     }
     in
   {
+      catalogs
+        | Array
+          _js2n__-refsenv."_js2n__-:definitions/ComponentOrReference_for_Catalog!contract"
+        | optional,
       datasets
         | Array
           _js2n__-refsenv."_js2n__-:definitions/ComponentOrReference_for_Dataset!contract"
@@ -1457,6 +1496,7 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           _js2n__-refsenv."_js2n__-:definitions/SpicepodKind!predicate"
         | doc "The kind of Spicepod",
+      metadata | {  .. } | optional,
       models
         | Array
           _js2n__-refsenv."_js2n__-:definitions/ComponentOrReference_for_Model!contract"
@@ -1468,9 +1508,8 @@ let rec _js2n__-refsenv
         | doc "Optional runtime configuration"
         | optional,
       secrets
-        | _js2n__-prdslib.contract_from_predicate
-          _js2n__-refsenv."_js2n__-:definitions/Secrets!predicate"
-        | doc "Optional spicepod secrets configuration Default value is `store: file`"
+        | Array _js2n__-refsenv."_js2n__-:definitions/Secret!contract"
+        | doc "Optional spicepod secrets configuration Default value is: ```yaml secrets: - from: env name: env ```"
         | optional,
       version
         | _js2n__-prdslib.contract_from_predicate

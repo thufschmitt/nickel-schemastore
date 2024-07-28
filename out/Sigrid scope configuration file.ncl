@@ -1135,11 +1135,11 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType '"Bool",
                   _js2n__-prdslib.isType '"String"
                 ])
-            | doc "Deprecated, use 'history_enabled' instead."
+            | doc "Deprecated, this is now detected automatically."
             | optional,
           history_enabled
             | Bool
-            | doc "Disables change history analysis when set to false."
+            | doc "Deprecated, this is now detected automatically."
             | optional,
           history_end
             | _js2n__-refsenv."_js2n__-:definitions/yyyymmdd!contract"
@@ -1263,6 +1263,10 @@ let rec _js2n__-refsenv
         | _js2n__-refsenv."_js2n__-:definitions/file_pattern_list!contract"
         | doc "List of file and directory patterns to manually exclude from the analysis."
         | optional,
+      experimental
+        | Bool
+        | doc "Enable experimental analysis features."
+        | optional,
       languages
         | _js2n__-refsenv."_js2n__-:definitions/language_list!contract"
         | doc "A list of technologies that should be included as part of the analysis.",
@@ -1276,12 +1280,21 @@ let rec _js2n__-refsenv
             | _js2n__-refsenv."_js2n__-:definitions/analyzer_list!contract"
             | doc "List of third-party analyzers that should not be ran."
             | optional,
+          disabled_rules
+            | Array (String)
+            | doc "List of rule IDs that should not be reported by Sigrid."
+            | optional,
           enabled
             | Bool
-            | doc "When true, third party findings analysis will be triggered for each incoming upload.",
+            | doc "When true, third party findings analysis will be triggered for each incoming upload."
+            | optional,
           enabled_analyzers
             | _js2n__-refsenv."_js2n__-:definitions/analyzer_list!contract"
             | doc "List of third-party analyzer names that should be ran even though they are disabled by default."
+            | optional,
+          enabled_rules
+            | Array (String)
+            | doc "List of rule IDs that should be reported by Sigrid, even though they are disabled by default."
             | optional,
           exclude
             | _js2n__-refsenv."_js2n__-:definitions/file_pattern_list!contract"

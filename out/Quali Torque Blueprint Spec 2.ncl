@@ -976,14 +976,14 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType '"Bool"
                         ],
-                  description = _js2n__-prdslib.isType '"String",
-                  display-style =
+                  depends-on =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [ "multiline", "normal", "masked" ]
+                          _js2n__-prdslib.strings.pattern
+                            "^((.+)(,\\s*)?)+[^,]$"
                         ],
+                  description = _js2n__-prdslib.isType '"String",
                   parameter-name = _js2n__-prdslib.isType '"String",
                   pattern = _js2n__-prdslib.isType '"String",
                   sensitive = _js2n__-prdslib.isType '"Bool",
@@ -1099,7 +1099,8 @@ let rec _js2n__-refsenv
                               "shell",
                               "cloudshell",
                               "argocd",
-                              "opentofu"
+                              "opentofu",
+                              "terragrunt"
                             ]
                         ],
                   spec =
@@ -1172,6 +1173,7 @@ let rec _js2n__-refsenv
                   backend =
                     _js2n__-refsenv."_js2n__-:definitions/Backend!predicate",
                   binary = _js2n__-prdslib.isType '"String",
+                  built-in = _js2n__-prdslib.isType '"Bool",
                   command-arguments = _js2n__-prdslib.isType '"String",
                   commands =
                     _js2n__-prdslib.allOf

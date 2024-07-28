@@ -1245,7 +1245,7 @@ let rec _js2n__-refsenv
                         } {} true _js2n__-prdslib.always
                     ]
                 ],
-              _js2n__-prdslib.records.required [ "name", "source-locations" ],
+              _js2n__-prdslib.records.required [ "name" ],
               _js2n__-prdslib.records.record
                 {
                   description =
@@ -1258,7 +1258,11 @@ let rec _js2n__-refsenv
                   source-locations =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/FilePath!predicate"
                         ],
@@ -1853,16 +1857,32 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.enum [ "append", "merge", "delete+insert" ]
             ],
       "_js2n__-:definitions/IndexMethod!predicate" =
-        _js2n__-prdslib.allOf
+        _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum
+              _js2n__-prdslib.allOf
                 [
-                  "none",
-                  "table-name",
-                  "schema-table-name",
-                  "catalog-schema-table-name",
-                  "scan-dbt"
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "scan-dbt" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "none" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "table-name" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "schema-table-name" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "catalog-schema-table-name" ]
                 ]
             ],
       "_js2n__-:definitions/Integration!predicate"
@@ -1988,19 +2008,60 @@ let rec _js2n__-refsenv
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Materialization!predicate" =
-        _js2n__-prdslib.allOf
+        _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum
+              _js2n__-prdslib.allOf
                 [
-                  "table",
-                  "temporary-table",
-                  "external-table",
-                  "view",
-                  "materialized-view",
-                  "incremental-table",
-                  "snapshot-table",
-                  "recursive-table"
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "transient-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "temporary-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "external-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "view" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "materialized-view" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "incremental-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "snapshot-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "recursive-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "other" ],
+                  _js2n__-prdslib.records.record
+                    { other = _js2n__-prdslib.isType '"String", } {} false
+                    _js2n__-prdslib.never
                 ]
             ],
       "_js2n__-:definitions/OnSchemaChange!predicate" =
@@ -2265,6 +2326,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  time-travel-qualifier =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/SyncType!predicate" =
@@ -2423,11 +2490,7 @@ let rec _js2n__-refsenv
                         ],
                   name = _js2n__-prdslib.isType '"String",
                   origin =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-refsenv."_js2n__-:definitions/TableOrigin!predicate",
-                          _js2n__-prdslib.isType 'Null
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/TableOrigin!predicate",
                   partitioned-by =
                     _js2n__-prdslib.allOf
                         [
