@@ -895,4 +895,397 @@ let _js2n__-prdslib
         },
   }
   in
-let rec _js2n__-refsenv = {} in Dyn
+let rec _js2n__-refsenv
+    = {}
+    in
+  {
+      zerops
+        | Array
+          {
+            build
+              | {
+                addToRunPrepare
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ]
+                      ])
+                  | doc "Defines what files or folders will be copied from the build container to the prepare runtime container. The prepare runtime container is used to customize your runtime environment."
+                  | optional,
+                base
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.enum
+                          [
+                            "dotnet@7",
+                            "go@latest",
+                            "java@21",
+                            "nodejs@latest",
+                            "rust@latest",
+                            "deno@1.44.4",
+                            "dotnet@6",
+                            "go@1.22",
+                            "nginx@latest",
+                            "python@3.11",
+                            "3.18",
+                            "deno@1",
+                            "deno@latest",
+                            "php-apache@latest",
+                            "python@latest",
+                            "3.17",
+                            "rust@1.78",
+                            "static@1.0",
+                            "static@latest",
+                            "bun@1.1.15",
+                            "dotnet@8",
+                            "dotnet@latest",
+                            "java@17",
+                            "java@latest",
+                            "nginx@1.22",
+                            "php-nginx@8.3",
+                            "ubuntu@22.04",
+                            "bun@latest",
+                            "golang@latest",
+                            "nodejs@22",
+                            "php-apache@8.3",
+                            "php-nginx@8.1",
+                            "ubuntu@latest",
+                            "bun@1.1",
+                            "nodejs@20",
+                            "php-apache@8.1",
+                            "3.19",
+                            "runtime@latest",
+                            "static",
+                            "22.04",
+                            "go@1",
+                            "golang@1",
+                            "nodejs@18",
+                            "php-nginx@latest",
+                            "python@3.12"
+                          ],
+                        _js2n__-prdslib.oneOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ]
+                          ]
+                      ])
+                  | doc "Sets the base technology for the build environment. If you need to install more technologies to the build environment, set multiple values as a yaml array."
+                  | optional,
+                buildCommands
+                  | Array (String)
+                  | doc "Defines build commands. At least one command is required. Zerops triggers each command in the defined order in a dedicated build container."
+                  | optional,
+                cache
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ]
+                      ])
+                  | doc "Defines which files or folders will be cached for the next build."
+                  | optional,
+                deploy
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ]
+                      ])
+                  | optional,
+                deployFiles
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ]
+                      ])
+                  | doc "Selects which files or folders will be deployed after the build has successfully finished. To filter out specific files or folders, use .deployignore file.",
+                envVariables
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record {} {} true
+                          (_js2n__-prdslib.isType '"String")
+                      ])
+                  | doc "Defines the environment variables for the build environment."
+                  | optional,
+                os
+                  | std.enum.TagOrString
+                  | [| 'alpine, 'ubuntu |]
+                  | doc "Sets the operating system for the runtime environment."
+                  | optional,
+                prepareCommands
+                  | Array (String)
+                  | doc "Customises the build environment by installing additional dependencies or tools to the base build environment."
+                  | optional,
+              }
+              | doc "Build pipeline configuration."
+              | optional,
+            deploy
+              | {
+                readinessCheck
+                  | {
+                    exec
+                      | {
+                        command
+                          | String
+                          | doc "Defines a local command to be run. The command has access to the same environment variables. A single string is required. If you need to run multiple commands create a shell script or, use a multiline format as in the example below.",
+                      }
+                      | doc "Configures the readiness check to run a local command."
+                      | optional,
+                    httpGet
+                      | {
+                        host
+                          | String
+                          | doc "The readiness check is triggered from inside of your runtime container so it always uses the localhost (127.0.0.1). If you need to add a host to the request header, specify it in the host attribute."
+                          | optional,
+                        path
+                          | String
+                          | doc "Defines the URL path of the HTTP GET request.",
+                        port
+                          | std.number.Integer
+                          | doc "Defines the port of the HTTP GET request.",
+                        scheme
+                          | String
+                          | doc "The readiness check is triggered from inside of your runtime container so no https is required. If your application requires a https request, set scheme: https"
+                          | optional,
+                      }
+                      | doc "Configures the readiness check to request a local URL using a http GET method."
+                      | optional,
+                  }
+                  | doc "Defines a readiness check. Requires either httpGet object or exec object."
+                  | optional,
+                temporaryShutdown | Bool | optional,
+              }
+              | doc "Deploy configuration."
+              | optional,
+            extends
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"Array",
+                        _js2n__-prdslib.arrays.arrayOf
+                          (_js2n__-prdslib.isType '"String")
+                      ]
+                  ])
+              | optional,
+            run
+              | {
+                base
+                  | std.enum.TagOrString
+                  | [|
+                    '"3.17",
+                    '"python@latest",
+                    '"php-apache@latest",
+                    '"deno@latest",
+                    '"static@latest",
+                    '"static@1.0",
+                    '"rust@1.78",
+                    '"deno@1",
+                    '"nginx@latest",
+                    '"go@1.22",
+                    '"dotnet@6",
+                    '"deno@1.44.4",
+                    '"3.18",
+                    '"python@3.11",
+                    '"nodejs@latest",
+                    '"java@21",
+                    '"go@latest",
+                    '"dotnet@7",
+                    '"rust@latest",
+                    '"nodejs@18",
+                    '"golang@1",
+                    '"go@1",
+                    '"22.04",
+                    '"python@3.12",
+                    '"php-nginx@latest",
+                    '"php-apache@8.1",
+                    '"nodejs@20",
+                    '"bun@1.1",
+                    '"ubuntu@latest",
+                    'static,
+                    '"runtime@latest",
+                    '"3.19",
+                    '"nodejs@22",
+                    '"golang@latest",
+                    '"bun@latest",
+                    '"ubuntu@22.04",
+                    '"php-nginx@8.1",
+                    '"php-apache@8.3",
+                    '"java@17",
+                    '"dotnet@latest",
+                    '"dotnet@8",
+                    '"bun@1.1.15",
+                    '"php-nginx@8.3",
+                    '"nginx@1.22",
+                    '"java@latest"
+                  |]
+                  | doc "Sets the base technology for the runtime environment. If you don't specify the run.base attribute, Zerops keeps the current version for your runtime."
+                  | optional,
+                documentRoot
+                  | String
+                  | doc "Customizes the folder that will be used as the root of the publicly accessible web server content. This attribute is available only for runtimes with webservers."
+                  | optional,
+                envReplace
+                  | {
+                    delimiter
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.oneOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ]
+                          ]),
+                    target
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.oneOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ]
+                          ]),
+                  }
+                  | optional,
+                envVariables
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record {} {} true
+                          (_js2n__-prdslib.isType '"String")
+                      ])
+                  | doc "Defines the environment variables for the runtime environment."
+                  | optional,
+                healthCheck
+                  | {
+                    exec
+                      | {
+                        command
+                          | String
+                          | doc "Defines a local command to be run. The command has access to the same environment variables. A single string is required. If you need to run multiple commands create a shell script or, use a multiline format as in the example below.",
+                      }
+                      | doc "Configures the readiness check to run a local command."
+                      | optional,
+                    httpGet
+                      | {
+                        host
+                          | String
+                          | doc "The readiness check is triggered from inside of your runtime container so it always uses the localhost (127.0.0.1). If you need to add a host to the request header, specify it in the host attribute."
+                          | optional,
+                        path
+                          | String
+                          | doc "Defines the URL path of the HTTP GET request.",
+                        port
+                          | std.number.Integer
+                          | doc "Defines the port of the HTTP GET request.",
+                        scheme
+                          | String
+                          | doc "The readiness check is triggered from inside of your runtime container so no https is required. If your application requires a https request, set scheme: https"
+                          | optional,
+                      }
+                      | doc "Configures the readiness check to request a local URL using a http GET method."
+                      | optional,
+                  }
+                  | doc "Defines a health check."
+                  | optional,
+                initCommands
+                  | Array (String)
+                  | doc "Defines one or more commands to be run each time a new runtime container is started or a container is restarted."
+                  | optional,
+                os
+                  | std.enum.TagOrString
+                  | [| 'ubuntu, 'alpine |]
+                  | doc "Sets the operating system for the runtime environment."
+                  | optional,
+                ports
+                  | Array
+                    {
+                      description | String | optional,
+                      httpSupport
+                        | Bool
+                        | doc "True is the default setting for TCP protocol. Set false if a web server isn't running on the port. Zerops uses this information for the configuration of public access. True is available only in combination with the TCP protocol."
+                        | optional,
+                      port
+                        | std.number.Integer
+                        | doc "Defines the port number. You can set any port number between 10 and 65435. Ports outside this interval are reserved for internal Zerops systems.",
+                      protocol
+                        | std.enum.TagOrString
+                        | [| 'udp, 'tcp |]
+                        | doc "Defines the protocol. Allowed values are TCP or UDP. Default value is TCP."
+                        | optional,
+                    }
+                  | doc "Specifies one or more internal ports on which your application will listen."
+                  | optional,
+                prepareCommands
+                  | Array (String)
+                  | doc "Customises the runtime environment by installing additional dependencies or tools to the base runtime environment."
+                  | optional,
+                routing
+                  | {
+                    redirects
+                      | Array
+                        {
+                          from | String,
+                          status | std.number.Integer | optional,
+                          to | String,
+                        }
+                      | optional,
+                    root | String | optional,
+                  }
+                  | optional,
+                siteConfigPath
+                  | String
+                  | doc "Sets the custom webserver configuration. This attribute is available only for runtimes with webservers."
+                  | optional,
+                start
+                  | String
+                  | doc "Defines the start command for your application."
+                  | optional,
+              }
+              | doc "Runtime configuration."
+              | optional,
+            setup
+              | String
+              | doc "The first element setup contains the hostname of your service. A runtime service with the same hostname must exist in Zerops. Zerops supports the definition of multiple runtime services in a single zerops.yml. This is useful when you use a monorepo. Just add multiple setup elements in your zerops.yml.",
+          }
+        | doc "The top-level element is always zerops.",
+    }

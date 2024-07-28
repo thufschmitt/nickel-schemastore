@@ -1129,6 +1129,12 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
         | doc "Configuration object for the bitbucket-pipelines manager"
         | optional,
+      bitrise
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+        | doc "Configuration object for the bitrise manager"
+        | optional,
       branchConcurrentLimit
         | std.number.Integer
         | doc "Limit to a maximum of x concurrent branches. 0 means no limit, `null` (default) inherits value from `prConcurrentLimit`."
@@ -2056,8 +2062,6 @@ let rec _js2n__-refsenv
         | String
         | doc "Add a global or per-repo log context to each log entry."
         | optional,
-      logFile | String | doc "Log file path." | optional,
-      logFileLevel | String | doc "Set the log file log level." | optional,
       logLevelRemap
         | Array (
           _js2n__-prdslib.contract_from_predicate
@@ -2264,7 +2268,8 @@ let rec _js2n__-refsenv
         | doc "Change this value to override the default onboarding config file name."
         | optional,
       onboardingNoDeps
-        | Bool
+        | std.enum.TagOrString
+        | [| 'disabled, 'enabled, 'auto |]
         | doc "Onboard the repository even if no dependencies are found."
         | optional,
       onboardingPrTitle
@@ -2300,83 +2305,6 @@ let rec _js2n__-refsenv
                     allowedVersions = _js2n__-prdslib.isType '"String",
                     changelogUrl = _js2n__-prdslib.isType '"String",
                     description =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
-                    excludeDepNames =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
-                    excludeDepPatterns =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
-                    excludeDepPrefixes =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
-                    excludePackageNames =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
-                    excludePackagePatterns =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
-                    excludePackagePrefixes =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
-                    excludeRepositories =
                       _js2n__-prdslib.oneOf
                           [
                             _js2n__-prdslib.allOf
@@ -2460,28 +2388,6 @@ let rec _js2n__-refsenv
                               ],
                             _js2n__-prdslib.isType '"String"
                           ],
-                    matchDepPatterns =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
-                    matchDepPrefixes =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
                     matchDepTypes =
                       _js2n__-prdslib.oneOf
                           [
@@ -2523,40 +2429,7 @@ let rec _js2n__-refsenv
                               ],
                             _js2n__-prdslib.isType '"String"
                           ],
-                    matchPackagePatterns =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
-                    matchPackagePrefixes =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
                     matchRepositories =
-                      _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                            _js2n__-prdslib.isType '"String"
-                          ],
-                    matchSourceUrlPrefixes =
                       _js2n__-prdslib.oneOf
                           [
                             _js2n__-prdslib.allOf
@@ -2709,7 +2582,8 @@ let rec _js2n__-refsenv
         | doc "Controls if platform-native auto-merge is used."
         | optional,
       platformCommit
-        | Bool
+        | std.enum.TagOrString
+        | [| 'enabled, 'disabled, 'auto |]
         | doc "Use platform API to perform commits instead of using Git directly."
         | optional,
       poetry
@@ -3203,10 +3077,6 @@ let rec _js2n__-refsenv
         | doc "Must conform to [IANA Time Zone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) format."
         | optional,
       token | String | doc "Repository Auth Token." | optional,
-      transitiveRemediation
-        | Bool
-        | doc "Enable remediation of transitive dependencies."
-        | optional,
       travis
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

@@ -903,6 +903,22 @@ let rec _js2n__-refsenv
         | String
         | doc "The name of the archive to use for the slice. Archives are defined in the chisel.yaml file."
         | optional,
+      essential
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.pattern
+                      "^[a-z0-9][a-z0-9+\\-\\._]+$"
+                  ]),
+              _js2n__-prdslib.arrays.uniqueItems
+            ])
+        | doc "A list of slices that are a dependency for all slices of this package. Each slice item is formatted as '<slice_name>_<slice_part>'."
+        | optional,
       package
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

@@ -1967,6 +1967,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/retry!predicate",
                   rules =
                     _js2n__-refsenv."_js2n__-:definitions/rules!predicate",
+                  run = _js2n__-refsenv."_js2n__-:definitions/steps!predicate",
                   script =
                     _js2n__-refsenv."_js2n__-:definitions/script!predicate",
                   secrets =
@@ -2676,6 +2677,42 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.strings.minLength 1
+            ],
+      "_js2n__-:definitions/steps!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "step" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "script" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ],
+                    _js2n__-prdslib.records.required [ "name" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        env =
+                          _js2n__-refsenv."_js2n__-:definitions/globalVariables!predicate",
+                        inputs =
+                          _js2n__-refsenv."_js2n__-:definitions/inputs!predicate",
+                        name = _js2n__-prdslib.isType '"String",
+                        script = _js2n__-prdslib.isType '"String",
+                        step = _js2n__-prdslib.isType '"String",
+                      } {} false _js2n__-prdslib.never
+                  ])
             ],
       "_js2n__-:definitions/string_file_list!predicate" =
         _js2n__-prdslib.oneOf
