@@ -3924,6 +3924,7 @@ let rec _js2n__-refsenv
                   "UP040",
                   "UP041",
                   "UP042",
+                  "UP043",
                   "W",
                   "W1",
                   "W19",

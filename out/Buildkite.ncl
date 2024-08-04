@@ -1299,6 +1299,7 @@ let rec _js2n__-refsenv
               name =
                 _js2n__-refsenv."_js2n__-:definitions/groupStep/properties/label!predicate",
               notify = _js2n__-prdslib.always,
+              skip = _js2n__-prdslib.always,
               steps =
                 _js2n__-prdslib.allOf
                     [
@@ -1538,7 +1539,6 @@ let rec _js2n__-refsenv
               agents = _js2n__-prdslib.always,
               env = _js2n__-prdslib.always,
               notify = _js2n__-prdslib.always,
-              skip = _js2n__-prdslib.always,
               steps =
                 _js2n__-prdslib.allOf
                     [
