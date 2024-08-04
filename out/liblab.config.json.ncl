@@ -1489,7 +1489,7 @@ let rec _js2n__-refsenv
                                     {
                                       additionalConstructorParameters =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/go/properties/additionalConstructorParameters!predicate",
-                                      artifactid =
+                                      artifactId =
                                         _js2n__-prdslib.isType '"String",
                                       authors =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/authors!predicate",

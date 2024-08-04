@@ -975,6 +975,28 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.oneOf
                 [
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "agent" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "impersonate" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "ci_job" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ]),
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.records.required [ "agent" ],
@@ -1106,6 +1128,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   id = _js2n__-prdslib.isType '"String",
+                  protected_branches_only = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/gitlab.agent.agentcfg.CiAccessProjectCF!predicate" =
@@ -1137,6 +1160,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   id = _js2n__-prdslib.isType '"String",
+                  protected_branches_only = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/gitlab.agent.agentcfg.ContainerScanningCF!predicate" =
@@ -1210,8 +1234,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String"),
-                          _js2n__-prdslib.arrays.minItems 1
+                            (_js2n__-prdslib.isType '"String")
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1219,15 +1242,6 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "enabled" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ]
-                ],
               _js2n__-prdslib.records.record
                 {
                   enabled = _js2n__-prdslib.isType '"Bool",
@@ -1248,6 +1262,28 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.oneOf
                 [
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "tag" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "branch" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "commit" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ]),
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.records.required [ "tag" ],
@@ -1307,15 +1343,6 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "grpc_level" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ]
-                ],
               _js2n__-prdslib.records.record
                 {
                   grpc_level =
@@ -1340,12 +1367,13 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.oneOf
                 [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "id" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ],
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "prune" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]),
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.records.required [ "prune" ],
@@ -1427,36 +1455,6 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "workspaces_quota" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required
-                        [ "workspaces_per_user_quota" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required
-                        [ "default_max_hours_before_termination" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required
-                        [ "max_hours_before_termination_limit" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ]
-                ],
               _js2n__-prdslib.records.record
                 {
                   default_max_hours_before_termination =
@@ -1541,6 +1539,22 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.oneOf
                 [
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "agent" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "user" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ]),
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.records.required [ "agent" ],
@@ -1655,15 +1669,6 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "enabled" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ]
-                ],
               _js2n__-prdslib.records.record
                 {
                   egress =

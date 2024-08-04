@@ -933,7 +933,7 @@ let rec _js2n__-refsenv
                 name | String | doc "The name of the schema",
                 parser
                   | std.enum.TagOrString
-                  | [| 'json5, 'yaml, 'json |]
+                  | [| 'yaml, 'toml, 'json5, 'json |]
                   | doc "A custom parser to use for files matching fileMatch instead of trying to infer the correct parser from the filename"
                   | optional,
               }

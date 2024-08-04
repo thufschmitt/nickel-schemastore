@@ -1894,17 +1894,45 @@ let rec _js2n__-refsenv
                                             [ "link" ],
                                           _js2n__-prdslib.records.record
                                             {
+                                              cloud =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
                                               color =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              description =
+                                                _js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
+                                                    ],
                                               icon =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              intro =
+                                                _js2n__-prdslib.isType '"Bool",
                                               link =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              name =
+                                                _js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
+                                                    ],
+                                              order =
+                                                _js2n__-prdslib.isType
+                                                    '"Number",
                                               pro =
-                                                _js2n__-prdslib.isType '"Bool",
+                                                _js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                      _js2n__-prdslib.isType
+                                                        '"String"
+                                                    ],
                                             } {} false _js2n__-prdslib.never
                                         ]
                                     ],
