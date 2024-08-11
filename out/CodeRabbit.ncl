@@ -951,6 +951,10 @@ let rec _js2n__-refsenv
                       | optional,
                   }
                   | optional,
+                opt_out
+                  | Bool
+                  | doc "Opt out | Opt out of all knowledge base features."
+                  | optional,
               }
               | optional,
             language
@@ -1174,6 +1178,28 @@ let rec _js2n__-refsenv
                       }
                       | doc "Checkov is a static code analysis tool for infrastructure-as-code files."
                       | optional,
+                    detekt
+                      | {
+                        config_file
+                          | String
+                          | doc "Optional path to the Detekt configuration file relative to the repository."
+                          | optional,
+                        enabled
+                          | Bool
+                          | doc "Enable Detekt | Detekt is a static code analysis tool for Kotlin files."
+                          | optional,
+                      }
+                      | doc "Detekt is a static code analysis tool for Kotlin files."
+                      | optional,
+                    eslint
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable ESLint | ESLint is a static code analysis tool for JavaScript files."
+                          | optional,
+                      }
+                      | doc "ESLint is a static code analysis tool for JavaScript files."
+                      | optional,
                     github-checks
                       | {
                         enabled
@@ -1301,6 +1327,15 @@ let rec _js2n__-refsenv
                           | optional,
                       }
                       | doc "PHPStan is a tool to analyze PHP code."
+                      | optional,
+                    rubocop
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable Rubocop | RuboCop is a Ruby static code analyzer (a.k.a. linter ) and code formatter."
+                          | optional,
+                      }
+                      | doc "RuboCop is a Ruby static code analyzer (a.k.a. linter ) and code formatter."
                       | optional,
                     ruff
                       | {

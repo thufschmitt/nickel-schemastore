@@ -1067,6 +1067,17 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  builtins-allowed-modules =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   builtins-ignorelist =
                     _js2n__-prdslib.allOf
                         [
@@ -1774,7 +1785,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType 'Null
                             ],
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/NameImports!predicate"
                         ],
                   section-order =
                     _js2n__-prdslib.allOf
@@ -2294,6 +2305,8 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/NameImports!predicate" =
+        _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/OutputFormat!predicate" =
         _js2n__-prdslib.oneOf
             [
@@ -2663,6 +2676,9 @@ let rec _js2n__-refsenv
                   "A001",
                   "A002",
                   "A003",
+                  "A004",
+                  "A005",
+                  "A006",
                   "AIR",
                   "AIR0",
                   "AIR00",
@@ -2871,6 +2887,19 @@ let rec _js2n__-refsenv
                   "DJ01",
                   "DJ012",
                   "DJ013",
+                  "DOC",
+                  "DOC2",
+                  "DOC20",
+                  "DOC201",
+                  "DOC202",
+                  "DOC4",
+                  "DOC40",
+                  "DOC402",
+                  "DOC403",
+                  "DOC5",
+                  "DOC50",
+                  "DOC501",
+                  "DOC502",
                   "DTZ",
                   "DTZ0",
                   "DTZ00",
@@ -3058,6 +3087,11 @@ let rec _js2n__-refsenv
                   "FA10",
                   "FA100",
                   "FA102",
+                  "FAST",
+                  "FAST0",
+                  "FAST00",
+                  "FAST001",
+                  "FAST002",
                   "FBT",
                   "FBT0",
                   "FBT00",
@@ -3924,6 +3958,7 @@ let rec _js2n__-refsenv
                   "UP040",
                   "UP041",
                   "UP042",
+                  "UP043",
                   "W",
                   "W1",
                   "W19",
@@ -4467,6 +4502,8 @@ let rec _js2n__-refsenv
           
           Inclusion are based on globs, and should be single-path patterns, like `*.pyw`, to include any file with the `.pyw` extension. `pyproject.toml` is included here not for configuration but because we lint whether e.g. the `[project]` matches the schema.
           
+          If [preview](https://docs.astral.sh/ruff/preview/) is enabled, the default includes notebook files (`.ipynb` extension). You can exclude them by adding `*.ipynb` to [`extend-exclude`](#extend-exclude).
+          
           For more information on the glob syntax, refer to the [`globset` documentation](https://docs.rs/globset/latest/globset/#syntax).
         "%
         | optional,
@@ -4575,7 +4612,7 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/OutputFormat!predicate",
               _js2n__-prdslib.isType 'Null
             ])
-        | doc "The style in which violation messages should be formatted: `\"full\"` (shows source), `\"concise\"` (default), `\"grouped\"` (group messages by file), `\"json\"` (machine-readable), `\"junit\"` (machine-readable XML), `\"github\"` (GitHub Actions annotations), `\"gitlab\"` (GitLab CI code quality report), `\"pylint\"` (Pylint text format) or `\"azure\"` (Azure Pipeline logging commands)."
+        | doc "The style in which violation messages should be formatted: `\"full\"` (default) (shows source), `\"concise\"`, `\"grouped\"` (group messages by file), `\"json\"` (machine-readable), `\"junit\"` (machine-readable XML), `\"github\"` (GitHub Actions annotations), `\"gitlab\"` (GitLab CI code quality report), `\"pylint\"` (Pylint text format) or `\"azure\"` (Azure Pipeline logging commands)."
         | optional,
       pep8-naming
         | _js2n__-prdslib.contract_from_predicate

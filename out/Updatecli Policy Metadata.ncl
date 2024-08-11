@@ -903,6 +903,10 @@ let rec _js2n__-refsenv
         | Array (String)
         | doc "Authors is a list of authors of the policy"
         | optional,
+      changelog
+        | String
+        | doc "Changelog is the URL of the policy changelog"
+        | optional,
       description
         | String
         | doc "Description is the policy description"

@@ -4907,6 +4907,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.IdempotentConsumerDefinition!predicate",
                   kamelet =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.KameletDefinition!predicate",
+                  langChain4j =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jTokenizerDefinition!predicate",
                   loadBalance =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.LoadBalanceDefinition!predicate",
                   log =
@@ -14093,6 +14095,27 @@ let rec _js2n__-refsenv
                 {
                   key = _js2n__-prdslib.isType '"String",
                   scopes = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jTokenizerDefinition!predicate"
+        | doc "Tokenizer that uses LangChain4j for tokenization."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
+              _js2n__-prdslib.records.record
+                {
+                  description = _js2n__-prdslib.isType '"String",
+                  disabled = _js2n__-prdslib.isType '"Bool",
+                  id = _js2n__-prdslib.isType '"String",
+                  maxOverlap = _js2n__-prdslib.isType '"Number",
+                  maxTokens = _js2n__-prdslib.isType '"Number",
+                  tokenizerType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "OPEN_AI", "AZURE", "QWEN" ]
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
     }

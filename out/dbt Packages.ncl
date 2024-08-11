@@ -896,186 +896,60 @@ let _js2n__-prdslib
   }
   in
 let rec _js2n__-refsenv
-    = {
-      "_js2n__-:definitions/AnchoredUnixPath!predicate" =
-        _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/EnvWildcard!predicate" =
-        _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/OutputMode!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum
-                [ "full", "hash-only", "new-only", "errors-only", "none" ]
-            ],
-      "_js2n__-:definitions/Pipeline!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  cache = _js2n__-prdslib.isType '"Bool",
-                  dependsOn =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  dotEnv =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/AnchoredUnixPath!predicate"
-                            ]
-                        ],
-                  env =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/EnvWildcard!predicate"
-                        ],
-                  inputs =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  interactive = _js2n__-prdslib.isType '"Bool",
-                  outputLogs =
-                    _js2n__-refsenv."_js2n__-:definitions/OutputMode!predicate",
-                  outputs =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  passThroughEnv =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/EnvWildcard!predicate"
-                            ]
-                        ],
-                  persistent = _js2n__-prdslib.isType '"Bool",
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/RemoteCache!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  enabled = _js2n__-prdslib.isType '"Bool",
-                  signature = _js2n__-prdslib.isType '"Bool",
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/RootSchema!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "tasks" ],
-              _js2n__-prdslib.records.record
-                {
-                  "$schema" = _js2n__-prdslib.isType '"String",
-                  dangerouslyDisablePackageManagerCheck =
-                    _js2n__-prdslib.isType '"Bool",
-                  globalDependencies =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  globalDotEnv =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/AnchoredUnixPath!predicate"
-                            ]
-                        ],
-                  globalEnv =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/EnvWildcard!predicate"
-                        ],
-                  globalPassThroughEnv =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/EnvWildcard!predicate"
-                            ]
-                        ],
-                  remoteCache =
-                    _js2n__-refsenv."_js2n__-:definitions/RemoteCache!predicate",
-                  tasks =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/Pipeline!predicate"
-                        ],
-                  ui = _js2n__-refsenv."_js2n__-:definitions/UI!predicate",
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/Schema!contract" =
-        _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.anyOf
-              [
-                _js2n__-refsenv."_js2n__-:definitions/RootSchema!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/WorkspaceSchema!predicate"
-              ]),
-      "_js2n__-:definitions/UI!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "tui", "stream" ]
-            ],
-      "_js2n__-:definitions/WorkspaceSchema!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "extends", "tasks" ],
-              _js2n__-prdslib.records.record
-                {
-                  "$schema" = _js2n__-prdslib.isType '"String",
-                  extends =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  tasks =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/Pipeline!predicate"
-                        ],
-                } {} false _js2n__-prdslib.never
-            ],
-    }
+    = {}
     in
-  _js2n__-refsenv."_js2n__-:definitions/Schema!contract"
+  {
+      packages
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required
+                          [ "package", "version" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            install-prerelease = _js2n__-prdslib.isType '"Bool",
+                            package =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.pattern
+                                      "^[\\w\\-\\.]+/[\\w\\-\\.]+$"
+                                  ],
+                            version =
+                              _js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.isType '"Number",
+                                    _js2n__-prdslib.isType '"Array"
+                                  ],
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "git" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            git = _js2n__-prdslib.isType '"String",
+                            revision = _js2n__-prdslib.isType '"String",
+                            subdirectory = _js2n__-prdslib.isType '"String",
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          { local = _js2n__-prdslib.isType '"String", } {} false
+                          _js2n__-prdslib.never
+                      ]
+                  ]),
+              _js2n__-prdslib.arrays.minItems 1
+            ]),
+    }
