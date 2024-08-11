@@ -897,6 +897,13 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/Capitalization!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [ "upper", "lower", "pascal", "snake", "camel", "consistent" ]
+            ],
       "_js2n__-:definitions/Cardinality!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1016,6 +1023,12 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/Constraint!predicate"
                         ],
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ColumnQualifier!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "qualified", "unqualified", "consistent" ]
             ],
       "_js2n__-:definitions/CompressionType!predicate"
         | doc "Compress table data using these methods"
@@ -1245,7 +1258,7 @@ let rec _js2n__-refsenv
                         } {} true _js2n__-prdslib.always
                     ]
                 ],
-              _js2n__-prdslib.records.required [ "name", "source-locations" ],
+              _js2n__-prdslib.records.required [ "name" ],
               _js2n__-prdslib.records.record
                 {
                   description =
@@ -1258,7 +1271,11 @@ let rec _js2n__-refsenv
                   source-locations =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/FilePath!predicate"
                         ],
@@ -1352,6 +1369,12 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-refsenv."_js2n__-:definitions/IndexMethod!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  linter =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
                   materialization =
@@ -1744,6 +1767,12 @@ let rec _js2n__-refsenv
                   secret_key = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/ImplicitConversionOperators!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "eq", "in" ]
+            ],
       "_js2n__-:definitions/IncludePath!predicate"
         | doc "All file path should either be relative to the workspace, or absolute for an object store like AWS s3:// Note that an [IncludePath] specifies a catalog and schema scope for unqualified names (in effect for both creating and querying tables). See [IncludePath::default_catalog] and [IncludePath::default_schema]."
         = _js2n__-prdslib.allOf
@@ -1806,6 +1835,16 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "spec" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "macro" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
                   _js2n__-prdslib.enum [ "seed" ]
                 ]
             ],
@@ -1853,16 +1892,32 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.enum [ "append", "merge", "delete+insert" ]
             ],
       "_js2n__-:definitions/IndexMethod!predicate" =
-        _js2n__-prdslib.allOf
+        _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum
+              _js2n__-prdslib.allOf
                 [
-                  "none",
-                  "table-name",
-                  "schema-table-name",
-                  "catalog-schema-table-name",
-                  "scan-dbt"
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "scan-dbt" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "none" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "table-name" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "schema-table-name" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "catalog-schema-table-name" ]
                 ]
             ],
       "_js2n__-:definitions/Integration!predicate"
@@ -1951,6 +2006,13 @@ let rec _js2n__-refsenv
                   name = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/LayoutRules!predicate"
+        | doc "Arriving soon"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/Lineage!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1987,20 +2049,110 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Materialization!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Linter!predicate"
+        | doc "A configuration with section name and properties"
+        = _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  check-rules =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.isType 'Null
+                              ])
+                        ],
+                  layout-rules =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/LayoutRules!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  performance-rules =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/PerformanceRules!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  semantic-rules =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/SemanticRules!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  syntax-rules =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/SyntaxRules!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Materialization!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
                 [
-                  "table",
-                  "temporary-table",
-                  "external-table",
-                  "view",
-                  "materialized-view",
-                  "incremental-table",
-                  "snapshot-table",
-                  "recursive-table"
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "transient-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "temporary-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "external-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "view" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "materialized-view" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "incremental-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "snapshot-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "recursive-table" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "other" ],
+                  _js2n__-prdslib.records.record
+                    { other = _js2n__-prdslib.isType '"String", } {} false
+                    _js2n__-prdslib.never
                 ]
             ],
       "_js2n__-:definitions/OnSchemaChange!predicate" =
@@ -2146,6 +2298,20 @@ let rec _js2n__-refsenv
                   name = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/PerformanceRules!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  flag-function-application-in-where-on-indexed-columns =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/Preprocessor!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2180,6 +2346,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/RuleOn!predicate" =
+        _js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.enum [ "on" ] ],
       "_js2n__-:definitions/RustFunctionSpec!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2206,6 +2375,45 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
                 [ "interactive", "headless", "id_token_from_file" ]
+            ],
+      "_js2n__-:definitions/SemanticRules!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  case-alias =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Capitalization!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  case-column =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Capitalization!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  case-function =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Capitalization!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  case-table =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Capitalization!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  disallow-implicit-conversions-in =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ImplicitConversionOperators!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Severity!predicate"
         | doc "Supported dialects"
@@ -2265,7 +2473,19 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  time-travel-qualifier =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SubQueryScope!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "join", "from" ]
             ],
       "_js2n__-:definitions/SyncType!predicate" =
         _js2n__-prdslib.oneOf
@@ -2290,6 +2510,139 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType '"String",
                   _js2n__-prdslib.enum [ "never" ]
                 ]
+            ],
+      "_js2n__-:definitions/SyntaxRules!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  case-keyword =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Capitalization!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  case-literal =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Capitalization!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  case-type =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Capitalization!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  disallow-subquery-in =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/SubQueryScope!predicate"
+                        ],
+                  disallow-these-chars-in-quoted-identifiers =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  disallow-these-identifiers =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  flag-distinct-parenthesis =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  flag-inconsistent-ordinal-column-reference =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  flag-inconsistent-qualified-column-reference =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColumnQualifier!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  flag-keywords-used-as-identifiers =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  flag-misordered-join-condition =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  flag-select-item-order =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  flag-trailing-semicolon-after-statements =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  flag-unnecessary-case =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  flag-unnecessary-else =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  flag-unnecessary-nested-case =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  flag-unnecessary-quoted-identifiers =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  flag-unqualified-multi-source-column-reference =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  flag-unused-cte =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuleOn!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/SystemTime!predicate" =
         _js2n__-prdslib.allOf
@@ -2421,13 +2774,16 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/Materialization!predicate",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  meta =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   name = _js2n__-prdslib.isType '"String",
                   origin =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-refsenv."_js2n__-:definitions/TableOrigin!predicate",
-                          _js2n__-prdslib.isType 'Null
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/TableOrigin!predicate",
                   partitioned-by =
                     _js2n__-prdslib.allOf
                         [
@@ -2753,7 +3109,7 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/Config!predicate",
               _js2n__-prdslib.isType 'Null
             ])
-        | doc "A workspace definition"
+        | doc "A config definition"
         | optional,
       credential
         | _js2n__-prdslib.contract_from_predicate
@@ -2781,6 +3137,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Null
             ])
         | doc "A function definition"
+        | optional,
+      linter
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/Linter!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc "A config definition"
         | optional,
       table
         | _js2n__-prdslib.contract_from_predicate

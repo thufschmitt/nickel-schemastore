@@ -907,19 +907,19 @@ let rec _js2n__-refsenv
           
           Besides the default behavior, the user can specify behavior for specific regex patterns. Case insensitive.
           
-          1. `"read_write"` - List of patterns that should be read/write remotely. 2. `"read_only"` - List of patterns that should be read only remotely. 3. `"local"` - List of patterns that should be read locally. 4. `"not_found"` - List of patters that should never be read nor written. These files should be treated as non-existent.
+          1. `"read_write"` - List of patterns that should be read/write remotely. 2. `"read_only"` - List of patterns that should be read only remotely. 3. `"local"` - List of patterns that should be read locally. 4. `"not_found"` - List of patters that should never be read nor written. These files should be treated as non-existent. 4. `"mapping"` - Map of patterns and their corresponding replacers. The replacement happens before any specific behavior as defined above or mode (uses [`Regex::replace`](https://docs.rs/regex/latest/regex/struct.Regex.html#method.replace))
           
           The logic for choosing the behavior is as follows:
           
-          1. Check if one of the patterns match the file path, do the corresponding action. There's no specified order if two lists match the same path, we will use the first one (and we do not guarantee what is first).
+          1. Check agains "mapping" if path needs to be replaced, if matched then continue to next step with new path after replacements otherwise continue as usual. 2. Check if one of the patterns match the file path, do the corresponding action. There's no specified order if two lists match the same path, we will use the first one (and we do not guarantee what is first).
           
           **Warning**: Specifying the same path in two lists is unsupported and can lead to undefined behaviour.
           
-          2. There are pre-defined exceptions to the set FS mode. 1. Paths that match [the patterns defined here](https://github.com/metalbear-co/mirrord/tree/latest/mirrord/layer/src/file/filter/read_local_by_default.rs) are read locally by default. 2. Paths that match [the patterns defined here](https://github.com/metalbear-co/mirrord/tree/latest/mirrord/layer/src/file/filter/read_remote_by_default.rs) are read remotely by default when the mode is `localwithoverrides`. 3. Paths that match [the patterns defined here](https://github.com/metalbear-co/mirrord/tree/latest/mirrord/layer/src/file/filter/not_found_by_default.rs) under the running user's home directory will not be found by the application when the mode is not `local`.
+          3. There are pre-defined exceptions to the set FS mode. 1. Paths that match [the patterns defined here](https://github.com/metalbear-co/mirrord/tree/latest/mirrord/layer/src/file/filter/read_local_by_default.rs) are read locally by default. 2. Paths that match [the patterns defined here](https://github.com/metalbear-co/mirrord/tree/latest/mirrord/layer/src/file/filter/read_remote_by_default.rs) are read remotely by default when the mode is `localwithoverrides`. 3. Paths that match [the patterns defined here](https://github.com/metalbear-co/mirrord/tree/latest/mirrord/layer/src/file/filter/not_found_by_default.rs) under the running user's home directory will not be found by the application when the mode is not `local`.
           
           In order to override that default setting for a path, or a pattern, include it the appropriate pattern set from above. E.g. in order to read files under `/etc/` remotely even though it is covered by [the set of patterns that are read locally by default](https://github.com/metalbear-co/mirrord/tree/latest/mirrord/layer/src/file/filter/read_local_by_default.rs), add `"^/etc/."` to the `read_only` set.
           
-          3. If none of the above match, use the default behavior (mode).
+          4. If none of the above match, use the default behavior (mode).
           
           For more information, check the file operations [technical reference](https://mirrord.dev/docs/reference/fileops/).
           
@@ -935,6 +935,17 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-refsenv."_js2n__-:definitions/VecOrSingle_for_String!predicate",
                           _js2n__-prdslib.isType 'Null
+                        ],
+                  mapping =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
                         ],
                   mode =
                     _js2n__-prdslib.anyOf
@@ -1209,6 +1220,27 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.enum [ "abort" ]
                 ]
             ],
+      "_js2n__-:definitions/ContainerFileConfig!predicate"
+        | doc "`mirrord container` command specific config."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  cli_image =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  cli_image_lib_path =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/CopyTargetFileConfig!predicate" =
         _js2n__-prdslib.anyOf
             [
@@ -1218,6 +1250,12 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType 'Record,
                   _js2n__-prdslib.records.record
                     {
+                      enabled =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Bool",
+                              _js2n__-prdslib.isType 'Null
+                            ],
                       scale_down =
                         _js2n__-prdslib.anyOf
                             [
@@ -1259,6 +1297,86 @@ let rec _js2n__-refsenv
                         ],
                   deployment = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DnsFileConfig!predicate"
+        | doc m%"
+          Resolve DNS via the remote pod.
+          
+          Defaults to `true`.
+          
+          Mind that: - DNS resolving can be done in multiple ways. Some frameworks use `getaddrinfo`/`gethostbyname` functions, while others communicate directly with the DNS server at port `53` and perform a sort of manual resolution. Just enabling the `dns` feature in mirrord might not be enough. If you see an address resolution error, try enabling the [`fs`](#feature-fs) feature, and setting `read_only: ["/etc/resolv.conf"]`. - DNS filter currently works only with frameworks that use `getaddrinfo`/`gethostbyname` functions.
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  filter =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/DnsFilterConfig!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DnsFilterConfig!predicate"
+        | doc m%"
+          List of addresses/ports/subnets that should be resolved through either the remote pod or local app, depending how you set this up with either `remote` or `local`.
+          
+          You may use this option to specify when DNS resolution is done from the remote pod (which is the default behavior when you enable remote DNS), or from the local app (default when you have remote DNS disabled).
+          
+          Takes a list of values, such as:
+          
+          - Only queries for hostname `my-service-in-cluster` will go through the remote pod.
+          
+          ```json { "remote": ["my-service-in-cluster"] } ```
+          
+          - Only queries for addresses in subnet `1.1.1.0/24` with service port `1337`` will go through the remote pod.
+          
+          ```json { "remote": ["1.1.1.0/24:1337"] } ```
+          
+          - Only queries for hostname `google.com` with service port `1337` or `7331` will go through the remote pod.
+          
+          ```json { "remote": ["google.com:1337", "google.com:7331"] } ```
+          
+          - Only queries for `localhost` with service port `1337` will go through the local app.
+          
+          ```json { "local": ["localhost:1337"] } ```
+          
+          - Only queries with service port `1337` or `7331` will go through the local app.
+          
+          ```json { "local": [":1337", ":7331"] } ```
+          
+          Valid values follow this pattern: `[name|address|subnet/mask][:port]`.
+        "%
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "remote" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      remote =
+                        _js2n__-refsenv."_js2n__-:definitions/VecOrSingle_for_String!predicate",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "local" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      local =
+                        _js2n__-refsenv."_js2n__-:definitions/VecOrSingle_for_String!predicate",
+                    } {} false _js2n__-prdslib.never
+                ]
             ],
       "_js2n__-:definitions/EnvFileConfig!predicate"
         | doc m%"
@@ -1319,6 +1437,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  enable_exec_hooks_linux =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   readlink =
                     _js2n__-prdslib.anyOf
                         [
@@ -1335,6 +1459,65 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ExternalProxyFileConfig!predicate"
+        | doc m%"
+          Configuration for the external proxy mirrord spawns when using the `mirrord container` command. This proxy is used to allow the internal proxy running in sidecar to connect to the mirrord agent.
+          
+          If you get `ConnectionRefused` errors, increasing the timeouts a bit might solve the issue.
+          
+          ```json { "external_proxy": { "start_idle_timeout": 30, "idle_timeout": 5 } } ```
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  idle_timeout =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
+                  log_destination =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  log_level =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  start_idle_timeout =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
+                  tls_certificate =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  tls_key =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
                 } {} false _js2n__-prdslib.never
@@ -1648,14 +1831,32 @@ let rec _js2n__-refsenv
           
           ```json { "feature": { "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000] "listen_ports": [[80, 8111]] } } } } ```
         "%
-        = _js2n__-prdslib.anyOf
+        = _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.anyOf
+              _js2n__-prdslib.allOf
                 [
-                  _js2n__-refsenv."_js2n__-:definitions/IncomingMode!predicate",
-                  _js2n__-prdslib.isType 'Null
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "Simple" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      Simple =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/IncomingMode!predicate",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                    } {} false _js2n__-prdslib.never
                 ],
-              _js2n__-refsenv."_js2n__-:definitions/IncomingAdvancedFileConfig!predicate"
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "Advanced" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      Advanced =
+                        _js2n__-refsenv."_js2n__-:definitions/IncomingAdvancedFileConfig!predicate",
+                    } {} false _js2n__-prdslib.never
+                ]
             ],
       "_js2n__-:definitions/IncomingMode!predicate"
         | doc m%"
@@ -1700,6 +1901,30 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  client_tls_certificate =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  client_tls_key =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  connect_tcp =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  container_mode =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   idle_timeout =
                     _js2n__-prdslib.allOf
                         [
@@ -1763,7 +1988,7 @@ let rec _js2n__-refsenv
           
           See the network traffic [reference](https://mirrord.dev/docs/reference/traffic/) for more details.
           
-          ```json { "feature": { "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000] }, "outgoing": { "tcp": true, "udp": true, "filter": { "local": ["tcp://1.1.1.0/24:1337", "1.1.5.0/24", "google.com", ":53"] }, "ignore_localhost": false, "unix_streams": "bear.+" }, "dns": false } } } ```
+          ```json { "feature": { "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000] }, "outgoing": { "tcp": true, "udp": true, "filter": { "local": ["tcp://1.1.1.0/24:1337", "1.1.5.0/24", "google.com", ":53"] }, "ignore_localhost": false, "unix_streams": "bear.+" }, "dns": { "enabled": true, "filter": { "local": ["1.1.1.0/24:1337", "1.1.5.0/24", "google.com"] } } } } } ```
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1773,7 +1998,7 @@ let rec _js2n__-refsenv
                   dns =
                     _js2n__-prdslib.anyOf
                         [
-                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-refsenv."_js2n__-:definitions/ToggleableConfig_for_DnsFileConfig!predicate",
                           _js2n__-prdslib.isType 'Null
                         ],
                   incoming =
@@ -1947,7 +2172,7 @@ let rec _js2n__-refsenv
           
           Specifies the running pod (or deployment) to mirror.
           
-          Supports: - `pod/{sample-pod}`; - `podname/{sample-pod}`; - `deployment/{sample-deployment}`; - `container/{sample-container}`; - `containername/{sample-container}`. - `job/{sample-job}`; - `cronjob/{sample-cronjob}`; - `statefulset/{sample-statefulset}`;
+          Supports: - `pod/{sample-pod}`; - `deployment/{sample-deployment}`; - `container/{sample-container}`; - `containername/{sample-container}`. - `job/{sample-job}`; - `cronjob/{sample-cronjob}`; - `statefulset/{sample-statefulset}`;
         "%
         = _js2n__-prdslib.anyOf
             [
@@ -1987,6 +2212,12 @@ let rec _js2n__-refsenv
                             ],
                     } {} false _js2n__-prdslib.never
                 ]
+            ],
+      "_js2n__-:definitions/ToggleableConfig_for_DnsFileConfig!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"Bool",
+              _js2n__-refsenv."_js2n__-:definitions/DnsFileConfig!predicate"
             ],
       "_js2n__-:definitions/ToggleableConfig_for_EnvFileConfig!predicate" =
         _js2n__-prdslib.anyOf
@@ -2166,11 +2397,27 @@ let rec _js2n__-refsenv
           ```json { "connect_tcp": "10.10.0.100:7777" } ```
         "%
         | optional,
+      container
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/ContainerFileConfig!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
       experimental
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
               _js2n__-refsenv."_js2n__-:definitions/ExperimentalFileConfig!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
+      external_proxy
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/ExternalProxyFileConfig!predicate",
               _js2n__-prdslib.isType 'Null
             ])
         | optional,

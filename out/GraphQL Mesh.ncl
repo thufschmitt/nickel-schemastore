@@ -3386,13 +3386,6 @@ let rec _js2n__-refsenv
               | String
               | doc "Path to your static files you want to be served with GraphQL Mesh HTTP Server"
               | optional,
-            trustProxy
-              | String
-              | doc m%"
-                Configure Express Proxy Handling
-                [Learn more](https://expressjs.com/en/guide/behind-proxies.html)
-              "%
-              | optional,
           },
       "_js2n__-:definitions/SnapshotPluginConfig!predicate" =
         _js2n__-prdslib.allOf

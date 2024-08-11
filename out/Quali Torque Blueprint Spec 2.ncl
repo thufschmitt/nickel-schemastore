@@ -976,18 +976,46 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType '"Bool"
                         ],
-                  description = _js2n__-prdslib.isType '"String",
-                  display-style =
+                  depends-on =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [ "multiline", "normal", "masked" ]
+                          _js2n__-prdslib.strings.pattern
+                            "^((.+)(,\\s*)?)+[^,]$"
+                        ],
+                  description = _js2n__-prdslib.isType '"String",
+                  overrides =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    bucket_name =
+                                      _js2n__-prdslib.isType '"String",
+                                    filter = _js2n__-prdslib.isType '"String",
+                                    json_path =
+                                      _js2n__-prdslib.isType '"String",
+                                    object_key =
+                                      _js2n__-prdslib.isType '"String",
+                                    path_prefix =
+                                      _js2n__-prdslib.isType '"String",
+                                  } {} false _js2n__-prdslib.never
+                              ])
                         ],
                   parameter-name = _js2n__-prdslib.isType '"String",
                   pattern = _js2n__-prdslib.isType '"String",
                   sensitive = _js2n__-prdslib.isType '"Bool",
-                  style = _js2n__-prdslib.isType '"String",
+                  source-name = _js2n__-prdslib.isType '"String",
+                  style =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "radio", "text" ]
+                        ],
                   type =
                     _js2n__-prdslib.allOf
                         [
@@ -999,7 +1027,8 @@ let rec _js2n__-refsenv
                               "agent",
                               "credentials",
                               "parameter",
-                              "radio"
+                              "radio",
+                              "input-source"
                             ]
                         ],
                   validation-description = _js2n__-prdslib.isType '"String",
@@ -1099,7 +1128,8 @@ let rec _js2n__-refsenv
                               "shell",
                               "cloudshell",
                               "argocd",
-                              "opentofu"
+                              "opentofu",
+                              "terragrunt"
                             ]
                         ],
                   spec =
@@ -1172,6 +1202,7 @@ let rec _js2n__-refsenv
                   backend =
                     _js2n__-refsenv."_js2n__-:definitions/Backend!predicate",
                   binary = _js2n__-prdslib.isType '"String",
+                  built-in = _js2n__-prdslib.isType '"Bool",
                   command-arguments = _js2n__-prdslib.isType '"String",
                   commands =
                     _js2n__-prdslib.allOf
@@ -1589,6 +1620,8 @@ let rec _js2n__-refsenv
             workflow
               | {
                 label-selector | String | optional,
+                labels-selector | String | optional,
+                resource-types | String | optional,
                 scope | String | optional,
                 triggers
                   | Array

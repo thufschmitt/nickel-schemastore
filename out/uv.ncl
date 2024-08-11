@@ -965,7 +965,7 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:definitions/ExtraName!predicate"
         | doc m%"
-          The normalized name of an extra dependency group.
+          The normalized name of an extra dependency.
           
           Converts the name to lowercase and collapses runs of `-`, `_`, and `.` down to a single `-`. For example, `---`, `.`, and `__` are all converted to a single `-`.
           
@@ -1061,6 +1061,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  allow-empty-requirements =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   annotation-style =
                     _js2n__-prdslib.anyOf
                         [
@@ -1079,6 +1085,36 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  concurrent-builds =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 1
+                        ],
+                  concurrent-downloads =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 1
+                        ],
+                  concurrent-installs =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 1
+                        ],
                   config-settings =
                     _js2n__-prdslib.anyOf
                         [
@@ -1089,6 +1125,12 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  emit-build-options =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
                   emit-find-links =
@@ -1254,7 +1296,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
-                  offline =
+                  no-strip-markers =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",
@@ -1272,6 +1314,12 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/PackageNameSpecifier!predicate"
                         ],
                   output-file =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  prefix =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"String",
@@ -1300,6 +1348,23 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-refsenv."_js2n__-:definitions/PythonVersion!predicate",
                           _js2n__-prdslib.isType 'Null
+                        ],
+                  reinstall =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  reinstall-package =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/PackageName!predicate"
                         ],
                   require-hashes =
                     _js2n__-prdslib.anyOf
@@ -1330,6 +1395,29 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
+                        ],
+                  universal =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  upgrade =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  upgrade-package =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Requirement!predicate"
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1362,6 +1450,49 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.enum [ "if-necessary-or-explicit" ]
                 ]
             ],
+      "_js2n__-:definitions/PythonFetch!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "automatic" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "manual" ]
+                ]
+            ],
+      "_js2n__-:definitions/PythonPreference!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "only-managed" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "installed" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "managed" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "system" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "only-system" ]
+                ]
+            ],
       "_js2n__-:definitions/PythonVersion!predicate"
         | doc "A Python version specifier, e.g. `3.7` or `3.8.0`."
         = _js2n__-prdslib.allOf
@@ -1369,6 +1500,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.strings.pattern "^3\\.\\d+(\\.\\d+)?$"
             ],
+      "_js2n__-:definitions/Requirement!predicate"
+        | doc "A PEP 508 dependency specifier"
+        = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/ResolutionMode!predicate" =
         _js2n__-prdslib.oneOf
             [
@@ -1590,12 +1724,22 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "x86_64-manylinux_2_31" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
                   _js2n__-prdslib.enum [ "aarch64-manylinux_2_17" ]
                 ],
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
                   _js2n__-prdslib.enum [ "aarch64-manylinux_2_28" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "aarch64-manylinux_2_31" ]
                 ]
             ],
       "_js2n__-:definitions/ToolUvWorkspace!predicate" =
@@ -1626,7 +1770,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/String!predicate"
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
     }
     in
@@ -1636,15 +1780,172 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | optional,
+      compile-bytecode
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
+        | optional,
+      config-settings
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/ConfigSettings!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
+      dev-dependencies
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "PEP 508-style requirements, e.g., `flask==3.0.0`, or `black @ https://...`."
+        | optional,
+      exclude-newer
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/ExcludeNewer!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
+      extra-index-url
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/IndexUrl!predicate"
+            ])
+        | optional,
+      find-links
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/FlatIndexLocation!predicate"
+            ])
+        | optional,
+      index-strategy
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/IndexStrategy!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
+      index-url
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/IndexUrl!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
+      keyring-provider
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/KeyringProviderType!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
+      link-mode
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/LinkMode!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
+      managed
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
+        | doc "Whether the project is managed by `uv`. If `false`, `uv` will ignore the project when `uv run` is invoked."
+        | optional,
       native-tls
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
         | optional,
+      no-binary
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
+        | optional,
+      no-binary-package
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/PackageName!predicate"
+            ])
+        | optional,
+      no-build
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
+        | optional,
+      no-build-package
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/PackageName!predicate"
+            ])
+        | optional,
       no-cache
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
+        | optional,
+      no-index
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
+        | optional,
+      offline
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
+        | optional,
+      override-dependencies
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "PEP 508 style requirements, e.g. `flask==3.0.0`, or `black @ https://...`."
         | optional,
       pip
         | _js2n__-prdslib.contract_from_predicate
@@ -1654,10 +1955,60 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Null
             ])
         | optional,
+      prerelease
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/PreReleaseMode!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
       preview
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
+        | optional,
+      python-fetch
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/PythonFetch!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
+      python-preference
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/PythonPreference!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
+      reinstall
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
+        | optional,
+      reinstall-package
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/PackageName!predicate"
+            ])
+        | optional,
+      resolution
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/ResolutionMode!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
         | optional,
       sources
         | _js2n__-prdslib.contract_from_predicate
@@ -1672,6 +2023,24 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/Source!predicate"
             ])
         | optional,
+      upgrade
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
+        | optional,
+      upgrade-package
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/Requirement!predicate"
+            ])
+        | optional,
       workspace
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
@@ -1679,5 +2048,7 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/ToolUvWorkspace!predicate",
               _js2n__-prdslib.isType 'Null
             ])
+        | doc "The workspace definition for the project, if any."
         | optional,
+      ..
     }

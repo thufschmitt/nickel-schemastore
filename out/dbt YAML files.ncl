@@ -896,186 +896,484 @@ let _js2n__-prdslib
   }
   in
 let rec _js2n__-refsenv
-    = {
-      "_js2n__-:definitions/AnchoredUnixPath!predicate" =
-        _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/EnvWildcard!predicate" =
-        _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/OutputMode!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum
-                [ "full", "hash-only", "new-only", "errors-only", "none" ]
-            ],
-      "_js2n__-:definitions/Pipeline!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  cache = _js2n__-prdslib.isType '"Bool",
-                  dependsOn =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  dotEnv =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/AnchoredUnixPath!predicate"
-                            ]
-                        ],
-                  env =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/EnvWildcard!predicate"
-                        ],
-                  inputs =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  interactive = _js2n__-prdslib.isType '"Bool",
-                  outputLogs =
-                    _js2n__-refsenv."_js2n__-:definitions/OutputMode!predicate",
-                  outputs =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  passThroughEnv =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/EnvWildcard!predicate"
-                            ]
-                        ],
-                  persistent = _js2n__-prdslib.isType '"Bool",
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/RemoteCache!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  enabled = _js2n__-prdslib.isType '"Bool",
-                  signature = _js2n__-prdslib.isType '"Bool",
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/RootSchema!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "tasks" ],
-              _js2n__-prdslib.records.record
-                {
-                  "$schema" = _js2n__-prdslib.isType '"String",
-                  dangerouslyDisablePackageManagerCheck =
-                    _js2n__-prdslib.isType '"Bool",
-                  globalDependencies =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  globalDotEnv =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/AnchoredUnixPath!predicate"
-                            ]
-                        ],
-                  globalEnv =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/EnvWildcard!predicate"
-                        ],
-                  globalPassThroughEnv =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/EnvWildcard!predicate"
-                            ]
-                        ],
-                  remoteCache =
-                    _js2n__-refsenv."_js2n__-:definitions/RemoteCache!predicate",
-                  tasks =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/Pipeline!predicate"
-                        ],
-                  ui = _js2n__-refsenv."_js2n__-:definitions/UI!predicate",
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/Schema!contract" =
-        _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.anyOf
-              [
-                _js2n__-refsenv."_js2n__-:definitions/RootSchema!predicate",
-                _js2n__-refsenv."_js2n__-:definitions/WorkspaceSchema!predicate"
-              ]),
-      "_js2n__-:definitions/UI!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "tui", "stream" ]
-            ],
-      "_js2n__-:definitions/WorkspaceSchema!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "extends", "tasks" ],
-              _js2n__-prdslib.records.record
-                {
-                  "$schema" = _js2n__-prdslib.isType '"String",
-                  extends =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  tasks =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/Pipeline!predicate"
-                        ],
-                } {} false _js2n__-prdslib.never
-            ],
-    }
+    = {}
     in
-  _js2n__-refsenv."_js2n__-:definitions/Schema!contract"
+  {
+      analyses
+        | Array
+          {
+            columns
+              | Array
+                {
+                  data_type | String | optional,
+                  description | String | optional,
+                  name | String,
+                }
+              | optional,
+            config | { tags | Dyn | optional, } | optional,
+            description | String | optional,
+            docs | Dyn | optional,
+            group | Dyn | optional,
+            name | String,
+            ..
+          }
+        | optional,
+      exposures
+        | Array
+          {
+            depends_on | Array (String),
+            description | String | optional,
+            label | String | optional,
+            maturity
+              | std.enum.TagOrString
+              | [| 'low, 'medium, 'high |]
+              | optional,
+            meta | {  .. } | optional,
+            name | String,
+            owner
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "email" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "name" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ],
+                    _js2n__-prdslib.records.record
+                      {
+                        email = _js2n__-prdslib.isType '"String",
+                        name = _js2n__-prdslib.isType '"String",
+                      } {} false _js2n__-prdslib.never
+                  ]),
+            tags | Dyn | optional,
+            type
+              | std.enum.TagOrString
+              | [| 'application, 'ml, 'analysis, 'notebook, 'dashboard |],
+            url | String | optional,
+            ..
+          }
+        | optional,
+      groups
+        | Array
+          {
+            name | String,
+            owner
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.minProperties 1,
+                    _js2n__-prdslib.records.record
+                      {
+                        email = _js2n__-prdslib.isType '"String",
+                        name = _js2n__-prdslib.isType '"String",
+                      } {} true _js2n__-prdslib.always
+                  ]),
+          }
+        | optional,
+      macros
+        | Array
+          {
+            arguments
+              | Array
+                {
+                  description | String | optional,
+                  name | String,
+                  type | String | optional,
+                }
+              | optional,
+            description | String | optional,
+            docs | Dyn | optional,
+            name | String,
+          }
+        | optional,
+      metrics
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.ifThenElse
+                  (_js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.enum [ "SIMPLE", "simple" ], } {}
+                    true _js2n__-prdslib.always)
+                  (_js2n__-prdslib.records.record
+                    { type_params = _js2n__-prdslib.always, } {} true
+                    _js2n__-prdslib.always)
+                  (_js2n__-prdslib.ifThenElse
+                    (_js2n__-prdslib.records.record
+                      { type = _js2n__-prdslib.enum [ "derived", "DERIVED" ], }
+                      {} true _js2n__-prdslib.always)
+                    (_js2n__-prdslib.records.record
+                      { type_params = _js2n__-prdslib.always, } {} true
+                      _js2n__-prdslib.always)
+                    (_js2n__-prdslib.ifThenElse
+                      (_js2n__-prdslib.records.record
+                        {
+                          type =
+                            _js2n__-prdslib.enum [ "cumulative", "CUMULATIVE" ],
+                        } {} true _js2n__-prdslib.always)
+                      (_js2n__-prdslib.records.record
+                        { type_params = _js2n__-prdslib.always, } {} true
+                        _js2n__-prdslib.always)
+                      (_js2n__-prdslib.ifThenElse
+                        (_js2n__-prdslib.records.record
+                          {
+                            type =
+                              _js2n__-prdslib.enum
+                                  [ "conversion", "CONVERSION" ],
+                          } {} true _js2n__-prdslib.always)
+                        (_js2n__-prdslib.records.record
+                          { type_params = _js2n__-prdslib.always, } {} true
+                          _js2n__-prdslib.always)
+                        (_js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.records.record
+                            {
+                              type = _js2n__-prdslib.enum [ "ratio", "RATIO" ],
+                            } {} true _js2n__-prdslib.always)
+                          (_js2n__-prdslib.records.record
+                            { type_params = _js2n__-prdslib.always, } {} true
+                            _js2n__-prdslib.always) _js2n__-prdslib.always)))),
+                _js2n__-prdslib.records.required
+                  [ "label", "name", "type", "type_params" ],
+                _js2n__-prdslib.records.record
+                  {
+                    description = _js2n__-prdslib.isType '"String",
+                    filter = _js2n__-prdslib.isType '"String",
+                    group = _js2n__-prdslib.always,
+                    label = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern
+                              "(?!.*__).*^[a-z][a-z0-9_]*[a-z0-9]$"
+                          ],
+                    type =
+                      _js2n__-prdslib.enum
+                          [
+                            "SIMPLE",
+                            "RATIO",
+                            "CUMULATIVE",
+                            "DERIVED",
+                            "CONVERSION",
+                            "simple",
+                            "ratio",
+                            "cumulative",
+                            "derived",
+                            "conversion"
+                          ],
+                    type_params = _js2n__-prdslib.isType 'Record,
+                  } {} false _js2n__-prdslib.never
+              ])
+        )
+        | optional,
+      models
+        | Array
+          {
+            access
+              | std.enum.TagOrString
+              | [| 'public, 'protected, 'private |]
+              | optional,
+            columns | Array (Dyn) | optional,
+            config | Dyn | optional,
+            constraints | Dyn | optional,
+            data_tests | Array (Dyn) | optional,
+            deprecation_date | String | optional,
+            description | String | optional,
+            docs | Dyn | optional,
+            group | Dyn | optional,
+            latest_version | Number | optional,
+            meta | {  .. } | optional,
+            name | String,
+            tests | Array (Dyn) | optional,
+            versions
+              | Array
+                {
+                  columns
+                    | Array (
+                      _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.anyOf
+                          [ _js2n__-prdslib.always, _js2n__-prdslib.always ])
+                    )
+                    | optional,
+                  config | Dyn | optional,
+                  v | Number,
+                  ..
+                }
+              | optional,
+          }
+        | optional,
+      saved_queries
+        | Array
+          {
+            description | String,
+            exports | Array (Dyn) | optional,
+            label | String,
+            name | String,
+            query_params
+              | {
+                additionalProperties
+                  | _js2n__-prdslib.contract_from_predicate
+                    _js2n__-prdslib.never
+                  | optional,
+                dimensions | Dyn | optional,
+                metrics | Dyn | optional,
+                where | Dyn | optional,
+                ..
+              },
+          }
+        | optional,
+      seeds
+        | Array
+          {
+            columns | Array (Dyn) | optional,
+            config
+              | {
+                column_types | {  .. } | optional,
+                copy_grants | Dyn | optional,
+                data_tests | Array (Dyn) | optional,
+                database | String | optional,
+                enabled | Dyn | optional,
+                grants | Dyn | optional,
+                quote_columns | Dyn | optional,
+                schema | String | optional,
+                ..
+              }
+              | optional,
+            description | String | optional,
+            docs | Dyn | optional,
+            group | Dyn | optional,
+            name | String,
+            tests | Array (Dyn) | optional,
+          }
+        | optional,
+      semantic_models
+        | Array
+          {
+            defaults | { agg_time_dimension | String | optional, } | optional,
+            description | String | optional,
+            dimensions | Array (Dyn) | optional,
+            entities | Array (Dyn) | optional,
+            measures | Array (Dyn) | optional,
+            model | String,
+            name
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.pattern
+                      "(?!.*__).*^[a-z][a-z0-9_]*[a-z0-9]$"
+                  ]),
+            primary_entity | String | optional,
+          }
+        | optional,
+      snapshots
+        | Array
+          {
+            columns | Array (Dyn) | optional,
+            config
+              | {
+                alias | String | optional,
+                check_cols | Dyn | optional,
+                enabled | Dyn | optional,
+                grants | Dyn | optional,
+                persist_docs | Dyn | optional,
+                post-hook | Dyn | optional,
+                pre-hook | Dyn | optional,
+                quote_columns | Dyn | optional,
+                strategy | String | optional,
+                tags | Dyn | optional,
+                target_database | String | optional,
+                target_schema | String | optional,
+                unique_key | Dyn | optional,
+                updated_at | String | optional,
+                ..
+              }
+              | optional,
+            data_tests | Array (Dyn) | optional,
+            description | String | optional,
+            docs | Dyn | optional,
+            group | Dyn | optional,
+            meta | {  .. } | optional,
+            name | String,
+            tests | Array (Dyn) | optional,
+          }
+        | optional,
+      sources
+        | Array
+          {
+            config | {  .. } | optional,
+            data_tests | Array (Dyn) | optional,
+            database | String | optional,
+            description | String | optional,
+            freshness | Dyn | optional,
+            loaded_at_field | String | optional,
+            loader | String | optional,
+            meta | {  .. } | optional,
+            name
+              | String
+              | doc "How you will identify the schema in {{ source() }} calls. Unless `schema` is also set, this will be the name of the schema in the database.",
+            overrides
+              | String
+              | doc "The name of another package installed in your project. If that package has a source with the same name as this one, its properties will be applied on top of the base properties of the overridden source. https://docs.getdbt.com/reference/resource-properties/overrides"
+              | optional,
+            quoting
+              | {
+                database | Dyn | optional,
+                identifier | Dyn | optional,
+                schema | Dyn | optional,
+              }
+              | optional,
+            schema
+              | String
+              | doc "The schema name as stored in the database. Only needed if you want to use a different `name` than what exists in the database (otherwise `name` is used by default)"
+              | optional,
+            tables
+              | Array
+                {
+                  columns | Array (Dyn) | optional,
+                  description | String | optional,
+                  external | {  .. } | optional,
+                  freshness | Dyn | optional,
+                  identifier
+                    | String
+                    | doc "The table name as stored in the database. Only needed if you want to give the source a different name than what exists in the database (otherwise `name` is used by default)"
+                    | optional,
+                  loaded_at_field
+                    | String
+                    | doc "Which column to check during data freshness tests. Only needed if the table has a different loaded_at_field to the one defined on the source overall."
+                    | optional,
+                  loader | String | optional,
+                  meta | {  .. } | optional,
+                  name
+                    | String
+                    | doc "How you will identify the table in {{ source() }} calls. Unless `identifier` is also set, this will be the name of the table in the database.",
+                  quoting
+                    | {
+                      database | Dyn | optional,
+                      identifier | Dyn | optional,
+                      schema | Dyn | optional,
+                    }
+                    | optional,
+                  tags | Dyn | optional,
+                  tests | Array (Dyn) | optional,
+                }
+              | optional,
+            tags | Dyn | optional,
+            tests | Array (Dyn) | optional,
+            ..
+          }
+        | optional,
+      unit_tests
+        | Array
+          {
+            additionalProperties
+              | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.never
+              | optional,
+            config
+              | { meta | {  .. } | optional, tags | Dyn | optional, }
+              | optional,
+            description | String | optional,
+            expect
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.ifThenElse
+                      (_js2n__-prdslib.records.record
+                        { format = _js2n__-prdslib.const "dict", } {} true
+                        _js2n__-prdslib.always)
+                      (_js2n__-prdslib.records.record
+                        {
+                          rows =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType 'Record)
+                                ],
+                        } {} true _js2n__-prdslib.always)
+                      (_js2n__-prdslib.records.record
+                        { rows = _js2n__-prdslib.isType '"String", } {} true
+                        _js2n__-prdslib.always),
+                    _js2n__-prdslib.records.record
+                      {
+                        additionalProperties = _js2n__-prdslib.never,
+                        fixture = _js2n__-prdslib.isType '"String",
+                        format =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum [ "dict", "sql", "csv" ]
+                              ],
+                      } {} true _js2n__-prdslib.always
+                  ]),
+            given
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.ifThenElse
+                        (_js2n__-prdslib.records.record
+                          { format = _js2n__-prdslib.const "dict", } {} true
+                          _js2n__-prdslib.always)
+                        (_js2n__-prdslib.records.record
+                          {
+                            rows =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.isType 'Record)
+                                  ],
+                          } {} true _js2n__-prdslib.always)
+                        (_js2n__-prdslib.records.record
+                          { rows = _js2n__-prdslib.isType '"String", } {} true
+                          _js2n__-prdslib.always),
+                      _js2n__-prdslib.records.record
+                        {
+                          additionalProperties = _js2n__-prdslib.never,
+                          fixture = _js2n__-prdslib.isType '"String",
+                          format =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum [ "dict", "csv", "sql" ]
+                                ],
+                          input = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
+                    ])
+              )
+              | optional,
+            model
+              | String
+              | doc "The name of the model whose behaviour you are testing. Does not need to be wrapped in a ref.",
+            name | String,
+            overrides
+              | {
+                env_vars | {  .. } | optional,
+                macros | {  .. } | optional,
+                vars | {  .. } | optional,
+              }
+              | optional,
+          }
+        | optional,
+      version
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType '"Number", _js2n__-prdslib.const 2 ])
+        | optional,
+    }
