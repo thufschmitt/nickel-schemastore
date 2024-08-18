@@ -932,9 +932,8 @@ let rec _js2n__-refsenv
                   | doc "A URL or local file path for the schema location",
                 name | String | doc "The name of the schema",
                 parser
-                  | std.enum.TagOrString
-                  | [| 'json5, 'yaml, 'json |]
-                  | doc "A custom parser to use for files matching fileMatch instead of trying to infer the correct parser from the filename"
+                  | String
+                  | doc "A custom parser to use for files matching fileMatch instead of trying to infer the correct parser from the filename. 'json', 'json5', 'toml' and 'yaml' are always valid. Plugins may define additional values which are valid here."
                   | optional,
               }
             | doc "A list of JSON schema references.",
@@ -943,9 +942,8 @@ let rec _js2n__-refsenv
         | doc "A custom schema catalog. This catalog will be searched ahead of any custom catalogs passed using --catalogs or SchemaStore.org"
         | optional,
       format
-        | std.enum.TagOrString
-        | [| 'json, 'text |]
-        | doc "Output format for validation results"
+        | String
+        | doc "Output format for validation results. 'text' and 'json' are always valid. Plugins may define additional values which are valid here."
         | optional,
       ignoreErrors
         | Bool

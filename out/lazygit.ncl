@@ -1798,7 +1798,7 @@ let rec _js2n__-refsenv
               diffingMenu | String | optional,
               diffingMenu-alt | String | optional,
               edit | String | optional,
-              executeCustomCommand | String | optional,
+              executeShellCommand | String | optional,
               extrasMenu | String | optional,
               filteringMenu | String | optional,
               goInto | String | optional,

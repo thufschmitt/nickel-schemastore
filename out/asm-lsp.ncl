@@ -915,6 +915,9 @@ let rec _js2n__-refsenv
         | doc "Options to manage assembler-dependent features.",
       instruction_sets
         | {
+          arm
+            | Bool
+            | doc "Flag to turn features related to the arm instruction set on/off.",
           x86
             | Bool
             | doc "Flag to turn features related to the x86 instruction set on/off.",
