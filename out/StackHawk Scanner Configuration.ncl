@@ -988,6 +988,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/OpenApiConf!predicate",
                   redact =
                     _js2n__-refsenv."_js2n__-:definitions/AppRedactions!predicate",
+                  scanPolicy =
+                    _js2n__-refsenv."_js2n__-:definitions/OrganizationPolicy!predicate",
                   sessionTokens =
                     _js2n__-prdslib.allOf
                         [
@@ -1831,6 +1833,30 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/OrganizationPolicy!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  excludePluginIds =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  includePluginIds =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/ParametersEntry!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2080,8 +2106,6 @@ let rec _js2n__-refsenv
                               "httpsender",
                               "passive",
                               "proxy",
-                              "standalone",
-                              "targeted",
                               "session"
                             ]
                         ],

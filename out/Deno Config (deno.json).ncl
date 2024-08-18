@@ -1229,6 +1229,11 @@ let rec _js2n__-refsenv
             ])
         | doc "A map of specifiers to their remapped specifiers."
         | optional,
+      license
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf [ _js2n__-prdslib.isType '"String" ])
+        | doc "The SPDX license identifier if this is a JSR package. Specify this or add a license file to the package."
+        | optional,
       lint
         | {
           exclude

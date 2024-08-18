@@ -1463,6 +1463,7 @@ let rec _js2n__-refsenv
           },
       "_js2n__-:definitions/messenger!contract" =
         {
+            enforce_message_size | Bool | optional,
             routing_overwrite
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.allOf

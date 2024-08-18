@@ -1067,6 +1067,17 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  builtins-allowed-modules =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   builtins-ignorelist =
                     _js2n__-prdslib.allOf
                         [
@@ -1774,7 +1785,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType 'Null
                             ],
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/NameImports!predicate"
                         ],
                   section-order =
                     _js2n__-prdslib.allOf
@@ -2230,6 +2241,12 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/PyUpgradeOptions!predicate",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  ruff =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/RuffOptions!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   select =
                     _js2n__-prdslib.allOf
                         [
@@ -2294,6 +2311,8 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/NameImports!predicate" =
+        _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/OutputFormat!predicate" =
         _js2n__-prdslib.oneOf
             [
@@ -2651,6 +2670,20 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:definitions/RequiredVersion!predicate" =
         _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/RuffOptions!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  parenthesize-tuple-in-subscript =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/RuleSelector!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2663,6 +2696,9 @@ let rec _js2n__-refsenv
                   "A001",
                   "A002",
                   "A003",
+                  "A004",
+                  "A005",
+                  "A006",
                   "AIR",
                   "AIR0",
                   "AIR00",
@@ -2790,6 +2826,8 @@ let rec _js2n__-refsenv
                   "C417",
                   "C418",
                   "C419",
+                  "C42",
+                  "C420",
                   "C9",
                   "C90",
                   "C901",
@@ -2871,6 +2909,19 @@ let rec _js2n__-refsenv
                   "DJ01",
                   "DJ012",
                   "DJ013",
+                  "DOC",
+                  "DOC2",
+                  "DOC20",
+                  "DOC201",
+                  "DOC202",
+                  "DOC4",
+                  "DOC40",
+                  "DOC402",
+                  "DOC403",
+                  "DOC5",
+                  "DOC50",
+                  "DOC501",
+                  "DOC502",
                   "DTZ",
                   "DTZ0",
                   "DTZ00",
@@ -3058,6 +3109,12 @@ let rec _js2n__-refsenv
                   "FA10",
                   "FA100",
                   "FA102",
+                  "FAST",
+                  "FAST0",
+                  "FAST00",
+                  "FAST001",
+                  "FAST002",
+                  "FAST003",
                   "FBT",
                   "FBT0",
                   "FBT00",
@@ -3667,13 +3724,13 @@ let rec _js2n__-refsenv
                   "RUF022",
                   "RUF023",
                   "RUF024",
-                  "RUF025",
                   "RUF026",
                   "RUF027",
                   "RUF028",
                   "RUF029",
                   "RUF03",
                   "RUF030",
+                  "RUF031",
                   "RUF1",
                   "RUF10",
                   "RUF100",
@@ -3924,6 +3981,7 @@ let rec _js2n__-refsenv
                   "UP040",
                   "UP041",
                   "UP042",
+                  "UP043",
                   "W",
                   "W1",
                   "W19",
@@ -4467,6 +4525,8 @@ let rec _js2n__-refsenv
           
           Inclusion are based on globs, and should be single-path patterns, like `*.pyw`, to include any file with the `.pyw` extension. `pyproject.toml` is included here not for configuration but because we lint whether e.g. the `[project]` matches the schema.
           
+          Notebook files (`.ipynb` extension) are included by default on Ruff 0.6.0+.
+          
           For more information on the glob syntax, refer to the [`globset` documentation](https://docs.rs/globset/latest/globset/#syntax).
         "%
         | optional,
@@ -4575,7 +4635,7 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/OutputFormat!predicate",
               _js2n__-prdslib.isType 'Null
             ])
-        | doc "The style in which violation messages should be formatted: `\"full\"` (shows source), `\"concise\"` (default), `\"grouped\"` (group messages by file), `\"json\"` (machine-readable), `\"junit\"` (machine-readable XML), `\"github\"` (GitHub Actions annotations), `\"gitlab\"` (GitLab CI code quality report), `\"pylint\"` (Pylint text format) or `\"azure\"` (Azure Pipeline logging commands)."
+        | doc "The style in which violation messages should be formatted: `\"full\"` (default) (shows source), `\"concise\"`, `\"grouped\"` (group messages by file), `\"json\"` (machine-readable), `\"junit\"` (machine-readable XML), `\"github\"` (GitHub Actions annotations), `\"gitlab\"` (GitLab CI code quality report), `\"pylint\"` (Pylint text format) or `\"azure\"` (Azure Pipeline logging commands)."
         | optional,
       pep8-naming
         | _js2n__-prdslib.contract_from_predicate
@@ -4715,15 +4775,19 @@ let rec _js2n__-refsenv
         | doc m%"
           The directories to consider when resolving first- vs. third-party imports.
           
-          As an example: given a Python package structure like:
+          When omitted, the `src` directory will typically default to including both:
           
-          ```text my_project ├── pyproject.toml └── src └── my_package ├── __init__.py ├── foo.py └── bar.py ```
+          1. The directory containing the nearest `pyproject.toml`, `ruff.toml`, or `.ruff.toml` file (the "project root"). 2. The `"src"` subdirectory of the project root.
           
-          The `./src` directory should be included in the `src` option (e.g., `src = ["src"]`), such that when resolving imports, `my_package.foo` is considered a first-party import.
+          These defaults ensure that uv supports both flat layouts and `src` layouts out-of-the-box. (If a configuration file is explicitly provided (e.g., via the `--config` command-line flag), the current working directory will be considered the project root.)
           
-          When omitted, the `src` directory will typically default to the directory containing the nearest `pyproject.toml`, `ruff.toml`, or `.ruff.toml` file (the "project root"), unless a configuration file is explicitly provided (e.g., via the `--config` command-line flag).
+          As an example, consider an alternative project structure, like:
           
-          This field supports globs. For example, if you have a series of Python packages in a `python_modules` directory, `src = ["python_modules/*"]` would expand to incorporate all of the packages in that directory. User home directory and environment variables will also be expanded.
+          ```text my_project ├── pyproject.toml └── lib └── my_package ├── __init__.py ├── foo.py └── bar.py ```
+          
+          In this case, the `./lib` directory should be included in the `src` option (e.g., `src = ["lib"]`), such that when resolving imports, `my_package.foo` is considered first-party.
+          
+          This field supports globs. For example, if you have a series of Python packages in a `python_modules` directory, `src = ["python_modules/*"]` would expand to incorporate all packages in that directory. User home directory and environment variables will also be expanded.
         "%
         | optional,
       tab-size

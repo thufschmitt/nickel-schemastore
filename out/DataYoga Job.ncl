@@ -914,7 +914,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "map"
+                                      _js2n__-prdslib.const "files.read_csv"
                                     ],
                             } {} true _js2n__-prdslib.always
                         ])
@@ -924,22 +924,51 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.required
-                                    [ "expression", "language" ],
+                                  _js2n__-prdslib.records.required [ "file" ],
                                   _js2n__-prdslib.records.record
                                     {
-                                      expression =
-                                        _js2n__-prdslib.anyOf
+                                      batch_size =
+                                        _js2n__-prdslib.allOf
                                             [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.isType '"String"
+                                              _js2n__-prdslib.isType '"Number",
+                                              _js2n__-prdslib.numbers.minimum 1
                                             ],
-                                      language =
+                                      delimiter =
                                         _js2n__-prdslib.allOf
                                             [
                                               _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [ "jmespath", "sql" ]
+                                              _js2n__-prdslib.strings.maxLength
+                                                1,
+                                              _js2n__-prdslib.strings.minLength
+                                                1
+                                            ],
+                                      encoding =
+                                        _js2n__-prdslib.isType '"String",
+                                      fields =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.strings.minLength
+                                                1,
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      file = _js2n__-prdslib.isType '"String",
+                                      quotechar =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.maxLength
+                                                1,
+                                              _js2n__-prdslib.strings.minLength
+                                                1
+                                            ],
+                                      skip =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Number",
+                                              _js2n__-prdslib.numbers.minimum 0
                                             ],
                                     } {} false _js2n__-prdslib.never
                                 ],
@@ -955,7 +984,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "add_field"
+                                      _js2n__-prdslib.const "redis.read_stream"
                                     ],
                             } {} true _js2n__-prdslib.always
                         ])
@@ -965,111 +994,15 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.oneOf
-                                    [
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.records.required
-                                            [ "fields" ],
-                                          _js2n__-prdslib.records.record
-                                            {
-                                              fields =
-                                                _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"Array",
-                                                      _js2n__-prdslib.arrays.arrayOf
-                                                        (_js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              'Record,
-                                                            _js2n__-prdslib.records.required
-                                                              [
-                                                                "expression",
-                                                                "field",
-                                                                "language"
-                                                              ],
-                                                            _js2n__-prdslib.records.record
-                                                              {
-                                                                expression =
-                                                                  _js2n__-prdslib.isType
-                                                                      '"String",
-                                                                field =
-                                                                  _js2n__-prdslib.isType
-                                                                      '"String",
-                                                                language =
-                                                                  _js2n__-prdslib.allOf
-                                                                      [
-                                                                        _js2n__-prdslib.isType
-                                                                          '"String",
-                                                                        _js2n__-prdslib.enum
-                                                                          [
-                                                                            "jmespath",
-                                                                            "sql"
-                                                                          ]
-                                                                      ],
-                                                              } {} false
-                                                              _js2n__-prdslib.never
-                                                          ])
-                                                    ],
-                                            } {} false _js2n__-prdslib.never
-                                        ],
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.records.required
-                                            [
-                                              "expression",
-                                              "field",
-                                              "language"
-                                            ],
-                                          _js2n__-prdslib.records.record
-                                            {
-                                              expression =
-                                                _js2n__-prdslib.isType
-                                                    '"String",
-                                              field =
-                                                _js2n__-prdslib.isType
-                                                    '"String",
-                                              language =
-                                                _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.enum
-                                                        [ "jmespath", "sql" ]
-                                                    ],
-                                            } {} false _js2n__-prdslib.never
-                                        ]
-                                    ]
-                                ],
-                        } {} true _js2n__-prdslib.always)
-                      _js2n__-prdslib.always,
-                    _js2n__-prdslib.ifThenElse
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.records.required [ "uses" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              uses =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "sequence"
-                                    ],
-                            } {} true _js2n__-prdslib.always
-                        ])
-                      (_js2n__-prdslib.records.record
-                        {
-                          with =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "connection", "stream_name" ],
                                   _js2n__-prdslib.records.record
                                     {
-                                      field = _js2n__-prdslib.isType '"String",
-                                      increment =
-                                        _js2n__-prdslib.isType '"Number",
-                                      start = _js2n__-prdslib.isType '"Number",
+                                      connection =
+                                        _js2n__-prdslib.isType '"String",
+                                      snapshot = _js2n__-prdslib.isType '"Bool",
+                                      stream_name =
+                                        _js2n__-prdslib.isType '"String",
                                     } {} false _js2n__-prdslib.never
                                 ],
                         } {} true _js2n__-prdslib.always)
@@ -1153,39 +1086,6 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "redis.read_stream"
-                                    ],
-                            } {} true _js2n__-prdslib.always
-                        ])
-                      (_js2n__-prdslib.records.record
-                        {
-                          with =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.required
-                                    [ "connection", "stream_name" ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      connection =
-                                        _js2n__-prdslib.isType '"String",
-                                      snapshot = _js2n__-prdslib.isType '"Bool",
-                                      stream_name =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                        } {} true _js2n__-prdslib.always)
-                      _js2n__-prdslib.always,
-                    _js2n__-prdslib.ifThenElse
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.records.required [ "uses" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              uses =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
                                       _js2n__-prdslib.const "redis.lookup"
                                     ],
                             } {} true _js2n__-prdslib.always
@@ -1239,77 +1139,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "files.read_csv"
-                                    ],
-                            } {} true _js2n__-prdslib.always
-                        ])
-                      (_js2n__-prdslib.records.record
-                        {
-                          with =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.required [ "file" ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      batch_size =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Number",
-                                              _js2n__-prdslib.numbers.minimum 1
-                                            ],
-                                      delimiter =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.maxLength
-                                                1,
-                                              _js2n__-prdslib.strings.minLength
-                                                1
-                                            ],
-                                      encoding =
-                                        _js2n__-prdslib.isType '"String",
-                                      fields =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.strings.minLength
-                                                1,
-                                              _js2n__-prdslib.arrays.arrayOf
-                                                (_js2n__-prdslib.isType
-                                                  '"String")
-                                            ],
-                                      file = _js2n__-prdslib.isType '"String",
-                                      quotechar =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.maxLength
-                                                1,
-                                              _js2n__-prdslib.strings.minLength
-                                                1
-                                            ],
-                                      skip =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Number",
-                                              _js2n__-prdslib.numbers.minimum 0
-                                            ],
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                        } {} true _js2n__-prdslib.always)
-                      _js2n__-prdslib.always,
-                    _js2n__-prdslib.ifThenElse
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.records.required [ "uses" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              uses =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "jinja_template"
+                                      _js2n__-prdslib.const "map"
                                     ],
                             } {} true _js2n__-prdslib.always
                         ])
@@ -1320,134 +1150,22 @@ let rec _js2n__-refsenv
                                 [
                                   _js2n__-prdslib.isType 'Record,
                                   _js2n__-prdslib.records.required
-                                    [ "field", "template" ],
+                                    [ "expression", "language" ],
                                   _js2n__-prdslib.records.record
                                     {
-                                      field = _js2n__-prdslib.isType '"String",
-                                      template =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                        } {} true _js2n__-prdslib.always)
-                      _js2n__-prdslib.always,
-                    _js2n__-prdslib.ifThenElse
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.records.required [ "uses" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              uses =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "parquet.write"
-                                    ],
-                            } {} true _js2n__-prdslib.always
-                        ])
-                      (_js2n__-prdslib.records.record
-                        {
-                          with =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.required [ "file" ],
-                                  _js2n__-prdslib.records.record
-                                    { file = _js2n__-prdslib.isType '"String", }
-                                    {} false _js2n__-prdslib.never
-                                ],
-                        } {} true _js2n__-prdslib.always)
-                      _js2n__-prdslib.always,
-                    _js2n__-prdslib.ifThenElse
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.records.required [ "uses" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              uses =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "parquet.read"
-                                    ],
-                            } {} true _js2n__-prdslib.always
-                        ])
-                      (_js2n__-prdslib.records.record
-                        {
-                          with =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.required [ "file" ],
-                                  _js2n__-prdslib.records.record
-                                    { file = _js2n__-prdslib.isType '"String", }
-                                    {} false _js2n__-prdslib.never
-                                ],
-                        } {} true _js2n__-prdslib.always)
-                      _js2n__-prdslib.always,
-                    _js2n__-prdslib.ifThenElse
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.records.required [ "uses" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              uses =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "cassandra.write"
-                                    ],
-                            } {} true _js2n__-prdslib.always
-                        ])
-                      (_js2n__-prdslib.records.record
-                        {
-                          with =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.required
-                                    [
-                                      "connection",
-                                      "keys",
-                                      "keyspace",
-                                      "mapping",
-                                      "opcode_field",
-                                      "table"
-                                    ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      connection =
-                                        _js2n__-prdslib.isType '"String",
-                                      keys =
+                                      expression =
+                                        _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.isType '"String"
+                                            ],
+                                      language =
                                         _js2n__-prdslib.allOf
                                             [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.arrays.arrayOf
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.isType
-                                                      'Record
-                                                  ])
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "jmespath", "sql" ]
                                             ],
-                                      keyspace =
-                                        _js2n__-prdslib.isType '"String",
-                                      mapping =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.arrays.arrayOf
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.isType
-                                                      'Record
-                                                  ])
-                                            ],
-                                      opcode_field =
-                                        _js2n__-prdslib.isType '"String",
-                                      table = _js2n__-prdslib.isType '"String",
                                     } {} false _js2n__-prdslib.never
                                 ],
                         } {} true _js2n__-prdslib.always)
@@ -1660,6 +1378,172 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.const
+                                        "azure.read_event_hub"
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ])
+                      (_js2n__-prdslib.records.record
+                        {
+                          with =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [
+                                      "checkpoint_store_connection_string",
+                                      "checkpoint_store_container_name",
+                                      "event_hub_connection_string",
+                                      "event_hub_consumer_group_name",
+                                      "event_hub_name"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      batch_size =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      checkpoint_store_connection_string =
+                                        _js2n__-prdslib.isType '"String",
+                                      checkpoint_store_container_name =
+                                        _js2n__-prdslib.isType '"String",
+                                      event_hub_connection_string =
+                                        _js2n__-prdslib.isType '"String",
+                                      event_hub_consumer_group_name =
+                                        _js2n__-prdslib.isType '"String",
+                                      event_hub_name =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                        } {} true _js2n__-prdslib.always)
+                      _js2n__-prdslib.always,
+                    _js2n__-prdslib.ifThenElse
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.required [ "uses" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              uses =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.const "parquet.write"
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ])
+                      (_js2n__-prdslib.records.record
+                        {
+                          with =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "file" ],
+                                  _js2n__-prdslib.records.record
+                                    { file = _js2n__-prdslib.isType '"String", }
+                                    {} false _js2n__-prdslib.never
+                                ],
+                        } {} true _js2n__-prdslib.always)
+                      _js2n__-prdslib.always,
+                    _js2n__-prdslib.ifThenElse
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.required [ "uses" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              uses =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.const "parquet.read"
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ])
+                      (_js2n__-prdslib.records.record
+                        {
+                          with =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "file" ],
+                                  _js2n__-prdslib.records.record
+                                    { file = _js2n__-prdslib.isType '"String", }
+                                    {} false _js2n__-prdslib.never
+                                ],
+                        } {} true _js2n__-prdslib.always)
+                      _js2n__-prdslib.always,
+                    _js2n__-prdslib.ifThenElse
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.required [ "uses" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              uses =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.const "std.write"
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ])
+                      (_js2n__-prdslib.records.record
+                        { with = _js2n__-prdslib.always, } {} true
+                        _js2n__-prdslib.always) _js2n__-prdslib.always,
+                    _js2n__-prdslib.ifThenElse
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.required [ "uses" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              uses =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.const "std.read"
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ])
+                      (_js2n__-prdslib.records.record
+                        { with = _js2n__-prdslib.always, } {} true
+                        _js2n__-prdslib.always) _js2n__-prdslib.always,
+                    _js2n__-prdslib.ifThenElse
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.required [ "uses" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              uses =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.const "jinja_template"
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ])
+                      (_js2n__-prdslib.records.record
+                        {
+                          with =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "field", "template" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      field = _js2n__-prdslib.isType '"String",
+                                      template =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } {} true _js2n__-prdslib.always)
+                      _js2n__-prdslib.always,
+                    _js2n__-prdslib.ifThenElse
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.required [ "uses" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              uses =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
                                       _js2n__-prdslib.const "filter"
                                     ],
                             } {} true _js2n__-prdslib.always
@@ -1697,7 +1581,75 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "rename_field"
+                                      _js2n__-prdslib.const "cassandra.write"
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ])
+                      (_js2n__-prdslib.records.record
+                        {
+                          with =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [
+                                      "connection",
+                                      "keys",
+                                      "keyspace",
+                                      "mapping",
+                                      "opcode_field",
+                                      "table"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      connection =
+                                        _js2n__-prdslib.isType '"String",
+                                      keys =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.anyOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.isType
+                                                      'Record
+                                                  ])
+                                            ],
+                                      keyspace =
+                                        _js2n__-prdslib.isType '"String",
+                                      mapping =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.anyOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.isType
+                                                      'Record
+                                                  ])
+                                            ],
+                                      opcode_field =
+                                        _js2n__-prdslib.isType '"String",
+                                      table = _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } {} true _js2n__-prdslib.always)
+                      _js2n__-prdslib.always,
+                    _js2n__-prdslib.ifThenElse
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.required [ "uses" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              uses =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.const "add_field"
                                     ],
                             } {} true _js2n__-prdslib.always
                         ])
@@ -1727,17 +1679,29 @@ let rec _js2n__-refsenv
                                                               'Record,
                                                             _js2n__-prdslib.records.required
                                                               [
-                                                                "from_field",
-                                                                "to_field"
+                                                                "expression",
+                                                                "field",
+                                                                "language"
                                                               ],
                                                             _js2n__-prdslib.records.record
                                                               {
-                                                                from_field =
+                                                                expression =
                                                                   _js2n__-prdslib.isType
                                                                       '"String",
-                                                                to_field =
+                                                                field =
                                                                   _js2n__-prdslib.isType
                                                                       '"String",
+                                                                language =
+                                                                  _js2n__-prdslib.allOf
+                                                                      [
+                                                                        _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                        _js2n__-prdslib.enum
+                                                                          [
+                                                                            "jmespath",
+                                                                            "sql"
+                                                                          ]
+                                                                      ],
                                                               } {} false
                                                               _js2n__-prdslib.never
                                                           ])
@@ -1747,15 +1711,27 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.allOf
                                         [
                                           _js2n__-prdslib.records.required
-                                            [ "from_field", "to_field" ],
+                                            [
+                                              "expression",
+                                              "field",
+                                              "language"
+                                            ],
                                           _js2n__-prdslib.records.record
                                             {
-                                              from_field =
+                                              expression =
                                                 _js2n__-prdslib.isType
                                                     '"String",
-                                              to_field =
+                                              field =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              language =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "jmespath", "sql" ]
+                                                    ],
                                             } {} false _js2n__-prdslib.never
                                         ]
                                     ]
@@ -1838,42 +1814,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "std.write"
-                                    ],
-                            } {} true _js2n__-prdslib.always
-                        ])
-                      (_js2n__-prdslib.records.record
-                        { with = _js2n__-prdslib.always, } {} true
-                        _js2n__-prdslib.always) _js2n__-prdslib.always,
-                    _js2n__-prdslib.ifThenElse
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.records.required [ "uses" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              uses =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "std.read"
-                                    ],
-                            } {} true _js2n__-prdslib.always
-                        ])
-                      (_js2n__-prdslib.records.record
-                        { with = _js2n__-prdslib.always, } {} true
-                        _js2n__-prdslib.always) _js2n__-prdslib.always,
-                    _js2n__-prdslib.ifThenElse
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.records.required [ "uses" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              uses =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const
-                                        "azure.read_event_hub"
+                                      _js2n__-prdslib.const "sequence"
                                     ],
                             } {} true _js2n__-prdslib.always
                         ])
@@ -1883,29 +1824,13 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.required
-                                    [
-                                      "checkpoint_store_connection_string",
-                                      "checkpoint_store_container_name",
-                                      "event_hub_connection_string",
-                                      "event_hub_consumer_group_name",
-                                      "event_hub_name"
-                                    ],
                                   _js2n__-prdslib.records.record
                                     {
-                                      batch_size =
-                                        _js2n__-prdslib.isType 'Integer,
-                                      checkpoint_store_connection_string =
-                                        _js2n__-prdslib.isType '"String",
-                                      checkpoint_store_container_name =
-                                        _js2n__-prdslib.isType '"String",
-                                      event_hub_connection_string =
-                                        _js2n__-prdslib.isType '"String",
-                                      event_hub_consumer_group_name =
-                                        _js2n__-prdslib.isType '"String",
-                                      event_hub_name =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} true _js2n__-prdslib.always
+                                      field = _js2n__-prdslib.isType '"String",
+                                      increment =
+                                        _js2n__-prdslib.isType '"Number",
+                                      start = _js2n__-prdslib.isType '"Number",
+                                    } {} false _js2n__-prdslib.never
                                 ],
                         } {} true _js2n__-prdslib.always)
                       _js2n__-prdslib.always,
@@ -2148,6 +2073,81 @@ let rec _js2n__-refsenv
                                       port = _js2n__-prdslib.isType 'Integer,
                                     } {} false _js2n__-prdslib.never
                                 ],
+                        } {} true _js2n__-prdslib.always)
+                      _js2n__-prdslib.always,
+                    _js2n__-prdslib.ifThenElse
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.required [ "uses" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              uses =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.const "rename_field"
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ])
+                      (_js2n__-prdslib.records.record
+                        {
+                          with =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.records.required
+                                            [ "fields" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              fields =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Record,
+                                                            _js2n__-prdslib.records.required
+                                                              [
+                                                                "from_field",
+                                                                "to_field"
+                                                              ],
+                                                            _js2n__-prdslib.records.record
+                                                              {
+                                                                from_field =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                to_field =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                              } {} false
+                                                              _js2n__-prdslib.never
+                                                          ])
+                                                    ],
+                                            } {} false _js2n__-prdslib.never
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.records.required
+                                            [ "from_field", "to_field" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              from_field =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              to_field =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} false _js2n__-prdslib.never
+                                        ]
+                                    ]
+                                ],
                         } {} true _js2n__-prdslib.always) _js2n__-prdslib.always
                   ],
                 _js2n__-prdslib.records.record
@@ -2155,28 +2155,28 @@ let rec _js2n__-refsenv
                     uses =
                       _js2n__-prdslib.enum
                           [
-                            "map",
-                            "add_field",
-                            "sequence",
-                            "redis.write",
-                            "redis.read_stream",
-                            "redis.lookup",
                             "files.read_csv",
-                            "jinja_template",
-                            "parquet.write",
-                            "parquet.read",
-                            "cassandra.write",
+                            "redis.read_stream",
+                            "redis.write",
+                            "redis.lookup",
+                            "map",
                             "relational.write",
                             "relational.lookup",
                             "relational.read",
-                            "filter",
-                            "rename_field",
-                            "remove_field",
+                            "azure.read_event_hub",
+                            "parquet.write",
+                            "parquet.read",
                             "std.write",
                             "std.read",
-                            "azure.read_event_hub",
+                            "jinja_template",
+                            "filter",
+                            "cassandra.write",
+                            "add_field",
+                            "remove_field",
+                            "sequence",
                             "http.write",
-                            "http.receiver"
+                            "http.receiver",
+                            "rename_field"
                           ],
                   } {} true _js2n__-prdslib.always
               ]),

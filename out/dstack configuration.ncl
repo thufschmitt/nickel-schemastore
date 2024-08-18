@@ -974,31 +974,7 @@ let rec _js2n__-refsenv
                   creation_policy =
                     _js2n__-refsenv."_js2n__-:definitions/CreationPolicy!predicate",
                   entrypoint = _js2n__-prdslib.isType '"String",
-                  env =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^[a-zA-Z_][a-zA-Z0-9_]*(=.*$|$)"
-                                  ])
-                            ],
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.record {} {} true
-                                (_js2n__-prdslib.anyOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-refsenv."_js2n__-:definitions/EnvSentinelRequest!predicate"
-                                  ])
-                            ]
-                        ],
+                  env = _js2n__-refsenv."_js2n__-:definitions/Env!predicate",
                   home_dir = _js2n__-prdslib.isType '"String",
                   ide =
                     _js2n__-prdslib.allOf
@@ -1039,6 +1015,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Number",
                           _js2n__-prdslib.numbers.exclusiveMinimum 0
                         ],
+                  name = _js2n__-prdslib.isType '"String",
+                  nvcc = _js2n__-prdslib.isType '"Bool",
                   pool_name = _js2n__-prdslib.isType '"String",
                   ports =
                     _js2n__-prdslib.allOf
@@ -1114,7 +1092,39 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate"
                         ],
+                  working_dir = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Env!predicate"
+        | doc m%"
+          Env represents a mapping of process environment variables, as in environ(7).
+          Environment values may be omitted, in that case the :class:`EnvSentinel`
+          object is used as a placeholder.
+          
+          To create an instance from a `dict[str, str]` or a `list[str]` use pydantic's
+          :meth:`BaseModel.parse_obj(dict | list)` method.
+          
+          NB: this is *NOT* a CoreModel, pydantic-duality, which is used as a base
+          for the CoreModel, doesn't play well with custom root models.
+        "%
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.isType '"String")
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-refsenv."_js2n__-:definitions/EnvSentinelRequest!predicate"
+                      ])
+                ]
             ],
       "_js2n__-:definitions/EnvSentinelRequest!predicate" =
         _js2n__-prdslib.allOf
@@ -1124,6 +1134,73 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 { key = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/FleetConfigurationRequest!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  backends =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/BackendType!predicate"
+                        ],
+                  env = _js2n__-refsenv."_js2n__-:definitions/Env!predicate",
+                  instance_types =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  max_price =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.numbers.exclusiveMinimum 0
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  nodes =
+                    _js2n__-refsenv."_js2n__-:definitions/Range_int_!predicate",
+                  placement =
+                    _js2n__-refsenv."_js2n__-:definitions/InstanceGroupPlacement!predicate",
+                  regions =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  resources =
+                    _js2n__-refsenv."_js2n__-:definitions/ResourcesSpecRequest!predicate",
+                  retry =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ProfileRetryRequest!predicate",
+                          _js2n__-prdslib.isType '"Bool"
+                        ],
+                  spot_policy =
+                    _js2n__-refsenv."_js2n__-:definitions/SpotPolicy!predicate",
+                  ssh_config =
+                    _js2n__-refsenv."_js2n__-:definitions/SSHParamsRequest!predicate",
+                  termination_idle_time =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  termination_policy =
+                    _js2n__-refsenv."_js2n__-:definitions/TerminationPolicy!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "fleet" ]
+                        ],
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/GatewayConfigurationRequest!predicate" =
         _js2n__-prdslib.allOf
@@ -1152,6 +1229,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "gateway" ]
                         ],
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/InstanceGroupPlacement!predicate"
+        | doc "An enumeration."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "any", "cluster" ]
             ],
       "_js2n__-:definitions/LetsEncryptGatewayCertificateRequest!predicate" =
         _js2n__-prdslib.allOf
@@ -1522,6 +1606,58 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "no-capacity", "interruption", "error" ]
             ],
+      "_js2n__-:definitions/SSHHostParamsRequest!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "hostname" ],
+              _js2n__-prdslib.records.record
+                {
+                  hostname = _js2n__-prdslib.isType '"String",
+                  identity_file = _js2n__-prdslib.isType '"String",
+                  port = _js2n__-prdslib.isType 'Integer,
+                  ssh_key =
+                    _js2n__-refsenv."_js2n__-:definitions/SSHKeyRequest!predicate",
+                  user = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SSHKeyRequest!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "public" ],
+              _js2n__-prdslib.records.record
+                {
+                  private = _js2n__-prdslib.isType '"String",
+                  public = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SSHParamsRequest!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "hosts" ],
+              _js2n__-prdslib.records.record
+                {
+                  hosts =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/SSHHostParamsRequest!predicate",
+                                _js2n__-prdslib.isType '"String"
+                              ])
+                        ],
+                  identity_file = _js2n__-prdslib.isType '"String",
+                  network = _js2n__-prdslib.isType '"String",
+                  port = _js2n__-prdslib.isType 'Integer,
+                  ssh_key =
+                    _js2n__-refsenv."_js2n__-:definitions/SSHKeyRequest!predicate",
+                  user = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/ScalingSpecRequest!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1565,31 +1701,7 @@ let rec _js2n__-refsenv
                   creation_policy =
                     _js2n__-refsenv."_js2n__-:definitions/CreationPolicy!predicate",
                   entrypoint = _js2n__-prdslib.isType '"String",
-                  env =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^[a-zA-Z_][a-zA-Z0-9_]*(=.*$|$)"
-                                  ])
-                            ],
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.record {} {} true
-                                (_js2n__-prdslib.anyOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-refsenv."_js2n__-:definitions/EnvSentinelRequest!predicate"
-                                  ])
-                            ]
-                        ],
+                  env = _js2n__-refsenv."_js2n__-:definitions/Env!predicate",
                   home_dir = _js2n__-prdslib.isType '"String",
                   https = _js2n__-prdslib.isType '"Bool",
                   image = _js2n__-prdslib.isType '"String",
@@ -1624,6 +1736,8 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/TGIChatModelRequest!predicate",
                           _js2n__-refsenv."_js2n__-:definitions/OpenAIChatModelRequest!predicate"
                         ],
+                  name = _js2n__-prdslib.isType '"String",
+                  nvcc = _js2n__-prdslib.isType '"Bool",
                   pool_name = _js2n__-prdslib.isType '"String",
                   port =
                     _js2n__-prdslib.anyOf
@@ -1710,6 +1824,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate"
                         ],
+                  working_dir = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/SpotPolicy!predicate"
@@ -1776,31 +1891,7 @@ let rec _js2n__-refsenv
                   creation_policy =
                     _js2n__-refsenv."_js2n__-:definitions/CreationPolicy!predicate",
                   entrypoint = _js2n__-prdslib.isType '"String",
-                  env =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^[a-zA-Z_][a-zA-Z0-9_]*(=.*$|$)"
-                                  ])
-                            ],
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.record {} {} true
-                                (_js2n__-prdslib.anyOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-refsenv."_js2n__-:definitions/EnvSentinelRequest!predicate"
-                                  ])
-                            ]
-                        ],
+                  env = _js2n__-refsenv."_js2n__-:definitions/Env!predicate",
                   home_dir = _js2n__-prdslib.isType '"String",
                   image = _js2n__-prdslib.isType '"String",
                   instance_name = _js2n__-prdslib.isType '"String",
@@ -1828,12 +1919,14 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Number",
                           _js2n__-prdslib.numbers.exclusiveMinimum 0
                         ],
+                  name = _js2n__-prdslib.isType '"String",
                   nodes =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Integer,
                           _js2n__-prdslib.numbers.minimum 1
                         ],
+                  nvcc = _js2n__-prdslib.isType '"Bool",
                   pool_name = _js2n__-prdslib.isType '"String",
                   ports =
                     _js2n__-prdslib.allOf
@@ -1908,6 +2001,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate"
                         ],
+                  working_dir = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/TerminationPolicy!predicate"
@@ -1916,6 +2010,27 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "dont-destroy", "destroy-after-idle" ]
+            ],
+      "_js2n__-:definitions/VolumeConfigurationRequest!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "backend", "region" ],
+              _js2n__-prdslib.records.record
+                {
+                  backend =
+                    _js2n__-refsenv."_js2n__-:definitions/BackendType!predicate",
+                  name = _js2n__-prdslib.isType '"String",
+                  region = _js2n__-prdslib.isType '"String",
+                  size = _js2n__-prdslib.isType '"Number",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "volume" ]
+                        ],
+                  volume_id = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/VolumeMountPointRequest!predicate" =
         _js2n__-prdslib.allOf
@@ -1938,7 +2053,9 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/DevEnvironmentConfigurationRequest!predicate",
               _js2n__-refsenv."_js2n__-:definitions/TaskConfigurationRequest!predicate",
               _js2n__-refsenv."_js2n__-:definitions/ServiceConfigurationRequest!predicate",
-              _js2n__-refsenv."_js2n__-:definitions/GatewayConfigurationRequest!predicate"
+              _js2n__-refsenv."_js2n__-:definitions/FleetConfigurationRequest!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/GatewayConfigurationRequest!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/VolumeConfigurationRequest!predicate"
             ],
           _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
         ])

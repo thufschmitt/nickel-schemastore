@@ -1056,8 +1056,7 @@ let rec _js2n__-refsenv
                 "G503",
                 "G504",
                 "G505",
-                "G601",
-                "G602"
+                "G601"
               ]),
       "_js2n__-:definitions/govet-analyzers!contract" =
         _js2n__-prdslib.contract_from_predicate
@@ -1415,6 +1414,7 @@ let rec _js2n__-refsenv
                 "call-to-gc",
                 "cognitive-complexity",
                 "comment-spacings",
+                "comments-density",
                 "confusing-naming",
                 "confusing-results",
                 "constant-logical-expr",
@@ -3314,13 +3314,16 @@ let rec _js2n__-refsenv
                         "error-nil",
                         "expected-actual",
                         "float-compare",
+                        "formatter",
                         "go-require",
                         "len",
                         "negative-positive",
                         "nil-compare",
                         "require-error",
+                        "suite-broken-parallel",
                         "suite-dont-use-pkg",
                         "suite-extra-assert-call",
+                        "suite-subtest-run",
                         "suite-thelper",
                         "useless-assert"
                       ])
@@ -3341,13 +3344,16 @@ let rec _js2n__-refsenv
                         "error-nil",
                         "expected-actual",
                         "float-compare",
+                        "formatter",
                         "go-require",
                         "len",
                         "negative-positive",
                         "nil-compare",
                         "require-error",
+                        "suite-broken-parallel",
                         "suite-dont-use-pkg",
                         "suite-extra-assert-call",
+                        "suite-subtest-run",
                         "suite-thelper",
                         "useless-assert"
                       ])
@@ -3360,6 +3366,18 @@ let rec _js2n__-refsenv
                   pattern
                     | String
                     | doc "Regexp for expected variable name."
+                    | optional,
+                }
+                | optional,
+              formatter
+                | {
+                  check-format-string
+                    | Bool
+                    | doc "To enable go vet's printf checks."
+                    | optional,
+                  require-f-funcs
+                    | Bool
+                    | doc "To require f-assertions if format string is used."
                     | optional,
                 }
                 | optional,
@@ -3497,7 +3515,6 @@ let rec _js2n__-refsenv
           unused
             | {
               exported-fields-are-used | Bool | doc "" | optional,
-              exported-is-used | Bool | doc "" | optional,
               field-writes-are-uses | Bool | doc "" | optional,
               generated-is-used | Bool | doc "" | optional,
               local-variables-are-used | Bool | doc "" | optional,
