@@ -989,6 +989,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   "$schema" = _js2n__-prdslib.isType '"String",
+                  dangerouslyDisablePackageManagerCheck =
+                    _js2n__-prdslib.isType '"Bool",
                   globalDependencies =
                     _js2n__-prdslib.allOf
                         [

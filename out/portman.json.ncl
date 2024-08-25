@@ -943,6 +943,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.always
                 ])
             | optional,
+          orderOfFolders | Array (String) | optional,
           orderOfOperations | Array (String) | optional,
           portmanReplacements
             | Array { replaceWith | String, searchFor | String, }

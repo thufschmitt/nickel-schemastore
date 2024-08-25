@@ -1576,6 +1576,12 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType '"Bool",
                                   _js2n__-prdslib.isType 'Null
                                 ],
+                          noUncheckedSideEffectImports =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"Bool",
+                                  _js2n__-prdslib.isType 'Null
+                                ],
                           noUnusedLocals =
                             _js2n__-prdslib.anyOf
                                 [
@@ -1766,6 +1772,12 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType 'Null
                                 ],
                           strictBindCallApply =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"Bool",
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                          strictBuiltinIteratorReturn =
                             _js2n__-prdslib.anyOf
                                 [
                                   _js2n__-prdslib.isType '"Bool",

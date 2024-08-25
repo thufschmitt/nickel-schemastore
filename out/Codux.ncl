@@ -1007,11 +1007,25 @@ let rec _js2n__-refsenv
       defaultImagesDir
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"String")
+        | doc m%"
+          Configures the default directory where the Codux Media Manager stores new assets.
+          Refer to https://help.codux.com/kb/en/article/kb96140 for more information.
+        "%
+        | optional,
+      defaultJSONSchemas
+        | Array (Dyn)
+        | doc m%"
+          Configuration for adding additional json schemas to your project.
+          This can be used to centralise json schemas addition instead of using $schema and get autocompletion for json files when using Codux.
+        "%
         | optional,
       disableProjectSharing
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"Bool")
-        | doc "Disables ability to share current project."
+        | doc m%"
+          Disables sharing the project in the Codux Online Playground.
+          Refer to https://help.codux.com/kb/en/article/kb02353 for more information.
+        "%
         | optional,
       fileNamingConvention
         | _js2n__-prdslib.contract_from_predicate
@@ -1049,13 +1063,6 @@ let rec _js2n__-refsenv
         | doc m%"
           Specifies project folders to exclude from component search.
           Refer to https://help.codux.com/kb/en/article/kb14730 for more information.
-        "%
-        | optional,
-      "json-simple-ast.defaultJSONSchemas"
-        | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
-        | doc m%"
-          Configuration for adding additional json schemas to your project.
-          This can be used to centralise json schemas addition instead of using $schema and get autocompletion for json files when using Codux.
         "%
         | optional,
       maxThumbnailSnapshotDelayConfig
@@ -1244,6 +1251,10 @@ let rec _js2n__-refsenv
                 { commonStyleFilePattern = _js2n__-prdslib.isType '"String", }
                 {} true _js2n__-prdslib.always
             ])
+        | doc m%"
+          Formats code styling in the Codux code drawer.
+          Refer to https://help.codux.com/kb/en/article/kb18018 for more information.
+        "%
         | optional,
       styling
         | _js2n__-prdslib.contract_from_predicate
@@ -1288,6 +1299,10 @@ let rec _js2n__-refsenv
       tailwindcssConfig
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"String")
+        | doc m%"
+          Lets you pass a custom tailwindcss config file path.
+          Refer to https://help.codux.com/kb/en/article/kb18518 for more information.
+        "%
         | optional,
       ..
     }
