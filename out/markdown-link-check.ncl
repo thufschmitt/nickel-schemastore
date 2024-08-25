@@ -954,6 +954,7 @@ let rec _js2n__-refsenv
                               false _js2n__-prdslib.never
                           ])
                     ],
+              projectBaseUrl = _js2n__-prdslib.isType '"String",
               replacementPatterns =
                 _js2n__-prdslib.allOf
                     [

@@ -1157,6 +1157,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum
                             [ "Public", "Private", "Protected" ]
                         ],
+                  dataCtorCustom = _js2n__-prdslib.isType '"Bool",
                   dataCtorParams =
                     _js2n__-prdslib.allOf
                         [
@@ -1175,12 +1176,19 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum
                             [ "Public", "Private", "Protected" ]
                         ],
+                  dataSvcCtorCustom = _js2n__-prdslib.isType '"Bool",
                   dataSvcCtorParams =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
+                        ],
+                  dataSvcCustom =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "Full", "Partial", "None" ]
                         ],
                   dataSvcExtensions = _js2n__-prdslib.isType '"Bool",
                   databaseCustomMapper = _js2n__-prdslib.isType '"Bool",
@@ -1251,6 +1259,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum
                             [ "Public", "Private", "Protected" ]
                         ],
+                  managerCtorCustom = _js2n__-prdslib.isType '"Bool",
                   managerCtorParams =
                     _js2n__-prdslib.allOf
                         [
@@ -1258,6 +1267,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  managerCustom = _js2n__-prdslib.isType '"Bool",
                   managerExtensions = _js2n__-prdslib.isType '"Bool",
                   name = _js2n__-prdslib.isType '"String",
                   namespace = _js2n__-prdslib.isType '"String",
@@ -1372,7 +1382,12 @@ let rec _js2n__-refsenv
                   dataEntityMapper = _js2n__-prdslib.isType '"String",
                   dataExtensions = _js2n__-prdslib.isType '"Bool",
                   dataInvoker = _js2n__-prdslib.isType '"Bool",
-                  dataSvcCustom = _js2n__-prdslib.isType '"Bool",
+                  dataSvcCustom =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "Full", "Partial", "None" ]
+                        ],
                   dataSvcExtensions = _js2n__-prdslib.isType '"Bool",
                   dataSvcInvoker = _js2n__-prdslib.isType '"Bool",
                   dataSvcTransaction = _js2n__-prdslib.isType '"Bool",
@@ -1599,6 +1614,7 @@ let rec _js2n__-refsenv
                   annotation3 = _js2n__-prdslib.isType '"String",
                   argumentName = _js2n__-prdslib.isType '"String",
                   autoCreate = _js2n__-prdslib.isType '"Bool",
+                  cacheKey = _js2n__-prdslib.isType '"Bool",
                   cosmosMapper =
                     _js2n__-prdslib.allOf
                         [

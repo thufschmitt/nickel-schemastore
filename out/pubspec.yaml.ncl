@@ -1018,18 +1018,23 @@ let rec _js2n__-refsenv
     }
     in
   {
-      authors | Array (String) | optional,
       dependencies
         | _js2n__-refsenv."_js2n__-:definitions/dependencies!contract"
         | optional,
       dependency_overrides
         | _js2n__-refsenv."_js2n__-:definitions/dependencies!contract"
         | optional,
-      description | String | optional,
+      description
+        | String
+        | doc "A short, plain text sales-pitch for your package in English. [Learn More](https://dart.dev/tools/pub/pubspec#description)"
+        | optional,
       dev_dependencies
         | _js2n__-refsenv."_js2n__-:definitions/dependencies!contract"
         | optional,
-      documentation | String | optional,
+      documentation
+        | String
+        | doc "A site that hosts documentation, separate from the main homepage and from the Pub-generated API reference. [Learn more](https://dart.dev/tools/pub/pubspec#documentation)"
+        | optional,
       environment
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1039,16 +1044,278 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/versionConstraint!predicate"
             ])
         | optional,
-      executables | {  .. } | optional,
-      homepage | String | optional,
-      issue_tracker | String | optional,
-      name
+      executables
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ])
+            ])
+        | doc "A package may expose one or more of its scripts as executables that can be run directly from the command line. [Learn more](https://dart.dev/tools/pub/pubspec#executables)"
+        | optional,
+      false_secrets
+        | Array Dyn
+        | doc "Gitignore style list of files where pub will not search for accidentally exposed keys. [Learn more.](https://dart.dev/tools/pub/pubspec#false_secrets)"
+        | optional,
+      flutter
+        | {
+          assets
+            | Array (
+              _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "path" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            path = _js2n__-prdslib.isType '"String",
+                            transformers =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.required
+                                            [ "package" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              args =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.isType
+                                                          '"String"),
+                                                      _js2n__-prdslib.arrays.minItems
+                                                        1
+                                                    ],
+                                              package =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} true _js2n__-prdslib.always
+                                        ])
+                                  ],
+                          } {} false _js2n__-prdslib.never
+                      ]
+                  ])
+            )
+            | doc "A list of directories or files that contain images or other assets. [Learn more.](https://flutter.dev/docs/development/ui/assets-and-images)"
+            | optional,
+          fonts
+            | Array
+              {
+                family
+                  | String
+                  | doc "The name of the typeface. You use this name in the `fontFamily` property of a `TextStyle` object.",
+                fonts
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"Array",
+                        _js2n__-prdslib.arrays.arrayOf
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.required [ "asset" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  asset =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^.+\\.(ttf|otf|ttc)$"
+                                        ],
+                                  style =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.enum
+                                            [ "normal", "italic" ]
+                                        ],
+                                  weight =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.enum
+                                            [
+                                              100,
+                                              200,
+                                              300,
+                                              400,
+                                              500,
+                                              600,
+                                              700,
+                                              800,
+                                              900
+                                            ]
+                                        ],
+                                } {} true _js2n__-prdslib.always
+                            ]),
+                        _js2n__-prdslib.arrays.minItems 1
+                      ]),
+                ..
+              }
+            | doc "A list of font families and their fonts. [Learn more.](https://docs.flutter.dev/cookbook/design/fonts#declare-the-font-in-the-pubspec-yaml-file)"
+            | optional,
+          generate
+            | Bool
+            | doc "Enables generation of localized strings from arb files"
+            | optional,
+          shaders
+            | Array (
+              _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.pattern "\\.frag$"
+                  ])
+            )
+            | doc "Shaders, in the form of GLSL files with the .frag extension. The Flutter command-line tool compiles the shader to its appropriate backend format, and generates its necessary runtime metadata. The compiled shader is then included in the application just like an asset. [Learn more](https://docs.flutter.dev/ui/design/graphics/fragment-shaders#adding-shaders-to-an-application)"
+            | optional,
+          uses-material-design
+            | Bool
+            | doc "Whether this project uses the Material Design package. Required if you use the Material icon font"
+            | optional,
+          ..
+        }
+        | doc "Flutter-specific metadata. [Learn more.](https://docs.flutter.dev/tools/pubspec)"
+        | optional,
+      funding
+        | Array (String)
+        | doc "List of URLs where users can sponsor development of the package. [Learn more.](https://dart.dev/tools/pub/pubspec#funding)"
+        | optional,
+      homepage
         | String
-        | doc "The name of this package. The name is how other packages refer to yours, should you publish it.",
-      publish_to | String | optional,
-      repository | String | optional,
+        | doc "A URL pointing to the website for your package. [Learn more](https://dart.dev/tools/pub/pubspec#homepage)"
+        | optional,
+      ignored_advisories
+        | Array (String)
+        | doc "A list of security advisory identifiers that are ignored for this package. [See pub.dev Security Advisories](https://dart.dev/tools/pub/security-advisories) [Learn more.](https://dart.dev/tools/pub/pubspec#ignored_advisories)"
+        | optional,
+      issue_tracker
+        | String
+        | doc "A URL for the package's issue tracker, where existing bugs can be viewed and new bugs can be filed. [Learn more](https://dart.dev/tools/pub/pubspec#issue_tracker)"
+        | optional,
+      name
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "[a-z0-9_]"
+            ])
+        | doc "The name of this package. The name is how other packages refer to yours, should you publish it. [Learn more](https://dart.dev/tools/pub/pubspec#name)",
+      platforms
+        | {
+          android
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType 'Null)
+            | optional,
+          ios
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType 'Null)
+            | optional,
+          linux
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType 'Null)
+            | optional,
+          macos
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType 'Null)
+            | optional,
+          web
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType 'Null)
+            | optional,
+          windows
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType 'Null)
+            | optional,
+        }
+        | doc "The platforms field specifies which platforms the package supports. [Learn more](https://dart.dev/tools/pub/pubspec#platforms)"
+        | optional,
+      publish_to
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.enum [ "none" ]
+                    ]
+                ]
+            ])
+        | doc "Can be used to specify a custom pub package server to publish. Specify none to prevent a package from being published. [Learn more.](https://dart.dev/tools/pub/pubspec#publish_to)"
+        | optional,
+      repository
+        | String
+        | doc "The optional repository field should contain the URL for your package's source code repository. [Learn more](https://dart.dev/tools/pub/pubspec#repository)"
+        | optional,
+      screenshots
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "description", "path" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        description =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.maxLength 160
+                              ],
+                        path =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^.+\\.(png|jpg|gif|webp)$"
+                              ],
+                      } {} true _js2n__-prdslib.always
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 10
+            ])
+        | doc "Showcase widgets or other visual elements using screenshots displayed that will be displayed on pub.dev. [Learn more.](https://dart.dev/tools/pub/pubspec#screenshots)"
+        | optional,
+      topics
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.pattern
+                      "^[a-z][a-z0-9-]{1,30}[a-z0-9]$"
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 5
+            ])
+        | doc "Pub.dev displays the topics on the package page as well as in the search results. [See the list of available topics](https://pub.dev/topics) [Learn more.](https://dart.dev/tools/pub/pubspec#topics)"
+        | optional,
       version
         | _js2n__-refsenv."_js2n__-:definitions/version!contract"
+        | doc "A version number is required to host your package on the pub.dev site, but can be omitted for local-only packages. If you omit it, your package is implicitly versioned 0.0.0. [Learn more](https://dart.dev/tools/pub/pubspec#version)"
         | optional,
       ..
     }

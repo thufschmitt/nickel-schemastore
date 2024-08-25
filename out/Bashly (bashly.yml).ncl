@@ -1204,6 +1204,7 @@ let rec _js2n__-refsenv
                         ],
                   private = _js2n__-prdslib.isType '"Bool",
                   required = _js2n__-prdslib.isType '"Bool",
+                  validate = _js2n__-prdslib.isType '"String",
                 } { "^x_." = _js2n__-prdslib.always, } false
                 _js2n__-prdslib.never
             ],
@@ -1359,6 +1360,19 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern "^--"
+                        ],
+                  needs =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.strings.minLength 1,
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.minLength 1
+                              ]),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   private = _js2n__-prdslib.isType '"Bool",
                   repeatable = _js2n__-prdslib.isType '"Bool",

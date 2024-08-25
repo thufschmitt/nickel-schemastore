@@ -897,28 +897,816 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:properties/configuration!predicate" =
+      "_js2n__-:definitions/BlockStep!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.arrays.uniqueItems,
+              _js2n__-prdslib.records.required [ "block" ],
               _js2n__-prdslib.records.record
                 {
-                  arguments =
+                  block =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.anyOf
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
                               [
-                                _js2n__-prdslib.isType 'Record,
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.isType '"Bool",
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.isType '"Number",
-                                _js2n__-prdslib.isType '"String"
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate"
                               ])
                         ],
+                  error =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate"
+                              ])
+                        ],
+                  loop = _js2n__-refsenv."_js2n__-:definitions/Loop!predicate",
+                  meta = _js2n__-prdslib.isType 'Record,
+                  name = _js2n__-prdslib.isType '"String",
+                  out =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/CheckpointStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "checkpoint" ],
+              _js2n__-prdslib.records.record
+                {
+                  checkpoint = _js2n__-prdslib.isType '"String",
+                  meta = _js2n__-prdslib.isType 'Record,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/CronTrigger!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  cron =
+                    _js2n__-refsenv."_js2n__-:definitions/CronTriggerParams!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/CronTriggerParams!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "entryPoint", "spec" ],
+              _js2n__-prdslib.records.record
+                {
+                  activeProfiles =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  arguments = _js2n__-prdslib.isType 'Record,
+                  entryPoint = _js2n__-prdslib.isType '"String",
+                  exclusive =
+                    _js2n__-refsenv."_js2n__-:definitions/ExclusiveMode!predicate",
+                  runAs =
+                    _js2n__-refsenv."_js2n__-:definitions/RunAs!predicate",
+                  spec = _js2n__-prdslib.isType '"String",
+                  timezone = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DirImport!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  dir =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ImmutableDirectoryDefinition!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/EventConfiguration!contract" =
+        {
+            inVarsBlacklist | Array (String) | optional,
+            metaBlacklist | Array (String) | optional,
+            outVarsBlacklist | Array (String) | optional,
+            recordEvents | Bool | optional,
+            recordTaskInVars | Bool | optional,
+            recordTaskMeta | Bool | optional,
+            recordTaskOutVars | Bool | optional,
+            truncateInVars | Bool | optional,
+            truncateMaxArrayLength | std.number.Integer | optional,
+            truncateMaxDepth | std.number.Integer | optional,
+            truncateMaxStringLength | std.number.Integer | optional,
+            truncateMeta | Bool | optional,
+            truncateOutVars | Bool | optional,
+          },
+      "_js2n__-:definitions/EventConfiguration!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  inVarsBlacklist =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  metaBlacklist =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  outVarsBlacklist =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  recordEvents = _js2n__-prdslib.isType '"Bool",
+                  recordTaskInVars = _js2n__-prdslib.isType '"Bool",
+                  recordTaskMeta = _js2n__-prdslib.isType '"Bool",
+                  recordTaskOutVars = _js2n__-prdslib.isType '"Bool",
+                  truncateInVars = _js2n__-prdslib.isType '"Bool",
+                  truncateMaxArrayLength = _js2n__-prdslib.isType 'Integer,
+                  truncateMaxDepth = _js2n__-prdslib.isType 'Integer,
+                  truncateMaxStringLength = _js2n__-prdslib.isType 'Integer,
+                  truncateMeta = _js2n__-prdslib.isType '"Bool",
+                  truncateOutVars = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ExclusiveMode!contract" =
+        {
+            group | String,
+            mode
+              | std.enum.TagOrString
+              | [| 'wait, 'cancelOld, 'cancel |]
+              | optional,
+          },
+      "_js2n__-:definitions/ExclusiveMode!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "group" ],
+              _js2n__-prdslib.records.record
+                {
+                  group = _js2n__-prdslib.isType '"String",
+                  mode =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "cancel", "cancelOld", "wait" ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ExitStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "exit" ]
+            ],
+      "_js2n__-:definitions/ExpressionFullStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "expr" ],
+              _js2n__-prdslib.records.record
+                {
+                  error =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate"
+                              ])
+                        ],
+                  expr = _js2n__-prdslib.isType '"String",
+                  meta = _js2n__-prdslib.isType 'Record,
+                  name = _js2n__-prdslib.isType '"String",
+                  out =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ExpressionShortStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^\\$\\{.*}"
+            ],
+      "_js2n__-:definitions/FlowCallStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "call" ],
+              _js2n__-prdslib.records.record
+                {
+                  call = _js2n__-prdslib.isType '"String",
+                  error =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate"
+                              ])
+                        ],
+                  "in" =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                  loop = _js2n__-refsenv."_js2n__-:definitions/Loop!predicate",
+                  meta = _js2n__-prdslib.isType 'Record,
+                  name = _js2n__-prdslib.isType '"String",
+                  out =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  retry =
+                    _js2n__-refsenv."_js2n__-:definitions/Retry!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/FormCallStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "form" ],
+              _js2n__-prdslib.records.record
+                {
+                  fields =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType 'Record)
+                        ],
+                  form = _js2n__-prdslib.isType '"String",
+                  runAs = _js2n__-prdslib.isType 'Record,
+                  saveSubmittedBy = _js2n__-prdslib.isType '"Bool",
+                  values = _js2n__-prdslib.isType 'Record,
+                  yield = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/GenericTrigger!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^(?!(manual|cron|github)$).*$" =
+                    _js2n__-refsenv."_js2n__-:definitions/GenericTriggerParams!predicate",
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/GenericTriggerParams!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "entryPoint", "version" ],
+              _js2n__-prdslib.records.record
+                {
+                  activeProfiles =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  arguments = _js2n__-prdslib.isType 'Record,
+                  conditions = _js2n__-prdslib.isType 'Record,
+                  entryPoint = _js2n__-prdslib.isType '"String",
+                  exclusive =
+                    _js2n__-refsenv."_js2n__-:definitions/ExclusiveMode!predicate",
+                  version =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.enum [ 2 ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/GitImport!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  git =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ImmutableGitDefinition!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/GithubTrigger!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  github =
+                    _js2n__-refsenv."_js2n__-:definitions/GithubTriggerParams!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/GithubTriggerConditions!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  branch =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  githubHost = _js2n__-prdslib.isType '"String",
+                  githubOrg =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  githubRepo =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  payload = _js2n__-prdslib.isType 'Record,
+                  queryParams = _js2n__-prdslib.isType 'Record,
+                  repositoryInfo =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType 'Record)
+                        ],
+                  sender =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  status =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  type = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/GithubTriggerParams!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "entryPoint", "version" ],
+              _js2n__-prdslib.records.record
+                {
+                  activeProfiles =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  arguments = _js2n__-prdslib.isType 'Record,
+                  conditions =
+                    _js2n__-refsenv."_js2n__-:definitions/GithubTriggerConditions!predicate",
+                  entryPoint = _js2n__-prdslib.isType '"String",
+                  exclusive =
+                    _js2n__-refsenv."_js2n__-:definitions/ExclusiveMode!predicate",
+                  ignoreEmptyPush = _js2n__-prdslib.isType '"Bool",
+                  useEventCommitId = _js2n__-prdslib.isType '"Bool",
+                  useInitiator = _js2n__-prdslib.isType '"Bool",
+                  version =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.enum [ 2 ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/IfStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "if", "then" ],
+              _js2n__-prdslib.records.record
+                {
+                  "else" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate"
+                              ])
+                        ],
+                  "if" = _js2n__-prdslib.isType '"String",
+                  meta = _js2n__-prdslib.isType 'Record,
+                  "then" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate"
+                              ])
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ImmutableDirectoryDefinition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "src" ],
+              _js2n__-prdslib.records.record
+                {
+                  dest = _js2n__-prdslib.isType '"String",
+                  src = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ImmutableGitDefinition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  dest = _js2n__-prdslib.isType '"String",
+                  exclude =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  path = _js2n__-prdslib.isType '"String",
+                  secret =
+                    _js2n__-refsenv."_js2n__-:definitions/SecretDefinition!predicate",
+                  url = _js2n__-prdslib.isType '"String",
+                  version = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ImmutableMvnDefinition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  dest = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LogStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "log" ],
+              _js2n__-prdslib.records.record
+                {
+                  log = _js2n__-prdslib.isType '"String",
+                  meta = _js2n__-prdslib.isType 'Record,
+                  name = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/LogYamlStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "logYaml" ],
+              _js2n__-prdslib.records.record
+                {
+                  logYaml = _js2n__-prdslib.isType '"String",
+                  meta = _js2n__-prdslib.isType 'Record,
+                  name = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Loop!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  items =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.isType '"Array"
+                        ],
+                  mode =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "SERIAL", "PARALLEL" ]
+                        ],
+                  parallelism = _js2n__-prdslib.isType 'Integer,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ManualTrigger!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  exclusive =
+                    _js2n__-refsenv."_js2n__-:definitions/ExclusiveMode!predicate",
+                  manual =
+                    _js2n__-refsenv."_js2n__-:definitions/ManualTriggerParams!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ManualTriggerParams!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "entryPoint" ],
+              _js2n__-prdslib.records.record
+                {
+                  activeProfiles =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  arguments = _js2n__-prdslib.isType 'Record,
+                  entryPoint = _js2n__-prdslib.isType '"String",
+                  exclusive =
+                    _js2n__-refsenv."_js2n__-:definitions/ExclusiveMode!predicate",
+                  name = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/MvnImport!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  mvn =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ImmutableMvnDefinition!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/OneOpsTrigger!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { oneops = _js2n__-prdslib.isType 'Record, } {} false
+                _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ParallelStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "parallel" ],
+              _js2n__-prdslib.records.record
+                {
+                  meta = _js2n__-prdslib.isType 'Record,
+                  out =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                  parallel =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate"
+                              ])
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ProcessDefinitionConfiguration!contract" =
+        {
+            arguments | {  .. } | optional,
+            debug | Bool | optional,
+            dependencies | Array (String) | optional,
+            entryPoint | String | optional,
+            events
+              | _js2n__-refsenv."_js2n__-:definitions/EventConfiguration!contract"
+              | optional,
+            exclusive
+              | _js2n__-refsenv."_js2n__-:definitions/ExclusiveMode!contract"
+              | optional,
+            meta | {  .. } | optional,
+            out | Array (String) | optional,
+            parallelLoopParallelism | std.number.Integer | optional,
+            processTimeout | String | optional,
+            requirements | {  .. } | optional,
+            runtime | std.enum.TagOrString | [| 'concord-v2 |] | optional,
+            suspendTimeout | String | optional,
+            template | String | optional,
+          },
+      "_js2n__-:definitions/ProcessDefinitionConfiguration!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  arguments = _js2n__-prdslib.isType 'Record,
                   debug = _js2n__-prdslib.isType '"Bool",
                   dependencies =
                     _js2n__-prdslib.allOf
@@ -929,1085 +1717,434 @@ let rec _js2n__-refsenv
                         ],
                   entryPoint = _js2n__-prdslib.isType '"String",
                   events =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              inVarsBlacklist =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"Array",
-                                      _js2n__-prdslib.arrays.arrayOf
-                                        (_js2n__-prdslib.isType '"String")
-                                    ],
-                              metaBlacklist =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"Array",
-                                      _js2n__-prdslib.arrays.arrayOf
-                                        (_js2n__-prdslib.isType '"String")
-                                    ],
-                              outVarsBlacklist =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"Array",
-                                      _js2n__-prdslib.arrays.arrayOf
-                                        (_js2n__-prdslib.isType '"String")
-                                    ],
-                              recordEvents = _js2n__-prdslib.isType '"Bool",
-                              recordTaskInVars = _js2n__-prdslib.isType '"Bool",
-                              recordTaskMeta = _js2n__-prdslib.isType '"Bool",
-                              recordTaskOutVars =
-                                _js2n__-prdslib.isType '"Bool",
-                              truncateInVars = _js2n__-prdslib.isType '"Bool",
-                              truncateMaxArrayLength =
-                                _js2n__-prdslib.isType 'Integer,
-                              truncateMaxDepth =
-                                _js2n__-prdslib.isType 'Integer,
-                              truncateMaxStringLength =
-                                _js2n__-prdslib.isType 'Integer,
-                              truncateMeta = _js2n__-prdslib.isType '"Bool",
-                              truncateOutVars = _js2n__-prdslib.isType '"Bool",
-                            } {} false _js2n__-prdslib.never
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/EventConfiguration!predicate",
                   exclusive =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.required [ "group" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              group =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.strings.minLength 1
-                                    ],
-                              mode =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.enum
-                                        [ "cancel", "cancelOld", "wait" ]
-                                    ],
-                            } {} false _js2n__-prdslib.never
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/ExclusiveMode!predicate",
                   meta = _js2n__-prdslib.isType 'Record,
                   out =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String"),
-                          _js2n__-prdslib.arrays.minItems 1
+                            (_js2n__-prdslib.isType '"String")
                         ],
                   parallelLoopParallelism = _js2n__-prdslib.isType 'Integer,
-                  processTimeout =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.pattern
-                            "^P(?!$)((\\d+Y)|(\\d+\\.\\d+Y$))?((\\d+M)|(\\d+\\.\\d+M$))?((\\d+W)|(\\d+\\.\\d+W$))?((\\d+D)|(\\d+\\.\\d+D$))?(T(?=\\d)((\\d+H)|(\\d+\\.\\d+H$))?((\\d+M)|(\\d+\\.\\d+M$))?(\\d+(\\.\\d+)?S)?)??$"
-                        ],
-                  requirements =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            { agent = _js2n__-prdslib.isType 'Record, } {} true
-                            _js2n__-prdslib.always
-                        ],
+                  processTimeout = _js2n__-prdslib.isType '"String",
+                  requirements = _js2n__-prdslib.isType 'Record,
                   runtime =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "concord-v2" ]
                         ],
-                  suspendTimeout =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.pattern
-                            "^P(?!$)((\\d+Y)|(\\d+\\.\\d+Y$))?((\\d+M)|(\\d+\\.\\d+M$))?((\\d+W)|(\\d+\\.\\d+W$))?((\\d+D)|(\\d+\\.\\d+D$))?(T(?=\\d)((\\d+H)|(\\d+\\.\\d+H$))?((\\d+M)|(\\d+\\.\\d+M$))?(\\d+(\\.\\d+)?S)?)??$"
-                        ],
+                  suspendTimeout = _js2n__-prdslib.isType '"String",
                   template = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:properties/flows!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                { "default" = _js2n__-prdslib.always, } {} true
-                _js2n__-prdslib.always
-            ],
-      "_js2n__-:properties/forms!predicate" =
+      "_js2n__-:definitions/Profile!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  myForm =
+                  configuration =
+                    _js2n__-refsenv."_js2n__-:definitions/ProcessDefinitionConfiguration!predicate",
+                  flows =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                      _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate"
+                                    ])
+                              ])
+                        ],
+                  forms = _js2n__-prdslib.isType 'Record,
+                  publicFlows =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.allOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Resources!contract" =
+        { concord | Array (String) | optional, },
+      "_js2n__-:definitions/Retry!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  delay = _js2n__-prdslib.isType '"String",
+                  "in" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/Serializable!predicate"
+                        ],
+                  times =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Integer
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ReturnStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "return" ]
+            ],
+      "_js2n__-:definitions/RunAs!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "withSecret" ],
+              _js2n__-prdslib.records.record
+                { withSecret = _js2n__-prdslib.isType '"String", } {} false
+                _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ScriptCall!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "script" ],
+              _js2n__-prdslib.records.record
+                {
+                  body = _js2n__-prdslib.isType '"String",
+                  error =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
                               [
-                                _js2n__-prdslib.isType 'Record,
-                                _js2n__-prdslib.records.record
-                                  {
-                                    myField =
-                                      _js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.anyOf
-                                              [
-                                                _js2n__-prdslib.isType
-                                                  '"String",
-                                                _js2n__-prdslib.isType 'Record
-                                              ],
-                                            _js2n__-prdslib.records.required
-                                              [ "type" ],
-                                            _js2n__-prdslib.records.record
-                                              {
-                                                allow =
-                                                  _js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.isType
-                                                          '"Bool",
-                                                        _js2n__-prdslib.isType
-                                                          'Integer,
-                                                        _js2n__-prdslib.isType
-                                                          'Null,
-                                                        _js2n__-prdslib.isType
-                                                          '"Number",
-                                                        _js2n__-prdslib.isType
-                                                          'Record,
-                                                        _js2n__-prdslib.isType
-                                                          '"Array"
-                                                      ],
-                                                label =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
-                                                pattern =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
-                                                placeholder =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
-                                                readonly =
-                                                  _js2n__-prdslib.isType
-                                                      '"Bool",
-                                                type =
-                                                  _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [
-                                                            "boolean",
-                                                            "date",
-                                                            "dateTime",
-                                                            "decimal",
-                                                            "file",
-                                                            "int",
-                                                            "string",
-                                                            "boolean*",
-                                                            "date*",
-                                                            "dateTime*",
-                                                            "decimal*",
-                                                            "file*",
-                                                            "int*",
-                                                            "string*",
-                                                            "boolean+",
-                                                            "date+",
-                                                            "dateTime+",
-                                                            "decimal+",
-                                                            "file+",
-                                                            "int+",
-                                                            "string+",
-                                                            "boolean?",
-                                                            "date?",
-                                                            "dateTime?",
-                                                            "decimal?",
-                                                            "file?",
-                                                            "int?",
-                                                            "string?"
-                                                          ]
-                                                      ],
-                                                value =
-                                                  _js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.isType
-                                                          '"Bool",
-                                                        _js2n__-prdslib.isType
-                                                          'Integer,
-                                                        _js2n__-prdslib.isType
-                                                          'Null,
-                                                        _js2n__-prdslib.isType
-                                                          '"Number",
-                                                        _js2n__-prdslib.isType
-                                                          'Record,
-                                                        _js2n__-prdslib.isType
-                                                          '"Array"
-                                                      ],
-                                              } {} false _js2n__-prdslib.never
-                                          ],
-                                  } {} true
-                                  (_js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.anyOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.isType '"String"
-                                        ],
-                                      _js2n__-prdslib.records.required
-                                        [ "type" ],
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          allow =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType
-                                                    '"Bool",
-                                                  _js2n__-prdslib.isType
-                                                    'Integer,
-                                                  _js2n__-prdslib.isType 'Null,
-                                                  _js2n__-prdslib.isType
-                                                    '"Number",
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.isType
-                                                    '"Array"
-                                                ],
-                                          label =
-                                            _js2n__-prdslib.isType '"String",
-                                          pattern =
-                                            _js2n__-prdslib.isType '"String",
-                                          placeholder =
-                                            _js2n__-prdslib.isType '"String",
-                                          readonly =
-                                            _js2n__-prdslib.isType '"Bool",
-                                          type =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.enum
-                                                    [
-                                                      "boolean",
-                                                      "date",
-                                                      "dateTime",
-                                                      "decimal",
-                                                      "file",
-                                                      "int",
-                                                      "string",
-                                                      "boolean*",
-                                                      "date*",
-                                                      "dateTime*",
-                                                      "decimal*",
-                                                      "file*",
-                                                      "int*",
-                                                      "string*",
-                                                      "boolean+",
-                                                      "date+",
-                                                      "dateTime+",
-                                                      "decimal+",
-                                                      "file+",
-                                                      "int+",
-                                                      "string+",
-                                                      "boolean?",
-                                                      "date?",
-                                                      "dateTime?",
-                                                      "decimal?",
-                                                      "file?",
-                                                      "int?",
-                                                      "string?"
-                                                    ]
-                                                ],
-                                          value =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType
-                                                    '"Bool",
-                                                  _js2n__-prdslib.isType
-                                                    'Integer,
-                                                  _js2n__-prdslib.isType 'Null,
-                                                  _js2n__-prdslib.isType
-                                                    '"Number",
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.isType
-                                                    '"Array"
-                                                ],
-                                        } {} false _js2n__-prdslib.never
-                                    ])
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate"
                               ])
                         ],
+                  "in" =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                  loop = _js2n__-refsenv."_js2n__-:definitions/Loop!predicate",
+                  meta = _js2n__-prdslib.isType 'Record,
+                  out =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                  retry =
+                    _js2n__-refsenv."_js2n__-:definitions/Retry!predicate",
+                  script = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SecretDefinition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  name = _js2n__-prdslib.isType '"String",
+                  org = _js2n__-prdslib.isType '"String",
+                  password = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Serializable!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SetStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "set" ],
+              _js2n__-prdslib.records.record
+                {
+                  meta = _js2n__-prdslib.isType 'Record,
+                  set = _js2n__-prdslib.isType 'Record,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SuspendStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "suspend" ],
+              _js2n__-prdslib.records.record
+                {
+                  meta = _js2n__-prdslib.isType 'Record,
+                  suspend = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SwitchStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "switch" ],
+              _js2n__-prdslib.records.record
+                {
+                  "default" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate"
+                              ])
+                        ],
+                  meta = _js2n__-prdslib.isType 'Record,
+                  switch = _js2n__-prdslib.isType '"String",
                 } {} true
                 (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType '"Array",
                     _js2n__-prdslib.arrays.arrayOf
-                      (_js2n__-prdslib.allOf
+                      (_js2n__-prdslib.oneOf
                         [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              myField =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.anyOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.isType '"String"
-                                        ],
-                                      _js2n__-prdslib.records.required
-                                        [ "type" ],
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          allow =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType
-                                                    '"Bool",
-                                                  _js2n__-prdslib.isType
-                                                    'Integer,
-                                                  _js2n__-prdslib.isType 'Null,
-                                                  _js2n__-prdslib.isType
-                                                    '"Number",
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.isType
-                                                    '"Array"
-                                                ],
-                                          label =
-                                            _js2n__-prdslib.isType '"String",
-                                          pattern =
-                                            _js2n__-prdslib.isType '"String",
-                                          placeholder =
-                                            _js2n__-prdslib.isType '"String",
-                                          readonly =
-                                            _js2n__-prdslib.isType '"Bool",
-                                          type =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.enum
-                                                    [
-                                                      "boolean",
-                                                      "date",
-                                                      "dateTime",
-                                                      "decimal",
-                                                      "file",
-                                                      "int",
-                                                      "string",
-                                                      "boolean*",
-                                                      "date*",
-                                                      "dateTime*",
-                                                      "decimal*",
-                                                      "file*",
-                                                      "int*",
-                                                      "string*",
-                                                      "boolean+",
-                                                      "date+",
-                                                      "dateTime+",
-                                                      "decimal+",
-                                                      "file+",
-                                                      "int+",
-                                                      "string+",
-                                                      "boolean?",
-                                                      "date?",
-                                                      "dateTime?",
-                                                      "decimal?",
-                                                      "file?",
-                                                      "int?",
-                                                      "string?"
-                                                    ]
-                                                ],
-                                          value =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType
-                                                    '"Bool",
-                                                  _js2n__-prdslib.isType
-                                                    'Integer,
-                                                  _js2n__-prdslib.isType 'Null,
-                                                  _js2n__-prdslib.isType
-                                                    '"Number",
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.isType
-                                                    '"Array"
-                                                ],
-                                        } {} false _js2n__-prdslib.never
-                                    ],
-                            } {} true
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.anyOf
-                                  [
-                                    _js2n__-prdslib.isType 'Record,
-                                    _js2n__-prdslib.isType '"String"
-                                  ],
-                                _js2n__-prdslib.records.required [ "type" ],
-                                _js2n__-prdslib.records.record
-                                  {
-                                    allow =
-                                      _js2n__-prdslib.anyOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.isType '"Bool",
-                                            _js2n__-prdslib.isType 'Integer,
-                                            _js2n__-prdslib.isType 'Null,
-                                            _js2n__-prdslib.isType '"Number",
-                                            _js2n__-prdslib.isType 'Record,
-                                            _js2n__-prdslib.isType '"Array"
-                                          ],
-                                    label = _js2n__-prdslib.isType '"String",
-                                    pattern = _js2n__-prdslib.isType '"String",
-                                    placeholder =
-                                      _js2n__-prdslib.isType '"String",
-                                    readonly = _js2n__-prdslib.isType '"Bool",
-                                    type =
-                                      _js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.enum
-                                              [
-                                                "boolean",
-                                                "date",
-                                                "dateTime",
-                                                "decimal",
-                                                "file",
-                                                "int",
-                                                "string",
-                                                "boolean*",
-                                                "date*",
-                                                "dateTime*",
-                                                "decimal*",
-                                                "file*",
-                                                "int*",
-                                                "string*",
-                                                "boolean+",
-                                                "date+",
-                                                "dateTime+",
-                                                "decimal+",
-                                                "file+",
-                                                "int+",
-                                                "string+",
-                                                "boolean?",
-                                                "date?",
-                                                "dateTime?",
-                                                "decimal?",
-                                                "file?",
-                                                "int?",
-                                                "string?"
-                                              ]
-                                          ],
-                                    value =
-                                      _js2n__-prdslib.anyOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.isType '"Bool",
-                                            _js2n__-prdslib.isType 'Integer,
-                                            _js2n__-prdslib.isType 'Null,
-                                            _js2n__-prdslib.isType '"Number",
-                                            _js2n__-prdslib.isType 'Record,
-                                            _js2n__-prdslib.isType '"Array"
-                                          ],
-                                  } {} false _js2n__-prdslib.never
-                              ])
+                          _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate"
                         ])
                   ])
+            ],
+      "_js2n__-:definitions/TaskCall!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "task" ],
+              _js2n__-prdslib.records.record
+                {
+                  error =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate"
+                              ])
+                        ],
+                  ignoreErrors = _js2n__-prdslib.isType '"Bool",
+                  "in" =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                  loop = _js2n__-refsenv."_js2n__-:definitions/Loop!predicate",
+                  meta = _js2n__-prdslib.isType 'Record,
+                  name = _js2n__-prdslib.isType '"String",
+                  out =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                  retry =
+                    _js2n__-refsenv."_js2n__-:definitions/Retry!predicate",
+                  task = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ThrowStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "throw" ],
+              _js2n__-prdslib.records.record
+                {
+                  name = _js2n__-prdslib.isType '"String",
+                  throw = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/TryStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "try" ],
+              _js2n__-prdslib.records.record
+                {
+                  error =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate"
+                              ])
+                        ],
+                  loop = _js2n__-refsenv."_js2n__-:definitions/Loop!predicate",
+                  meta = _js2n__-prdslib.isType 'Record,
+                  name = _js2n__-prdslib.isType '"String",
+                  out =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  try =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate"
+                              ])
+                        ],
+                } {} false _js2n__-prdslib.never
             ],
     }
     in
   {
       configuration
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.arrays.uniqueItems,
-              _js2n__-prdslib.records.record
-                {
-                  arguments =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Record,
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.isType '"Bool",
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.isType '"Number",
-                                _js2n__-prdslib.isType '"String"
-                              ])
-                        ],
-                  debug = _js2n__-prdslib.isType '"Bool",
-                  dependencies =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  entryPoint = _js2n__-prdslib.isType '"String",
-                  events =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              inVarsBlacklist =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"Array",
-                                      _js2n__-prdslib.arrays.arrayOf
-                                        (_js2n__-prdslib.isType '"String")
-                                    ],
-                              metaBlacklist =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"Array",
-                                      _js2n__-prdslib.arrays.arrayOf
-                                        (_js2n__-prdslib.isType '"String")
-                                    ],
-                              outVarsBlacklist =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"Array",
-                                      _js2n__-prdslib.arrays.arrayOf
-                                        (_js2n__-prdslib.isType '"String")
-                                    ],
-                              recordEvents = _js2n__-prdslib.isType '"Bool",
-                              recordTaskInVars = _js2n__-prdslib.isType '"Bool",
-                              recordTaskMeta = _js2n__-prdslib.isType '"Bool",
-                              recordTaskOutVars =
-                                _js2n__-prdslib.isType '"Bool",
-                              truncateInVars = _js2n__-prdslib.isType '"Bool",
-                              truncateMaxArrayLength =
-                                _js2n__-prdslib.isType 'Integer,
-                              truncateMaxDepth =
-                                _js2n__-prdslib.isType 'Integer,
-                              truncateMaxStringLength =
-                                _js2n__-prdslib.isType 'Integer,
-                              truncateMeta = _js2n__-prdslib.isType '"Bool",
-                              truncateOutVars = _js2n__-prdslib.isType '"Bool",
-                            } {} false _js2n__-prdslib.never
-                        ],
-                  exclusive =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.required [ "group" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              group =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.strings.minLength 1
-                                    ],
-                              mode =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.enum
-                                        [ "cancel", "cancelOld", "wait" ]
-                                    ],
-                            } {} false _js2n__-prdslib.never
-                        ],
-                  meta = _js2n__-prdslib.isType 'Record,
-                  out =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String"),
-                          _js2n__-prdslib.arrays.minItems 1
-                        ],
-                  parallelLoopParallelism = _js2n__-prdslib.isType 'Integer,
-                  processTimeout =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.pattern
-                            "^P(?!$)((\\d+Y)|(\\d+\\.\\d+Y$))?((\\d+M)|(\\d+\\.\\d+M$))?((\\d+W)|(\\d+\\.\\d+W$))?((\\d+D)|(\\d+\\.\\d+D$))?(T(?=\\d)((\\d+H)|(\\d+\\.\\d+H$))?((\\d+M)|(\\d+\\.\\d+M$))?(\\d+(\\.\\d+)?S)?)??$"
-                        ],
-                  requirements =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            { agent = _js2n__-prdslib.isType 'Record, } {} true
-                            _js2n__-prdslib.always
-                        ],
-                  runtime =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "concord-v2" ]
-                        ],
-                  suspendTimeout =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.pattern
-                            "^P(?!$)((\\d+Y)|(\\d+\\.\\d+Y$))?((\\d+M)|(\\d+\\.\\d+M$))?((\\d+W)|(\\d+\\.\\d+W$))?((\\d+D)|(\\d+\\.\\d+D$))?(T(?=\\d)((\\d+H)|(\\d+\\.\\d+H$))?((\\d+M)|(\\d+\\.\\d+M$))?(\\d+(\\.\\d+)?S)?)??$"
-                        ],
-                  template = _js2n__-prdslib.isType '"String",
-                } {} false _js2n__-prdslib.never
-            ])
+        | _js2n__-refsenv."_js2n__-:definitions/ProcessDefinitionConfiguration!contract"
         | optional,
       flows
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                { "default" = _js2n__-prdslib.always, } {} true
-                _js2n__-prdslib.always
-            ])
-        | optional,
-      forms
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  myForm =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType 'Record,
-                                _js2n__-prdslib.records.record
-                                  {
-                                    myField =
-                                      _js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.anyOf
-                                              [
-                                                _js2n__-prdslib.isType
-                                                  '"String",
-                                                _js2n__-prdslib.isType 'Record
-                                              ],
-                                            _js2n__-prdslib.records.required
-                                              [ "type" ],
-                                            _js2n__-prdslib.records.record
-                                              {
-                                                allow =
-                                                  _js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.isType
-                                                          '"Bool",
-                                                        _js2n__-prdslib.isType
-                                                          'Integer,
-                                                        _js2n__-prdslib.isType
-                                                          'Null,
-                                                        _js2n__-prdslib.isType
-                                                          '"Number",
-                                                        _js2n__-prdslib.isType
-                                                          'Record,
-                                                        _js2n__-prdslib.isType
-                                                          '"Array"
-                                                      ],
-                                                label =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
-                                                pattern =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
-                                                placeholder =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
-                                                readonly =
-                                                  _js2n__-prdslib.isType
-                                                      '"Bool",
-                                                type =
-                                                  _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [
-                                                            "boolean",
-                                                            "date",
-                                                            "dateTime",
-                                                            "decimal",
-                                                            "file",
-                                                            "int",
-                                                            "string",
-                                                            "boolean*",
-                                                            "date*",
-                                                            "dateTime*",
-                                                            "decimal*",
-                                                            "file*",
-                                                            "int*",
-                                                            "string*",
-                                                            "boolean+",
-                                                            "date+",
-                                                            "dateTime+",
-                                                            "decimal+",
-                                                            "file+",
-                                                            "int+",
-                                                            "string+",
-                                                            "boolean?",
-                                                            "date?",
-                                                            "dateTime?",
-                                                            "decimal?",
-                                                            "file?",
-                                                            "int?",
-                                                            "string?"
-                                                          ]
-                                                      ],
-                                                value =
-                                                  _js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.isType
-                                                          '"Bool",
-                                                        _js2n__-prdslib.isType
-                                                          'Integer,
-                                                        _js2n__-prdslib.isType
-                                                          'Null,
-                                                        _js2n__-prdslib.isType
-                                                          '"Number",
-                                                        _js2n__-prdslib.isType
-                                                          'Record,
-                                                        _js2n__-prdslib.isType
-                                                          '"Array"
-                                                      ],
-                                              } {} false _js2n__-prdslib.never
-                                          ],
-                                  } {} true
-                                  (_js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.anyOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.isType '"String"
-                                        ],
-                                      _js2n__-prdslib.records.required
-                                        [ "type" ],
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          allow =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType
-                                                    '"Bool",
-                                                  _js2n__-prdslib.isType
-                                                    'Integer,
-                                                  _js2n__-prdslib.isType 'Null,
-                                                  _js2n__-prdslib.isType
-                                                    '"Number",
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.isType
-                                                    '"Array"
-                                                ],
-                                          label =
-                                            _js2n__-prdslib.isType '"String",
-                                          pattern =
-                                            _js2n__-prdslib.isType '"String",
-                                          placeholder =
-                                            _js2n__-prdslib.isType '"String",
-                                          readonly =
-                                            _js2n__-prdslib.isType '"Bool",
-                                          type =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.enum
-                                                    [
-                                                      "boolean",
-                                                      "date",
-                                                      "dateTime",
-                                                      "decimal",
-                                                      "file",
-                                                      "int",
-                                                      "string",
-                                                      "boolean*",
-                                                      "date*",
-                                                      "dateTime*",
-                                                      "decimal*",
-                                                      "file*",
-                                                      "int*",
-                                                      "string*",
-                                                      "boolean+",
-                                                      "date+",
-                                                      "dateTime+",
-                                                      "decimal+",
-                                                      "file+",
-                                                      "int+",
-                                                      "string+",
-                                                      "boolean?",
-                                                      "date?",
-                                                      "dateTime?",
-                                                      "decimal?",
-                                                      "file?",
-                                                      "int?",
-                                                      "string?"
-                                                    ]
-                                                ],
-                                          value =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType
-                                                    '"Bool",
-                                                  _js2n__-prdslib.isType
-                                                    'Integer,
-                                                  _js2n__-prdslib.isType 'Null,
-                                                  _js2n__-prdslib.isType
-                                                    '"Number",
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.isType
-                                                    '"Array"
-                                                ],
-                                        } {} false _js2n__-prdslib.never
-                                    ])
-                              ])
-                        ],
-                } {} true
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"Array",
-                    _js2n__-prdslib.arrays.arrayOf
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              myField =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.anyOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.isType '"String"
-                                        ],
-                                      _js2n__-prdslib.records.required
-                                        [ "type" ],
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          allow =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType
-                                                    '"Bool",
-                                                  _js2n__-prdslib.isType
-                                                    'Integer,
-                                                  _js2n__-prdslib.isType 'Null,
-                                                  _js2n__-prdslib.isType
-                                                    '"Number",
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.isType
-                                                    '"Array"
-                                                ],
-                                          label =
-                                            _js2n__-prdslib.isType '"String",
-                                          pattern =
-                                            _js2n__-prdslib.isType '"String",
-                                          placeholder =
-                                            _js2n__-prdslib.isType '"String",
-                                          readonly =
-                                            _js2n__-prdslib.isType '"Bool",
-                                          type =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.enum
-                                                    [
-                                                      "boolean",
-                                                      "date",
-                                                      "dateTime",
-                                                      "decimal",
-                                                      "file",
-                                                      "int",
-                                                      "string",
-                                                      "boolean*",
-                                                      "date*",
-                                                      "dateTime*",
-                                                      "decimal*",
-                                                      "file*",
-                                                      "int*",
-                                                      "string*",
-                                                      "boolean+",
-                                                      "date+",
-                                                      "dateTime+",
-                                                      "decimal+",
-                                                      "file+",
-                                                      "int+",
-                                                      "string+",
-                                                      "boolean?",
-                                                      "date?",
-                                                      "dateTime?",
-                                                      "decimal?",
-                                                      "file?",
-                                                      "int?",
-                                                      "string?"
-                                                    ]
-                                                ],
-                                          value =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType
-                                                    '"Bool",
-                                                  _js2n__-prdslib.isType
-                                                    'Integer,
-                                                  _js2n__-prdslib.isType 'Null,
-                                                  _js2n__-prdslib.isType
-                                                    '"Number",
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.isType
-                                                    '"Array"
-                                                ],
-                                        } {} false _js2n__-prdslib.never
-                                    ],
-                            } {} true
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.anyOf
-                                  [
-                                    _js2n__-prdslib.isType 'Record,
-                                    _js2n__-prdslib.isType '"String"
-                                  ],
-                                _js2n__-prdslib.records.required [ "type" ],
-                                _js2n__-prdslib.records.record
-                                  {
-                                    allow =
-                                      _js2n__-prdslib.anyOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.isType '"Bool",
-                                            _js2n__-prdslib.isType 'Integer,
-                                            _js2n__-prdslib.isType 'Null,
-                                            _js2n__-prdslib.isType '"Number",
-                                            _js2n__-prdslib.isType 'Record,
-                                            _js2n__-prdslib.isType '"Array"
-                                          ],
-                                    label = _js2n__-prdslib.isType '"String",
-                                    pattern = _js2n__-prdslib.isType '"String",
-                                    placeholder =
-                                      _js2n__-prdslib.isType '"String",
-                                    readonly = _js2n__-prdslib.isType '"Bool",
-                                    type =
-                                      _js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.enum
-                                              [
-                                                "boolean",
-                                                "date",
-                                                "dateTime",
-                                                "decimal",
-                                                "file",
-                                                "int",
-                                                "string",
-                                                "boolean*",
-                                                "date*",
-                                                "dateTime*",
-                                                "decimal*",
-                                                "file*",
-                                                "int*",
-                                                "string*",
-                                                "boolean+",
-                                                "date+",
-                                                "dateTime+",
-                                                "decimal+",
-                                                "file+",
-                                                "int+",
-                                                "string+",
-                                                "boolean?",
-                                                "date?",
-                                                "dateTime?",
-                                                "decimal?",
-                                                "file?",
-                                                "int?",
-                                                "string?"
-                                              ]
-                                          ],
-                                    value =
-                                      _js2n__-prdslib.anyOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.isType '"Bool",
-                                            _js2n__-prdslib.isType 'Integer,
-                                            _js2n__-prdslib.isType 'Null,
-                                            _js2n__-prdslib.isType '"Number",
-                                            _js2n__-prdslib.isType 'Record,
-                                            _js2n__-prdslib.isType '"Array"
-                                          ],
-                                  } {} false _js2n__-prdslib.never
-                              ])
-                        ])
-                  ])
-            ])
-        | optional,
-      imports
-        | Array
-          {
-            dir | { dest | String | optional, src | String, } | optional,
-            git
-              | {
-                dest | String | optional,
-                exclude | Array (String) | optional,
-                name | String | optional,
-                path | String | optional,
-                secret
-                  | {
-                    name | String,
-                    org | String | optional,
-                    password | String | optional,
-                  }
-                  | optional,
-                url | String | optional,
-                version | String | optional,
-                ..
-              }
-              | optional,
-            mvn | { dest | String | optional, url | String, } | optional,
-          }
-        | optional,
-      profiles
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
@@ -2015,204 +2152,69 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.allOf
                   [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record
-                      {
-                        configuration =
-                          _js2n__-refsenv."_js2n__-:properties/configuration!predicate",
-                        flows =
-                          _js2n__-refsenv."_js2n__-:properties/flows!predicate",
-                        forms =
-                          _js2n__-refsenv."_js2n__-:properties/forms!predicate",
-                      } {} false _js2n__-prdslib.never
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TaskCall!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ThrowStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ScriptCall!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/SetStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ReturnStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/LogStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/SuspendStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ParallelStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/CheckpointStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ExpressionFullStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ExitStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/FormCallStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/SwitchStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/IfStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/LogYamlStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/FlowCallStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/BlockStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/ExpressionShortStep!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/TryStep!predicate"
+                        ])
                   ])
             ])
         | optional,
-      publicFlows | Array (String) | optional,
-      resources | { concord | Array (String) | optional, } | optional,
-      triggers
-        | Array
-          {
-            cron
-              | {
-                activeProfiles | Array (String) | optional,
-                arguments | {  .. } | optional,
-                entryPoint | String,
-                exclusive
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.arrays.uniqueItems,
-                        _js2n__-prdslib.records.record
-                          {
-                            group =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.minLength 1
-                                  ],
-                            groupBy = _js2n__-prdslib.isType '"String",
-                            mode =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
-                                      [ "cancel", "cancelOld", "wait" ]
-                                  ],
-                          } {} false _js2n__-prdslib.never
-                      ])
-                  | optional,
-                runAs | { withSecret | String | optional, } | optional,
-                spec | String,
-                timezone | String | optional,
-              }
-              | optional,
-            github
-              | {
-                activeProfiles | Array (String) | optional,
-                arguments | {  .. } | optional,
-                conditions
-                  | {
-                    branch | String | optional,
-                    files
-                      | {
-                        added
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.anyOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.isType '"Array"
-                                  ],
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ])
-                          | optional,
-                        any
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.anyOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.isType '"Array"
-                                  ],
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ])
-                          | optional,
-                        modified
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.anyOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.isType '"Array"
-                                  ],
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ])
-                          | optional,
-                        removed
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.anyOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.isType '"Array"
-                                  ],
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ])
-                          | optional,
-                      }
-                      | optional,
-                    githubHost | String | optional,
-                    githubOrg | String | optional,
-                    githubRepo | String | optional,
-                    payload | {  .. } | optional,
-                    repositoryInfo
-                      | Array (
-                        _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.arrays.uniqueItems,
-                              _js2n__-prdslib.records.record
-                                {
-                                  branch = _js2n__-prdslib.isType '"String",
-                                  enabled = _js2n__-prdslib.isType '"Bool",
-                                  projectId = _js2n__-prdslib.isType '"String",
-                                  repository = _js2n__-prdslib.isType '"String",
-                                  repositoryId =
-                                    _js2n__-prdslib.isType '"String",
-                                } {} false _js2n__-prdslib.never
-                            ])
-                      )
-                      | optional,
-                    sender | String | optional,
-                    status | String | optional,
-                    type | String,
-                  },
-                entryPoint | String,
-                exclusive
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.arrays.uniqueItems,
-                        _js2n__-prdslib.records.record
-                          {
-                            group =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.minLength 1
-                                  ],
-                            groupBy = _js2n__-prdslib.isType '"String",
-                            mode =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
-                                      [ "cancel", "cancelOld", "wait" ]
-                                  ],
-                          } {} false _js2n__-prdslib.never
-                      ])
-                  | optional,
-                ignoreEmptyPush | Bool | optional,
-                useEventCommitId | Bool | optional,
-                useInitiator | Bool | optional,
-                version | std.number.Integer,
-              }
-              | optional,
-            manual
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.arrays.uniqueItems,
-                    _js2n__-prdslib.records.required [ "entryPoint" ],
-                    _js2n__-prdslib.records.record
-                      {
-                        activeProfiles =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                        arguments = _js2n__-prdslib.isType 'Record,
-                        entryPoint = _js2n__-prdslib.isType '"String",
-                        name = _js2n__-prdslib.isType '"String",
-                      } {} false _js2n__-prdslib.never
-                  ])
-              | optional,
-          }
+      forms | {  .. } | optional,
+      imports
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.oneOf
+              [
+                _js2n__-refsenv."_js2n__-:definitions/MvnImport!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/DirImport!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/GitImport!predicate"
+              ])
+        )
         | optional,
-      ..
+      profiles
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                _js2n__-refsenv."_js2n__-:definitions/Profile!predicate"
+            ])
+        | optional,
+      publicFlows | Array (String) | optional,
+      resources
+        | _js2n__-refsenv."_js2n__-:definitions/Resources!contract"
+        | optional,
+      triggers
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.oneOf
+              [
+                _js2n__-refsenv."_js2n__-:definitions/GenericTrigger!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/CronTrigger!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/ManualTrigger!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/GithubTrigger!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/OneOpsTrigger!predicate"
+              ])
+        )
+        | optional,
     }
