@@ -1212,6 +1212,9 @@ let rec _js2n__-refsenv
           storage
             | { host | String | optional, port | Number | optional, }
             | optional,
+          tasks
+            | { host | String | optional, port | Number | optional, }
+            | optional,
           ui
             | {
               enabled | Bool | optional,

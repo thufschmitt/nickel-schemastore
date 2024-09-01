@@ -1406,6 +1406,8 @@ let rec _js2n__-refsenv
                                                 ],
                                           dir =
                                             _js2n__-prdslib.isType '"String",
+                                          flatten =
+                                            _js2n__-prdslib.isType '"Bool",
                                           internal =
                                             _js2n__-prdslib.isType '"Bool",
                                           "optional" =

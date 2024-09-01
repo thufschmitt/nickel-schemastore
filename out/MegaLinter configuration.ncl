@@ -902,10 +902,20 @@ let rec _js2n__-refsenv
         = {
             command | String | optional,
             continue_if_failed
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"Bool")
+              | Bool
+              | doc "If command fails, continue MegaLinter process or not"
               | optional,
             cwd | std.enum.TagOrString | [| 'workspace, 'root |] | optional,
+            output_variables
+              | Array (String)
+              | doc "ENV variables to get from output after running the commands, and store in MegaLinter ENV context"
+              | optional,
+            secured_env
+              | Bool
+              | doc "Apply filter of secured env variables before calling the command (default true). Be careful if you disable it."
+              | optional,
+            tag | String | optional,
+            venv | String | optional,
             ..
           },
       "_js2n__-:definitions/enum_descriptor_keys!contract" =
@@ -938,7 +948,6 @@ let rec _js2n__-refsenv
                 'POWERSHELL,
                 'PHP,
                 'PERL,
-                'OPENAPI,
                 'MARKDOWN,
                 'MAKEFILE,
                 'LUA,
@@ -1095,7 +1104,7 @@ let rec _js2n__-refsenv
                 'C_CPPLINT,
                 'C_CLANG_FORMAT,
                 'CSS_STYLELINT,
-                'CSS_SCSS_LINT,
+                'CSS_SCSSLINT,
                 'CSHARP_ROSLYNATOR,
                 'CSHARP_DOTNET_FORMAT,
                 'CSHARP_CSHARPIER,
@@ -1205,6 +1214,10 @@ let rec _js2n__-refsenv
         | doc "ANSIBLE_ANSIBLE_LINT: User custom arguments to add in linter CLI call"
         | optional,
       ANSIBLE_ANSIBLE_LINT_CLI_EXECUTABLE | Array (String) | optional,
+      ANSIBLE_ANSIBLE_LINT_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       ANSIBLE_ANSIBLE_LINT_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1906,6 +1919,10 @@ let rec _js2n__-refsenv
         | doc "COPYPASTE_JSCPD: User custom arguments to add in linter CLI call"
         | optional,
       COPYPASTE_JSCPD_CLI_EXECUTABLE | Array (String) | optional,
+      COPYPASTE_JSCPD_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       COPYPASTE_JSCPD_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -2163,7 +2180,7 @@ let rec _js2n__-refsenv
       CSHARP_DOTNET_FORMAT_CLI_EXECUTABLE | Array (String) | optional,
       CSHARP_DOTNET_FORMAT_CLI_LINT_MODE
         | std.enum.TagOrString
-        | [| 'project, 'file |]
+        | [| 'project, 'list_of_files, 'file |]
         | optional,
       CSHARP_DOTNET_FORMAT_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
@@ -2182,8 +2199,6 @@ let rec _js2n__-refsenv
       CSHARP_DOTNET_FORMAT_DISABLE_ERRORS_IF_LESS_THAN | Number | optional,
       CSHARP_DOTNET_FORMAT_FILE_EXTENSIONS | Array (String) | optional,
       CSHARP_DOTNET_FORMAT_FILE_NAMES_REGEX | Array (String) | optional,
-      CSHARP_DOTNET_FORMAT_FILTER_REGEX_EXCLUDE | String | optional,
-      CSHARP_DOTNET_FORMAT_FILTER_REGEX_INCLUDE | String | optional,
       CSHARP_DOTNET_FORMAT_POST_COMMANDS
         | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
         | optional,
@@ -3046,6 +3061,10 @@ let rec _js2n__-refsenv
         | doc "GO_GOLANGCI_LINT: User custom arguments to add in linter CLI call"
         | optional,
       GO_GOLANGCI_LINT_CLI_EXECUTABLE | Array (String) | optional,
+      GO_GOLANGCI_LINT_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       GO_GOLANGCI_LINT_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -3826,6 +3845,10 @@ let rec _js2n__-refsenv
         | doc "JSON_NPM_PACKAGE_JSON_LINT: User custom arguments to add in linter CLI call"
         | optional,
       JSON_NPM_PACKAGE_JSON_LINT_CLI_EXECUTABLE | Array (String) | optional,
+      JSON_NPM_PACKAGE_JSON_LINT_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       JSON_NPM_PACKAGE_JSON_LINT_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -4061,6 +4084,10 @@ let rec _js2n__-refsenv
         | doc "KOTLIN_DETEKT: User custom arguments to add in linter CLI call"
         | optional,
       KOTLIN_DETEKT_CLI_EXECUTABLE | Array (String) | optional,
+      KOTLIN_DETEKT_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       KOTLIN_DETEKT_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -4160,6 +4187,10 @@ let rec _js2n__-refsenv
         | doc "KUBERNETES_HELM: User custom arguments to add in linter CLI call"
         | optional,
       KUBERNETES_HELM_CLI_EXECUTABLE | Array (String) | optional,
+      KUBERNETES_HELM_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       KUBERNETES_HELM_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -4256,6 +4287,10 @@ let rec _js2n__-refsenv
         | doc "KUBERNETES_KUBESCAPE: User custom arguments to add in linter CLI call"
         | optional,
       KUBERNETES_KUBESCAPE_CLI_EXECUTABLE | Array (String) | optional,
+      KUBERNETES_KUBESCAPE_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       KUBERNETES_KUBESCAPE_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -4996,6 +5031,10 @@ let rec _js2n__-refsenv
         | doc "PHP_PHPCSFIXER: User custom arguments to add in linter CLI call"
         | optional,
       PHP_PHPCSFIXER_CLI_EXECUTABLE | Array (String) | optional,
+      PHP_PHPCSFIXER_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       PHP_PHPCSFIXER_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6123,6 +6162,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_CHECKOV: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_CHECKOV_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_CHECKOV_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_CHECKOV_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6170,6 +6213,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_DEVSKIM: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_DEVSKIM_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_DEVSKIM_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_DEVSKIM_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6217,6 +6264,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_DUSTILOCK: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_DUSTILOCK_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_DUSTILOCK_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_DUSTILOCK_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6258,6 +6309,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_GITLEAKS: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_GITLEAKS_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_GITLEAKS_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_GITLEAKS_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6308,6 +6363,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_GIT_DIFF: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_GIT_DIFF_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_GIT_DIFF_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_GIT_DIFF_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6377,6 +6436,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_GRYPE: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_GRYPE_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_GRYPE_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_GRYPE_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6424,6 +6487,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_KICS: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_KICS_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_KICS_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_KICS_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6471,6 +6538,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_LS_LINT: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_LS_LINT_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_LS_LINT_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_LS_LINT_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6524,6 +6595,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_SECRETLINT: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_SECRETLINT_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_SECRETLINT_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_SECRETLINT_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6571,6 +6646,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_SEMGREP: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_SEMGREP_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_SEMGREP_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_SEMGREP_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6623,6 +6702,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_SYFT: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_SYFT_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_SYFT_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_SYFT_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6670,6 +6753,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_TRIVY: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_TRIVY_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_TRIVY_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_TRIVY_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6713,6 +6800,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_TRIVY_SBOM: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_TRIVY_SBOM_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_TRIVY_SBOM_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_TRIVY_SBOM_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -6764,6 +6855,10 @@ let rec _js2n__-refsenv
         | doc "REPOSITORY_TRUFFLEHOG: User custom arguments to add in linter CLI call"
         | optional,
       REPOSITORY_TRUFFLEHOG_CLI_EXECUTABLE | Array (String) | optional,
+      REPOSITORY_TRUFFLEHOG_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       REPOSITORY_TRUFFLEHOG_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -7039,6 +7134,10 @@ let rec _js2n__-refsenv
         | doc "RUST_CLIPPY: User custom arguments to add in linter CLI call"
         | optional,
       RUST_CLIPPY_CLI_EXECUTABLE | Array (String) | optional,
+      RUST_CLIPPY_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       RUST_CLIPPY_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -7172,6 +7271,10 @@ let rec _js2n__-refsenv
       SALESFORCE_LIGHTNING_FLOW_SCANNER_CLI_EXECUTABLE
         | Array (String)
         | optional,
+      SALESFORCE_LIGHTNING_FLOW_SCANNER_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       SALESFORCE_LIGHTNING_FLOW_SCANNER_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -7231,6 +7334,10 @@ let rec _js2n__-refsenv
         | doc "SALESFORCE_SFDX_SCANNER_APEX: User custom arguments to add in linter CLI call"
         | optional,
       SALESFORCE_SFDX_SCANNER_APEX_CLI_EXECUTABLE | Array (String) | optional,
+      SALESFORCE_SFDX_SCANNER_APEX_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       SALESFORCE_SFDX_SCANNER_APEX_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -7297,6 +7404,10 @@ let rec _js2n__-refsenv
         | doc "SALESFORCE_SFDX_SCANNER_AURA: User custom arguments to add in linter CLI call"
         | optional,
       SALESFORCE_SFDX_SCANNER_AURA_CLI_EXECUTABLE | Array (String) | optional,
+      SALESFORCE_SFDX_SCANNER_AURA_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       SALESFORCE_SFDX_SCANNER_AURA_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -7357,6 +7468,10 @@ let rec _js2n__-refsenv
         | doc "SALESFORCE_SFDX_SCANNER_LWC: User custom arguments to add in linter CLI call"
         | optional,
       SALESFORCE_SFDX_SCANNER_LWC_CLI_EXECUTABLE | Array (String) | optional,
+      SALESFORCE_SFDX_SCANNER_LWC_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       SALESFORCE_SFDX_SCANNER_LWC_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -8073,6 +8188,10 @@ let rec _js2n__-refsenv
         | doc "SWIFT_SWIFTLINT: User custom arguments to add in linter CLI call"
         | optional,
       SWIFT_SWIFTLINT_CLI_EXECUTABLE | Array (String) | optional,
+      SWIFT_SWIFTLINT_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       SWIFT_SWIFTLINT_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -8371,6 +8490,10 @@ let rec _js2n__-refsenv
         | doc "TERRAFORM_TERRASCAN: User custom arguments to add in linter CLI call"
         | optional,
       TERRAFORM_TERRASCAN_CLI_EXECUTABLE | Array (String) | optional,
+      TERRAFORM_TERRASCAN_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       TERRAFORM_TERRASCAN_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -8420,6 +8543,10 @@ let rec _js2n__-refsenv
         | doc "TERRAFORM_TFLINT: User custom arguments to add in linter CLI call"
         | optional,
       TERRAFORM_TFLINT_CLI_EXECUTABLE | Array (String) | optional,
+      TERRAFORM_TFLINT_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
       TERRAFORM_TFLINT_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -8734,7 +8861,7 @@ let rec _js2n__-refsenv
       VBDOTNET_DOTNET_FORMAT_CLI_EXECUTABLE | Array (String) | optional,
       VBDOTNET_DOTNET_FORMAT_CLI_LINT_MODE
         | std.enum.TagOrString
-        | [| 'project, 'file |]
+        | [| 'project, 'list_of_files, 'file |]
         | optional,
       VBDOTNET_DOTNET_FORMAT_COMMAND_REMOVE_ARGUMENTS
         | _js2n__-prdslib.contract_from_predicate
@@ -8753,8 +8880,6 @@ let rec _js2n__-refsenv
       VBDOTNET_DOTNET_FORMAT_DISABLE_ERRORS_IF_LESS_THAN | Number | optional,
       VBDOTNET_DOTNET_FORMAT_FILE_EXTENSIONS | Array (String) | optional,
       VBDOTNET_DOTNET_FORMAT_FILE_NAMES_REGEX | Array (String) | optional,
-      VBDOTNET_DOTNET_FORMAT_FILTER_REGEX_EXCLUDE | String | optional,
-      VBDOTNET_DOTNET_FORMAT_FILTER_REGEX_INCLUDE | String | optional,
       VBDOTNET_DOTNET_FORMAT_POST_COMMANDS
         | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
         | optional,

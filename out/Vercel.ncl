@@ -1117,6 +1117,8 @@ let rec _js2n__-refsenv
                   "vitepress",
                   "vuepress",
                   "parcel",
+                  "fasthtml",
+                  "sanity-v3",
                   "sanity",
                   "storybook",
                   null

@@ -1048,8 +1048,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {}
                 {
                   "^[a-z][a-z0-9-]*/[a-z][a-z0-9-]*$" =
-                    _js2n__-prdslib.enum
-                        [ "before", "after", "firstChild", "lastChild" ],
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "before", "after", "firstChild", "lastChild" ]
+                        ],
                 } false _js2n__-prdslib.never
             ])
         | doc m%"
@@ -1063,8 +1067,12 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.anyOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum
-                [ "text", "media", "design", "widgets", "theme", "embed" ]
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum
+                    [ "text", "media", "design", "widgets", "theme", "embed" ]
+                ]
             ])
         | doc m%"
           Blocks are grouped into categories to help users browse and discover them.
@@ -1816,14 +1824,18 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.anyOf
                                   [
                                     _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "text",
-                                        "media",
-                                        "design",
-                                        "widgets",
-                                        "theme",
-                                        "embed"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "text",
+                                            "media",
+                                            "design",
+                                            "widgets",
+                                            "theme",
+                                            "embed"
+                                          ]
                                       ]
                                   ],
                             description = _js2n__-prdslib.isType '"String",
@@ -1857,8 +1869,12 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.isType '"Array",
                                     _js2n__-prdslib.arrays.arrayOf
-                                      (_js2n__-prdslib.enum
-                                        [ "inserter", "block", "transform" ])
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.enum
+                                            [ "inserter", "block", "transform" ]
+                                        ])
                                   ],
                             title = _js2n__-prdslib.isType '"String",
                           } {} false _js2n__-prdslib.never

@@ -938,6 +938,7 @@ let rec _js2n__-refsenv
         | String
         | doc "The unique name of the object across the entire project."
         | optional,
+      selectors | Array (Dyn) | optional,
       tables | Array (Dyn) | optional,
       targets
         | Array (
@@ -950,6 +951,7 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.always
               ])
         )
+        | doc "A list of source objects."
         | optional,
       traces | Array (Dyn) | optional,
     }

@@ -903,27 +903,49 @@ let rec _js2n__-refsenv
         | {
           gas
             | Bool
-            | doc "Flag to turn features related to the GNU Assembler on/off.",
+            | doc "Flag to turn features related to the GNU Assembler on/off."
+            | optional,
           go
             | Bool
-            | doc "Flag to turn features related to the Go Assembler on/off.",
+            | doc "Flag to turn features related to the Go Assembler on/off."
+            | optional,
+          masm
+            | Bool
+            | doc "Flag to turn features related to the MASM Assembler on/off."
+            | optional,
+          nasm
+            | Bool
+            | doc "Flag to turn features related to the NASM Assembler on/off."
+            | optional,
           z80
             | Bool
-            | doc "Flag to turn features related to the z80 Assembler on/off.",
+            | doc "Flag to turn features related to the z80 Assembler on/off."
+            | optional,
           ..
         }
         | doc "Options to manage assembler-dependent features.",
       instruction_sets
         | {
+          arm
+            | Bool
+            | doc "Flag to turn features related to the arm instruction set on/off."
+            | optional,
+          riscv
+            | Bool
+            | doc "Flag to turn features related to the riscv instruction set on/off."
+            | optional,
           x86
             | Bool
-            | doc "Flag to turn features related to the x86 instruction set on/off.",
+            | doc "Flag to turn features related to the x86 instruction set on/off."
+            | optional,
           x86_64
             | Bool
-            | doc "Flag to turn features related to the x86_64 instruction set on/off.",
+            | doc "Flag to turn features related to the x86_64 instruction set on/off."
+            | optional,
           z80
             | Bool
-            | doc "Flag to turn features related to the z80 instruction set on/off.",
+            | doc "Flag to turn features related to the z80 instruction set on/off."
+            | optional,
           ..
         }
         | doc "Options to manage instruction set-dependent features.",
