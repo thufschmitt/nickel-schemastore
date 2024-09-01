@@ -951,6 +951,19 @@ let rec _js2n__-refsenv
                       | optional,
                   }
                   | optional,
+                opt_out
+                  | Bool
+                  | doc "Opt out | Opt out of all knowledge base features."
+                  | optional,
+                pull_requests
+                  | {
+                    scope
+                      | std.enum.TagOrString
+                      | [| 'auto, 'global, 'local |]
+                      | doc "Pull Requests | Specify the scope of pull requests to use for the knowledge base. 'local' uses the repository's pull requests, 'global' uses the organization's pull requests, and 'auto' uses repository's pull requests for public repositories and organization's pull requests for private repositories."
+                      | optional,
+                  }
+                  | optional,
               }
               | optional,
             language
@@ -1135,6 +1148,15 @@ let rec _js2n__-refsenv
                   | optional,
                 tools
                   | {
+                    actionlint
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable Actionlint | is a static checker for GitHub Actions workflow files. | v1.7.1"
+                          | optional,
+                      }
+                      | doc "actionlint is a static checker for GitHub Actions workflow files."
+                      | optional,
                     ast-grep
                       | {
                         essential_rules
@@ -1160,19 +1182,50 @@ let rec _js2n__-refsenv
                       | {
                         enabled
                           | Bool
-                          | doc "Enable Biome | Biome is a fast formatter, linter, and analyzer for web projects. | Enable Biome integration."
+                          | doc "Enable Biome | Biome is a fast formatter, linter, and analyzer for web projects. | Enable Biome integration. | v1.8.3"
                           | optional,
                       }
                       | doc "Biome is a fast formatter, linter, and analyzer for web projects."
+                      | optional,
+                    buf
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable Buf | Buf offers linting for Protobuf files. | v1.36.0"
+                          | optional,
+                      }
+                      | doc "Buf offers linting for Protobuf files."
                       | optional,
                     checkov
                       | {
                         enabled
                           | Bool
-                          | doc "Enable Checkov | Checkov is a static code analysis tool for infrastructure-as-code files."
+                          | doc "Enable Checkov | Checkov is a static code analysis tool for infrastructure-as-code files. | v3.2.219"
                           | optional,
                       }
                       | doc "Checkov is a static code analysis tool for infrastructure-as-code files."
+                      | optional,
+                    detekt
+                      | {
+                        config_file
+                          | String
+                          | doc "Optional path to the Detekt configuration file relative to the repository."
+                          | optional,
+                        enabled
+                          | Bool
+                          | doc "Enable Detekt | Detekt is a static code analysis tool for Kotlin files. | v1.23.6"
+                          | optional,
+                      }
+                      | doc "Detekt is a static code analysis tool for Kotlin files."
+                      | optional,
+                    eslint
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable ESLint | ESLint is a static code analysis tool for JavaScript files."
+                          | optional,
+                      }
+                      | doc "ESLint is a static code analysis tool for JavaScript files."
                       | optional,
                     github-checks
                       | {
@@ -1201,7 +1254,7 @@ let rec _js2n__-refsenv
                       | {
                         enabled
                           | Bool
-                          | doc "Enable Gitleaks | Gitleaks is a secret scanner. | Enable Gitleaks integration."
+                          | doc "Enable Gitleaks | Gitleaks is a secret scanner. | Enable Gitleaks integration. | v8.18.4"
                           | optional,
                       }
                       | doc "Gitleaks is a secret scanner."
@@ -1214,7 +1267,7 @@ let rec _js2n__-refsenv
                           | optional,
                         enabled
                           | Bool
-                          | doc "Enable golangci-lint | golangci-lint is a fast linters runner for Go. | Enable golangci-lint integration."
+                          | doc "Enable golangci-lint | golangci-lint is a fast linters runner for Go. | Enable golangci-lint integration. | v1.59.1"
                           | optional,
                       }
                       | doc "golangci-lint is a fast linters runner for Go."
@@ -1223,7 +1276,7 @@ let rec _js2n__-refsenv
                       | {
                         enabled
                           | Bool
-                          | doc "Enable Hadolint | Hadolint is a Dockerfile linter. | Enable Hadolint integration."
+                          | doc "Enable Hadolint | Hadolint is a Dockerfile linter. | Enable Hadolint integration. | v2.12.0"
                           | optional,
                       }
                       | doc "Hadolint is a Dockerfile linter."
@@ -1270,6 +1323,7 @@ let rec _js2n__-refsenv
                             Enable Markdownlint
                             				| Markdownlint is a static analysis tool for Node.js with a library of rules to enforce standards and consistency for Markdown files.
                             				| Enable markdownlint integration.
+                            				| v0.34.0
                           "%
                           | optional,
                       }
@@ -1279,7 +1333,7 @@ let rec _js2n__-refsenv
                       | {
                         enabled
                           | Bool
-                          | doc "Enable PHPStan | PHPStan requires [config file](https://phpstan.org/config-reference#config-file) in your repository root. Please ensure that this file contains the `paths:` parameter."
+                          | doc "Enable PHPStan | PHPStan requires [config file](https://phpstan.org/config-reference#config-file) in your repository root. Please ensure that this file contains the `paths:` parameter. | v1.11.7"
                           | optional,
                         level
                           | std.enum.TagOrString
@@ -1302,11 +1356,29 @@ let rec _js2n__-refsenv
                       }
                       | doc "PHPStan is a tool to analyze PHP code."
                       | optional,
+                    regal
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable Regal | Regal is a linter and language server for Rego. | v0.25.0"
+                          | optional,
+                      }
+                      | doc "Regal is a linter and language server for Rego."
+                      | optional,
+                    rubocop
+                      | {
+                        enabled
+                          | Bool
+                          | doc "Enable Rubocop | RuboCop is a Ruby static code analyzer (a.k.a. linter ) and code formatter. | v1.65.0"
+                          | optional,
+                      }
+                      | doc "RuboCop is a Ruby static code analyzer (a.k.a. linter ) and code formatter."
+                      | optional,
                     ruff
                       | {
                         enabled
                           | Bool
-                          | doc "Enable Ruff | Ruff is a Python linter and code formatter. |  Enable ruff integration."
+                          | doc "Enable Ruff | Ruff is a Python linter and code formatter. |  Enable ruff integration. | v0.5.7"
                           | optional,
                       }
                       | doc "Ruff is a Python linter and code formatter."
@@ -1315,7 +1387,7 @@ let rec _js2n__-refsenv
                       | {
                         enabled
                           | Bool
-                          | doc "Enable ShellCheck | ShellCheck is a static analysis tool that finds bugs in your shell. | Enable shellcheck integration."
+                          | doc "Enable ShellCheck | ShellCheck is a static analysis tool that finds bugs in your shell. | Enable shellcheck integration. | v0.9.0"
                           | optional,
                       }
                       | doc "Shellcheck is a static analysis tool that finds bugs in your shell scripts."
@@ -1328,7 +1400,7 @@ let rec _js2n__-refsenv
                           | optional,
                         enabled
                           | Bool
-                          | doc "Enable SwiftLint | SwiftLint is a Swift linter. | Enable SwiftLint integration."
+                          | doc "Enable SwiftLint | SwiftLint is a Swift linter. | Enable SwiftLint integration. | v0.55.1"
                           | optional,
                       }
                       | doc "SwiftLint integration configuration object."
@@ -1337,7 +1409,7 @@ let rec _js2n__-refsenv
                       | {
                         enabled
                           | Bool
-                          | doc "Enable Yamllint | yamllint is a linter for YAML files. | Enable yamllint integration."
+                          | doc "Enable Yamllint | yamllint is a linter for YAML files. | Enable yamllint integration. | v1.29.0"
                           | optional,
                       }
                       | doc "yamllint is a linter for YAML files."

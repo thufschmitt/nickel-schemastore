@@ -902,8 +902,10 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
-                { operationId = _js2n__-prdslib.isType '"String", } {} false
-                _js2n__-prdslib.never
+                {
+                  operationId = _js2n__-prdslib.isType '"String",
+                  streaming = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:properties/customizations/properties/hookDependencies/items!predicate"
         | doc "A dependency that should be installed for the hook"
@@ -969,7 +971,7 @@ let rec _js2n__-refsenv
         | doc "The version of the SDK"
         = _js2n__-prdslib.isType '"String",
       "_js2n__-:properties/languageOptions/properties/csharp/properties/targetBranch!predicate"
-        | doc "The target to branch off from when opening a PR"
+        | doc "The target to branch off from when opening a PR, if not specified will default to main branch"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
@@ -1136,6 +1138,9 @@ let rec _js2n__-refsenv
                                                                 operationId =
                                                                   _js2n__-prdslib.isType
                                                                       '"String",
+                                                                streaming =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"Bool",
                                                               } {} false
                                                               _js2n__-prdslib.never
                                                           ],
@@ -1489,7 +1494,7 @@ let rec _js2n__-refsenv
                                     {
                                       additionalConstructorParameters =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/go/properties/additionalConstructorParameters!predicate",
-                                      artifactid =
+                                      artifactId =
                                         _js2n__-prdslib.isType '"String",
                                       authors =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/authors!predicate",
@@ -1553,6 +1558,8 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "additionalConstructorParameters" ],
                                   _js2n__-prdslib.records.record
                                     {
                                       additionalConstructorParameters =
@@ -1795,6 +1802,7 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "githubOrg" ],
                       _js2n__-prdslib.records.record
                         { githubOrg = _js2n__-prdslib.isType '"String", } {}
                         false _js2n__-prdslib.never

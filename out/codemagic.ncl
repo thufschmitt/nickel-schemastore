@@ -918,7 +918,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.minLength 1,
                               _js2n__-prdslib.strings.pattern
-                                "^\\$\\{?([^:}]+).*\\}?$"
+                                "^\\$\\{?([^:{}]+).*\\}?$"
                             ]
                         ],
                   apple_id =
@@ -936,7 +936,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.minLength 1,
                               _js2n__-prdslib.strings.pattern
-                                "^\\$\\{?([^:}]+).*\\}?$"
+                                "^\\$\\{?([^:{}]+).*\\}?$"
                             ]
                         ],
                   auth =
@@ -977,7 +977,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.minLength 1,
                               _js2n__-prdslib.strings.pattern
-                                "^\\$\\{?([^:}]+).*\\}?$"
+                                "^\\$\\{?([^:{}]+).*\\}?$"
                             ]
                         ],
                   earliest_release_date =
@@ -1017,7 +1017,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.minLength 1,
                               _js2n__-prdslib.strings.pattern
-                                "^\\$\\{?([^:}]+).*\\}?$"
+                                "^\\$\\{?([^:{}]+).*\\}?$"
                             ]
                         ],
                   key_id =
@@ -1035,7 +1035,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.minLength 1,
                               _js2n__-prdslib.strings.pattern
-                                "^\\$\\{?([^:}]+).*\\}?$"
+                                "^\\$\\{?([^:{}]+).*\\}?$"
                             ]
                         ],
                   password =
@@ -1059,7 +1059,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.minLength 1,
                               _js2n__-prdslib.strings.pattern
-                                "^\\$\\{?([^:}]+).*\\}?$"
+                                "^\\$\\{?([^:{}]+).*\\}?$"
                             ]
                         ],
                   phased_release =
@@ -1256,7 +1256,7 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.isType '"String",
                                     _js2n__-prdslib.strings.minLength 1,
                                     _js2n__-prdslib.strings.pattern
-                                      "^\\$\\{?([^:}]+).*\\}?$"
+                                      "^\\$\\{?([^:{}]+).*\\}?$"
                                   ]
                               ]),
                           _js2n__-prdslib.arrays.minItems 1

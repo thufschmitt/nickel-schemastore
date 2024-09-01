@@ -993,6 +993,10 @@ let rec _js2n__-refsenv
             }
             | doc "Generated SDK configuration for a Rust plugin."
             | optional,
+          cmake
+            | {}
+            | doc "Generated SDK configuration for a CMake plugin."
+            | optional,
           go
             | {
               deps
@@ -1124,6 +1128,33 @@ let rec _js2n__-refsenv
                 | optional,
             }
             | doc "Generated SDK configuration for a JavaScript/TypeScript plugin."
+            | optional,
+          nuget
+            | {
+              deps
+                | Array
+                  {
+                    name
+                      | String
+                      | doc "The package ID of the dependency."
+                      | optional,
+                    target_frameworks
+                      | Array (String)
+                      | doc "The target frameworks the dependency applies to."
+                      | optional,
+                    version
+                      | String
+                      | doc "The version range of the dependency."
+                      | optional,
+                  }
+                | doc "nuget.org dependencies for the Generated SDK."
+                | optional,
+              target_frameworks
+                | Array (String)
+                | doc "The target frameworks the generated package supports."
+                | optional,
+            }
+            | doc "Generated SDK configuration for a C# plugin."
             | optional,
           opts
             | Array (String)

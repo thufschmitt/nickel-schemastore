@@ -898,65 +898,50 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {}
     in
-  _js2n__-prdslib.contract_from_predicate
-      (_js2n__-prdslib.allOf
-        [
-          _js2n__-prdslib.isType 'Record,
-          _js2n__-prdslib.records.required [ "$schema", "schemas", "version" ],
-          _js2n__-prdslib.records.record
-            {
-              "$schema" =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.enum
-                        [ "https://json.schemastore.org/schema-catalog.json" ]
-                    ],
-              schemas =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.records.required
-                              [ "description", "name", "url" ],
-                            _js2n__-prdslib.records.record
-                              {
-                                description = _js2n__-prdslib.isType '"String",
-                                fileMatch =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"Array",
-                                        _js2n__-prdslib.arrays.arrayOf
-                                          (_js2n__-prdslib.isType '"String"),
-                                        _js2n__-prdslib.arrays.uniqueItems
-                                      ],
-                                name = _js2n__-prdslib.isType '"String",
-                                url =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.strings.pattern
-                                          "^https://"
-                                      ],
-                                versions =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Record,
-                                        _js2n__-prdslib.records.record {} {}
-                                          true
-                                          (_js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^https://"
-                                            ])
-                                      ],
-                              } {} false _js2n__-prdslib.never
-                          ])
-                    ],
-              version = _js2n__-prdslib.isType '"Number",
-            } {} false _js2n__-prdslib.never
-        ])
+  {
+      "$schema"
+        | std.enum.TagOrString
+        | [| '"https://json.schemastore.org/schema-catalog.json" |]
+        | doc "Link to https://json.schemastore.org/schema-catalog.json",
+      schemas
+        | Array
+          {
+            description | String | doc "A description of the schema",
+            fileMatch
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.isType '"String"),
+                    _js2n__-prdslib.arrays.uniqueItems
+                  ])
+              | doc "A Minimatch glob expression for matching up file names with a schema."
+              | optional,
+            name | String | doc "The name of the schema",
+            url
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.pattern "^https://"
+                  ])
+              | doc "An absolute URL to the schema location",
+            versions
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record {} {} true
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern "^https://"
+                        ])
+                  ])
+              | doc "A set of specific version to schema mappings"
+              | optional,
+          }
+        | doc "A list of JSON schema references.",
+      version | Number | doc "The schema version of the catalog",
+    }

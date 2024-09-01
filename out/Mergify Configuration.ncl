@@ -1644,7 +1644,10 @@ let rec _js2n__-refsenv
             priority_rules
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/PriorityRule!contract"
-              | doc "The list of priority rules a pull request can match in order to be prioritized when added to a queue. The rule with the highest priority value wins."
+              | doc m%"
+                This attribute is deprecated in favor of `priority_rules` at the top level of the Mergify configuration file.
+                The list of priority rules a pull request can match in order to be prioritized when added to a queue. The rule with the highest priority value wins.
+              "%
               | optional,
             queue_branch_merge_method
               | std.enum.TagOrString
@@ -1861,6 +1864,10 @@ let rec _js2n__-refsenv
         | optional,
       partition_rules
         | Array _js2n__-refsenv."_js2n__-:definitions/PartitionRule!contract"
+        | optional,
+      priority_rules
+        | Array _js2n__-refsenv."_js2n__-:definitions/PriorityRule!contract"
+        | doc "The list of priority rules a pull request can match in order to be prioritized when added to a queue. The rule with the highest priority value wins."
         | optional,
       pull_request_rules
         | Array _js2n__-refsenv."_js2n__-:definitions/PullRequestRule!contract"

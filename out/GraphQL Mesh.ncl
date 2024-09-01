@@ -1700,11 +1700,34 @@ let rec _js2n__-refsenv
                   version = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/HivePersistedDocumentsConfiguration!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "cdn" ],
+              _js2n__-prdslib.records.record
+                {
+                  allowArbitraryDocuments = _js2n__-prdslib.isType '"Bool",
+                  cache = _js2n__-prdslib.isType 'Integer,
+                  cdn =
+                    _js2n__-refsenv."_js2n__-:definitions/HivePersistedDocumentsConfigurationCDN!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/HivePersistedDocumentsConfigurationCDN!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "accessToken", "endpoint" ],
+              _js2n__-prdslib.records.record
+                {
+                  accessToken = _js2n__-prdslib.isType '"String",
+                  endpoint = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/HivePlugin!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "token" ],
               _js2n__-prdslib.records.record
                 {
                   agent =
@@ -1715,6 +1738,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType '"String"
                         ],
+                  experimental__persistedDocuments =
+                    _js2n__-refsenv."_js2n__-:definitions/HivePersistedDocumentsConfiguration!predicate",
                   reporting =
                     _js2n__-refsenv."_js2n__-:definitions/HiveReportingOptions!predicate",
                   selfHosting =
@@ -3053,6 +3078,7 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:definitions/RedisConfig!contract" =
         {
+            db | std.number.Integer | optional,
             host | String | optional,
             lazyConnect
               | Bool
@@ -3385,13 +3411,6 @@ let rec _js2n__-refsenv
             staticFiles
               | String
               | doc "Path to your static files you want to be served with GraphQL Mesh HTTP Server"
-              | optional,
-            trustProxy
-              | String
-              | doc m%"
-                Configure Express Proxy Handling
-                [Learn more](https://expressjs.com/en/guide/behind-proxies.html)
-              "%
               | optional,
           },
       "_js2n__-:definitions/SnapshotPluginConfig!predicate" =
