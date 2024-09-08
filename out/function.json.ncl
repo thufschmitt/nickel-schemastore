@@ -988,7 +988,8 @@ let rec _js2n__-refsenv
                         "sendGrid",
                         "sql",
                         "sqlTrigger",
-                        "kusto"
+                        "kusto",
+                        "mysql"
                       ]),
             } {} true _js2n__-prdslib.always,
       "_js2n__-:definitions/eventHubBinding!predicate" =
@@ -1115,6 +1116,31 @@ let rec _js2n__-refsenv
                   tableName = _js2n__-prdslib.isType '"String",
                   type = _js2n__-prdslib.enum [ "mobileTable" ],
                 } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/mySqlBinding!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.records.record
+                    {
+                      commandText = _js2n__-prdslib.isType '"String",
+                      commandType =
+                        _js2n__-prdslib.enum [ "text", "storedProcedure" ],
+                      direction = _js2n__-prdslib.enum [ "in" ],
+                      parameters = _js2n__-prdslib.isType '"String",
+                      type = _js2n__-prdslib.enum [ "mysql" ],
+                    } {} true _js2n__-prdslib.always,
+                  _js2n__-prdslib.records.record
+                    {
+                      commandText = _js2n__-prdslib.isType '"String",
+                      direction = _js2n__-prdslib.enum [ "out" ],
+                      type = _js2n__-prdslib.const "mysql",
+                    } {} true _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.records.record
+                { connectionStringSetting = _js2n__-prdslib.isType '"String", }
+                {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/notificationHubBinding!predicate" =
         _js2n__-prdslib.records.record
@@ -1304,7 +1330,8 @@ let rec _js2n__-refsenv
                                     _js2n__-refsenv."_js2n__-:definitions/twilioSmsBinding!predicate",
                                     _js2n__-refsenv."_js2n__-:definitions/sendGridBinding!predicate",
                                     _js2n__-refsenv."_js2n__-:definitions/sqlBinding!predicate",
-                                    _js2n__-refsenv."_js2n__-:definitions/kustoBinding!predicate"
+                                    _js2n__-refsenv."_js2n__-:definitions/kustoBinding!predicate",
+                                    _js2n__-refsenv."_js2n__-:definitions/mySqlBinding!predicate"
                                   ]
                               ]
                           ])

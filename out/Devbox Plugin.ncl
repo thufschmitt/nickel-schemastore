@@ -916,8 +916,7 @@ let rec _js2n__-refsenv
         | optional,
       description
         | String
-        | doc "A short description of the plugin and how it works. This will automatically display when the user first installs the plugin, or runs `devbox info`"
-        | optional,
+        | doc "A short description of the plugin and how it works. This will automatically display when the user first installs the plugin, or runs `devbox info`",
       env
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
