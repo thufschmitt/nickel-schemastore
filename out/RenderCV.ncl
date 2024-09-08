@@ -899,9 +899,7 @@ let rec _js2n__-refsenv
     = {}
     in
   {
-      cv
-        | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
-        | doc "The data of the CV.",
+      cv | Dyn | doc "The data of the CV.",
       design
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.oneOf
@@ -918,5 +916,11 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.always, _js2n__-prdslib.isType 'Null ])
         | doc "The locale catalog of the CV to allow the support of multiple languages."
+        | optional,
+      rendercv_settings
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.always, _js2n__-prdslib.isType 'Null ])
+        | doc "The settings of the RenderCV."
         | optional,
     }

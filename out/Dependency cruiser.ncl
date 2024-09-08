@@ -1448,6 +1448,15 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/OptionsType!contract"
         | doc "Runtime configuration options"
         = {
+            affected
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType '"Bool"
+                  ])
+              | doc "dependency-cruiser will mark modules that have changed since the specified revision (or 'main', when not specified) in its output, as well as _any_ module that reaches them - either directly or via via. NOTE: this is currently a command line _only_ option, so if you pass this to the API or in a configuration file it will be ignored."
+              | optional,
             babelConfig
               | {
                 fileName

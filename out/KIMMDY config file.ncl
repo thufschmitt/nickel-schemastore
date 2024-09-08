@@ -913,6 +913,11 @@ let rec _js2n__-refsenv
                   (_js2n__-prdslib.isType '"Bool")
                 | doc "Whether the chosen MD step is a slow growth/free-energy simulation"
                 | optional,
+              slow_growth_pairs
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.isType '"Bool")
+                | doc "Whether to properly treat pairs during slow growth. Does not work with gromacs < 2023.2"
+                | optional,
               ..
             }
             | doc "Settings related to coordinate/geometry changes when applying a recipe",

@@ -2057,6 +2057,11 @@ let rec _js2n__-refsenv
                           "^[a-zA-Z0-9][a-zA-Z0-9-_]*$"
                       ])
                   | doc "The name of the flag, this would typically be prefixed with `--`, for example, the value 'the-flag' would be passed as `./configure --the-flag`.",
+                needs-value
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.isType '"Bool")
+                  | doc "If this is set to true, the flag needs a value (e.g. --with-somelib=<path>), otherwise it is a flag without a value (e.g. --enable-some-feature)."
+                  | optional,
                 ..
               }
             | doc "These configure options make up the flags that can be passed to ./configure when installing the extension."
