@@ -1734,6 +1734,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  dataTransferProtection = _js2n__-prdslib.isType '"String",
                   "force" = _js2n__-prdslib.isType '"Bool",
                   hdfsUser = _js2n__-prdslib.isType '"String",
                   krbCCacheSecret =
@@ -1762,6 +1763,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  dataTransferProtection = _js2n__-prdslib.isType '"String",
                   "force" = _js2n__-prdslib.isType '"Bool",
                   hdfsUser = _js2n__-prdslib.isType '"String",
                   krbCCacheSecret =
@@ -2325,8 +2327,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  deleteDelayDuration =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration!predicate",
+                  deleteDelayDuration = _js2n__-prdslib.isType '"String",
                   labelSelector =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector!predicate",
                   strategy = _js2n__-prdslib.isType '"String",
@@ -2447,6 +2448,8 @@ let rec _js2n__-refsenv
                   roleARN = _js2n__-prdslib.isType '"String",
                   secretKeySecret =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  sessionTokenSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   useSDKCreds = _js2n__-prdslib.isType '"Bool",
                 } {} true _js2n__-prdslib.always
             ],
@@ -2473,6 +2476,8 @@ let rec _js2n__-refsenv
                   region = _js2n__-prdslib.isType '"String",
                   roleARN = _js2n__-prdslib.isType '"String",
                   secretKeySecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  sessionTokenSecret =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   useSDKCreds = _js2n__-prdslib.isType '"Bool",
                 } {} true _js2n__-prdslib.always
@@ -5082,19 +5087,6 @@ let rec _js2n__-refsenv
           This format is intended to make it difficult to use these numbers without writing some sort of special handling code in the hopes that that will cause implementors to also use a fixed point implementation.
         "%
         = _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration!predicate"
-        | doc m%"
-          Duration is a wrapper around time.Duration which supports correct
-          marshaling to YAML and JSON. In particular, it marshals into strings, which
-          can be used as map keys in json.
-        "%
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                { duration = _js2n__-prdslib.isType '"String", } {} true
-                _js2n__-prdslib.always
-            ],
       "_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.FieldsV1!predicate"
         | doc m%"
           FieldsV1 stores a set of fields in a data structure like a Trie, in JSON format.

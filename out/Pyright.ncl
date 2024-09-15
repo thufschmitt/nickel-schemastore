@@ -916,6 +916,8 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.isType '"Bool",
       "_js2n__-:definitions/enableExperimentalFeatures!predicate" =
         _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/enableReachabilityAnalysis!predicate" =
+        _js2n__-prdslib.isType '"Bool",
       "_js2n__-:definitions/enableTypeIgnoreComments!predicate" =
         _js2n__-prdslib.isType '"Bool",
       "_js2n__-:definitions/extraPaths!predicate" =
@@ -1138,6 +1140,8 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/disableBytesTypePromotions!predicate",
               enableExperimentalFeatures =
                 _js2n__-refsenv."_js2n__-:definitions/enableExperimentalFeatures!predicate",
+              enableReachabilityAnalysis =
+                _js2n__-refsenv."_js2n__-:definitions/enableReachabilityAnalysis!predicate",
               enableTypeIgnoreComments =
                 _js2n__-refsenv."_js2n__-:definitions/enableTypeIgnoreComments!predicate",
               exclude =
@@ -1170,6 +1174,8 @@ let rec _js2n__-refsenv
                                   _js2n__-refsenv."_js2n__-:definitions/disableBytesTypePromotions!predicate",
                                 enableExperimentalFeatures =
                                   _js2n__-refsenv."_js2n__-:definitions/enableExperimentalFeatures!predicate",
+                                enableReachabilityAnalysis =
+                                  _js2n__-refsenv."_js2n__-:definitions/enableReachabilityAnalysis!predicate",
                                 enableTypeIgnoreComments =
                                   _js2n__-refsenv."_js2n__-:definitions/enableTypeIgnoreComments!predicate",
                                 extraPaths =

@@ -921,6 +921,67 @@ let rec _js2n__-refsenv
                   ignoreCase = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/AthenaProfilingConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  catch_exceptions = _js2n__-prdslib.isType '"Bool",
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  field_sample_values_limit = _js2n__-prdslib.isType 'Integer,
+                  include_field_distinct_count = _js2n__-prdslib.isType '"Bool",
+                  include_field_distinct_value_frequencies =
+                    _js2n__-prdslib.isType '"Bool",
+                  include_field_histogram = _js2n__-prdslib.isType '"Bool",
+                  include_field_max_value = _js2n__-prdslib.isType '"Bool",
+                  include_field_mean_value = _js2n__-prdslib.isType '"Bool",
+                  include_field_median_value = _js2n__-prdslib.isType '"Bool",
+                  include_field_min_value = _js2n__-prdslib.isType '"Bool",
+                  include_field_null_count = _js2n__-prdslib.isType '"Bool",
+                  include_field_quantiles = _js2n__-prdslib.isType '"Bool",
+                  include_field_sample_values = _js2n__-prdslib.isType '"Bool",
+                  include_field_stddev_value = _js2n__-prdslib.isType '"Bool",
+                  limit = _js2n__-prdslib.isType 'Integer,
+                  max_number_of_fields_to_profile =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.exclusiveMinimum 0
+                        ],
+                  max_workers = _js2n__-prdslib.isType 'Integer,
+                  offset = _js2n__-prdslib.isType 'Integer,
+                  operation_config =
+                    _js2n__-refsenv."_js2n__-:definitions/OperationConfig!predicate",
+                  partition_datetime = _js2n__-prdslib.isType '"String",
+                  partition_profiling_enabled = _js2n__-prdslib.isType '"Bool",
+                  profile_external_tables = _js2n__-prdslib.isType '"Bool",
+                  profile_if_updated_since_days =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.numbers.exclusiveMinimum 0
+                        ],
+                  profile_table_level_only = _js2n__-prdslib.isType '"Bool",
+                  profile_table_row_count_estimate_only =
+                    _js2n__-prdslib.isType '"Bool",
+                  profile_table_row_limit = _js2n__-prdslib.isType 'Integer,
+                  profile_table_size_limit = _js2n__-prdslib.isType 'Integer,
+                  query_combiner_enabled = _js2n__-prdslib.isType '"Bool",
+                  report_dropped_profiles = _js2n__-prdslib.isType '"Bool",
+                  sample_size = _js2n__-prdslib.isType 'Integer,
+                  tags_to_ignore_sampling =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  turn_off_expensive_profiling_metrics =
+                    _js2n__-prdslib.isType '"Bool",
+                  use_sampling = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/AwsAssumeRoleConfig!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -976,6 +1037,29 @@ let rec _js2n__-refsenv
                   aws_secret_access_key = _js2n__-prdslib.isType '"String",
                   aws_session_token = _js2n__-prdslib.isType '"String",
                   read_timeout = _js2n__-prdslib.isType '"Number",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/AzureConnectionConfig!predicate"
+        | doc m%"
+          Common Azure credentials config.
+          
+          https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-directory-file-acl-python
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "account_name", "container_name" ],
+              _js2n__-prdslib.records.record
+                {
+                  account_key = _js2n__-prdslib.isType '"String",
+                  account_name = _js2n__-prdslib.isType '"String",
+                  base_path = _js2n__-prdslib.isType '"String",
+                  client_id = _js2n__-prdslib.isType '"String",
+                  client_secret = _js2n__-prdslib.isType '"String",
+                  container_name = _js2n__-prdslib.isType '"String",
+                  sas_token = _js2n__-prdslib.isType '"String",
+                  tenant_id = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/BaseUsageConfig!predicate" =
@@ -1120,6 +1204,18 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ConnectionMappingConfig!predicate"
+        | doc "Any source that produces dataset urns in a single environment should inherit this class"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  env = _js2n__-prdslib.isType '"String",
+                  platform = _js2n__-prdslib.isType '"String",
+                  platform_instance = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/ConnectorDetail!predicate"
@@ -1267,6 +1363,9 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/SnowflakeDestinationConfig!predicate",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/FolderTraversalMethod!predicate"
+        | doc "An enumeration."
+        = _js2n__-prdslib.enum [ "ALL", "MIN_MAX", "MAX" ],
       "_js2n__-:definitions/GEProfilingConfig!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1377,6 +1476,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   column_count = _js2n__-prdslib.isType '"String",
+                  enabled = _js2n__-prdslib.isType '"Bool",
                   max = _js2n__-prdslib.isType '"String",
                   mean = _js2n__-prdslib.isType '"String",
                   median = _js2n__-prdslib.isType '"String",
@@ -1387,6 +1487,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/OperationConfig!predicate",
                   partition_patterns =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
+                  profile_table_level_only = _js2n__-prdslib.isType '"Bool",
                   row_count = _js2n__-prdslib.isType '"String",
                   stdev = _js2n__-prdslib.isType '"String",
                   unique_count = _js2n__-prdslib.isType '"String",
@@ -1593,6 +1694,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   allow_double_stars = _js2n__-prdslib.isType '"Bool",
+                  autodetect_partitions = _js2n__-prdslib.isType '"Bool",
                   default_extension = _js2n__-prdslib.isType '"String",
                   enable_compression = _js2n__-prdslib.isType '"Bool",
                   exclude =
@@ -1610,12 +1712,16 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   include = _js2n__-prdslib.isType '"String",
+                  include_hidden_folders = _js2n__-prdslib.isType '"Bool",
                   sample_files = _js2n__-prdslib.isType '"Bool",
                   table_name = _js2n__-prdslib.isType '"String",
+                  traversal_method =
+                    _js2n__-refsenv."_js2n__-:definitions/FolderTraversalMethod!predicate",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/PlatformDetail!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/PlatformDetail!predicate"
+        | doc "Any source that connects to a platform should inherit this class"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1923,6 +2029,66 @@ let rec _js2n__-refsenv
                   warehouse_id = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/abs!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "config", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  config =
+                    _js2n__-refsenv."_js2n__-:definitions/abs_config!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "abs" ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/abs_config!predicate"
+        | doc "Base configuration class for stateful ingestion for source configs to inherit from."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "path_specs" ],
+              _js2n__-prdslib.records.record
+                {
+                  add_partition_columns_to_schema =
+                    _js2n__-prdslib.isType '"Bool",
+                  azure_config =
+                    _js2n__-refsenv."_js2n__-:definitions/AzureConnectionConfig!predicate",
+                  env = _js2n__-prdslib.isType '"String",
+                  max_rows = _js2n__-prdslib.isType 'Integer,
+                  number_of_files_to_sample = _js2n__-prdslib.isType 'Integer,
+                  path_specs =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/PathSpec!predicate"
+                        ],
+                  platform = _js2n__-prdslib.isType '"String",
+                  platform_instance = _js2n__-prdslib.isType '"String",
+                  profile_patterns =
+                    _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
+                  profiling =
+                    _js2n__-refsenv."_js2n__-:definitions/DataLakeProfilerConfig!predicate",
+                  spark_config = _js2n__-prdslib.isType 'Record,
+                  spark_driver_memory = _js2n__-prdslib.isType '"String",
+                  stateful_ingestion =
+                    _js2n__-refsenv."_js2n__-:definitions/StatefulStaleMetadataRemovalConfig!predicate",
+                  use_abs_blob_properties = _js2n__-prdslib.isType '"Bool",
+                  use_abs_blob_tags = _js2n__-prdslib.isType '"Bool",
+                  use_abs_container_properties = _js2n__-prdslib.isType '"Bool",
+                  verify_ssl =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/athena!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1966,6 +2132,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate"
                         ],
                   env = _js2n__-prdslib.isType '"String",
+                  extract_partitions = _js2n__-prdslib.isType '"Bool",
                   include_table_location_lineage =
                     _js2n__-prdslib.isType '"Bool",
                   include_tables = _js2n__-prdslib.isType '"Bool",
@@ -1979,7 +2146,7 @@ let rec _js2n__-refsenv
                   profile_pattern =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   profiling =
-                    _js2n__-refsenv."_js2n__-:definitions/GEProfilingConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/AthenaProfilingConfig!predicate",
                   query_result_location = _js2n__-prdslib.isType '"String",
                   s3_staging_dir = _js2n__-prdslib.isType '"String",
                   schema_pattern =
@@ -2152,8 +2319,6 @@ let rec _js2n__-refsenv
                   include_table_snapshots = _js2n__-prdslib.isType '"Bool",
                   include_tables = _js2n__-prdslib.isType '"Bool",
                   include_usage_statistics = _js2n__-prdslib.isType '"Bool",
-                  include_view_column_lineage = _js2n__-prdslib.isType '"Bool",
-                  include_view_lineage = _js2n__-prdslib.isType '"Bool",
                   include_views = _js2n__-prdslib.isType '"Bool",
                   incremental_lineage = _js2n__-prdslib.isType '"Bool",
                   lineage_parse_view_ddl = _js2n__-prdslib.isType '"Bool",
@@ -2168,6 +2333,8 @@ let rec _js2n__-refsenv
                         ],
                   match_fully_qualified_names = _js2n__-prdslib.isType '"Bool",
                   max_query_duration = _js2n__-prdslib.isType '"Number",
+                  max_threads_dataset_parallelism =
+                    _js2n__-prdslib.isType 'Integer,
                   number_of_datasets_process_in_batch_if_profiling_enabled =
                     _js2n__-prdslib.isType 'Integer,
                   options = _js2n__-prdslib.isType 'Record,
@@ -2176,7 +2343,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   profiling =
                     _js2n__-refsenv."_js2n__-:definitions/GEProfilingConfig!predicate",
-                  project_id = _js2n__-prdslib.isType '"String",
                   project_id_pattern =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   project_ids =
@@ -2186,11 +2352,16 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  project_labels =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   project_on_behalf = _js2n__-prdslib.isType '"String",
                   rate_limit = _js2n__-prdslib.isType '"Bool",
                   requests_per_min = _js2n__-prdslib.isType 'Integer,
-                  schema_pattern =
-                    _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   schema_resolution_batch_size =
                     _js2n__-prdslib.isType 'Integer,
                   scheme = _js2n__-prdslib.isType '"String",
@@ -2211,6 +2382,7 @@ let rec _js2n__-refsenv
                   use_exported_bigquery_audit_metadata =
                     _js2n__-prdslib.isType '"Bool",
                   use_file_backed_cache = _js2n__-prdslib.isType '"Bool",
+                  use_queries_v2 = _js2n__-prdslib.isType '"Bool",
                   use_tables_list_query_v2 = _js2n__-prdslib.isType '"Bool",
                   view_pattern =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
@@ -2821,6 +2993,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   owner_extraction_pattern = _js2n__-prdslib.isType '"String",
                   platform_instance = _js2n__-prdslib.isType '"String",
+                  prefer_sql_parser_lineage = _js2n__-prdslib.isType '"Bool",
                   project_id = _js2n__-prdslib.isType 'Integer,
                   query_tag_mapping = _js2n__-prdslib.isType 'Record,
                   run_id = _js2n__-prdslib.isType 'Integer,
@@ -2872,6 +3045,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   owner_extraction_pattern = _js2n__-prdslib.isType '"String",
                   platform_instance = _js2n__-prdslib.isType '"String",
+                  prefer_sql_parser_lineage = _js2n__-prdslib.isType '"Bool",
                   query_tag_mapping = _js2n__-prdslib.isType 'Record,
                   run_results_paths =
                     _js2n__-prdslib.allOf
@@ -3271,6 +3445,8 @@ let rec _js2n__-refsenv
                 {
                   connector_patterns =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
+                  destination_patterns =
+                    _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   destination_to_platform_instance =
                     _js2n__-prdslib.allOf
                         [
@@ -3418,6 +3594,7 @@ let rec _js2n__-refsenv
                   ignore_resource_links = _js2n__-prdslib.isType '"Bool",
                   ignore_unsupported_connectors =
                     _js2n__-prdslib.isType '"Bool",
+                  include_column_lineage = _js2n__-prdslib.isType '"Bool",
                   platform = _js2n__-prdslib.isType '"String",
                   platform_instance = _js2n__-prdslib.isType '"String",
                   profiling =
@@ -3429,6 +3606,38 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   use_s3_bucket_tags = _js2n__-prdslib.isType '"Bool",
                   use_s3_object_tags = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/grafana!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "config", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  config =
+                    _js2n__-refsenv."_js2n__-:definitions/grafana_config!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "grafana" ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/grafana_config!predicate"
+        | doc "Base configuration class for stateful ingestion for source configs to inherit from."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "service_account_token" ],
+              _js2n__-prdslib.records.record
+                {
+                  platform_instance = _js2n__-prdslib.isType '"String",
+                  service_account_token = _js2n__-prdslib.isType '"String",
+                  stateful_ingestion =
+                    _js2n__-refsenv."_js2n__-:definitions/StatefulIngestionConfig!predicate",
+                  url = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/hana!predicate" =
@@ -3969,7 +4178,11 @@ let rec _js2n__-refsenv
                   extract_usage_history = _js2n__-prdslib.isType '"Bool",
                   extract_usage_history_for_interval =
                     _js2n__-prdslib.isType '"String",
+                  folder_path_pattern =
+                    _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   include_deleted = _js2n__-prdslib.isType '"Bool",
+                  include_platform_instance_in_urns =
+                    _js2n__-prdslib.isType '"Bool",
                   max_retries = _js2n__-prdslib.isType 'Integer,
                   max_threads = _js2n__-prdslib.isType 'Integer,
                   platform_instance = _js2n__-prdslib.isType '"String",
@@ -4029,6 +4242,13 @@ let rec _js2n__-refsenv
                   extract_column_level_lineage = _js2n__-prdslib.isType '"Bool",
                   git_info =
                     _js2n__-refsenv."_js2n__-:definitions/GitInfo!predicate",
+                  liquid_variable = _js2n__-prdslib.isType 'Record,
+                  looker_environment =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "prod", "dev" ]
+                        ],
                   max_file_snippet_length = _js2n__-prdslib.isType 'Integer,
                   model_pattern =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
@@ -4252,6 +4472,7 @@ let rec _js2n__-refsenv
                   connect_uri = _js2n__-prdslib.isType '"String",
                   default_schema = _js2n__-prdslib.isType '"String",
                   env = _js2n__-prdslib.isType '"String",
+                  exclude_restricted = _js2n__-prdslib.isType '"Bool",
                   ingest_embed_url = _js2n__-prdslib.isType '"Bool",
                   owner_username_instead_of_email =
                     _js2n__-prdslib.isType '"Bool",
@@ -4879,6 +5100,7 @@ let rec _js2n__-refsenv
                   native_query_parsing = _js2n__-prdslib.isType '"Bool",
                   ownership =
                     _js2n__-refsenv."_js2n__-:definitions/OwnershipMapping!predicate",
+                  patch_metadata = _js2n__-prdslib.isType '"Bool",
                   platform_instance = _js2n__-prdslib.isType '"String",
                   profile_pattern =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
@@ -5356,6 +5578,7 @@ let rec _js2n__-refsenv
                   aws_config =
                     _js2n__-refsenv."_js2n__-:definitions/AwsConnectionConfig!predicate",
                   env = _js2n__-prdslib.isType '"String",
+                  generate_partition_aspects = _js2n__-prdslib.isType '"Bool",
                   max_rows = _js2n__-prdslib.isType 'Integer,
                   number_of_files_to_sample = _js2n__-prdslib.isType 'Integer,
                   path_specs =
@@ -5377,6 +5600,7 @@ let rec _js2n__-refsenv
                   stateful_ingestion =
                     _js2n__-refsenv."_js2n__-:definitions/StatefulStaleMetadataRemovalConfig!predicate",
                   use_s3_bucket_tags = _js2n__-prdslib.isType '"Bool",
+                  use_s3_content_type = _js2n__-prdslib.isType '"Bool",
                   use_s3_object_tags = _js2n__-prdslib.isType '"Bool",
                   verify_ssl =
                     _js2n__-prdslib.anyOf
@@ -5384,6 +5608,61 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType '"String"
                         ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/sac!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "config", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  config =
+                    _js2n__-refsenv."_js2n__-:definitions/sac_config!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "sac" ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/sac_config!predicate"
+        | doc "Base configuration class for stateful ingestion for source configs to inherit from."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "client_id", "client_secret", "tenant_url", "token_url" ],
+              _js2n__-prdslib.records.record
+                {
+                  client_id = _js2n__-prdslib.isType '"String",
+                  client_secret = _js2n__-prdslib.isType '"String",
+                  connection_mapping =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/ConnectionMappingConfig!predicate"
+                        ],
+                  env = _js2n__-prdslib.isType '"String",
+                  folder_pattern =
+                    _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
+                  incremental_lineage = _js2n__-prdslib.isType '"Bool",
+                  ingest_applications = _js2n__-prdslib.isType '"Bool",
+                  ingest_import_data_model_schema_metadata =
+                    _js2n__-prdslib.isType '"Bool",
+                  ingest_stories = _js2n__-prdslib.isType '"Bool",
+                  platform_instance = _js2n__-prdslib.isType '"String",
+                  query_name_template = _js2n__-prdslib.isType '"String",
+                  resource_id_pattern =
+                    _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
+                  resource_name_pattern =
+                    _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
+                  stateful_ingestion =
+                    _js2n__-refsenv."_js2n__-:definitions/StatefulStaleMetadataRemovalConfig!predicate",
+                  tenant_url = _js2n__-prdslib.isType '"String",
+                  token_url = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/sagemaker!predicate" =
@@ -5494,6 +5773,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   access_token = _js2n__-prdslib.isType '"String",
+                  api_version = _js2n__-prdslib.isType '"String",
                   auth =
                     _js2n__-refsenv."_js2n__-:definitions/SalesforceAuthType!predicate",
                   consumer_key = _js2n__-prdslib.isType '"String",
@@ -5676,6 +5956,7 @@ let rec _js2n__-refsenv
                   include_top_n_queries = _js2n__-prdslib.isType '"Bool",
                   include_usage_stats = _js2n__-prdslib.isType '"Bool",
                   include_view_column_lineage = _js2n__-prdslib.isType '"Bool",
+                  include_view_definitions = _js2n__-prdslib.isType '"Bool",
                   include_view_lineage = _js2n__-prdslib.isType '"Bool",
                   include_views = _js2n__-prdslib.isType '"Bool",
                   incremental_lineage = _js2n__-prdslib.isType '"Bool",
@@ -5726,6 +6007,7 @@ let rec _js2n__-refsenv
                         ],
                   upstream_lineage_in_report = _js2n__-prdslib.isType '"Bool",
                   use_file_backed_cache = _js2n__-prdslib.isType '"Bool",
+                  use_queries_v2 = _js2n__-prdslib.isType '"Bool",
                   user_email_pattern =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   username = _js2n__-prdslib.isType '"String",
@@ -5762,6 +6044,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   default_db = _js2n__-prdslib.isType '"String",
+                  default_dialect = _js2n__-prdslib.isType '"String",
                   default_schema = _js2n__-prdslib.isType '"String",
                   env = _js2n__-prdslib.isType '"String",
                   platform = _js2n__-prdslib.isType '"String",
@@ -6012,6 +6295,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "connect_uri" ],
               _js2n__-prdslib.records.record
                 {
+                  add_site_container = _js2n__-prdslib.isType '"Bool",
                   connect_uri = _js2n__-prdslib.isType '"String",
                   database_hostname_to_platform_instance_map =
                     _js2n__-prdslib.allOf
@@ -6033,6 +6317,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType '"Bool",
                   extract_project_hierarchy = _js2n__-prdslib.isType '"Bool",
                   extract_usage_stats = _js2n__-prdslib.isType '"Bool",
+                  fetch_size = _js2n__-prdslib.isType 'Integer,
                   force_extraction_of_lineage_from_custom_sql_queries =
                     _js2n__-prdslib.isType '"Bool",
                   ingest_embed_url = _js2n__-prdslib.isType '"Bool",
@@ -6040,6 +6325,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType '"Bool",
                   ingest_external_links_for_dashboards =
                     _js2n__-prdslib.isType '"Bool",
+                  ingest_multiple_sites = _js2n__-prdslib.isType '"Bool",
                   ingest_owner = _js2n__-prdslib.isType '"Bool",
                   ingest_tables_external = _js2n__-prdslib.isType '"Bool",
                   ingest_tags = _js2n__-prdslib.isType '"Bool",
@@ -6067,6 +6353,8 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   site = _js2n__-prdslib.isType '"String",
+                  site_name_pattern =
+                    _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   sql_parsing_disable_schema_awareness =
                     _js2n__-prdslib.isType '"Bool",
                   ssl_verify =
@@ -6443,74 +6731,77 @@ let rec _js2n__-refsenv
               source =
                 _js2n__-prdslib.anyOf
                     [
-                      _js2n__-refsenv."_js2n__-:definitions/mlflow!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/gcs!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/elasticsearch!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/looker!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/csv-enricher!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/slack!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/sqlalchemy!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/unity-catalog!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/lookml!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/hive-metastore!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/fivetran!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/dynamodb!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/bigquery!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/okta!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/mysql!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/powerbi-report-server!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/sagemaker!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/salesforce!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/mongodb!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/nifi!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/oracle!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/pulsar!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/hana!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/demo-data!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/trino!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/mssql!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/azure-ad!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/snowflake!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/presto!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/tableau!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/metabase!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/redshift!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/hive!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/json-schema!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/qlik-sense!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/presto-on-hive!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/cockroachdb!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/datahub!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/glue!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/teradata!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/athena!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/openapi!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/s3!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/superset!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/sigma!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/clickhouse!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/file!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/dbt!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/datahub-business-glossary!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/vertica!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/powerbi!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/dbt-cloud!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/sql-queries!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/mode!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/bigquery!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/teradata!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/powerbi!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/pulsar!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/tableau!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/gcs!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/grafana!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/feast!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/druid!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/postgres!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/starburst-trino-usage!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/dbt-cloud!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/datahub-lineage-file!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/kafka!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/dbt!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/demo-data!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/athena!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/sqlalchemy!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/sac!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/fivetran!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/metabase!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mlflow!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/file!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/snowflake!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mssql!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mysql!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/redshift!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/looker!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/dynamodb!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/kafka-connect!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/clickhouse-usage!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/elasticsearch!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/druid!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/presto-on-hive!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/slack!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/datahub-business-glossary!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/iceberg!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mongodb!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/sigma!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/unity-catalog!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/csv-enricher!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/clickhouse!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/clickhouse-usage!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/ldap!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/mariadb!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/hana!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/starburst-trino-usage!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/powerbi-report-server!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/azure-ad!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/salesforce!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/nifi!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/trino!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/lookml!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/glue!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/postgres!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mode!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/datahub!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/datahub-gc!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/vertica!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/abs!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/redash!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/json-schema!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/delta-lake!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/datahub-gc!predicate"
+                      _js2n__-refsenv."_js2n__-:definitions/hive-metastore!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/s3!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/qlik-sense!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/openapi!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/presto!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/hive!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/sagemaker!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/superset!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/oracle!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mariadb!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/kafka!predicate"
                     ],
               transformers =
                 _js2n__-prdslib.allOf

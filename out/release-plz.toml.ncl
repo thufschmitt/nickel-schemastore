@@ -1116,6 +1116,15 @@ let rec _js2n__-refsenv
                   ])
               | doc "Publish the GitHub/Gitea release for the created git tag. Enabled by default."
               | optional,
+            git_release_latest
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Bool",
+                    _js2n__-prdslib.isType 'Null
+                  ])
+              | doc "If true, will set the git release as latest."
+              | optional,
             git_release_name
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.anyOf
@@ -1312,6 +1321,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Null
                         ],
                   git_release_enable =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  git_release_latest =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",

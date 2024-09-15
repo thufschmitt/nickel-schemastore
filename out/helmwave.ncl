@@ -1204,6 +1204,13 @@ let rec _js2n__-refsenv
                               {
                                 expr = _js2n__-prdslib.isType '"String",
                                 insecure = _js2n__-prdslib.isType '"Bool",
+                                success_mode =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [ "if_empty", "if_vector" ]
+                                      ],
                                 url = _js2n__-prdslib.isType '"String",
                               } {} false _js2n__-prdslib.never
                           ],

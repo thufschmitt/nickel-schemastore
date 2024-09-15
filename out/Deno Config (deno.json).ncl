@@ -905,19 +905,6 @@ let rec _js2n__-refsenv
             | Array (String)
             | doc "List of files, directories or globs that will not be searched for benchmarks."
             | optional,
-          files
-            | {
-              exclude
-                | Array (String)
-                | doc "List of files, directories or globs that will not be searched for benchmarks."
-                | optional,
-              include
-                | Array (String)
-                | doc "List of files, directories or globs that will be searched for benchmarks."
-                | optional,
-              ..
-            }
-            | optional,
           include
             | Array (String)
             | doc "List of files, directories or globs that will be searched for benchmarks."
@@ -956,7 +943,7 @@ let rec _js2n__-refsenv
           experimentalDecorators
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.isType '"Bool")
-            | doc "Enable experimental support for TC39 stage 2 draft decorators."
+            | doc "Enable experimental support for legacy experimental decorators."
             | optional,
           jsx
             | _js2n__-prdslib.contract_from_predicate
@@ -1024,7 +1011,7 @@ let rec _js2n__-refsenv
           noImplicitAny
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.isType '"Bool")
-            | doc "Enable error reporting for expressions and declarations with an implied `any` type.."
+            | doc "Enable error reporting for expressions and declarations with an implied `any` type."
             | optional,
           noImplicitOverride
             | _js2n__-prdslib.contract_from_predicate
@@ -1045,6 +1032,11 @@ let rec _js2n__-refsenv
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.isType '"Bool")
             | doc "Disable adding 'use strict' directives in emitted JavaScript files."
+            | optional,
+          noPropertyAccessFromIndexSignature
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType '"Bool")
+            | doc "Enforces using indexed accessors for keys declared using an indexed type."
             | optional,
           noStrictGenericChecks
             | _js2n__-prdslib.contract_from_predicate
@@ -1101,6 +1093,11 @@ let rec _js2n__-refsenv
               (_js2n__-prdslib.isType '"Bool")
             | doc "Suppress `noImplicitAny` errors when indexing objects that lack index signatures."
             | optional,
+          useUnknownInCatchVariables
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType '"Bool")
+            | doc "Default catch clause variables as `unknown` instead of `any`."
+            | optional,
           ..
         }
         | doc "Instructs the TypeScript compiler how to compile .ts files."
@@ -1121,6 +1118,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.propertyNames
+                    (_js2n__-prdslib.strings.pattern "^\\.(/.*)?$"),
                   _js2n__-prdslib.records.record {}
                     {
                       "^\\.(/.*)?$" =
@@ -1138,19 +1137,6 @@ let rec _js2n__-refsenv
           exclude
             | Array (String)
             | doc "List of files, directories or globs that will not be formatted."
-            | optional,
-          files
-            | {
-              exclude
-                | Array (String)
-                | doc "List of files, directories or globs that will not be formatted."
-                | optional,
-              include
-                | Array (String)
-                | doc "List of files, directories or globs that will be formatted."
-                | optional,
-              ..
-            }
             | optional,
           include
             | Array (String)
@@ -1229,24 +1215,16 @@ let rec _js2n__-refsenv
             ])
         | doc "A map of specifiers to their remapped specifiers."
         | optional,
+      license
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf [ _js2n__-prdslib.isType '"String" ])
+        | doc "The SPDX license identifier if this is a JSR package. Specify this or add a license file to the package."
+        | optional,
       lint
         | {
           exclude
             | Array (String)
             | doc "List of files, directories or globs that will not be linted."
-            | optional,
-          files
-            | {
-              exclude
-                | Array (String)
-                | doc "List of files, directories or globs that will not be linted."
-                | optional,
-              include
-                | Array (String)
-                | doc "List of files, directories or globs that will be linted."
-                | optional,
-              ..
-            }
             | optional,
           include
             | Array (String)
@@ -1304,10 +1282,19 @@ let rec _js2n__-refsenv
         | optional,
       lock
         | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.anyOf
+          (_js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.isType '"Bool"
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType '"Bool",
+                  _js2n__-prdslib.isType 'Record
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  frozen = _js2n__-prdslib.isType '"Bool",
+                  path = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
             ])
         | doc "Whether to use a lock file or the path to use for the lock file. Can be overridden by CLI arguments."
         | optional,
@@ -1323,6 +1310,10 @@ let rec _js2n__-refsenv
       nodeModulesDir
         | Bool
         | doc "Enables or disables the use of a local node_modules folder for npm packages. Alternatively, use the `--node-modules-dir` flag or override the config via `--node-modules-dir=false`. Requires Deno 1.34 or later."
+        | optional,
+      patch
+        | Array (String)
+        | doc "UNSTABLE: List of relative paths to folders containing JSR packages to use local versions of."
         | optional,
       publish
         | {
@@ -1372,19 +1363,6 @@ let rec _js2n__-refsenv
             | Array (String)
             | doc "List of files, directories or globs that will not be searched for tests."
             | optional,
-          files
-            | {
-              exclude
-                | Array (String)
-                | doc "List of files, directories or globs that will not be searched for tests."
-                | optional,
-              include
-                | Array (String)
-                | doc "List of files, directories or globs that will be searched for tests."
-                | optional,
-              ..
-            }
-            | optional,
           include
             | Array (String)
             | doc "List of files, directories or globs that will be searched for tests."
@@ -1399,7 +1377,7 @@ let rec _js2n__-refsenv
         | optional,
       vendor
         | Bool
-        | doc "UNSTABLE: Enables or disables the use of a local vendor folder as a local cache for remote modules and node_modules folder for npm packages. Alternatively, use the `--vendor` flag or override the config via `--vendor=false`. Requires Deno 1.36.1 or later."
+        | doc "Enables or disables the use of a local vendor folder as a local cache for remote modules and node_modules folder for npm packages. Alternatively, use the `--vendor` flag or override the config via `--vendor=false`. Requires Deno 1.36.1 or later."
         | optional,
       version | String | doc "The version of this JSR package." | optional,
       workspace

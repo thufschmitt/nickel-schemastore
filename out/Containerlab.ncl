@@ -1356,7 +1356,8 @@ let rec _js2n__-refsenv
                               "openbsd",
                               "freebsd",
                               "generic_vm",
-                              "fortinet_fortigate"
+                              "fortinet_fortigate",
+                              "k8s-kind"
                             ]
                         ],
                   labels =

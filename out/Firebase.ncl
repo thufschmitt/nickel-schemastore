@@ -1173,6 +1173,9 @@ let rec _js2n__-refsenv
         | optional,
       emulators
         | {
+          apphosting
+            | { host | String | optional, port | Number | optional, }
+            | optional,
           auth
             | { host | String | optional, port | Number | optional, }
             | optional,
@@ -1210,6 +1213,9 @@ let rec _js2n__-refsenv
             | optional,
           singleProjectMode | Bool | optional,
           storage
+            | { host | String | optional, port | Number | optional, }
+            | optional,
+          tasks
             | { host | String | optional, port | Number | optional, }
             | optional,
           ui
