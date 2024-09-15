@@ -903,6 +903,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   confirm = _js2n__-prdslib.always,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
@@ -913,7 +914,7 @@ let rec _js2n__-refsenv
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
                   hideOnlyControl = _js2n__-prdslib.always,
-                  instance = _js2n__-prdslib.isType '"Number",
+                  instance = _js2n__-prdslib.isType '"String",
                   label = _js2n__-prdslib.always,
                   lg = _js2n__-prdslib.always,
                   md = _js2n__-prdslib.always,
@@ -930,6 +931,7 @@ let rec _js2n__-refsenv
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -950,6 +952,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   confirm = _js2n__-prdslib.always,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
@@ -974,6 +977,7 @@ let rec _js2n__-refsenv
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -983,6 +987,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   confirm = _js2n__-prdslib.always,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
@@ -1008,6 +1013,7 @@ let rec _js2n__-refsenv
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -1018,51 +1024,97 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
                 [
+                  "accordion",
                   "alive",
                   "autocomplete",
-                  "cron",
-                  "fileSelector",
-                  "text",
-                  "textSendTo",
-                  "number",
-                  "port",
-                  "color",
-                  "checkbox",
-                  "chips",
-                  "header",
-                  "slider",
-                  "ip",
-                  "user",
-                  "room",
-                  "func",
-                  "select",
-                  "icon",
-                  "image",
-                  "panel",
-                  "password",
-                  "file",
-                  "sendTo",
-                  "staticText",
-                  "custom",
-                  "pattern",
-                  "table",
-                  "accordion",
-                  "instance",
-                  "language",
-                  "setState",
+                  "autocompleteSendTo",
                   "certificate",
                   "certificates",
+                  "checkLicense",
+                  "checkbox",
+                  "chips",
+                  "color",
+                  "coordinates",
+                  "cron",
+                  "custom",
+                  "datePicker",
+                  "deviceManager",
+                  "divider",
+                  "file",
+                  "fileSelector",
+                  "func",
+                  "header",
+                  "icon",
+                  "image",
+                  "imageSendTo",
+                  "instance",
+                  "interface",
+                  "ip",
+                  "jsonEditor",
+                  "language",
+                  "number",
+                  "objectId",
+                  "panel",
+                  "password",
+                  "pattern",
+                  "port",
+                  "qrCode",
+                  "room",
+                  "select",
+                  "selectSendTo",
+                  "sendTo",
+                  "setState",
+                  "slider",
+                  "state",
                   "staticImage",
                   "staticLink",
-                  "divider",
-                  "objectId",
-                  "selectSendTo",
-                  "autocompleteSendTo",
-                  "checkLicense",
-                  "uuid",
+                  "staticText",
+                  "table",
+                  "text",
+                  "textSendTo",
                   "timePicker",
-                  "datePicker"
+                  "user",
+                  "uuid"
                 ]
+            ],
+      "_js2n__-:definitions/coordinatesProps!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  allowSaveWithError = _js2n__-prdslib.always,
+                  attr = _js2n__-prdslib.always,
+                  autoInit = _js2n__-prdslib.isType '"Bool",
+                  confirm = _js2n__-prdslib.always,
+                  darkStyle = _js2n__-prdslib.always,
+                  defaultSendTo = _js2n__-prdslib.always,
+                  disabled = _js2n__-prdslib.always,
+                  divider = _js2n__-prdslib.isType '"String",
+                  help = _js2n__-prdslib.always,
+                  helpLink = _js2n__-prdslib.always,
+                  hidden = _js2n__-prdslib.always,
+                  hideOnlyControl = _js2n__-prdslib.always,
+                  label = _js2n__-prdslib.always,
+                  latitudeName = _js2n__-prdslib.isType '"String",
+                  lg = _js2n__-prdslib.always,
+                  longitudeName = _js2n__-prdslib.isType '"String",
+                  maxLength = _js2n__-prdslib.always,
+                  md = _js2n__-prdslib.always,
+                  newLine = _js2n__-prdslib.always,
+                  noMultiEdit = _js2n__-prdslib.always,
+                  noTranslation = _js2n__-prdslib.always,
+                  sm = _js2n__-prdslib.always,
+                  style = _js2n__-prdslib.always,
+                  tooltip = _js2n__-prdslib.always,
+                  type = _js2n__-prdslib.always,
+                  useSystemName = _js2n__-prdslib.isType '"String",
+                  validator = _js2n__-prdslib.always,
+                  validatorErrorText = _js2n__-prdslib.always,
+                  validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
+                  xs = _js2n__-prdslib.always,
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/cronProps!predicate" =
         _js2n__-prdslib.allOf
@@ -1085,6 +1137,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   complex = _js2n__-prdslib.isType '"Bool",
                   confirm = _js2n__-prdslib.always,
                   darkStyle = _js2n__-prdslib.always,
@@ -1111,6 +1164,7 @@ let rec _js2n__-refsenv
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -1120,6 +1174,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   confirm = _js2n__-prdslib.always,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
@@ -1147,6 +1202,42 @@ let rec _js2n__-refsenv
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
+                  xs = _js2n__-prdslib.always,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/deviceManagerProps!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  allowSaveWithError = _js2n__-prdslib.always,
+                  confirm = _js2n__-prdslib.always,
+                  darkStyle = _js2n__-prdslib.always,
+                  "default" = _js2n__-prdslib.always,
+                  defaultFunc = _js2n__-prdslib.always,
+                  defaultSendTo = _js2n__-prdslib.always,
+                  disabled = _js2n__-prdslib.always,
+                  help = _js2n__-prdslib.always,
+                  helpLink = _js2n__-prdslib.always,
+                  hidden = _js2n__-prdslib.always,
+                  hideOnlyControl = _js2n__-prdslib.always,
+                  label = _js2n__-prdslib.always,
+                  lg = _js2n__-prdslib.always,
+                  md = _js2n__-prdslib.always,
+                  newLine = _js2n__-prdslib.always,
+                  noMultiEdit = _js2n__-prdslib.always,
+                  noTranslation = _js2n__-prdslib.always,
+                  onChange = _js2n__-prdslib.always,
+                  sm = _js2n__-prdslib.always,
+                  style = _js2n__-prdslib.always,
+                  tooltip = _js2n__-prdslib.always,
+                  type = _js2n__-prdslib.always,
+                  validator = _js2n__-prdslib.always,
+                  validatorErrorText = _js2n__-prdslib.always,
+                  validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -1156,6 +1247,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/fileSelectorProps!predicate" =
         _js2n__-prdslib.records.record
             {
+              allowSaveWithError = _js2n__-prdslib.always,
               confirm = _js2n__-prdslib.always,
               darkStyle = _js2n__-prdslib.always,
               "default" = _js2n__-prdslib.always,
@@ -1190,6 +1282,7 @@ let rec _js2n__-refsenv
               validatorErrorText = _js2n__-prdslib.always,
               validatorNoSaveOnError = _js2n__-prdslib.always,
               withFolder = _js2n__-prdslib.isType '"Bool",
+              xl = _js2n__-prdslib.always,
               xs = _js2n__-prdslib.always,
             } {} false _js2n__-prdslib.never,
       "_js2n__-:definitions/i18n!predicate"
@@ -1227,6 +1320,7 @@ let rec _js2n__-refsenv
                         ],
                   all = _js2n__-prdslib.isType '"Bool",
                   allowDeactivate = _js2n__-prdslib.isType '"Bool",
+                  allowSaveWithError = _js2n__-prdslib.always,
                   confirm = _js2n__-prdslib.always,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
@@ -1254,6 +1348,44 @@ let rec _js2n__-refsenv
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
+                  xs = _js2n__-prdslib.always,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/interfaceProps!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  allowSaveWithError = _js2n__-prdslib.always,
+                  confirm = _js2n__-prdslib.always,
+                  darkStyle = _js2n__-prdslib.always,
+                  "default" = _js2n__-prdslib.always,
+                  defaultFunc = _js2n__-prdslib.always,
+                  defaultSendTo = _js2n__-prdslib.always,
+                  disabled = _js2n__-prdslib.always,
+                  help = _js2n__-prdslib.always,
+                  helpLink = _js2n__-prdslib.always,
+                  hidden = _js2n__-prdslib.always,
+                  hideOnlyControl = _js2n__-prdslib.always,
+                  ignoreInternal = _js2n__-prdslib.isType '"Bool",
+                  ignoreLoopback = _js2n__-prdslib.isType '"Bool",
+                  label = _js2n__-prdslib.always,
+                  lg = _js2n__-prdslib.always,
+                  md = _js2n__-prdslib.always,
+                  newLine = _js2n__-prdslib.always,
+                  noMultiEdit = _js2n__-prdslib.always,
+                  noTranslation = _js2n__-prdslib.always,
+                  onChange = _js2n__-prdslib.always,
+                  sm = _js2n__-prdslib.always,
+                  style = _js2n__-prdslib.always,
+                  tooltip = _js2n__-prdslib.always,
+                  type = _js2n__-prdslib.always,
+                  validator = _js2n__-prdslib.always,
+                  validatorErrorText = _js2n__-prdslib.always,
+                  validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -1277,6 +1409,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   confirm = _js2n__-prdslib.always,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
@@ -1306,6 +1439,7 @@ let rec _js2n__-refsenv
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -1315,6 +1449,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   confirm = _js2n__-prdslib.always,
                   customFilter = _js2n__-prdslib.isType '"String",
                   darkStyle = _js2n__-prdslib.always,
@@ -1394,6 +1529,7 @@ let rec _js2n__-refsenv
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -1403,6 +1539,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   confirm = _js2n__-prdslib.always,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
@@ -1423,6 +1560,7 @@ let rec _js2n__-refsenv
                   noMultiEdit = _js2n__-prdslib.always,
                   noTranslation = _js2n__-prdslib.always,
                   onChange = _js2n__-prdslib.always,
+                  readOnly = _js2n__-prdslib.isType '"Bool",
                   repeat = _js2n__-prdslib.isType '"Bool",
                   sm = _js2n__-prdslib.always,
                   style = _js2n__-prdslib.always,
@@ -1432,6 +1570,47 @@ let rec _js2n__-refsenv
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
                   visible = _js2n__-prdslib.isType '"Bool",
+                  xl = _js2n__-prdslib.always,
+                  xs = _js2n__-prdslib.always,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/qrCodeProps!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "data", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  allowSaveWithError = _js2n__-prdslib.always,
+                  bgColor = _js2n__-prdslib.isType '"String",
+                  confirm = _js2n__-prdslib.always,
+                  darkStyle = _js2n__-prdslib.always,
+                  data = _js2n__-prdslib.isType '"String",
+                  "default" = _js2n__-prdslib.always,
+                  defaultFunc = _js2n__-prdslib.always,
+                  defaultSendTo = _js2n__-prdslib.always,
+                  disabled = _js2n__-prdslib.always,
+                  fgColor = _js2n__-prdslib.isType '"String",
+                  help = _js2n__-prdslib.always,
+                  helpLink = _js2n__-prdslib.always,
+                  hidden = _js2n__-prdslib.always,
+                  hideOnlyControl = _js2n__-prdslib.always,
+                  label = _js2n__-prdslib.always,
+                  level = _js2n__-prdslib.enum [ "L", "M", "Q", "H" ],
+                  lg = _js2n__-prdslib.always,
+                  md = _js2n__-prdslib.always,
+                  newLine = _js2n__-prdslib.always,
+                  noMultiEdit = _js2n__-prdslib.always,
+                  noTranslation = _js2n__-prdslib.always,
+                  onChange = _js2n__-prdslib.always,
+                  size = _js2n__-prdslib.isType '"Number",
+                  sm = _js2n__-prdslib.always,
+                  style = _js2n__-prdslib.always,
+                  tooltip = _js2n__-prdslib.always,
+                  type = _js2n__-prdslib.always,
+                  validator = _js2n__-prdslib.always,
+                  validatorErrorText = _js2n__-prdslib.always,
+                  validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -1441,6 +1620,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "command", "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   color =
                     _js2n__-prdslib.allOf
                         [
@@ -1449,6 +1629,7 @@ let rec _js2n__-refsenv
                         ],
                   command = _js2n__-prdslib.isType '"String",
                   confirm = _js2n__-prdslib.always,
+                  controlStyle = _js2n__-prdslib.isType 'Record,
                   darkStyle = _js2n__-prdslib.always,
                   data = _js2n__-prdslib.isType 'Record,
                   "default" = _js2n__-prdslib.always,
@@ -1488,6 +1669,71 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "contained", "outlined" ]
                         ],
+                  window = _js2n__-prdslib.isType '"String",
+                  xl = _js2n__-prdslib.always,
+                  xs = _js2n__-prdslib.always,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/stateProps!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "oid", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  confirm = _js2n__-prdslib.always,
+                  control =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "text",
+                              "html",
+                              "input",
+                              "number",
+                              "slider",
+                              "switch",
+                              "select",
+                              "button"
+                            ]
+                        ],
+                  controlDelay = _js2n__-prdslib.isType '"Number",
+                  controlled = _js2n__-prdslib.isType '"Bool",
+                  darkStyle = _js2n__-prdslib.always,
+                  disabled = _js2n__-prdslib.always,
+                  falseImage = _js2n__-prdslib.isType '"String",
+                  falseText = _js2n__-prdslib.isType '"String",
+                  falseTextStyle = _js2n__-prdslib.isType 'Record,
+                  help = _js2n__-prdslib.always,
+                  helpLink = _js2n__-prdslib.always,
+                  hidden = _js2n__-prdslib.always,
+                  hideOnlyControl = _js2n__-prdslib.always,
+                  label = _js2n__-prdslib.always,
+                  lg = _js2n__-prdslib.always,
+                  max = _js2n__-prdslib.isType '"Number",
+                  md = _js2n__-prdslib.always,
+                  min = _js2n__-prdslib.isType '"Number",
+                  newLine = _js2n__-prdslib.always,
+                  noTranslation = _js2n__-prdslib.always,
+                  oid = _js2n__-prdslib.isType '"String",
+                  sm = _js2n__-prdslib.always,
+                  step = _js2n__-prdslib.isType '"Number",
+                  style = _js2n__-prdslib.always,
+                  system = _js2n__-prdslib.isType '"Bool",
+                  tooltip = _js2n__-prdslib.always,
+                  trueImage = _js2n__-prdslib.isType '"String",
+                  trueText = _js2n__-prdslib.isType '"String",
+                  trueTextStyle = _js2n__-prdslib.isType 'Record,
+                  type = _js2n__-prdslib.always,
+                  unit = _js2n__-prdslib.isType '"String",
+                  variant =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "contained", "outlined", "text" ]
+                        ],
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -1497,9 +1743,11 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "href", "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   button = _js2n__-prdslib.always,
                   color = _js2n__-prdslib.isType '"String",
                   confirm = _js2n__-prdslib.always,
+                  controlStyle = _js2n__-prdslib.isType 'Record,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
                   defaultFunc = _js2n__-prdslib.always,
@@ -1537,6 +1785,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum
                             [ "contained", "outlined", "text" ]
                         ],
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} true _js2n__-prdslib.always
             ],
@@ -1580,6 +1829,7 @@ let rec _js2n__-refsenv
                                 [ "system", "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
                                   "default" = _js2n__-prdslib.always,
@@ -1606,6 +1856,7 @@ let rec _js2n__-refsenv
                                   validatorErrorText = _js2n__-prdslib.always,
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -1621,6 +1872,7 @@ let rec _js2n__-refsenv
                                 [ "command", "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   alsoDependsOn =
                                     _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
                                   attr = _js2n__-prdslib.always,
@@ -1660,6 +1912,7 @@ let rec _js2n__-refsenv
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -1674,6 +1927,7 @@ let rec _js2n__-refsenv
                                 [ "command", "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   alsoDependsOn =
                                     _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
                                   attr = _js2n__-prdslib.always,
@@ -1713,6 +1967,7 @@ let rec _js2n__-refsenv
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -1727,6 +1982,7 @@ let rec _js2n__-refsenv
                                 [ "command", "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   alsoDependsOn =
                                     _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
                                   attr = _js2n__-prdslib.always,
@@ -1765,6 +2021,61 @@ let rec _js2n__-refsenv
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
+                                  xs = _js2n__-prdslib.always,
+                                } {} false _js2n__-prdslib.never
+                            ]) _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.records.record
+                            { type = _js2n__-prdslib.const "imageSendTo", } {}
+                            true _js2n__-prdslib.always)
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/tableItemBaseProps!predicate",
+                              _js2n__-prdslib.records.required
+                                [ "command", "type" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  allowSaveWithError = _js2n__-prdslib.always,
+                                  alsoDependsOn =
+                                    _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
+                                  attr = _js2n__-prdslib.always,
+                                  command = _js2n__-prdslib.isType '"String",
+                                  confirm = _js2n__-prdslib.always,
+                                  container = _js2n__-prdslib.isType '"String",
+                                  copyToClipboard =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  darkStyle = _js2n__-prdslib.always,
+                                  data = _js2n__-prdslib.isType 'Record,
+                                  "default" = _js2n__-prdslib.always,
+                                  defaultFunc = _js2n__-prdslib.always,
+                                  defaultSendTo = _js2n__-prdslib.always,
+                                  disabled = _js2n__-prdslib.always,
+                                  filter = _js2n__-prdslib.always,
+                                  help = _js2n__-prdslib.always,
+                                  helpLink = _js2n__-prdslib.always,
+                                  hidden = _js2n__-prdslib.always,
+                                  hideOnlyControl = _js2n__-prdslib.always,
+                                  jsonData = _js2n__-prdslib.isType '"String",
+                                  label = _js2n__-prdslib.always,
+                                  lg = _js2n__-prdslib.always,
+                                  md = _js2n__-prdslib.always,
+                                  newLine = _js2n__-prdslib.always,
+                                  noMultiEdit = _js2n__-prdslib.always,
+                                  noTranslation = _js2n__-prdslib.always,
+                                  onChange = _js2n__-prdslib.always,
+                                  sm = _js2n__-prdslib.always,
+                                  sort = _js2n__-prdslib.always,
+                                  style = _js2n__-prdslib.always,
+                                  title = _js2n__-prdslib.always,
+                                  tooltip = _js2n__-prdslib.always,
+                                  type = _js2n__-prdslib.always,
+                                  validator = _js2n__-prdslib.always,
+                                  validatorErrorText = _js2n__-prdslib.always,
+                                  validatorNoSaveOnError =
+                                    _js2n__-prdslib.always,
+                                  width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -1781,6 +2092,8 @@ let rec _js2n__-refsenv
                                     [ "size", "text", "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -1818,6 +2131,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -1834,6 +2148,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -1861,6 +2177,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -1877,6 +2194,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       color =
                                         _js2n__-prdslib.allOf
@@ -1912,6 +2231,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -1926,6 +2246,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
@@ -1968,6 +2289,7 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
                                   withFolder = _js2n__-prdslib.isType '"Bool",
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -1983,6 +2305,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       crop = _js2n__-prdslib.isType '"Bool",
@@ -2018,6 +2342,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2031,10 +2356,35 @@ let rec _js2n__-refsenv
                               _js2n__-refsenv."_js2n__-:definitions/tableItemBaseProps!predicate",
                               _js2n__-prdslib.allOf
                                 [
-                                  _js2n__-prdslib.records.required
-                                    [ "items", "type" ],
+                                  _js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.records.required
+                                            [ "items" ],
+                                          _js2n__-prdslib.records.record {} {}
+                                            true _js2n__-prdslib.always
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.records.required
+                                            [ "#include" ],
+                                          _js2n__-prdslib.records.record {} {}
+                                            true _js2n__-prdslib.always
+                                        ]
+                                    ],
+                                  _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      "#include" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.strings.pattern
+                                                "^.+\\.jsonConfig(.json|.json5)$"
+                                            ],
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -2049,6 +2399,7 @@ let rec _js2n__-refsenv
                                       icon = _js2n__-prdslib.isType '"String",
                                       iconPosition =
                                         _js2n__-refsenv."_js2n__-:definitions/iconPositionProp!predicate",
+                                      innerStyle = _js2n__-prdslib.always,
                                       items =
                                         _js2n__-refsenv."_js2n__-:definitions/topLevelProperties/properties/items!predicate",
                                       label = _js2n__-prdslib.always,
@@ -2067,6 +2418,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2084,6 +2436,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.record
                                     {
                                       accept = _js2n__-prdslib.isType '"String",
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       crop = _js2n__-prdslib.isType '"Bool",
@@ -2121,6 +2475,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2138,6 +2493,8 @@ let rec _js2n__-refsenv
                                     [ "command", "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       color =
                                         _js2n__-prdslib.allOf
@@ -2197,6 +2554,7 @@ let rec _js2n__-refsenv
                                                 [ "contained", "outlined" ]
                                             ],
                                       width = _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2211,6 +2569,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
@@ -2244,6 +2603,7 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.always,
                                   visible = _js2n__-prdslib.isType '"Bool",
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -2260,6 +2620,8 @@ let rec _js2n__-refsenv
                                     [ "filename", "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -2289,6 +2651,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2305,6 +2668,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -2335,6 +2700,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2358,6 +2724,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
@@ -2388,6 +2755,7 @@ let rec _js2n__-refsenv
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -2402,6 +2770,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
@@ -2438,6 +2807,7 @@ let rec _js2n__-refsenv
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -2463,6 +2833,8 @@ let rec _js2n__-refsenv
                                     [ "options", "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -2470,6 +2842,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      filter = _js2n__-prdslib.always,
                                       freeSolo = _js2n__-prdslib.isType '"Bool",
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
@@ -2498,7 +2871,9 @@ let rec _js2n__-refsenv
                                       placeholder =
                                         _js2n__-prdslib.isType '"String",
                                       sm = _js2n__-prdslib.always,
+                                      sort = _js2n__-prdslib.always,
                                       style = _js2n__-prdslib.always,
+                                      title = _js2n__-prdslib.always,
                                       tooltip = _js2n__-prdslib.always,
                                       type = _js2n__-prdslib.always,
                                       validator = _js2n__-prdslib.always,
@@ -2506,6 +2881,8 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      width = _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2537,6 +2914,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   complex = _js2n__-prdslib.isType '"Bool",
                                   confirm = _js2n__-prdslib.always,
@@ -2569,6 +2947,7 @@ let rec _js2n__-refsenv
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -2582,6 +2961,8 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowEmpty = _js2n__-prdslib.isType '"Bool",
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
@@ -2623,11 +3004,13 @@ let rec _js2n__-refsenv
                                   tooltip = _js2n__-prdslib.always,
                                   trim = _js2n__-prdslib.isType '"Bool",
                                   type = _js2n__-prdslib.always,
+                                  validateJson = _js2n__-prdslib.isType '"Bool",
                                   validator = _js2n__-prdslib.always,
                                   validatorErrorText = _js2n__-prdslib.always,
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -2641,6 +3024,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
@@ -2694,6 +3078,7 @@ let rec _js2n__-refsenv
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -2710,6 +3095,8 @@ let rec _js2n__-refsenv
                                     [ "pattern", "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       copyToClipboard =
@@ -2741,6 +3128,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2759,6 +3147,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.record
                                     {
                                       ack = _js2n__-prdslib.isType '"Bool",
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       color =
                                         _js2n__-prdslib.allOf
@@ -2805,6 +3195,63 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.enum
                                                 [ "contained", "outlined" ]
                                             ],
+                                      xl = _js2n__-prdslib.always,
+                                      xs = _js2n__-prdslib.always,
+                                    } {} false _js2n__-prdslib.never
+                                ]
+                            ]) _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.records.record
+                            { type = _js2n__-prdslib.const "qrCode", } {} true
+                            _js2n__-prdslib.always)
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/tableItemBaseProps!predicate",
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "data", "type" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
+                                      attr = _js2n__-prdslib.always,
+                                      bgColor =
+                                        _js2n__-prdslib.isType '"String",
+                                      confirm = _js2n__-prdslib.always,
+                                      darkStyle = _js2n__-prdslib.always,
+                                      data = _js2n__-prdslib.isType '"String",
+                                      "default" = _js2n__-prdslib.always,
+                                      defaultFunc = _js2n__-prdslib.always,
+                                      defaultSendTo = _js2n__-prdslib.always,
+                                      disabled = _js2n__-prdslib.always,
+                                      fgColor =
+                                        _js2n__-prdslib.isType '"String",
+                                      help = _js2n__-prdslib.always,
+                                      helpLink = _js2n__-prdslib.always,
+                                      hidden = _js2n__-prdslib.always,
+                                      hideOnlyControl = _js2n__-prdslib.always,
+                                      label = _js2n__-prdslib.always,
+                                      level =
+                                        _js2n__-prdslib.enum
+                                            [ "L", "M", "Q", "H" ],
+                                      lg = _js2n__-prdslib.always,
+                                      md = _js2n__-prdslib.always,
+                                      newLine = _js2n__-prdslib.always,
+                                      noMultiEdit = _js2n__-prdslib.always,
+                                      noTranslation = _js2n__-prdslib.always,
+                                      onChange = _js2n__-prdslib.always,
+                                      size = _js2n__-prdslib.isType '"Number",
+                                      sm = _js2n__-prdslib.always,
+                                      style = _js2n__-prdslib.always,
+                                      tooltip = _js2n__-prdslib.always,
+                                      type = _js2n__-prdslib.always,
+                                      validator = _js2n__-prdslib.always,
+                                      validatorErrorText =
+                                        _js2n__-prdslib.always,
+                                      validatorNoSaveOnError =
+                                        _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2821,6 +3268,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -2849,6 +3298,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2865,6 +3315,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -2893,6 +3345,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2909,6 +3362,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -2937,6 +3392,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -2953,6 +3409,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -2986,6 +3444,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -3003,6 +3462,8 @@ let rec _js2n__-refsenv
                                     [ "certType", "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       certType =
                                         _js2n__-prdslib.allOf
@@ -3041,6 +3502,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -3068,6 +3530,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   color = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
@@ -3103,6 +3566,7 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.always,
                                   variant = _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -3133,6 +3597,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
@@ -3168,6 +3633,7 @@ let rec _js2n__-refsenv
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -3193,6 +3659,7 @@ let rec _js2n__-refsenv
                                   all = _js2n__-prdslib.isType '"Bool",
                                   allowDeactivate =
                                     _js2n__-prdslib.isType '"Bool",
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
@@ -3226,6 +3693,7 @@ let rec _js2n__-refsenv
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -3241,6 +3709,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -3269,6 +3739,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -3285,6 +3756,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
                                       confirm = _js2n__-prdslib.always,
                                       darkStyle = _js2n__-prdslib.always,
@@ -3294,6 +3767,7 @@ let rec _js2n__-refsenv
                                       delimiter =
                                         _js2n__-prdslib.isType '"String",
                                       disabled = _js2n__-prdslib.always,
+                                      filter = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -3306,7 +3780,9 @@ let rec _js2n__-refsenv
                                       noTranslation = _js2n__-prdslib.always,
                                       onChange = _js2n__-prdslib.always,
                                       sm = _js2n__-prdslib.always,
+                                      sort = _js2n__-prdslib.always,
                                       style = _js2n__-prdslib.always,
+                                      title = _js2n__-prdslib.always,
                                       tooltip = _js2n__-prdslib.always,
                                       type = _js2n__-prdslib.always,
                                       validator = _js2n__-prdslib.always,
@@ -3314,6 +3790,8 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.always,
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.always,
+                                      width = _js2n__-prdslib.always,
+                                      xl = _js2n__-prdslib.always,
                                       xs = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ]
@@ -3328,6 +3806,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   customFilter =
@@ -3416,6 +3895,7 @@ let rec _js2n__-refsenv
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
                                   width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -3428,6 +3908,7 @@ let rec _js2n__-refsenv
                               _js2n__-refsenv."_js2n__-:definitions/tableItemBaseProps!predicate",
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
@@ -3445,6 +3926,7 @@ let rec _js2n__-refsenv
                                   type = _js2n__-prdslib.always,
                                   uuid = _js2n__-prdslib.isType '"Bool",
                                   version = _js2n__-prdslib.isType '"Bool",
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -3457,6 +3939,7 @@ let rec _js2n__-refsenv
                               _js2n__-refsenv."_js2n__-:definitions/tableItemBaseProps!predicate",
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
@@ -3472,6 +3955,7 @@ let rec _js2n__-refsenv
                                   sm = _js2n__-prdslib.always,
                                   style = _js2n__-prdslib.always,
                                   type = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -3485,6 +3969,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
@@ -3508,6 +3993,7 @@ let rec _js2n__-refsenv
                                   validatorErrorText = _js2n__-prdslib.always,
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always,
@@ -3521,6 +4007,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "type" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  allowSaveWithError = _js2n__-prdslib.always,
                                   attr = _js2n__-prdslib.always,
                                   confirm = _js2n__-prdslib.always,
                                   darkStyle = _js2n__-prdslib.always,
@@ -3586,6 +4073,54 @@ let rec _js2n__-refsenv
                                                   ]
                                               ])
                                         ],
+                                  xl = _js2n__-prdslib.always,
+                                  xs = _js2n__-prdslib.always,
+                                } {} false _js2n__-prdslib.never
+                            ]) _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.records.record
+                            { type = _js2n__-prdslib.const "coordinates", } {}
+                            true _js2n__-prdslib.always)
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/tableItemBaseProps!predicate",
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  allowSaveWithError = _js2n__-prdslib.always,
+                                  attr = _js2n__-prdslib.always,
+                                  autoInit = _js2n__-prdslib.isType '"Bool",
+                                  confirm = _js2n__-prdslib.always,
+                                  darkStyle = _js2n__-prdslib.always,
+                                  defaultSendTo = _js2n__-prdslib.always,
+                                  disabled = _js2n__-prdslib.always,
+                                  divider = _js2n__-prdslib.isType '"String",
+                                  help = _js2n__-prdslib.always,
+                                  helpLink = _js2n__-prdslib.always,
+                                  hidden = _js2n__-prdslib.always,
+                                  hideOnlyControl = _js2n__-prdslib.always,
+                                  label = _js2n__-prdslib.always,
+                                  latitudeName =
+                                    _js2n__-prdslib.isType '"String",
+                                  lg = _js2n__-prdslib.always,
+                                  longitudeName =
+                                    _js2n__-prdslib.isType '"String",
+                                  maxLength = _js2n__-prdslib.always,
+                                  md = _js2n__-prdslib.always,
+                                  newLine = _js2n__-prdslib.always,
+                                  noMultiEdit = _js2n__-prdslib.always,
+                                  noTranslation = _js2n__-prdslib.always,
+                                  sm = _js2n__-prdslib.always,
+                                  style = _js2n__-prdslib.always,
+                                  tooltip = _js2n__-prdslib.always,
+                                  type = _js2n__-prdslib.always,
+                                  useSystemName =
+                                    _js2n__-prdslib.isType '"String",
+                                  validator = _js2n__-prdslib.always,
+                                  validatorErrorText = _js2n__-prdslib.always,
+                                  validatorNoSaveOnError =
+                                    _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ]) _js2n__-prdslib.always
@@ -3713,6 +4248,7 @@ let rec _js2n__-refsenv
                         validator = _js2n__-prdslib.isType '"String",
                         validatorErrorText = _js2n__-prdslib.isType '"String",
                         validatorNoSaveOnError = _js2n__-prdslib.isType '"Bool",
+                        xl = _js2n__-prdslib.isType '"Number",
                         xs = _js2n__-prdslib.isType '"Number",
                       } {} true _js2n__-prdslib.always
                   ])
@@ -3723,6 +4259,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   confirm = _js2n__-prdslib.always,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
@@ -3755,12 +4292,14 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
                         ],
+                  time = _js2n__-prdslib.isType '"Bool",
                   tooltip = _js2n__-prdslib.always,
                   trim = _js2n__-prdslib.isType '"Bool",
                   type = _js2n__-prdslib.always,
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -3770,6 +4309,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  allowSaveWithError = _js2n__-prdslib.always,
                   darkStyle = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
@@ -3815,6 +4355,7 @@ let rec _js2n__-refsenv
                                   [ "hours", "minutes", "seconds" ]
                               ])
                         ],
+                  xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
@@ -3847,6 +4388,8 @@ let rec _js2n__-refsenv
                                               [ "system", "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -3890,6 +4433,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -3906,6 +4450,8 @@ let rec _js2n__-refsenv
                                               [ "command", "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 alsoDependsOn =
                                                   _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
                                                 command =
@@ -3965,6 +4511,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -3981,6 +4528,8 @@ let rec _js2n__-refsenv
                                               [ "command", "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 alsoDependsOn =
                                                   _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
                                                 command =
@@ -4039,6 +4588,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4055,6 +4605,8 @@ let rec _js2n__-refsenv
                                               [ "command", "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 alsoDependsOn =
                                                   _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
                                                 command =
@@ -4112,6 +4664,71 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
+                                                xs = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ]) _js2n__-prdslib.always,
+                                      _js2n__-prdslib.ifThenElse
+                                        (_js2n__-prdslib.records.record
+                                          {
+                                            type =
+                                              _js2n__-prdslib.const
+                                                  "imageSendTo",
+                                          } {} true _js2n__-prdslib.always)
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.records.required
+                                              [ "command", "type" ],
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                alsoDependsOn =
+                                                  _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
+                                                command =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                confirm =
+                                                  _js2n__-prdslib.always,
+                                                darkStyle =
+                                                  _js2n__-prdslib.always,
+                                                data =
+                                                  _js2n__-prdslib.isType
+                                                      'Record,
+                                                "default" =
+                                                  _js2n__-prdslib.always,
+                                                defaultFunc =
+                                                  _js2n__-prdslib.always,
+                                                disabled =
+                                                  _js2n__-prdslib.always,
+                                                help = _js2n__-prdslib.always,
+                                                helpLink =
+                                                  _js2n__-prdslib.always,
+                                                hidden = _js2n__-prdslib.always,
+                                                hideOnlyControl =
+                                                  _js2n__-prdslib.always,
+                                                jsonData =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                label = _js2n__-prdslib.always,
+                                                lg = _js2n__-prdslib.always,
+                                                md = _js2n__-prdslib.always,
+                                                newLine =
+                                                  _js2n__-prdslib.always,
+                                                noMultiEdit =
+                                                  _js2n__-prdslib.always,
+                                                onChange =
+                                                  _js2n__-prdslib.always,
+                                                sm = _js2n__-prdslib.always,
+                                                style = _js2n__-prdslib.always,
+                                                tooltip =
+                                                  _js2n__-prdslib.always,
+                                                type = _js2n__-prdslib.always,
+                                                validator =
+                                                  _js2n__-prdslib.always,
+                                                validatorErrorText =
+                                                  _js2n__-prdslib.always,
+                                                validatorNoSaveOnError =
+                                                  _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4127,6 +4744,8 @@ let rec _js2n__-refsenv
                                               [ "size", "text", "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -4178,6 +4797,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4193,6 +4813,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -4233,6 +4855,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4248,6 +4871,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 color =
                                                   _js2n__-prdslib.allOf
                                                       [
@@ -4302,6 +4927,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4316,6 +4942,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 crop =
@@ -4371,6 +4999,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4382,10 +5011,39 @@ let rec _js2n__-refsenv
                                           } {} true _js2n__-prdslib.always)
                                         (_js2n__-prdslib.allOf
                                           [
+                                            _js2n__-prdslib.oneOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.records.required
+                                                      [ "items" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {} {} true
+                                                      _js2n__-prdslib.always
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.records.required
+                                                      [ "#include" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {} {} true
+                                                      _js2n__-prdslib.always
+                                                  ]
+                                              ],
                                             _js2n__-prdslib.records.required
-                                              [ "items", "type" ],
+                                              [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                "#include" =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"String",
+                                                        _js2n__-prdslib.strings.pattern
+                                                          "^.+\\.jsonConfig(.json|.json5)$"
+                                                      ],
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -4435,6 +5093,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4453,6 +5112,8 @@ let rec _js2n__-refsenv
                                                 accept =
                                                   _js2n__-prdslib.isType
                                                       '"String",
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 crop =
@@ -4511,6 +5172,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4521,6 +5183,14 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.const "sendTo",
                                           } {} true _js2n__-prdslib.always)
                                         _js2n__-refsenv."_js2n__-:definitions/sendToProps!predicate"
+                                        _js2n__-prdslib.always,
+                                      _js2n__-prdslib.ifThenElse
+                                        (_js2n__-prdslib.records.record
+                                          {
+                                            type =
+                                              _js2n__-prdslib.const "state",
+                                          } {} true _js2n__-prdslib.always)
+                                        _js2n__-refsenv."_js2n__-:definitions/stateProps!predicate"
                                         _js2n__-prdslib.always,
                                       _js2n__-prdslib.ifThenElse
                                         (_js2n__-prdslib.records.record
@@ -4541,6 +5211,8 @@ let rec _js2n__-refsenv
                                               [ "filename", "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -4587,6 +5259,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4602,6 +5275,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -4651,6 +5326,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4709,6 +5385,8 @@ let rec _js2n__-refsenv
                                               [ "options", "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -4769,15 +5447,33 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
                                       _js2n__-prdslib.ifThenElse
                                         (_js2n__-prdslib.records.record
                                           {
+                                            type =
+                                              _js2n__-prdslib.const "qrCode",
+                                          } {} true _js2n__-prdslib.always)
+                                        _js2n__-refsenv."_js2n__-:definitions/qrCodeProps!predicate"
+                                        _js2n__-prdslib.always,
+                                      _js2n__-prdslib.ifThenElse
+                                        (_js2n__-prdslib.records.record
+                                          {
                                             type = _js2n__-prdslib.const "cron",
                                           } {} true _js2n__-prdslib.always)
                                         _js2n__-refsenv."_js2n__-:definitions/cronProps!predicate"
+                                        _js2n__-prdslib.always,
+                                      _js2n__-prdslib.ifThenElse
+                                        (_js2n__-prdslib.records.record
+                                          {
+                                            type =
+                                              _js2n__-prdslib.const
+                                                  "deviceManager",
+                                          } {} true _js2n__-prdslib.always)
+                                        _js2n__-refsenv."_js2n__-:definitions/deviceManagerProps!predicate"
                                         _js2n__-prdslib.always,
                                       _js2n__-prdslib.ifThenElse
                                         (_js2n__-prdslib.records.record
@@ -4798,6 +5494,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -4866,6 +5564,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4883,7 +5582,12 @@ let rec _js2n__-refsenv
                                               {
                                                 allowAddByFilter =
                                                   _js2n__-refsenv."_js2n__-:definitions/allowAddByFilterProp!predicate",
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 clone =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
+                                                compact =
                                                   _js2n__-prdslib.isType
                                                       '"Bool",
                                                 confirm =
@@ -4898,6 +5602,15 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                encryptedAttributes =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"Array",
+                                                        _js2n__-prdslib.arrays.arrayOf
+                                                          (_js2n__-prdslib.isType
+                                                            '"String")
+                                                      ],
                                                 export =
                                                   _js2n__-prdslib.isType
                                                       '"Bool",
@@ -4948,6 +5661,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -4963,6 +5677,8 @@ let rec _js2n__-refsenv
                                               [ "pattern", "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 copyToClipboard =
@@ -5009,6 +5725,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -5027,6 +5744,8 @@ let rec _js2n__-refsenv
                                                 ack =
                                                   _js2n__-prdslib.isType
                                                       '"Bool",
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 color =
                                                   _js2n__-prdslib.allOf
                                                       [
@@ -5102,6 +5821,7 @@ let rec _js2n__-refsenv
                                                             "outlined"
                                                           ]
                                                       ],
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -5116,6 +5836,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -5159,6 +5881,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -5173,6 +5896,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -5216,6 +5941,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -5230,6 +5956,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -5273,6 +6001,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -5286,6 +6015,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -5337,6 +6068,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -5353,6 +6085,8 @@ let rec _js2n__-refsenv
                                               [ "certType", "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 certType =
                                                   _js2n__-prdslib.allOf
                                                       [
@@ -5405,6 +6139,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -5458,6 +6193,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -5503,6 +6240,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -5527,6 +6265,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -5571,6 +6311,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -5586,6 +6327,8 @@ let rec _js2n__-refsenv
                                               [ "type" ],
                                             _js2n__-prdslib.records.record
                                               {
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 darkStyle =
@@ -5629,6 +6372,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
                                           ]) _js2n__-prdslib.always,
@@ -5649,6 +6393,8 @@ let rec _js2n__-refsenv
                                           } {} true _js2n__-prdslib.always)
                                         (_js2n__-prdslib.records.record
                                           {
+                                            allowSaveWithError =
+                                              _js2n__-prdslib.always,
                                             darkStyle = _js2n__-prdslib.always,
                                             defaultSendTo =
                                               _js2n__-prdslib.always,
@@ -5671,6 +6417,7 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.isType '"Bool",
                                             version =
                                               _js2n__-prdslib.isType '"Bool",
+                                            xl = _js2n__-prdslib.always,
                                             xs = _js2n__-prdslib.always,
                                           } {} false _js2n__-prdslib.never)
                                         _js2n__-prdslib.always,
@@ -5683,6 +6430,8 @@ let rec _js2n__-refsenv
                                           } {} true _js2n__-prdslib.always)
                                         (_js2n__-prdslib.records.record
                                           {
+                                            allowSaveWithError =
+                                              _js2n__-prdslib.always,
                                             darkStyle = _js2n__-prdslib.always,
                                             defaultSendTo =
                                               _js2n__-prdslib.always,
@@ -5701,6 +6450,7 @@ let rec _js2n__-refsenv
                                             sm = _js2n__-prdslib.always,
                                             style = _js2n__-prdslib.always,
                                             type = _js2n__-prdslib.always,
+                                            xl = _js2n__-prdslib.always,
                                             xs = _js2n__-prdslib.always,
                                           } {} false _js2n__-prdslib.never)
                                         _js2n__-prdslib.always,
@@ -5720,6 +6470,8 @@ let rec _js2n__-refsenv
                                           } {} true _js2n__-prdslib.always)
                                         (_js2n__-prdslib.records.record
                                           {
+                                            allowSaveWithError =
+                                              _js2n__-prdslib.always,
                                             darkStyle = _js2n__-prdslib.always,
                                             defaultSendTo =
                                               _js2n__-prdslib.always,
@@ -5738,8 +6490,26 @@ let rec _js2n__-refsenv
                                             sm = _js2n__-prdslib.always,
                                             style = _js2n__-prdslib.always,
                                             type = _js2n__-prdslib.always,
+                                            xl = _js2n__-prdslib.always,
                                             xs = _js2n__-prdslib.always,
                                           } {} false _js2n__-prdslib.never)
+                                        _js2n__-prdslib.always,
+                                      _js2n__-prdslib.ifThenElse
+                                        (_js2n__-prdslib.records.record
+                                          {
+                                            type =
+                                              _js2n__-prdslib.const
+                                                  "coordinates",
+                                          } {} true _js2n__-prdslib.always)
+                                        _js2n__-refsenv."_js2n__-:definitions/coordinatesProps!predicate"
+                                        _js2n__-prdslib.always,
+                                      _js2n__-prdslib.ifThenElse
+                                        (_js2n__-prdslib.records.record
+                                          {
+                                            type =
+                                              _js2n__-prdslib.const "interface",
+                                          } {} true _js2n__-prdslib.always)
+                                        _js2n__-refsenv."_js2n__-:definitions/interfaceProps!predicate"
                                         _js2n__-prdslib.always,
                                       _js2n__-prdslib.ifThenElse
                                         (_js2n__-prdslib.records.record
@@ -5753,8 +6523,8 @@ let rec _js2n__-refsenv
                                               [ "items", "type" ],
                                             _js2n__-prdslib.records.record
                                               {
-                                                allowAddByFilter =
-                                                  _js2n__-refsenv."_js2n__-:definitions/allowAddByFilterProp!predicate",
+                                                allowSaveWithError =
+                                                  _js2n__-prdslib.always,
                                                 clone =
                                                   _js2n__-prdslib.isType
                                                       '"Bool",
@@ -5770,18 +6540,12 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
-                                                export =
-                                                  _js2n__-prdslib.isType
-                                                      '"Bool",
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
                                                 hidden = _js2n__-prdslib.always,
                                                 hideOnlyControl =
                                                   _js2n__-prdslib.always,
-                                                "import" =
-                                                  _js2n__-prdslib.isType
-                                                      '"Bool",
                                                 items =
                                                   _js2n__-refsenv."_js2n__-:definitions/tableItems!predicate",
                                                 label = _js2n__-prdslib.always,
@@ -5808,28 +6572,30 @@ let rec _js2n__-refsenv
                                                 tooltip =
                                                   _js2n__-prdslib.always,
                                                 type = _js2n__-prdslib.always,
-                                                uniqueColumns =
-                                                  _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"Array",
-                                                        _js2n__-prdslib.arrays.arrayOf
-                                                          (_js2n__-prdslib.isType
-                                                            '"String")
-                                                      ],
                                                 validator =
                                                   _js2n__-prdslib.always,
                                                 validatorErrorText =
                                                   _js2n__-prdslib.always,
                                                 validatorNoSaveOnError =
                                                   _js2n__-prdslib.always,
+                                                xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
                                               } {} false _js2n__-prdslib.never
-                                          ]) _js2n__-prdslib.always
+                                          ]) _js2n__-prdslib.always,
+                                      _js2n__-prdslib.ifThenElse
+                                        (_js2n__-prdslib.records.record
+                                          {
+                                            type =
+                                              _js2n__-prdslib.const "state",
+                                          } {} true _js2n__-prdslib.always)
+                                        _js2n__-refsenv."_js2n__-:definitions/stateProps!predicate"
+                                        _js2n__-prdslib.always
                                     ],
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      allowSaveWithError =
+                                        _js2n__-prdslib.isType '"Bool",
                                       button = _js2n__-prdslib.isType '"Bool",
                                       confirm =
                                         _js2n__-prdslib.allOf
@@ -5978,6 +6744,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"String",
                                       validatorNoSaveOnError =
                                         _js2n__-prdslib.isType '"Bool",
+                                      xl = _js2n__-prdslib.isType '"Number",
                                       xs = _js2n__-prdslib.isType '"Number",
                                     } {} true _js2n__-prdslib.always
                                 ],
@@ -6013,6 +6780,8 @@ let rec _js2n__-refsenv
                                       [ "system", "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -6041,6 +6810,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6057,6 +6827,8 @@ let rec _js2n__-refsenv
                                       [ "command", "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         alsoDependsOn =
                                           _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
                                         command =
@@ -6096,6 +6868,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6110,6 +6883,8 @@ let rec _js2n__-refsenv
                                       [ "command", "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         alsoDependsOn =
                                           _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
                                         command =
@@ -6148,6 +6923,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6161,6 +6937,8 @@ let rec _js2n__-refsenv
                                       [ "command", "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         alsoDependsOn =
                                           _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
                                         command =
@@ -6199,6 +6977,54 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
+                                        xs = _js2n__-prdslib.always,
+                                      } {} false _js2n__-prdslib.never
+                                  ]) _js2n__-prdslib.always,
+                              _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.records.record
+                                  {
+                                    type = _js2n__-prdslib.const "imageSendTo",
+                                  } {} true _js2n__-prdslib.always)
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.records.required
+                                      [ "command", "type" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        alsoDependsOn =
+                                          _js2n__-refsenv."_js2n__-:definitions/alsoDependsOnSendProp!predicate",
+                                        command =
+                                          _js2n__-prdslib.isType '"String",
+                                        confirm = _js2n__-prdslib.always,
+                                        darkStyle = _js2n__-prdslib.always,
+                                        data = _js2n__-prdslib.isType 'Record,
+                                        "default" = _js2n__-prdslib.always,
+                                        defaultFunc = _js2n__-prdslib.always,
+                                        disabled = _js2n__-prdslib.always,
+                                        help = _js2n__-prdslib.always,
+                                        helpLink = _js2n__-prdslib.always,
+                                        hidden = _js2n__-prdslib.always,
+                                        hideOnlyControl =
+                                          _js2n__-prdslib.always,
+                                        jsonData =
+                                          _js2n__-prdslib.isType '"String",
+                                        label = _js2n__-prdslib.always,
+                                        lg = _js2n__-prdslib.always,
+                                        md = _js2n__-prdslib.always,
+                                        newLine = _js2n__-prdslib.always,
+                                        noMultiEdit = _js2n__-prdslib.always,
+                                        onChange = _js2n__-prdslib.always,
+                                        sm = _js2n__-prdslib.always,
+                                        style = _js2n__-prdslib.always,
+                                        tooltip = _js2n__-prdslib.always,
+                                        type = _js2n__-prdslib.always,
+                                        validator = _js2n__-prdslib.always,
+                                        validatorErrorText =
+                                          _js2n__-prdslib.always,
+                                        validatorNoSaveOnError =
+                                          _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6212,6 +7038,8 @@ let rec _js2n__-refsenv
                                       [ "size", "text", "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
@@ -6253,6 +7081,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6265,6 +7094,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -6292,6 +7123,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6304,6 +7136,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         color =
                                           _js2n__-prdslib.allOf
                                               [
@@ -6341,6 +7175,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6353,6 +7188,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         crop = _js2n__-prdslib.isType '"Bool",
                                         darkStyle = _js2n__-prdslib.always,
@@ -6388,6 +7225,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6397,10 +7235,36 @@ let rec _js2n__-refsenv
                                   true _js2n__-prdslib.always)
                                 (_js2n__-prdslib.allOf
                                   [
-                                    _js2n__-prdslib.records.required
-                                      [ "items", "type" ],
+                                    _js2n__-prdslib.oneOf
+                                      [
+                                        _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.records.required
+                                              [ "items" ],
+                                            _js2n__-prdslib.records.record {} {}
+                                              true _js2n__-prdslib.always
+                                          ],
+                                        _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.records.required
+                                              [ "#include" ],
+                                            _js2n__-prdslib.records.record {} {}
+                                              true _js2n__-prdslib.always
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        "#include" =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.strings.pattern
+                                                  "^.+\\.jsonConfig(.json|.json5)$"
+                                              ],
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -6434,6 +7298,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6448,6 +7313,8 @@ let rec _js2n__-refsenv
                                       {
                                         accept =
                                           _js2n__-prdslib.isType '"String",
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         crop = _js2n__-prdslib.isType '"Bool",
                                         darkStyle = _js2n__-prdslib.always,
@@ -6485,6 +7352,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6493,6 +7361,12 @@ let rec _js2n__-refsenv
                                   { type = _js2n__-prdslib.const "sendTo", } {}
                                   true _js2n__-prdslib.always)
                                 _js2n__-refsenv."_js2n__-:definitions/sendToProps!predicate"
+                                _js2n__-prdslib.always,
+                              _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.records.record
+                                  { type = _js2n__-prdslib.const "state", } {}
+                                  true _js2n__-prdslib.always)
+                                _js2n__-refsenv."_js2n__-:definitions/stateProps!predicate"
                                 _js2n__-prdslib.always,
                               _js2n__-prdslib.ifThenElse
                                 (_js2n__-prdslib.records.record
@@ -6510,6 +7384,8 @@ let rec _js2n__-refsenv
                                       [ "filename", "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -6542,6 +7418,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6554,6 +7431,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -6584,6 +7463,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6631,6 +7511,8 @@ let rec _js2n__-refsenv
                                       [ "options", "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -6675,14 +7557,29 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
                               _js2n__-prdslib.ifThenElse
                                 (_js2n__-prdslib.records.record
+                                  { type = _js2n__-prdslib.const "qrCode", } {}
+                                  true _js2n__-prdslib.always)
+                                _js2n__-refsenv."_js2n__-:definitions/qrCodeProps!predicate"
+                                _js2n__-prdslib.always,
+                              _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.records.record
                                   { type = _js2n__-prdslib.const "cron", } {}
                                   true _js2n__-prdslib.always)
                                 _js2n__-refsenv."_js2n__-:definitions/cronProps!predicate"
+                                _js2n__-prdslib.always,
+                              _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.records.record
+                                  {
+                                    type =
+                                      _js2n__-prdslib.const "deviceManager",
+                                  } {} true _js2n__-prdslib.always)
+                                _js2n__-refsenv."_js2n__-:definitions/deviceManagerProps!predicate"
                                 _js2n__-prdslib.always,
                               _js2n__-prdslib.ifThenElse
                                 (_js2n__-prdslib.records.record
@@ -6699,6 +7596,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -6750,6 +7649,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6765,13 +7665,25 @@ let rec _js2n__-refsenv
                                       {
                                         allowAddByFilter =
                                           _js2n__-refsenv."_js2n__-:definitions/allowAddByFilterProp!predicate",
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         clone = _js2n__-prdslib.isType '"Bool",
+                                        compact =
+                                          _js2n__-prdslib.isType '"Bool",
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        encryptedAttributes =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String")
+                                              ],
                                         export = _js2n__-prdslib.isType '"Bool",
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
@@ -6810,6 +7722,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6823,6 +7736,8 @@ let rec _js2n__-refsenv
                                       [ "pattern", "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         copyToClipboard =
                                           _js2n__-prdslib.isType '"Bool",
@@ -6854,6 +7769,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6868,6 +7784,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.record
                                       {
                                         ack = _js2n__-prdslib.isType '"Bool",
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         color =
                                           _js2n__-prdslib.allOf
                                               [
@@ -6917,6 +7835,7 @@ let rec _js2n__-refsenv
                                                 _js2n__-prdslib.enum
                                                   [ "contained", "outlined" ]
                                               ],
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6929,6 +7848,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -6958,6 +7879,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -6970,6 +7892,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -6999,6 +7923,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -7011,6 +7936,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -7040,6 +7967,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -7052,6 +7980,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -7087,6 +8017,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -7101,6 +8032,8 @@ let rec _js2n__-refsenv
                                       [ "certType", "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         certType =
                                           _js2n__-prdslib.allOf
                                               [
@@ -7140,6 +8073,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -7182,6 +8116,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -7215,6 +8151,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -7234,6 +8171,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -7262,6 +8201,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -7274,6 +8214,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
                                         "default" = _js2n__-prdslib.always,
@@ -7303,6 +8245,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
                                   ]) _js2n__-prdslib.always,
@@ -7319,6 +8262,7 @@ let rec _js2n__-refsenv
                                   } {} true _js2n__-prdslib.always)
                                 (_js2n__-prdslib.records.record
                                   {
+                                    allowSaveWithError = _js2n__-prdslib.always,
                                     darkStyle = _js2n__-prdslib.always,
                                     defaultSendTo = _js2n__-prdslib.always,
                                     disabled = _js2n__-prdslib.always,
@@ -7335,6 +8279,7 @@ let rec _js2n__-refsenv
                                     type = _js2n__-prdslib.always,
                                     uuid = _js2n__-prdslib.isType '"Bool",
                                     version = _js2n__-prdslib.isType '"Bool",
+                                    xl = _js2n__-prdslib.always,
                                     xs = _js2n__-prdslib.always,
                                   } {} false _js2n__-prdslib.never)
                                 _js2n__-prdslib.always,
@@ -7344,6 +8289,7 @@ let rec _js2n__-refsenv
                                   {} true _js2n__-prdslib.always)
                                 (_js2n__-prdslib.records.record
                                   {
+                                    allowSaveWithError = _js2n__-prdslib.always,
                                     darkStyle = _js2n__-prdslib.always,
                                     defaultSendTo = _js2n__-prdslib.always,
                                     disabled = _js2n__-prdslib.always,
@@ -7358,6 +8304,7 @@ let rec _js2n__-refsenv
                                     sm = _js2n__-prdslib.always,
                                     style = _js2n__-prdslib.always,
                                     type = _js2n__-prdslib.always,
+                                    xl = _js2n__-prdslib.always,
                                     xs = _js2n__-prdslib.always,
                                   } {} false _js2n__-prdslib.never)
                                 _js2n__-prdslib.always,
@@ -7373,6 +8320,7 @@ let rec _js2n__-refsenv
                                   true _js2n__-prdslib.always)
                                 (_js2n__-prdslib.records.record
                                   {
+                                    allowSaveWithError = _js2n__-prdslib.always,
                                     darkStyle = _js2n__-prdslib.always,
                                     defaultSendTo = _js2n__-prdslib.always,
                                     disabled = _js2n__-prdslib.always,
@@ -7387,8 +8335,22 @@ let rec _js2n__-refsenv
                                     sm = _js2n__-prdslib.always,
                                     style = _js2n__-prdslib.always,
                                     type = _js2n__-prdslib.always,
+                                    xl = _js2n__-prdslib.always,
                                     xs = _js2n__-prdslib.always,
                                   } {} false _js2n__-prdslib.never)
+                                _js2n__-prdslib.always,
+                              _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.records.record
+                                  {
+                                    type = _js2n__-prdslib.const "coordinates",
+                                  } {} true _js2n__-prdslib.always)
+                                _js2n__-refsenv."_js2n__-:definitions/coordinatesProps!predicate"
+                                _js2n__-prdslib.always,
+                              _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.records.record
+                                  { type = _js2n__-prdslib.const "interface", }
+                                  {} true _js2n__-prdslib.always)
+                                _js2n__-refsenv."_js2n__-:definitions/interfaceProps!predicate"
                                 _js2n__-prdslib.always,
                               _js2n__-prdslib.ifThenElse
                                 (_js2n__-prdslib.records.record
@@ -7400,8 +8362,8 @@ let rec _js2n__-refsenv
                                       [ "items", "type" ],
                                     _js2n__-prdslib.records.record
                                       {
-                                        allowAddByFilter =
-                                          _js2n__-refsenv."_js2n__-:definitions/allowAddByFilterProp!predicate",
+                                        allowSaveWithError =
+                                          _js2n__-prdslib.always,
                                         clone = _js2n__-prdslib.isType '"Bool",
                                         confirm = _js2n__-prdslib.always,
                                         darkStyle = _js2n__-prdslib.always,
@@ -7409,14 +8371,11 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
-                                        export = _js2n__-prdslib.isType '"Bool",
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
                                         hideOnlyControl =
                                           _js2n__-prdslib.always,
-                                        "import" =
-                                          _js2n__-prdslib.isType '"Bool",
                                         items =
                                           _js2n__-refsenv."_js2n__-:definitions/tableItems!predicate",
                                         label = _js2n__-prdslib.always,
@@ -7436,26 +8395,27 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.isType '"String",
                                         tooltip = _js2n__-prdslib.always,
                                         type = _js2n__-prdslib.always,
-                                        uniqueColumns =
-                                          _js2n__-prdslib.allOf
-                                              [
-                                                _js2n__-prdslib.isType '"Array",
-                                                _js2n__-prdslib.arrays.arrayOf
-                                                  (_js2n__-prdslib.isType
-                                                    '"String")
-                                              ],
                                         validator = _js2n__-prdslib.always,
                                         validatorErrorText =
                                           _js2n__-prdslib.always,
                                         validatorNoSaveOnError =
                                           _js2n__-prdslib.always,
+                                        xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
                                       } {} false _js2n__-prdslib.never
-                                  ]) _js2n__-prdslib.always
+                                  ]) _js2n__-prdslib.always,
+                              _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.records.record
+                                  { type = _js2n__-prdslib.const "state", } {}
+                                  true _js2n__-prdslib.always)
+                                _js2n__-refsenv."_js2n__-:definitions/stateProps!predicate"
+                                _js2n__-prdslib.always
                             ],
                           _js2n__-prdslib.records.required [ "type" ],
                           _js2n__-prdslib.records.record
                             {
+                              allowSaveWithError =
+                                _js2n__-prdslib.isType '"Bool",
                               button = _js2n__-prdslib.isType '"Bool",
                               confirm =
                                 _js2n__-prdslib.allOf
@@ -7588,6 +8548,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.isType '"String",
                               validatorNoSaveOnError =
                                 _js2n__-prdslib.isType '"Bool",
+                              xl = _js2n__-prdslib.isType '"Number",
                               xs = _js2n__-prdslib.isType '"Number",
                             } {} true _js2n__-prdslib.always
                         ],
@@ -7609,6 +8570,7 @@ let rec _js2n__-refsenv
                   {
                     iconPosition =
                       _js2n__-refsenv."_js2n__-:definitions/iconPositionProp!predicate",
+                    tabsStyle = _js2n__-prdslib.isType 'Record,
                   } {} true _js2n__-prdslib.always
               ],
             _js2n__-prdslib.records.required [ "type" ],
@@ -7618,6 +8580,7 @@ let rec _js2n__-refsenv
                 i18n = _js2n__-prdslib.always,
                 iconPosition = _js2n__-prdslib.always,
                 items = _js2n__-prdslib.always,
+                tabsStyle = _js2n__-prdslib.always,
                 type = _js2n__-prdslib.always,
               } {} false _js2n__-prdslib.never
           ])

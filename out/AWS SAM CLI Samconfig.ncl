@@ -1101,6 +1101,8 @@ let rec _js2n__-refsenv
                                               kms_key_id =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              max_wait_duration =
+                                                _js2n__-prdslib.isType 'Integer,
                                               metadata =
                                                 _js2n__-prdslib.isType
                                                     '"String",

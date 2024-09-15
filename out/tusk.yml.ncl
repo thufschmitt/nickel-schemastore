@@ -899,6 +899,7 @@ let rec _js2n__-refsenv
     = {}
     in
   {
+      env-file | Dyn | optional,
       interpreter
         | String
         | doc m%"

@@ -975,6 +975,28 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.oneOf
                 [
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "agent" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "impersonate" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "ci_job" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ]),
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.records.required [ "agent" ],
@@ -1106,6 +1128,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   id = _js2n__-prdslib.isType '"String",
+                  protected_branches_only = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/gitlab.agent.agentcfg.CiAccessProjectCF!predicate" =
@@ -1137,6 +1160,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   id = _js2n__-prdslib.isType '"String",
+                  protected_branches_only = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/gitlab.agent.agentcfg.ContainerScanningCF!predicate" =
@@ -1152,6 +1176,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} false
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/gitlab.agent.agentcfg.ResourceRequirements!predicate"
+                        ],
+                  trivy_k8s_wrapper_image =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/gitlab.agent.agentcfg.TrivyK8sWrapperImage!predicate"
                         ],
                   vulnerability_report =
                     _js2n__-prdslib.allOf
@@ -1210,8 +1241,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String"),
-                          _js2n__-prdslib.arrays.minItems 1
+                            (_js2n__-prdslib.isType '"String")
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1219,15 +1249,6 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "enabled" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ]
-                ],
               _js2n__-prdslib.records.record
                 {
                   enabled = _js2n__-prdslib.isType '"Bool",
@@ -1248,6 +1269,28 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.oneOf
                 [
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "tag" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "branch" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "commit" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ]),
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.records.required [ "tag" ],
@@ -1307,15 +1350,6 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "grpc_level" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ]
-                ],
               _js2n__-prdslib.records.record
                 {
                   grpc_level =
@@ -1340,12 +1374,13 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.oneOf
                 [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "id" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ],
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "prune" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]),
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.records.required [ "prune" ],
@@ -1427,38 +1462,16 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "workspaces_quota" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required
-                        [ "workspaces_per_user_quota" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required
-                        [ "default_max_hours_before_termination" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required
-                        [ "max_hours_before_termination_limit" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ]
-                ],
               _js2n__-prdslib.records.record
                 {
+                  allow_privilege_escalation = _js2n__-prdslib.isType '"Bool",
+                  annotations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   default_max_hours_before_termination =
                     _js2n__-prdslib.isType 'Integer,
                   default_resources_per_workspace_container =
@@ -1468,6 +1481,7 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/gitlab.agent.agentcfg.ResourceRequirements!predicate"
                         ],
+                  default_runtime_class = _js2n__-prdslib.isType '"String",
                   dns_zone = _js2n__-prdslib.isType '"String",
                   enabled = _js2n__-prdslib.isType '"Bool",
                   gitlab_workspaces_proxy =
@@ -1476,6 +1490,22 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} false
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/gitlab.agent.agentcfg.GitLabWorkspacesProxy!predicate"
+                        ],
+                  image_pull_secrets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/gitlab.agent.agentcfg.WorkspaceImagePullSecret!predicate",
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never
+                        ],
+                  labels =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
                         ],
                   max_hours_before_termination_limit =
                     _js2n__-prdslib.isType 'Integer,
@@ -1493,6 +1523,8 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/gitlab.agent.agentcfg.WorkspaceNetworkPolicy!predicate"
                         ],
+                  use_kubernetes_user_namespaces =
+                    _js2n__-prdslib.isType '"Bool",
                   workspaces_per_user_quota = _js2n__-prdslib.isType 'Integer,
                   workspaces_quota = _js2n__-prdslib.isType 'Integer,
                 } {} false _js2n__-prdslib.never
@@ -1529,6 +1561,16 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/gitlab.agent.agentcfg.TrivyK8sWrapperImage!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  repository = _js2n__-prdslib.isType '"String",
+                  tag = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/gitlab.agent.agentcfg.UserAccessAsAgentCF!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1541,6 +1583,22 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.oneOf
                 [
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "agent" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "user" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ]),
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.records.required [ "agent" ],
@@ -1651,19 +1709,20 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/gitlab.agent.agentcfg.WorkspaceImagePullSecret!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  name = _js2n__-prdslib.isType '"String",
+                  namespace = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/gitlab.agent.agentcfg.WorkspaceNetworkPolicy!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "enabled" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ]
-                ],
               _js2n__-prdslib.records.record
                 {
                   egress =

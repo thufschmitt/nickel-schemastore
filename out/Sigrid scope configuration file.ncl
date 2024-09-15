@@ -911,27 +911,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/architecture_group_list!contract" =
         Array
             _js2n__-refsenv."_js2n__-:definitions/architecture_group!contract",
-      "_js2n__-:definitions/architecture_pattern!contract" =
-        {
-            action | String,
-            description | String,
-            technologies
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"Array",
-                        _js2n__-prdslib.arrays.arrayOf
-                          (_js2n__-prdslib.isType '"String")
-                      ]
-                  ]),
-            ..
-          },
-      "_js2n__-:definitions/architecture_patterns!contract" =
-        Array
-            _js2n__-refsenv."_js2n__-:definitions/architecture_pattern!contract",
+      "_js2n__-:definitions/architecture_patterns!contract" = Array {  .. },
       "_js2n__-:definitions/branches!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.allOf
@@ -1135,11 +1115,11 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType '"Bool",
                   _js2n__-prdslib.isType '"String"
                 ])
-            | doc "Deprecated, use 'history_enabled' instead."
+            | doc "Deprecated, this is now detected automatically."
             | optional,
           history_enabled
             | Bool
-            | doc "Disables change history analysis when set to false."
+            | doc "Deprecated, this is now detected automatically."
             | optional,
           history_end
             | _js2n__-refsenv."_js2n__-:definitions/yyyymmdd!contract"
@@ -1238,8 +1218,46 @@ let rec _js2n__-refsenv
             | doc "When this *or* the 'blocklist' option is provided, OSH analysis is performed for every upload."
             | optional,
           exclude
-            | _js2n__-refsenv."_js2n__-:definitions/file_pattern_list!contract"
-            | doc "List of file/directory patterns that should be excluded from the Open Source Health analysis."
+            | Array (
+              _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "path" ],
+                        _js2n__-prdslib.records.record
+                          { path = _js2n__-prdslib.isType '"String", } {} true
+                          _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "vulnerability" ],
+                        _js2n__-prdslib.records.record
+                          { vulnerability = _js2n__-prdslib.isType '"String", }
+                          {} true _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "license" ],
+                        _js2n__-prdslib.records.record
+                          { license = _js2n__-prdslib.isType '"String", } {}
+                          true _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "activity" ],
+                        _js2n__-prdslib.records.record
+                          { activity = _js2n__-prdslib.isType '"String", } {}
+                          true _js2n__-prdslib.always
+                      ]
+                  ])
+            )
+            | doc "List of paths and/or dependencies that should be ignored for Open Source Health."
             | optional,
           model
             | _js2n__-refsenv."_js2n__-:definitions/model!contract"
@@ -1263,6 +1281,10 @@ let rec _js2n__-refsenv
         | _js2n__-refsenv."_js2n__-:definitions/file_pattern_list!contract"
         | doc "List of file and directory patterns to manually exclude from the analysis."
         | optional,
+      experimental
+        | Bool
+        | doc "Enable experimental analysis features."
+        | optional,
       languages
         | _js2n__-refsenv."_js2n__-:definitions/language_list!contract"
         | doc "A list of technologies that should be included as part of the analysis.",
@@ -1276,12 +1298,21 @@ let rec _js2n__-refsenv
             | _js2n__-refsenv."_js2n__-:definitions/analyzer_list!contract"
             | doc "List of third-party analyzers that should not be ran."
             | optional,
+          disabled_rules
+            | Array (String)
+            | doc "List of rule IDs that should not be reported by Sigrid."
+            | optional,
           enabled
             | Bool
-            | doc "When true, third party findings analysis will be triggered for each incoming upload.",
+            | doc "When true, third party findings analysis will be triggered for each incoming upload."
+            | optional,
           enabled_analyzers
             | _js2n__-refsenv."_js2n__-:definitions/analyzer_list!contract"
             | doc "List of third-party analyzer names that should be ran even though they are disabled by default."
+            | optional,
+          enabled_rules
+            | Array (String)
+            | doc "List of rule IDs that should be reported by Sigrid, even though they are disabled by default."
             | optional,
           exclude
             | _js2n__-refsenv."_js2n__-:definitions/file_pattern_list!contract"

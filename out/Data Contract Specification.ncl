@@ -915,11 +915,11 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.isType '"String",
                               avroType = _js2n__-prdslib.isType '"String",
                               bigqueryType = _js2n__-prdslib.isType '"String",
+                              databricksType = _js2n__-prdslib.isType '"String",
                               glueType = _js2n__-prdslib.isType '"String",
                               redshiftType = _js2n__-prdslib.isType '"String",
                               snowflakeType = _js2n__-prdslib.isType '"String",
                               sqlserverType = _js2n__-prdslib.isType '"String",
-                              unityType = _js2n__-prdslib.isType '"String",
                             } {} true
                             (_js2n__-prdslib.anyOf
                               [
@@ -953,6 +953,8 @@ let rec _js2n__-refsenv
                   format = _js2n__-prdslib.isType '"String",
                   items =
                     _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
+                  keys =
+                    _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
                   links =
                     _js2n__-prdslib.allOf
                         [
@@ -985,6 +987,8 @@ let rec _js2n__-refsenv
                   title = _js2n__-prdslib.isType '"String",
                   type = _js2n__-prdslib.always,
                   unique = _js2n__-prdslib.isType '"Bool",
+                  values =
+                    _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
                 } {} true _js2n__-prdslib.always
             ],
     }
@@ -1014,7 +1018,18 @@ let rec _js2n__-refsenv
                         example = _js2n__-prdslib.isType '"String",
                         exclusiveMaximum = _js2n__-prdslib.isType '"Number",
                         exclusiveMinimum = _js2n__-prdslib.isType '"Number",
+                        fields =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate"
+                              ],
                         format = _js2n__-prdslib.isType '"String",
+                        items =
+                          _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
+                        keys =
+                          _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
                         links =
                           _js2n__-prdslib.allOf
                               [
@@ -1044,6 +1059,8 @@ let rec _js2n__-refsenv
                               ],
                         title = _js2n__-prdslib.isType '"String",
                         type = _js2n__-prdslib.always,
+                        values =
+                          _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
                       } {} true _js2n__-prdslib.always
                   ])
             ])
@@ -1193,6 +1210,9 @@ let rec _js2n__-refsenv
                                                       bigqueryType =
                                                         _js2n__-prdslib.isType
                                                             '"String",
+                                                      databricksType =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
                                                       glueType =
                                                         _js2n__-prdslib.isType
                                                             '"String",
@@ -1203,9 +1223,6 @@ let rec _js2n__-refsenv
                                                         _js2n__-prdslib.isType
                                                             '"String",
                                                       sqlserverType =
-                                                        _js2n__-prdslib.isType
-                                                            '"String",
-                                                      unityType =
                                                         _js2n__-prdslib.isType
                                                             '"String",
                                                     } {} true
@@ -1255,6 +1272,8 @@ let rec _js2n__-refsenv
                                           format =
                                             _js2n__-prdslib.isType '"String",
                                           items =
+                                            _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
+                                          keys =
                                             _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
                                           links =
                                             _js2n__-prdslib.allOf
@@ -1306,6 +1325,8 @@ let rec _js2n__-refsenv
                                           type = _js2n__-prdslib.always,
                                           unique =
                                             _js2n__-prdslib.isType '"Bool",
+                                          values =
+                                            _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
                                         } {} true _js2n__-prdslib.always
                                     ])
                               ],
@@ -1420,6 +1441,34 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.isType '"String",
                                     _js2n__-prdslib.enum [ "s3" ]
+                                  ],
+                          } {} true _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "location", "type" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            delimiter =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.enum [ "new_line", "array" ]
+                                  ],
+                            format =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.enum
+                                      [ "parquet", "delta", "json", "csv" ]
+                                  ],
+                            location = _js2n__-prdslib.isType '"String",
+                            type =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.enum [ "gcs" ]
                                   ],
                           } {} true _js2n__-prdslib.always
                       ],

@@ -4882,7 +4882,7 @@ let rec _js2n__-refsenv
   {
       "$schema"
         | String
-        | doc "This should point to either http://hyperfoil.io/schema or local file"
+        | doc "This should point to either http://hyperfoil.io/schema.json or local file"
         | optional,
       agents
         | _js2n__-prdslib.contract_from_predicate
