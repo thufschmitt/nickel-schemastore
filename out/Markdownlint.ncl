@@ -1533,6 +1533,7 @@ let rec _js2n__-refsenv
                         } {} false _js2n__-prdslib.never
                     ],
               MD056 = _js2n__-prdslib.isType '"Bool",
+              MD058 = _js2n__-prdslib.isType '"Bool",
               accessibility = _js2n__-prdslib.isType '"Bool",
               atx = _js2n__-prdslib.isType '"Bool",
               atx_closed = _js2n__-prdslib.isType '"Bool",
@@ -1586,6 +1587,7 @@ let rec _js2n__-refsenv
                         } {} false _js2n__-prdslib.never
                     ],
               blanks-around-lists = _js2n__-prdslib.isType '"Bool",
+              blanks-around-tables = _js2n__-prdslib.isType '"Bool",
               blockquote = _js2n__-prdslib.isType '"Bool",
               bullet = _js2n__-prdslib.isType '"Bool",
               code = _js2n__-prdslib.isType '"Bool",

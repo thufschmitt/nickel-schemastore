@@ -910,6 +910,8 @@ let rec _js2n__-refsenv
                   "doExpiryCarryover",
                   "firmingPeriod",
                   "inventoryMethod",
+                  "inventorySystemLocationName",
+                  "inventorySystemMaterialNumber",
                   "isCapacityConstraintNode",
                   "leadTime",
                   "lotSize",
@@ -983,6 +985,18 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum
                             [ "TargetMFC", "MinimumInventory" ]
+                        ],
+                  inventorySystemLocationName =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  inventorySystemMaterialNumber =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
                         ],
                   isCapacityConstraintNode = _js2n__-prdslib.isType '"Bool",
                   leadTime =
@@ -1365,8 +1379,8 @@ let rec _js2n__-refsenv
   {
       "$schema"
         | std.enum.TagOrString
-        | [| '"https://json.schemastore.org/abc-supply-plan-3.0.0.json" |]
-        | doc "Link to https://json.schemastore.org/abc-supply-plan-3.0.0.json",
+        | [| '"https://json.schemastore.org/abc-supply-plan-4.0.0.json" |]
+        | doc "Link to https://json.schemastore.org/abc-supply-plan-4.0.0.json",
       abcMaterialsMap
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

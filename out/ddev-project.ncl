@@ -1149,6 +1149,7 @@ let rec _js2n__-refsenv
       php_version
         | std.enum.TagOrString
         | [|
+          '"8.4",
           '"8.3",
           '"8.2",
           '"8.1",

@@ -1213,7 +1213,8 @@ let rec _js2n__-refsenv
                                           ],
                                     path = _js2n__-prdslib.isType '"String",
                                     target = _js2n__-prdslib.isType '"String",
-                                  } {} true _js2n__-prdslib.always
+                                  } { "^x-" = _js2n__-prdslib.always, } false
+                                  _js2n__-prdslib.never
                               ]),
                           _js2n__-prdslib.records.record {}
                             { "^x-" = _js2n__-prdslib.always, } false
@@ -1364,7 +1365,8 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String"),
+              _js2n__-prdslib.arrays.uniqueItems
             ],
       "_js2n__-:definitions/list_or_dict!predicate" =
         _js2n__-prdslib.oneOf
@@ -1388,7 +1390,8 @@ let rec _js2n__-refsenv
                 [
                   _js2n__-prdslib.isType '"Array",
                   _js2n__-prdslib.arrays.arrayOf
-                    (_js2n__-prdslib.isType '"String")
+                    (_js2n__-prdslib.isType '"String"),
+                  _js2n__-prdslib.arrays.uniqueItems
                 ]
             ],
       "_js2n__-:definitions/network!predicate" =
@@ -1717,14 +1720,16 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   cap_drop =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   cgroup =
                     _js2n__-prdslib.allOf
@@ -1865,7 +1870,8 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   dns =
                     _js2n__-refsenv."_js2n__-:definitions/string_or_list!predicate",
@@ -1874,7 +1880,8 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   dns_search =
                     _js2n__-refsenv."_js2n__-:definitions/string_or_list!predicate",
@@ -1894,7 +1901,8 @@ let rec _js2n__-refsenv
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.isType '"Number"
-                              ])
+                              ]),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   extends =
                     _js2n__-prdslib.oneOf
@@ -1916,7 +1924,8 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   extra_hosts =
                     _js2n__-refsenv."_js2n__-:definitions/list_or_dict!predicate",
@@ -1929,7 +1938,8 @@ let rec _js2n__-refsenv
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.isType '"Number"
-                              ])
+                              ]),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   healthcheck =
                     _js2n__-refsenv."_js2n__-:definitions/healthcheck!predicate",
@@ -1950,7 +1960,8 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   logging =
                     _js2n__-prdslib.allOf
@@ -2136,7 +2147,8 @@ let rec _js2n__-refsenv
                                       } { "^x-" = _js2n__-prdslib.always, }
                                       false _js2n__-prdslib.never
                                   ]
-                              ])
+                              ]),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   privileged =
                     _js2n__-prdslib.anyOf
@@ -2180,7 +2192,8 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   shm_size =
                     _js2n__-prdslib.anyOf
@@ -2329,14 +2342,16 @@ let rec _js2n__-refsenv
                                       } { "^x-" = _js2n__-prdslib.always, }
                                       false _js2n__-prdslib.never
                                   ]
-                              ])
+                              ]),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   volumes_from =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
                         ],
                   working_dir = _js2n__-prdslib.isType '"String",
                 } { "^x-" = _js2n__-prdslib.always, } false

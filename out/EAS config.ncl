@@ -1009,18 +1009,23 @@ let rec _js2n__-refsenv
                               "sdk-51",
                               "sdk-50",
                               "sdk-49",
+                              "ubuntu-22.04-jdk-17-ndk-r26b",
                               "ubuntu-22.04-jdk-17-ndk-r25b",
                               "ubuntu-22.04-jdk-11-ndk-r23b",
-                              "ubuntu-20.04-jdk-11-ndk-r23b",
                               "ubuntu-22.04-jdk-17-ndk-r21e",
-                              "ubuntu-22.04-jdk-11-ndk-r21e",
-                              "ubuntu-20.04-jdk-11-ndk-r21e",
-                              "ubuntu-22.04-jdk-8-ndk-r21e",
-                              "ubuntu-20.04-jdk-8-ndk-r21e",
-                              "ubuntu-20.04-jdk-11-ndk-r19c",
-                              "ubuntu-20.04-jdk-8-ndk-r19c"
+                              "ubuntu-22.04-jdk-11-ndk-r21e"
                             ],
-                          _js2n__-prdslib.enum [ "default", "stable" ]
+                          _js2n__-prdslib.enum
+                            [
+                              "default",
+                              "stable",
+                              "ubuntu-20.04-jdk-11-ndk-r23b",
+                              "ubuntu-20.04-jdk-11-ndk-r19c",
+                              "ubuntu-20.04-jdk-8-ndk-r19c",
+                              "ubuntu-20.04-jdk-11-ndk-r21e",
+                              "ubuntu-20.04-jdk-8-ndk-r21e",
+                              "ubuntu-22.04-jdk-8-ndk-r21e"
+                            ]
                         ],
                   ndk = _js2n__-prdslib.isType '"String",
                   resourceClass =
@@ -1061,6 +1066,7 @@ let rec _js2n__-refsenv
                               "sdk-51",
                               "sdk-50",
                               "sdk-49",
+                              "macos-sonoma-14.5-xcode-15.4",
                               "macos-sonoma-14.4-xcode-15.3",
                               "macos-ventura-13.6-xcode-15.2",
                               "macos-ventura-13.6-xcode-15.1",

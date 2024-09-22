@@ -1044,6 +1044,7 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType 'Record,
                   _js2n__-prdslib.records.record
                     {
+                      scope = _js2n__-prdslib.isType '"String",
                       scriptElementAttributes =
                         _js2n__-prdslib.allOf
                             [
@@ -1058,6 +1059,7 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.isType '"String"
                                   ])
                             ],
+                      scriptLocation = _js2n__-prdslib.isType '"String",
                     } {} true _js2n__-prdslib.always
                 ]
             ],
@@ -1156,7 +1158,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  clayRTLURL = _js2n__-prdslib.isType '"String",
                   clayURL = _js2n__-prdslib.isType '"String",
+                  mainRTLURL = _js2n__-prdslib.isType '"String",
                   mainURL = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],

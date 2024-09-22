@@ -902,8 +902,86 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
-                { operationId = _js2n__-prdslib.isType '"String", } {} false
-                _js2n__-prdslib.never
+                {
+                  operationId = _js2n__-prdslib.isType '"String",
+                  pagination =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required
+                            [ "inputFields", "paginationType", "resultsArray" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              inputFields =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.required
+                                              [ "in", "name", "type" ],
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                "in" =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"String",
+                                                        _js2n__-prdslib.const
+                                                          "query"
+                                                      ],
+                                                name =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                type =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"String",
+                                                        _js2n__-prdslib.enum
+                                                          [ "limit", "offset" ]
+                                                      ],
+                                              } {} false _js2n__-prdslib.never
+                                          ])
+                                    ],
+                              paginationType =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.const "limitOffset"
+                                    ],
+                              resultsArray =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "defaultPageSize", "results" ],
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          defaultPageSize =
+                                            _js2n__-prdslib.isType '"Number",
+                                          results =
+                                            _js2n__-prdslib.isType '"String",
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  scopes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ])
+                        ],
+                  streaming = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:properties/customizations/properties/hookDependencies/items!predicate"
         | doc "A dependency that should be installed for the hook"
@@ -969,7 +1047,7 @@ let rec _js2n__-refsenv
         | doc "The version of the SDK"
         = _js2n__-prdslib.isType '"String",
       "_js2n__-:properties/languageOptions/properties/csharp/properties/targetBranch!predicate"
-        | doc "The target to branch off from when opening a PR"
+        | doc "The target to branch off from when opening a PR, if not specified will default to main branch"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
@@ -1012,7 +1090,7 @@ let rec _js2n__-refsenv
                           [
                             _js2n__-prdslib.isType '"String",
                             _js2n__-prdslib.enum
-                              [ "apikey", "basic", "bearer", "custom" ]
+                              [ "apikey", "basic", "bearer", "custom", "oauth" ]
                           ])
                     ],
               baseUrl =
@@ -1080,8 +1158,87 @@ let rec _js2n__-refsenv
                                                         '"String",
                                                 } {} false _js2n__-prdslib.never
                                             ],
+                                      oauth =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  enabled =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  securityScheme =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.required
+                                                            [
+                                                              "definition",
+                                                              "name"
+                                                            ],
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              definition =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        'Record,
+                                                                      _js2n__-prdslib.records.record
+                                                                        {} {}
+                                                                        true
+                                                                        _js2n__-prdslib.always
+                                                                    ],
+                                                              name =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                            } {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                  tokenEndpoint =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.required
+                                                            [
+                                                              "definition",
+                                                              "path"
+                                                            ],
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              definition =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        'Record,
+                                                                      _js2n__-prdslib.records.record
+                                                                        {} {}
+                                                                        true
+                                                                        _js2n__-prdslib.always
+                                                                    ],
+                                                              method =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        '"String",
+                                                                      _js2n__-prdslib.enum
+                                                                        [
+                                                                          "get",
+                                                                          "post"
+                                                                        ]
+                                                                    ],
+                                                              path =
+                                                                _js2n__-prdslib.isType
+                                                                    '"String",
+                                                            } {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                } {} false _js2n__-prdslib.never
+                                            ],
                                     } {} false _js2n__-prdslib.never
                                 ],
+                          buildAllModels = _js2n__-prdslib.isType '"Bool",
                           devContainer = _js2n__-prdslib.isType '"Bool",
                           documentation =
                             _js2n__-prdslib.allOf
@@ -1089,6 +1246,17 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType 'Record,
                                   _js2n__-prdslib.records.record
                                     {
+                                      enhancedApiSpec =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  customOutputName =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
                                       snippets =
                                         _js2n__-prdslib.allOf
                                             [
@@ -1136,6 +1304,120 @@ let rec _js2n__-refsenv
                                                                 operationId =
                                                                   _js2n__-prdslib.isType
                                                                       '"String",
+                                                                pagination =
+                                                                  _js2n__-prdslib.allOf
+                                                                      [
+                                                                        _js2n__-prdslib.isType
+                                                                          'Record,
+                                                                        _js2n__-prdslib.records.required
+                                                                          [
+                                                                            "inputFields",
+                                                                            "paginationType",
+                                                                            "resultsArray"
+                                                                          ],
+                                                                        _js2n__-prdslib.records.record
+                                                                          {
+                                                                            inputFields =
+                                                                              _js2n__-prdslib.allOf
+                                                                                  [
+                                                                                    _js2n__-prdslib.isType
+                                                                                      '"Array",
+                                                                                    _js2n__-prdslib.arrays.arrayOf
+                                                                                      (_js2n__-prdslib.allOf
+                                                                                        [
+                                                                                          _js2n__-prdslib.isType
+                                                                                            'Record,
+                                                                                          _js2n__-prdslib.records.required
+                                                                                            [
+                                                                                              "in",
+                                                                                              "name",
+                                                                                              "type"
+                                                                                            ],
+                                                                                          _js2n__-prdslib.records.record
+                                                                                            {
+                                                                                              "in" =
+                                                                                                _js2n__-prdslib.allOf
+                                                                                                    [
+                                                                                                      _js2n__-prdslib.isType
+                                                                                                        '"String",
+                                                                                                      _js2n__-prdslib.const
+                                                                                                        "query"
+                                                                                                    ],
+                                                                                              name =
+                                                                                                _js2n__-prdslib.isType
+                                                                                                    '"String",
+                                                                                              type =
+                                                                                                _js2n__-prdslib.allOf
+                                                                                                    [
+                                                                                                      _js2n__-prdslib.isType
+                                                                                                        '"String",
+                                                                                                      _js2n__-prdslib.enum
+                                                                                                        [
+                                                                                                          "limit",
+                                                                                                          "offset"
+                                                                                                        ]
+                                                                                                    ],
+                                                                                            }
+                                                                                            {}
+                                                                                            false
+                                                                                            _js2n__-prdslib.never
+                                                                                        ])
+                                                                                  ],
+                                                                            paginationType =
+                                                                              _js2n__-prdslib.allOf
+                                                                                  [
+                                                                                    _js2n__-prdslib.isType
+                                                                                      '"String",
+                                                                                    _js2n__-prdslib.const
+                                                                                      "limitOffset"
+                                                                                  ],
+                                                                            resultsArray =
+                                                                              _js2n__-prdslib.allOf
+                                                                                  [
+                                                                                    _js2n__-prdslib.isType
+                                                                                      'Record,
+                                                                                    _js2n__-prdslib.records.required
+                                                                                      [
+                                                                                        "defaultPageSize",
+                                                                                        "results"
+                                                                                      ],
+                                                                                    _js2n__-prdslib.records.record
+                                                                                      {
+                                                                                        defaultPageSize =
+                                                                                          _js2n__-prdslib.isType
+                                                                                              '"Number",
+                                                                                        results =
+                                                                                          _js2n__-prdslib.isType
+                                                                                              '"String",
+                                                                                      }
+                                                                                      {}
+                                                                                      false
+                                                                                      _js2n__-prdslib.never
+                                                                                  ],
+                                                                          } {}
+                                                                          false
+                                                                          _js2n__-prdslib.never
+                                                                      ],
+                                                                scopes =
+                                                                  _js2n__-prdslib.allOf
+                                                                      [
+                                                                        _js2n__-prdslib.isType
+                                                                          'Record,
+                                                                        _js2n__-prdslib.records.record
+                                                                          {} {}
+                                                                          true
+                                                                          (_js2n__-prdslib.allOf
+                                                                            [
+                                                                              _js2n__-prdslib.isType
+                                                                                '"Array",
+                                                                              _js2n__-prdslib.arrays.arrayOf
+                                                                                (_js2n__-prdslib.isType
+                                                                                  '"String")
+                                                                            ])
+                                                                      ],
+                                                                streaming =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"Bool",
                                                               } {} false
                                                               _js2n__-prdslib.never
                                                           ],
@@ -1250,6 +1532,16 @@ let rec _js2n__-refsenv
                                       url = _js2n__-prdslib.isType '"String",
                                     } {} false _js2n__-prdslib.never
                                 ],
+                          readme =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      apiDescription =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
                           refreshToken =
                             _js2n__-prdslib.allOf
                                 [
@@ -1349,8 +1641,38 @@ let rec _js2n__-refsenv
                         (_js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.enum [ "api", "snippets" ]
+                            _js2n__-prdslib.enum
+                              [ "api", "snippets", "enhancedApiSpec" ]
                           ])
+                    ],
+              integrations =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          enhancedApiSpec =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "githubRepoName", "provider" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      githubRepoName =
+                                        _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/githubRepoName!predicate",
+                                      provider =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "mintlify", "redocly" ]
+                                            ],
+                                      targetBranch =
+                                        _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/targetBranch!predicate",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } {} false _js2n__-prdslib.never
                     ],
               languageOptions =
                 _js2n__-prdslib.allOf
@@ -1489,7 +1811,7 @@ let rec _js2n__-refsenv
                                     {
                                       additionalConstructorParameters =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/go/properties/additionalConstructorParameters!predicate",
-                                      artifactid =
+                                      artifactId =
                                         _js2n__-prdslib.isType '"String",
                                       authors =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/authors!predicate",
@@ -1553,6 +1875,8 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "additionalConstructorParameters" ],
                                   _js2n__-prdslib.records.record
                                     {
                                       additionalConstructorParameters =
@@ -1795,6 +2119,7 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "githubOrg" ],
                       _js2n__-prdslib.records.record
                         { githubOrg = _js2n__-prdslib.isType '"String", } {}
                         false _js2n__-prdslib.never

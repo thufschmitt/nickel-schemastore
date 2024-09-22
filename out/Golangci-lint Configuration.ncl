@@ -1036,6 +1036,7 @@ let rec _js2n__-refsenv
                 "G112",
                 "G113",
                 "G114",
+                "G115",
                 "G201",
                 "G202",
                 "G203",
@@ -1051,11 +1052,15 @@ let rec _js2n__-refsenv
                 "G402",
                 "G403",
                 "G404",
+                "G405",
+                "G406",
                 "G501",
                 "G502",
                 "G503",
                 "G504",
                 "G505",
+                "G506",
+                "G507",
                 "G601",
                 "G602"
               ]),
@@ -1415,6 +1420,7 @@ let rec _js2n__-refsenv
                 "call-to-gc",
                 "cognitive-complexity",
                 "comment-spacings",
+                "comments-density",
                 "confusing-naming",
                 "confusing-results",
                 "constant-logical-expr",
@@ -2080,6 +2086,10 @@ let rec _js2n__-refsenv
               custom-order
                 | Bool
                 | doc "Enable custom order of sections."
+                | optional,
+              no-lex-order
+                | Bool
+                | doc "Drops lexical ordering for custom sections."
                 | optional,
               sections
                 | Array (
@@ -3314,13 +3324,16 @@ let rec _js2n__-refsenv
                         "error-nil",
                         "expected-actual",
                         "float-compare",
+                        "formatter",
                         "go-require",
                         "len",
                         "negative-positive",
                         "nil-compare",
                         "require-error",
+                        "suite-broken-parallel",
                         "suite-dont-use-pkg",
                         "suite-extra-assert-call",
+                        "suite-subtest-run",
                         "suite-thelper",
                         "useless-assert"
                       ])
@@ -3341,13 +3354,16 @@ let rec _js2n__-refsenv
                         "error-nil",
                         "expected-actual",
                         "float-compare",
+                        "formatter",
                         "go-require",
                         "len",
                         "negative-positive",
                         "nil-compare",
                         "require-error",
+                        "suite-broken-parallel",
                         "suite-dont-use-pkg",
                         "suite-extra-assert-call",
+                        "suite-subtest-run",
                         "suite-thelper",
                         "useless-assert"
                       ])
@@ -3360,6 +3376,18 @@ let rec _js2n__-refsenv
                   pattern
                     | String
                     | doc "Regexp for expected variable name."
+                    | optional,
+                }
+                | optional,
+              formatter
+                | {
+                  check-format-string
+                    | Bool
+                    | doc "To enable go vet's printf checks."
+                    | optional,
+                  require-f-funcs
+                    | Bool
+                    | doc "To require f-assertions if format string is used."
                     | optional,
                 }
                 | optional,
@@ -3497,7 +3525,6 @@ let rec _js2n__-refsenv
           unused
             | {
               exported-fields-are-used | Bool | doc "" | optional,
-              exported-is-used | Bool | doc "" | optional,
               field-writes-are-uses | Bool | doc "" | optional,
               generated-is-used | Bool | doc "" | optional,
               local-variables-are-used | Bool | doc "" | optional,
@@ -3701,6 +3728,7 @@ let rec _js2n__-refsenv
                         "checkstyle",
                         "code-climate",
                         "junit-xml",
+                        "junit-xml-extended",
                         "github-actions",
                         "teamcity",
                         "sarif"

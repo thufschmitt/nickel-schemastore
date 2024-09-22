@@ -905,6 +905,16 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.enum
                 [ "move", "rotate", "tap", "flip", "discard" ]
             ],
+      "_js2n__-:definitions/CardBackFaceImageUrl!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  id = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/DeckFileTxtId!predicate"
         | doc ""
         = _js2n__-prdslib.allOf
@@ -1069,10 +1079,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "name", "type" ],
               _js2n__-prdslib.records.record
                 {
+                  backName = _js2n__-prdslib.isType '"String",
                   delimiter = _js2n__-prdslib.isType '"String",
                   display = _js2n__-prdslib.isType '"String",
                   displayEmpty = _js2n__-prdslib.isType '"String",
                   displayEmptyFirst = _js2n__-prdslib.isType '"Bool",
+                  frontName = _js2n__-prdslib.isType '"String",
                   name = _js2n__-prdslib.isType '"String",
                   properties =
                     _js2n__-prdslib.allOf
@@ -1171,6 +1183,13 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType 'Null,
                       _js2n__-prdslib.isType '"String"
                     ],
+              cardBackFaceImageUrls =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        _js2n__-refsenv."_js2n__-:definitions/CardBackFaceImageUrl!predicate"
+                    ],
               cardBackImageFileType = _js2n__-prdslib.isType '"String",
               cardBackImageUrl =
                 _js2n__-prdslib.anyOf
@@ -1184,6 +1203,7 @@ let rec _js2n__-refsenv
               cardImageFileType = _js2n__-prdslib.isType '"String",
               cardImageProperty = _js2n__-prdslib.isType '"String",
               cardImageUrl = _js2n__-prdslib.isType '"String",
+              cardNameBackIdentifier = _js2n__-prdslib.isType '"String",
               cardNameIdentifier = _js2n__-prdslib.isType '"String",
               cardNameIsUnique = _js2n__-prdslib.isType '"Bool",
               cardPrimaryProperty = _js2n__-prdslib.isType '"String",

@@ -1013,7 +1013,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   auto_start_machines = _js2n__-prdslib.isType '"Bool",
-                  auto_stop_machines = _js2n__-prdslib.isType '"Bool",
+                  auto_stop_machines =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "off", "stop", "suspend" ]
+                        ],
                   concurrency =
                     _js2n__-prdslib.allOf
                         [
@@ -1399,7 +1404,13 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.records.record
                         {
                           auto_start_machines = _js2n__-prdslib.isType '"Bool",
-                          auto_stop_machines = _js2n__-prdslib.isType '"Bool",
+                          auto_stop_machines =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum
+                                    [ "off", "stop", "suspend" ]
+                                ],
                           checks =
                             _js2n__-refsenv."_js2n__-:definitions/http_checks!predicate",
                           concurrency =

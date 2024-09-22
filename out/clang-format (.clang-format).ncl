@@ -1422,19 +1422,9 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.records.record
                               {
                                 CaseSensitive = _js2n__-prdslib.isType '"Bool",
-                                Priority =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Integer,
-                                        _js2n__-prdslib.numbers.minimum 0
-                                      ],
+                                Priority = _js2n__-prdslib.isType 'Integer,
                                 Regex = _js2n__-prdslib.isType '"String",
-                                SortPriority =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Integer,
-                                        _js2n__-prdslib.numbers.minimum 0
-                                      ],
+                                SortPriority = _js2n__-prdslib.isType 'Integer,
                               } {} true _js2n__-prdslib.always
                           ])
                     ],
