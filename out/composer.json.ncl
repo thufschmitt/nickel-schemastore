@@ -1566,6 +1566,11 @@ let rec _js2n__-refsenv
         | optional,
       config
         | {
+          allow-missing-requirements
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.anyOf [ _js2n__-prdslib.isType '"Bool" ])
+            | doc "Defaults to false. If set to true, Composer will allow install when lock file is not up to date with the latest changes in composer.json."
+            | optional,
           allow-plugins
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.allOf
@@ -1670,6 +1675,15 @@ let rec _js2n__-refsenv
                       ])
                 ])
             | doc "An object of domain name => {\"consumer-key\": \"...\", \"consumer-secret\": \"...\"}."
+            | optional,
+          bump-after-update
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType '"Bool"
+                ])
+            | doc "Defaults to false and can be any of true, false, \"dev\"` or \"no-dev\"`. If set to true, Composer will run the bump command after running the update command. If set to \"dev\" or \"no-dev\" then only the corresponding dependencies will be bumped."
             | optional,
           cache-dir
             | String
@@ -2057,6 +2071,11 @@ let rec _js2n__-refsenv
                           "^[a-zA-Z0-9][a-zA-Z0-9-_]*$"
                       ])
                   | doc "The name of the flag, this would typically be prefixed with `--`, for example, the value 'the-flag' would be passed as `./configure --the-flag`.",
+                needs-value
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.isType '"Bool")
+                  | doc "If this is set to true, the flag needs a value (e.g. --with-somelib=<path>), otherwise it is a flag without a value (e.g. --enable-some-feature)."
+                  | optional,
                 ..
               }
             | doc "These configure options make up the flags that can be passed to ./configure when installing the extension."

@@ -1675,6 +1675,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
                 [
+                  "ubuntu-2004:2024.05.1",
                   "ubuntu-2004:2024.04.4",
                   "ubuntu-2004:2024.01.2",
                   "ubuntu-2004:2024.01.1",
@@ -1697,6 +1698,7 @@ let rec _js2n__-refsenv
                   "ubuntu-2004:202010-01",
                   "ubuntu-2004:current",
                   "ubuntu-2004:edge",
+                  "ubuntu-2204:2024.05.1",
                   "ubuntu-2204:2024.04.4",
                   "ubuntu-2204:2024.01.2",
                   "ubuntu-2204:2024.01.1",

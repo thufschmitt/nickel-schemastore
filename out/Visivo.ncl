@@ -935,9 +935,18 @@ let rec _js2n__-refsenv
         )
         | optional,
       name
-        | String
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | doc "The unique name of the object across the entire project."
         | optional,
+      path
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
+        | doc "A unique path to this object"
+        | optional,
+      selectors | Array (Dyn) | optional,
       tables | Array (Dyn) | optional,
       targets
         | Array (
@@ -950,6 +959,7 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.always
               ])
         )
+        | doc "A list of source objects."
         | optional,
       traces | Array (Dyn) | optional,
     }

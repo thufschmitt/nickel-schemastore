@@ -918,9 +918,8 @@ let rec _js2n__-refsenv
                               "None"
                             ]
                         ],
-                  cosmosName = _js2n__-prdslib.isType '"String",
+                  cosmosType = _js2n__-prdslib.isType '"String",
                   databaseMapperEx = _js2n__-prdslib.isType '"Bool",
-                  databaseName = _js2n__-prdslib.isType '"String",
                   databaseProvider =
                     _js2n__-prdslib.allOf
                         [
@@ -929,6 +928,7 @@ let rec _js2n__-refsenv
                             [ "SqlServer", "MySQL", "Postgres" ]
                         ],
                   databaseSchema = _js2n__-prdslib.isType '"String",
+                  databaseType = _js2n__-prdslib.isType '"String",
                   entities =
                     _js2n__-prdslib.allOf
                         [
@@ -936,7 +936,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/Entity!predicate"
                         ],
-                  entityFrameworkName = _js2n__-prdslib.isType '"String",
+                  entityFrameworkType = _js2n__-prdslib.isType '"String",
                   etagDefaultMapperConverter = _js2n__-prdslib.isType '"String",
                   etagJsonName =
                     _js2n__-prdslib.allOf
@@ -974,7 +974,7 @@ let rec _js2n__-refsenv
                   eventSubjectSeparator = _js2n__-prdslib.isType '"String",
                   eventTransaction = _js2n__-prdslib.isType '"Bool",
                   grpc = _js2n__-prdslib.isType '"Bool",
-                  httpAgentName = _js2n__-prdslib.isType '"String",
+                  httpAgentType = _js2n__-prdslib.isType '"String",
                   jsonSerializer =
                     _js2n__-prdslib.allOf
                         [
@@ -986,7 +986,7 @@ let rec _js2n__-refsenv
                   namespaceBase = _js2n__-prdslib.isType '"String",
                   namespaceBusiness = _js2n__-prdslib.isType '"String",
                   namespaceCommon = _js2n__-prdslib.isType '"String",
-                  odataName = _js2n__-prdslib.isType '"String",
+                  odataType = _js2n__-prdslib.isType '"String",
                   pathApi = _js2n__-prdslib.isType '"String",
                   pathBase = _js2n__-prdslib.isType '"String",
                   pathBusiness = _js2n__-prdslib.isType '"String",
@@ -1146,8 +1146,8 @@ let rec _js2n__-refsenv
                   cosmosCustomMapper = _js2n__-prdslib.isType '"Bool",
                   cosmosMapperBase = _js2n__-prdslib.isType '"String",
                   cosmosModel = _js2n__-prdslib.isType '"String",
-                  cosmosName = _js2n__-prdslib.isType '"String",
                   cosmosPartitionKey = _js2n__-prdslib.isType '"String",
+                  cosmosType = _js2n__-prdslib.isType '"String",
                   cosmosValueContainer = _js2n__-prdslib.isType '"Bool",
                   create = _js2n__-prdslib.isType '"Bool",
                   dataCtor =
@@ -1157,6 +1157,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum
                             [ "Public", "Private", "Protected" ]
                         ],
+                  dataCtorCustom = _js2n__-prdslib.isType '"Bool",
                   dataCtorParams =
                     _js2n__-prdslib.allOf
                         [
@@ -1175,6 +1176,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum
                             [ "Public", "Private", "Protected" ]
                         ],
+                  dataSvcCtorCustom = _js2n__-prdslib.isType '"Bool",
                   dataSvcCtorParams =
                     _js2n__-prdslib.allOf
                         [
@@ -1182,17 +1184,23 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  dataSvcCustom =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "Full", "Partial", "None" ]
+                        ],
                   dataSvcExtensions = _js2n__-prdslib.isType '"Bool",
                   databaseCustomMapper = _js2n__-prdslib.isType '"Bool",
                   databaseMapperEx = _js2n__-prdslib.isType '"Bool",
                   databaseMapperInheritsFrom = _js2n__-prdslib.isType '"String",
-                  databaseName = _js2n__-prdslib.isType '"String",
                   databaseSchema = _js2n__-prdslib.isType '"String",
+                  databaseType = _js2n__-prdslib.isType '"String",
                   delete = _js2n__-prdslib.isType '"Bool",
                   entityFrameworkCustomMapper = _js2n__-prdslib.isType '"Bool",
                   entityFrameworkMapperBase = _js2n__-prdslib.isType '"String",
                   entityFrameworkModel = _js2n__-prdslib.isType '"String",
-                  entityFrameworkName = _js2n__-prdslib.isType '"String",
+                  entityFrameworkType = _js2n__-prdslib.isType '"String",
                   eventPublish =
                     _js2n__-prdslib.allOf
                         [
@@ -1223,14 +1231,15 @@ let rec _js2n__-refsenv
                   get = _js2n__-prdslib.isType '"Bool",
                   getAll = _js2n__-prdslib.isType '"Bool",
                   getByArgs = _js2n__-prdslib.isType '"Bool",
+                  getByQuery = _js2n__-prdslib.isType '"Bool",
                   grpc = _js2n__-prdslib.isType '"Bool",
                   httpAgentCode = _js2n__-prdslib.isType '"String",
                   httpAgentCustomMapper = _js2n__-prdslib.isType '"Bool",
                   httpAgentMapperBase = _js2n__-prdslib.isType '"String",
                   httpAgentModel = _js2n__-prdslib.isType '"String",
-                  httpAgentName = _js2n__-prdslib.isType '"String",
                   httpAgentReturnModel = _js2n__-prdslib.isType '"String",
                   httpAgentRoutePrefix = _js2n__-prdslib.isType '"String",
+                  httpAgentType = _js2n__-prdslib.isType '"String",
                   identifierGenerator = _js2n__-prdslib.isType '"Bool",
                   implements = _js2n__-prdslib.isType '"String",
                   implementsAutoInfer = _js2n__-prdslib.isType '"Bool",
@@ -1251,6 +1260,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum
                             [ "Public", "Private", "Protected" ]
                         ],
+                  managerCtorCustom = _js2n__-prdslib.isType '"Bool",
                   managerCtorParams =
                     _js2n__-prdslib.allOf
                         [
@@ -1258,13 +1268,14 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  managerCustom = _js2n__-prdslib.isType '"Bool",
                   managerExtensions = _js2n__-prdslib.isType '"Bool",
                   name = _js2n__-prdslib.isType '"String",
                   namespace = _js2n__-prdslib.isType '"String",
                   odataCollectionName = _js2n__-prdslib.isType '"String",
                   odataCustomMapper = _js2n__-prdslib.isType '"Bool",
                   odataModel = _js2n__-prdslib.isType '"String",
-                  odataName = _js2n__-prdslib.isType '"String",
+                  odataType = _js2n__-prdslib.isType '"String",
                   omitEntityBase = _js2n__-prdslib.isType '"Bool",
                   operations =
                     _js2n__-prdslib.allOf
@@ -1372,7 +1383,12 @@ let rec _js2n__-refsenv
                   dataEntityMapper = _js2n__-prdslib.isType '"String",
                   dataExtensions = _js2n__-prdslib.isType '"Bool",
                   dataInvoker = _js2n__-prdslib.isType '"Bool",
-                  dataSvcCustom = _js2n__-prdslib.isType '"Bool",
+                  dataSvcCustom =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "Full", "Partial", "None" ]
+                        ],
                   dataSvcExtensions = _js2n__-prdslib.isType '"Bool",
                   dataSvcInvoker = _js2n__-prdslib.isType '"Bool",
                   dataSvcTransaction = _js2n__-prdslib.isType '"Bool",
@@ -1444,6 +1460,7 @@ let rec _js2n__-refsenv
                         ],
                   primaryKey = _js2n__-prdslib.isType '"Bool",
                   privateName = _js2n__-prdslib.isType '"String",
+                  query = _js2n__-prdslib.isType '"Bool",
                   returnText = _js2n__-prdslib.isType '"String",
                   returnType = _js2n__-prdslib.isType '"String",
                   returnTypeNullable = _js2n__-prdslib.isType '"Bool",
@@ -1599,6 +1616,7 @@ let rec _js2n__-refsenv
                   annotation3 = _js2n__-prdslib.isType '"String",
                   argumentName = _js2n__-prdslib.isType '"String",
                   autoCreate = _js2n__-prdslib.isType '"Bool",
+                  cacheKey = _js2n__-prdslib.isType '"Bool",
                   cosmosMapper =
                     _js2n__-prdslib.allOf
                         [
