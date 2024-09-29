@@ -1074,6 +1074,15 @@ let rec _js2n__-refsenv
             | Bool
             | doc "If true, periodically refresh files and submodules"
             | optional,
+          autoStageResolvedConflicts
+            | Bool
+            | doc m%"
+              If true, lazygit will automatically stage files that used to have merge
+              conflicts but no longer do; and it will also ask you if you want to
+              continue a merge or rebase if you've resolved all conflicts. If false, it
+              won't do either of these things.
+            "%
+            | optional,
           branchLogCmd
             | String
             | doc "Command used when displaying the current branch git log in the main window"
@@ -1526,6 +1535,14 @@ let rec _js2n__-refsenv
               One of 'dashboard' (default) | 'allBranchesLog'
             "%
             | optional,
+          switchToFilesAfterStashApply
+            | Bool
+            | doc "If true, jump to the Files panel after applying a stash"
+            | optional,
+          switchToFilesAfterStashPop
+            | Bool
+            | doc "If true, jump to the Files panel after popping a stash"
+            | optional,
           theme
             | {
               activeBorderColor
@@ -1798,7 +1815,7 @@ let rec _js2n__-refsenv
               diffingMenu | String | optional,
               diffingMenu-alt | String | optional,
               edit | String | optional,
-              executeCustomCommand | String | optional,
+              executeShellCommand | String | optional,
               extrasMenu | String | optional,
               filteringMenu | String | optional,
               goInto | String | optional,

@@ -1864,6 +1864,7 @@ let rec _js2n__-refsenv
                                 "$comment" =
                                   _js2n__-refsenv."_js2n__-:definitions/$comment!predicate",
                               } {} true _js2n__-prdslib.always,
+                        graphviz = _js2n__-prdslib.isType '"String",
                         trace =
                           _js2n__-prdslib.records.record
                               {
@@ -2123,6 +2124,7 @@ let rec _js2n__-refsenv
                                 dev = _js2n__-prdslib.always,
                               } {} false _js2n__-prdslib.never,
                         generator = _js2n__-prdslib.always,
+                        graphviz = _js2n__-prdslib.always,
                         hidden = _js2n__-prdslib.always,
                         inherits = _js2n__-prdslib.always,
                         installDir = _js2n__-prdslib.always,

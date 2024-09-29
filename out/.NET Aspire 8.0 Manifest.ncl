@@ -961,6 +961,83 @@ let rec _js2n__-refsenv
                       } {} false _js2n__-prdslib.never
                   ])
             ],
+      "_js2n__-:definitions/build!predicate"
+        | doc "An object that captures properties that control the building of a container image."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "context", "dockerfile" ],
+              _js2n__-prdslib.records.record
+                {
+                  args =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  context = _js2n__-prdslib.isType '"String",
+                  dockerfile = _js2n__-prdslib.isType '"String",
+                  secrets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.oneOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "type", "value" ],
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            type =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.const "env"
+                                                  ],
+                                            value =
+                                              _js2n__-prdslib.isType '"String",
+                                          } {} true _js2n__-prdslib.always
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "source", "type" ],
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            source =
+                                              _js2n__-prdslib.isType '"String",
+                                            type =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.const "file"
+                                                  ],
+                                          } {} true _js2n__-prdslib.always
+                                      ]
+                                  ],
+                                _js2n__-prdslib.records.required [ "type" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ])
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/buildArgs!predicate"
+        | doc "A list of build arguments which are used during container build (for dockerfile.v0 resource type)."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.isType '"String")
+            ],
       "_js2n__-:definitions/connectionString!predicate"
         | doc "A connection string that can be used to connect to this resource."
         = _js2n__-prdslib.isType '"String",
@@ -1017,6 +1094,8 @@ let rec _js2n__-refsenv
                               {
                                 bindings =
                                   _js2n__-refsenv."_js2n__-:definitions/bindings!predicate",
+                                buildArgs =
+                                  _js2n__-refsenv."_js2n__-:definitions/buildArgs!predicate",
                                 context = _js2n__-prdslib.isType '"String",
                                 env =
                                   _js2n__-refsenv."_js2n__-:definitions/env!predicate",
@@ -1037,6 +1116,7 @@ let rec _js2n__-refsenv
                                   _js2n__-refsenv."_js2n__-:definitions/bindMounts!predicate",
                                 bindings =
                                   _js2n__-refsenv."_js2n__-:definitions/bindings!predicate",
+                                build = _js2n__-prdslib.never,
                                 connectionString =
                                   _js2n__-refsenv."_js2n__-:definitions/connectionString!predicate",
                                 entrypoint = _js2n__-prdslib.isType '"String",
@@ -1044,6 +1124,47 @@ let rec _js2n__-refsenv
                                   _js2n__-refsenv."_js2n__-:definitions/env!predicate",
                                 image = _js2n__-prdslib.isType '"String",
                                 type = _js2n__-prdslib.const "container.v0",
+                                volumes =
+                                  _js2n__-refsenv."_js2n__-:definitions/volumes!predicate",
+                              } {} false _js2n__-prdslib.never
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.oneOf
+                              [
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.records.required
+                                      [ "build", "type" ],
+                                    _js2n__-prdslib.records.record {} {} true
+                                      _js2n__-prdslib.always
+                                  ],
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.records.required
+                                      [ "image", "type" ],
+                                    _js2n__-prdslib.records.record {} {} true
+                                      _js2n__-prdslib.always
+                                  ]
+                              ],
+                            _js2n__-prdslib.records.record
+                              {
+                                args =
+                                  _js2n__-refsenv."_js2n__-:definitions/args!predicate",
+                                bindMounts =
+                                  _js2n__-refsenv."_js2n__-:definitions/bindMounts!predicate",
+                                bindings =
+                                  _js2n__-refsenv."_js2n__-:definitions/bindings!predicate",
+                                build =
+                                  _js2n__-refsenv."_js2n__-:definitions/build!predicate",
+                                connectionString =
+                                  _js2n__-refsenv."_js2n__-:definitions/connectionString!predicate",
+                                entrypoint = _js2n__-prdslib.isType '"String",
+                                env =
+                                  _js2n__-refsenv."_js2n__-:definitions/env!predicate",
+                                image = _js2n__-prdslib.isType '"String",
+                                type = _js2n__-prdslib.const "container.v1",
                                 volumes =
                                   _js2n__-refsenv."_js2n__-:definitions/volumes!predicate",
                               } {} false _js2n__-prdslib.never
@@ -1348,6 +1469,7 @@ let rec _js2n__-refsenv
                                             [
                                               "parameter.v0",
                                               "container.v0",
+                                              "container.v1",
                                               "dockerfile.v0",
                                               "project.v0",
                                               "value.v0",

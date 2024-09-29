@@ -928,7 +928,6 @@ let rec _js2n__-refsenv
               "npm",
               "nuget",
               "pip",
-              "pip-compile",
               "pub",
               "swift",
               "terraform"

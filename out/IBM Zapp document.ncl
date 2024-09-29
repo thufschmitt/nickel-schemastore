@@ -1028,6 +1028,45 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/localPreprocessorSettingsItem!predicate"
+        | doc "Preprocessor properties for preprocessing COBOL/PL/I files."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "command", "fileExtension", "outputPath" ],
+              _js2n__-prdslib.records.record
+                {
+                  command = _js2n__-prdslib.isType '"String",
+                  environmentVariables =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "[a-zA-Z_][a-zA-Z0-9_]*" =
+                                _js2n__-prdslib.isType '"String",
+                            } false _js2n__-prdslib.never
+                        ],
+                  fileExtension = _js2n__-prdslib.isType '"String",
+                  outputPath = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/mvsPreprocessorSettingsItem!predicate"
+        | doc "Preprocessor properties for preprocessing COBOL/PL/I files."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "commandDataSet", "outputDataSet", "tempDataHLQ" ],
+              _js2n__-prdslib.records.record
+                {
+                  commandDataSet = _js2n__-prdslib.isType '"String",
+                  commandParameters = _js2n__-prdslib.isType '"String",
+                  outputDataSet = _js2n__-prdslib.isType '"String",
+                  tempDataHLQ = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/person!predicate"
         | doc "A person who has been involved in creating or maintaining this package"
         = _js2n__-prdslib.allOf
@@ -1046,11 +1085,11 @@ let rec _js2n__-refsenv
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/profile!predicate"
-        | doc "Profiles are additional groups of properties that should only should become valid under specific conditions such as running in a build job or as part of a debug session."
+        | doc "Profiles are additional groups of properties that should only become valid under specific conditions such as running in a build job or as part of a debug session."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.anyOf
+              _js2n__-prdslib.oneOf
                 [
                   _js2n__-prdslib.allOf
                     [
@@ -1085,18 +1124,91 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.const "rseapi"
                                 ],
                         } {} false _js2n__-prdslib.never
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.ifThenElse
+                        (_js2n__-prdslib.records.record
+                          {
+                            location =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.const "local"
+                                  ],
+                          } {} true _js2n__-prdslib.always)
+                        (_js2n__-prdslib.records.record
+                          {
+                            settings =
+                              _js2n__-refsenv."_js2n__-:definitions/localPreprocessorSettingsItem!predicate",
+                          } {} true _js2n__-prdslib.always)
+                        (_js2n__-prdslib.records.record
+                          {
+                            settings =
+                              _js2n__-refsenv."_js2n__-:definitions/mvsPreprocessorSettingsItem!predicate",
+                          } {} true _js2n__-prdslib.always),
+                      _js2n__-prdslib.records.required
+                        [ "language", "location", "name", "settings", "type" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          language = _js2n__-prdslib.isType '"String",
+                          location = _js2n__-prdslib.isType '"String",
+                          name = _js2n__-prdslib.isType '"String",
+                          settings =
+                            _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-refsenv."_js2n__-:definitions/localPreprocessorSettingsItem!predicate",
+                                  _js2n__-refsenv."_js2n__-:definitions/mvsPreprocessorSettingsItem!predicate"
+                                ],
+                          type =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.const "preprocessor"
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required
+                        [ "name", "settings", "type" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          name = _js2n__-prdslib.isType '"String",
+                          settings =
+                            _js2n__-refsenv."_js2n__-:definitions/testSettingsItem!predicate",
+                          type =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.const "test"
+                                ],
+                        } {} false _js2n__-prdslib.never
                     ]
                 ],
               _js2n__-prdslib.records.required [ "name", "type" ],
               _js2n__-prdslib.records.record
                 {
+                  language =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "cobol", "pl1" ]
+                        ],
+                  location =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "mvs", "local" ]
+                        ],
                   name = _js2n__-prdslib.isType '"String",
                   settings = _js2n__-prdslib.isType 'Record,
                   type =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "dbb", "rseapi", "debug" ]
+                          _js2n__-prdslib.enum
+                            [ "dbb", "rseapi", "debug", "preprocessor", "test" ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1184,6 +1296,72 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "text", "binary" ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/testSettingsItem!predicate"
+        | doc "Test properties for a test case."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "unitTest" ],
+              _js2n__-prdslib.records.record
+                {
+                  unitTest =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "procLib" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              allocateWorkingDs =
+                                _js2n__-prdslib.isType '"Bool",
+                              configDS = _js2n__-prdslib.isType '"String",
+                              defaultTestCaseFolder =
+                                _js2n__-prdslib.isType '"String",
+                              ioDataSetAllocation =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          ioHLQ =
+                                            _js2n__-prdslib.isType '"String",
+                                          ioQuant1 =
+                                            _js2n__-prdslib.isType 'Integer,
+                                          ioQuant2 =
+                                            _js2n__-prdslib.isType 'Integer,
+                                          ioSpaceUnit =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [
+                                                      "TRACKS",
+                                                      "BLOCKS",
+                                                      "CYLINDERS"
+                                                    ]
+                                                ],
+                                        } {} true _js2n__-prdslib.always
+                                    ],
+                              jobcard = _js2n__-prdslib.isType '"String",
+                              procLib =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
+                              resultDS = _js2n__-prdslib.isType '"String",
+                              userLibraries =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
+                            } {} false _js2n__-prdslib.never
                         ],
                 } {} false _js2n__-prdslib.never
             ],

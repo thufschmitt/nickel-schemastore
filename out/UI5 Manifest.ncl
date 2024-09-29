@@ -986,6 +986,12 @@ let rec _js2n__-refsenv
                         ],
                   label = _js2n__-prdslib.isType '"String",
                   placeholder = _js2n__-prdslib.isType '"String",
+                  selectedIndex =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-refsenv."_js2n__-:definitions/simpleBinding!predicate"
+                        ],
                   selectedKey = _js2n__-prdslib.isType '"String",
                   type =
                     _js2n__-prdslib.oneOf
@@ -1866,6 +1872,7 @@ let rec _js2n__-refsenv
                   customStateIcon = _js2n__-prdslib.isType '"String",
                   details = _js2n__-prdslib.isType '"String",
                   emailSubject = _js2n__-prdslib.isType '"String",
+                  fallbackSrc = _js2n__-prdslib.isType '"String",
                   fullWidth =
                     _js2n__-prdslib.oneOf
                         [
@@ -4208,8 +4215,10 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
-                { localUri = _js2n__-prdslib.isType '"String", } {} true
-                _js2n__-prdslib.always
+                {
+                  hideActions = _js2n__-prdslib.isType '"Bool",
+                  localUri = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/minHeight!predicate"
         | doc "Defines the min-height of the Content as a CSS value"
@@ -5657,6 +5666,7 @@ let rec _js2n__-refsenv
       _version
         | std.enum.TagOrString
         | [|
+          '"1.66.0",
           '"1.65.0",
           '"1.64.0",
           '"1.63.0",
@@ -6334,7 +6344,8 @@ let rec _js2n__-refsenv
                               "1.43.0",
                               "1.44.0",
                               "1.45.0",
-                              "1.46.0"
+                              "1.46.0",
+                              "1.47.0"
                             ]
                         ],
                   configuration =
@@ -6491,7 +6502,7 @@ let rec _js2n__-refsenv
         | {
           _version
             | std.enum.TagOrString
-            | [| '"1.0.0" |]
+            | [| '"1.1.0", '"1.0.0" |]
             | doc "Represents attributes format version."
             | optional,
           embeds

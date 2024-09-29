@@ -1360,6 +1360,11 @@ let rec _js2n__-refsenv
                     } {} false _js2n__-prdslib.never,
                   _js2n__-prdslib.records.record
                     {
+                      ipAllowList =
+                        _js2n__-refsenv."_js2n__-:definitions/ipAllowListMiddleware!predicate",
+                    } {} false _js2n__-prdslib.never,
+                  _js2n__-prdslib.records.record
+                    {
                       inFlightReq =
                         _js2n__-refsenv."_js2n__-:definitions/inFlightReqMiddleware!predicate",
                     } {} false _js2n__-prdslib.never,
@@ -1609,6 +1614,24 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/sourceCriterion!predicate",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/ipAllowListMiddleware!predicate"
+        | doc "IPAllowList accepts / refuses requests based on the client IP."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  ipStrategy =
+                    _js2n__-refsenv."_js2n__-:definitions/ipStrategy!predicate",
+                  sourceRange =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/ipStrategy!predicate"
         | doc "The ipStrategy option defines parameters that set how Traefik will determine the client IP."
         = _js2n__-prdslib.allOf
@@ -1627,7 +1650,7 @@ let rec _js2n__-refsenv
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/ipWhiteListMiddleware!predicate"
-        | doc "IPWhitelist accepts / refuses requests based on the client IP."
+        | doc "DEPRECATED: IPWhitelist accepts / refuses requests based on the client IP."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -2080,254 +2103,233 @@ let rec _js2n__-refsenv
             ],
     }
     in
-  _js2n__-prdslib.contract_from_predicate
-      (_js2n__-prdslib.allOf
-        [
-          _js2n__-prdslib.isType 'Record,
-          _js2n__-prdslib.records.record
-            {
-              http =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record
-                        {
-                          middlewares =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    _js2n__-refsenv."_js2n__-:definitions/httpMiddleware!predicate"
-                                ],
-                          routers =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    _js2n__-refsenv."_js2n__-:definitions/httpRouter!predicate"
-                                ],
-                          services =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    _js2n__-refsenv."_js2n__-:definitions/httpService!predicate"
-                                ],
-                        } {} true _js2n__-prdslib.always
-                    ],
-              tcp =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record
-                        {
-                          routers =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    _js2n__-refsenv."_js2n__-:definitions/tcpRouter!predicate"
-                                ],
-                          services =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    _js2n__-refsenv."_js2n__-:definitions/tcpService!predicate"
-                                ],
-                        } {} true _js2n__-prdslib.always
-                    ],
-              tls =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record
-                        {
-                          certificates =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    (_js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Record,
-                                        _js2n__-prdslib.records.record
-                                          {
-                                            certFile =
-                                              _js2n__-prdslib.isType '"String",
-                                            keyFile =
-                                              _js2n__-prdslib.isType '"String",
-                                            stores =
-                                              _js2n__-prdslib.allOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"Array",
-                                                    _js2n__-prdslib.arrays.arrayOf
-                                                      (_js2n__-prdslib.isType
-                                                        '"String")
-                                                  ],
-                                          } {} true _js2n__-prdslib.always
-                                      ])
-                                ],
-                          options =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {}
-                                    {
-                                      "[a-zA-Z0-9-_]+" =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record
-                                                {
-                                                  cipherSuites =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"Array",
-                                                          _js2n__-prdslib.arrays.arrayOf
-                                                            (_js2n__-prdslib.isType
-                                                              '"String")
-                                                        ],
-                                                  clientAuth =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Record,
-                                                          _js2n__-prdslib.records.record
-                                                            {
-                                                              caFiles =
-                                                                _js2n__-prdslib.allOf
-                                                                    [
-                                                                      _js2n__-prdslib.isType
-                                                                        '"Array",
-                                                                      _js2n__-prdslib.arrays.arrayOf
-                                                                        (_js2n__-prdslib.isType
-                                                                          '"String")
-                                                                    ],
-                                                              clientAuthType =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                            } {} true
-                                                            _js2n__-prdslib.always
-                                                        ],
-                                                  curvePreferences =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"Array",
-                                                          _js2n__-prdslib.arrays.arrayOf
-                                                            (_js2n__-prdslib.isType
-                                                              '"String")
-                                                        ],
-                                                  maxVersion =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  minVersion =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  preferServerCipherSuites =
-                                                    _js2n__-prdslib.isType
-                                                        '"Bool",
-                                                  sniStrict =
-                                                    _js2n__-prdslib.isType
-                                                        '"Bool",
-                                                } {} true _js2n__-prdslib.always
-                                            ],
-                                    } false _js2n__-prdslib.never
-                                ],
-                          stores =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {}
-                                    {
-                                      "[a-zA-Z0-9-_]+" =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record
-                                                {
-                                                  defaultCertificate =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Record,
-                                                          _js2n__-prdslib.records.record
-                                                            {
-                                                              certFile =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                              keyFile =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                            } {} false
-                                                            _js2n__-prdslib.never
-                                                        ],
-                                                  defaultGeneratedCert =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Record,
-                                                          _js2n__-prdslib.records.record
-                                                            {
-                                                              domain =
-                                                                _js2n__-prdslib.allOf
-                                                                    [
-                                                                      _js2n__-prdslib.isType
-                                                                        'Record,
-                                                                      _js2n__-prdslib.records.record
-                                                                        {
-                                                                          main =
-                                                                            _js2n__-prdslib.isType
-                                                                                '"String",
-                                                                          sans =
-                                                                            _js2n__-prdslib.allOf
-                                                                                [
-                                                                                  _js2n__-prdslib.isType
-                                                                                    '"Array",
-                                                                                  _js2n__-prdslib.arrays.arrayOf
-                                                                                    (_js2n__-prdslib.isType
-                                                                                      '"String")
-                                                                                ],
-                                                                        } {}
-                                                                        true
-                                                                        _js2n__-prdslib.always
-                                                                    ],
-                                                              resolver =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                            } {} false
-                                                            _js2n__-prdslib.never
-                                                        ],
-                                                } {} false _js2n__-prdslib.never
-                                            ],
-                                    } true _js2n__-prdslib.always
-                                ],
-                        } {} false _js2n__-prdslib.never
-                    ],
-              udp =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record
-                        {
-                          routers =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    _js2n__-refsenv."_js2n__-:definitions/udpRouter!predicate"
-                                ],
-                          services =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    _js2n__-refsenv."_js2n__-:definitions/udpService!predicate"
-                                ],
-                        } {} false _js2n__-prdslib.never
-                    ],
-            } {} false _js2n__-prdslib.never
-        ])
+  {
+      http
+        | {
+          middlewares
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-refsenv."_js2n__-:definitions/httpMiddleware!predicate"
+                ])
+            | doc m%"
+              Attached to the routers, pieces of middleware are a means of tweaking the requests before they are sent to your service (or before the answer from the services are sent to the clients).
+              
+              There are several available middleware in Traefik, some can modify the request, the headers, some are in charge of redirections, some add authentication, and so on.
+              
+              Pieces of middleware can be combined in chains to fit every scenario.
+            "%
+            | optional,
+          routers
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-refsenv."_js2n__-:definitions/httpRouter!predicate"
+                ])
+            | optional,
+          services
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-refsenv."_js2n__-:definitions/httpService!predicate"
+                ])
+            | optional,
+          ..
+        }
+        | optional,
+      tcp
+        | {
+          routers
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-refsenv."_js2n__-:definitions/tcpRouter!predicate"
+                ])
+            | optional,
+          services
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-refsenv."_js2n__-:definitions/tcpService!predicate"
+                ])
+            | doc "Each of the fields of the service section represents a kind of service. Which means, that for each specified service, one of the fields, and only one, has to be enabled to define what kind of service is created. Currently, the two available kinds are LoadBalancer, and Weighted."
+            | optional,
+          ..
+        }
+        | optional,
+      tls
+        | {
+          certificates
+            | Array
+              {
+                certFile | String | optional,
+                keyFile | String | optional,
+                stores
+                  | Array (String)
+                  | doc "A list of stores can be specified here to indicate where the certificates should be stored. Although the stores list will actually be ignored and automatically set to [\"default\"]."
+                  | optional,
+                ..
+              }
+            | optional,
+          options
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {}
+                    {
+                      "[a-zA-Z0-9-_]+" =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  cipherSuites =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                  clientAuth =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              caFiles =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.isType
+                                                          '"String")
+                                                    ],
+                                              clientAuthType =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} true _js2n__-prdslib.always
+                                        ],
+                                  curvePreferences =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                  maxVersion = _js2n__-prdslib.isType '"String",
+                                  minVersion = _js2n__-prdslib.isType '"String",
+                                  preferServerCipherSuites =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  sniStrict = _js2n__-prdslib.isType '"Bool",
+                                } {} true _js2n__-prdslib.always
+                            ],
+                    } false _js2n__-prdslib.never
+                ])
+            | doc "The TLS options allow one to configure some parameters of the TLS connection."
+            | optional,
+          stores
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {}
+                    {
+                      "[a-zA-Z0-9-_]+" =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  defaultCertificate =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              certFile =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              keyFile =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} false _js2n__-prdslib.never
+                                        ],
+                                  defaultGeneratedCert =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              domain =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Record,
+                                                      _js2n__-prdslib.records.record
+                                                        {
+                                                          main =
+                                                            _js2n__-prdslib.isType
+                                                                '"String",
+                                                          sans =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"Array",
+                                                                  _js2n__-prdslib.arrays.arrayOf
+                                                                    (_js2n__-prdslib.isType
+                                                                      '"String")
+                                                                ],
+                                                        } {} true
+                                                        _js2n__-prdslib.always
+                                                    ],
+                                              resolver =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} false _js2n__-prdslib.never
+                                        ],
+                                } {} false _js2n__-prdslib.never
+                            ],
+                    } true _js2n__-prdslib.always
+                ])
+            | doc "Any store definition other than the default one (named default) will be ignored, and there is therefore only one globally available TLS store."
+            | optional,
+        }
+        | doc "Configures the TLS connection, TLS options, and certificate stores."
+        | optional,
+      udp
+        | {
+          routers
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-refsenv."_js2n__-:definitions/udpRouter!predicate"
+                ])
+            | doc "Similarly to TCP, as UDP is the transport layer, there is no concept of a request, so there is no notion of an URL path prefix to match an incoming UDP packet with. Furthermore, as there is no good TLS support at the moment for multiple hosts, there is no Host SNI notion to match against either. Therefore, there is no criterion that could be used as a rule to match incoming packets in order to route them. So UDP \"routers\" at this time are pretty much only load-balancers in one form or another."
+            | optional,
+          services
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-refsenv."_js2n__-:definitions/udpService!predicate"
+                ])
+            | doc "Each of the fields of the service section represents a kind of service. Which means, that for each specified service, one of the fields, and only one, has to be enabled to define what kind of service is created. Currently, the two available kinds are LoadBalancer, and Weighted."
+            | optional,
+        }
+        | optional,
+    }

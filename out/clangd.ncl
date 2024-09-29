@@ -1405,6 +1405,13 @@ let rec _js2n__-refsenv
             | optional,
           Includes
             | {
+              AnalyzeAngledIncludes
+                | Bool
+                | doc m%"
+                  Enables/disables detection of unused angled includes that are not from the Standard Library. Disabled by default to avoid false-positives caused by umbrella headers
+                  https://clangd.llvm.org/config.html#analyzeangledincludes
+                "%
+                | optional,
               IgnoreHeader
                 | Array (
                   _js2n__-prdslib.contract_from_predicate

@@ -1561,6 +1561,14 @@ let rec _js2n__-refsenv
                   {
                     "$comment" =
                       _js2n__-refsenv."_js2n__-:definitions/comment-property!predicate",
+                    "$id" =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.not
+                              _js2n__-refsenv."_js2n__-:definitions/space-string!predicate",
+                            _js2n__-prdslib.strings.minLength 1
+                          ],
                     "$ref" =
                       _js2n__-refsenv."_js2n__-:definitions/ref-property!predicate",
                     "$schema" =
@@ -1603,14 +1611,6 @@ let rec _js2n__-refsenv
                       _js2n__-refsenv."_js2n__-:definitions/exclusive-minimum-property!predicate",
                     format =
                       _js2n__-refsenv."_js2n__-:definitions/format-property!predicate",
-                    id =
-                      _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.not
-                              _js2n__-refsenv."_js2n__-:definitions/space-string!predicate",
-                            _js2n__-prdslib.strings.minLength 1
-                          ],
                     "if" =
                       _js2n__-refsenv."_js2n__-:definitions/if-property!predicate",
                     items =

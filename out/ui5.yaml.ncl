@@ -1076,6 +1076,24 @@ let rec _js2n__-refsenv
                   ]),
               _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:then/then/definitions/builder-bundles-4.0!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        bundleDefinition =
+                          _js2n__-refsenv."_js2n__-:then/then/definitions/builder-bundles-bundleDefinition-4.0!predicate",
+                        bundleOptions =
+                          _js2n__-refsenv."_js2n__-:then/then/definitions/builder-bundles-bundleOptions-4.0!predicate",
+                      } {} false _js2n__-prdslib.never
+                  ]),
+              _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:then/then/definitions/builder-bundles-bundleDefinition!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1244,6 +1262,95 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:then/then/definitions/builder-bundles-bundleDefinition-4.0!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  defaultFileTypes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  sections =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.ifThenElse
+                              (_js2n__-prdslib.records.record
+                                { mode = _js2n__-prdslib.const "require", } {}
+                                true _js2n__-prdslib.always)
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "filters", "mode" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      async = _js2n__-prdslib.isType '"Bool",
+                                      declareRawModules =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      filters =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      mode = _js2n__-prdslib.enum [ "require" ],
+                                      name = _js2n__-prdslib.isType '"String",
+                                      renderer = _js2n__-prdslib.isType '"Bool",
+                                      resolve = _js2n__-prdslib.isType '"Bool",
+                                      resolveConditional =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      sort = _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ])
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "filters", "mode" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      declareRawModules =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      filters =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      mode =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "raw",
+                                              "preload",
+                                              "require",
+                                              "provided",
+                                              "bundleInfo",
+                                              "depCache"
+                                            ],
+                                      name = _js2n__-prdslib.isType '"String",
+                                      renderer = _js2n__-prdslib.isType '"Bool",
+                                      resolve = _js2n__-prdslib.isType '"Bool",
+                                      resolveConditional =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      sort = _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ]))
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:then/then/definitions/builder-bundles-bundleOptions!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1269,6 +1376,19 @@ let rec _js2n__-refsenv
                   optimize = _js2n__-prdslib.isType '"Bool",
                   sourceMap = _js2n__-prdslib.isType '"Bool",
                   usePredefineCalls = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:then/then/definitions/builder-bundles-bundleOptions-4.0!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  addTryCatchRestartWrapper = _js2n__-prdslib.isType '"Bool",
+                  decorateBootstrapModule = _js2n__-prdslib.isType '"Bool",
+                  numberOfParts = _js2n__-prdslib.isType '"Number",
+                  optimize = _js2n__-prdslib.isType '"Bool",
+                  sourceMap = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:then/then/definitions/builder-componentPreload!predicate" =
@@ -1834,6 +1954,30 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:then/then/definitions/builder-settings!predicate",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:then/then/else/else/then/definitions/builder-specVersion-4.0!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  bundles =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/builder-bundles-4.0!predicate",
+                  componentPreload =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/builder-componentPreload-specVersion-2.3!predicate",
+                  customTasks =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/customTasks!predicate",
+                  jsdoc =
+                    _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-jsdoc!predicate",
+                  libraryPreload =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/builder-libraryPreload!predicate",
+                  minification =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/builder-minification!predicate",
+                  resources =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/builder-resources!predicate",
+                  settings =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/builder-settings!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:then/then/else/else/then/definitions/resources!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2060,6 +2204,36 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:then/then/definitions/builder-settings!predicate",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:then/then/else/then/definitions/builder-specVersion-4.0!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  bundles =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/builder-bundles-4.0!predicate",
+                  cachebuster =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              signatureType =
+                                _js2n__-prdslib.enum [ "time", "hash" ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  componentPreload =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/builder-componentPreload-specVersion-2.3!predicate",
+                  customTasks =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/customTasks!predicate",
+                  minification =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/builder-minification!predicate",
+                  resources =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/builder-resources!predicate",
+                  settings =
+                    _js2n__-refsenv."_js2n__-:then/then/definitions/builder-settings!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:then/then/else/then/definitions/resources!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2100,6 +2274,7 @@ let rec _js2n__-refsenv
                 specVersion =
                   _js2n__-prdslib.enum
                       [
+                        "4.0",
                         "3.2",
                         "3.1",
                         "3.0",
@@ -2137,12 +2312,12 @@ let rec _js2n__-refsenv
                                 (_js2n__-prdslib.records.record
                                   {
                                     specVersion =
-                                      _js2n__-prdslib.enum [ "3.2" ],
+                                      _js2n__-prdslib.enum [ "4.0" ],
                                   } {} true _js2n__-prdslib.always)
                                 (_js2n__-prdslib.records.record
                                   {
                                     builder =
-                                      _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-3.2!predicate",
+                                      _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-4.0!predicate",
                                     customConfiguration =
                                       _js2n__-prdslib.allOf
                                           [
@@ -2161,7 +2336,7 @@ let rec _js2n__-refsenv
                                     server =
                                       _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                     specVersion =
-                                      _js2n__-prdslib.enum [ "3.2" ],
+                                      _js2n__-prdslib.enum [ "4.0" ],
                                     type =
                                       _js2n__-prdslib.enum [ "application" ],
                                   } {} false _js2n__-prdslib.never)
@@ -2169,12 +2344,12 @@ let rec _js2n__-refsenv
                                   (_js2n__-prdslib.records.record
                                     {
                                       specVersion =
-                                        _js2n__-prdslib.enum [ "3.0", "3.1" ],
+                                        _js2n__-prdslib.enum [ "3.2" ],
                                     } {} true _js2n__-prdslib.always)
                                   (_js2n__-prdslib.records.record
                                     {
                                       builder =
-                                        _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-3.0!predicate",
+                                        _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-3.2!predicate",
                                       customConfiguration =
                                         _js2n__-prdslib.allOf
                                             [
@@ -2194,7 +2369,7 @@ let rec _js2n__-refsenv
                                       server =
                                         _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                       specVersion =
-                                        _js2n__-prdslib.enum [ "3.0", "3.1" ],
+                                        _js2n__-prdslib.enum [ "3.2" ],
                                       type =
                                         _js2n__-prdslib.enum [ "application" ],
                                     } {} false _js2n__-prdslib.never)
@@ -2202,12 +2377,12 @@ let rec _js2n__-refsenv
                                     (_js2n__-prdslib.records.record
                                       {
                                         specVersion =
-                                          _js2n__-prdslib.enum [ "2.6" ],
+                                          _js2n__-prdslib.enum [ "3.0", "3.1" ],
                                       } {} true _js2n__-prdslib.always)
                                     (_js2n__-prdslib.records.record
                                       {
                                         builder =
-                                          _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-2.6!predicate",
+                                          _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-3.0!predicate",
                                         customConfiguration =
                                           _js2n__-prdslib.allOf
                                               [
@@ -2222,13 +2397,13 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.enum
                                               [ "project", null ],
                                         metadata =
-                                          _js2n__-refsenv."_js2n__-:then/then/definitions/metadata!predicate",
+                                          _js2n__-refsenv."_js2n__-:then/then/definitions/metadata-3.0!predicate",
                                         resources =
                                           _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/resources!predicate",
                                         server =
                                           _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                         specVersion =
-                                          _js2n__-prdslib.enum [ "2.6" ],
+                                          _js2n__-prdslib.enum [ "3.0", "3.1" ],
                                         type =
                                           _js2n__-prdslib.enum
                                               [ "application" ],
@@ -2237,12 +2412,12 @@ let rec _js2n__-refsenv
                                       (_js2n__-prdslib.records.record
                                         {
                                           specVersion =
-                                            _js2n__-prdslib.enum [ "2.5" ],
+                                            _js2n__-prdslib.enum [ "2.6" ],
                                         } {} true _js2n__-prdslib.always)
                                       (_js2n__-prdslib.records.record
                                         {
                                           builder =
-                                            _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-2.5!predicate",
+                                            _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-2.6!predicate",
                                           customConfiguration =
                                             _js2n__-prdslib.allOf
                                                 [
@@ -2264,7 +2439,7 @@ let rec _js2n__-refsenv
                                           server =
                                             _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                           specVersion =
-                                            _js2n__-prdslib.enum [ "2.5" ],
+                                            _js2n__-prdslib.enum [ "2.6" ],
                                           type =
                                             _js2n__-prdslib.enum
                                                 [ "application" ],
@@ -2273,12 +2448,12 @@ let rec _js2n__-refsenv
                                         (_js2n__-prdslib.records.record
                                           {
                                             specVersion =
-                                              _js2n__-prdslib.enum [ "2.4" ],
+                                              _js2n__-prdslib.enum [ "2.5" ],
                                           } {} true _js2n__-prdslib.always)
                                         (_js2n__-prdslib.records.record
                                           {
                                             builder =
-                                              _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-2.4!predicate",
+                                              _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-2.5!predicate",
                                             customConfiguration =
                                               _js2n__-prdslib.allOf
                                                   [
@@ -2300,7 +2475,7 @@ let rec _js2n__-refsenv
                                             server =
                                               _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                             specVersion =
-                                              _js2n__-prdslib.enum [ "2.4" ],
+                                              _js2n__-prdslib.enum [ "2.5" ],
                                             type =
                                               _js2n__-prdslib.enum
                                                   [ "application" ],
@@ -2309,12 +2484,12 @@ let rec _js2n__-refsenv
                                           (_js2n__-prdslib.records.record
                                             {
                                               specVersion =
-                                                _js2n__-prdslib.enum [ "2.3" ],
+                                                _js2n__-prdslib.enum [ "2.4" ],
                                             } {} true _js2n__-prdslib.always)
                                           (_js2n__-prdslib.records.record
                                             {
                                               builder =
-                                                _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-2.3!predicate",
+                                                _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-2.4!predicate",
                                               customConfiguration =
                                                 _js2n__-prdslib.allOf
                                                     [
@@ -2336,7 +2511,7 @@ let rec _js2n__-refsenv
                                               server =
                                                 _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                               specVersion =
-                                                _js2n__-prdslib.enum [ "2.3" ],
+                                                _js2n__-prdslib.enum [ "2.4" ],
                                               type =
                                                 _js2n__-prdslib.enum
                                                     [ "application" ],
@@ -2346,12 +2521,12 @@ let rec _js2n__-refsenv
                                               {
                                                 specVersion =
                                                   _js2n__-prdslib.enum
-                                                      [ "2.1", "2.2" ],
+                                                      [ "2.3" ],
                                               } {} true _js2n__-prdslib.always)
                                             (_js2n__-prdslib.records.record
                                               {
                                                 builder =
-                                                  _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder!predicate",
+                                                  _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder-specVersion-2.3!predicate",
                                                 customConfiguration =
                                                   _js2n__-prdslib.allOf
                                                       [
@@ -2374,34 +2549,74 @@ let rec _js2n__-refsenv
                                                   _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                                 specVersion =
                                                   _js2n__-prdslib.enum
-                                                      [ "2.1", "2.2" ],
+                                                      [ "2.3" ],
                                                 type =
                                                   _js2n__-prdslib.enum
                                                       [ "application" ],
                                               } {} false _js2n__-prdslib.never)
-                                            (_js2n__-prdslib.records.record
-                                              {
-                                                builder =
-                                                  _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder!predicate",
-                                                framework =
-                                                  _js2n__-refsenv."_js2n__-:then/then/definitions/framework!predicate",
-                                                kind =
-                                                  _js2n__-prdslib.enum
-                                                      [ "project", null ],
-                                                metadata =
-                                                  _js2n__-refsenv."_js2n__-:then/then/definitions/metadata!predicate",
-                                                resources =
-                                                  _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/resources!predicate",
-                                                server =
-                                                  _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
-                                                specVersion =
-                                                  _js2n__-prdslib.enum
-                                                      [ "2.0" ],
-                                                type =
-                                                  _js2n__-prdslib.enum
-                                                      [ "application" ],
-                                              } {} false
-                                              _js2n__-prdslib.never))))))),
+                                            (_js2n__-prdslib.ifThenElse
+                                              (_js2n__-prdslib.records.record
+                                                {
+                                                  specVersion =
+                                                    _js2n__-prdslib.enum
+                                                        [ "2.1", "2.2" ],
+                                                } {} true
+                                                _js2n__-prdslib.always)
+                                              (_js2n__-prdslib.records.record
+                                                {
+                                                  builder =
+                                                    _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder!predicate",
+                                                  customConfiguration =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {} {} true
+                                                            _js2n__-prdslib.always
+                                                        ],
+                                                  framework =
+                                                    _js2n__-refsenv."_js2n__-:then/then/definitions/framework!predicate",
+                                                  kind =
+                                                    _js2n__-prdslib.enum
+                                                        [ "project", null ],
+                                                  metadata =
+                                                    _js2n__-refsenv."_js2n__-:then/then/definitions/metadata!predicate",
+                                                  resources =
+                                                    _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/resources!predicate",
+                                                  server =
+                                                    _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
+                                                  specVersion =
+                                                    _js2n__-prdslib.enum
+                                                        [ "2.1", "2.2" ],
+                                                  type =
+                                                    _js2n__-prdslib.enum
+                                                        [ "application" ],
+                                                } {} false
+                                                _js2n__-prdslib.never)
+                                              (_js2n__-prdslib.records.record
+                                                {
+                                                  builder =
+                                                    _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/builder!predicate",
+                                                  framework =
+                                                    _js2n__-refsenv."_js2n__-:then/then/definitions/framework!predicate",
+                                                  kind =
+                                                    _js2n__-prdslib.enum
+                                                        [ "project", null ],
+                                                  metadata =
+                                                    _js2n__-refsenv."_js2n__-:then/then/definitions/metadata!predicate",
+                                                  resources =
+                                                    _js2n__-refsenv."_js2n__-:then/then/else/then/definitions/resources!predicate",
+                                                  server =
+                                                    _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
+                                                  specVersion =
+                                                    _js2n__-prdslib.enum
+                                                        [ "2.0" ],
+                                                  type =
+                                                    _js2n__-prdslib.enum
+                                                        [ "application" ],
+                                                } {} false
+                                                _js2n__-prdslib.never)))))))),
                               _js2n__-prdslib.records.required
                                 [ "metadata", "specVersion", "type" ],
                               _js2n__-prdslib.records.record {} {} true
@@ -2418,12 +2633,12 @@ let rec _js2n__-refsenv
                                   (_js2n__-prdslib.records.record
                                     {
                                       specVersion =
-                                        _js2n__-prdslib.enum [ "3.2" ],
+                                        _js2n__-prdslib.enum [ "4.0" ],
                                     } {} true _js2n__-prdslib.always)
                                   (_js2n__-prdslib.records.record
                                     {
                                       builder =
-                                        _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-3.2!predicate",
+                                        _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-4.0!predicate",
                                       customConfiguration =
                                         _js2n__-prdslib.allOf
                                             [
@@ -2443,19 +2658,19 @@ let rec _js2n__-refsenv
                                       server =
                                         _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                       specVersion =
-                                        _js2n__-prdslib.enum [ "3.2" ],
+                                        _js2n__-prdslib.enum [ "4.0" ],
                                       type = _js2n__-prdslib.enum [ "library" ],
                                     } {} false _js2n__-prdslib.never)
                                   (_js2n__-prdslib.ifThenElse
                                     (_js2n__-prdslib.records.record
                                       {
                                         specVersion =
-                                          _js2n__-prdslib.enum [ "3.0", "3.1" ],
+                                          _js2n__-prdslib.enum [ "3.2" ],
                                       } {} true _js2n__-prdslib.always)
                                     (_js2n__-prdslib.records.record
                                       {
                                         builder =
-                                          _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-3.0!predicate",
+                                          _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-3.2!predicate",
                                         customConfiguration =
                                           _js2n__-prdslib.allOf
                                               [
@@ -2476,7 +2691,7 @@ let rec _js2n__-refsenv
                                         server =
                                           _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                         specVersion =
-                                          _js2n__-prdslib.enum [ "3.0", "3.1" ],
+                                          _js2n__-prdslib.enum [ "3.2" ],
                                         type =
                                           _js2n__-prdslib.enum [ "library" ],
                                       } {} false _js2n__-prdslib.never)
@@ -2484,12 +2699,13 @@ let rec _js2n__-refsenv
                                       (_js2n__-prdslib.records.record
                                         {
                                           specVersion =
-                                            _js2n__-prdslib.enum [ "2.6" ],
+                                            _js2n__-prdslib.enum
+                                                [ "3.0", "3.1" ],
                                         } {} true _js2n__-prdslib.always)
                                       (_js2n__-prdslib.records.record
                                         {
                                           builder =
-                                            _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-2.6!predicate",
+                                            _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-3.0!predicate",
                                           customConfiguration =
                                             _js2n__-prdslib.allOf
                                                 [
@@ -2505,13 +2721,14 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.enum
                                                 [ "project", null ],
                                           metadata =
-                                            _js2n__-refsenv."_js2n__-:then/then/definitions/metadata!predicate",
+                                            _js2n__-refsenv."_js2n__-:then/then/definitions/metadata-3.0!predicate",
                                           resources =
                                             _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/resources!predicate",
                                           server =
                                             _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                           specVersion =
-                                            _js2n__-prdslib.enum [ "2.6" ],
+                                            _js2n__-prdslib.enum
+                                                [ "3.0", "3.1" ],
                                           type =
                                             _js2n__-prdslib.enum [ "library" ],
                                         } {} false _js2n__-prdslib.never)
@@ -2519,12 +2736,12 @@ let rec _js2n__-refsenv
                                         (_js2n__-prdslib.records.record
                                           {
                                             specVersion =
-                                              _js2n__-prdslib.enum [ "2.5" ],
+                                              _js2n__-prdslib.enum [ "2.6" ],
                                           } {} true _js2n__-prdslib.always)
                                         (_js2n__-prdslib.records.record
                                           {
                                             builder =
-                                              _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-2.5!predicate",
+                                              _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-2.6!predicate",
                                             customConfiguration =
                                               _js2n__-prdslib.allOf
                                                   [
@@ -2546,7 +2763,7 @@ let rec _js2n__-refsenv
                                             server =
                                               _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                             specVersion =
-                                              _js2n__-prdslib.enum [ "2.5" ],
+                                              _js2n__-prdslib.enum [ "2.6" ],
                                             type =
                                               _js2n__-prdslib.enum
                                                   [ "library" ],
@@ -2555,12 +2772,12 @@ let rec _js2n__-refsenv
                                           (_js2n__-prdslib.records.record
                                             {
                                               specVersion =
-                                                _js2n__-prdslib.enum [ "2.4" ],
+                                                _js2n__-prdslib.enum [ "2.5" ],
                                             } {} true _js2n__-prdslib.always)
                                           (_js2n__-prdslib.records.record
                                             {
                                               builder =
-                                                _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-2.4!predicate",
+                                                _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-2.5!predicate",
                                               customConfiguration =
                                                 _js2n__-prdslib.allOf
                                                     [
@@ -2582,7 +2799,7 @@ let rec _js2n__-refsenv
                                               server =
                                                 _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                               specVersion =
-                                                _js2n__-prdslib.enum [ "2.4" ],
+                                                _js2n__-prdslib.enum [ "2.5" ],
                                               type =
                                                 _js2n__-prdslib.enum
                                                     [ "library" ],
@@ -2592,12 +2809,12 @@ let rec _js2n__-refsenv
                                               {
                                                 specVersion =
                                                   _js2n__-prdslib.enum
-                                                      [ "2.3" ],
+                                                      [ "2.4" ],
                                               } {} true _js2n__-prdslib.always)
                                             (_js2n__-prdslib.records.record
                                               {
                                                 builder =
-                                                  _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-2.3!predicate",
+                                                  _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-2.4!predicate",
                                                 customConfiguration =
                                                   _js2n__-prdslib.allOf
                                                       [
@@ -2620,7 +2837,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                                 specVersion =
                                                   _js2n__-prdslib.enum
-                                                      [ "2.3" ],
+                                                      [ "2.4" ],
                                                 type =
                                                   _js2n__-prdslib.enum
                                                       [ "library" ],
@@ -2630,13 +2847,13 @@ let rec _js2n__-refsenv
                                                 {
                                                   specVersion =
                                                     _js2n__-prdslib.enum
-                                                        [ "2.1", "2.2" ],
+                                                        [ "2.3" ],
                                                 } {} true
                                                 _js2n__-prdslib.always)
                                               (_js2n__-prdslib.records.record
                                                 {
                                                   builder =
-                                                    _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder!predicate",
+                                                    _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder-specVersion-2.3!predicate",
                                                   customConfiguration =
                                                     _js2n__-prdslib.allOf
                                                         [
@@ -2659,35 +2876,75 @@ let rec _js2n__-refsenv
                                                     _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                                   specVersion =
                                                     _js2n__-prdslib.enum
-                                                        [ "2.1", "2.2" ],
+                                                        [ "2.3" ],
                                                   type =
                                                     _js2n__-prdslib.enum
                                                         [ "library" ],
                                                 } {} false
                                                 _js2n__-prdslib.never)
-                                              (_js2n__-prdslib.records.record
-                                                {
-                                                  builder =
-                                                    _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder!predicate",
-                                                  framework =
-                                                    _js2n__-refsenv."_js2n__-:then/then/definitions/framework!predicate",
-                                                  kind =
-                                                    _js2n__-prdslib.enum
-                                                        [ "project", null ],
-                                                  metadata =
-                                                    _js2n__-refsenv."_js2n__-:then/then/definitions/metadata!predicate",
-                                                  resources =
-                                                    _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/resources!predicate",
-                                                  server =
-                                                    _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
-                                                  specVersion =
-                                                    _js2n__-prdslib.enum
-                                                        [ "2.0" ],
-                                                  type =
-                                                    _js2n__-prdslib.enum
-                                                        [ "library" ],
-                                                } {} false
-                                                _js2n__-prdslib.never))))))),
+                                              (_js2n__-prdslib.ifThenElse
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    specVersion =
+                                                      _js2n__-prdslib.enum
+                                                          [ "2.1", "2.2" ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    builder =
+                                                      _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder!predicate",
+                                                    customConfiguration =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Record,
+                                                            _js2n__-prdslib.records.record
+                                                              {} {} true
+                                                              _js2n__-prdslib.always
+                                                          ],
+                                                    framework =
+                                                      _js2n__-refsenv."_js2n__-:then/then/definitions/framework!predicate",
+                                                    kind =
+                                                      _js2n__-prdslib.enum
+                                                          [ "project", null ],
+                                                    metadata =
+                                                      _js2n__-refsenv."_js2n__-:then/then/definitions/metadata!predicate",
+                                                    resources =
+                                                      _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/resources!predicate",
+                                                    server =
+                                                      _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
+                                                    specVersion =
+                                                      _js2n__-prdslib.enum
+                                                          [ "2.1", "2.2" ],
+                                                    type =
+                                                      _js2n__-prdslib.enum
+                                                          [ "library" ],
+                                                  } {} false
+                                                  _js2n__-prdslib.never)
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    builder =
+                                                      _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/builder!predicate",
+                                                    framework =
+                                                      _js2n__-refsenv."_js2n__-:then/then/definitions/framework!predicate",
+                                                    kind =
+                                                      _js2n__-prdslib.enum
+                                                          [ "project", null ],
+                                                    metadata =
+                                                      _js2n__-refsenv."_js2n__-:then/then/definitions/metadata!predicate",
+                                                    resources =
+                                                      _js2n__-refsenv."_js2n__-:then/then/else/else/then/definitions/resources!predicate",
+                                                    server =
+                                                      _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
+                                                    specVersion =
+                                                      _js2n__-prdslib.enum
+                                                          [ "2.0" ],
+                                                    type =
+                                                      _js2n__-prdslib.enum
+                                                          [ "library" ],
+                                                  } {} false
+                                                  _js2n__-prdslib.never)))))))),
                                 _js2n__-prdslib.records.required
                                   [ "metadata", "specVersion", "type" ],
                                 _js2n__-prdslib.records.record {} {} true
@@ -2706,7 +2963,7 @@ let rec _js2n__-refsenv
                                       {
                                         specVersion =
                                           _js2n__-prdslib.enum
-                                              [ "3.0", "3.1", "3.2" ],
+                                              [ "3.0", "3.1", "3.2", "4.0" ],
                                       } {} true _js2n__-prdslib.always)
                                     (_js2n__-prdslib.records.record
                                       {
@@ -2733,7 +2990,7 @@ let rec _js2n__-refsenv
                                           _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                         specVersion =
                                           _js2n__-prdslib.enum
-                                              [ "3.0", "3.1", "3.2" ],
+                                              [ "3.0", "3.1", "3.2", "4.0" ],
                                         type =
                                           _js2n__-prdslib.enum
                                               [ "theme-library" ],
@@ -2862,7 +3119,7 @@ let rec _js2n__-refsenv
                                         {
                                           specVersion =
                                             _js2n__-prdslib.enum
-                                                [ "3.1", "3.2" ],
+                                                [ "3.1", "3.2", "4.0" ],
                                         } {} true _js2n__-prdslib.always)
                                       (_js2n__-prdslib.records.record
                                         {
@@ -2888,7 +3145,7 @@ let rec _js2n__-refsenv
                                             _js2n__-refsenv."_js2n__-:then/then/definitions/server!predicate",
                                           specVersion =
                                             _js2n__-prdslib.enum
-                                                [ "3.1", "3.2" ],
+                                                [ "3.1", "3.2", "4.0" ],
                                           type =
                                             _js2n__-prdslib.enum [ "module" ],
                                         } {} false _js2n__-prdslib.never)
@@ -3033,6 +3290,7 @@ let rec _js2n__-refsenv
                           specVersion =
                             _js2n__-prdslib.enum
                                 [
+                                  "4.0",
                                   "3.2",
                                   "3.1",
                                   "3.0",
@@ -3077,7 +3335,7 @@ let rec _js2n__-refsenv
                                     {
                                       specVersion =
                                         _js2n__-prdslib.enum
-                                            [ "3.0", "3.1", "3.2" ],
+                                            [ "3.0", "3.1", "3.2", "4.0" ],
                                     } {} true _js2n__-prdslib.always)
                                   (_js2n__-prdslib.records.record
                                     {
@@ -3094,7 +3352,7 @@ let rec _js2n__-refsenv
                                         _js2n__-refsenv."_js2n__-:then/else/then/definitions/metadata-3.0!predicate",
                                       specVersion =
                                         _js2n__-prdslib.enum
-                                            [ "3.0", "3.1", "3.2" ],
+                                            [ "3.0", "3.1", "3.2", "4.0" ],
                                       task =
                                         _js2n__-refsenv."_js2n__-:then/else/then/else/then/definitions/task!predicate",
                                       type = _js2n__-prdslib.enum [ "task" ],
@@ -3178,7 +3436,7 @@ let rec _js2n__-refsenv
                                       {
                                         specVersion =
                                           _js2n__-prdslib.enum
-                                              [ "3.0", "3.1", "3.2" ],
+                                              [ "3.0", "3.1", "3.2", "4.0" ],
                                       } {} true _js2n__-prdslib.always)
                                     (_js2n__-prdslib.records.record
                                       {
@@ -3198,7 +3456,7 @@ let rec _js2n__-refsenv
                                           _js2n__-refsenv."_js2n__-:then/else/then/else/else/then/definitions/middleware!predicate",
                                         specVersion =
                                           _js2n__-prdslib.enum
-                                              [ "3.0", "3.1", "3.2" ],
+                                              [ "3.0", "3.1", "3.2", "4.0" ],
                                         type =
                                           _js2n__-prdslib.enum
                                               [ "server-middleware" ],
@@ -3288,7 +3546,7 @@ let rec _js2n__-refsenv
                                         {
                                           specVersion =
                                             _js2n__-prdslib.enum
-                                                [ "3.0", "3.1", "3.2" ],
+                                                [ "3.0", "3.1", "3.2", "4.0" ],
                                         } {} true _js2n__-prdslib.always)
                                       (_js2n__-prdslib.records.record
                                         {
@@ -3310,7 +3568,7 @@ let rec _js2n__-refsenv
                                             _js2n__-refsenv."_js2n__-:then/else/then/else/else/else/then/definitions/shims!predicate",
                                           specVersion =
                                             _js2n__-prdslib.enum
-                                                [ "3.0", "3.1", "3.2" ],
+                                                [ "3.0", "3.1", "3.2", "4.0" ],
                                           type =
                                             _js2n__-prdslib.enum
                                                 [ "project-shim" ],
@@ -3397,6 +3655,7 @@ let rec _js2n__-refsenv
                             specVersion =
                               _js2n__-prdslib.enum
                                   [
+                                    "4.0",
                                     "3.2",
                                     "3.1",
                                     "3.0",
@@ -3425,6 +3684,7 @@ let rec _js2n__-refsenv
                     specVersion =
                       _js2n__-prdslib.enum
                           [
+                            "4.0",
                             "3.2",
                             "3.1",
                             "3.0",
@@ -3450,6 +3710,7 @@ let rec _js2n__-refsenv
               specVersion =
                 _js2n__-prdslib.enum
                     [
+                      "4.0",
                       "3.2",
                       "3.1",
                       "3.0",

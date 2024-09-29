@@ -1402,6 +1402,7 @@ let rec _js2n__-refsenv
                   groupId = _js2n__-prdslib.isType '"String",
                   javadocJar = _js2n__-prdslib.isType '"Bool",
                   sourceJar = _js2n__-prdslib.isType '"Bool",
+                  verifyPom = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/ArtifactoryMavenDeployer!predicate" =

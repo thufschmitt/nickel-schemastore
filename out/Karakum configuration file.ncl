@@ -934,7 +934,11 @@ let rec _js2n__-refsenv
       compilerOptions
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never,
+              _js2n__-prdslib.always
+            ])
         | optional,
       conflictResolutionStrategy
         | _js2n__-prdslib.contract_from_predicate
@@ -1135,5 +1139,4 @@ let rec _js2n__-refsenv
             ])
         | optional,
       verbose | Bool | optional,
-      ..
     }

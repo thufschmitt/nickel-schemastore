@@ -936,14 +936,5 @@ let rec _js2n__-refsenv
                   kind = _js2n__-prdslib.const "system",
                 } {} true _js2n__-prdslib.always,
               _js2n__-prdslib.always
-            ],
-          _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.records.record
-                {
-                  apiVersion = _js2n__-prdslib.const "v3",
-                  kind = _js2n__-prdslib.const "ui",
-                } {} true _js2n__-prdslib.always,
-              _js2n__-prdslib.always
             ]
         ])

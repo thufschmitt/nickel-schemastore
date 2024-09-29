@@ -904,6 +904,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.strings.pattern
                 "^(\\d+h)?\\s*(\\d+m)?\\s*(\\d+s)?\\s*(\\d+ms)?\\s*(\\d+(us|µs))?\\s*(\\d+(ns))?$"
             ],
+      "_js2n__-:definitions/FakeDataMockResponse!predicate" =
+        _js2n__-prdslib.isType 'Record,
       "_js2n__-:definitions/FileMockResponse!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1028,7 +1030,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.oneOf
                         [
                           _js2n__-refsenv."_js2n__-:definitions/RawMockResponse!predicate",
-                          _js2n__-refsenv."_js2n__-:definitions/FileMockResponse!predicate"
+                          _js2n__-refsenv."_js2n__-:definitions/FileMockResponse!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/FakeDataMockResponse!predicate"
                         ],
                 } {} false _js2n__-prdslib.never
             ],

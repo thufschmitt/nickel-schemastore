@@ -912,7 +912,7 @@ let rec _js2n__-refsenv
               | doc "All backups older than configured hours will be deleted. But only if the number of files is greater than of backupNumber",
             path
               | String
-              | doc "Absolute path to backup directory or empty to backup in data directory",
+              | doc "Absolute path to back-up directory or empty to back-up in data directory",
             period
               | Number
               | doc "by default backup every 2 hours. Time is in minutes. To disable backup set the value to 0",
@@ -1060,9 +1060,9 @@ let rec _js2n__-refsenv
                   | doc "Write to the database file no more than every intervalMs milliseconds.",
                 maxBufferedCommands
                   | Number
-                  | doc "Force writing after this many changes have been buffered. This reduces memory consumption and data loss in case of a crash.",
+                  | doc "Force writing of buffered commands after so many changes. This reduces memory consumption and data loss in case of a crash.",
               }
-              | doc "By default, the database immediately writes to the database file. Write accesses can be reduced using the throttleFS option. Be aware that buffered changes will be lost in case the process crashes",
+              | doc "By default, the database immediately writes to the database file. Write access can be reduced using the throttleFS option. Be aware that buffered changes will be lost in case the process crashes",
           },
       "_js2n__-:definitions/ObjectsDatabaseOptions!contract" =
         {

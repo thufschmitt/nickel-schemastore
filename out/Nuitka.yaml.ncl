@@ -969,20 +969,21 @@ let rec _js2n__-refsenv
           }
           | optional,
         data-files
-          | {
-            dest_path | String | optional,
-            dirs | Array (String) | optional,
-            empty_dir_structures | Array (String) | optional,
-            empty_dirs | Array (String) | optional,
-            include-metadata | Array (String) | optional,
-            include-pyi-file
-              | std.enum.TagOrString
-              | [| 'no, 'yes |]
-              | optional,
-            patterns | Array (String) | optional,
-            raw_dirs | Array (String) | optional,
-            when | String | optional,
-          }
+          | Array
+            {
+              dest_path | String | optional,
+              dirs | Array (String) | optional,
+              empty_dir_structures | Array (String) | optional,
+              empty_dirs | Array (String) | optional,
+              include-metadata | Array (String) | optional,
+              include-pyi-file
+                | std.enum.TagOrString
+                | [| 'no, 'yes |]
+                | optional,
+              patterns | Array (String) | optional,
+              raw_dirs | Array (String) | optional,
+              when | String | optional,
+            }
           | optional,
         dlls
           | Array

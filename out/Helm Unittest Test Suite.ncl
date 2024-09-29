@@ -912,8 +912,8 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.arrays.arrayOf
                               (_js2n__-prdslib.isType '"String")
                           ],
-                    majorVersion = _js2n__-prdslib.isType '"String",
-                    minorVersion = _js2n__-prdslib.isType '"String",
+                    majorVersion = _js2n__-prdslib.isType 'Integer,
+                    minorVersion = _js2n__-prdslib.isType 'Integer,
                   } {} false _js2n__-prdslib.never
               ]),
       "_js2n__-:definitions/capabilities!predicate"
@@ -930,8 +930,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
-                  majorVersion = _js2n__-prdslib.isType '"String",
-                  minorVersion = _js2n__-prdslib.isType '"String",
+                  majorVersion = _js2n__-prdslib.isType 'Integer,
+                  minorVersion = _js2n__-prdslib.isType 'Integer,
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/chart!contract"
@@ -960,6 +960,38 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/documentIndex!predicate"
         | doc "The index of rendered documents (divided by ---) to be tested, default to -1, which results in asserting all documents (see Assertion). Generally you can ignored this field if the template file render only one document."
         = _js2n__-prdslib.isType 'Integer,
+      "_js2n__-:definitions/documentSelector!predicate"
+        | doc "The path of the key to be match and the match value to assert. Using this information, helm-unittest will automatically discover the documentIndex. Generally you can ignored this field if the template file render only one document."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "path", "value" ],
+              _js2n__-prdslib.records.record
+                {
+                  path = _js2n__-prdslib.isType '"String",
+                  value = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/kubernetesProvider!contract"
+        | doc "Define Kubernetes resources to fake."
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "objects", "scheme" ],
+                _js2n__-prdslib.records.record
+                  {
+                    objects =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType 'Record),
+                            _js2n__-prdslib.arrays.minItems 1
+                          ],
+                    scheme = _js2n__-prdslib.isType 'Record,
+                  } {} true _js2n__-prdslib.always
+              ]),
       "_js2n__-:definitions/release!contract"
         | doc "Define the {{ .Release }} object."
         = _js2n__-prdslib.contract_from_predicate
@@ -970,7 +1002,7 @@ let rec _js2n__-refsenv
                   {
                     name = _js2n__-prdslib.isType '"String",
                     namespace = _js2n__-prdslib.isType '"String",
-                    revision = _js2n__-prdslib.isType '"String",
+                    revision = _js2n__-prdslib.isType 'Integer,
                     upgrade = _js2n__-prdslib.isType '"Bool",
                   } {} false _js2n__-prdslib.never
               ]),
@@ -983,9 +1015,24 @@ let rec _js2n__-refsenv
                 {
                   name = _js2n__-prdslib.isType '"String",
                   namespace = _js2n__-prdslib.isType '"String",
-                  revision = _js2n__-prdslib.isType '"String",
+                  revision = _js2n__-prdslib.isType 'Integer,
                   upgrade = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/set!contract"
+        | doc "Set the values directly in the suite file. The key is the value path with the format just like --set option of helm install, for example image.pullPolicy. The value is anything you want to set to the path specified by the key, which can be even an array or an object."
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+              ]),
+      "_js2n__-:definitions/set!predicate"
+        | doc "Set the values directly in the suite file. The key is the value path with the format just like --set option of helm install, for example image.pullPolicy. The value is anything you want to set to the path specified by the key, which can be even an array or an object."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/templates!contract"
         | doc "The template files scope to test in this suite. The full chart will be rendered, however only the listed templates are filtered for validation. Template files that are put in a templates sub-folder can be addressed with a linux path separator. Also the templates/ can be omitted. Partial templates (which are prefixed with and _) are added automatically even if it is in a templates sub-folder, you don't need to add them again."
@@ -1000,6 +1047,13 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/values!contract"
         | doc "The test values to apply for rendering of this chart."
         = Array (String),
+      "_js2n__-:definitions/values!predicate"
+        | doc "The test values to apply for rendering of this chart."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ],
     }
     in
   {
@@ -1007,8 +1061,17 @@ let rec _js2n__-refsenv
         | _js2n__-refsenv."_js2n__-:definitions/capabilities!contract"
         | optional,
       chart | _js2n__-refsenv."_js2n__-:definitions/chart!contract" | optional,
+      kubernetesProvider
+        | _js2n__-refsenv."_js2n__-:definitions/kubernetesProvider!contract"
+        | optional,
       release
         | _js2n__-refsenv."_js2n__-:definitions/release!contract"
+        | optional,
+      set | _js2n__-refsenv."_js2n__-:definitions/set!contract" | optional,
+      snapshotId
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"String")
+        | doc "A suffix to your snapshot file for the tests.  Ideal for helm tests."
         | optional,
       suite
         | _js2n__-prdslib.contract_from_predicate
@@ -1338,6 +1401,9 @@ let rec _js2n__-refsenv
                                                             ],
                                                           _js2n__-prdslib.records.record
                                                             {
+                                                              any =
+                                                                _js2n__-prdslib.isType
+                                                                    '"Bool",
                                                               content =
                                                                 _js2n__-prdslib.always,
                                                               path =
@@ -1567,6 +1633,9 @@ let rec _js2n__-refsenv
                                                             'Record,
                                                           _js2n__-prdslib.records.record
                                                             {
+                                                              any =
+                                                                _js2n__-prdslib.isType
+                                                                    '"Bool",
                                                               apiVersion =
                                                                 _js2n__-prdslib.isType
                                                                     '"String",
@@ -1667,6 +1736,8 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.always,
                                           documentIndex =
                                             _js2n__-refsenv."_js2n__-:definitions/documentIndex!predicate",
+                                          documentSelector =
+                                            _js2n__-refsenv."_js2n__-:definitions/documentSelector!predicate",
                                           equal = _js2n__-prdslib.always,
                                           equalRaw = _js2n__-prdslib.always,
                                           exists = _js2n__-prdslib.always,
@@ -1713,26 +1784,18 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/chart!predicate",
                         documentIndex =
                           _js2n__-refsenv."_js2n__-:definitions/documentIndex!predicate",
+                        documentSelector =
+                          _js2n__-refsenv."_js2n__-:definitions/documentSelector!predicate",
                         it = _js2n__-prdslib.isType '"String",
                         release =
                           _js2n__-refsenv."_js2n__-:definitions/release!predicate",
                         set =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType 'Record,
-                                _js2n__-prdslib.records.record {} {} true
-                                  _js2n__-prdslib.always
-                              ],
+                          _js2n__-refsenv."_js2n__-:definitions/set!predicate",
                         template = _js2n__-prdslib.isType '"String",
                         templates =
                           _js2n__-refsenv."_js2n__-:definitions/templates!predicate",
                         values =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
+                          _js2n__-refsenv."_js2n__-:definitions/values!predicate",
                       } {} false _js2n__-prdslib.never
                   ]),
               _js2n__-prdslib.records.required [ "asserts" ],

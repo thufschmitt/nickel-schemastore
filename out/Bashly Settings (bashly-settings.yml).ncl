@@ -981,6 +981,22 @@ let rec _js2n__-refsenv
           https://bashly.dannyb.co/usage/settings/#partials_extension
         "%
         | optional,
+      private_reveal_key
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.strings.minLength 1
+                ],
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc m%"
+          The name of the environment variable (case sensitive) that, if set, will reveal private commands, flags and environment variables
+          https://bashly.dannyb.co/usage/settings/#private_reveal_key
+        "%
+        | optional,
       show_examples_on_error
         | Bool
         | doc m%"

@@ -895,4 +895,753 @@ let _js2n__-prdslib
         },
   }
   in
-let rec _js2n__-refsenv = {} in Dyn
+let rec _js2n__-refsenv
+    = {}
+    in
+  {
+      project
+        | {
+          description
+            | String
+            | doc "Description of the new project."
+            | optional,
+          name
+            | String
+            | doc "The name of the new project. Duplicates are allowed.",
+          tags
+            | Array (String)
+            | doc "One or more string tags. Tags do not have functional meaning, they only provide better orientation in projects."
+            | optional,
+        }
+        | doc "Only one project can be defined."
+        | optional,
+      services
+        | Array
+          {
+            buildFromGit
+              | String
+              | doc "A URL of a Github or Gitlab repository used for a one-time build of your service."
+              | optional,
+            enableSubdomainAccess
+              | Bool
+              | doc "Set true, if you want to enable a public access to your service via a Zerops subdomain. Not suitable for production."
+              | optional,
+            envSecrets
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record {} {} true
+                      (_js2n__-prdslib.isType '"String")
+                  ])
+              | doc "List of key-value pairs. Environment variables that are blurred by default in Zerops GUI. Can be edited or deleted in Zerops GUI."
+              | optional,
+            hostname
+              | String
+              | doc "The unique service identifier. Limitations: duplicates in the same project forbidden; maximum 25 characters, lowercase ASCII letters (a-z) or numbers (0-9) only.",
+            maxContainers
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.numbers.maximum 6
+                  ])
+              | doc "Maximum number of containers of the service."
+              | optional,
+            minContainers
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.numbers.maximum 6
+                  ])
+              | doc "Minimum number of containers of the service."
+              | optional,
+            mode
+              | std.enum.TagOrString
+              | [| 'NON_HA, 'HA |]
+              | doc "Defines the operation mode of the service."
+              | optional,
+            mount
+              | Array (String)
+              | doc "Mount shared storages to the service, buildFromGit must be filled."
+              | optional,
+            nginxConfig | String | doc "Insert full nginx config." | optional,
+            objectStoragePolicy
+              | std.enum.TagOrString
+              | [|
+                'public-read-write,
+                'public-write,
+                'public-objects-read,
+                'public-read,
+                'private,
+                'custom
+              |]
+              | doc "Select a predefined AWS S3 bucket access policy."
+              | optional,
+            objectStorageRawPolicy
+              | String
+              | doc "Define your own AWS S3 bucket access policy. See AWS docs for details. Use {{ .BucketName }} placeholder if you need to use bucket name in your custom policy rules."
+              | optional,
+            objectStorageSize
+              | Number
+              | doc "Object storage size in GB."
+              | optional,
+            "priority"
+              | std.number.Integer
+              | doc "Services are sorted before creation by priority in descending order, i.e. the higher the priority the sooner the service is created."
+              | optional,
+            type
+              | std.enum.TagOrString
+              | [|
+                '"rabbitmq@3",
+                '"php-apache@8.0+2.4",
+                '"dotnet@6",
+                '"mariadb@10.6",
+                '"bun@latest",
+                '"3.18",
+                '"php-apache@8.3",
+                '"3.20",
+                '"php-nginx@8.1+1.22",
+                '"keydb@6",
+                '"java@17",
+                'java,
+                '"bun@1.1.15",
+                '"rust@1",
+                '"php-nginx@8.1",
+                '"nodejs@18",
+                '"static@1.0",
+                '"qdrant@1.10",
+                '"php-nginx@8.3",
+                '"java@latest",
+                '"go@1.22",
+                '"php-nginx@8.3+1.22",
+                '"nats@2.10",
+                '"dotnet@8",
+                '"python@3.11",
+                'objectstorage,
+                '"3.19",
+                '"ubuntu@22.04",
+                'sharedstorage,
+                'shared-storage,
+                '"nodejs@20",
+                '"dotnet@7",
+                '"deno@1",
+                '"22.04",
+                '"php-apache@8.3+2.4",
+                '"nodejs@22",
+                '"postgresql@16",
+                '"nginx@latest",
+                '"python@3.12",
+                '"kafka@3.8",
+                '"postgresql@14",
+                'object-storage,
+                '"deno@1.45.5",
+                '"alpine@3.17",
+                '"php-apache@8.1",
+                '"golang@1",
+                '"alpine@3.19",
+                '"3.17",
+                '"static@latest",
+                'runtime,
+                '"postgresql@12",
+                '"java@21",
+                '"bun@1.1",
+                '"alpine@3.20",
+                '"alpine@3.18",
+                '"valkey@7.2",
+                '"nginx@1.22",
+                '"python@3.9",
+                '"php-apache@8.1+2.4",
+                '"go@1",
+                '"deno@latest",
+                'static
+              |]
+              | doc "Specifies the service type and version.",
+            verticalAutoscaling
+              | {
+                cpuMode | String | optional,
+                maxCpu | std.number.Integer | optional,
+                maxDisk
+                  | Number
+                  | doc "Maximum disk space in GB that each container of the service can scale up to."
+                  | optional,
+                maxRam
+                  | Number
+                  | doc "Maximum RAM in GB that each container of the service can scale up to."
+                  | optional,
+                maxVCpu | std.number.Integer | optional,
+                minCpu | std.number.Integer | optional,
+                minDisk
+                  | Number
+                  | doc "Minimum disk space in GB that each container of the service can scale down to."
+                  | optional,
+                minFreeCpuCores
+                  | Number
+                  | doc "Minimum number of unused CPU cores before a container starts scaling."
+                  | optional,
+                minFreeCpuPercent
+                  | Number
+                  | doc "Minimum percentage of unused CPU cores before a container starts scaling."
+                  | optional,
+                minFreeRamGB
+                  | Number
+                  | doc "Minimum unused memory in GB before a container starts scaling."
+                  | optional,
+                minFreeRamPercent
+                  | Number
+                  | doc "Minimum percentage of unused memory before a container starts scaling."
+                  | optional,
+                minRam
+                  | Number
+                  | doc "Minimum RAM in GB that each container of the service can scale down to."
+                  | optional,
+                minVCpu | std.number.Integer | optional,
+                startCpuCoreCount
+                  | std.number.Integer
+                  | doc "Number of CPU cores with which each container starts."
+                  | optional,
+              }
+              | doc "Vertical autoscaling settings."
+              | optional,
+            zeropsSetup
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            build =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required
+                                      [ "deployFiles" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        addToRunPrepare =
+                                          _js2n__-prdslib.oneOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.isType
+                                                        '"String")
+                                                  ]
+                                              ],
+                                        base =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.enum
+                                                  [
+                                                    "dotnet@8",
+                                                    "go@latest",
+                                                    "nodejs@20",
+                                                    "php@latest",
+                                                    "rust@1",
+                                                    "ubuntu@22.04",
+                                                    "3.18",
+                                                    "deno@latest",
+                                                    "rust@nightly",
+                                                    "22.04",
+                                                    "dotnet@7",
+                                                    "java@17",
+                                                    "go@1.22",
+                                                    "java@latest",
+                                                    "nodejs@18",
+                                                    "php@8.3",
+                                                    "bun@1.1.15",
+                                                    "deno@1.45.5",
+                                                    "deno@1",
+                                                    "dotnet@latest",
+                                                    "nodejs@latest",
+                                                    "bun@1.1",
+                                                    "go@1",
+                                                    "nodejs@22",
+                                                    "python@latest",
+                                                    "ubuntu@latest",
+                                                    "3.19",
+                                                    "alpine@latest",
+                                                    "php@8.1",
+                                                    "python@3.11",
+                                                    "python@3.12",
+                                                    "bun@latest",
+                                                    "dotnet@6",
+                                                    "golang@latest",
+                                                    "rust@1.80",
+                                                    "rust@latest",
+                                                    "3.17",
+                                                    "golang@1",
+                                                    "rust@1.78",
+                                                    "java@21"
+                                                  ],
+                                                _js2n__-prdslib.oneOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"Array",
+                                                        _js2n__-prdslib.arrays.arrayOf
+                                                          (_js2n__-prdslib.isType
+                                                            '"String")
+                                                      ]
+                                                  ]
+                                              ],
+                                        buildCommands =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String")
+                                              ],
+                                        cache =
+                                          _js2n__-prdslib.oneOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.isType
+                                                        '"String")
+                                                  ]
+                                              ],
+                                        deploy =
+                                          _js2n__-prdslib.oneOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.isType
+                                                        '"String")
+                                                  ]
+                                              ],
+                                        deployFiles =
+                                          _js2n__-prdslib.oneOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.isType
+                                                        '"String")
+                                                  ]
+                                              ],
+                                        envVariables =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.record
+                                                  {} {} true
+                                                  (_js2n__-prdslib.oneOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.isType
+                                                        '"Number",
+                                                      _js2n__-prdslib.isType
+                                                        '"Bool"
+                                                    ])
+                                              ],
+                                        os =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.enum
+                                                  [ "ubuntu", "alpine", "" ]
+                                              ],
+                                        prepareCommands =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String")
+                                              ],
+                                      } {} false _js2n__-prdslib.never
+                                  ],
+                            deploy =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        readinessCheck =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    exec =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Record,
+                                                            _js2n__-prdslib.records.required
+                                                              [ "command" ],
+                                                            _js2n__-prdslib.records.record
+                                                              {
+                                                                command =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                              } {} false
+                                                              _js2n__-prdslib.never
+                                                          ],
+                                                    httpGet =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Record,
+                                                            _js2n__-prdslib.records.required
+                                                              [
+                                                                "path",
+                                                                "port"
+                                                              ],
+                                                            _js2n__-prdslib.records.record
+                                                              {
+                                                                host =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                path =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                port =
+                                                                  _js2n__-prdslib.isType
+                                                                      'Integer,
+                                                                scheme =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                              } {} false
+                                                              _js2n__-prdslib.never
+                                                          ],
+                                                  } {} false
+                                                  _js2n__-prdslib.never
+                                              ],
+                                        temporaryShutdown =
+                                          _js2n__-prdslib.isType '"Bool",
+                                      } {} false _js2n__-prdslib.never
+                                  ],
+                            extends =
+                              _js2n__-prdslib.oneOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          (_js2n__-prdslib.isType '"String")
+                                      ]
+                                  ],
+                            run =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        base =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.enum
+                                                  [
+                                                    "alpine@3.17",
+                                                    "go@1.22",
+                                                    "nodejs@22",
+                                                    "php-nginx@latest",
+                                                    "runtime@latest",
+                                                    "3.18",
+                                                    "dotnet@7",
+                                                    "rust@1.80",
+                                                    "static",
+                                                    "static@latest",
+                                                    "deno@latest",
+                                                    "go@1",
+                                                    "nginx@1.22",
+                                                    "go@latest",
+                                                    "3.17",
+                                                    "3.20",
+                                                    "python@latest",
+                                                    "rust@latest",
+                                                    "alpine@3.18",
+                                                    "bun@1.1",
+                                                    "dotnet@8",
+                                                    "python@3.11",
+                                                    "java@17",
+                                                    "php-nginx@8.3",
+                                                    "22.04",
+                                                    "ubuntu@22.04",
+                                                    "alpine@3.19",
+                                                    "rust@nightly",
+                                                    "ubuntu@latest",
+                                                    "alpine@latest",
+                                                    "bun@latest",
+                                                    "nginx@latest",
+                                                    "rust@1",
+                                                    "deno@1",
+                                                    "alpine@3.20",
+                                                    "python@3.12",
+                                                    "java@21",
+                                                    "nodejs@18",
+                                                    "php-apache@latest",
+                                                    "php-apache@8.3",
+                                                    "deno@1.45.5",
+                                                    "nodejs@20",
+                                                    "nodejs@latest",
+                                                    "dotnet@latest",
+                                                    "static@1.0",
+                                                    "3.19",
+                                                    "golang@latest",
+                                                    "java@latest",
+                                                    "php-apache@8.1",
+                                                    "php-nginx@8.1",
+                                                    "rust@1.78",
+                                                    "bun@1.1.15",
+                                                    "dotnet@6",
+                                                    "golang@1"
+                                                  ]
+                                              ],
+                                        documentRoot =
+                                          _js2n__-prdslib.isType '"String",
+                                        envReplace =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.required
+                                                  [ "delimiter", "target" ],
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    delimiter =
+                                                      _js2n__-prdslib.oneOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  '"Array",
+                                                                _js2n__-prdslib.arrays.arrayOf
+                                                                  (_js2n__-prdslib.isType
+                                                                    '"String")
+                                                              ]
+                                                          ],
+                                                    target =
+                                                      _js2n__-prdslib.oneOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  '"Array",
+                                                                _js2n__-prdslib.arrays.arrayOf
+                                                                  (_js2n__-prdslib.isType
+                                                                    '"String")
+                                                              ]
+                                                          ],
+                                                  } {} false
+                                                  _js2n__-prdslib.never
+                                              ],
+                                        envVariables =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.record
+                                                  {} {} true
+                                                  (_js2n__-prdslib.oneOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.isType
+                                                        '"Number",
+                                                      _js2n__-prdslib.isType
+                                                        '"Bool"
+                                                    ])
+                                              ],
+                                        healthCheck =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    exec =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Record,
+                                                            _js2n__-prdslib.records.required
+                                                              [ "command" ],
+                                                            _js2n__-prdslib.records.record
+                                                              {
+                                                                command =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                              } {} false
+                                                              _js2n__-prdslib.never
+                                                          ],
+                                                    httpGet =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Record,
+                                                            _js2n__-prdslib.records.required
+                                                              [
+                                                                "path",
+                                                                "port"
+                                                              ],
+                                                            _js2n__-prdslib.records.record
+                                                              {
+                                                                host =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                path =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                port =
+                                                                  _js2n__-prdslib.isType
+                                                                      'Integer,
+                                                                scheme =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                              } {} false
+                                                              _js2n__-prdslib.never
+                                                          ],
+                                                  } {} false
+                                                  _js2n__-prdslib.never
+                                              ],
+                                        initCommands =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String")
+                                              ],
+                                        os =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.enum
+                                                  [ "ubuntu", "alpine", "" ]
+                                              ],
+                                        ports =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Record,
+                                                      _js2n__-prdslib.records.required
+                                                        [ "port" ],
+                                                      _js2n__-prdslib.records.record
+                                                        {
+                                                          description =
+                                                            _js2n__-prdslib.isType
+                                                                '"String",
+                                                          httpSupport =
+                                                            _js2n__-prdslib.isType
+                                                                '"Bool",
+                                                          port =
+                                                            _js2n__-prdslib.isType
+                                                                'Integer,
+                                                          protocol =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.enum
+                                                                    [
+                                                                      "tcp",
+                                                                      "udp"
+                                                                    ]
+                                                                ],
+                                                        } {} false
+                                                        _js2n__-prdslib.never
+                                                    ])
+                                              ],
+                                        prepareCommands =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String")
+                                              ],
+                                        routing =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    redirects =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"Array",
+                                                            _js2n__-prdslib.arrays.arrayOf
+                                                              (_js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    'Record,
+                                                                  _js2n__-prdslib.records.required
+                                                                    [
+                                                                      "from",
+                                                                      "to"
+                                                                    ],
+                                                                  _js2n__-prdslib.records.record
+                                                                    {
+                                                                      from =
+                                                                        _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                      status =
+                                                                        _js2n__-prdslib.isType
+                                                                            'Integer,
+                                                                      to =
+                                                                        _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                    } {} false
+                                                                    _js2n__-prdslib.never
+                                                                ])
+                                                          ],
+                                                    root =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                  } {} false
+                                                  _js2n__-prdslib.never
+                                              ],
+                                        siteConfigPath =
+                                          _js2n__-prdslib.isType '"String",
+                                        start =
+                                          _js2n__-prdslib.isType '"String",
+                                      } {} false _js2n__-prdslib.never
+                                  ],
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.isType '"String"
+                  ])
+              | optional,
+          }
+        | optional,
+    }

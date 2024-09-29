@@ -2671,6 +2671,29 @@ let rec _js2n__-refsenv
       jobTimeout
         | _js2n__-refsenv."_js2n__-:definitions/duration!contract"
         | optional,
+      license
+        | {
+          expiresOn
+            | String
+            | doc "The expiration date of the license in the format yyyy-MM-dd."
+            | optional,
+          key | String | doc "The license key" | optional,
+          organization
+            | String
+            | doc "The name of the organization the license is for."
+            | optional,
+          product
+            | String
+            | doc "The name of the product the license is for."
+            | optional,
+          resources
+            | std.number.Integer
+            | doc "The maximum number of resources the license covers."
+            | optional,
+          ..
+        }
+        | doc "MetricsHub License"
+        | optional,
       loggerLevel
         | std.enum.TagOrString
         | [| 'fatal, 'error, 'warn, 'info, 'debug, 'trace, 'all |]

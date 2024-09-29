@@ -909,6 +909,9 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.propertyNames
+                        (_js2n__-prdslib.strings.pattern
+                          "^[a-zA-Z0-9][a-zA-Z0-9_]{0,63}$"),
                       _js2n__-prdslib.records.record {} {} true
                         _js2n__-prdslib.always
                     ],

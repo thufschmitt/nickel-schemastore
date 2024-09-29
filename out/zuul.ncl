@@ -1074,6 +1074,17 @@ let rec _js2n__-refsenv
                                   ])
                             ]
                         ],
+                  semaphores =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-refsenv."_js2n__-:definitions/JobSemaphoreModel!predicate",
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/JobSemaphoreModel!predicate",
+                              _js2n__-prdslib.isType '"Array"
+                            ]
+                        ],
                   success-url = _js2n__-prdslib.isType '"String",
                   tags =
                     _js2n__-prdslib.anyOf
@@ -1107,6 +1118,17 @@ let rec _js2n__-refsenv
                   name = _js2n__-prdslib.isType '"String",
                   pass-to-parent = _js2n__-prdslib.isType '"Bool",
                   secret = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/JobSemaphoreModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  name = _js2n__-prdslib.isType '"String",
+                  resources-first = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/PipelineModel!predicate" =

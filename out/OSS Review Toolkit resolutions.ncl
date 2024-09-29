@@ -917,6 +917,7 @@ let rec _js2n__-refsenv
               "INEFFECTIVE_VULNERABILITY",
               "INVALID_MATCH_VULNERABILITY",
               "MITIGATED_VULNERABILITY",
+              "NOT_A_VULNERABILITY",
               "WILL_NOT_FIX_VULNERABILITY",
               "WORKAROUND_FOR_VULNERABILITY"
             ],

@@ -1346,6 +1346,12 @@ let rec _js2n__-refsenv
                         } {} true _js2n__-prdslib.always
                     ],
               taskPoolConcurrency = _js2n__-prdslib.isType '"Number",
+              taskPoolMode =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.enum [ "async", "workers" ]
+                    ],
               telemetryInterval = _js2n__-prdslib.isType '"Number",
               telemetryUserId = _js2n__-prdslib.isType '"String",
               tsEnableAutoTypes = _js2n__-prdslib.isType '"Bool",
@@ -1372,12 +1378,6 @@ let rec _js2n__-refsenv
                     [
                       _js2n__-prdslib.isType '"String",
                       _js2n__-prdslib.enum [ "junctions", "symlinks" ]
-                    ],
-              workerPoolMode =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.enum [ "async", "workers" ]
                     ],
               yarnPath = _js2n__-prdslib.isType '"String",
             } {} true _js2n__-prdslib.always

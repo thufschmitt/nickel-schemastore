@@ -1073,7 +1073,22 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "chart", "name" ],
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "chart" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inherit" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.required [ "name" ],
               _js2n__-prdslib.records.record
                 {
                   atomic = _js2n__-prdslib.isType '"Bool",
@@ -1100,6 +1115,28 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/hook!predicate"
+                        ],
+                  inherit =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required [ "template" ],
+                                _js2n__-prdslib.records.record
+                                  {
+                                    except =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"Array",
+                                            _js2n__-prdslib.arrays.arrayOf
+                                              (_js2n__-prdslib.isType '"String")
+                                          ],
+                                    template = _js2n__-prdslib.isType '"String",
+                                  } {} true _js2n__-prdslib.always
+                              ])
                         ],
                   insecureSkipTLSVerify = _js2n__-prdslib.isType '"Bool",
                   installed =

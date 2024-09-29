@@ -1229,7 +1229,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "osCommand"
+                                      _js2n__-prdslib.const "commandLine"
                                     ],
                             } {} true _js2n__-prdslib.always,
                           _js2n__-prdslib.records.record
@@ -1493,7 +1493,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.allOf
                                   [
                                     _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.const "osCommand"
+                                    _js2n__-prdslib.const "commandLine"
                                   ],
                           } {} true _js2n__-prdslib.always,
                         _js2n__-prdslib.records.record
@@ -1770,7 +1770,7 @@ let rec _js2n__-refsenv
                                 forceSerialization =
                                   _js2n__-prdslib.isType '"Bool",
                                 timeout = _js2n__-prdslib.isType 'Integer,
-                                type = _js2n__-prdslib.const "osCommand",
+                                type = _js2n__-prdslib.const "commandLine",
                               } {} true _js2n__-prdslib.always,
                             _js2n__-prdslib.records.record
                               {

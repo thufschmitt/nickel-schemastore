@@ -986,7 +986,8 @@ let rec _js2n__-refsenv
             [
               _js2n__-refsenv."_js2n__-:definitions/for_list!predicate",
               _js2n__-refsenv."_js2n__-:definitions/for_attribute!predicate",
-              _js2n__-refsenv."_js2n__-:definitions/for_var!predicate"
+              _js2n__-refsenv."_js2n__-:definitions/for_var!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/for_matrix!predicate"
             ],
       "_js2n__-:definitions/for_attribute!predicate"
         | doc "The task attribute to iterate over"
@@ -1058,6 +1059,14 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ],
+      "_js2n__-:definitions/for_matrix!predicate"
+        | doc "A matrix of values to iterate over"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "matrix" ],
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/for_var!predicate"
         | doc "Which variables to iterate over. The variable will be split using any whitespace character by default. This can be changed by using the `split` attribute."
@@ -1406,6 +1415,8 @@ let rec _js2n__-refsenv
                                                 ],
                                           dir =
                                             _js2n__-prdslib.isType '"String",
+                                          flatten =
+                                            _js2n__-prdslib.isType '"Bool",
                                           internal =
                                             _js2n__-prdslib.isType '"Bool",
                                           "optional" =

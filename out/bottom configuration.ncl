@@ -897,274 +897,863 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/filter!contract"
-        | doc "hide specific temperature sensors, network interfaces, and disks using filters"
-        = {
-            case_sensitive | Bool | optional,
-            is_list_ignored | Bool | optional,
-            list | Array Dyn | optional,
-            regex | Bool | optional,
-            whole_word | Bool | optional,
-            ..
-          },
-      "_js2n__-:definitions/row!contract" =
-        Array (
-            _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
+      "_js2n__-:definitions/BatteryStyle!predicate"
+        | doc "Styling specific to the battery widget."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  high_battery_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  low_battery_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  medium_battery_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/ColorStr!predicate" =
+        _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/CpuConfig!predicate"
+        | doc "CPU column settings."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "default" =
+                    _js2n__-refsenv."_js2n__-:definitions/CpuDefault!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/CpuDefault!predicate"
+        | doc "The default selection of the CPU widget. If the given selection is invalid, we will fall back to all."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "all", "average" ]
+            ],
+      "_js2n__-:definitions/CpuStyle!predicate"
+        | doc "Styling specific to the CPU widget."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  all_entry_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  avg_entry_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  cpu_core_colors =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/DiskConfig!predicate"
+        | doc "Disk configuration."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  mount_filter =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/IgnoreList!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  name_filter =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/IgnoreList!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/FinalWidget!predicate"
+        | doc "Represents a widget."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  "default" =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  ratio =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
+                  type = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/FlagConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  autohide_time =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  basic =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  battery =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  case_sensitive =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  cpu_left_legend =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  current_usage =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  default_time_value =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/StringOrNum!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  default_widget_count =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
+                  default_widget_type =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  disable_advanced_kill =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  disable_click =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  dot_marker =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  enable_cache_memory =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  enable_gpu =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  expanded =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  group_processes =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  hide_avg_cpu =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  hide_table_gap =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  hide_time =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  memory_legend =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  network_legend =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  network_use_binary_prefix =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  network_use_bytes =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  network_use_log =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  no_write =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  process_command =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  process_memory_as_value =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  rate =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/StringOrNum!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  regex =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  retention =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/StringOrNum!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  show_table_scroll_position =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  temperature_type =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  time_delta =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/StringOrNum!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  tree =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  unnormalized_cpu =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  use_old_network_legend =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  whole_word =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/GraphStyle!predicate"
+        | doc "General styling for graph widgets."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  graph_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  legend_text =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TextStyleConfig!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/IgnoreList!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "list" ],
+              _js2n__-prdslib.records.record
+                {
+                  case_sensitive = _js2n__-prdslib.isType '"Bool",
+                  is_list_ignored = _js2n__-prdslib.isType '"Bool",
+                  list =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  regex = _js2n__-prdslib.isType '"Bool",
+                  whole_word = _js2n__-prdslib.isType '"Bool",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/MemoryStyle!predicate"
+        | doc "Styling specific to the memory widget."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  arc_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  cache_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  gpu_colors =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate"
+                        ],
+                  ram_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  swap_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/NetworkConfig!predicate"
+        | doc "Network configuration."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  interface_filter =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/IgnoreList!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/NetworkStyle!predicate"
+        | doc "Styling specific to the network widget."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  rx_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  rx_total_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  tx_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  tx_total_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/ProcColumn!predicate"
+        | doc "A column in the process widget."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "PID",
+                  "Count",
+                  "Name",
+                  "Command",
+                  "CPU%",
+                  "Mem",
+                  "Mem%",
+                  "R/s",
+                  "Read",
+                  "Rps",
+                  "W/s",
+                  "Write",
+                  "Wps",
+                  "T.Read",
+                  "TWrite",
+                  "T.Write",
+                  "TRead",
+                  "State",
+                  "User",
+                  "Time",
+                  "GMem",
+                  "GMem%",
+                  "GPU%"
+                ]
+            ],
+      "_js2n__-:definitions/ProcessesConfig!predicate"
+        | doc "Process configuration."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  columns =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ProcColumn!predicate"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/RowChildren!predicate"
+        | doc m%"
+          Represents a child of a Row - either a Col (column) or a FinalWidget.
+          
+          A Col can also have an optional length and children.  We only allow columns to have FinalWidgets as children, lest we get some amount of mutual recursion between Row and Col.
+        "%
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/FinalWidget!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "child" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      child =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                _js2n__-refsenv."_js2n__-:definitions/FinalWidget!predicate"
+                            ],
+                      ratio =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.numbers.minimum 0
+                            ],
+                    } {} true _js2n__-prdslib.always
+                ]
+            ],
+      "_js2n__-:definitions/StringOrNum!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Integer,
+                  _js2n__-prdslib.numbers.minimum 0
+                ]
+            ],
+      "_js2n__-:definitions/StyleConfig!predicate"
+        | doc "Style-related configs."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  battery =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/BatteryStyle!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  cpu =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/CpuStyle!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  graphs =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/GraphStyle!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  memory =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/MemoryStyle!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  network =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/NetworkStyle!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  tables =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TableStyle!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  theme =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  widgets =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/WidgetStyle!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/TableStyle!predicate"
+        | doc "General styling for table widgets."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  headers =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TextStyleConfig!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/TempConfig!predicate"
+        | doc "Temperature configuration."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  sensor_filter =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/IgnoreList!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/TextStyleConfig!predicate"
+        | doc "A style for text."
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+              _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
                   _js2n__-prdslib.records.record
                     {
-                      "default" = _js2n__-prdslib.isType '"Bool",
-                      ratio = _js2n__-prdslib.isType 'Integer,
-                      type =
-                        _js2n__-prdslib.allOf
+                      bg_color =
+                        _js2n__-prdslib.anyOf
                             [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.enum
-                                [
-                                  "cpu",
-                                  "mem",
-                                  "proc",
-                                  "net",
-                                  "temp",
-                                  "disk",
-                                  "empty"
-                                ]
+                              _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                              _js2n__-prdslib.isType 'Null
                             ],
-                    }
-                    {
-                      "row(.child)+" =
-                        _js2n__-refsenv."_js2n__-:definitions/row!predicate",
-                    } true _js2n__-prdslib.always
-                ])
-          ),
-      "_js2n__-:definitions/row!predicate" =
-        _js2n__-prdslib.allOf
+                      bold =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Bool",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                      color =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                      italics =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Bool",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                    } {} true _js2n__-prdslib.always
+                ]
+            ],
+      "_js2n__-:definitions/WidgetStyle!predicate"
+        | doc "General styling for generic widgets."
+        = _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record
-                      {
-                        "default" = _js2n__-prdslib.isType '"Bool",
-                        ratio = _js2n__-prdslib.isType 'Integer,
-                        type =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.enum
-                                  [
-                                    "cpu",
-                                    "mem",
-                                    "proc",
-                                    "net",
-                                    "temp",
-                                    "disk",
-                                    "empty"
-                                  ]
-                              ],
-                      }
-                      {
-                        "row(.child)+" =
-                          _js2n__-refsenv."_js2n__-:definitions/row!predicate",
-                      } true _js2n__-prdslib.always
-                  ])
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  border_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  disabled_text =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TextStyleConfig!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  selected_border_color =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ColorStr!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  selected_text =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TextStyleConfig!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  text =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TextStyleConfig!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  widget_title =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TextStyleConfig!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/row!predicate"
+        | doc "Represents a row. This has a length of some sort (optional) and a vector of children."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  child =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/RowChildren!predicate"
+                        ],
+                  ratio =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
+                } {} true _js2n__-prdslib.always
             ],
     }
     in
   {
-      colors
+      cpu
         | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.records.record
-            {
-              arc_color = _js2n__-prdslib.isType '"String",
-              avg_cpu_color = _js2n__-prdslib.isType '"String",
-              border_color = _js2n__-prdslib.isType '"String",
-              cpu_core_colors =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.arrays.minItems 1,
-                            _js2n__-prdslib.arrays.uniqueItems
-                          ])
-                    ],
-              gpu_core_colors =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.arrays.minItems 1,
-                            _js2n__-prdslib.arrays.uniqueItems
-                          ])
-                    ],
-              graph_color = _js2n__-prdslib.isType '"String",
-              high_battery_color = _js2n__-prdslib.isType '"String",
-              highlighted_border_color = _js2n__-prdslib.isType '"String",
-              low_battery_color = _js2n__-prdslib.isType '"String",
-              medium_battery_color = _js2n__-prdslib.isType '"String",
-              ram_color = _js2n__-prdslib.isType '"String",
-              rx_color = _js2n__-prdslib.isType '"String",
-              selected_bg_color = _js2n__-prdslib.isType '"String",
-              selected_text_color = _js2n__-prdslib.isType '"String",
-              swap_color = _js2n__-prdslib.isType '"String",
-              table_header_color = _js2n__-prdslib.isType '"String",
-              text_color = _js2n__-prdslib.isType '"String",
-              tx_color = _js2n__-prdslib.isType '"String",
-              widget_title_color = _js2n__-prdslib.isType '"String",
-            } {} true _js2n__-prdslib.always)
-        | doc "These are all the components that support custom theming.  Note that colour support will depend on terminal support"
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/CpuConfig!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
         | optional,
-      disk_filter
-        | _js2n__-refsenv."_js2n__-:definitions/filter!contract"
+      disk
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/DiskConfig!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
         | optional,
       flags
-        | {
-          basic | Bool | doc "Use basic mode" | optional,
-          battery | Bool | doc "Show the battery widgets" | optional,
-          case_sensitive
-            | Bool
-            | doc "Whether to make process searching case sensitive by default"
-            | optional,
-          color
-            | std.enum.TagOrString
-            | [|
-              'nord-light,
-              'nord,
-              'gruvbox-light,
-              'gruvbox,
-              'default-light,
-              '"default"
-            |]
-            | doc "Built-in themes"
-            | optional,
-          current_usage
-            | Bool
-            | doc "Whether to set CPU% on a process to be based on the total CPU or just current usage"
-            | optional,
-          default_time_value
-            | std.number.Integer
-            | doc "The default time interval in milliseconds"
-            | optional,
-          default_widget_count
-            | std.number.Integer
-            | doc "Override layout default widget"
-            | optional,
-          default_widget_type
-            | String
-            | doc "Override layout default widget"
-            | optional,
-          disable_advanced_kill
-            | Bool
-            | doc "Hides advanced options to stop a process on Unix-like systems"
-            | optional,
-          disable_click | Bool | doc "Disable mouse clicks" | optional,
-          dot_marker
-            | Bool
-            | doc "Whether to use dot markers rather than braille"
-            | optional,
-          enable_gpu_memory | Bool | doc "Shows GPU(s) memory" | optional,
-          expanded_on_startup
-            | Bool
-            | doc "Expand selected widget upon starting the app"
-            | optional,
-          group_processes
-            | Bool
-            | doc "Whether to group processes with the same name together by default"
-            | optional,
-          hide_avg_cpu
-            | Bool
-            | doc "Whether to hide the average cpu entry"
-            | optional,
-          hide_table_gap | Bool | doc "Remove space in tables" | optional,
-          hide_time | Bool | doc "Hides the time scale" | optional,
-          left_legend
-            | Bool
-            | doc "Whether to put the CPU legend to the left"
-            | optional,
-          network_use_binary_prefix
-            | Bool
-            | doc "Displays the network widget with binary prefixes"
-            | optional,
-          network_use_bytes
-            | Bool
-            | doc "Displays the network widget using bytes"
-            | optional,
-          network_use_log
-            | Bool
-            | doc "Displays the network widget with a log scale"
-            | optional,
-          process_command
-            | Bool
-            | doc "Show processes as their commands by default in the process widget"
-            | optional,
-          process_memory_as_value
-            | Bool
-            | doc "Show memory values in the processes widget as values by default"
-            | optional,
-          rate
-            | std.number.Integer
-            | doc "The update rate of the application"
-            | optional,
-          regex
-            | Bool
-            | doc "Whether to make process searching use regex by default"
-            | optional,
-          retention
-            | String
-            | doc "How much data is stored at once in terms of time"
-            | optional,
-          show_table_scroll_position
-            | Bool
-            | doc "Shows an indicator in table widgets tracking where in the list you are"
-            | optional,
-          temperature_type
-            | std.enum.TagOrString
-            | [| 'celsius, 'fahrenheit, 'kelvin, 'c, 'f, 'k |]
-            | doc "Defaults to Celsius"
-            | optional,
-          time_delta
-            | std.number.Integer
-            | doc "The time delta on each zoom in/out action in milliseconds"
-            | optional,
-          tree
-            | Bool
-            | doc "Show tree mode by default in the processes widget"
-            | optional,
-          unnormalized_cpu
-            | Bool
-            | doc "Whether to set CPU% on a process to be based on the total CPU or per-core CPU% (not divided by the number of cpus)"
-            | optional,
-          use_old_network_legend
-            | Bool
-            | doc "Use the old network legend style"
-            | optional,
-          whole_word
-            | Bool
-            | doc "Whether to make process searching look for matching the entire word by default"
-            | optional,
-          ..
-        }
-        | doc "This group of options represents a command-line flag/option.  Flags explicitly added when running (ie: btm -a) will override this config file if an option is also set here"
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/FlagConfig!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
         | optional,
-      mount_filter
-        | _js2n__-refsenv."_js2n__-:definitions/filter!contract"
+      network
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/NetworkConfig!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
         | optional,
-      net_filter
-        | _js2n__-refsenv."_js2n__-:definitions/filter!contract"
+      processes
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/ProcessesConfig!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
         | optional,
-      row | _js2n__-refsenv."_js2n__-:definitions/row!contract" | optional,
-      temp_filter
-        | _js2n__-refsenv."_js2n__-:definitions/filter!contract"
+      row
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/row!predicate"
+            ])
+        | optional,
+      styles
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/StyleConfig!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | optional,
+      temperature
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/TempConfig!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
         | optional,
       ..
     }

@@ -1301,7 +1301,7 @@ let rec _js2n__-refsenv
         "%
         | optional,
       statusline
-        | String
+        | Bool
         | doc m%"
           Whether to display a status line
           https://github.com/zyedidia/micro/blob/master/runtime/help/options.md#options

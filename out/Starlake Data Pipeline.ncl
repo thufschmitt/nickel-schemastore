@@ -897,7 +897,7 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/AccessControlEntry!predicate"
+      "_js2n__-:definitions/AccessControlEntryV1!predicate"
         | doc "Column level security policy to apply to the attribute."
         = _js2n__-prdslib.allOf
             [
@@ -910,220 +910,367 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
-                  role = _js2n__-prdslib.isType '"String",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  role =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/AccessPolicies!predicate" =
+      "_js2n__-:definitions/AccessPoliciesV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
                   apply = _js2n__-prdslib.isType '"Bool",
-                  database = _js2n__-prdslib.isType '"String",
-                  location = _js2n__-prdslib.isType '"String",
-                  taxonomy = _js2n__-prdslib.isType '"String",
+                  database =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  location =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  taxonomy =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Application!predicate" =
+      "_js2n__-:definitions/AllSinksV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  accessPolicies =
-                    _js2n__-refsenv."_js2n__-:definitions/AccessPolicies!predicate",
-                  analyze = _js2n__-prdslib.isType '"Bool",
-                  archive = _js2n__-prdslib.isType '"Bool",
-                  archiveTable = _js2n__-prdslib.isType '"Bool",
-                  archiveTablePattern = _js2n__-prdslib.isType '"Bool",
-                  area = _js2n__-refsenv."_js2n__-:definitions/Area!predicate",
-                  audit =
-                    _js2n__-refsenv."_js2n__-:definitions/Audit!predicate",
-                  autoExportSchema = _js2n__-prdslib.isType '"Bool",
-                  connectionRef = _js2n__-prdslib.isType '"String",
-                  connections =
-                    _js2n__-refsenv."_js2n__-:definitions/MapConnection!predicate",
-                  createSchemaIfNotExists = _js2n__-prdslib.isType '"Bool",
-                  csvOutput = _js2n__-prdslib.isType '"Bool",
-                  csvOutputExt = _js2n__-prdslib.isType '"String",
-                  dagRef =
-                    _js2n__-refsenv."_js2n__-:definitions/DagRef!predicate",
-                  dags = _js2n__-prdslib.isType '"String",
-                  database = _js2n__-prdslib.isType '"String",
-                  datasets = _js2n__-prdslib.isType '"String",
-                  defaultAuditWriteFormat = _js2n__-prdslib.isType '"String",
-                  defaultRejectedWriteFormat = _js2n__-prdslib.isType '"String",
-                  defaultWriteFormat = _js2n__-prdslib.isType '"String",
-                  dsvOptions =
-                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
-                  emptyIsNull = _js2n__-prdslib.isType '"Bool",
-                  env = _js2n__-prdslib.isType '"String",
-                  expectations =
-                    _js2n__-refsenv."_js2n__-:definitions/ExpectationsConfig!predicate",
-                  forceDomainPattern = _js2n__-prdslib.isType '"String",
-                  forceHalt = _js2n__-prdslib.isType '"Bool",
-                  forceJobPattern = _js2n__-prdslib.isType '"String",
-                  forceTablePattern = _js2n__-prdslib.isType '"String",
-                  forceTaskPattern = _js2n__-prdslib.isType '"String",
-                  forceViewPattern = _js2n__-prdslib.isType '"String",
-                  grouped = _js2n__-prdslib.isType '"Bool",
-                  groupedMax = _js2n__-prdslib.isType 'Integer,
-                  hadoop =
-                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
-                  hive = _js2n__-prdslib.isType '"Bool",
-                  internal =
-                    _js2n__-refsenv."_js2n__-:definitions/Internal!predicate",
-                  jdbcEngines =
-                    _js2n__-refsenv."_js2n__-:definitions/MapJdbcEngine!predicate",
-                  jobIdEnvName = _js2n__-prdslib.isType '"Bool",
-                  loadStrategyClass =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [
-                              "ai.starlake.job.load.IngestionNameStrategy",
-                              "ai.starlake.job.load.IngestionTimeStrategy"
-                            ]
-                        ],
-                  loader = _js2n__-prdslib.isType '"String",
-                  lock = _js2n__-refsenv."_js2n__-:definitions/Lock!predicate",
-                  longJobTimeoutMs = _js2n__-prdslib.isType 'Integer,
-                  maxParCopy = _js2n__-prdslib.isType 'Integer,
-                  maxParTask = _js2n__-prdslib.isType 'Integer,
-                  mergeForceDistinct = _js2n__-prdslib.isType '"Bool",
-                  mergeOptimizePartitionWrite = _js2n__-prdslib.isType '"Bool",
-                  metadata = _js2n__-prdslib.isType '"String",
-                  metrics =
-                    _js2n__-refsenv."_js2n__-:definitions/Metrics!predicate",
-                  privacy =
-                    _js2n__-refsenv."_js2n__-:definitions/Privacy!predicate",
-                  privacyOnly = _js2n__-prdslib.isType '"Bool",
-                  rejectAllOnError = _js2n__-prdslib.isType '"String",
-                  rejectMaxRecords = _js2n__-prdslib.isType 'Integer,
-                  root = _js2n__-prdslib.isType '"String",
-                  rowValidatorClass = _js2n__-prdslib.isType '"String",
-                  schedulePresets =
-                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
-                  sessionDurationServe = _js2n__-prdslib.isType 'Integer,
-                  shortJobTimeoutMs = _js2n__-prdslib.isType 'Integer,
-                  sinkReplayToFile = _js2n__-prdslib.isType '"Bool",
-                  sparkScheduling =
-                    _js2n__-refsenv."_js2n__-:definitions/JobScheduling!predicate",
-                  sqlParameterPattern = _js2n__-prdslib.isType '"String",
-                  tenant = _js2n__-prdslib.isType '"String",
-                  treeValidatorClass = _js2n__-prdslib.isType '"String",
-                  udfs = _js2n__-prdslib.isType '"String",
-                  useLocalFileSystem = _js2n__-prdslib.isType '"String",
-                  validateOnLoad = _js2n__-prdslib.isType '"Bool",
-                  version = _js2n__-prdslib.isType '"Bool",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/Area!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  accepted = _js2n__-prdslib.isType '"String",
-                  archive = _js2n__-prdslib.isType '"String",
-                  business = _js2n__-prdslib.isType '"String",
-                  hiveDatabase = _js2n__-prdslib.isType '"String",
-                  ingesting = _js2n__-prdslib.isType '"String",
-                  pending = _js2n__-prdslib.isType '"String",
-                  rejected = _js2n__-prdslib.isType '"String",
-                  replay = _js2n__-prdslib.isType '"String",
-                  unresolved = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/Attribute!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "name", "type" ],
-              _js2n__-prdslib.records.record
-                {
-                  accessPolicy = _js2n__-prdslib.isType '"String",
-                  array = _js2n__-prdslib.isType '"Bool",
-                  attributes =
+                  clustering =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/Attribute!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
-                  comment = _js2n__-prdslib.isType '"String",
-                  "default" = _js2n__-prdslib.isType '"String",
-                  foreignKey = _js2n__-prdslib.isType '"String",
-                  ignore = _js2n__-prdslib.isType '"Bool",
-                  metricType = _js2n__-prdslib.isType '"String",
-                  name = _js2n__-prdslib.isType '"String",
-                  position =
-                    _js2n__-refsenv."_js2n__-:definitions/Position!predicate",
-                  privacy = _js2n__-prdslib.isType '"String",
-                  rename = _js2n__-prdslib.isType '"String",
-                  required = _js2n__-prdslib.isType '"Bool",
-                  script = _js2n__-prdslib.isType '"String",
-                  tags =
+                  coalesce = _js2n__-prdslib.isType '"Bool",
+                  connectionRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  days = _js2n__-prdslib.isType '"Number",
+                  enableRefresh = _js2n__-prdslib.isType '"Bool",
+                  extension =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  format =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  id =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  materializedView =
+                    _js2n__-refsenv."_js2n__-:definitions/Materialization!predicate",
+                  options =
+                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
+                  partition =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
-                  trim = _js2n__-refsenv."_js2n__-:definitions/Trim!predicate",
-                  type = _js2n__-prdslib.isType '"String",
+                  path = _js2n__-prdslib.isType '"String",
+                  refreshIntervalMs = _js2n__-prdslib.isType '"Number",
+                  requirePartitionFilter = _js2n__-prdslib.isType '"Bool",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/AttributeDesc!predicate" =
+      "_js2n__-:definitions/AppConfigV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "comment", "name" ],
               _js2n__-prdslib.records.record
                 {
-                  accessPolicy = _js2n__-prdslib.isType '"String",
-                  comment = _js2n__-prdslib.isType '"String",
-                  name = _js2n__-prdslib.isType '"String",
+                  accessPolicies =
+                    _js2n__-refsenv."_js2n__-:definitions/AccessPoliciesV1!predicate",
+                  archive = _js2n__-prdslib.isType '"Bool",
+                  archiveTable = _js2n__-prdslib.isType '"Bool",
+                  archiveTablePattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  area =
+                    _js2n__-refsenv."_js2n__-:definitions/AreaV1!predicate",
+                  audit =
+                    _js2n__-refsenv."_js2n__-:definitions/AuditV1!predicate",
+                  autoExportSchema = _js2n__-prdslib.isType '"Bool",
+                  connectionRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  connections =
+                    _js2n__-refsenv."_js2n__-:definitions/MapConnectionV1!predicate",
+                  createSchemaIfNotExists = _js2n__-prdslib.isType '"Bool",
+                  csvOutput = _js2n__-prdslib.isType '"Bool",
+                  csvOutputExt =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  dagRef =
+                    _js2n__-refsenv."_js2n__-:definitions/DagRefV1!predicate",
+                  dags =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  database =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  datasets =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  defaultAuditWriteFormat =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  defaultRejectedWriteFormat =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  defaultWriteFormat =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  dsvOptions =
+                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
+                  duckdbMode = _js2n__-prdslib.isType '"Bool",
+                  emptyIsNull = _js2n__-prdslib.isType '"Bool",
+                  env =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  expectations =
+                    _js2n__-refsenv."_js2n__-:definitions/ExpectationsConfigV1!predicate",
+                  extra =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
+                        ],
+                  forceDomainPattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  forceHalt = _js2n__-prdslib.isType '"Bool",
+                  forceJobPattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  forceTablePattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  forceTaskPattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  forceViewPattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  grouped = _js2n__-prdslib.isType '"Bool",
+                  groupedMax = _js2n__-prdslib.isType 'Integer,
+                  hadoop =
+                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
+                  hiveInTest =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  http =
+                    _js2n__-refsenv."_js2n__-:definitions/HttpV1!predicate",
+                  incoming =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  internal =
+                    _js2n__-refsenv."_js2n__-:definitions/InternalV1!predicate",
+                  jdbcEngines =
+                    _js2n__-refsenv."_js2n__-:definitions/MapJdbcEngineV1!predicate",
+                  jobIdEnvName =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  kafka =
+                    _js2n__-refsenv."_js2n__-:definitions/KafkaConfigV1!predicate",
+                  loadStrategyClass =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.enum
+                            [
+                              "ai.starlake.job.load.IngestionNameStrategy",
+                              "ai.starlake.job.load.IngestionTimeStrategy"
+                            ],
+                          _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
+                  loader =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  lock =
+                    _js2n__-refsenv."_js2n__-:definitions/LockV1!predicate",
+                  longJobTimeoutMs = _js2n__-prdslib.isType 'Integer,
+                  maxInteractiveRecords = _js2n__-prdslib.isType 'Integer,
+                  maxParCopy = _js2n__-prdslib.isType 'Integer,
+                  maxParTask = _js2n__-prdslib.isType 'Integer,
+                  metadata =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  metrics =
+                    _js2n__-refsenv."_js2n__-:definitions/MetricsV1!predicate",
+                  privacy =
+                    _js2n__-refsenv."_js2n__-:definitions/PrivacyV1!predicate",
+                  privacyOnly = _js2n__-prdslib.isType '"Bool",
+                  refs =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/RefV1!predicate"
+                        ],
+                  rejectAllOnError =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  rejectMaxRecords = _js2n__-prdslib.isType 'Integer,
+                  root =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  rowValidatorClass =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  scd2EndTimestamp =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  scd2StartTimestamp =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  schedulePresets =
+                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
+                  sessionDurationServe =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  shortJobTimeoutMs = _js2n__-prdslib.isType 'Integer,
+                  sinkReplayToFile = _js2n__-prdslib.isType '"Bool",
+                  spark =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
+                        ],
+                  sparkScheduling =
+                    _js2n__-refsenv."_js2n__-:definitions/SparkSchedulingV1!predicate",
+                  sqlParameterPattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  tenant =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  testCsvNullString =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  tests =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  timezone =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  treeValidatorClass =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  udfs =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  useLocalFileSystem =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  validateOnLoad = _js2n__-prdslib.isType '"Bool",
+                  version =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  writeStrategies =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Audit!predicate" =
+      "_js2n__-:definitions/AreaV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  archive =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  hiveDatabase =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  ingesting =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  replay =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  stage =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  unresolved =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/AttributeDescV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  accessPolicy =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  comment =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/AttributeV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  accessPolicy =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  array = _js2n__-prdslib.isType '"Bool",
+                  attributes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/AttributeV1!predicate"
+                        ],
+                  comment =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  "default" =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  foreignKey =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  ignore = _js2n__-prdslib.isType '"Bool",
+                  metricType =
+                    _js2n__-refsenv."_js2n__-:definitions/MetricTypeV1!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  position =
+                    _js2n__-refsenv."_js2n__-:definitions/PositionV1!predicate",
+                  privacy =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  rename =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  required = _js2n__-prdslib.isType '"Bool",
+                  sample =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  script =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  tags =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
+                  trim =
+                    _js2n__-refsenv."_js2n__-:definitions/TrimV1!predicate",
+                  type =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/AuditV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
                   active = _js2n__-prdslib.isType '"Bool",
-                  database = _js2n__-prdslib.isType '"String",
-                  domain = _js2n__-prdslib.isType '"String",
-                  maxErrors = _js2n__-prdslib.isType '"String",
-                  path = _js2n__-prdslib.isType '"String",
-                  sink = _js2n__-refsenv."_js2n__-:definitions/Sink!predicate",
+                  database =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  domain =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  domainExpectation =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  domainRejected =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  maxErrors =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  path =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  sink =
+                    _js2n__-refsenv."_js2n__-:definitions/AllSinksV1!predicate",
+                  sql =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/AutoJobDesc!predicate" =
+      "_js2n__-:definitions/AutoJobDescV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  comment = _js2n__-prdslib.isType '"String",
+                  comment =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   "default" =
-                    _js2n__-refsenv."_js2n__-:definitions/AutoTaskDesc!predicate",
-                  name = _js2n__-prdslib.isType '"String",
+                    _js2n__-refsenv."_js2n__-:definitions/AutoTaskDescV1!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   tasks =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/AutoTaskDesc!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/AutoTaskDescV1!predicate"
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/AutoTaskDesc!predicate" =
+      "_js2n__-:definitions/AutoTaskDescV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -1134,75 +1281,87 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/AccessControlEntry!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/AccessControlEntryV1!predicate"
                         ],
                   attributesDesc =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/AttributeDesc!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/AttributeDescV1!predicate"
                         ],
-                  comment = _js2n__-prdslib.isType '"String",
-                  dagRef = _js2n__-prdslib.isType '"String",
-                  database = _js2n__-prdslib.isType '"String",
-                  domain = _js2n__-prdslib.isType '"String",
+                  comment =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  connectionRef = _js2n__-prdslib.isType '"String",
+                  dagRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  database =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  domain =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   expectations =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
                   freshness =
-                    _js2n__-refsenv."_js2n__-:definitions/Freshness!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/FreshnessV1!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  parseSQL = _js2n__-prdslib.isType '"Bool",
                   partition =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
                   postsql =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
                   presql =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
-                  python = _js2n__-prdslib.isType '"String",
+                  python =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   rls =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/RowLevelSecurity!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/RowLevelSecurityV1!predicate"
                         ],
-                  schedule = _js2n__-prdslib.isType '"String",
-                  sink = _js2n__-refsenv."_js2n__-:definitions/Sink!predicate",
-                  sql = _js2n__-prdslib.isType '"String",
-                  table = _js2n__-prdslib.isType '"String",
+                  schedule =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  sink =
+                    _js2n__-refsenv."_js2n__-:definitions/AllSinksV1!predicate",
+                  sql =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  table =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   tags =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
-                  write =
-                    _js2n__-refsenv."_js2n__-:definitions/WriteMode!predicate",
+                  taskTimeoutMs = _js2n__-prdslib.isType 'Integer,
                   writeStrategy =
-                    _js2n__-refsenv."_js2n__-:definitions/WriteStrategy!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/WriteStrategyV1!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Connection!predicate"
+      "_js2n__-:definitions/ConnectionV1!predicate"
         | doc "Connection properties to a datawarehouse."
         = _js2n__-prdslib.allOf
             [
@@ -1212,11 +1371,26 @@ let rec _js2n__-refsenv
                 {
                   options =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
-                  sparkFormat = _js2n__-prdslib.isType '"String",
-                  type = _js2n__-prdslib.isType '"String",
+                  quote =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  separator =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  sparkFormat =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  type =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/DagGenerationConfig!predicate"
+      "_js2n__-:definitions/ConvertibleToString!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.isType '"Bool",
+              _js2n__-prdslib.isType '"Number",
+              _js2n__-prdslib.isType 'Integer,
+              _js2n__-prdslib.isType 'Null
+            ],
+      "_js2n__-:definitions/DagGenerationConfigV1!predicate"
         | doc "Dag configuration."
         = _js2n__-prdslib.allOf
             [
@@ -1224,54 +1398,84 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "filename", "template" ],
               _js2n__-prdslib.records.record
                 {
-                  comment = _js2n__-prdslib.isType '"String",
-                  filename = _js2n__-prdslib.isType '"String",
+                  comment =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  filename =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   options =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
-                  template = _js2n__-prdslib.isType '"String",
+                  template =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/DagRef!predicate"
-        | doc "Dag templates for load and transform."
-        = _js2n__-prdslib.allOf
+      "_js2n__-:definitions/DagRefV1!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  load = _js2n__-prdslib.isType '"String",
-                  transform = _js2n__-prdslib.isType '"String",
+                  load =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  transform =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Domain!predicate"
+      "_js2n__-:definitions/DefaultJDBCSchemaV1!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/JDBCSchemaBase!predicate",
+      "_js2n__-:definitions/DomainV1!predicate"
         | doc "A schema in JDBC database or a folder in HDFS or a dataset in BigQuery."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  comment = _js2n__-prdslib.isType '"String",
-                  database = _js2n__-prdslib.isType '"String",
+                  comment =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  database =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   metadata =
-                    _js2n__-refsenv."_js2n__-:definitions/Metadata!predicate",
-                  name = _js2n__-prdslib.isType '"String",
-                  rename = _js2n__-prdslib.isType '"String",
-                  tables =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/Table!predicate"
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/MetadataV1!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  rename =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   tags =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/ExpectationsConfig!predicate" =
+      "_js2n__-:definitions/Duration!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  finite = _js2n__-prdslib.isType '"Bool",
+                  length = _js2n__-prdslib.isType 'Integer,
+                  unit =
+                    _js2n__-refsenv."_js2n__-:definitions/DurationUnit!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/DurationUnit!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.const "NANOSECONDS",
+                  _js2n__-prdslib.const "MICROSECONDS",
+                  _js2n__-prdslib.const "MILLISECONDS",
+                  _js2n__-prdslib.const "SECONDS",
+                  _js2n__-prdslib.const "MINUTES",
+                  _js2n__-prdslib.const "HOURS",
+                  _js2n__-prdslib.const "DAYS"
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+            ],
+      "_js2n__-:definitions/ExpectationsConfigV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -1279,144 +1483,178 @@ let rec _js2n__-refsenv
                 {
                   active = _js2n__-prdslib.isType '"Bool",
                   failOnError = _js2n__-prdslib.isType '"Bool",
-                  path = _js2n__-prdslib.isType '"String",
+                  path =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/External!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  database = _js2n__-prdslib.isType '"String",
-                  external =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/ExternalDomain!predicate"
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/ExternalDomain!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  name = _js2n__-prdslib.isType '"String",
-                  tables =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/Format!predicate"
-        | doc "DSV by default. Supported file formats are :\\n- DSV : Delimiter-separated values file. Delimiter value is specified in the \"separator\" field.\\n- POSITION : FIXED format file where values are located at an exact position in each line.\\n- SIMPLE_JSON : For optimisation purpose, we differentiate JSON with top level values from JSON\\n  with deep level fields. SIMPLE_JSON are JSON files with top level fields only.\\n- JSON :  Deep JSON file. Use only when your json documents contain sub-documents, otherwise prefer to\\n  use SIMPLE_JSON since it is much faster.\\n- XML : XML files"
+      "_js2n__-:definitions/FormatV1!predicate"
+        | doc "DSV by default. Supported file formats are :\\n- DSV : Delimiter-separated values file. Delimiter value is specified in the \"separator\" field.\\n- POSITION : FIXED format file where values are located at an exact position in each line.\\n- JSON_FLAT : For optimisation purpose, we differentiate JSON with top level values from JSON\\n  with deep level fields. JSON_FLAT are JSON files with top level fields only.\\n- JSON :  Deep JSON file. Use only when your json documents contain sub-documents, otherwise prefer to\\n  use JSON_FLAT since it is much faster.\\n- XML : XML files"
         = _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.oneOf
                 [
                   _js2n__-prdslib.const "DSV",
                   _js2n__-prdslib.const "POSITION",
                   _js2n__-prdslib.const "JSON",
-                  _js2n__-prdslib.const "ARRAY_JSON",
-                  _js2n__-prdslib.const "SIMPLE_JSON",
-                  _js2n__-prdslib.const "XML"
-                ]
+                  _js2n__-prdslib.const "JSON_ARRAY",
+                  _js2n__-prdslib.const "JSON_FLAT",
+                  _js2n__-prdslib.const "XML",
+                  _js2n__-prdslib.const "TEXT_XML",
+                  _js2n__-prdslib.const "KAFKA",
+                  _js2n__-prdslib.const "KAFKASTREAM",
+                  _js2n__-prdslib.const "GENERIC",
+                  _js2n__-prdslib.const "PARQUET"
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
             ],
-      "_js2n__-:definitions/Freshness!predicate" =
+      "_js2n__-:definitions/FreshnessV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  error = _js2n__-prdslib.isType '"String",
-                  warn = _js2n__-prdslib.isType '"String",
+                  error =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  warn =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Internal!predicate"
+      "_js2n__-:definitions/HttpV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  interface =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  port = _js2n__-prdslib.isType 'Integer,
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/InputRefV1!predicate"
+        | doc "Input for ref object"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "table" ],
+              _js2n__-prdslib.records.record
+                {
+                  database =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  domain =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  table =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/InternalV1!predicate"
         | doc "configure Spark internal options"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  cacheStorageLevel = _js2n__-prdslib.isType '"String",
-                  intermediateBigqueryFormat = _js2n__-prdslib.isType '"String",
+                  bqAuditSaveInBatchMode = _js2n__-prdslib.isType '"Bool",
+                  cacheStorageLevel =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  intermediateBigqueryFormat =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   substituteVars = _js2n__-prdslib.isType '"Bool",
-                  temporaryGcsBucket = _js2n__-prdslib.isType '"String",
+                  temporaryGcsBucket =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/JDBCSchema!predicate" =
+      "_js2n__-:definitions/JDBCSchemaBase!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  catalog = _js2n__-prdslib.isType '"String",
-                  columnRemarks = _js2n__-prdslib.isType '"String",
-                  connectionOptions = _js2n__-prdslib.isType '"String",
+                  catalog =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  columnRemarks =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  connectionOptions =
+                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
                   fetchSize = _js2n__-prdslib.isType 'Integer,
-                  filter = _js2n__-prdslib.isType '"String",
                   fullExport = _js2n__-prdslib.isType '"Bool",
                   numPartitions = _js2n__-prdslib.isType 'Integer,
                   numericTrim =
-                    _js2n__-refsenv."_js2n__-:definitions/Trim!predicate",
-                  partitionColumn = _js2n__-prdslib.isType '"String",
-                  pattern = _js2n__-prdslib.isType '"String",
-                  schema = _js2n__-prdslib.isType '"String",
-                  stringPartitionFunc = _js2n__-prdslib.isType '"String",
-                  tableRemarks = _js2n__-prdslib.isType '"String",
+                    _js2n__-refsenv."_js2n__-:definitions/TrimV1!predicate",
+                  partitionColumn =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  pattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  sanitizeName = _js2n__-prdslib.isType '"Bool",
+                  schema =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  stringPartitionFunc =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  tableRemarks =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   tableTypes =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/TableTypeV1!predicate"
                         ],
-                  tables =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/JDBCTable!predicate"
-                        ],
-                  template = _js2n__-prdslib.isType '"String",
-                  write =
-                    _js2n__-refsenv."_js2n__-:definitions/WriteMode!predicate",
+                  template =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/JDBCSchemas!predicate" =
+      "_js2n__-:definitions/JDBCSchemaV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/JDBCSchemaBase!predicate",
+                  _js2n__-prdslib.records.record
+                    {
+                      exclude =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                            ],
+                      tables =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                _js2n__-refsenv."_js2n__-:definitions/JDBCTableV1!predicate"
+                            ],
+                    } {} true _js2n__-prdslib.always
+                ]
+            ],
+      "_js2n__-:definitions/JDBCSchemasV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  connection =
-                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
-                  connectionRef = _js2n__-prdslib.isType '"String",
+                  auditConnectionRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  connectionRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   "default" =
-                    _js2n__-refsenv."_js2n__-:definitions/JDBCSchema!predicate",
-                  fetchSize = _js2n__-prdslib.isType 'Integer,
+                    _js2n__-refsenv."_js2n__-:definitions/DefaultJDBCSchemaV1!predicate",
                   jdbcSchemas =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/JDBCSchema!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/JDBCSchemaV1!predicate"
                         ],
+                  output =
+                    _js2n__-refsenv."_js2n__-:definitions/OutputV1!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/JDBCTable!predicate" =
+      "_js2n__-:definitions/JDBCTableV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "name" ],
               _js2n__-prdslib.records.record
                 {
                   columns =
@@ -1424,71 +1662,138 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required [ "name" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        name =
+                                          _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                                        rename =
+                                          _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                                      } {} true _js2n__-prdslib.always
+                                  ]
+                              ]),
+                          _js2n__-prdslib.arrays.minItems 1
                         ],
-                  connectionOptions = _js2n__-prdslib.isType '"String",
+                  connectionOptions =
+                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
                   fetchSize = _js2n__-prdslib.isType 'Integer,
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   fullExport = _js2n__-prdslib.isType '"Bool",
-                  name = _js2n__-prdslib.isType '"String",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   numPartitions = _js2n__-prdslib.isType 'Integer,
-                  partitionColumn = _js2n__-prdslib.isType '"String",
+                  partitionColumn =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  sql =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  stringPartitionFunc =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/JdbcEngine!predicate"
+      "_js2n__-:definitions/JdbcEngineV1!predicate"
         | doc "Jdbc engine"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "quote", "strategyBuilder", "tables" ],
               _js2n__-prdslib.records.record
                 {
+                  columnRemarks = _js2n__-prdslib.isType '"String",
+                  preActions = _js2n__-prdslib.isType '"String",
+                  quote = _js2n__-prdslib.isType '"String",
+                  strategyBuilder = _js2n__-prdslib.isType '"String",
+                  tableRemarks = _js2n__-prdslib.isType '"String",
                   tables =
+                    _js2n__-refsenv."_js2n__-:definitions/MapTableDdlV1!predicate",
+                  viewPrefix = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/KafkaConfigV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  cometOffsetsMode =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  customDeserializers =
+                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
+                  serverOptions =
+                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
+                  topics =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/MapTableDdl!predicate"
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/KafkaTopicConfigV1!predicate"
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/JobScheduling!predicate" =
+      "_js2n__-:definitions/KafkaTopicConfigV1!predicate" =
+        _js2n__-prdslib.records.record
+            {
+              accessOptions =
+                _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
+              createOptions =
+                _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
+              fields =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                    ],
+              headers =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-refsenv."_js2n__-:definitions/MapString!predicate"
+                    ],
+              maxRead = _js2n__-prdslib.isType 'Integer,
+              partitions = _js2n__-prdslib.isType 'Integer,
+              replicationFactor = _js2n__-prdslib.isType 'Integer,
+              topicName =
+                _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+            } {} true _js2n__-prdslib.always,
+      "_js2n__-:definitions/LockV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  file = _js2n__-prdslib.isType '"String",
-                  maxJobs = _js2n__-prdslib.isType 'Integer,
-                  mode = _js2n__-prdslib.isType '"String",
-                  poolName = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/Lock!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  path = _js2n__-prdslib.isType '"String",
-                  pollTime = _js2n__-prdslib.isType '"String",
-                  refreshTime = _js2n__-prdslib.isType '"String",
+                  path =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  pollTime =
+                    _js2n__-refsenv."_js2n__-:definitions/Duration!predicate",
+                  refreshTime =
+                    _js2n__-refsenv."_js2n__-:definitions/Duration!predicate",
                   timeout = _js2n__-prdslib.isType 'Integer,
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/MapConnection!predicate"
-        | doc "Map of connections"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true
-                _js2n__-refsenv."_js2n__-:definitions/Connection!predicate"
-            ],
-      "_js2n__-:definitions/MapJdbcEngine!predicate"
+      "_js2n__-:definitions/MapConnectionV1!predicate"
         | doc "Map of jdbc engines"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record {} {} true
-                _js2n__-refsenv."_js2n__-:definitions/JdbcEngine!predicate"
+                _js2n__-refsenv."_js2n__-:definitions/ConnectionV1!predicate"
+            ],
+      "_js2n__-:definitions/MapJdbcEngineV1!predicate"
+        | doc "Map of jdbc engines"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                _js2n__-refsenv."_js2n__-:definitions/JdbcEngineV1!predicate"
             ],
       "_js2n__-:definitions/MapString!predicate"
         | doc "Map of string"
@@ -1496,65 +1801,99 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record {} {} true
-                (_js2n__-prdslib.isType '"String")
+                _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
             ],
-      "_js2n__-:definitions/MapTableDdl!predicate"
+      "_js2n__-:definitions/MapTableDdlV1!predicate"
         | doc "Map of table ddl"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record {} {} true
-                _js2n__-refsenv."_js2n__-:definitions/TableDdl!predicate"
+                _js2n__-refsenv."_js2n__-:definitions/TableDdlV1!predicate"
             ],
-      "_js2n__-:definitions/Metadata!predicate" =
+      "_js2n__-:definitions/Materialization!predicate"
+        | doc "Table types supported by the Sink option"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.const "TABLE",
+                  _js2n__-prdslib.const "VIEW",
+                  _js2n__-prdslib.const "MATERIALIZED_VIEW"
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+            ],
+      "_js2n__-:definitions/MergeOnV1!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.const "TARGET",
+              _js2n__-prdslib.const "SOURCE_AND_TARGET"
+            ],
+      "_js2n__-:definitions/MetadataV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  ack = _js2n__-prdslib.isType '"String",
+                  ack =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   array = _js2n__-prdslib.isType '"Bool",
-                  dagRef = _js2n__-prdslib.isType '"String",
-                  directory = _js2n__-prdslib.isType '"String",
+                  dagRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  directory =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   emptyIsNull = _js2n__-prdslib.isType '"Bool",
-                  encoding = _js2n__-prdslib.isType '"String",
-                  escape = _js2n__-prdslib.isType '"String",
+                  encoding =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  escape =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   extensions =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
                   format =
-                    _js2n__-refsenv."_js2n__-:definitions/Format!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/FormatV1!predicate",
                   freshness =
-                    _js2n__-refsenv."_js2n__-:definitions/Freshness!predicate",
-                  ignore = _js2n__-prdslib.isType '"String",
-                  loader = _js2n__-prdslib.isType '"String",
+                    _js2n__-refsenv."_js2n__-:definitions/FreshnessV1!predicate",
+                  ignore =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  loader =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   multiline = _js2n__-prdslib.isType '"Bool",
-                  nullValue = _js2n__-prdslib.isType '"String",
+                  nullValue =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   options =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
-                  partition =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  quote = _js2n__-prdslib.isType '"String",
-                  schedule = _js2n__-prdslib.isType '"String",
-                  separator = _js2n__-prdslib.isType '"String",
-                  sink = _js2n__-refsenv."_js2n__-:definitions/Sink!predicate",
+                  quote =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  schedule =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  separator =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  sink =
+                    _js2n__-refsenv."_js2n__-:definitions/AllSinksV1!predicate",
                   withHeader = _js2n__-prdslib.isType '"Bool",
                   writeStrategy =
-                    _js2n__-refsenv."_js2n__-:definitions/WriteStrategy!predicate",
-                  xml =
-                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/WriteStrategyV1!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Metrics!predicate" =
+      "_js2n__-:definitions/MetricTypeV1!predicate"
+        | doc "TODO"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.const "DISCRETE",
+                  _js2n__-prdslib.const "CONTINUOUS",
+                  _js2n__-prdslib.const "TEXT",
+                  _js2n__-prdslib.const "NONE"
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+            ],
+      "_js2n__-:definitions/MetricsV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -1562,10 +1901,67 @@ let rec _js2n__-refsenv
                 {
                   active = _js2n__-prdslib.isType '"Bool",
                   discreteMaxCardinality = _js2n__-prdslib.isType 'Integer,
-                  path = _js2n__-prdslib.isType '"String",
+                  path =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Position!predicate"
+      "_js2n__-:definitions/OpenWriteStrategyTypeV1!predicate"
+        | doc "Table types supported by the Extract module"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/WriteStrategyTypeBase!predicate",
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.not
+                        _js2n__-refsenv."_js2n__-:definitions/WriteStrategyTypeBase!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                    ]
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+            ],
+      "_js2n__-:definitions/OutputRefV1!predicate"
+        | doc "Output for ref object"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "database", "domain", "table" ],
+              _js2n__-prdslib.records.record
+                {
+                  database =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  domain =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  table =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/OutputV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  datePattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  encoding =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  escape =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  nullValue =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  quote =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  separator =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  timestampPattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  withHeader = _js2n__-prdslib.isType '"Bool",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/PositionV1!predicate"
         | doc "First and last char positions of an attribute in a fixed length record"
         = _js2n__-prdslib.allOf
             [
@@ -1577,11 +1973,10 @@ let rec _js2n__-refsenv
                   last = _js2n__-prdslib.isType '"Number",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/PrimitiveType!predicate"
-        | doc "Default types defined in starlake. User defined types may also be defined in the types/types.sl.yml file"
+      "_js2n__-:definitions/PrimitiveTypeV1!predicate"
+        | doc "Define the value type"
         = _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.oneOf
                 [
                   _js2n__-prdslib.const "string",
@@ -1592,24 +1987,14 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.const "boolean",
                   _js2n__-prdslib.const "byte",
                   _js2n__-prdslib.const "date",
-                  _js2n__-prdslib.const "basic_iso_date",
-                  _js2n__-prdslib.const "iso_local_date",
-                  _js2n__-prdslib.const "iso_offset_date",
-                  _js2n__-prdslib.const "iso_date",
-                  _js2n__-prdslib.const "iso_local_date_time",
-                  _js2n__-prdslib.const "iso_offset_date_time",
-                  _js2n__-prdslib.const "iso_zoned_date_time",
-                  _js2n__-prdslib.const "iso_date_time",
-                  _js2n__-prdslib.const "iso_ordinal_date",
-                  _js2n__-prdslib.const "iso_week_date",
-                  _js2n__-prdslib.const "iso_instant",
-                  _js2n__-prdslib.const "rfc_1123_date_time",
                   _js2n__-prdslib.const "timestamp",
                   _js2n__-prdslib.const "decimal",
+                  _js2n__-prdslib.const "variant",
                   _js2n__-prdslib.const "struct"
-                ]
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
             ],
-      "_js2n__-:definitions/Privacy!predicate" =
+      "_js2n__-:definitions/PrivacyV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -1619,7 +2004,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Ref!predicate"
+      "_js2n__-:definitions/RefV1!predicate"
         | doc "Describe how to resolve a reference in a transform task"
         = _js2n__-prdslib.allOf
             [
@@ -1628,46 +2013,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   input =
-                    _js2n__-refsenv."_js2n__-:definitions/RefInput!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/InputRefV1!predicate",
                   output =
-                    _js2n__-refsenv."_js2n__-:definitions/RefOutput!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/OutputRefV1!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/RefInput!predicate"
-        | doc "Input for ref object"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "table" ],
-              _js2n__-prdslib.records.record
-                {
-                  database = _js2n__-prdslib.isType '"String",
-                  domain = _js2n__-prdslib.isType '"String",
-                  table = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/RefOutput!predicate"
-        | doc "Output for ref object"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "database", "domain", "table" ],
-              _js2n__-prdslib.records.record
-                {
-                  database = _js2n__-prdslib.isType '"String",
-                  domain = _js2n__-prdslib.isType '"String",
-                  table = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/Refs!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                _js2n__-refsenv."_js2n__-:definitions/Ref!predicate"
-            ],
-      "_js2n__-:definitions/RowLevelSecurity!predicate"
+      "_js2n__-:definitions/RowLevelSecurityV1!predicate"
         | doc "Row level security policy to apply to the output data."
         = _js2n__-prdslib.allOf
             [
@@ -1675,129 +2026,144 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "grants", "name" ],
               _js2n__-prdslib.records.record
                 {
-                  description = _js2n__-prdslib.isType '"String",
+                  description =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   grants =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
-                  name = _js2n__-prdslib.isType '"String",
-                  predicate = _js2n__-prdslib.isType '"String",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  predicate =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Sink!predicate" =
+      "_js2n__-:definitions/SparkSchedulingV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  clustering =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  coalesce = _js2n__-prdslib.isType '"Bool",
-                  connectionRef = _js2n__-prdslib.isType '"String",
-                  days = _js2n__-prdslib.isType '"Number",
-                  enableRefresh = _js2n__-prdslib.isType '"Bool",
-                  extension = _js2n__-prdslib.isType '"String",
-                  format = _js2n__-prdslib.isType '"String",
-                  id = _js2n__-prdslib.isType '"String",
-                  location = _js2n__-prdslib.isType '"String",
-                  materializedView = _js2n__-prdslib.isType '"Bool",
-                  options =
+                  file =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  maxJobs = _js2n__-prdslib.isType 'Integer,
+                  mode =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  poolName =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/StarlakeV1Base!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "extract" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "load" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "transform" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "env" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "types" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "tables" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "table" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "application" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "refs" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "dag" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  application =
+                    _js2n__-refsenv."_js2n__-:definitions/AppConfigV1!predicate",
+                  dag =
+                    _js2n__-refsenv."_js2n__-:definitions/DagGenerationConfigV1!predicate",
+                  env =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
-                  partition =
+                  extract =
+                    _js2n__-refsenv."_js2n__-:definitions/JDBCSchemasV1!predicate",
+                  load =
+                    _js2n__-refsenv."_js2n__-:definitions/DomainV1!predicate",
+                  refs =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/RefV1!predicate"
                         ],
-                  refreshIntervalMs = _js2n__-prdslib.isType '"Number",
-                  requirePartitionFilter = _js2n__-prdslib.isType '"Bool",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/Table!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "name", "pattern" ],
-              _js2n__-prdslib.records.record
-                {
-                  acl =
+                  table =
+                    _js2n__-refsenv."_js2n__-:definitions/TableV1!predicate",
+                  task =
+                    _js2n__-refsenv."_js2n__-:definitions/AutoTaskDescV1!predicate",
+                  transform =
+                    _js2n__-refsenv."_js2n__-:definitions/AutoJobDescV1!predicate",
+                  types =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/AccessControlEntry!predicate"
-                        ],
-                  alias = _js2n__-prdslib.isType '"String",
-                  attributes =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/Attribute!predicate"
-                        ],
-                  comment = _js2n__-prdslib.isType '"String",
-                  expectations =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  filter = _js2n__-prdslib.isType '"String",
-                  metadata =
-                    _js2n__-refsenv."_js2n__-:definitions/Metadata!predicate",
-                  name = _js2n__-prdslib.isType '"String",
-                  pattern = _js2n__-prdslib.isType '"String",
-                  patternSample = _js2n__-prdslib.isType '"String",
-                  postsql =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  presql =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  primaryKey =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  rename = _js2n__-prdslib.isType '"String",
-                  rls =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/RowLevelSecurity!predicate"
-                        ],
-                  sample = _js2n__-prdslib.isType '"String",
-                  tags =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/TypeV1!predicate"
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/TableDdl!predicate"
+      "_js2n__-:definitions/TableDdlV1!predicate"
         | doc "DDL used to create a table"
         = _js2n__-prdslib.allOf
             [
@@ -1805,98 +2171,225 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "createSql" ],
               _js2n__-prdslib.records.record
                 {
-                  createSql = _js2n__-prdslib.isType '"String",
-                  pingSql = _js2n__-prdslib.isType '"String",
+                  createSql =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  pingSql =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  selectSql =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Trim!predicate"
+      "_js2n__-:definitions/TableTypeBase!predicate"
+        | doc "Table types supported by the Extract module"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.const "TABLE",
+                  _js2n__-prdslib.const "VIEW",
+                  _js2n__-prdslib.const "SYSTEM TABLE",
+                  _js2n__-prdslib.const "MATERIALIZED VIEW",
+                  _js2n__-prdslib.const "GLOBAL TEMPORARY",
+                  _js2n__-prdslib.const "LOCAL TEMPORARY",
+                  _js2n__-prdslib.const "ALIAS",
+                  _js2n__-prdslib.const "SYNONYM"
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+            ],
+      "_js2n__-:definitions/TableTypeV1!predicate"
+        | doc "Table types supported by the Extract module"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/TableTypeBase!predicate",
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.not
+                        _js2n__-refsenv."_js2n__-:definitions/TableTypeBase!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                    ]
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+            ],
+      "_js2n__-:definitions/TableV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "attributes", "name", "pattern" ],
+              _js2n__-prdslib.records.record
+                {
+                  acl =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/AccessControlEntryV1!predicate"
+                        ],
+                  attributes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/AttributeV1!predicate"
+                        ],
+                  comment =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  expectations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  metadata =
+                    _js2n__-refsenv."_js2n__-:definitions/MetadataV1!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  pattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  patternSample =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  postsql =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
+                  presql =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
+                  primaryKey =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
+                  rename =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  rls =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/RowLevelSecurityV1!predicate"
+                        ],
+                  sample =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  tags =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/TrimV1!predicate"
         | doc "How to trim the input string"
         = _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.oneOf
                 [
                   _js2n__-prdslib.const "LEFT",
                   _js2n__-prdslib.const "RIGHT",
                   _js2n__-prdslib.const "BOTH",
                   _js2n__-prdslib.const "NONE"
-                ]
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
             ],
-      "_js2n__-:definitions/Type!predicate"
+      "_js2n__-:definitions/TypeV1!predicate"
         | doc "Custom type definition. Custom types are defined in the types/types.sl.yml file"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "name", "pattern", "primitiveType" ],
+              _js2n__-prdslib.records.required [ "name", "pattern" ],
               _js2n__-prdslib.records.record
                 {
-                  comment = _js2n__-prdslib.isType '"String",
+                  comment =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   ddlMapping =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
-                  indexMapping = _js2n__-prdslib.isType '"String",
-                  name = _js2n__-prdslib.isType '"String",
-                  pattern = _js2n__-prdslib.isType '"String",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  pattern =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   primitiveType =
-                    _js2n__-refsenv."_js2n__-:definitions/PrimitiveType!predicate",
-                  sample = _js2n__-prdslib.isType '"String",
-                  zone = _js2n__-prdslib.isType '"String",
+                    _js2n__-refsenv."_js2n__-:definitions/PrimitiveTypeV1!predicate",
+                  sample =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  zone =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/WriteMode!predicate"
-        | doc "How the data is written to the target datawarehouse. Default is APPEND"
+      "_js2n__-:definitions/WriteStrategyTypeBase!predicate"
+        | doc "TODO"
         = _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.oneOf
                 [
                   _js2n__-prdslib.const "OVERWRITE",
                   _js2n__-prdslib.const "APPEND",
-                  _js2n__-prdslib.const "MERGE",
-                  _js2n__-prdslib.const "ERROR_IF_EXISTS",
-                  _js2n__-prdslib.const "IGNORE"
-                ]
+                  _js2n__-prdslib.const "UPSERT_BY_KEY",
+                  _js2n__-prdslib.const "UPSERT_BY_KEY_AND_TIMESTAMP",
+                  _js2n__-prdslib.const "DELETE_THEN_INSERT",
+                  _js2n__-prdslib.const "SCD2",
+                  _js2n__-prdslib.const "OVERWRITE_BY_PARTITION"
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
             ],
-      "_js2n__-:definitions/WriteStrategy!predicate" =
+      "_js2n__-:definitions/WriteStrategyTypeV1!predicate"
+        | doc "Table types supported by the Extract module"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/WriteStrategyTypeBase!predicate"
+                ],
+              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+            ],
+      "_js2n__-:definitions/WriteStrategyV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  endTs =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   key =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
                   on =
+                    _js2n__-refsenv."_js2n__-:definitions/MergeOnV1!predicate",
+                  queryFilter =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  startTs =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  timestamp =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  type =
+                    _js2n__-refsenv."_js2n__-:definitions/WriteStrategyTypeV1!predicate",
+                  types =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "SOURCE_AND_TARGET", "TARGET" ]
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/OpenWriteStrategyTypeV1!predicate"
                         ],
-                  queryFilter = _js2n__-prdslib.isType '"String",
-                  timestamp = _js2n__-prdslib.isType '"String",
-                  type =
-                    _js2n__-refsenv."_js2n__-:definitions/WriteStrategyType!predicate",
                 } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/WriteStrategyType!predicate"
-        | doc "How the data is written to the target datawarehouse. Default is APPEND"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.const "APPEND",
-                  _js2n__-prdslib.const "OVERWRITE",
-                  _js2n__-prdslib.const "UPSERT_BY_KEY",
-                  _js2n__-prdslib.const "UPSERT_BY_KEY_AND_TIMESTAMP",
-                  _js2n__-prdslib.const "SCD2",
-                  _js2n__-prdslib.const "OVERWRITE_BY_PARTITION"
-                ]
             ],
     }
     in
@@ -1904,117 +2397,15 @@ let rec _js2n__-refsenv
       (_js2n__-prdslib.allOf
         [
           _js2n__-prdslib.isType 'Record,
-          _js2n__-prdslib.oneOf
-            [
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "extract" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "load" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "transform" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "expectations" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "env" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "types" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "tables" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "table" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "task" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "connections" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "external" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "application" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "refs" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.records.required [ "dag" ],
-                  _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
-                ]
-            ],
+          _js2n__-refsenv."_js2n__-:definitions/StarlakeV1Base!predicate",
+          _js2n__-prdslib.records.required [ "version" ],
           _js2n__-prdslib.records.record
             {
-              application =
-                _js2n__-refsenv."_js2n__-:definitions/Application!predicate",
-              dag =
-                _js2n__-refsenv."_js2n__-:definitions/DagGenerationConfig!predicate",
-              env = _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
-              external =
-                _js2n__-refsenv."_js2n__-:definitions/External!predicate",
-              extract =
-                _js2n__-refsenv."_js2n__-:definitions/JDBCSchemas!predicate",
-              load = _js2n__-refsenv."_js2n__-:definitions/Domain!predicate",
-              refs = _js2n__-refsenv."_js2n__-:definitions/Refs!predicate",
-              table = _js2n__-refsenv."_js2n__-:definitions/Table!predicate",
-              task =
-                _js2n__-refsenv."_js2n__-:definitions/AutoTaskDesc!predicate",
-              transform =
-                _js2n__-refsenv."_js2n__-:definitions/AutoJobDesc!predicate",
-              types =
+              version =
                 _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        _js2n__-refsenv."_js2n__-:definitions/Type!predicate"
+                      _js2n__-prdslib.isType 'Integer,
+                      _js2n__-prdslib.enum [ 1 ]
                     ],
             } {} true _js2n__-prdslib.always
         ])

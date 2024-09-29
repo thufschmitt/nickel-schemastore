@@ -1087,7 +1087,7 @@ let rec _js2n__-refsenv
                 [
                   _js2n__-prdslib.isType '"String",
                   _js2n__-prdslib.strings.pattern
-                    "((?:[^/]*/)*)(?=\\.(yaml|yml|json))"
+                    "((?:[^/]*/)*)(?=\\.(yaml|yml))"
                 ])
             | doc "Path to the technical documentation, relative to the current working directory.",
         }

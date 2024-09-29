@@ -1221,6 +1221,8 @@ let rec _js2n__-refsenv
               | doc "Throw exception when Elasticsearch queries failing"
               | optional,
           },
+      "_js2n__-:definitions/feature_toggle!contract" =
+        { enable | Bool | optional, },
       "_js2n__-:definitions/file_system_type!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.allOf
@@ -1463,6 +1465,7 @@ let rec _js2n__-refsenv
           },
       "_js2n__-:definitions/messenger!contract" =
         {
+            enforce_message_size | Bool | optional,
             routing_overwrite
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.allOf
@@ -1605,6 +1608,9 @@ let rec _js2n__-refsenv
               | optional,
             dompdf
               | _js2n__-refsenv."_js2n__-:definitions/dompdf!contract"
+              | optional,
+            feature_toggle
+              | _js2n__-refsenv."_js2n__-:definitions/feature_toggle!contract"
               | optional,
             filesystem
               | _js2n__-refsenv."_js2n__-:definitions/filesystem!contract"

@@ -932,6 +932,10 @@ let rec _js2n__-refsenv
               | Bool
               | doc "Indicates whether or not to log all tests."
               | optional,
+            skipFull
+              | Bool
+              | doc "Indicates whether rows with 100% mutation score are hidden in the score table."
+              | optional,
             ..
           },
       "_js2n__-:definitions/commandRunnerOptions!contract" =
