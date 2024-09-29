@@ -897,53 +897,6 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/branches!contract"
-        | doc "deprecated, use when.branch"
-        = _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.oneOf
-              [
-                _js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"Array",
-                    _js2n__-prdslib.arrays.arrayOf
-                      (_js2n__-prdslib.isType '"String"),
-                    _js2n__-prdslib.records.minProperties 1,
-                    _js2n__-prdslib.records.record {} {} true
-                      _js2n__-prdslib.always
-                  ],
-                _js2n__-prdslib.isType '"String",
-                _js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record
-                      {
-                        exclude =
-                          _js2n__-prdslib.oneOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"Array",
-                                    _js2n__-prdslib.strings.minLength 1,
-                                    _js2n__-prdslib.arrays.arrayOf
-                                      (_js2n__-prdslib.isType '"String")
-                                  ],
-                                _js2n__-prdslib.isType '"String"
-                              ],
-                        include =
-                          _js2n__-prdslib.oneOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"Array",
-                                    _js2n__-prdslib.strings.minLength 1,
-                                    _js2n__-prdslib.arrays.arrayOf
-                                      (_js2n__-prdslib.isType '"String")
-                                  ],
-                                _js2n__-prdslib.isType '"String"
-                              ],
-                      } {} false _js2n__-prdslib.never
-                  ]
-              ]),
       "_js2n__-:definitions/clone!contract"
         | doc "Configures the clone step. Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#clone"
         = _js2n__-prdslib.contract_from_predicate
@@ -998,6 +951,87 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType 'Record
                   ])
             ],
+      "_js2n__-:definitions/commands_step!predicate"
+        | doc "Every step of your pipeline executes arbitrary commands inside a specified docker container. Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#steps"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { detach = _js2n__-prdslib.const true, } {} true
+                  _js2n__-prdslib.always) _js2n__-prdslib.always
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "commands" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "entrypoint" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]
+                  ]),
+              _js2n__-prdslib.records.required [ "image" ],
+              _js2n__-prdslib.records.record
+                {
+                  backend_options =
+                    _js2n__-refsenv."_js2n__-:definitions/step_backend_options!predicate",
+                  commands =
+                    _js2n__-refsenv."_js2n__-:definitions/step_commands!predicate",
+                  depends_on =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  detach = _js2n__-prdslib.isType '"Bool",
+                  directory =
+                    _js2n__-refsenv."_js2n__-:definitions/step_directory!predicate",
+                  entrypoint =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  environment =
+                    _js2n__-refsenv."_js2n__-:definitions/step_environment!predicate",
+                  failure =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "fail", "ignore" ]
+                        ],
+                  image =
+                    _js2n__-refsenv."_js2n__-:definitions/step_image!predicate",
+                  name = _js2n__-prdslib.isType '"String",
+                  privileged =
+                    _js2n__-refsenv."_js2n__-:definitions/step_privileged!predicate",
+                  pull =
+                    _js2n__-refsenv."_js2n__-:definitions/step_pull!predicate",
+                  secrets =
+                    _js2n__-refsenv."_js2n__-:definitions/step_secrets!predicate",
+                  volumes =
+                    _js2n__-refsenv."_js2n__-:definitions/step_volumes!predicate",
+                  when =
+                    _js2n__-refsenv."_js2n__-:definitions/step_when!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/constraint_list!predicate" =
         _js2n__-prdslib.oneOf
             [
@@ -1051,37 +1085,6 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.strings.minLength 1,
                   _js2n__-prdslib.arrays.arrayOf
                     _js2n__-refsenv."_js2n__-:definitions/event_enum!predicate"
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.record
-                    {
-                      exclude =
-                        _js2n__-prdslib.oneOf
-                            [
-                              _js2n__-refsenv."_js2n__-:definitions/event_enum!predicate",
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.strings.minLength 1,
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    _js2n__-refsenv."_js2n__-:definitions/event_enum!predicate"
-                                ]
-                            ],
-                      include =
-                        _js2n__-prdslib.oneOf
-                            [
-                              _js2n__-refsenv."_js2n__-:definitions/event_enum!predicate",
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.strings.minLength 1,
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    _js2n__-refsenv."_js2n__-:definitions/event_enum!predicate"
-                                ]
-                            ],
-                    } {} false _js2n__-prdslib.never
                 ]
             ],
       "_js2n__-:definitions/event_enum!predicate" =
@@ -1140,34 +1143,17 @@ let rec _js2n__-refsenv
                           ])
                     ])
               ]),
-      "_js2n__-:definitions/pipeline_when!contract"
-        | doc "Whole pipelines can be skipped based on conditions. Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#when---global-workflow-conditions"
-        = _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.oneOf
-              [
-                _js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"Array",
-                    _js2n__-prdslib.strings.minLength 1,
-                    _js2n__-prdslib.arrays.arrayOf
-                      _js2n__-refsenv."_js2n__-:definitions/pipeline_when_condition!predicate"
-                  ],
-                _js2n__-refsenv."_js2n__-:definitions/pipeline_when_condition!predicate"
-              ]),
-      "_js2n__-:definitions/pipeline_when_condition!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/plugin_step!predicate"
+        | doc "Plugins let you execute predefined functions in a more secure context. Read more: https://woodpecker-ci.org/docs/usage/plugins/overview"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "image" ],
               _js2n__-prdslib.records.record
                 {
-                  branch =
-                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
-                  cron =
-                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
-                  environment =
-                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
-                  evaluate = _js2n__-prdslib.isType '"String",
-                  event =
+                  backend_options =
+                    _js2n__-refsenv."_js2n__-:definitions/step_backend_options!predicate",
+                  depends_on =
                     _js2n__-prdslib.oneOf
                         [
                           _js2n__-prdslib.allOf
@@ -1175,62 +1161,34 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"Array",
                               _js2n__-prdslib.strings.minLength 1,
                               _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/event_enum!predicate"
-                            ],
-                          _js2n__-refsenv."_js2n__-:definitions/event_enum!predicate"
-                        ],
-                  instance =
-                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
-                  path =
-                    _js2n__-prdslib.oneOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
                                 (_js2n__-prdslib.isType '"String")
                             ],
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.record
-                                {
-                                  exclude =
-                                    _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"Array",
-                                          _js2n__-prdslib.arrays.arrayOf
-                                            (_js2n__-prdslib.isType '"String")
-                                        ],
-                                  ignore_message =
-                                    _js2n__-prdslib.isType '"String",
-                                  include =
-                                    _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"Array",
-                                          _js2n__-prdslib.arrays.arrayOf
-                                            (_js2n__-prdslib.isType '"String")
-                                        ],
-                                  on_empty = _js2n__-prdslib.isType '"Bool",
-                                } {} false _js2n__-prdslib.never
-                            ]
+                          _js2n__-prdslib.isType '"String"
                         ],
-                  platform =
-                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
-                  ref = _js2n__-prdslib.isType '"String",
-                  repo =
-                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
+                  detach = _js2n__-prdslib.isType '"Bool",
+                  directory =
+                    _js2n__-refsenv."_js2n__-:definitions/step_directory!predicate",
+                  failure =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "fail", "ignore" ]
+                        ],
+                  image =
+                    _js2n__-refsenv."_js2n__-:definitions/step_image!predicate",
+                  name = _js2n__-prdslib.isType '"String",
+                  privileged =
+                    _js2n__-refsenv."_js2n__-:definitions/step_privileged!predicate",
+                  pull =
+                    _js2n__-refsenv."_js2n__-:definitions/step_pull!predicate",
+                  settings =
+                    _js2n__-refsenv."_js2n__-:definitions/step_settings!predicate",
+                  volumes =
+                    _js2n__-refsenv."_js2n__-:definitions/step_volumes!predicate",
+                  when =
+                    _js2n__-refsenv."_js2n__-:definitions/step_when!predicate",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/platform!contract"
-        | doc "deprecated, use labels.platform"
-        = _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.allOf
-              [
-                _js2n__-prdslib.isType '"String",
-                _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
-              ]),
       "_js2n__-:definitions/service!predicate"
         | doc "Read more: https://woodpecker-ci.org/docs/usage/services"
         = _js2n__-prdslib.allOf
@@ -1244,6 +1202,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/step_backend_options!predicate",
                   commands =
                     _js2n__-refsenv."_js2n__-:definitions/step_commands!predicate",
+                  directory =
+                    _js2n__-refsenv."_js2n__-:definitions/step_directory!predicate",
                   environment =
                     _js2n__-refsenv."_js2n__-:definitions/step_environment!predicate",
                   image =
@@ -1296,69 +1256,11 @@ let rec _js2n__-refsenv
                   ]
               ]),
       "_js2n__-:definitions/step!predicate"
-        | doc "Every step of your pipeline executes arbitrary commands inside a specified docker container. Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#steps"
-        = _js2n__-prdslib.allOf
+        | doc "A step of your workflow executes either arbitrary commands or uses a plugin. Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#steps"
+        = _js2n__-prdslib.anyOf
             [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "image" ],
-              _js2n__-prdslib.records.record
-                {
-                  backend_options =
-                    _js2n__-refsenv."_js2n__-:definitions/step_backend_options!predicate",
-                  commands =
-                    _js2n__-refsenv."_js2n__-:definitions/step_commands!predicate",
-                  depends_on =
-                    _js2n__-prdslib.oneOf
-                        [
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.strings.minLength 1,
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.isType '"String")
-                            ],
-                          _js2n__-prdslib.isType '"String"
-                        ],
-                  detach = _js2n__-prdslib.isType '"Bool",
-                  directory =
-                    _js2n__-refsenv."_js2n__-:definitions/step_directory!predicate",
-                  entrypoint =
-                    _js2n__-prdslib.oneOf
-                        [
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.strings.minLength 1,
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.isType '"String")
-                            ],
-                          _js2n__-prdslib.isType '"String"
-                        ],
-                  environment =
-                    _js2n__-refsenv."_js2n__-:definitions/step_environment!predicate",
-                  failure =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "fail", "ignore" ]
-                        ],
-                  group = _js2n__-prdslib.isType '"String",
-                  image =
-                    _js2n__-refsenv."_js2n__-:definitions/step_image!predicate",
-                  name = _js2n__-prdslib.isType '"String",
-                  privileged =
-                    _js2n__-refsenv."_js2n__-:definitions/step_privileged!predicate",
-                  pull =
-                    _js2n__-refsenv."_js2n__-:definitions/step_pull!predicate",
-                  secrets =
-                    _js2n__-refsenv."_js2n__-:definitions/step_secrets!predicate",
-                  settings =
-                    _js2n__-refsenv."_js2n__-:definitions/step_settings!predicate",
-                  volumes =
-                    _js2n__-refsenv."_js2n__-:definitions/step_volumes!predicate",
-                  when =
-                    _js2n__-refsenv."_js2n__-:definitions/step_when!predicate",
-                } {} false _js2n__-prdslib.never
+              _js2n__-refsenv."_js2n__-:definitions/commands_step!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/plugin_step!predicate"
             ],
       "_js2n__-:definitions/step_backend_kubernetes!predicate"
         | doc "Advanced options for the kubernetes agent backends"
@@ -1462,28 +1364,18 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/step_environment!predicate"
         | doc "Pass environment variables to a pipeline step. Read more: https://woodpecker-ci.org/docs/usage/environment"
-        = _js2n__-prdslib.oneOf
+        = _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.strings.minLength 1,
-                  _js2n__-prdslib.arrays.arrayOf
-                    (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.record {} {} true
-                    (_js2n__-prdslib.anyOf
-                      [
-                        _js2n__-prdslib.isType '"Bool",
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.isType '"Number",
-                        _js2n__-prdslib.isType '"Array",
-                        _js2n__-prdslib.isType 'Record
-                      ])
-                ]
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Bool",
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType '"Number",
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.isType 'Record
+                  ])
             ],
       "_js2n__-:definitions/step_image!predicate"
         | doc "Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#image"
@@ -1537,21 +1429,7 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.strings.minLength 1,
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.oneOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required [ "source", "target" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            source = _js2n__-prdslib.isType '"String",
-                            target = _js2n__-prdslib.isType '"String",
-                          } {} true _js2n__-prdslib.always
-                      ]
-                  ])
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
             ],
       "_js2n__-:definitions/step_settings!predicate"
         | doc "Change the settings of your plugin. Read more: https://woodpecker-ci.org/docs/usage/plugins/overview"
@@ -1598,8 +1476,6 @@ let rec _js2n__-refsenv
                   branch =
                     _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
                   cron =
-                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
-                  environment =
                     _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
                   evaluate = _js2n__-prdslib.isType '"String",
                   event =
@@ -1681,6 +1557,77 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/workflow_when!contract"
+        | doc "Whole workflow can be skipped based on conditions. Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#when---global-workflow-conditions"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.oneOf
+              [
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.strings.minLength 1,
+                    _js2n__-prdslib.arrays.arrayOf
+                      _js2n__-refsenv."_js2n__-:definitions/workflow_when_condition!predicate"
+                  ],
+                _js2n__-refsenv."_js2n__-:definitions/workflow_when_condition!predicate"
+              ]),
+      "_js2n__-:definitions/workflow_when_condition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  branch =
+                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
+                  cron =
+                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
+                  evaluate = _js2n__-prdslib.isType '"String",
+                  event =
+                    _js2n__-refsenv."_js2n__-:definitions/event_constraint_list!predicate",
+                  instance =
+                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
+                  path =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  exclude =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                  ignore_message =
+                                    _js2n__-prdslib.isType '"String",
+                                  include =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                  on_empty = _js2n__-prdslib.isType '"Bool",
+                                } {} false _js2n__-prdslib.never
+                            ]
+                        ],
+                  platform =
+                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
+                  ref = _js2n__-prdslib.isType '"String",
+                  repo =
+                    _js2n__-refsenv."_js2n__-:definitions/constraint_list!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/workspace!contract"
         | doc "Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#workspace"
         = {  .. },
@@ -1688,9 +1635,6 @@ let rec _js2n__-refsenv
     in
   {
       "$schema" | String | optional,
-      branches
-        | _js2n__-refsenv."_js2n__-:definitions/branches!contract"
-        | optional,
       clone | _js2n__-refsenv."_js2n__-:definitions/clone!contract" | optional,
       depends_on
         | _js2n__-prdslib.contract_from_predicate
@@ -1706,13 +1650,6 @@ let rec _js2n__-refsenv
         | optional,
       matrix
         | _js2n__-refsenv."_js2n__-:definitions/matrix!contract"
-        | optional,
-      pipeline
-        | _js2n__-refsenv."_js2n__-:definitions/step_list!contract"
-        | doc "deprecated, use steps"
-        | optional,
-      platform
-        | _js2n__-refsenv."_js2n__-:definitions/platform!contract"
         | optional,
       runs_on
         | _js2n__-prdslib.contract_from_predicate
@@ -1732,9 +1669,8 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
         | doc "Use yaml aliases to define variables. Read more: https://woodpecker-ci.org/docs/usage/advanced-usage"
         | optional,
-      version | Number | optional,
       when
-        | _js2n__-refsenv."_js2n__-:definitions/pipeline_when!contract"
+        | _js2n__-refsenv."_js2n__-:definitions/workflow_when!contract"
         | optional,
       workspace
         | _js2n__-refsenv."_js2n__-:definitions/workspace!contract"

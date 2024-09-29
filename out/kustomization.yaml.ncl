@@ -1011,6 +1011,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   includeCRDs = _js2n__-prdslib.isType '"Bool",
+                  kubeVersion = _js2n__-prdslib.isType '"String",
                   name = _js2n__-prdslib.isType '"String",
                   nameTemplate = _js2n__-prdslib.isType '"String",
                   namespace = _js2n__-prdslib.isType '"String",

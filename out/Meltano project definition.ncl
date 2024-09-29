@@ -1011,6 +1011,10 @@ let rec _js2n__-refsenv
         | String
         | doc "A globally unique project identifier. Defaults to a Meltano-generated unique GUID for each project."
         | optional,
+      project_readonly
+        | Bool
+        | doc "Whether the project is read-only."
+        | optional,
       python
         | String
         | doc "The python version to use for plugins, specified as a path, or as the name of an executable to find within a directory in $PATH. If not specified, the python executable that was used to run Meltano will be used (within a separate virtual environment). This can be overridden on a per-plugin basis by setting the `python` property for the plugin."

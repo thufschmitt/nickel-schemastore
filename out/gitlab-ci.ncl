@@ -943,7 +943,11 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/artifacts!predicate" =
         _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.isType 'Null
+                ],
               _js2n__-prdslib.records.record
                 {
                   access =
@@ -977,6 +981,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record
                             {
+                              annotations = _js2n__-prdslib.isType '"String",
                               browser_performance =
                                 _js2n__-prdslib.isType '"String",
                               codequality =
@@ -995,7 +1000,7 @@ let rec _js2n__-refsenv
                                         {
                                           coverage_format =
                                             _js2n__-prdslib.enum
-                                                [ "cobertura" ],
+                                                [ "cobertura", "jacoco" ],
                                           path =
                                             _js2n__-prdslib.allOf
                                                 [
@@ -1855,8 +1860,10 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record
-                            { path_prefix = _js2n__-prdslib.isType '"String", }
-                            {} false _js2n__-prdslib.never
+                            {
+                              expire_in = _js2n__-prdslib.isType '"String",
+                              path_prefix = _js2n__-prdslib.isType '"String",
+                            } {} false _js2n__-prdslib.never
                         ],
                   parallel =
                     _js2n__-refsenv."_js2n__-:definitions/parallel!predicate",
@@ -1967,6 +1974,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/retry!predicate",
                   rules =
                     _js2n__-refsenv."_js2n__-:definitions/rules!predicate",
+                  run = _js2n__-refsenv."_js2n__-:definitions/steps!predicate",
                   script =
                     _js2n__-refsenv."_js2n__-:definitions/script!predicate",
                   secrets =
@@ -2478,10 +2486,35 @@ let rec _js2n__-refsenv
                                     [ "gcp_secret_manager" ],
                                   _js2n__-prdslib.records.record {} {} true
                                     _js2n__-prdslib.always
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "akeyless" ],
+                                  _js2n__-prdslib.records.record {} {} true
+                                    _js2n__-prdslib.always
                                 ]
                             ],
                           _js2n__-prdslib.records.record
                             {
+                              akeyless =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          cert_user_name =
+                                            _js2n__-prdslib.isType '"String",
+                                          csr_data =
+                                            _js2n__-prdslib.isType '"String",
+                                          data_key =
+                                            _js2n__-prdslib.isType '"String",
+                                          name =
+                                            _js2n__-prdslib.isType '"String",
+                                          public_key_data =
+                                            _js2n__-prdslib.isType '"String",
+                                        } {} false _js2n__-prdslib.never
+                                    ],
                               azure_key_vault =
                                 _js2n__-prdslib.allOf
                                     [
@@ -2676,6 +2709,42 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.strings.minLength 1
+            ],
+      "_js2n__-:definitions/steps!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "step" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "script" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ],
+                    _js2n__-prdslib.records.required [ "name" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        env =
+                          _js2n__-refsenv."_js2n__-:definitions/globalVariables!predicate",
+                        inputs =
+                          _js2n__-refsenv."_js2n__-:definitions/inputs!predicate",
+                        name = _js2n__-prdslib.isType '"String",
+                        script = _js2n__-prdslib.isType '"String",
+                        step = _js2n__-prdslib.isType '"String",
+                      } {} false _js2n__-prdslib.never
+                  ])
             ],
       "_js2n__-:definitions/string_file_list!predicate" =
         _js2n__-prdslib.oneOf

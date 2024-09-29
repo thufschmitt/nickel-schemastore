@@ -2130,6 +2130,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType '"Bool",
                   singleton =
                     _js2n__-refsenv."_js2n__-:definitions/singleton!predicate",
+                  telemetryMode = _js2n__-prdslib.enum [ "OpenTelemetry" ],
                   version = _js2n__-prdslib.enum [ "2.0" ],
                   watchDirectories =
                     _js2n__-refsenv."_js2n__-:definitions/watchDirectories!predicate",

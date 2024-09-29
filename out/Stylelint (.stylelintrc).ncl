@@ -917,7 +917,9 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/generalSheet!predicate",
                     _js2n__-refsenv."_js2n__-:definitions/keyframeDeclaration!predicate",
                     _js2n__-refsenv."_js2n__-:definitions/length!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/lightness!predicate",
                     _js2n__-refsenv."_js2n__-:definitions/mediaFeature!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/mediaQuery!predicate",
                     _js2n__-refsenv."_js2n__-:definitions/mediaQueryList!predicate",
                     _js2n__-refsenv."_js2n__-:definitions/number!predicate",
                     _js2n__-refsenv."_js2n__-:definitions/property!predicate",
@@ -1128,6 +1130,7 @@ let rec _js2n__-refsenv
                                                                 '"String",
                                                               _js2n__-prdslib.enum
                                                                 [
+                                                                  "all-nested",
                                                                   "after-same-name",
                                                                   "inside-block",
                                                                   "blockless-after-same-name-blockless",
@@ -1328,6 +1331,7 @@ let rec _js2n__-refsenv
                             ]
                         ]
                     ],
+              at-rule-semicolon-space-before = _js2n__-prdslib.always,
               at-rule-whitelist =
                 _js2n__-refsenv."_js2n__-:definitions/arrayStringRule!predicate",
             } {} true _js2n__-prdslib.always,
@@ -1744,6 +1748,7 @@ let rec _js2n__-refsenv
                                                                 [
                                                                   "between-comments",
                                                                   "after-comment",
+                                                                  "stylelint-command",
                                                                   "stylelint-commands"
                                                                 ]
                                                             ]),
@@ -1780,12 +1785,43 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType '"String",
                       _js2n__-prdslib.enum [ "warning", "error" ]
                     ],
+              url = _js2n__-prdslib.isType '"String",
             } {} true _js2n__-prdslib.always,
       "_js2n__-:definitions/customMedia!predicate" =
         _js2n__-prdslib.records.record
             {
               custom-media-pattern =
                 _js2n__-refsenv."_js2n__-:definitions/stringRule!predicate",
+              no-unknown-custom-media =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.const true,
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.items
+                            [
+                              _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-prdslib.const true,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} false
+                                    _js2n__-prdslib.never,
+                                  _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
+                                ]
+                            ],
+                          _js2n__-prdslib.arrays.maxItems 2,
+                          _js2n__-prdslib.arrays.minItems 1
+                        ]
+                    ],
             } {} true _js2n__-prdslib.always,
       "_js2n__-:definitions/customProperty!predicate" =
         _js2n__-prdslib.records.record
@@ -1887,6 +1923,36 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/booleanRule!predicate",
               custom-property-pattern =
                 _js2n__-refsenv."_js2n__-:definitions/stringRule!predicate",
+              no-unknown-custom-properties =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.const true,
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.items
+                            [
+                              _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-prdslib.const true,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} false
+                                    _js2n__-prdslib.never,
+                                  _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
+                                ]
+                            ],
+                          _js2n__-prdslib.arrays.maxItems 2,
+                          _js2n__-prdslib.arrays.minItems 1
+                        ]
+                    ],
             } {} true _js2n__-prdslib.always,
       "_js2n__-:definitions/declaration!predicate" =
         _js2n__-prdslib.records.record
@@ -2058,6 +2124,133 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/objectRule!predicate",
               declaration-property-value-blacklist =
                 _js2n__-refsenv."_js2n__-:definitions/objectRule!predicate",
+              declaration-property-value-no-unknown =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.const true,
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.items
+                            [
+                              _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-prdslib.const true,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate",
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      ignoreProperties =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record {}
+                                                {} true
+                                                (_js2n__-prdslib.anyOf
+                                                  [
+                                                    _js2n__-prdslib.oneOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"String",
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"Array",
+                                                            _js2n__-prdslib.arrays.arrayOf
+                                                              (_js2n__-prdslib.isType
+                                                                '"String")
+                                                          ]
+                                                      ],
+                                                    _js2n__-prdslib.oneOf
+                                                      [
+                                                        _js2n__-prdslib.oneOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Record,
+                                                            _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  '"String",
+                                                                _js2n__-prdslib.strings.pattern
+                                                                  "^\\/.+\\/i?$"
+                                                              ]
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"Array",
+                                                            _js2n__-prdslib.arrays.arrayOf
+                                                              (_js2n__-prdslib.anyOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    'Record,
+                                                                  _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        '"String",
+                                                                      _js2n__-prdslib.strings.pattern
+                                                                        "^\\/.+\\/i?$"
+                                                                    ]
+                                                                ])
+                                                          ]
+                                                      ]
+                                                  ])
+                                            ],
+                                      propertiesSyntax =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record {}
+                                                {} true
+                                                (_js2n__-prdslib.oneOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"Array",
+                                                        _js2n__-prdslib.arrays.arrayOf
+                                                          (_js2n__-prdslib.isType
+                                                            '"String")
+                                                      ]
+                                                  ])
+                                            ],
+                                      typesSyntax =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record {}
+                                                {} true
+                                                (_js2n__-prdslib.oneOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"Array",
+                                                        _js2n__-prdslib.arrays.arrayOf
+                                                          (_js2n__-prdslib.isType
+                                                            '"String")
+                                                      ]
+                                                  ])
+                                            ],
+                                    } {} true _js2n__-prdslib.always
+                                ]
+                            ],
+                          _js2n__-prdslib.arrays.maxItems 2,
+                          _js2n__-prdslib.arrays.minItems 1
+                        ]
+                    ],
               declaration-property-value-whitelist =
                 _js2n__-refsenv."_js2n__-:definitions/objectRule!predicate",
             } {} true _js2n__-prdslib.always,
@@ -2640,6 +2833,7 @@ let rec _js2n__-refsenv
                             ]
                         ]
                     ],
+              linebreaks = _js2n__-prdslib.always,
               max-empty-lines =
                 _js2n__-refsenv."_js2n__-:definitions/integerRule!predicate",
               max-line-length =
@@ -2779,6 +2973,7 @@ let rec _js2n__-refsenv
                                                                 '"String",
                                                               _js2n__-prdslib.enum
                                                                 [
+                                                                  "at-rules-without-declaration-blocks",
                                                                   "blockless-at-rules",
                                                                   "pseudo-classes"
                                                                 ]
@@ -2856,6 +3051,7 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/booleanRule!predicate",
               no-duplicate-selectors =
                 _js2n__-refsenv."_js2n__-:definitions/booleanRule!predicate",
+              no-empty-first-line = _js2n__-prdslib.always,
               no-empty-source =
                 _js2n__-refsenv."_js2n__-:definitions/booleanRule!predicate",
               no-eol-whitespace =
@@ -3124,6 +3320,49 @@ let rec _js2n__-refsenv
               length-zero-no-unit =
                 _js2n__-refsenv."_js2n__-:definitions/booleanRule!predicate",
             } {} true _js2n__-prdslib.always,
+      "_js2n__-:definitions/lightness!predicate" =
+        _js2n__-prdslib.records.record
+            {
+              lightness-notation =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.enum [ "percentage", "number" ]
+                            ],
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.items
+                            [
+                              _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "percentage", "number" ]
+                                    ],
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} false
+                                    _js2n__-prdslib.never,
+                                  _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
+                                ]
+                            ],
+                          _js2n__-prdslib.arrays.maxItems 2,
+                          _js2n__-prdslib.arrays.minItems 1
+                        ]
+                    ],
+            } {} true _js2n__-prdslib.always,
       "_js2n__-:definitions/lowerUpperRule!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -3233,14 +3472,176 @@ let rec _js2n__-refsenv
                     ],
               media-feature-name-no-vendor-prefix =
                 _js2n__-refsenv."_js2n__-:definitions/booleanRule!predicate",
+              media-feature-name-unit-allowed-list =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record {} {} true
+                                (_js2n__-prdslib.oneOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          (_js2n__-prdslib.isType '"String")
+                                      ]
+                                  ])
+                            ],
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.items
+                            [
+                              _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {} {} true
+                                        (_js2n__-prdslib.oneOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String")
+                                              ]
+                                          ])
+                                    ],
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} false
+                                    _js2n__-prdslib.never,
+                                  _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
+                                ]
+                            ],
+                          _js2n__-prdslib.arrays.maxItems 2,
+                          _js2n__-prdslib.arrays.minItems 1
+                        ]
+                    ],
+              media-feature-name-value-no-unknown =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.const true,
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.items
+                            [
+                              _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-prdslib.const true,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} false
+                                    _js2n__-prdslib.never,
+                                  _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
+                                ]
+                            ],
+                          _js2n__-prdslib.arrays.maxItems 2,
+                          _js2n__-prdslib.arrays.minItems 1
+                        ]
+                    ],
               media-feature-no-missing-punctuation =
                 _js2n__-refsenv."_js2n__-:definitions/booleanRule!predicate",
               media-feature-parentheses-space-inside =
                 _js2n__-refsenv."_js2n__-:definitions/alwaysNeverRule!predicate",
+              media-feature-range-notation =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.enum [ "prefix", "context" ]
+                            ],
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.items
+                            [
+                              _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "prefix", "context" ]
+                                    ],
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} false
+                                    _js2n__-prdslib.never,
+                                  _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
+                                ]
+                            ],
+                          _js2n__-prdslib.arrays.maxItems 2,
+                          _js2n__-prdslib.arrays.minItems 1
+                        ]
+                    ],
               media-feature-range-operator-space-after =
                 _js2n__-refsenv."_js2n__-:definitions/alwaysNeverRule!predicate",
               media-feature-range-operator-space-before =
                 _js2n__-refsenv."_js2n__-:definitions/alwaysNeverRule!predicate",
+            } {} true _js2n__-prdslib.always,
+      "_js2n__-:definitions/mediaQuery!predicate" =
+        _js2n__-prdslib.records.record
+            {
+              media-query-no-invalid =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.const true,
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.items
+                            [
+                              _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-prdslib.const true,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} false
+                                    _js2n__-prdslib.never,
+                                  _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
+                                ]
+                            ],
+                          _js2n__-prdslib.arrays.maxItems 2,
+                          _js2n__-prdslib.arrays.minItems 1
+                        ]
+                    ],
             } {} true _js2n__-prdslib.always,
       "_js2n__-:definitions/mediaQueryList!predicate" =
         _js2n__-prdslib.records.record
@@ -3785,6 +4186,36 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/selector!predicate" =
         _js2n__-prdslib.records.record
             {
+              selector-anb-no-unmatchable =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.const true,
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.items
+                            [
+                              _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-prdslib.const true,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} false
+                                    _js2n__-prdslib.never,
+                                  _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
+                                ]
+                            ],
+                          _js2n__-prdslib.arrays.maxItems 2,
+                          _js2n__-prdslib.arrays.minItems 1
+                        ]
+                    ],
               selector-attribute-brackets-space-inside =
                 _js2n__-refsenv."_js2n__-:definitions/alwaysNeverRule!predicate",
               selector-attribute-operator-blacklist =

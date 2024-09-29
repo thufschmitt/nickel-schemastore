@@ -897,10 +897,326 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/io.argoproj.common.Amount!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.AMQPConsumeConfig!predicate"
+        | doc "AMQPConsumeConfig holds the configuration to immediately starts delivering queued messages"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  autoAck = _js2n__-prdslib.isType '"Bool",
+                  consumerTag = _js2n__-prdslib.isType '"String",
+                  exclusive = _js2n__-prdslib.isType '"Bool",
+                  noLocal = _js2n__-prdslib.isType '"Bool",
+                  noWait = _js2n__-prdslib.isType '"Bool",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.AMQPEventSource!predicate"
+        | doc "AMQPEventSource refers to an event-source for AMQP stream events"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "exchangeName", "exchangeType", "routingKey" ],
+              _js2n__-prdslib.records.record
+                {
+                  auth =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BasicAuth!predicate",
+                  connectionBackoff =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Backoff!predicate",
+                  consume =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.AMQPConsumeConfig!predicate",
+                  exchangeDeclare =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.AMQPExchangeDeclareConfig!predicate",
+                  exchangeName = _js2n__-prdslib.isType '"String",
+                  exchangeType = _js2n__-prdslib.isType '"String",
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
+                  jsonBody = _js2n__-prdslib.isType '"Bool",
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  queueBind =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.AMQPQueueBindConfig!predicate",
+                  queueDeclare =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.AMQPQueueDeclareConfig!predicate",
+                  routingKey = _js2n__-prdslib.isType '"String",
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
+                  url = _js2n__-prdslib.isType '"String",
+                  urlSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.AMQPExchangeDeclareConfig!predicate"
+        | doc "AMQPExchangeDeclareConfig holds the configuration for the exchange on the server"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  autoDelete = _js2n__-prdslib.isType '"Bool",
+                  durable = _js2n__-prdslib.isType '"Bool",
+                  internal = _js2n__-prdslib.isType '"Bool",
+                  noWait = _js2n__-prdslib.isType '"Bool",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.AMQPQueueBindConfig!predicate"
+        | doc "AMQPQueueBindConfig holds the configuration that binds an exchange to a queue so that publishings to the exchange will be routed to the queue when the publishing routing key matches the binding routing key"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { noWait = _js2n__-prdslib.isType '"Bool", } {} true
+                _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.AMQPQueueDeclareConfig!predicate"
+        | doc "AMQPQueueDeclareConfig holds the configuration of a queue to hold messages and deliver to consumers. Declaring creates a queue if it doesn't already exist, or ensures that an existing queue matches the same parameters"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  arguments = _js2n__-prdslib.isType '"String",
+                  autoDelete = _js2n__-prdslib.isType '"Bool",
+                  durable = _js2n__-prdslib.isType '"Bool",
+                  exclusive = _js2n__-prdslib.isType '"Bool",
+                  name = _js2n__-prdslib.isType '"String",
+                  noWait = _js2n__-prdslib.isType '"Bool",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.AWSLambdaTrigger!predicate"
+        | doc "AWSLambdaTrigger refers to specification of the trigger to invoke an AWS Lambda function"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "functionName", "payload", "region" ],
+              _js2n__-prdslib.records.record
+                {
+                  accessKey =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  functionName = _js2n__-prdslib.isType '"String",
+                  invocationType = _js2n__-prdslib.isType '"String",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  payload =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  region = _js2n__-prdslib.isType '"String",
+                  roleARN = _js2n__-prdslib.isType '"String",
+                  secretKey =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.Amount!predicate"
         | doc "Amount represent a numeric amount."
         = _js2n__-prdslib.isType '"Number",
-      "_js2n__-:definitions/io.argoproj.common.Backoff!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.ArgoWorkflowTrigger!predicate"
+        | doc "ArgoWorkflowTrigger is the trigger for the Argo Workflow"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  args =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  operation = _js2n__-prdslib.isType '"String",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  source =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ArtifactLocation!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.ArtifactLocation!predicate"
+        | doc "ArtifactLocation describes the source location for an external artifact"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  configmap =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ConfigMapKeySelector!predicate",
+                  file =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.FileArtifact!predicate",
+                  git =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.GitArtifact!predicate",
+                  inline = _js2n__-prdslib.isType '"String",
+                  resource =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.K8SResource!predicate",
+                  s3 =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.S3Artifact!predicate",
+                  url =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.URLArtifact!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.AzureEventHubsTrigger!predicate"
+        | doc "AzureEventHubsTrigger refers to specification of the Azure Event Hubs Trigger"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "fqdn", "hubName", "payload", "sharedAccessKeyName" ],
+              _js2n__-prdslib.records.record
+                {
+                  fqdn = _js2n__-prdslib.isType '"String",
+                  hubName = _js2n__-prdslib.isType '"String",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  payload =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  sharedAccessKey =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  sharedAccessKeyName =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.AzureEventsHubEventSource!predicate"
+        | doc "AzureEventsHubEventSource describes the event source for azure events hub More info at https://docs.microsoft.com/en-us/azure/event-hubs/"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "fqdn", "hubName" ],
+              _js2n__-prdslib.records.record
+                {
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
+                  fqdn = _js2n__-prdslib.isType '"String",
+                  hubName = _js2n__-prdslib.isType '"String",
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  sharedAccessKey =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  sharedAccessKeyName =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.AzureQueueStorageEventSource!predicate"
+        | doc "AzureQueueStorageEventSource describes the event source for azure queue storage more info at https://learn.microsoft.com/en-us/azure/storage/queues/"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "queueName" ],
+              _js2n__-prdslib.records.record
+                {
+                  connectionString =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  decodeMessage = _js2n__-prdslib.isType '"Bool",
+                  dlq = _js2n__-prdslib.isType '"Bool",
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
+                  jsonBody = _js2n__-prdslib.isType '"Bool",
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  queueName = _js2n__-prdslib.isType '"String",
+                  storageAccountName = _js2n__-prdslib.isType '"String",
+                  waitTimeInSeconds = _js2n__-prdslib.isType 'Integer,
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.AzureServiceBusEventSource!predicate"
+        | doc "AzureServiceBusEventSource describes the event source for azure service bus More info at https://docs.microsoft.com/en-us/azure/service-bus-messaging/"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "queueName", "subscriptionName", "topicName" ],
+              _js2n__-prdslib.records.record
+                {
+                  connectionString =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
+                  fullyQualifiedNamespace = _js2n__-prdslib.isType '"String",
+                  jsonBody = _js2n__-prdslib.isType '"Bool",
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  queueName = _js2n__-prdslib.isType '"String",
+                  subscriptionName = _js2n__-prdslib.isType '"String",
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
+                  topicName = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.AzureServiceBusTrigger!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "payload", "queueName", "subscriptionName", "topicName" ],
+              _js2n__-prdslib.records.record
+                {
+                  connectionString =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  payload =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  queueName = _js2n__-prdslib.isType '"String",
+                  subscriptionName = _js2n__-prdslib.isType '"String",
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
+                  topicName = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.Backoff!predicate"
         | doc "Backoff for an operation"
         = _js2n__-prdslib.allOf
             [
@@ -908,15 +1224,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   duration =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Int64OrString!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Int64OrString!predicate",
                   factor =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Amount!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Amount!predicate",
                   jitter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Amount!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Amount!predicate",
                   steps = _js2n__-prdslib.isType 'Integer,
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.common.BasicAuth!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.BasicAuth!predicate"
         | doc "BasicAuth contains the reference to K8s secrets that holds the username and password"
         = _js2n__-prdslib.allOf
             [
@@ -929,7 +1245,209 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.common.Condition!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketAuth!predicate"
+        | doc "BitbucketAuth holds the different auth strategies for connecting to Bitbucket"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  basic =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketBasicAuth!predicate",
+                  oauthToken =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketBasicAuth!predicate"
+        | doc "BitbucketBasicAuth holds the information required to authenticate user via basic auth mechanism"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "password", "username" ],
+              _js2n__-prdslib.records.record
+                {
+                  password =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  username =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketEventSource!predicate"
+        | doc "BitbucketEventSource describes the event source for Bitbucket"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "auth", "events", "webhook" ],
+              _js2n__-prdslib.records.record
+                {
+                  auth =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketAuth!predicate",
+                  deleteHookOnFinish = _js2n__-prdslib.isType '"Bool",
+                  events =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  owner = _js2n__-prdslib.isType '"String",
+                  projectKey = _js2n__-prdslib.isType '"String",
+                  repositories =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketRepository!predicate"
+                        ],
+                  repositorySlug = _js2n__-prdslib.isType '"String",
+                  webhook =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookContext!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketRepository!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "owner", "repositorySlug" ],
+              _js2n__-prdslib.records.record
+                {
+                  owner = _js2n__-prdslib.isType '"String",
+                  repositorySlug = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketServerEventSource!predicate"
+        | doc "BitbucketServerEventSource refers to event-source related to Bitbucket Server events"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "bitbucketserverBaseURL" ],
+              _js2n__-prdslib.records.record
+                {
+                  accessToken =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  bitbucketserverBaseURL = _js2n__-prdslib.isType '"String",
+                  checkInterval = _js2n__-prdslib.isType '"String",
+                  deleteHookOnFinish = _js2n__-prdslib.isType '"Bool",
+                  events =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  oneEventPerChange = _js2n__-prdslib.isType '"Bool",
+                  projectKey = _js2n__-prdslib.isType '"String",
+                  projects =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  repositories =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketServerRepository!predicate"
+                        ],
+                  repositorySlug = _js2n__-prdslib.isType '"String",
+                  skipBranchRefsChangedOnOpenPR =
+                    _js2n__-prdslib.isType '"Bool",
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
+                  webhook =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookContext!predicate",
+                  webhookSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketServerRepository!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "projectKey", "repositorySlug" ],
+              _js2n__-prdslib.records.record
+                {
+                  projectKey = _js2n__-prdslib.isType '"String",
+                  repositorySlug = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.BusConfig!predicate"
+        | doc "BusConfig has the finalized configuration for EventBus"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  jetstream =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.JetStreamConfig!predicate",
+                  kafka =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.KafkaBus!predicate",
+                  nats =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSConfig!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.CalendarEventSource!predicate"
+        | doc "CalendarEventSource describes a time based dependency. One of the fields (schedule, interval, or recurrence) must be passed. Schedule takes precedence over interval; interval takes precedence over recurrence"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  exclusionDates =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
+                  interval = _js2n__-prdslib.isType '"String",
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  persistence =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventPersistence!predicate",
+                  schedule = _js2n__-prdslib.isType '"String",
+                  timezone = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.CatchupConfiguration!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  maxDuration = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.Condition!predicate"
         | doc "Condition contains details about resource state"
         = _js2n__-prdslib.allOf
             [
@@ -945,185 +1463,37 @@ let rec _js2n__-refsenv
                   type = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.common.Int64OrString!predicate" =
-        _js2n__-prdslib.anyOf
-            [
-              _js2n__-prdslib.isType 'Integer,
-              _js2n__-prdslib.isType '"String"
-            ],
-      "_js2n__-:definitions/io.argoproj.common.Metadata!predicate"
-        | doc "Metadata holds the annotations and labels of an event source pod"
-        = _js2n__-prdslib.allOf
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.ConditionsResetByTime!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  annotations =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  labels =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
+                  cron = _js2n__-prdslib.isType '"String",
+                  timezone = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.common.Resource!predicate"
-        | doc "Resource represent arbitrary structured data."
-        = _js2n__-prdslib.isType 'Record,
-      "_js2n__-:definitions/io.argoproj.common.S3Artifact!predicate"
-        | doc "S3Artifact contains information about an S3 connection and bucket"
-        = _js2n__-prdslib.allOf
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.ConditionsResetCriteria!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "accessKey", "bucket", "endpoint", "secretKey" ],
               _js2n__-prdslib.records.record
                 {
-                  accessKey =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  bucket =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.S3Bucket!predicate",
-                  caCertificate =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  endpoint = _js2n__-prdslib.isType '"String",
-                  events =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.S3Filter!predicate",
-                  insecure = _js2n__-prdslib.isType '"Bool",
-                  metadata =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  region = _js2n__-prdslib.isType '"String",
-                  secretKey =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  byTime =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ConditionsResetByTime!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.common.S3Bucket!predicate"
-        | doc "S3Bucket contains information to describe an S3 Bucket"
-        = _js2n__-prdslib.allOf
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.ConfigMapPersistence!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "name" ],
               _js2n__-prdslib.records.record
                 {
-                  key = _js2n__-prdslib.isType '"String",
+                  createIfNotExist = _js2n__-prdslib.isType '"Bool",
                   name = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.common.S3Filter!predicate"
-        | doc "S3Filter represents filters to apply to bucket notifications for specifying constraints on objects"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "prefix", "suffix" ],
-              _js2n__-prdslib.records.record
-                {
-                  prefix = _js2n__-prdslib.isType '"String",
-                  suffix = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.common.SASLConfig!predicate"
-        | doc "SASLConfig refers to SASL configuration for a client"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  mechanism = _js2n__-prdslib.isType '"String",
-                  passwordSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  userSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.common.SchemaRegistryConfig!predicate"
-        | doc "SchemaRegistryConfig refers to configuration for a client"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "schemaId", "url" ],
-              _js2n__-prdslib.records.record
-                {
-                  auth =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.BasicAuth!predicate",
-                  schemaId = _js2n__-prdslib.isType 'Integer,
-                  url = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.common.SecureHeader!predicate"
-        | doc "SecureHeader refers to HTTP Headers with auth tokens as values"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  name = _js2n__-prdslib.isType '"String",
-                  valueFrom =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.ValueFromSource!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate"
-        | doc "TLSConfig refers to TLS configuration for a client."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  caCertSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  clientCertSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  clientKeySecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  insecureSkipVerify = _js2n__-prdslib.isType '"Bool",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.common.ValueFromSource!predicate"
-        | doc "ValueFromSource allows you to reference keys from either a Configmap or Secret"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  configMapKeyRef =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ConfigMapKeySelector!predicate",
-                  secretKeyRef =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.BusConfig!predicate"
-        | doc "BusConfig has the finalized configuration for EventBus"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  jetstream =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.JetStreamConfig!predicate",
-                  kafka =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.KafkaBus!predicate",
-                  nats =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.NATSConfig!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.ContainerTemplate!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.ContainerTemplate!predicate"
         | doc "ContainerTemplate defines customized spec for a container"
         = _js2n__-prdslib.allOf
             [
@@ -1137,7 +1507,128 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecurityContext!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.EventBus!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.CustomTrigger!predicate"
+        | doc "CustomTrigger refers to the specification of the custom trigger."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "payload", "secure", "serverURL", "spec" ],
+              _js2n__-prdslib.records.record
+                {
+                  certSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  payload =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  secure = _js2n__-prdslib.isType '"Bool",
+                  serverNameOverride = _js2n__-prdslib.isType '"String",
+                  serverURL = _js2n__-prdslib.isType '"String",
+                  spec =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.DataFilter!predicate"
+        | doc "DataFilter describes constraints and filters for event data Regular Expressions are purposefully not a feature as they are overkill for our uses here See Rob Pike's Post: https://commandcenter.blogspot.com/2011/08/regular-expressions-in-lexing-and.html"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "path", "type", "value" ],
+              _js2n__-prdslib.records.record
+                {
+                  comparator = _js2n__-prdslib.isType '"String",
+                  path = _js2n__-prdslib.isType '"String",
+                  template = _js2n__-prdslib.isType '"String",
+                  type = _js2n__-prdslib.isType '"String",
+                  value =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EmailTrigger!predicate"
+        | doc "EmailTrigger refers to the specification of the email notification trigger."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  body = _js2n__-prdslib.isType '"String",
+                  from = _js2n__-prdslib.isType '"String",
+                  host = _js2n__-prdslib.isType '"String",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  port = _js2n__-prdslib.isType 'Integer,
+                  smtpPassword =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  subject = _js2n__-prdslib.isType '"String",
+                  to =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  username = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EmitterEventSource!predicate"
+        | doc "EmitterEventSource describes the event source for emitter More info at https://emitter.io/develop/getting-started/"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "broker", "channelKey", "channelName" ],
+              _js2n__-prdslib.records.record
+                {
+                  broker = _js2n__-prdslib.isType '"String",
+                  channelKey = _js2n__-prdslib.isType '"String",
+                  channelName = _js2n__-prdslib.isType '"String",
+                  connectionBackoff =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Backoff!predicate",
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
+                  jsonBody = _js2n__-prdslib.isType '"Bool",
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  password =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
+                  username =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventBus!predicate"
         | doc "EventBus is the definition of a eventbus resource"
         = _js2n__-prdslib.allOf
             [
@@ -1160,12 +1651,12 @@ let rec _js2n__-refsenv
                   metadata =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta!predicate",
                   spec =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.EventBusSpec!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventBusSpec!predicate",
                   status =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.EventBusStatus!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventBusStatus!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.EventBusSpec!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventBusSpec!predicate"
         | doc "EventBusSpec refers to specification of eventbus resource"
         = _js2n__-prdslib.allOf
             [
@@ -1173,16 +1664,16 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   jetstream =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.JetStreamBus!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.JetStreamBus!predicate",
                   jetstreamExotic =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.JetStreamConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.JetStreamConfig!predicate",
                   kafka =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.KafkaBus!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.KafkaBus!predicate",
                   nats =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.NATSBus!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSBus!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.EventBusStatus!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventBusStatus!predicate"
         | doc "EventBusStatus holds the status of the eventbus resource"
         = _js2n__-prdslib.allOf
             [
@@ -1194,622 +1685,112 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Condition!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Condition!predicate"
                         ],
                   config =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.BusConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BusConfig!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.JetStreamBus!predicate"
-        | doc "JetStreamBus holds the JetStream EventBus information"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  affinity =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Affinity!predicate",
-                  containerTemplate =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.ContainerTemplate!predicate",
-                  imagePullSecrets =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.LocalObjectReference!predicate"
-                        ],
-                  maxPayload = _js2n__-prdslib.isType '"String",
-                  metadata =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Metadata!predicate",
-                  metricsContainerTemplate =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.ContainerTemplate!predicate",
-                  nodeSelector =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  persistence =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.PersistenceStrategy!predicate",
-                  "priority" = _js2n__-prdslib.isType 'Integer,
-                  priorityClassName = _js2n__-prdslib.isType '"String",
-                  reloaderContainerTemplate =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.ContainerTemplate!predicate",
-                  replicas = _js2n__-prdslib.isType 'Integer,
-                  securityContext =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.PodSecurityContext!predicate",
-                  serviceAccountName = _js2n__-prdslib.isType '"String",
-                  settings = _js2n__-prdslib.isType '"String",
-                  startArgs =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  streamConfig = _js2n__-prdslib.isType '"String",
-                  tolerations =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Toleration!predicate"
-                        ],
-                  version = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.JetStreamConfig!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  accessSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  streamConfig = _js2n__-prdslib.isType '"String",
-                  url = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.KafkaBus!predicate"
-        | doc "KafkaBus holds the KafkaBus EventBus information"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  consumerGroup =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.KafkaConsumerGroup!predicate",
-                  sasl =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.SASLConfig!predicate",
-                  tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
-                  topic = _js2n__-prdslib.isType '"String",
-                  url = _js2n__-prdslib.isType '"String",
-                  version = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.KafkaConsumerGroup!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  groupName = _js2n__-prdslib.isType '"String",
-                  rebalanceStrategy = _js2n__-prdslib.isType '"String",
-                  startOldest = _js2n__-prdslib.isType '"Bool",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.NATSBus!predicate"
-        | doc "NATSBus holds the NATS eventbus information"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  exotic =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.NATSConfig!predicate",
-                  native =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.NativeStrategy!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.NATSConfig!predicate"
-        | doc "NATSConfig holds the config of NATS"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  accessSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  auth = _js2n__-prdslib.isType '"String",
-                  clusterID = _js2n__-prdslib.isType '"String",
-                  url = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.NativeStrategy!predicate"
-        | doc "NativeStrategy indicates to install a native NATS service"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  affinity =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Affinity!predicate",
-                  auth = _js2n__-prdslib.isType '"String",
-                  containerTemplate =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.ContainerTemplate!predicate",
-                  imagePullSecrets =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.LocalObjectReference!predicate"
-                        ],
-                  maxAge = _js2n__-prdslib.isType '"String",
-                  maxBytes = _js2n__-prdslib.isType '"String",
-                  maxMsgs = _js2n__-prdslib.isType 'Integer,
-                  maxPayload = _js2n__-prdslib.isType '"String",
-                  maxSubs = _js2n__-prdslib.isType 'Integer,
-                  metadata =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Metadata!predicate",
-                  metricsContainerTemplate =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.ContainerTemplate!predicate",
-                  nodeSelector =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  persistence =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.PersistenceStrategy!predicate",
-                  "priority" = _js2n__-prdslib.isType 'Integer,
-                  priorityClassName = _js2n__-prdslib.isType '"String",
-                  raftCommitTimeout = _js2n__-prdslib.isType '"String",
-                  raftElectionTimeout = _js2n__-prdslib.isType '"String",
-                  raftHeartbeatTimeout = _js2n__-prdslib.isType '"String",
-                  raftLeaseTimeout = _js2n__-prdslib.isType '"String",
-                  replicas = _js2n__-prdslib.isType 'Integer,
-                  securityContext =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.PodSecurityContext!predicate",
-                  serviceAccountName = _js2n__-prdslib.isType '"String",
-                  tolerations =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Toleration!predicate"
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.PersistenceStrategy!predicate"
-        | doc "PersistenceStrategy defines the strategy of persistence"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  accessMode = _js2n__-prdslib.isType '"String",
-                  storageClassName = _js2n__-prdslib.isType '"String",
-                  volumeSize =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.api.resource.Quantity!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AMQPConsumeConfig!predicate"
-        | doc "AMQPConsumeConfig holds the configuration to immediately starts delivering queued messages"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  autoAck = _js2n__-prdslib.isType '"Bool",
-                  consumerTag = _js2n__-prdslib.isType '"String",
-                  exclusive = _js2n__-prdslib.isType '"Bool",
-                  noLocal = _js2n__-prdslib.isType '"Bool",
-                  noWait = _js2n__-prdslib.isType '"Bool",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AMQPEventSource!predicate"
-        | doc "AMQPEventSource refers to an event-source for AMQP stream events"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventContext!predicate"
+        | doc "EventContext holds the context of the cloudevent received from an event source."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required
-                [ "exchangeName", "exchangeType", "routingKey" ],
+                [
+                  "datacontenttype",
+                  "id",
+                  "source",
+                  "specversion",
+                  "subject",
+                  "time",
+                  "type"
+                ],
               _js2n__-prdslib.records.record
                 {
-                  auth =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.BasicAuth!predicate",
-                  connectionBackoff =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Backoff!predicate",
-                  consume =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AMQPConsumeConfig!predicate",
-                  exchangeDeclare =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AMQPExchangeDeclareConfig!predicate",
-                  exchangeName = _js2n__-prdslib.isType '"String",
-                  exchangeType = _js2n__-prdslib.isType '"String",
-                  filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
-                  jsonBody = _js2n__-prdslib.isType '"Bool",
-                  metadata =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  queueBind =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AMQPQueueBindConfig!predicate",
-                  queueDeclare =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AMQPQueueDeclareConfig!predicate",
-                  routingKey = _js2n__-prdslib.isType '"String",
-                  tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
-                  url = _js2n__-prdslib.isType '"String",
-                  urlSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  datacontenttype = _js2n__-prdslib.isType '"String",
+                  id = _js2n__-prdslib.isType '"String",
+                  source = _js2n__-prdslib.isType '"String",
+                  specversion = _js2n__-prdslib.isType '"String",
+                  subject = _js2n__-prdslib.isType '"String",
+                  time =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time!predicate",
+                  type = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AMQPExchangeDeclareConfig!predicate"
-        | doc "AMQPExchangeDeclareConfig holds the configuration for the exchange on the server"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventDependency!predicate"
+        | doc "EventDependency describes a dependency"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "eventName", "eventSourceName", "name" ],
               _js2n__-prdslib.records.record
                 {
-                  autoDelete = _js2n__-prdslib.isType '"Bool",
-                  durable = _js2n__-prdslib.isType '"Bool",
-                  internal = _js2n__-prdslib.isType '"Bool",
-                  noWait = _js2n__-prdslib.isType '"Bool",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AMQPQueueBindConfig!predicate"
-        | doc "AMQPQueueBindConfig holds the configuration that binds an exchange to a queue so that publishings to the exchange will be routed to the queue when the publishing routing key matches the binding routing key"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                { noWait = _js2n__-prdslib.isType '"Bool", } {} true
-                _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AMQPQueueDeclareConfig!predicate"
-        | doc "AMQPQueueDeclareConfig holds the configuration of a queue to hold messages and deliver to consumers. Declaring creates a queue if it doesn't already exist, or ensures that an existing queue matches the same parameters"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  arguments = _js2n__-prdslib.isType '"String",
-                  autoDelete = _js2n__-prdslib.isType '"Bool",
-                  durable = _js2n__-prdslib.isType '"Bool",
-                  exclusive = _js2n__-prdslib.isType '"Bool",
+                  eventName = _js2n__-prdslib.isType '"String",
+                  eventSourceName = _js2n__-prdslib.isType '"String",
+                  filters =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventDependencyFilter!predicate",
+                  filtersLogicalOperator = _js2n__-prdslib.isType '"String",
                   name = _js2n__-prdslib.isType '"String",
-                  noWait = _js2n__-prdslib.isType '"Bool",
+                  transform =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventDependencyTransformer!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AzureEventsHubEventSource!predicate"
-        | doc "AzureEventsHubEventSource describes the event source for azure events hub More info at https://docs.microsoft.com/en-us/azure/event-hubs/"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "fqdn", "hubName" ],
-              _js2n__-prdslib.records.record
-                {
-                  filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
-                  fqdn = _js2n__-prdslib.isType '"String",
-                  hubName = _js2n__-prdslib.isType '"String",
-                  metadata =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  sharedAccessKey =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  sharedAccessKeyName =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AzureQueueStorageEventSource!predicate"
-        | doc "AzureQueueStorageEventSource describes the event source for azure queue storage more info at https://learn.microsoft.com/en-us/azure/storage/queues/"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "queueName" ],
-              _js2n__-prdslib.records.record
-                {
-                  connectionString =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  decodeMessage = _js2n__-prdslib.isType '"Bool",
-                  dlq = _js2n__-prdslib.isType '"Bool",
-                  filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
-                  jsonBody = _js2n__-prdslib.isType '"Bool",
-                  metadata =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  queueName = _js2n__-prdslib.isType '"String",
-                  storageAccountName = _js2n__-prdslib.isType '"String",
-                  waitTimeInSeconds = _js2n__-prdslib.isType 'Integer,
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AzureServiceBusEventSource!predicate"
-        | doc "AzureServiceBusEventSource describes the event source for azure service bus More info at https://docs.microsoft.com/en-us/azure/service-bus-messaging/"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "queueName", "subscriptionName", "topicName" ],
-              _js2n__-prdslib.records.record
-                {
-                  connectionString =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
-                  fullyQualifiedNamespace = _js2n__-prdslib.isType '"String",
-                  jsonBody = _js2n__-prdslib.isType '"Bool",
-                  metadata =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  queueName = _js2n__-prdslib.isType '"String",
-                  subscriptionName = _js2n__-prdslib.isType '"String",
-                  tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
-                  topicName = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketAuth!predicate"
-        | doc "BitbucketAuth holds the different auth strategies for connecting to Bitbucket"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventDependencyFilter!predicate"
+        | doc "EventDependencyFilter defines filters and constraints for a event."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  basic =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketBasicAuth!predicate",
-                  oauthToken =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketBasicAuth!predicate"
-        | doc "BasicAuth holds the information required to authenticate user via basic auth mechanism"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "password", "username" ],
-              _js2n__-prdslib.records.record
-                {
-                  password =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  username =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketEventSource!predicate"
-        | doc "BitbucketEventSource describes the event source for Bitbucket"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "auth", "events", "webhook" ],
-              _js2n__-prdslib.records.record
-                {
-                  auth =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketAuth!predicate",
-                  deleteHookOnFinish = _js2n__-prdslib.isType '"Bool",
-                  events =
+                  context =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventContext!predicate",
+                  data =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.DataFilter!predicate"
                         ],
-                  filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
-                  metadata =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  owner = _js2n__-prdslib.isType '"String",
-                  projectKey = _js2n__-prdslib.isType '"String",
-                  repositories =
+                  dataLogicalOperator = _js2n__-prdslib.isType '"String",
+                  exprLogicalOperator = _js2n__-prdslib.isType '"String",
+                  exprs =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketRepository!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ExprFilter!predicate"
                         ],
-                  repositorySlug = _js2n__-prdslib.isType '"String",
-                  webhook =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookContext!predicate",
+                  script = _js2n__-prdslib.isType '"String",
+                  time =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TimeFilter!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketRepository!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "owner", "repositorySlug" ],
-              _js2n__-prdslib.records.record
-                {
-                  owner = _js2n__-prdslib.isType '"String",
-                  repositorySlug = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketServerEventSource!predicate"
-        | doc "BitbucketServerEventSource refers to event-source related to Bitbucket Server events"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "bitbucketserverBaseURL" ],
-              _js2n__-prdslib.records.record
-                {
-                  accessToken =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  bitbucketserverBaseURL = _js2n__-prdslib.isType '"String",
-                  checkInterval = _js2n__-prdslib.isType '"String",
-                  deleteHookOnFinish = _js2n__-prdslib.isType '"Bool",
-                  events =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
-                  metadata =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  projectKey = _js2n__-prdslib.isType '"String",
-                  projects =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  repositories =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketServerRepository!predicate"
-                        ],
-                  repositorySlug = _js2n__-prdslib.isType '"String",
-                  skipBranchRefsChangedOnOpenPR =
-                    _js2n__-prdslib.isType '"Bool",
-                  tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
-                  webhook =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookContext!predicate",
-                  webhookSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketServerRepository!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "projectKey", "repositorySlug" ],
-              _js2n__-prdslib.records.record
-                {
-                  projectKey = _js2n__-prdslib.isType '"String",
-                  repositorySlug = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.CalendarEventSource!predicate"
-        | doc "CalendarEventSource describes a time based dependency. One of the fields (schedule, interval, or recurrence) must be passed. Schedule takes precedence over interval; interval takes precedence over recurrence"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventDependencyTransformer!predicate"
+        | doc "EventDependencyTransformer transforms the event"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  exclusionDates =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
-                  interval = _js2n__-prdslib.isType '"String",
-                  metadata =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  persistence =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventPersistence!predicate",
-                  schedule = _js2n__-prdslib.isType '"String",
-                  timezone = _js2n__-prdslib.isType '"String",
+                  jq = _js2n__-prdslib.isType '"String",
+                  script = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.CatchupConfiguration!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  enabled = _js2n__-prdslib.isType '"Bool",
-                  maxDuration = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.ConfigMapPersistence!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  createIfNotExist = _js2n__-prdslib.isType '"Bool",
-                  name = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EmitterEventSource!predicate"
-        | doc "EmitterEventSource describes the event source for emitter More info at https://emitter.io/develop/getting-started/"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "broker", "channelKey", "channelName" ],
-              _js2n__-prdslib.records.record
-                {
-                  broker = _js2n__-prdslib.isType '"String",
-                  channelKey = _js2n__-prdslib.isType '"String",
-                  channelName = _js2n__-prdslib.isType '"String",
-                  connectionBackoff =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Backoff!predicate",
-                  filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
-                  jsonBody = _js2n__-prdslib.isType '"Bool",
-                  metadata =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  password =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
-                  username =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventPersistence!predicate" =
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventPersistence!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
                   catchup =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.CatchupConfiguration!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.CatchupConfiguration!predicate",
                   configMap =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.ConfigMapPersistence!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ConfigMapPersistence!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSource!predicate"
         | doc "EventSource is the definition of a eventsource resource"
         = _js2n__-prdslib.allOf
             [
@@ -1832,12 +1813,12 @@ let rec _js2n__-refsenv
                   metadata =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta!predicate",
                   spec =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceSpec!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceSpec!predicate",
                   status =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceStatus!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceStatus!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate" =
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -1845,7 +1826,7 @@ let rec _js2n__-refsenv
                 { expression = _js2n__-prdslib.isType '"String", } {} true
                 _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceSpec!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceSpec!predicate"
         | doc "EventSourceSpec refers to specification of event-source resource"
         = _js2n__-prdslib.allOf
             [
@@ -1857,56 +1838,56 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AMQPEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.AMQPEventSource!predicate"
                         ],
                   azureEventsHub =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AzureEventsHubEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.AzureEventsHubEventSource!predicate"
                         ],
                   azureQueueStorage =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AzureQueueStorageEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.AzureQueueStorageEventSource!predicate"
                         ],
                   azureServiceBus =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.AzureServiceBusEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.AzureServiceBusEventSource!predicate"
                         ],
                   bitbucket =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketEventSource!predicate"
                         ],
                   bitbucketserver =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.BitbucketServerEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BitbucketServerEventSource!predicate"
                         ],
                   calendar =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.CalendarEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.CalendarEventSource!predicate"
                         ],
                   emitter =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EmitterEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EmitterEventSource!predicate"
                         ],
                   eventBusName = _js2n__-prdslib.isType '"String",
                   file =
@@ -1914,105 +1895,105 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.FileEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.FileEventSource!predicate"
                         ],
                   generic =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.GenericEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.GenericEventSource!predicate"
                         ],
                   gerrit =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.GerritEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.GerritEventSource!predicate"
                         ],
                   github =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.GithubEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.GithubEventSource!predicate"
                         ],
                   gitlab =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.GitlabEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.GitlabEventSource!predicate"
                         ],
                   hdfs =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.HDFSEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.HDFSEventSource!predicate"
                         ],
                   kafka =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.KafkaEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.KafkaEventSource!predicate"
                         ],
                   minio =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.S3Artifact!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.S3Artifact!predicate"
                         ],
                   mqtt =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.MQTTEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.MQTTEventSource!predicate"
                         ],
                   nats =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.NATSEventsSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSEventsSource!predicate"
                         ],
                   nsq =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.NSQEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.NSQEventSource!predicate"
                         ],
                   pubSub =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.PubSubEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.PubSubEventSource!predicate"
                         ],
                   pulsar =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.PulsarEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.PulsarEventSource!predicate"
                         ],
                   redis =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.RedisEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.RedisEventSource!predicate"
                         ],
                   redisStream =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.RedisStreamEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.RedisStreamEventSource!predicate"
                         ],
                   replicas = _js2n__-prdslib.isType 'Integer,
                   resource =
@@ -2020,64 +2001,64 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.ResourceEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ResourceEventSource!predicate"
                         ],
                   service =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.Service!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Service!predicate",
                   sftp =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.SFTPEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SFTPEventSource!predicate"
                         ],
                   slack =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.SlackEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SlackEventSource!predicate"
                         ],
                   sns =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.SNSEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SNSEventSource!predicate"
                         ],
                   sqs =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.SQSEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SQSEventSource!predicate"
                         ],
                   storageGrid =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.StorageGridEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.StorageGridEventSource!predicate"
                         ],
                   stripe =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.StripeEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.StripeEventSource!predicate"
                         ],
                   template =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.Template!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Template!predicate",
                   webhook =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookEventSource!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookEventSource!predicate"
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceStatus!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceStatus!predicate"
         | doc "EventSourceStatus holds the status of the event-source resource"
         = _js2n__-prdslib.allOf
             [
@@ -2089,11 +2070,37 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Condition!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Condition!predicate"
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.FileEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.ExprFilter!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "expr", "fields" ],
+              _js2n__-prdslib.records.record
+                {
+                  expr = _js2n__-prdslib.isType '"String",
+                  fields =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.PayloadField!predicate"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.FileArtifact!predicate"
+        | doc "FileArtifact contains information about an artifact in a filesystem"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { path = _js2n__-prdslib.isType '"String", } {} true
+                _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.FileEventSource!predicate"
         | doc "FileEventSource describes an event-source for file related events."
         = _js2n__-prdslib.allOf
             [
@@ -2104,7 +2111,7 @@ let rec _js2n__-refsenv
                 {
                   eventType = _js2n__-prdslib.isType '"String",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   metadata =
                     _js2n__-prdslib.allOf
                         [
@@ -2114,10 +2121,10 @@ let rec _js2n__-refsenv
                         ],
                   polling = _js2n__-prdslib.isType '"Bool",
                   watchPathConfig =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WatchPathConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WatchPathConfig!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.GenericEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.GenericEventSource!predicate"
         | doc "GenericEventSource refers to a generic event source. It can be used to implement a custom event source."
         = _js2n__-prdslib.allOf
             [
@@ -2129,7 +2136,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   config = _js2n__-prdslib.isType '"String",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   insecure = _js2n__-prdslib.isType '"Bool",
                   jsonBody = _js2n__-prdslib.isType '"Bool",
                   metadata =
@@ -2142,7 +2149,7 @@ let rec _js2n__-refsenv
                   url = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.GerritEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.GerritEventSource!predicate"
         | doc "GerritEventSource refers to event-source related to gerrit events"
         = _js2n__-prdslib.allOf
             [
@@ -2152,7 +2159,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   auth =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.BasicAuth!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BasicAuth!predicate",
                   deleteHookOnFinish = _js2n__-prdslib.isType '"Bool",
                   events =
                     _js2n__-prdslib.allOf
@@ -2162,7 +2169,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   gerritBaseURL = _js2n__-prdslib.isType '"String",
                   hookName = _js2n__-prdslib.isType '"String",
                   metadata =
@@ -2181,10 +2188,65 @@ let rec _js2n__-refsenv
                         ],
                   sslVerify = _js2n__-prdslib.isType '"Bool",
                   webhook =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookContext!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookContext!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.GithubAppCreds!predicate" =
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.GitArtifact!predicate"
+        | doc "GitArtifact contains information about an artifact stored in git"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "cloneDirectory", "filePath", "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  branch = _js2n__-prdslib.isType '"String",
+                  cloneDirectory = _js2n__-prdslib.isType '"String",
+                  creds =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.GitCreds!predicate",
+                  filePath = _js2n__-prdslib.isType '"String",
+                  insecureIgnoreHostKey = _js2n__-prdslib.isType '"Bool",
+                  ref = _js2n__-prdslib.isType '"String",
+                  remote =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.GitRemoteConfig!predicate",
+                  sshKeySecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  tag = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.GitCreds!predicate"
+        | doc "GitCreds contain reference to git username and password"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  password =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  username =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.GitRemoteConfig!predicate"
+        | doc "GitRemoteConfig contains the configuration of a Git remote"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name", "urls" ],
+              _js2n__-prdslib.records.record
+                {
+                  name = _js2n__-prdslib.isType '"String",
+                  urls =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.GithubAppCreds!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -2198,7 +2260,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.GithubEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.GithubEventSource!predicate"
         | doc "GithubEventSource refers to event-source for github related events"
         = _js2n__-prdslib.allOf
             [
@@ -2219,9 +2281,9 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   githubApp =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.GithubAppCreds!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.GithubAppCreds!predicate",
                   githubBaseURL = _js2n__-prdslib.isType '"String",
                   githubUploadURL = _js2n__-prdslib.isType '"String",
                   id = _js2n__-prdslib.isType 'Integer,
@@ -2246,16 +2308,16 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.OwnedRepositories!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.OwnedRepositories!predicate"
                         ],
                   repository = _js2n__-prdslib.isType '"String",
                   webhook =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookContext!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookContext!predicate",
                   webhookSecret =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.GitlabEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.GitlabEventSource!predicate"
         | doc "GitlabEventSource refers to event-source related to Gitlab events"
         = _js2n__-prdslib.allOf
             [
@@ -2275,7 +2337,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   gitlabBaseURL = _js2n__-prdslib.isType '"String",
                   groups =
                     _js2n__-prdslib.allOf
@@ -2302,10 +2364,10 @@ let rec _js2n__-refsenv
                   secretToken =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   webhook =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookContext!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookContext!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.HDFSEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.HDFSEventSource!predicate"
         | doc "HDFSEventSource refers to event-source for HDFS related events"
         = _js2n__-prdslib.allOf
             [
@@ -2324,7 +2386,7 @@ let rec _js2n__-refsenv
                   checkInterval = _js2n__-prdslib.isType '"String",
                   directory = _js2n__-prdslib.isType '"String",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   hdfsUser = _js2n__-prdslib.isType '"String",
                   krbCCacheSecret =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
@@ -2347,7 +2409,171 @@ let rec _js2n__-refsenv
                   type = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.KafkaConsumerGroup!predicate" =
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.HTTPTrigger!predicate"
+        | doc "HTTPTrigger is the trigger for the HTTP request"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "payload", "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  basicAuth =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BasicAuth!predicate",
+                  headers =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  method = _js2n__-prdslib.isType '"String",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  payload =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  secureHeaders =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SecureHeader!predicate"
+                        ],
+                  timeout = _js2n__-prdslib.isType 'Integer,
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.Int64OrString!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType 'Integer,
+              _js2n__-prdslib.isType '"String"
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.JetStreamBus!predicate"
+        | doc "JetStreamBus holds the JetStream EventBus information"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  affinity =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Affinity!predicate",
+                  containerTemplate =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ContainerTemplate!predicate",
+                  imagePullSecrets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.LocalObjectReference!predicate"
+                        ],
+                  maxPayload = _js2n__-prdslib.isType '"String",
+                  metadata =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Metadata!predicate",
+                  metricsContainerTemplate =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ContainerTemplate!predicate",
+                  nodeSelector =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  persistence =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.PersistenceStrategy!predicate",
+                  "priority" = _js2n__-prdslib.isType 'Integer,
+                  priorityClassName = _js2n__-prdslib.isType '"String",
+                  reloaderContainerTemplate =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ContainerTemplate!predicate",
+                  replicas = _js2n__-prdslib.isType 'Integer,
+                  securityContext =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.PodSecurityContext!predicate",
+                  serviceAccountName = _js2n__-prdslib.isType '"String",
+                  settings = _js2n__-prdslib.isType '"String",
+                  startArgs =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  streamConfig = _js2n__-prdslib.isType '"String",
+                  tolerations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Toleration!predicate"
+                        ],
+                  version = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.JetStreamConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  accessSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  streamConfig = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.K8SResource!predicate"
+        | doc "K8SResource represent arbitrary structured data."
+        = _js2n__-prdslib.isType 'Record,
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.K8SResourcePolicy!predicate"
+        | doc "K8SResourcePolicy refers to the policy used to check the state of K8s based triggers using labels"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "backoff", "errorOnBackoffTimeout" ],
+              _js2n__-prdslib.records.record
+                {
+                  backoff =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Backoff!predicate",
+                  errorOnBackoffTimeout = _js2n__-prdslib.isType '"Bool",
+                  labels =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.KafkaBus!predicate"
+        | doc "KafkaBus holds the KafkaBus EventBus information"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  consumerGroup =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.KafkaConsumerGroup!predicate",
+                  sasl =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SASLConfig!predicate",
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
+                  topic = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                  version = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.KafkaConsumerGroup!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -2359,7 +2585,7 @@ let rec _js2n__-refsenv
                   rebalanceStrategy = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.KafkaEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.KafkaEventSource!predicate"
         | doc "KafkaEventSource refers to event-source for Kafka related events"
         = _js2n__-prdslib.allOf
             [
@@ -2369,11 +2595,11 @@ let rec _js2n__-refsenv
                 {
                   config = _js2n__-prdslib.isType '"String",
                   connectionBackoff =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Backoff!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Backoff!predicate",
                   consumerGroup =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.KafkaConsumerGroup!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.KafkaConsumerGroup!predicate",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   jsonBody = _js2n__-prdslib.isType '"Bool",
                   limitEventsPerSecond = _js2n__-prdslib.isType 'Integer,
                   metadata =
@@ -2385,15 +2611,61 @@ let rec _js2n__-refsenv
                         ],
                   partition = _js2n__-prdslib.isType '"String",
                   sasl =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.SASLConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SASLConfig!predicate",
                   tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
                   topic = _js2n__-prdslib.isType '"String",
                   url = _js2n__-prdslib.isType '"String",
                   version = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.MQTTEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.KafkaTrigger!predicate"
+        | doc "KafkaTrigger refers to the specification of the Kafka trigger."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "payload", "topic", "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  compress = _js2n__-prdslib.isType '"Bool",
+                  flushFrequency = _js2n__-prdslib.isType 'Integer,
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  partition = _js2n__-prdslib.isType 'Integer,
+                  partitioningKey = _js2n__-prdslib.isType '"String",
+                  payload =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  requiredAcks = _js2n__-prdslib.isType 'Integer,
+                  sasl =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SASLConfig!predicate",
+                  schemaRegistry =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SchemaRegistryConfig!predicate",
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
+                  topic = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                  version = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.LogTrigger!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { intervalSeconds = _js2n__-prdslib.isType 'Integer, } {} true
+                _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.MQTTEventSource!predicate"
         | doc "MQTTEventSource refers to event-source for MQTT related events"
         = _js2n__-prdslib.allOf
             [
@@ -2402,12 +2674,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   auth =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.BasicAuth!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BasicAuth!predicate",
                   clientId = _js2n__-prdslib.isType '"String",
                   connectionBackoff =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Backoff!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Backoff!predicate",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   jsonBody = _js2n__-prdslib.isType '"Bool",
                   metadata =
                     _js2n__-prdslib.allOf
@@ -2417,12 +2689,35 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
                   topic = _js2n__-prdslib.isType '"String",
                   url = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.NATSAuth!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.Metadata!predicate"
+        | doc "Metadata holds the annotations and labels of an event source pod"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  annotations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  labels =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSAuth!predicate"
         | doc "NATSAuth refers to the auth info for NATS EventSource"
         = _js2n__-prdslib.allOf
             [
@@ -2430,7 +2725,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   basic =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.BasicAuth!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BasicAuth!predicate",
                   credential =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   nkey =
@@ -2439,7 +2734,34 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.NATSEventsSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSBus!predicate"
+        | doc "NATSBus holds the NATS eventbus information"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  exotic =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSConfig!predicate",
+                  native =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.NativeStrategy!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSConfig!predicate"
+        | doc "NATSConfig holds the config of NATS"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  accessSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  auth = _js2n__-prdslib.isType '"String",
+                  clusterID = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSEventsSource!predicate"
         | doc "NATSEventsSource refers to event-source for NATS related events"
         = _js2n__-prdslib.allOf
             [
@@ -2448,11 +2770,11 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   auth =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.NATSAuth!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSAuth!predicate",
                   connectionBackoff =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Backoff!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Backoff!predicate",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   jsonBody = _js2n__-prdslib.isType '"Bool",
                   metadata =
                     _js2n__-prdslib.allOf
@@ -2464,11 +2786,39 @@ let rec _js2n__-refsenv
                   queue = _js2n__-prdslib.isType '"String",
                   subject = _js2n__-prdslib.isType '"String",
                   tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
                   url = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.NSQEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSTrigger!predicate"
+        | doc "NATSTrigger refers to the specification of the NATS trigger."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "payload", "subject", "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  payload =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  subject = _js2n__-prdslib.isType '"String",
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.NSQEventSource!predicate"
         | doc "NSQEventSource describes the event source for NSQ PubSub More info at https://godoc.org/github.com/nsqio/go-nsq"
         = _js2n__-prdslib.allOf
             [
@@ -2479,9 +2829,9 @@ let rec _js2n__-refsenv
                 {
                   channel = _js2n__-prdslib.isType '"String",
                   connectionBackoff =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Backoff!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Backoff!predicate",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   hostAddress = _js2n__-prdslib.isType '"String",
                   jsonBody = _js2n__-prdslib.isType '"Bool",
                   metadata =
@@ -2492,11 +2842,98 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
                   topic = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.OwnedRepositories!predicate" =
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.NativeStrategy!predicate"
+        | doc "NativeStrategy indicates to install a native NATS service"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  affinity =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Affinity!predicate",
+                  auth = _js2n__-prdslib.isType '"String",
+                  containerTemplate =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ContainerTemplate!predicate",
+                  imagePullSecrets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.LocalObjectReference!predicate"
+                        ],
+                  maxAge = _js2n__-prdslib.isType '"String",
+                  maxBytes = _js2n__-prdslib.isType '"String",
+                  maxMsgs = _js2n__-prdslib.isType 'Integer,
+                  maxPayload = _js2n__-prdslib.isType '"String",
+                  maxSubs = _js2n__-prdslib.isType 'Integer,
+                  metadata =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Metadata!predicate",
+                  metricsContainerTemplate =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ContainerTemplate!predicate",
+                  nodeSelector =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  persistence =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.PersistenceStrategy!predicate",
+                  "priority" = _js2n__-prdslib.isType 'Integer,
+                  priorityClassName = _js2n__-prdslib.isType '"String",
+                  raftCommitTimeout = _js2n__-prdslib.isType '"String",
+                  raftElectionTimeout = _js2n__-prdslib.isType '"String",
+                  raftHeartbeatTimeout = _js2n__-prdslib.isType '"String",
+                  raftLeaseTimeout = _js2n__-prdslib.isType '"String",
+                  replicas = _js2n__-prdslib.isType 'Integer,
+                  securityContext =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.PodSecurityContext!predicate",
+                  serviceAccountName = _js2n__-prdslib.isType '"String",
+                  tolerations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Toleration!predicate"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.OpenWhiskTrigger!predicate"
+        | doc "OpenWhiskTrigger refers to the specification of the OpenWhisk trigger."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "actionName", "host", "payload" ],
+              _js2n__-prdslib.records.record
+                {
+                  actionName = _js2n__-prdslib.isType '"String",
+                  authToken =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  host = _js2n__-prdslib.isType '"String",
+                  namespace = _js2n__-prdslib.isType '"String",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  payload =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  version = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.OwnedRepositories!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -2512,7 +2949,32 @@ let rec _js2n__-refsenv
                   owner = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.PubSubEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.PayloadField!predicate"
+        | doc "PayloadField binds a value at path within the event payload against a name."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name", "path" ],
+              _js2n__-prdslib.records.record
+                {
+                  name = _js2n__-prdslib.isType '"String",
+                  path = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.PersistenceStrategy!predicate"
+        | doc "PersistenceStrategy defines the strategy of persistence"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  accessMode = _js2n__-prdslib.isType '"String",
+                  storageClassName = _js2n__-prdslib.isType '"String",
+                  volumeSize =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.api.resource.Quantity!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.PubSubEventSource!predicate"
         | doc "PubSubEventSource refers to event-source for GCP PubSub related events."
         = _js2n__-prdslib.allOf
             [
@@ -2523,7 +2985,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   deleteSubscriptionOnFinish = _js2n__-prdslib.isType '"Bool",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   jsonBody = _js2n__-prdslib.isType '"Bool",
                   metadata =
                     _js2n__-prdslib.allOf
@@ -2538,7 +3000,7 @@ let rec _js2n__-refsenv
                   topicProjectID = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.PulsarEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.PulsarEventSource!predicate"
         | doc "PulsarEventSource describes the event source for Apache Pulsar"
         = _js2n__-prdslib.allOf
             [
@@ -2558,9 +3020,9 @@ let rec _js2n__-refsenv
                   authTokenSecret =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   connectionBackoff =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Backoff!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Backoff!predicate",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   jsonBody = _js2n__-prdslib.isType '"Bool",
                   metadata =
                     _js2n__-prdslib.allOf
@@ -2570,7 +3032,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
                   tlsAllowInsecureConnection = _js2n__-prdslib.isType '"Bool",
                   tlsTrustCertsSecret =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
@@ -2586,7 +3048,62 @@ let rec _js2n__-refsenv
                   url = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.RedisEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.PulsarTrigger!predicate"
+        | doc "PulsarTrigger refers to the specification of the Pulsar trigger."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "payload", "topic", "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  authAthenzParams =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  authAthenzSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  authTokenSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  connectionBackoff =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Backoff!predicate",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  payload =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
+                  tlsAllowInsecureConnection = _js2n__-prdslib.isType '"Bool",
+                  tlsTrustCertsSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  tlsValidateHostname = _js2n__-prdslib.isType '"Bool",
+                  topic = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.RateLimit!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  requestsPerUnit = _js2n__-prdslib.isType 'Integer,
+                  unit = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.RedisEventSource!predicate"
         | doc "RedisEventSource describes an event source for the Redis PubSub. More info at https://godoc.org/github.com/go-redis/redis#example-PubSub"
         = _js2n__-prdslib.allOf
             [
@@ -2603,7 +3120,7 @@ let rec _js2n__-refsenv
                         ],
                   db = _js2n__-prdslib.isType 'Integer,
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   hostAddress = _js2n__-prdslib.isType '"String",
                   jsonBody = _js2n__-prdslib.isType '"Bool",
                   metadata =
@@ -2617,11 +3134,11 @@ let rec _js2n__-refsenv
                   password =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
                   username = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.RedisStreamEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.RedisStreamEventSource!predicate"
         | doc "RedisStreamEventSource describes an event source for Redis streams (https://redis.io/topics/streams-intro)"
         = _js2n__-prdslib.allOf
             [
@@ -2632,7 +3149,7 @@ let rec _js2n__-refsenv
                   consumerGroup = _js2n__-prdslib.isType '"String",
                   db = _js2n__-prdslib.isType 'Integer,
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   hostAddress = _js2n__-prdslib.isType '"String",
                   maxMsgCountPerRead = _js2n__-prdslib.isType 'Integer,
                   metadata =
@@ -2652,11 +3169,11 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
                   username = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.ResourceEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.ResourceEventSource!predicate"
         | doc "ResourceEventSource refers to a event-source for K8s resource related events."
         = _js2n__-prdslib.allOf
             [
@@ -2673,7 +3190,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.ResourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ResourceFilter!predicate",
                   group = _js2n__-prdslib.isType '"String",
                   metadata =
                     _js2n__-prdslib.allOf
@@ -2687,7 +3204,7 @@ let rec _js2n__-refsenv
                   version = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.ResourceFilter!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.ResourceFilter!predicate"
         | doc "ResourceFilter contains K8s ObjectMeta information to further filter resource event objects"
         = _js2n__-prdslib.allOf
             [
@@ -2702,19 +3219,95 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.Selector!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Selector!predicate"
                         ],
                   labels =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.Selector!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Selector!predicate"
                         ],
                   prefix = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.SFTPEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.S3Artifact!predicate"
+        | doc "S3Artifact contains information about an S3 connection and bucket"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "accessKey", "bucket", "endpoint", "secretKey" ],
+              _js2n__-prdslib.records.record
+                {
+                  accessKey =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  bucket =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.S3Bucket!predicate",
+                  caCertificate =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  endpoint = _js2n__-prdslib.isType '"String",
+                  events =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.S3Filter!predicate",
+                  insecure = _js2n__-prdslib.isType '"Bool",
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  region = _js2n__-prdslib.isType '"String",
+                  secretKey =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.S3Bucket!predicate"
+        | doc "S3Bucket contains information to describe an S3 Bucket"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  key = _js2n__-prdslib.isType '"String",
+                  name = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.S3Filter!predicate"
+        | doc "S3Filter represents filters to apply to bucket notifications for specifying constraints on objects"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "prefix", "suffix" ],
+              _js2n__-prdslib.records.record
+                {
+                  prefix = _js2n__-prdslib.isType '"String",
+                  suffix = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SASLConfig!predicate"
+        | doc "SASLConfig refers to SASL configuration for a client"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  mechanism = _js2n__-prdslib.isType '"String",
+                  passwordSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  userSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SFTPEventSource!predicate"
         | doc "SFTPEventSource describes an event-source for sftp related events."
         = _js2n__-prdslib.allOf
             [
@@ -2727,7 +3320,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   eventType = _js2n__-prdslib.isType '"String",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   metadata =
                     _js2n__-prdslib.allOf
                         [
@@ -2743,10 +3336,10 @@ let rec _js2n__-refsenv
                   username =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   watchPathConfig =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WatchPathConfig!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WatchPathConfig!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.SNSEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SNSEventSource!predicate"
         | doc "SNSEventSource refers to event-source for AWS SNS related events"
         = _js2n__-prdslib.allOf
             [
@@ -2758,7 +3351,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   endpoint = _js2n__-prdslib.isType '"String",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   metadata =
                     _js2n__-prdslib.allOf
                         [
@@ -2773,10 +3366,10 @@ let rec _js2n__-refsenv
                   topicArn = _js2n__-prdslib.isType '"String",
                   validateSignature = _js2n__-prdslib.isType '"Bool",
                   webhook =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookContext!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookContext!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.SQSEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SQSEventSource!predicate"
         | doc "SQSEventSource refers to event-source for AWS SQS related events"
         = _js2n__-prdslib.allOf
             [
@@ -2790,7 +3383,7 @@ let rec _js2n__-refsenv
                   dlq = _js2n__-prdslib.isType '"Bool",
                   endpoint = _js2n__-prdslib.isType '"String",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   jsonBody = _js2n__-prdslib.isType '"Bool",
                   metadata =
                     _js2n__-prdslib.allOf
@@ -2810,7 +3403,33 @@ let rec _js2n__-refsenv
                   waitTimeSeconds = _js2n__-prdslib.isType 'Integer,
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.Selector!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SchemaRegistryConfig!predicate"
+        | doc "SchemaRegistryConfig refers to configuration for a client"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "schemaId", "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  auth =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.BasicAuth!predicate",
+                  schemaId = _js2n__-prdslib.isType 'Integer,
+                  url = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SecureHeader!predicate"
+        | doc "SecureHeader refers to HTTP Headers with auth tokens as values"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  name = _js2n__-prdslib.isType '"String",
+                  valueFrom =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ValueFromSource!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.Selector!predicate"
         | doc "Selector represents conditional operation to select K8s objects."
         = _js2n__-prdslib.allOf
             [
@@ -2823,7 +3442,88 @@ let rec _js2n__-refsenv
                   value = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.Service!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.Sensor!predicate"
+        | doc "Sensor is the definition of a sensor resource"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "metadata", "spec" ],
+              _js2n__-prdslib.records.record
+                {
+                  apiVersion =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "argoproj.io/v1alpha1"
+                        ],
+                  kind =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const "Sensor"
+                        ],
+                  metadata =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta!predicate",
+                  spec =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SensorSpec!predicate",
+                  status =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SensorStatus!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SensorSpec!predicate"
+        | doc "SensorSpec represents desired sensor state"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "dependencies", "triggers" ],
+              _js2n__-prdslib.records.record
+                {
+                  dependencies =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventDependency!predicate"
+                        ],
+                  errorOnFailedRound = _js2n__-prdslib.isType '"Bool",
+                  eventBusName = _js2n__-prdslib.isType '"String",
+                  loggingFields =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  replicas = _js2n__-prdslib.isType 'Integer,
+                  revisionHistoryLimit = _js2n__-prdslib.isType 'Integer,
+                  template =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Template!predicate",
+                  triggers =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Trigger!predicate"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SensorStatus!predicate"
+        | doc "SensorStatus contains information about the status of a sensor."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  conditions =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Condition!predicate"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.Service!predicate"
         | doc "Service holds the service information eventsource exposes"
         = _js2n__-prdslib.allOf
             [
@@ -2831,6 +3531,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   clusterIP = _js2n__-prdslib.isType '"String",
+                  metadata =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Metadata!predicate",
                   ports =
                     _js2n__-prdslib.allOf
                         [
@@ -2840,7 +3542,7 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.SlackEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SlackEventSource!predicate"
         | doc "SlackEventSource refers to event-source for Slack related events"
         = _js2n__-prdslib.allOf
             [
@@ -2848,7 +3550,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   metadata =
                     _js2n__-prdslib.allOf
                         [
@@ -2861,10 +3563,94 @@ let rec _js2n__-refsenv
                   token =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   webhook =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookContext!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookContext!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.StorageGridEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SlackSender!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  icon = _js2n__-prdslib.isType '"String",
+                  username = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SlackThread!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  broadcastMessageToChannel = _js2n__-prdslib.isType '"Bool",
+                  messageAggregationKey = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.SlackTrigger!predicate"
+        | doc "SlackTrigger refers to the specification of the slack notification trigger."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  attachments = _js2n__-prdslib.isType '"String",
+                  blocks = _js2n__-prdslib.isType '"String",
+                  channel = _js2n__-prdslib.isType '"String",
+                  message = _js2n__-prdslib.isType '"String",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  sender =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SlackSender!predicate",
+                  slackToken =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  thread =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SlackThread!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.StandardK8STrigger!predicate"
+        | doc "StandardK8STrigger is the standard Kubernetes resource trigger"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  liveObject = _js2n__-prdslib.isType '"Bool",
+                  operation = _js2n__-prdslib.isType '"String",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  patchStrategy = _js2n__-prdslib.isType '"String",
+                  source =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ArtifactLocation!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.StatusPolicy!predicate"
+        | doc "StatusPolicy refers to the policy used to check the state of the trigger using response status"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "allow" ],
+              _js2n__-prdslib.records.record
+                {
+                  allow =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType 'Integer)
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.StorageGridEventSource!predicate"
         | doc "StorageGridEventSource refers to event-source for StorageGrid related events"
         = _js2n__-prdslib.allOf
             [
@@ -2885,7 +3671,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.StorageGridFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.StorageGridFilter!predicate",
                   metadata =
                     _js2n__-prdslib.allOf
                         [
@@ -2896,10 +3682,10 @@ let rec _js2n__-refsenv
                   region = _js2n__-prdslib.isType '"String",
                   topicArn = _js2n__-prdslib.isType '"String",
                   webhook =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookContext!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookContext!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.StorageGridFilter!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.StorageGridFilter!predicate"
         | doc "StorageGridFilter represents filters to apply to bucket notifications for specifying constraints on objects"
         = _js2n__-prdslib.allOf
             [
@@ -2911,7 +3697,7 @@ let rec _js2n__-refsenv
                   suffix = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.StripeEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.StripeEventSource!predicate"
         | doc "StripeEventSource describes the event source for stripe webhook notifications More info at https://stripe.com/docs/webhooks"
         = _js2n__-prdslib.allOf
             [
@@ -2936,11 +3722,27 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   webhook =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookContext!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookContext!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.Template!predicate"
-        | doc "Template holds the information of an EventSource deployment template"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate"
+        | doc "TLSConfig refers to TLS configuration for a client."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  caCertSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  clientCertSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  clientKeySecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  insecureSkipVerify = _js2n__-prdslib.isType '"Bool",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.Template!predicate"
+        | doc "Template holds the information of a deployment template"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -2958,7 +3760,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.LocalObjectReference!predicate"
                         ],
                   metadata =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Metadata!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Metadata!predicate",
                   nodeSelector =
                     _js2n__-prdslib.allOf
                         [
@@ -2987,7 +3789,162 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WatchPathConfig!predicate" =
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.TimeFilter!predicate"
+        | doc "TimeFilter describes a window in time. It filters out events that occur outside the time limits. In other words, only events that occur after Start and before Stop will pass this filter."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "start", "stop" ],
+              _js2n__-prdslib.records.record
+                {
+                  start = _js2n__-prdslib.isType '"String",
+                  stop = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.Trigger!predicate"
+        | doc "Trigger is an action taken, output produced, an event created, a message sent"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  atLeastOnce = _js2n__-prdslib.isType '"Bool",
+                  dlqTrigger =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Trigger!predicate",
+                  parameters =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+                        ],
+                  policy =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerPolicy!predicate",
+                  rateLimit =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.RateLimit!predicate",
+                  retryStrategy =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Backoff!predicate",
+                  template =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerTemplate!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameter!predicate"
+        | doc "TriggerParameter indicates a passed parameter to a service template"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "dest" ],
+              _js2n__-prdslib.records.record
+                {
+                  dest = _js2n__-prdslib.isType '"String",
+                  operation = _js2n__-prdslib.isType '"String",
+                  src =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameterSource!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerParameterSource!predicate"
+        | doc "TriggerParameterSource defines the source for a parameter from a event event"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "dependencyName" ],
+              _js2n__-prdslib.records.record
+                {
+                  contextKey = _js2n__-prdslib.isType '"String",
+                  contextTemplate = _js2n__-prdslib.isType '"String",
+                  dataKey = _js2n__-prdslib.isType '"String",
+                  dataTemplate = _js2n__-prdslib.isType '"String",
+                  dependencyName = _js2n__-prdslib.isType '"String",
+                  useRawData = _js2n__-prdslib.isType '"Bool",
+                  value = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerPolicy!predicate"
+        | doc "TriggerPolicy dictates the policy for the trigger retries"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  k8s =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.K8SResourcePolicy!predicate",
+                  status =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.StatusPolicy!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.TriggerTemplate!predicate"
+        | doc "TriggerTemplate is the template that describes trigger specification."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  argoWorkflow =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ArgoWorkflowTrigger!predicate",
+                  awsLambda =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.AWSLambdaTrigger!predicate",
+                  azureEventHubs =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.AzureEventHubsTrigger!predicate",
+                  azureServiceBus =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.AzureServiceBusTrigger!predicate",
+                  conditions = _js2n__-prdslib.isType '"String",
+                  conditionsReset =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.ConditionsResetCriteria!predicate"
+                        ],
+                  custom =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.CustomTrigger!predicate",
+                  email =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EmailTrigger!predicate",
+                  http =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.HTTPTrigger!predicate",
+                  k8s =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.StandardK8STrigger!predicate",
+                  kafka =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.KafkaTrigger!predicate",
+                  log =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.LogTrigger!predicate",
+                  name = _js2n__-prdslib.isType '"String",
+                  nats =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSTrigger!predicate",
+                  openWhisk =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.OpenWhiskTrigger!predicate",
+                  pulsar =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.PulsarTrigger!predicate",
+                  slack =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SlackTrigger!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.URLArtifact!predicate"
+        | doc "URLArtifact contains information about an artifact at an http endpoint."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "path" ],
+              _js2n__-prdslib.records.record
+                {
+                  path = _js2n__-prdslib.isType '"String",
+                  verifyCert = _js2n__-prdslib.isType '"Bool",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.ValueFromSource!predicate"
+        | doc "ValueFromSource allows you to reference keys from either a Configmap or Secret"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  configMapKeyRef =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ConfigMapKeySelector!predicate",
+                  secretKeyRef =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.WatchPathConfig!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -2999,7 +3956,7 @@ let rec _js2n__-refsenv
                   pathRegexp = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookContext!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookContext!predicate"
         | doc "WebhookContext holds a general purpose REST API context"
         = _js2n__-prdslib.allOf
             [
@@ -3028,7 +3985,7 @@ let rec _js2n__-refsenv
                   url = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.WebhookEventSource!predicate"
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.WebhookEventSource!predicate"
         | doc "CalendarEventSource describes an HTTP based EventSource"
         = _js2n__-prdslib.allOf
             [
@@ -3041,7 +3998,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   endpoint = _js2n__-prdslib.isType '"String",
                   filter =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSourceFilter!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
                   maxPayloadSize = _js2n__-prdslib.isType 'Integer,
                   metadata =
                     _js2n__-prdslib.allOf
@@ -3057,1019 +4014,6 @@ let rec _js2n__-refsenv
                   serverKeySecret =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   url = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.AWSLambdaTrigger!predicate"
-        | doc "AWSLambdaTrigger refers to specification of the trigger to invoke an AWS Lambda function"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "functionName", "payload", "region" ],
-              _js2n__-prdslib.records.record
-                {
-                  accessKey =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  functionName = _js2n__-prdslib.isType '"String",
-                  invocationType = _js2n__-prdslib.isType '"String",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  payload =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  region = _js2n__-prdslib.isType '"String",
-                  roleARN = _js2n__-prdslib.isType '"String",
-                  secretKey =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.ArgoWorkflowTrigger!predicate"
-        | doc "ArgoWorkflowTrigger is the trigger for the Argo Workflow"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  args =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  operation = _js2n__-prdslib.isType '"String",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  source =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.ArtifactLocation!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.ArtifactLocation!predicate"
-        | doc "ArtifactLocation describes the source location for an external artifact"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  configmap =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ConfigMapKeySelector!predicate",
-                  file =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.FileArtifact!predicate",
-                  git =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.GitArtifact!predicate",
-                  inline = _js2n__-prdslib.isType '"String",
-                  resource =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Resource!predicate",
-                  s3 =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.S3Artifact!predicate",
-                  url =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.URLArtifact!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.AzureEventHubsTrigger!predicate"
-        | doc "AzureEventHubsTrigger refers to specification of the Azure Event Hubs Trigger"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "fqdn", "hubName", "payload", "sharedAccessKeyName" ],
-              _js2n__-prdslib.records.record
-                {
-                  fqdn = _js2n__-prdslib.isType '"String",
-                  hubName = _js2n__-prdslib.isType '"String",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  payload =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  sharedAccessKey =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  sharedAccessKeyName =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.AzureServiceBusTrigger!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "payload", "queueName", "subscriptionName", "topicName" ],
-              _js2n__-prdslib.records.record
-                {
-                  connectionString =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  payload =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  queueName = _js2n__-prdslib.isType '"String",
-                  subscriptionName = _js2n__-prdslib.isType '"String",
-                  tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
-                  topicName = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.ConditionsResetByTime!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  cron = _js2n__-prdslib.isType '"String",
-                  timezone = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.ConditionsResetCriteria!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  byTime =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.ConditionsResetByTime!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.CustomTrigger!predicate"
-        | doc "CustomTrigger refers to the specification of the custom trigger."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "payload", "secure", "serverURL", "spec" ],
-              _js2n__-prdslib.records.record
-                {
-                  certSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  payload =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  secure = _js2n__-prdslib.isType '"Bool",
-                  serverNameOverride = _js2n__-prdslib.isType '"String",
-                  serverURL = _js2n__-prdslib.isType '"String",
-                  spec =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.DataFilter!predicate"
-        | doc "DataFilter describes constraints and filters for event data Regular Expressions are purposefully not a feature as they are overkill for our uses here See Rob Pike's Post: https://commandcenter.blogspot.com/2011/08/regular-expressions-in-lexing-and.html"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "path", "type", "value" ],
-              _js2n__-prdslib.records.record
-                {
-                  comparator = _js2n__-prdslib.isType '"String",
-                  path = _js2n__-prdslib.isType '"String",
-                  template = _js2n__-prdslib.isType '"String",
-                  type = _js2n__-prdslib.isType '"String",
-                  value =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.EmailTrigger!predicate"
-        | doc "EmailTrigger refers to the specification of the email notification trigger."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  body = _js2n__-prdslib.isType '"String",
-                  from = _js2n__-prdslib.isType '"String",
-                  host = _js2n__-prdslib.isType '"String",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  port = _js2n__-prdslib.isType 'Integer,
-                  smtpPassword =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  subject = _js2n__-prdslib.isType '"String",
-                  to =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  username = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.EventContext!predicate"
-        | doc "EventContext holds the context of the cloudevent received from an event source."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [
-                  "datacontenttype",
-                  "id",
-                  "source",
-                  "specversion",
-                  "subject",
-                  "time",
-                  "type"
-                ],
-              _js2n__-prdslib.records.record
-                {
-                  datacontenttype = _js2n__-prdslib.isType '"String",
-                  id = _js2n__-prdslib.isType '"String",
-                  source = _js2n__-prdslib.isType '"String",
-                  specversion = _js2n__-prdslib.isType '"String",
-                  subject = _js2n__-prdslib.isType '"String",
-                  time =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time!predicate",
-                  type = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.EventDependency!predicate"
-        | doc "EventDependency describes a dependency"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "eventName", "eventSourceName", "name" ],
-              _js2n__-prdslib.records.record
-                {
-                  eventName = _js2n__-prdslib.isType '"String",
-                  eventSourceName = _js2n__-prdslib.isType '"String",
-                  filters =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.EventDependencyFilter!predicate",
-                  filtersLogicalOperator = _js2n__-prdslib.isType '"String",
-                  name = _js2n__-prdslib.isType '"String",
-                  transform =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.EventDependencyTransformer!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.EventDependencyFilter!predicate"
-        | doc "EventDependencyFilter defines filters and constraints for a event."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  context =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.EventContext!predicate",
-                  data =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.DataFilter!predicate"
-                        ],
-                  dataLogicalOperator = _js2n__-prdslib.isType '"String",
-                  exprLogicalOperator = _js2n__-prdslib.isType '"String",
-                  exprs =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.ExprFilter!predicate"
-                        ],
-                  script = _js2n__-prdslib.isType '"String",
-                  time =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TimeFilter!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.EventDependencyTransformer!predicate"
-        | doc "EventDependencyTransformer transforms the event"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  jq = _js2n__-prdslib.isType '"String",
-                  script = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.ExprFilter!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "expr", "fields" ],
-              _js2n__-prdslib.records.record
-                {
-                  expr = _js2n__-prdslib.isType '"String",
-                  fields =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.PayloadField!predicate"
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.FileArtifact!predicate"
-        | doc "FileArtifact contains information about an artifact in a filesystem"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                { path = _js2n__-prdslib.isType '"String", } {} true
-                _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.GitArtifact!predicate"
-        | doc "GitArtifact contains information about an artifact stored in git"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "cloneDirectory", "filePath", "url" ],
-              _js2n__-prdslib.records.record
-                {
-                  branch = _js2n__-prdslib.isType '"String",
-                  cloneDirectory = _js2n__-prdslib.isType '"String",
-                  creds =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.GitCreds!predicate",
-                  filePath = _js2n__-prdslib.isType '"String",
-                  insecureIgnoreHostKey = _js2n__-prdslib.isType '"Bool",
-                  ref = _js2n__-prdslib.isType '"String",
-                  remote =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.GitRemoteConfig!predicate",
-                  sshKeySecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  tag = _js2n__-prdslib.isType '"String",
-                  url = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.GitCreds!predicate"
-        | doc "GitCreds contain reference to git username and password"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  password =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  username =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.GitRemoteConfig!predicate"
-        | doc "GitRemoteConfig contains the configuration of a Git remote"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "name", "urls" ],
-              _js2n__-prdslib.records.record
-                {
-                  name = _js2n__-prdslib.isType '"String",
-                  urls =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.HTTPTrigger!predicate"
-        | doc "HTTPTrigger is the trigger for the HTTP request"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "payload", "url" ],
-              _js2n__-prdslib.records.record
-                {
-                  basicAuth =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.BasicAuth!predicate",
-                  headers =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  method = _js2n__-prdslib.isType '"String",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  payload =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  secureHeaders =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.SecureHeader!predicate"
-                        ],
-                  timeout = _js2n__-prdslib.isType 'Integer,
-                  tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
-                  url = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.K8SResourcePolicy!predicate"
-        | doc "K8SResourcePolicy refers to the policy used to check the state of K8s based triggers using labels"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "backoff", "errorOnBackoffTimeout" ],
-              _js2n__-prdslib.records.record
-                {
-                  backoff =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Backoff!predicate",
-                  errorOnBackoffTimeout = _js2n__-prdslib.isType '"Bool",
-                  labels =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.KafkaTrigger!predicate"
-        | doc "KafkaTrigger refers to the specification of the Kafka trigger."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "payload", "topic", "url" ],
-              _js2n__-prdslib.records.record
-                {
-                  compress = _js2n__-prdslib.isType '"Bool",
-                  flushFrequency = _js2n__-prdslib.isType 'Integer,
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  partition = _js2n__-prdslib.isType 'Integer,
-                  partitioningKey = _js2n__-prdslib.isType '"String",
-                  payload =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  requiredAcks = _js2n__-prdslib.isType 'Integer,
-                  sasl =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.SASLConfig!predicate",
-                  schemaRegistry =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.SchemaRegistryConfig!predicate",
-                  tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
-                  topic = _js2n__-prdslib.isType '"String",
-                  url = _js2n__-prdslib.isType '"String",
-                  version = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.LogTrigger!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                { intervalSeconds = _js2n__-prdslib.isType 'Integer, } {} true
-                _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.NATSTrigger!predicate"
-        | doc "NATSTrigger refers to the specification of the NATS trigger."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "payload", "subject", "url" ],
-              _js2n__-prdslib.records.record
-                {
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  payload =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  subject = _js2n__-prdslib.isType '"String",
-                  tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
-                  url = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.OpenWhiskTrigger!predicate"
-        | doc "OpenWhiskTrigger refers to the specification of the OpenWhisk trigger."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required
-                [ "actionName", "host", "payload" ],
-              _js2n__-prdslib.records.record
-                {
-                  actionName = _js2n__-prdslib.isType '"String",
-                  authToken =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  host = _js2n__-prdslib.isType '"String",
-                  namespace = _js2n__-prdslib.isType '"String",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  payload =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  version = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.PayloadField!predicate"
-        | doc "PayloadField binds a value at path within the event payload against a name."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "name", "path" ],
-              _js2n__-prdslib.records.record
-                {
-                  name = _js2n__-prdslib.isType '"String",
-                  path = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.PulsarTrigger!predicate"
-        | doc "PulsarTrigger refers to the specification of the Pulsar trigger."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "payload", "topic", "url" ],
-              _js2n__-prdslib.records.record
-                {
-                  authAthenzParams =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  authAthenzSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  authTokenSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  connectionBackoff =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Backoff!predicate",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  payload =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  tls =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.TLSConfig!predicate",
-                  tlsAllowInsecureConnection = _js2n__-prdslib.isType '"Bool",
-                  tlsTrustCertsSecret =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  tlsValidateHostname = _js2n__-prdslib.isType '"Bool",
-                  topic = _js2n__-prdslib.isType '"String",
-                  url = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.RateLimit!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  requestsPerUnit = _js2n__-prdslib.isType 'Integer,
-                  unit = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.Sensor!predicate"
-        | doc "Sensor is the definition of a sensor resource"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "metadata", "spec" ],
-              _js2n__-prdslib.records.record
-                {
-                  apiVersion =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.const "argoproj.io/v1alpha1"
-                        ],
-                  kind =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.const "Sensor"
-                        ],
-                  metadata =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta!predicate",
-                  spec =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.SensorSpec!predicate",
-                  status =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.SensorStatus!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.SensorSpec!predicate"
-        | doc "SensorSpec represents desired sensor state"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "dependencies", "triggers" ],
-              _js2n__-prdslib.records.record
-                {
-                  dependencies =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.EventDependency!predicate"
-                        ],
-                  errorOnFailedRound = _js2n__-prdslib.isType '"Bool",
-                  eventBusName = _js2n__-prdslib.isType '"String",
-                  loggingFields =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  replicas = _js2n__-prdslib.isType 'Integer,
-                  revisionHistoryLimit = _js2n__-prdslib.isType 'Integer,
-                  template =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.Template!predicate",
-                  triggers =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.Trigger!predicate"
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.SensorStatus!predicate"
-        | doc "SensorStatus contains information about the status of a sensor."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  conditions =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Condition!predicate"
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.SlackSender!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  icon = _js2n__-prdslib.isType '"String",
-                  username = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.SlackThread!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  broadcastMessageToChannel = _js2n__-prdslib.isType '"Bool",
-                  messageAggregationKey = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.SlackTrigger!predicate"
-        | doc "SlackTrigger refers to the specification of the slack notification trigger."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  attachments = _js2n__-prdslib.isType '"String",
-                  blocks = _js2n__-prdslib.isType '"String",
-                  channel = _js2n__-prdslib.isType '"String",
-                  message = _js2n__-prdslib.isType '"String",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  sender =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.SlackSender!predicate",
-                  slackToken =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
-                  thread =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.SlackThread!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.StandardK8STrigger!predicate"
-        | doc "StandardK8STrigger is the standard Kubernetes resource trigger"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  liveObject = _js2n__-prdslib.isType '"Bool",
-                  operation = _js2n__-prdslib.isType '"String",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  patchStrategy = _js2n__-prdslib.isType '"String",
-                  source =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.ArtifactLocation!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.StatusPolicy!predicate"
-        | doc "StatusPolicy refers to the policy used to check the state of the trigger using response status"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "allow" ],
-              _js2n__-prdslib.records.record
-                {
-                  allow =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType 'Integer)
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.Template!predicate"
-        | doc "Template holds the information of a sensor deployment template"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  affinity =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Affinity!predicate",
-                  container =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Container!predicate",
-                  imagePullSecrets =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.LocalObjectReference!predicate"
-                        ],
-                  metadata =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Metadata!predicate",
-                  nodeSelector =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
-                        ],
-                  "priority" = _js2n__-prdslib.isType 'Integer,
-                  priorityClassName = _js2n__-prdslib.isType '"String",
-                  securityContext =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.PodSecurityContext!predicate",
-                  serviceAccountName = _js2n__-prdslib.isType '"String",
-                  tolerations =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Toleration!predicate"
-                        ],
-                  volumes =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Volume!predicate"
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TimeFilter!predicate"
-        | doc "TimeFilter describes a window in time. It filters out events that occur outside the time limits. In other words, only events that occur after Start and before Stop will pass this filter."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "start", "stop" ],
-              _js2n__-prdslib.records.record
-                {
-                  start = _js2n__-prdslib.isType '"String",
-                  stop = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.Trigger!predicate"
-        | doc "Trigger is an action taken, output produced, an event created, a message sent"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  atLeastOnce = _js2n__-prdslib.isType '"Bool",
-                  dlqTrigger =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.Trigger!predicate",
-                  parameters =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-                        ],
-                  policy =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerPolicy!predicate",
-                  rateLimit =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.RateLimit!predicate",
-                  retryStrategy =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.common.Backoff!predicate",
-                  template =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerTemplate!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameter!predicate"
-        | doc "TriggerParameter indicates a passed parameter to a service template"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "dest" ],
-              _js2n__-prdslib.records.record
-                {
-                  dest = _js2n__-prdslib.isType '"String",
-                  operation = _js2n__-prdslib.isType '"String",
-                  src =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameterSource!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerParameterSource!predicate"
-        | doc "TriggerParameterSource defines the source for a parameter from a event event"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "dependencyName" ],
-              _js2n__-prdslib.records.record
-                {
-                  contextKey = _js2n__-prdslib.isType '"String",
-                  contextTemplate = _js2n__-prdslib.isType '"String",
-                  dataKey = _js2n__-prdslib.isType '"String",
-                  dataTemplate = _js2n__-prdslib.isType '"String",
-                  dependencyName = _js2n__-prdslib.isType '"String",
-                  useRawData = _js2n__-prdslib.isType '"Bool",
-                  value = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerPolicy!predicate"
-        | doc "TriggerPolicy dictates the policy for the trigger retries"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  k8s =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.K8SResourcePolicy!predicate",
-                  status =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.StatusPolicy!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.TriggerTemplate!predicate"
-        | doc "TriggerTemplate is the template that describes trigger specification."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "name" ],
-              _js2n__-prdslib.records.record
-                {
-                  argoWorkflow =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.ArgoWorkflowTrigger!predicate",
-                  awsLambda =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.AWSLambdaTrigger!predicate",
-                  azureEventHubs =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.AzureEventHubsTrigger!predicate",
-                  azureServiceBus =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.AzureServiceBusTrigger!predicate",
-                  conditions = _js2n__-prdslib.isType '"String",
-                  conditionsReset =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.ConditionsResetCriteria!predicate"
-                        ],
-                  custom =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.CustomTrigger!predicate",
-                  email =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.EmailTrigger!predicate",
-                  http =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.HTTPTrigger!predicate",
-                  k8s =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.StandardK8STrigger!predicate",
-                  kafka =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.KafkaTrigger!predicate",
-                  log =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.LogTrigger!predicate",
-                  name = _js2n__-prdslib.isType '"String",
-                  nats =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.NATSTrigger!predicate",
-                  openWhisk =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.OpenWhiskTrigger!predicate",
-                  pulsar =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.PulsarTrigger!predicate",
-                  slack =
-                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.SlackTrigger!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/io.argoproj.sensor.v1alpha1.URLArtifact!predicate"
-        | doc "URLArtifact contains information about an artifact at an http endpoint."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "path" ],
-              _js2n__-prdslib.records.record
-                {
-                  path = _js2n__-prdslib.isType '"String",
-                  verifyCert = _js2n__-prdslib.isType '"Bool",
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.api.core.v1.AWSElasticBlockStoreVolumeSource!predicate"
@@ -5889,8 +5833,8 @@ let rec _js2n__-refsenv
           _js2n__-prdslib.isType 'Record,
           _js2n__-prdslib.oneOf
             [
-              _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventbus.v1alpha1.EventBus!predicate",
-              _js2n__-refsenv."_js2n__-:definitions/io.argoproj.eventsource.v1alpha1.EventSource!predicate",
-              _js2n__-refsenv."_js2n__-:definitions/io.argoproj.sensor.v1alpha1.Sensor!predicate"
+              _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventBus!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSource!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.Sensor!predicate"
             ]
         ])

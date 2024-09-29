@@ -897,15 +897,19 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/AppModel!contract" =
-        {
-            description | String | optional,
-            envs
-              | _js2n__-refsenv."_js2n__-:definitions/EnvModel!contract"
-              | optional,
-            summary | String | optional,
-            title | String | optional,
-          },
+      "_js2n__-:definitions/AppModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  description = _js2n__-prdslib.isType '"String",
+                  envs =
+                    _js2n__-refsenv."_js2n__-:definitions/EnvModel!predicate",
+                  summary = _js2n__-prdslib.isType '"String",
+                  title = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/AptGetDepModel!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -925,94 +929,122 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/BitriseDataModel!contract" =
-        {
-            app
-              | _js2n__-refsenv."_js2n__-:definitions/AppModel!contract"
-              | optional,
-            containers
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.oneOf
                   [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record {}
-                      {
-                        ".*" =
-                          _js2n__-refsenv."_js2n__-:definitions/ContainerModel!predicate",
-                      } true _js2n__-prdslib.always
-                  ])
-              | optional,
-            default_step_lib_source | String | optional,
-            description | String | optional,
-            format_version | String,
-            meta
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record {}
-                      {
-                        ".*" =
-                          _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always,
-                      } true _js2n__-prdslib.always
-                  ])
-              | optional,
-            pipelines
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record {}
-                      {
-                        ".*" =
-                          _js2n__-refsenv."_js2n__-:definitions/PipelineModel!predicate",
-                      } true _js2n__-prdslib.always
-                  ])
-              | optional,
-            project_type | String | optional,
-            services
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record {}
-                      {
-                        ".*" =
-                          _js2n__-refsenv."_js2n__-:definitions/ContainerModel!predicate",
-                      } true _js2n__-prdslib.always
-                  ])
-              | optional,
-            stages
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record {}
-                      {
-                        ".*" =
-                          _js2n__-refsenv."_js2n__-:definitions/StageModel!predicate",
-                      } true _js2n__-prdslib.always
-                  ])
-              | optional,
-            summary | String | optional,
-            title | String | optional,
-            trigger_map
-              | Array
-                _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModel!contract"
-              | optional,
-            workflows
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record {}
-                      {
-                        ".*" =
-                          _js2n__-refsenv."_js2n__-:definitions/WorkflowModel!predicate",
-                      } true _js2n__-prdslib.always
-                  ])
-              | optional,
-          },
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "format_version" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "includes" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]
+                  ],
+                _js2n__-prdslib.records.record
+                  {
+                    app =
+                      _js2n__-refsenv."_js2n__-:definitions/AppModel!predicate",
+                    containers =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {}
+                              {
+                                ".*" =
+                                  _js2n__-refsenv."_js2n__-:definitions/ContainerModel!predicate",
+                              } true _js2n__-prdslib.always
+                          ],
+                    default_step_lib_source = _js2n__-prdslib.isType '"String",
+                    description = _js2n__-prdslib.isType '"String",
+                    format_version = _js2n__-prdslib.isType '"String",
+                    includes =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              _js2n__-refsenv."_js2n__-:definitions/IncludeItemModel!predicate"
+                          ],
+                    meta =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {}
+                              {
+                                ".*" =
+                                  _js2n__-prdslib.records.record {} {} true
+                                      _js2n__-prdslib.always,
+                              } true _js2n__-prdslib.always
+                          ],
+                    pipelines =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {}
+                              {
+                                ".*" =
+                                  _js2n__-refsenv."_js2n__-:definitions/PipelineModel!predicate",
+                              } true _js2n__-prdslib.always
+                          ],
+                    project_type = _js2n__-prdslib.isType '"String",
+                    services =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {}
+                              {
+                                ".*" =
+                                  _js2n__-refsenv."_js2n__-:definitions/ContainerModel!predicate",
+                              } true _js2n__-prdslib.always
+                          ],
+                    stages =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {}
+                              {
+                                ".*" =
+                                  _js2n__-refsenv."_js2n__-:definitions/StageModel!predicate",
+                              } true _js2n__-prdslib.always
+                          ],
+                    step_bundles =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {}
+                              {
+                                ".*" =
+                                  _js2n__-refsenv."_js2n__-:definitions/StepBundleModel!predicate",
+                              } true _js2n__-prdslib.always
+                          ],
+                    summary = _js2n__-prdslib.isType '"String",
+                    title = _js2n__-prdslib.isType '"String",
+                    trigger_map =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModel!predicate"
+                          ],
+                    workflows =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {}
+                              {
+                                ".*" =
+                                  _js2n__-refsenv."_js2n__-:definitions/WorkflowModel!predicate",
+                              } true _js2n__-prdslib.always
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ]),
       "_js2n__-:definitions/BrewDepModel!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1094,20 +1126,6 @@ let rec _js2n__-refsenv
                   username = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/EnvModel!contract" =
-        Array (
-            _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.record {}
-                    {
-                      ".*" =
-                        _js2n__-prdslib.records.record {} {} true
-                            _js2n__-prdslib.always,
-                    } true _js2n__-prdslib.always
-                ])
-          ),
       "_js2n__-:definitions/EnvModel!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1133,6 +1151,25 @@ let rec _js2n__-refsenv
                 { package_name = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/IncludeItemModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "path" ],
+              _js2n__-prdslib.records.record
+                {
+                  branch = _js2n__-prdslib.isType '"String",
+                  commit = _js2n__-prdslib.isType '"String",
+                  path =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.minLength 1
+                        ],
+                  repository = _js2n__-prdslib.isType '"String",
+                  tag = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/PipelineModel!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1157,6 +1194,81 @@ let rec _js2n__-refsenv
                         ],
                   summary = _js2n__-prdslib.isType '"String",
                   title = _js2n__-prdslib.isType '"String",
+                  triggers =
+                    _js2n__-refsenv."_js2n__-:definitions/TriggersModel!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PullrequestTriggerModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  changed_files =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  comment =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  commit_message =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  draft_enabled = _js2n__-prdslib.isType '"Bool",
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  label =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  source_branch =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  target_branch =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PushTriggerModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  branch =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  changed_files =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  commit_message =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  enabled = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/StageModel!predicate" =
@@ -1185,6 +1297,41 @@ let rec _js2n__-refsenv
                                   } true _js2n__-prdslib.always
                               ])
                         ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/StepBundleModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  envs =
+                    _js2n__-refsenv."_js2n__-:definitions/EnvModel!predicate",
+                  steps =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {}
+                                  {
+                                    ".*" =
+                                      _js2n__-refsenv."_js2n__-:definitions/StepModel!predicate",
+                                  } true _js2n__-prdslib.always
+                              ])
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/StepBundleOverrideModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  envs =
+                    _js2n__-refsenv."_js2n__-:definitions/EnvModel!predicate",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/StepModel!predicate" =
@@ -1280,83 +1427,89 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/GoStepToolkitModel!predicate",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/TriggerMapItemModel!contract" =
-        {
-            changed_files
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.oneOf
-                  [
-                    _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
-                    _js2n__-prdslib.isType '"String"
-                  ])
-              | optional,
-            commit_message
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.oneOf
-                  [
-                    _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
-                    _js2n__-prdslib.isType '"String"
-                  ])
-              | optional,
-            draft_pull_request_enabled | Bool | optional,
-            enabled | Bool | optional,
-            is_pull_request_allowed | Bool | optional,
-            pattern | String | optional,
-            pipeline | String | optional,
-            pull_request_comment
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.oneOf
-                  [
-                    _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
-                    _js2n__-prdslib.isType '"String"
-                  ])
-              | optional,
-            pull_request_label
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.oneOf
-                  [
-                    _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
-                    _js2n__-prdslib.isType '"String"
-                  ])
-              | optional,
-            pull_request_source_branch
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.oneOf
-                  [
-                    _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
-                    _js2n__-prdslib.isType '"String"
-                  ])
-              | optional,
-            pull_request_target_branch
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.oneOf
-                  [
-                    _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
-                    _js2n__-prdslib.isType '"String"
-                  ])
-              | optional,
-            push_branch
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.oneOf
-                  [
-                    _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
-                    _js2n__-prdslib.isType '"String"
-                  ])
-              | optional,
-            tag
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.oneOf
-                  [
-                    _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
-                    _js2n__-prdslib.isType '"String"
-                  ])
-              | optional,
-            type
-              | std.enum.TagOrString
-              | [| 'tag, 'pull_request, 'push |]
-              | optional,
-            workflow | String | optional,
-          },
+      "_js2n__-:definitions/TagTriggerModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  name =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/TriggerMapItemModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  changed_files =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  commit_message =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  draft_pull_request_enabled = _js2n__-prdslib.isType '"Bool",
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  is_pull_request_allowed = _js2n__-prdslib.isType '"Bool",
+                  pattern = _js2n__-prdslib.isType '"String",
+                  pipeline = _js2n__-prdslib.isType '"String",
+                  pull_request_comment =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  pull_request_label =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  pull_request_source_branch =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  pull_request_target_branch =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  push_branch =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  tag =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "push", "pull_request", "tag" ]
+                        ],
+                  workflow = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1364,6 +1517,35 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 { regex = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/TriggersModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  pull_request =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/PullrequestTriggerModel!predicate"
+                        ],
+                  push =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/PushTriggerModel!predicate"
+                        ],
+                  tag =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/TagTriggerModel!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/WithModel!predicate" =
         _js2n__-prdslib.allOf
@@ -1443,6 +1625,8 @@ let rec _js2n__-refsenv
                                   {
                                     ".*" =
                                       _js2n__-refsenv."_js2n__-:definitions/StepModel!predicate",
+                                    "^bundle::.+" =
+                                      _js2n__-refsenv."_js2n__-:definitions/StepBundleOverrideModel!predicate",
                                     "^with$" =
                                       _js2n__-refsenv."_js2n__-:definitions/WithModel!predicate",
                                   } true _js2n__-prdslib.always
@@ -1450,6 +1634,8 @@ let rec _js2n__-refsenv
                         ],
                   summary = _js2n__-prdslib.isType '"String",
                   title = _js2n__-prdslib.isType '"String",
+                  triggers =
+                    _js2n__-refsenv."_js2n__-:definitions/TriggersModel!predicate",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/WorkflowStageConfigModel!predicate" =

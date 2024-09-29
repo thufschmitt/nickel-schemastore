@@ -912,12 +912,7 @@ let rec _js2n__-refsenv
         | doc "ExportKubeConfig describes how vCluster should export the vCluster kubeConfig file."
         | optional,
       external
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
-            ])
+        | Dyn
         | doc "External holds configuration for tools that are external to the vCluster."
         | optional,
       global

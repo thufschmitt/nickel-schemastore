@@ -910,12 +910,6 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
-                  engine_secret =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Null
-                        ],
                   indexes =
                     _js2n__-prdslib.allOf
                         [
@@ -963,6 +957,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  refresh_jitter_enabled = _js2n__-prdslib.isType '"Bool",
+                  refresh_jitter_max =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   refresh_mode =
                     _js2n__-prdslib.anyOf
                         [
@@ -999,6 +1000,56 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Catalog!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "from", "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  dataset_params =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Params!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  dependsOn =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  description =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  from = _js2n__-prdslib.isType '"String",
+                  include =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  params =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Params!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/ColumnEmbeddingConfig!predicate"
@@ -1024,6 +1075,13 @@ let rec _js2n__-refsenv
                   use = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/ComponentOrReference_for_Catalog!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.anyOf
+              [
+                _js2n__-refsenv."_js2n__-:definitions/Catalog!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/ComponentReference!predicate"
+              ]),
       "_js2n__-:definitions/ComponentOrReference_for_Dataset!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.anyOf
@@ -1043,6 +1101,13 @@ let rec _js2n__-refsenv
             (_js2n__-prdslib.anyOf
               [
                 _js2n__-refsenv."_js2n__-:definitions/Model!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/ComponentReference!predicate"
+              ]),
+      "_js2n__-:definitions/ComponentOrReference_for_Tool!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.anyOf
+              [
+                _js2n__-refsenv."_js2n__-:definitions/Tool!predicate",
                 _js2n__-refsenv."_js2n__-:definitions/ComponentReference!predicate"
               ]),
       "_js2n__-:definitions/ComponentOrReference_for_View!contract" =
@@ -1089,6 +1154,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  description =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   embeddings =
                     _js2n__-prdslib.allOf
                         [
@@ -1097,11 +1168,18 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/ColumnEmbeddingConfig!predicate"
                         ],
                   from = _js2n__-prdslib.isType '"String",
-                  metadata =
+                  has_metadata_table =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
+                        ],
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
                         ],
                   mode = _js2n__-refsenv."_js2n__-:definitions/Mode!predicate",
                   name = _js2n__-prdslib.isType '"String",
@@ -1129,7 +1207,7 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/TimeFormat!predicate",
                           _js2n__-prdslib.isType 'Null
                         ],
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Embeddings!predicate" =
         _js2n__-prdslib.allOf
@@ -1225,6 +1303,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  description =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   files =
                     _js2n__-prdslib.allOf
                         [
@@ -1233,13 +1317,20 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/ModelFile!predicate"
                         ],
                   from = _js2n__-prdslib.isType '"String",
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
+                        ],
                   name = _js2n__-prdslib.isType '"String",
                   params =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-prdslib.always
                         ],
                 } {} true _js2n__-prdslib.always
             ],
@@ -1338,37 +1429,55 @@ let rec _js2n__-refsenv
                         ],
                   results_cache =
                     _js2n__-refsenv."_js2n__-:definitions/ResultsCache!predicate",
+                  task_history =
+                    _js2n__-refsenv."_js2n__-:definitions/TaskHistory!predicate",
+                  telemetry =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TelemetryConfig!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  tls =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TlsConfig!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  tracing =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TracingConfig!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Secrets!predicate"
+      "_js2n__-:definitions/Secret!contract"
         | doc m%"
           The secrets configuration for a Spicepod.
           
-          Example: ```yaml secrets: store: file ```
+          Example: ```yaml secrets: - from: env name: env - from: kubernetes:my_secret_name name: k8s ```
         "%
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "store" ],
-              _js2n__-prdslib.records.record
-                {
-                  store =
-                    _js2n__-refsenv."_js2n__-:definitions/SpiceSecretStore!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/SpiceSecretStore!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum
-                [
-                  "file",
-                  "env",
-                  "kubernetes",
-                  "keyring",
-                  "aws_secrets_manager"
-                ]
-            ],
+        = {
+            description
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ])
+              | optional,
+            from | String,
+            name | String,
+            params
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/Params!predicate",
+                    _js2n__-prdslib.isType 'Null
+                  ])
+              | optional,
+            ..
+          },
       "_js2n__-:definitions/SpicepodKind!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1381,11 +1490,120 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "v1beta1" ]
             ],
+      "_js2n__-:definitions/TaskHistory!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  captured_output = _js2n__-prdslib.isType '"String",
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  retention_check_interval = _js2n__-prdslib.isType '"String",
+                  retention_period = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/TelemetryConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "enabled" ],
+              _js2n__-prdslib.records.record
+                { enabled = _js2n__-prdslib.isType '"Bool", } {} false
+                _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/TimeFormat!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "unix_seconds", "unix_millis", "ISO8601" ]
+              _js2n__-prdslib.enum
+                [
+                  "timestamp",
+                  "timestamptz",
+                  "unix_seconds",
+                  "unix_millis",
+                  "ISO8601"
+                ]
+            ],
+      "_js2n__-:definitions/TlsConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "enabled" ],
+              _js2n__-prdslib.records.record
+                {
+                  certificate =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  certificate_file =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  key =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  key_file =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Tool!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "from", "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  dependsOn =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  description =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  from = _js2n__-prdslib.isType '"String",
+                  name = _js2n__-prdslib.isType '"String",
+                  params =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/TracingConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "zipkin_enabled" ],
+              _js2n__-prdslib.records.record
+                {
+                  zipkin_enabled = _js2n__-prdslib.isType '"Bool",
+                  zipkin_endpoint =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/View!predicate" =
         _js2n__-prdslib.allOf
@@ -1400,6 +1618,19 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
+                        ],
+                  description =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
                         ],
                   name = _js2n__-prdslib.isType '"String",
                   sql =
@@ -1434,6 +1665,10 @@ let rec _js2n__-refsenv
     }
     in
   {
+      catalogs
+        | Array
+          _js2n__-refsenv."_js2n__-:definitions/ComponentOrReference_for_Catalog!contract"
+        | optional,
       datasets
         | Array
           _js2n__-refsenv."_js2n__-:definitions/ComponentOrReference_for_Dataset!contract"
@@ -1457,6 +1692,7 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           _js2n__-refsenv."_js2n__-:definitions/SpicepodKind!predicate"
         | doc "The kind of Spicepod",
+      metadata | {  .. } | optional,
       models
         | Array
           _js2n__-refsenv."_js2n__-:definitions/ComponentOrReference_for_Model!contract"
@@ -1468,9 +1704,12 @@ let rec _js2n__-refsenv
         | doc "Optional runtime configuration"
         | optional,
       secrets
-        | _js2n__-prdslib.contract_from_predicate
-          _js2n__-refsenv."_js2n__-:definitions/Secrets!predicate"
-        | doc "Optional spicepod secrets configuration Default value is `store: file`"
+        | Array _js2n__-refsenv."_js2n__-:definitions/Secret!contract"
+        | doc "Optional spicepod secrets configuration Default value is: ```yaml secrets: - from: env name: env ```"
+        | optional,
+      tools
+        | Array
+          _js2n__-refsenv."_js2n__-:definitions/ComponentOrReference_for_Tool!contract"
         | optional,
       version
         | _js2n__-prdslib.contract_from_predicate
