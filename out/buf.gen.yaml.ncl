@@ -1281,6 +1281,7 @@ let rec _js2n__-refsenv
               ])
             (_js2n__-prdslib.records.record
               {
+                clean = _js2n__-prdslib.isType '"Bool",
                 inputs =
                   _js2n__-prdslib.allOf
                       [
@@ -1344,8 +1345,7 @@ let rec _js2n__-refsenv
                                   zip_archive =
                                     _js2n__-prdslib.isType '"String",
                                 } {} false _js2n__-prdslib.never
-                            ]),
-                        _js2n__-prdslib.arrays.minItems 1
+                            ])
                       ],
                 managed =
                   _js2n__-prdslib.allOf

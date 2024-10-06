@@ -1304,7 +1304,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.strings.minLength 1
             ])
         | doc m%"
-          A yntax highlighter for the current site
+          A syntax highlighter for the current site
           https://jekyllrb.com/docs/configuration/default/
         "%
         | optional,

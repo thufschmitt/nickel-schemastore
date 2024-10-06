@@ -1597,6 +1597,25 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.allOf
                                       [
                                         _js2n__-prdslib.records.required
+                                          [ "kind", "link" ],
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            address = _js2n__-prdslib.always,
+                                            group = _js2n__-prdslib.always,
+                                            ifalias = _js2n__-prdslib.always,
+                                            kind = _js2n__-prdslib.const "dsa",
+                                            link = _js2n__-prdslib.always,
+                                            link_netns = _js2n__-prdslib.always,
+                                            master = _js2n__-prdslib.always,
+                                            mtu = _js2n__-prdslib.always,
+                                            permaddr = _js2n__-prdslib.always,
+                                            state = _js2n__-prdslib.always,
+                                            txqlen = _js2n__-prdslib.always,
+                                          } {} false _js2n__-prdslib.never
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
                                           [ "kind" ],
                                         _js2n__-prdslib.records.record
                                           {
@@ -1918,6 +1937,7 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.records.record
                                           {
                                             address = _js2n__-prdslib.always,
+                                            bind_netns = _js2n__-prdslib.always,
                                             group = _js2n__-prdslib.always,
                                             ifalias = _js2n__-prdslib.always,
                                             kind = _js2n__-prdslib.const "sit",
@@ -3561,6 +3581,24 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.allOf
                           [
+                            _js2n__-prdslib.records.required [ "kind", "link" ],
+                            _js2n__-prdslib.records.record
+                              {
+                                address = _js2n__-prdslib.always,
+                                group = _js2n__-prdslib.always,
+                                ifalias = _js2n__-prdslib.always,
+                                kind = _js2n__-prdslib.const "dsa",
+                                link = _js2n__-prdslib.always,
+                                link_netns = _js2n__-prdslib.always,
+                                master = _js2n__-prdslib.always,
+                                mtu = _js2n__-prdslib.always,
+                                permaddr = _js2n__-prdslib.always,
+                                state = _js2n__-prdslib.always,
+                                txqlen = _js2n__-prdslib.always,
+                              } {} false _js2n__-prdslib.never
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
                             _js2n__-prdslib.records.required [ "kind" ],
                             _js2n__-prdslib.records.record
                               {
@@ -3811,6 +3849,7 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.records.record
                               {
                                 address = _js2n__-prdslib.always,
+                                bind_netns = _js2n__-prdslib.always,
                                 group = _js2n__-prdslib.always,
                                 ifalias = _js2n__-prdslib.always,
                                 kind = _js2n__-prdslib.const "sit",

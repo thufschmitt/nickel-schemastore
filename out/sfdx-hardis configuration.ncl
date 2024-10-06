@@ -902,6 +902,7 @@ let rec _js2n__-refsenv
             [
               std.enum.TagOrString,
               [|
+                'RELEASE_UPDATES,
                 'UNUSED_LICENSES,
                 'MISSING_ATTRIBUTES,
                 'METADATA_STATUS,
@@ -916,6 +917,7 @@ let rec _js2n__-refsenv
             [
               std.enum.TagOrString,
               [|
+                'RELEASE_UPDATES,
                 'UNUSED_LICENSES,
                 'MISSING_ATTRIBUTES,
                 'METADATA_STATUS,
@@ -970,7 +972,9 @@ let rec _js2n__-refsenv
                         "listViewsMine",
                         "minimizeProfiles",
                         "productrequest",
-                        "systemDebug"
+                        "sensitiveMetadatas",
+                        "systemDebug",
+                        "v60"
                       ]
                   ])
             ])
@@ -1012,6 +1016,11 @@ let rec _js2n__-refsenv
         | Array
           {
             command | String | doc "Command line to run",
+            context
+              | std.enum.TagOrString
+              | [| 'process-deployment-only, 'check-deployment-only, 'all |]
+              | doc "Context when the command must be run"
+              | optional,
             id | String | doc "Identifier of the command (can be any string)",
             label | String | doc "Label of the command (what does it do ?)",
             skipIfError
@@ -1389,6 +1398,7 @@ let rec _js2n__-refsenv
         | [|
           'RunAllTestsInOrg,
           'RunLocalTests,
+          'RunRepositoryTestsExceptSeeAllData,
           'RunRepositoryTests,
           'RunSpecifiedTests,
           'NoTestRun
@@ -1398,5 +1408,9 @@ let rec _js2n__-refsenv
       useDeltaDeployment
         | Bool
         | doc "Defines if sfdx-hardis will deploy in delta from minor to major branches"
+        | optional,
+      useSmartDeploymentTests
+        | Bool
+        | doc "Define if smart deployment tests will be activated and run test classes only if necessary (see more in hardis:project:deploy:smart documentation"
         | optional,
     }

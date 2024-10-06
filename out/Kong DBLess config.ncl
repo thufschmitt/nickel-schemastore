@@ -1820,8 +1820,10 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
-                { runtime_group_name = _js2n__-prdslib.isType '"String", } {}
-                false _js2n__-prdslib.never
+                {
+                  control_plane_name = _js2n__-prdslib.isType '"String",
+                  runtime_group_name = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/MTLSAuth!predicate" =
         _js2n__-prdslib.allOf

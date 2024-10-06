@@ -1951,16 +1951,52 @@ let rec _js2n__-refsenv
                         ],
                       _js2n__-prdslib.records.record
                         {
+                          body_size_limit =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.isType 'Null
+                                ],
                           evaluation_interval =
                             _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
                           external_labels =
                             _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
+                          label_limit =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                          label_name_length_limit =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                          label_value_length_limit =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
                           query_log_file =
                             _js2n__-refsenv."_js2n__-:definitions/filepath!predicate",
+                          sample_limit =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
                           scrape_interval =
                             _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
                           scrape_timeout =
                             _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                          target_limit =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
                         } {} false _js2n__-prdslib.never
                     ],
               remote_read =
@@ -2243,7 +2279,7 @@ let rec _js2n__-refsenv
                                 body_size_limit =
                                   _js2n__-prdslib.anyOf
                                       [
-                                        _js2n__-prdslib.isType 'Integer,
+                                        _js2n__-prdslib.isType '"String",
                                         _js2n__-prdslib.isType 'Null
                                       ],
                                 consul_sd_configs =

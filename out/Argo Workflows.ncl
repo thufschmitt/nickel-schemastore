@@ -1344,8 +1344,16 @@ let rec _js2n__-refsenv
                         ],
                   readinessProbe =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Probe!predicate",
+                  resizePolicy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ContainerResizePolicy!predicate"
+                        ],
                   resources =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ResourceRequirements!predicate",
+                  restartPolicy = _js2n__-prdslib.isType '"String",
                   securityContext =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecurityContext!predicate",
                   startupProbe =
@@ -1473,7 +1481,7 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "schedule", "workflowSpec" ],
+              _js2n__-prdslib.records.required [ "workflowSpec" ],
               _js2n__-prdslib.records.record
                 {
                   concurrencyPolicy = _js2n__-prdslib.isType '"String",
@@ -1492,6 +1500,7 @@ let rec _js2n__-refsenv
                   successfulJobsHistoryLimit = _js2n__-prdslib.isType 'Integer,
                   suspend = _js2n__-prdslib.isType '"Bool",
                   timezone = _js2n__-prdslib.isType '"String",
+                  when = _js2n__-prdslib.isType '"String",
                   workflowMetadata =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta!predicate",
                   workflowSpec =
@@ -1734,6 +1743,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  dataTransferProtection = _js2n__-prdslib.isType '"String",
                   "force" = _js2n__-prdslib.isType '"Bool",
                   hdfsUser = _js2n__-prdslib.isType '"String",
                   krbCCacheSecret =
@@ -1762,6 +1772,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  dataTransferProtection = _js2n__-prdslib.isType '"String",
                   "force" = _js2n__-prdslib.isType '"Bool",
                   hdfsUser = _js2n__-prdslib.isType '"String",
                   krbCCacheSecret =
@@ -2325,8 +2336,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  deleteDelayDuration =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration!predicate",
+                  deleteDelayDuration = _js2n__-prdslib.isType '"String",
                   labelSelector =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector!predicate",
                   strategy = _js2n__-prdslib.isType '"String",
@@ -2447,6 +2457,8 @@ let rec _js2n__-refsenv
                   roleARN = _js2n__-prdslib.isType '"String",
                   secretKeySecret =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  sessionTokenSecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   useSDKCreds = _js2n__-prdslib.isType '"Bool",
                 } {} true _js2n__-prdslib.always
             ],
@@ -2473,6 +2485,8 @@ let rec _js2n__-refsenv
                   region = _js2n__-prdslib.isType '"String",
                   roleARN = _js2n__-prdslib.isType '"String",
                   secretKeySecret =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  sessionTokenSecret =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   useSDKCreds = _js2n__-prdslib.isType '"Bool",
                 } {} true _js2n__-prdslib.always
@@ -2543,8 +2557,16 @@ let rec _js2n__-refsenv
                         ],
                   readinessProbe =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Probe!predicate",
+                  resizePolicy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ContainerResizePolicy!predicate"
+                        ],
                   resources =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ResourceRequirements!predicate",
+                  restartPolicy = _js2n__-prdslib.isType '"String",
                   securityContext =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecurityContext!predicate",
                   source = _js2n__-prdslib.isType '"String",
@@ -2684,8 +2706,22 @@ let rec _js2n__-refsenv
                 {
                   mutex =
                     _js2n__-refsenv."_js2n__-:definitions/io.argoproj.workflow.v1alpha1.Mutex!predicate",
+                  mutexes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.workflow.v1alpha1.Mutex!predicate"
+                        ],
                   semaphore =
                     _js2n__-refsenv."_js2n__-:definitions/io.argoproj.workflow.v1alpha1.SemaphoreRef!predicate",
+                  semaphores =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.workflow.v1alpha1.SemaphoreRef!predicate"
+                        ],
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.argoproj.workflow.v1alpha1.SynchronizationStatus!predicate"
@@ -2907,8 +2943,16 @@ let rec _js2n__-refsenv
                         ],
                   readinessProbe =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Probe!predicate",
+                  resizePolicy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ContainerResizePolicy!predicate"
+                        ],
                   resources =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ResourceRequirements!predicate",
+                  restartPolicy = _js2n__-prdslib.isType '"String",
                   securityContext =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecurityContext!predicate",
                   startupProbe =
@@ -3374,6 +3418,18 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.PodAntiAffinity!predicate",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/io.k8s.api.core.v1.AppArmorProfile!predicate"
+        | doc "AppArmorProfile defines a pod or container's AppArmor settings."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  localhostProfile = _js2n__-prdslib.isType '"String",
+                  type = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/io.k8s.api.core.v1.AzureDiskVolumeSource!predicate"
         | doc "AzureDisk represents an Azure Data Disk mount on the host and bind mount to the pod."
         = _js2n__-prdslib.allOf
@@ -3486,6 +3542,22 @@ let rec _js2n__-refsenv
                   volumeID = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/io.k8s.api.core.v1.ClusterTrustBundleProjection!predicate"
+        | doc "ClusterTrustBundleProjection describes how to select a set of ClusterTrustBundle objects and project their contents into the pod filesystem."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "path" ],
+              _js2n__-prdslib.records.record
+                {
+                  labelSelector =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector!predicate",
+                  name = _js2n__-prdslib.isType '"String",
+                  "optional" = _js2n__-prdslib.isType '"Bool",
+                  path = _js2n__-prdslib.isType '"String",
+                  signerName = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/io.k8s.api.core.v1.ConfigMapEnvSource!predicate"
         | doc m%"
           ConfigMapEnvSource selects a ConfigMap to populate the environment variables with.
@@ -3596,13 +3668,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.EnvFromSource!predicate"
                         ],
                   image = _js2n__-prdslib.isType '"String",
-                  imagePullPolicy =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [ "Always", "IfNotPresent", "Never" ]
-                        ],
+                  imagePullPolicy = _js2n__-prdslib.isType '"String",
                   lifecycle =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Lifecycle!predicate",
                   livenessProbe =
@@ -3617,8 +3683,16 @@ let rec _js2n__-refsenv
                         ],
                   readinessProbe =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Probe!predicate",
+                  resizePolicy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ContainerResizePolicy!predicate"
+                        ],
                   resources =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ResourceRequirements!predicate",
+                  restartPolicy = _js2n__-prdslib.isType '"String",
                   securityContext =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecurityContext!predicate",
                   startupProbe =
@@ -3626,13 +3700,7 @@ let rec _js2n__-refsenv
                   stdin = _js2n__-prdslib.isType '"Bool",
                   stdinOnce = _js2n__-prdslib.isType '"Bool",
                   terminationMessagePath = _js2n__-prdslib.isType '"String",
-                  terminationMessagePolicy =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [ "FallbackToLogsOnError", "File" ]
-                        ],
+                  terminationMessagePolicy = _js2n__-prdslib.isType '"String",
                   tty = _js2n__-prdslib.isType '"Bool",
                   volumeDevices =
                     _js2n__-prdslib.allOf
@@ -3663,12 +3731,20 @@ let rec _js2n__-refsenv
                   hostIP = _js2n__-prdslib.isType '"String",
                   hostPort = _js2n__-prdslib.isType 'Integer,
                   name = _js2n__-prdslib.isType '"String",
-                  protocol =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "SCTP", "TCP", "UDP" ]
-                        ],
+                  protocol = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.k8s.api.core.v1.ContainerResizePolicy!predicate"
+        | doc "ContainerResizePolicy represents resource resize policy for the container."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "resourceName", "restartPolicy" ],
+              _js2n__-prdslib.records.record
+                {
+                  resourceName = _js2n__-prdslib.isType '"String",
+                  restartPolicy = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.api.core.v1.DownwardAPIProjection!predicate"
@@ -3941,12 +4017,7 @@ let rec _js2n__-refsenv
                   path = _js2n__-prdslib.isType '"String",
                   port =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.util.intstr.IntOrString!predicate",
-                  scheme =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "HTTP", "HTTPS" ]
-                        ],
+                  scheme = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.api.core.v1.HTTPHeader!predicate"
@@ -3966,6 +4037,7 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "ip" ],
               _js2n__-prdslib.records.record
                 {
                   hostnames =
@@ -4055,6 +4127,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ExecAction!predicate",
                   httpGet =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.HTTPGetAction!predicate",
+                  sleep =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SleepAction!predicate",
                   tcpSocket =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.TCPSocketAction!predicate",
                 } {} true _js2n__-prdslib.always
@@ -4067,6 +4141,19 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 { name = _js2n__-prdslib.isType '"String", } {} true
                 _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.k8s.api.core.v1.ModifyVolumeStatus!predicate"
+        | doc "ModifyVolumeStatus represents the status object of ControllerModifyVolume operation"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "status" ],
+              _js2n__-prdslib.records.record
+                {
+                  status = _js2n__-prdslib.isType '"String",
+                  targetVolumeAttributesClassName =
+                    _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.api.core.v1.NFSVolumeSource!predicate"
         | doc "Represents an NFS mount that lasts the lifetime of a pod. NFS volumes do not support ownership management or SELinux relabeling."
@@ -4125,20 +4212,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   key = _js2n__-prdslib.isType '"String",
-                  operator =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [
-                              "DoesNotExist",
-                              "Exists",
-                              "Gt",
-                              "In",
-                              "Lt",
-                              "NotIn"
-                            ]
-                        ],
+                  operator = _js2n__-prdslib.isType '"String",
                   values =
                     _js2n__-prdslib.allOf
                         [
@@ -4217,7 +4291,7 @@ let rec _js2n__-refsenv
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.api.core.v1.PersistentVolumeClaimCondition!predicate"
-        | doc "PersistentVolumeClaimCondition contails details about state of pvc"
+        | doc "PersistentVolumeClaimCondition contains details about state of pvc"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -4231,13 +4305,7 @@ let rec _js2n__-refsenv
                   message = _js2n__-prdslib.isType '"String",
                   reason = _js2n__-prdslib.isType '"String",
                   status = _js2n__-prdslib.isType '"String",
-                  type =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [ "FileSystemResizePending", "Resizing" ]
-                        ],
+                  type = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.api.core.v1.PersistentVolumeClaimSpec!predicate"
@@ -4257,12 +4325,13 @@ let rec _js2n__-refsenv
                   dataSource =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.TypedLocalObjectReference!predicate",
                   dataSourceRef =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.TypedLocalObjectReference!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.TypedObjectReference!predicate",
                   resources =
-                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ResourceRequirements!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.VolumeResourceRequirements!predicate",
                   selector =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector!predicate",
                   storageClassName = _js2n__-prdslib.isType '"String",
+                  volumeAttributesClassName = _js2n__-prdslib.isType '"String",
                   volumeMode = _js2n__-prdslib.isType '"String",
                   volumeName = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
@@ -4279,6 +4348,13 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  allocatedResourceStatuses =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
                             (_js2n__-prdslib.isType '"String")
                         ],
                   allocatedResources =
@@ -4302,13 +4378,11 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.PersistentVolumeClaimCondition!predicate"
                         ],
-                  phase =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "Bound", "Lost", "Pending" ]
-                        ],
-                  resizeStatus = _js2n__-prdslib.isType '"String",
+                  currentVolumeAttributesClassName =
+                    _js2n__-prdslib.isType '"String",
+                  modifyVolumeStatus =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ModifyVolumeStatus!predicate",
+                  phase = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.api.core.v1.PersistentVolumeClaimTemplate!predicate"
@@ -4382,6 +4456,20 @@ let rec _js2n__-refsenv
                 {
                   labelSelector =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector!predicate",
+                  matchLabelKeys =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  mismatchLabelKeys =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   namespaceSelector =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector!predicate",
                   namespaces =
@@ -4465,6 +4553,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  appArmorProfile =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.AppArmorProfile!predicate",
                   fsGroup = _js2n__-prdslib.isType 'Integer,
                   fsGroupChangePolicy = _js2n__-prdslib.isType '"String",
                   runAsGroup = _js2n__-prdslib.isType 'Integer,
@@ -4600,6 +4690,16 @@ let rec _js2n__-refsenv
                   user = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/io.k8s.api.core.v1.ResourceClaim!predicate"
+        | doc "ResourceClaim references one entry in PodSpec.ResourceClaims."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                { name = _js2n__-prdslib.isType '"String", } {} true
+                _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/io.k8s.api.core.v1.ResourceFieldSelector!predicate"
         | doc "ResourceFieldSelector represents container resources (cpu, memory) and their output format"
         = _js2n__-prdslib.allOf
@@ -4621,6 +4721,13 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  claims =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ResourceClaim!predicate"
+                        ],
                   limits =
                     _js2n__-prdslib.allOf
                         [
@@ -4681,13 +4788,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   localhostProfile = _js2n__-prdslib.isType '"String",
-                  type =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [ "Localhost", "RuntimeDefault", "Unconfined" ]
-                        ],
+                  type = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.api.core.v1.SecretEnvSource!predicate"
@@ -4771,6 +4872,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   allowPrivilegeEscalation = _js2n__-prdslib.isType '"Bool",
+                  appArmorProfile =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.AppArmorProfile!predicate",
                   capabilities =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.Capabilities!predicate",
                   privileged = _js2n__-prdslib.isType '"Bool",
@@ -4799,6 +4902,16 @@ let rec _js2n__-refsenv
                   expirationSeconds = _js2n__-prdslib.isType 'Integer,
                   path = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.k8s.api.core.v1.SleepAction!predicate"
+        | doc "SleepAction describes a \"sleep\" action."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "seconds" ],
+              _js2n__-prdslib.records.record
+                { seconds = _js2n__-prdslib.isType 'Integer, } {} true
+                _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.api.core.v1.StorageOSVolumeSource!predicate"
         | doc "Represents a StorageOS persistent volume resource."
@@ -4847,20 +4960,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  effect =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [ "NoExecute", "NoSchedule", "PreferNoSchedule" ]
-                        ],
+                  effect = _js2n__-prdslib.isType '"String",
                   key = _js2n__-prdslib.isType '"String",
-                  operator =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "Equal", "Exists" ]
-                        ],
+                  operator = _js2n__-prdslib.isType '"String",
                   tolerationSeconds = _js2n__-prdslib.isType 'Integer,
                   value = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
@@ -4876,6 +4978,19 @@ let rec _js2n__-refsenv
                   apiGroup = _js2n__-prdslib.isType '"String",
                   kind = _js2n__-prdslib.isType '"String",
                   name = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.k8s.api.core.v1.TypedObjectReference!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "kind", "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  apiGroup = _js2n__-prdslib.isType '"String",
+                  kind = _js2n__-prdslib.isType '"String",
+                  name = _js2n__-prdslib.isType '"String",
+                  namespace = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.api.core.v1.Volume!predicate"
@@ -4971,6 +5086,7 @@ let rec _js2n__-refsenv
                   mountPropagation = _js2n__-prdslib.isType '"String",
                   name = _js2n__-prdslib.isType '"String",
                   readOnly = _js2n__-prdslib.isType '"Bool",
+                  recursiveReadOnly = _js2n__-prdslib.isType '"String",
                   subPath = _js2n__-prdslib.isType '"String",
                   subPathExpr = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
@@ -4982,6 +5098,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  clusterTrustBundle =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ClusterTrustBundleProjection!predicate",
                   configMap =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ConfigMapProjection!predicate",
                   downwardAPI =
@@ -4990,6 +5108,29 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretProjection!predicate",
                   serviceAccountToken =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ServiceAccountTokenProjection!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.k8s.api.core.v1.VolumeResourceRequirements!predicate"
+        | doc "VolumeResourceRequirements describes the storage resource requirements for a volume."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  limits =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.api.resource.Quantity!predicate"
+                        ],
+                  requests =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.api.resource.Quantity!predicate"
+                        ],
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.api.core.v1.VsphereVirtualDiskVolumeSource!predicate"
@@ -5045,6 +5186,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.util.intstr.IntOrString!predicate",
                   selector =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector!predicate",
+                  unhealthyPodEvictionPolicy = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.k8s.apimachinery.pkg.api.resource.Quantity!predicate"
@@ -5053,27 +5195,33 @@ let rec _js2n__-refsenv
           
           The serialization format is:
           
-          <quantity>        ::= <signedNumber><suffix>
-            (Note that <suffix> may be empty, from the "" case in <decimalSI>.)
+          ``` <quantity>        ::= <signedNumber><suffix>
+          
+          	(Note that <suffix> may be empty, from the "" case in <decimalSI>.)
+          
           <digit>           ::= 0 | 1 | ... | 9 <digits>          ::= <digit> | <digit><digits> <number>          ::= <digits> | <digits>.<digits> | <digits>. | .<digits> <sign>            ::= "+" | "-" <signedNumber>    ::= <number> | <sign><number> <suffix>          ::= <binarySI> | <decimalExponent> | <decimalSI> <binarySI>        ::= Ki | Mi | Gi | Ti | Pi | Ei
-            (International System of units; See: http://physics.nist.gov/cuu/Units/binary.html)
+          
+          	(International System of units; See: http://physics.nist.gov/cuu/Units/binary.html)
+          
           <decimalSI>       ::= m | "" | k | M | G | T | P | E
-            (Note that 1024 = 1Ki but 1000 = 1k; I didn't choose the capitalization.)
-          <decimalExponent> ::= "e" <signedNumber> | "E" <signedNumber>
+          
+          	(Note that 1024 = 1Ki but 1000 = 1k; I didn't choose the capitalization.)
+          
+          <decimalExponent> ::= "e" <signedNumber> | "E" <signedNumber> ```
           
           No matter which of the three exponent forms is used, no quantity may represent a number greater than 2^63-1 in magnitude, nor may it have more than 3 decimal places. Numbers larger or more precise will be capped or rounded up. (E.g.: 0.1m will rounded up to 1m.) This may be extended in the future if we require larger or smaller quantities.
           
           When a Quantity is parsed from a string, it will remember the type of suffix it had, and will use the same type again when it is serialized.
           
           Before serializing, Quantity will be put in "canonical form". This means that Exponent/suffix will be adjusted up or down (with a corresponding increase or decrease in Mantissa) such that:
-            a. No precision is lost
-            b. No fractional digits will be emitted
-            c. The exponent (or suffix) is as large as possible.
+          
+          - No precision is lost - No fractional digits will be emitted - The exponent (or suffix) is as large as possible.
+          
           The sign will be omitted unless the number is negative.
           
           Examples:
-            1.5 will be serialized as "1500m"
-            1.5Gi will be serialized as "1536Mi"
+          
+          - 1.5 will be serialized as "1500m" - 1.5Gi will be serialized as "1536Mi"
           
           Note that the quantity will NEVER be internally represented by a floating point number. That is the whole point of this exercise.
           
@@ -5082,19 +5230,6 @@ let rec _js2n__-refsenv
           This format is intended to make it difficult to use these numbers without writing some sort of special handling code in the hopes that that will cause implementors to also use a fixed point implementation.
         "%
         = _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Duration!predicate"
-        | doc m%"
-          Duration is a wrapper around time.Duration which supports correct
-          marshaling to YAML and JSON. In particular, it marshals into strings, which
-          can be used as map keys in json.
-        "%
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                { duration = _js2n__-prdslib.isType '"String", } {} true
-                _js2n__-prdslib.always
-            ],
       "_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.FieldsV1!predicate"
         | doc m%"
           FieldsV1 stores a set of fields in a data structure like a Trie, in JSON format.
@@ -5178,7 +5313,6 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} true
                             (_js2n__-prdslib.isType '"String")
                         ],
-                  clusterName = _js2n__-prdslib.isType '"String",
                   creationTimestamp =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time!predicate",
                   deletionGracePeriodSeconds = _js2n__-prdslib.isType 'Integer,

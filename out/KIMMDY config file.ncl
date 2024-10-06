@@ -913,6 +913,11 @@ let rec _js2n__-refsenv
                   (_js2n__-prdslib.isType '"Bool")
                 | doc "Whether the chosen MD step is a slow growth/free-energy simulation"
                 | optional,
+              slow_growth_pairs
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.isType '"Bool")
+                | doc "Whether to properly treat pairs during slow growth. Does not work with gromacs < 2023.2"
+                | optional,
               ..
             }
             | doc "Settings related to coordinate/geometry changes when applying a recipe",
@@ -964,7 +969,7 @@ let rec _js2n__-refsenv
         | optional,
       kmc
         | std.enum.TagOrString
-        | [| 'extrande_mod, 'extrande, 'frm, 'rfkmc, '"" |]
+        | [| 'multi_rfkmc, 'extrande_mod, 'extrande, 'frm, 'rfkmc, '"" |]
         | doc "KMC algorithm overwrite. Should be set by the reactions, but can be changed here. Not all reactions may support all algorithms."
         | optional,
       log
@@ -1013,6 +1018,11 @@ let rec _js2n__-refsenv
                 } true _js2n__-prdslib.always
             ])
         | doc "Settings for MD steps, e.g. mdp files, plumed files, etc."
+        | optional,
+      multi_kmc
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType 'Integer)
+        | doc "Number of reactions to be executed in one step by a `multi` variant of a KMC algorithm."
         | optional,
       name
         | _js2n__-prdslib.contract_from_predicate

@@ -919,6 +919,12 @@ let rec _js2n__-refsenv
                             [ "None", "PascalCase", "SnakeKebabToPascalCase" ]
                         ],
                   checkUserPermissionSql = _js2n__-prdslib.isType '"String",
+                  collectionType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "JSON", "UDT" ]
+                        ],
                   columnNameCreatedBy = _js2n__-prdslib.isType '"String",
                   columnNameCreatedDate = _js2n__-prdslib.isType '"String",
                   columnNameDeletedBy = _js2n__-prdslib.isType '"String",
@@ -1010,6 +1016,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   collection = _js2n__-prdslib.isType '"Bool",
+                  collectionType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "JSON", "UDT" ]
+                        ],
                   column = _js2n__-prdslib.isType '"String",
                   name = _js2n__-prdslib.isType '"String",
                   nullable = _js2n__-prdslib.isType '"Bool",
@@ -1253,6 +1265,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "name" ],
               _js2n__-prdslib.records.record
                 {
+                  collectionType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "JSON", "UDT" ]
+                        ],
                   excludeColumns =
                     _js2n__-prdslib.allOf
                         [
@@ -1343,6 +1361,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  collectionType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "JSON", "UDT" ]
+                        ],
                   columnNameCreatedBy = _js2n__-prdslib.isType '"String",
                   columnNameCreatedDate = _js2n__-prdslib.isType '"String",
                   columnNameDeletedBy = _js2n__-prdslib.isType '"String",
@@ -1374,6 +1398,13 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   includeColumns =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  jsonAliasColumns =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",

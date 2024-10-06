@@ -960,16 +960,12 @@ let rec _js2n__-refsenv
               | String
               | doc "JSX module. Either \"react\" for React, or (since v11.1) any valid module name to apply a generic JSX transform."
               | optional,
-            v3-dependencies
-              | _js2n__-refsenv."_js2n__-:definitions/dependencies!contract"
-              | doc "Build the given dependencies in JSX V3 compatibility mode."
-              | optional,
             version
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType '"Number",
-                    _js2n__-prdslib.enum [ 3, 4 ]
+                    _js2n__-prdslib.enum [ 4 ]
                   ])
               | doc "Whether to apply the specific version of JSX PPX transformation"
               | optional,
@@ -1031,9 +1027,6 @@ let rec _js2n__-refsenv
                     ]
                 ])
           ),
-      "_js2n__-:definitions/react-jsx-version!contract"
-        | doc "backward compatible mode, true means on with the default to be version 1 (the default value is subject to change)"
-        = Number,
       "_js2n__-:definitions/reanalyze!contract" =
         {
             analysis
@@ -1055,14 +1048,6 @@ let rec _js2n__-refsenv
               | Array (String)
               | doc "Any specific paths inside suppressed folders that you want to unsuppress. Example: [\"src/bindings/SomeBinding.res\"]."
               | optional,
-          },
-      "_js2n__-:definitions/reason-specs!contract" =
-        {
-            react-jsx
-              | _js2n__-refsenv."_js2n__-:definitions/react-jsx-version!contract"
-              | doc "Whether to apply the [RescriptReact](https://github.com/rescript-lang/rescript-react)-specific JSX PPX transformation."
-              | optional,
-            ..
           },
       "_js2n__-:definitions/rule-generator!contract"
         | doc "The shell command is running in *dev* time, and you generated could should be checked in, the depedency is tracked properly during dev time,example: `{ \"name\" : \"ocamllex\", \"command\" : \"ocamllex.opt $in -o $out\"}`"
@@ -1258,15 +1243,11 @@ let rec _js2n__-refsenv
         | optional,
       ppx-flags
         | _js2n__-refsenv."_js2n__-:definitions/ppx-specs!contract"
-        | doc "PPX macros to pass to compiler. The syntax is package_name/binary, for example: `reason/reactjs_jsx_ppx_3.native`. Currenly searches in `node_modules`"
+        | doc "PPX macros to pass to compiler. The syntax is package_name/binary, for example: `rescript-relay/ppx`. Currenly searches in `node_modules`"
         | optional,
       reanalyze
         | _js2n__-refsenv."_js2n__-:definitions/reanalyze!contract"
         | doc "Configure reanalyze, a static code analysis tool for ReScript."
-        | optional,
-      reason
-        | _js2n__-refsenv."_js2n__-:definitions/reason-specs!contract"
-        | doc "ReScript comes with [Reason](http://reasonml.github.io/) by default. Specific configurations here."
         | optional,
       sources
         | _js2n__-refsenv."_js2n__-:definitions/sources!contract"

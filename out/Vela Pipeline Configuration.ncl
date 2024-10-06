@@ -1054,8 +1054,11 @@ let rec _js2n__-refsenv
                                   "pull_request",
                                   "pull_request*",
                                   "pull_request:edited",
+                                  "pull_request:labeled",
                                   "pull_request:opened",
+                                  "pull_request:reopened",
                                   "pull_request:synchronize",
+                                  "pull_request:unlabeled",
                                   "push",
                                   "schedule",
                                   "tag"
@@ -1079,14 +1082,24 @@ let rec _js2n__-refsenv
                                         "pull_request",
                                         "pull_request*",
                                         "pull_request:edited",
+                                        "pull_request:labeled",
                                         "pull_request:opened",
+                                        "pull_request:reopened",
                                         "pull_request:synchronize",
+                                        "pull_request:unlabeled",
                                         "push",
                                         "schedule",
                                         "tag"
                                       ]
                                   ])
                             ]
+                        ],
+                  instance =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
                         ],
                   label =
                     _js2n__-prdslib.allOf
@@ -1233,8 +1246,11 @@ let rec _js2n__-refsenv
                                       "pull_request",
                                       "pull_request*",
                                       "pull_request:edited",
+                                      "pull_request:labeled",
                                       "pull_request:opened",
+                                      "pull_request:reopened",
                                       "pull_request:synchronize",
+                                      "pull_request:unlabeled",
                                       "push",
                                       "schedule",
                                       "tag"
@@ -1258,14 +1274,24 @@ let rec _js2n__-refsenv
                                             "pull_request",
                                             "pull_request*",
                                             "pull_request:edited",
+                                            "pull_request:labeled",
                                             "pull_request:opened",
+                                            "pull_request:reopened",
                                             "pull_request:synchronize",
+                                            "pull_request:unlabeled",
                                             "push",
                                             "schedule",
                                             "tag"
                                           ]
                                       ])
                                 ]
+                            ],
+                      instance =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
                             ],
                       label =
                         _js2n__-prdslib.allOf

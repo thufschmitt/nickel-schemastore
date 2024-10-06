@@ -931,7 +931,7 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType 'Record,
                   _js2n__-prdslib.records.record {}
                     {
-                      "^(Adsg|ApplicationDebuggable|KnownVuln|NonFreeAdd|NonFreeAssets|NonFreeDep|NonFreeNet|NoSourceSince|NSFW|UpstreamNonFree|TetheredNet|Tracking)$" =
+                      "^(Ads|ApplicationDebuggable|KnownVuln|NonFreeAdd|NonFreeAssets|NonFreeDep|NonFreeNet|NoSourceSince|NSFW|UpstreamNonFree|TetheredNet|Tracking)$" =
                         _js2n__-refsenv."_js2n__-:definitions/localized_string!predicate",
                     } false _js2n__-prdslib.never
                 ]
@@ -1304,12 +1304,6 @@ let rec _js2n__-refsenv
                     ],
               Disabled = _js2n__-prdslib.isType '"String",
               Donate = _js2n__-refsenv."_js2n__-:definitions/url!predicate",
-              FlattrID =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.strings.pattern "^[0-9a-z]+$"
-                    ],
               IssueTracker =
                 _js2n__-refsenv."_js2n__-:definitions/url!predicate",
               Liberapay = _js2n__-prdslib.isType '"String",

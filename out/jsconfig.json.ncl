@@ -1310,14 +1310,19 @@ let rec _js2n__-refsenv
                                                 "ESNext.Array",
                                                 "ESNext.AsyncIterable",
                                                 "ESNext.BigInt",
+                                                "ESNext.Collection",
                                                 "ESNext.Intl",
+                                                "ESNext.Object",
                                                 "ESNext.Promise",
+                                                "ESNext.Regexp",
                                                 "ESNext.String",
                                                 "ESNext.Symbol",
                                                 "DOM",
+                                                "DOM.AsyncIterable",
                                                 "DOM.Iterable",
                                                 "ScriptHost",
                                                 "WebWorker",
+                                                "WebWorker.AsyncIterable",
                                                 "WebWorker.ImportScripts",
                                                 "Webworker.Iterable",
                                                 "ES7",
@@ -1371,11 +1376,11 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.strings.pattern
                                               "^[Ee][Ss][Nn][Ee][Xx][Tt](\\.([Aa][Rr][Rr][Aa][Yy]|[Aa][Ss][Yy][Nn][Cc][Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee]|[Bb][Ii][Gg][Ii][Nn][Tt]|[Ii][Nn][Tt][Ll]|[Pp][Rr][Oo][Mm][Ii][Ss][Ee]|[Ss][Tt][Rr][Ii][Nn][Gg]|[Ss][Yy][Mm][Bb][Oo][Ll]|[Ww][Ee][Aa][Kk][Rr][Ee][Ff]|[Dd][Ee][Cc][Oo][Rr][Aa][Tt][Oo][Rr][Ss]|[Dd][Ii][Ss][Pp][Oo][Ss][Aa][Bb][Ll][Ee]))?$",
                                             _js2n__-prdslib.strings.pattern
-                                              "^[Dd][Oo][Mm](\\.[Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee])?$",
+                                              "^[Dd][Oo][Mm](\\.([Aa][Ss][Yy][Nn][Cc])?[Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee])?$",
                                             _js2n__-prdslib.strings.pattern
                                               "^[Ss][Cc][Rr][Ii][Pp][Tt][Hh][Oo][Ss][Tt]$",
                                             _js2n__-prdslib.strings.pattern
-                                              "^[Ww][Ee][Bb][Ww][Oo][Rr][Kk][Ee][Rr](\\.([Ii][Mm][Pp][Oo][Rr][Tt][Ss][Cc][Rr][Ii][Pp][Tt][Ss]|[Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee]))?$",
+                                              "^[Ww][Ee][Bb][Ww][Oo][Rr][Kk][Ee][Rr](\\.([Ii][Mm][Pp][Oo][Rr][Tt][Ss][Cc][Rr][Ii][Pp][Tt][Ss]|([Aa][Ss][Yy][Nn][Cc])?[Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee]))?$",
                                             _js2n__-prdslib.strings.pattern
                                               "^[Dd][Ee][Cc][Oo][Rr][Aa][Tt][Oo][Rr][Ss](\\.([Ll][Ee][Gg][Aa][Cc][Yy]))?$"
                                           ]
@@ -1576,6 +1581,12 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType '"Bool",
                                   _js2n__-prdslib.isType 'Null
                                 ],
+                          noUncheckedSideEffectImports =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"Bool",
+                                  _js2n__-prdslib.isType 'Null
+                                ],
                           noUnusedLocals =
                             _js2n__-prdslib.anyOf
                                 [
@@ -1766,6 +1777,12 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType 'Null
                                 ],
                           strictBindCallApply =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"Bool",
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                          strictBuiltinIteratorReturn =
                             _js2n__-prdslib.anyOf
                                 [
                                   _js2n__-prdslib.isType '"Bool",

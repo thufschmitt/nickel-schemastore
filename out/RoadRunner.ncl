@@ -914,7 +914,8 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.strings.pattern "^[0-9]+[ms]|[s,h]"
+              _js2n__-prdslib.strings.pattern
+                "^([0-9]*(\\.[0-9]*)?(ms|h|m|s))+$"
             ],
       "_js2n__-:definitions/Hashmap!predicate"
         | doc "Hashmap"

@@ -983,7 +983,10 @@ let rec _js2n__-refsenv
             previewPlan
               | _js2n__-refsenv."_js2n__-:definitions/plan!contract"
               | optional,
-            readReplica | Array (String) | optional,
+            readReplicas
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/readReplica!contract"
+              | optional,
             region
               | _js2n__-refsenv."_js2n__-:definitions/region!contract"
               | optional,
@@ -1181,6 +1184,17 @@ let rec _js2n__-refsenv
                   "pro ultra"
                 ]
             ],
+      "_js2n__-:definitions/previewsGeneration!contract" =
+        std.contract.Sequence
+            [ std.enum.TagOrString, [| 'off, 'manual, 'automatic |] ],
+      "_js2n__-:definitions/previewsGeneration!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "automatic", "manual", "off" ]
+            ],
+      "_js2n__-:definitions/readReplica!contract" =
+        { name | String | optional, },
       "_js2n__-:definitions/redisServer!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1236,6 +1250,20 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/rootPreviews!contract" =
+        {
+            expireAfterDays
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.numbers.minimum 1
+                  ])
+              | optional,
+            generation
+              | _js2n__-refsenv."_js2n__-:definitions/previewsGeneration!contract"
+              | optional,
+          },
       "_js2n__-:definitions/route!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1324,6 +1352,8 @@ let rec _js2n__-refsenv
                   preDeployCommand = _js2n__-prdslib.isType '"String",
                   previewPlan =
                     _js2n__-refsenv."_js2n__-:definitions/plan!predicate",
+                  previews =
+                    _js2n__-refsenv."_js2n__-:definitions/servicePreviews!predicate",
                   pullRequestPreviewsEnabled = _js2n__-prdslib.isType '"Bool",
                   region =
                     _js2n__-refsenv."_js2n__-:definitions/region!predicate",
@@ -1374,6 +1404,17 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "web", "worker", "pserv" ]
                         ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/servicePreviews!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  generation =
+                    _js2n__-refsenv."_js2n__-:definitions/previewsGeneration!predicate",
+                  plan = _js2n__-refsenv."_js2n__-:definitions/plan!predicate",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/serviceType!predicate" =
@@ -1427,6 +1468,8 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/header!predicate"
                         ],
                   name = _js2n__-prdslib.isType '"String",
+                  previews =
+                    _js2n__-refsenv."_js2n__-:definitions/staticServicePreviews!predicate",
                   pullRequestPreviewsEnabled = _js2n__-prdslib.isType '"Bool",
                   repo = _js2n__-prdslib.isType '"String",
                   rootDir = _js2n__-prdslib.isType '"String",
@@ -1452,6 +1495,16 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/staticServicePreviews!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  generation =
+                    _js2n__-refsenv."_js2n__-:definitions/previewsGeneration!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
     }
     in
   {
@@ -1460,6 +1513,9 @@ let rec _js2n__-refsenv
         | optional,
       envVarGroups
         | Array _js2n__-refsenv."_js2n__-:definitions/envVarGroup!contract"
+        | optional,
+      previews
+        | _js2n__-refsenv."_js2n__-:definitions/rootPreviews!contract"
         | optional,
       previewsEnabled | Bool | optional,
       previewsExpireAfterDays
