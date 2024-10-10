@@ -1203,7 +1203,16 @@ let rec _js2n__-refsenv
                               automatic =
                                 _js2n__-prdslib.anyOf
                                     [
-                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.isType '"Bool",
+                                              _js2n__-prdslib.isType '"String"
+                                            ],
+                                          _js2n__-prdslib.strings.pattern
+                                            "^(true|false)$"
+                                        ],
                                       _js2n__-prdslib.always,
                                       _js2n__-prdslib.allOf
                                         [
@@ -1215,16 +1224,47 @@ let rec _js2n__-refsenv
                               manual =
                                 _js2n__-prdslib.anyOf
                                     [
-                                      _js2n__-prdslib.isType '"Bool",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.isType '"Bool",
+                                              _js2n__-prdslib.isType '"String"
+                                            ],
+                                          _js2n__-prdslib.strings.pattern
+                                            "^(true|false)$"
+                                        ],
                                       _js2n__-prdslib.allOf
                                         [
                                           _js2n__-prdslib.isType 'Record,
                                           _js2n__-prdslib.records.record
                                             {
                                               allowed =
-                                                _js2n__-prdslib.isType '"Bool",
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.anyOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"Bool",
+                                                          _js2n__-prdslib.isType
+                                                            '"String"
+                                                        ],
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(true|false)$"
+                                                    ],
                                               permit_on_passed =
-                                                _js2n__-prdslib.isType '"Bool",
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.anyOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"Bool",
+                                                          _js2n__-prdslib.isType
+                                                            '"String"
+                                                        ],
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^(true|false)$"
+                                                    ],
                                               reason =
                                                 _js2n__-prdslib.isType
                                                     '"String",
@@ -1299,6 +1339,7 @@ let rec _js2n__-refsenv
               name =
                 _js2n__-refsenv."_js2n__-:definitions/groupStep/properties/label!predicate",
               notify = _js2n__-prdslib.always,
+              skip = _js2n__-prdslib.always,
               steps =
                 _js2n__-prdslib.allOf
                     [
@@ -1538,7 +1579,6 @@ let rec _js2n__-refsenv
               agents = _js2n__-prdslib.always,
               env = _js2n__-prdslib.always,
               notify = _js2n__-prdslib.always,
-              skip = _js2n__-prdslib.always,
               steps =
                 _js2n__-prdslib.allOf
                     [

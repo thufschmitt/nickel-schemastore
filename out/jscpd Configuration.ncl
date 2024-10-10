@@ -1157,7 +1157,7 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.enum [ "mild", "strict", "weak" ])
         | doc "mode of detection quality; see https://github.com/kucherenko/jscpd/blob/master/packages/jscpd/README.md#mode"
         | optional,
-      noSymLinks | Bool | doc "do not follow symlinks" | optional,
+      noSymlinks | Bool | doc "do not follow symlinks" | optional,
       output
         | String
         | doc "path to directory for non-console reports"

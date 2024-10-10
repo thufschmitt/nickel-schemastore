@@ -970,6 +970,11 @@ let rec _js2n__-refsenv
       name
         | String
         | doc "The name of the stack. It will be used as a prefix for the stack's resources",
+      nginx
+        | std.enum.TagOrString
+        | [| 'local, 'system |]
+        | doc "Specifies whether to use the system-wide nginx service or spawn a local nginx process among other services. If not specified, 'system' is implied. Local nginx requires an nginx binary in the path. System wide nginx configuration is left to the user."
+        | optional,
       services
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

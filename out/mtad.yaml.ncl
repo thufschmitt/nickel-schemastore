@@ -1012,6 +1012,10 @@ let rec _js2n__-refsenv
               | String
               | doc "The name of the application in the Cloud Foundry environment to be deployed for this module, based on the module name."
               | optional,
+            apply-namespace
+              | Bool
+              | doc "Apply namespace to application name."
+              | optional,
             buildpack
               | String
               | doc "The name or the URL of a custom buildpack required by the application."
@@ -1160,6 +1164,33 @@ let rec _js2n__-refsenv
               | String
               | doc "Use this parameter to define which prebuilt root file system (rootfs) you want to use."
               | optional,
+            stage-timeout
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Number",
+                    _js2n__-prdslib.numbers.minimum 0
+                  ])
+              | doc "Defines how long, in seconds, your application can take during staging before the MTA operation times out."
+              | optional,
+            start-timeout
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Number",
+                    _js2n__-prdslib.numbers.minimum 0
+                  ])
+              | doc "Defines how long, in seconds, your application can take to start before the MTA operation times out."
+              | optional,
+            task-execution-timeout
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Number",
+                    _js2n__-prdslib.numbers.minimum 0
+                  ])
+              | doc "Defines how long, in seconds, your application can take to execute a task before the MTA operation times out."
+              | optional,
             tasks
               | _js2n__-refsenv."_js2n__-:definitions/module-parameters-tasks!contract"
               | doc "Specify tasks, which are available for execution in the current droplet of the application. Also provide use of environment variables which are specified with the env scope."
@@ -1171,7 +1202,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType '"Number",
                     _js2n__-prdslib.numbers.minimum 0
                   ])
-              | doc "The application upload timeout in seconds."
+              | doc "Defines how long, in seconds, you can upload your application binary before the MTA operation times out."
               | optional,
             ..
           },
@@ -1219,7 +1250,10 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/module-parameters-routes!contract" =
         Array
             {
-              apply-namespace | Bool | optional,
+              apply-namespace
+                | Bool
+                | doc "Apply namespace to application routes."
+                | optional,
               no-hostname | Bool | optional,
               protocol
                 | _js2n__-prdslib.contract_from_predicate
@@ -1323,6 +1357,10 @@ let rec _js2n__-refsenv
             },
       "_js2n__-:definitions/module-requires-parameters!contract" =
         {
+            binding-name
+              | String
+              | doc "Provide a binding name for the association between an application and a service instance."
+              | optional,
             content-target
               | Bool
               | doc "Specify that the resource would be used as a target for the module content deployment."
@@ -1392,6 +1430,10 @@ let rec _js2n__-refsenv
           },
       "_js2n__-:definitions/resource-parameters!contract" =
         {
+            apply-namespace
+              | Bool
+              | doc "Apply namespace to service name."
+              | optional,
             config
               | {  .. }
               | doc "Map value, containing the service creation configuration, for example, url and user credentials (user and password)."

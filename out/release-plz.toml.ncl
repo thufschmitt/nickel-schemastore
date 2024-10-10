@@ -1089,6 +1089,15 @@ let rec _js2n__-refsenv
                   ])
               | doc "Whether to create/update changelog or not. If unspecified, the changelog is updated."
               | optional,
+            features_always_increment_minor
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Bool",
+                    _js2n__-prdslib.isType 'Null
+                  ])
+              | doc "- If `true`, feature commits will always bump the minor version, even in 0.x releases. - If `false` (default), feature commits will only bump the minor version starting with 1.x releases."
+              | optional,
             git_release_body
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.anyOf
@@ -1115,6 +1124,15 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType 'Null
                   ])
               | doc "Publish the GitHub/Gitea release for the created git tag. Enabled by default."
+              | optional,
+            git_release_latest
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Bool",
+                    _js2n__-prdslib.isType 'Null
+                  ])
+              | doc "If true, will set the git release as latest."
               | optional,
             git_release_name
               | _js2n__-prdslib.contract_from_predicate
@@ -1212,6 +1230,15 @@ let rec _js2n__-refsenv
                   ])
               | doc "Controls when to run cargo-semver-checks. If unspecified, run cargo-semver-checks if the package is a library."
               | optional,
+            version_group
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Null
+                  ])
+              | doc "The name of a group of packages that needs to have the same version."
+              | optional,
             ..
           },
       "_js2n__-:definitions/ReleaseType!predicate" =
@@ -1299,6 +1326,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  features_always_increment_minor =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   git_release_body =
                     _js2n__-prdslib.anyOf
                         [
@@ -1312,6 +1345,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Null
                         ],
                   git_release_enable =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  git_release_latest =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",

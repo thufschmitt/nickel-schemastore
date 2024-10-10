@@ -3058,4 +3058,16 @@ let rec _js2n__-refsenv
           https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms#top-level-syntax
         "%
         | optional,
+      type
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.minLength 1
+            ])
+        | doc m%"
+          An issue type, currently in beta
+          https://github.com/orgs/community/discussions/139933
+        "%
+        | optional,
     }

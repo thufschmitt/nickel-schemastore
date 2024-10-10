@@ -4621,6 +4621,31 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:items/definitions/org.apache.camel.model.PollDefinition!predicate"
+        | doc "Polls a message from a static endpoint"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          description = _js2n__-prdslib.isType '"String",
+                          disabled = _js2n__-prdslib.isType '"Bool",
+                          id = _js2n__-prdslib.isType '"String",
+                          parameters = _js2n__-prdslib.isType 'Record,
+                          timeout = _js2n__-prdslib.isType '"String",
+                          uri = _js2n__-prdslib.isType '"String",
+                          variableReceive = _js2n__-prdslib.isType '"String",
+                        } {} false _js2n__-prdslib.never
+                    ]
+                ],
+              _js2n__-prdslib.records.required [ "uri" ],
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:items/definitions/org.apache.camel.model.PollEnrichDefinition!predicate"
         | doc "Enriches messages with data polled from a secondary resource"
         = _js2n__-prdslib.allOf
@@ -4927,6 +4952,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.PipelineDefinition!predicate",
                   policy =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.PolicyDefinition!predicate",
+                  poll =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.PollDefinition!predicate",
                   pollEnrich =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.PollEnrichDefinition!predicate",
                   process =
@@ -4991,6 +5018,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.ToDefinition!predicate",
                   toD =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.ToDynamicDefinition!predicate",
+                  tokenizer =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.TokenizerDefinition!predicate",
                   transacted =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.TransactedDefinition!predicate",
                   transform =
@@ -8557,6 +8586,120 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "uri" ],
               _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:items/definitions/org.apache.camel.model.TokenizerDefinition!predicate"
+        | doc "Represents a Camel tokenizer for AI."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required
+                        [ "langChain4jCharacterTokenizer" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          langChain4jCharacterTokenizer =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jCharacterTokenizerDefinition!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required
+                              [ "langChain4jCharacterTokenizer" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required
+                              [ "langChain4jLineTokenizer" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required
+                              [ "langChain4jParagraphTokenizer" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required
+                              [ "langChain4jSentenceTokenizer" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required
+                              [ "langChain4jWordTokenizer" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ]),
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required
+                        [ "langChain4jLineTokenizer" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          langChain4jLineTokenizer =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jTokenizerDefinition!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required
+                        [ "langChain4jParagraphTokenizer" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          langChain4jParagraphTokenizer =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jParagraphTokenizerDefinition!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required
+                        [ "langChain4jSentenceTokenizer" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          langChain4jSentenceTokenizer =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jSentenceTokenizerDefinition!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required
+                        [ "langChain4jWordTokenizer" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          langChain4jWordTokenizer =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jWordTokenizerDefinition!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  description = _js2n__-prdslib.isType '"String",
+                  disabled = _js2n__-prdslib.isType '"Bool",
+                  id = _js2n__-prdslib.isType '"String",
+                  langChain4jCharacterTokenizer = _js2n__-prdslib.always,
+                  langChain4jLineTokenizer = _js2n__-prdslib.always,
+                  langChain4jParagraphTokenizer = _js2n__-prdslib.always,
+                  langChain4jSentenceTokenizer = _js2n__-prdslib.always,
+                  langChain4jWordTokenizer = _js2n__-prdslib.always,
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:items/definitions/org.apache.camel.model.TransactedDefinition!predicate"
         | doc "Enables transaction on the route"
         = _js2n__-prdslib.allOf
@@ -11479,6 +11622,7 @@ let rec _js2n__-refsenv
                   timezone = _js2n__-prdslib.isType '"String",
                   unmarshalType = _js2n__-prdslib.isType '"String",
                   useList = _js2n__-prdslib.isType '"Bool",
+                  useWriter = _js2n__-prdslib.isType '"Bool",
                   xmlMapper = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
@@ -11573,6 +11717,7 @@ let rec _js2n__-refsenv
                   unmarshalType = _js2n__-prdslib.isType '"String",
                   useDefaultObjectMapper = _js2n__-prdslib.isType '"Bool",
                   useList = _js2n__-prdslib.isType '"Bool",
+                  useWriter = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:items/definitions/org.apache.camel.model.dataformat.LZFDataFormat!predicate"
@@ -14093,6 +14238,96 @@ let rec _js2n__-refsenv
                 {
                   key = _js2n__-prdslib.isType '"String",
                   scopes = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jCharacterTokenizerDefinition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
+              _js2n__-prdslib.records.record
+                {
+                  id = _js2n__-prdslib.isType '"String",
+                  maxOverlap = _js2n__-prdslib.isType '"Number",
+                  maxTokens = _js2n__-prdslib.isType '"Number",
+                  tokenizerType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "OPEN_AI", "AZURE", "QWEN" ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jParagraphTokenizerDefinition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
+              _js2n__-prdslib.records.record
+                {
+                  id = _js2n__-prdslib.isType '"String",
+                  maxOverlap = _js2n__-prdslib.isType '"Number",
+                  maxTokens = _js2n__-prdslib.isType '"Number",
+                  tokenizerType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "OPEN_AI", "AZURE", "QWEN" ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jSentenceTokenizerDefinition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
+              _js2n__-prdslib.records.record
+                {
+                  id = _js2n__-prdslib.isType '"String",
+                  maxOverlap = _js2n__-prdslib.isType '"Number",
+                  maxTokens = _js2n__-prdslib.isType '"Number",
+                  tokenizerType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "OPEN_AI", "AZURE", "QWEN" ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jTokenizerDefinition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
+              _js2n__-prdslib.records.record
+                {
+                  id = _js2n__-prdslib.isType '"String",
+                  maxOverlap = _js2n__-prdslib.isType '"Number",
+                  maxTokens = _js2n__-prdslib.isType '"Number",
+                  tokenizerType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "OPEN_AI", "AZURE", "QWEN" ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jWordTokenizerDefinition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
+              _js2n__-prdslib.records.record
+                {
+                  id = _js2n__-prdslib.isType '"String",
+                  maxOverlap = _js2n__-prdslib.isType '"Number",
+                  maxTokens = _js2n__-prdslib.isType '"Number",
+                  tokenizerType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "OPEN_AI", "AZURE", "QWEN" ]
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
     }

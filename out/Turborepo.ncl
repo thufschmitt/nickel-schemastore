@@ -897,11 +897,15 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/AnchoredUnixPath!predicate" =
-        _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/EnvMode!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "strict", "loose" ]
+            ],
       "_js2n__-:definitions/EnvWildcard!predicate" =
         _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/OutputMode!predicate" =
+      "_js2n__-:definitions/OutputLogs!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
@@ -922,17 +926,6 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
-                  dotEnv =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/AnchoredUnixPath!predicate"
-                            ]
-                        ],
                   env =
                     _js2n__-prdslib.allOf
                         [
@@ -949,7 +942,7 @@ let rec _js2n__-refsenv
                         ],
                   interactive = _js2n__-prdslib.isType '"Bool",
                   outputLogs =
-                    _js2n__-refsenv."_js2n__-:definitions/OutputMode!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/OutputLogs!predicate",
                   outputs =
                     _js2n__-prdslib.allOf
                         [
@@ -971,14 +964,21 @@ let rec _js2n__-refsenv
                   persistent = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/RelativeUnixPath!predicate"
+        | doc "This is a relative Unix-style path (e.g. `./src/index.ts` or `src/index.ts`).  Absolute paths (e.g. `/tmp/foo`) are not valid."
+        = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/RemoteCache!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  apiUrl = _js2n__-prdslib.isType '"String",
                   enabled = _js2n__-prdslib.isType '"Bool",
+                  loginUrl = _js2n__-prdslib.isType '"String",
+                  preflight = _js2n__-prdslib.isType '"Bool",
                   signature = _js2n__-prdslib.isType '"Bool",
+                  timeout = _js2n__-prdslib.isType '"Number",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/RootSchema!predicate" =
@@ -989,23 +989,19 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   "$schema" = _js2n__-prdslib.isType '"String",
+                  cacheDir =
+                    _js2n__-refsenv."_js2n__-:definitions/RelativeUnixPath!predicate",
+                  daemon = _js2n__-prdslib.isType '"Bool",
+                  dangerouslyDisablePackageManagerCheck =
+                    _js2n__-prdslib.isType '"Bool",
+                  envMode =
+                    _js2n__-refsenv."_js2n__-:definitions/EnvMode!predicate",
                   globalDependencies =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
-                        ],
-                  globalDotEnv =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-refsenv."_js2n__-:definitions/AnchoredUnixPath!predicate"
-                            ]
                         ],
                   globalEnv =
                     _js2n__-prdslib.allOf
@@ -1050,8 +1046,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "tui", "stream" ]
             ],
-      "_js2n__-:definitions/WorkspaceSchema!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/WorkspaceSchema!predicate"
+        | doc "A `turbo.json` file in a package in the monorepo (not the root)"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "extends", "tasks" ],

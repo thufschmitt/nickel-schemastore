@@ -1633,7 +1633,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern
-                            "^(.+/)+(.+)\\.(ya?ml)(@.+)?$"
+                            "^(.+\\/)+(.+)\\.(ya?ml)(@.+)?$"
                         ],
                   with = _js2n__-refsenv."_js2n__-:definitions/env!predicate",
                 } {} false _js2n__-prdslib.never
@@ -2137,7 +2137,9 @@ let rec _js2n__-refsenv
                                                     "review_requested",
                                                     "review_request_removed",
                                                     "auto_merge_enabled",
-                                                    "auto_merge_disabled"
+                                                    "auto_merge_disabled",
+                                                    "enqueued",
+                                                    "dequeued"
                                                   ]
                                               ]),
                                           _js2n__-refsenv."_js2n__-:definitions/types!predicate"

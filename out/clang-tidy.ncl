@@ -899,7 +899,39 @@ let rec _js2n__-refsenv
     = {}
     in
   {
-      CheckOptions | {  .. } | optional,
+      CheckOptions
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            key = _js2n__-prdslib.isType '"String",
+                            value =
+                              _js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.isType '"Bool",
+                                    _js2n__-prdslib.isType '"Number",
+                                    _js2n__-prdslib.isType 'Null
+                                  ],
+                          } {} false _js2n__-prdslib.never
+                      ])
+                ]
+            ])
+        | optional,
       Checks
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.oneOf

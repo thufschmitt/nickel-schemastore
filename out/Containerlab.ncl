@@ -1351,12 +1351,14 @@ let rec _js2n__-refsenv
                               "cisco_c8000",
                               "cisco_c8000v",
                               "cisco_cat9kv",
+                              "cisco_iol",
                               "cvx",
                               "cumulus_cvx",
                               "openbsd",
                               "freebsd",
                               "generic_vm",
-                              "fortinet_fortigate"
+                              "fortinet_fortigate",
+                              "k8s-kind"
                             ]
                         ],
                   labels =
@@ -1698,6 +1700,8 @@ let rec _js2n__-refsenv
                               cisco_cat9kv =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               cisco_ftdv =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              cisco_iol =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               crpd =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",

@@ -1022,6 +1022,7 @@ let rec _js2n__-refsenv
                   tag = _js2n__-prdslib.isType '"String",
                   version =
                     _js2n__-refsenv."_js2n__-:definitions/SemVerRequirement!predicate",
+                  workspace = _js2n__-prdslib.isType '"Bool",
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/Documentation!predicate"

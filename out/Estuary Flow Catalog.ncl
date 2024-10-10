@@ -1381,7 +1381,7 @@ let rec _js2n__-refsenv
                   shards =
                     _js2n__-refsenv."_js2n__-:definitions/ShardTemplate!predicate",
                   sourceCapture =
-                    _js2n__-refsenv."_js2n__-:definitions/Capture!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/SourceCapture!predicate",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/MaterializationEndpoint!predicate"
@@ -1616,6 +1616,41 @@ let rec _js2n__-refsenv
             [
               _js2n__-refsenv."_js2n__-:definitions/FullSource!predicate",
               _js2n__-refsenv."_js2n__-:definitions/Collection!predicate"
+            ],
+      "_js2n__-:definitions/SourceCapture!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/Capture!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/SourceCaptureDef!predicate"
+            ],
+      "_js2n__-:definitions/SourceCaptureDef!predicate"
+        | doc "SourceCaptureDef specifies configuration for source captures"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "capture" ],
+              _js2n__-prdslib.records.record
+                {
+                  capture =
+                    _js2n__-refsenv."_js2n__-:definitions/Capture!predicate",
+                  deltaUpdates = _js2n__-prdslib.isType '"Bool",
+                  targetSchema =
+                    _js2n__-refsenv."_js2n__-:definitions/SourceCaptureSchemaMode!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SourceCaptureSchemaMode!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "leaveEmpty" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "fromSourceName" ]
+                ]
             ],
       "_js2n__-:definitions/TestDef!predicate"
         | doc "Test the behavior of reductions and derivations, through a sequence of test steps."
