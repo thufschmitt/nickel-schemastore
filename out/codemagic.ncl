@@ -1144,6 +1144,63 @@ let rec _js2n__-refsenv
                   source = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/BuildScript!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "script" ],
+              _js2n__-prdslib.records.record
+                {
+                  ignore_failure =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
+                            ],
+                          _js2n__-prdslib.isType '"Bool"
+                        ],
+                  name =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1
+                            ],
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.isType '"Bool"
+                        ],
+                  on_failure =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
+                            ],
+                          _js2n__-refsenv."_js2n__-:definitions/ScriptOnFailure!predicate"
+                        ],
+                  script =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.minLength 1
+                        ],
+                  test_report =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.minLength 1
+                        ],
+                  when = _js2n__-refsenv."_js2n__-:definitions/When!predicate",
+                  working_directory = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/Cache!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1773,7 +1830,39 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/NamedScript!predicate" =
+      "_js2n__-:definitions/PartnerCenter!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  client_id =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.minLength 1
+                        ],
+                  client_secret =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.minLength 1
+                        ],
+                  store_id =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.minLength 1
+                        ],
+                  tenant_id =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.minLength 1
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PreCloneScript!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -1820,46 +1909,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.minLength 1
                         ],
-                  test_report =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.minLength 1
-                        ],
                   when = _js2n__-refsenv."_js2n__-:definitions/When!predicate",
                   working_directory = _js2n__-prdslib.isType '"String",
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/PartnerCenter!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  client_id =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.minLength 1
-                        ],
-                  client_secret =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.minLength 1
-                        ],
-                  store_id =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.minLength 1
-                        ],
-                  tenant_id =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.minLength 1
-                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/ProfileWithVariable!predicate" =
@@ -1941,7 +1992,7 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.isType '"String",
                                     _js2n__-prdslib.strings.minLength 1
                                   ],
-                                _js2n__-refsenv."_js2n__-:definitions/NamedScript!predicate"
+                                _js2n__-refsenv."_js2n__-:definitions/BuildScript!predicate"
                               ]),
                           _js2n__-prdslib.arrays.minItems 1
                         ],
@@ -2173,6 +2224,22 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Integer
                         ],
                   name = _js2n__-prdslib.isType '"String",
+                  pre_clone_scripts =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.minLength 1
+                                  ],
+                                _js2n__-refsenv."_js2n__-:definitions/PreCloneScript!predicate"
+                              ]),
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
                   publishing =
                     _js2n__-refsenv."_js2n__-:definitions/Publishing!predicate",
                   scripts =
@@ -2187,7 +2254,7 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.isType '"String",
                                     _js2n__-prdslib.strings.minLength 1
                                   ],
-                                _js2n__-refsenv."_js2n__-:definitions/NamedScript!predicate"
+                                _js2n__-refsenv."_js2n__-:definitions/BuildScript!predicate"
                               ]),
                           _js2n__-prdslib.arrays.minItems 1
                         ],

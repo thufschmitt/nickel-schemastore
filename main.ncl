@@ -943,4 +943,6 @@
 "Preset list for a WinUtil" = import "out/Preset list for a WinUtil.ncl",
 "Tab list for a LinUtil" = import "out/Tab list for a LinUtil.ncl",
 "Tab data for a LinUtil" = import "out/Tab data for a LinUtil.ncl",
+"Eidolon Resource" = import "out/Eidolon Resource.ncl",
+"Waku Config" = import "out/Waku Config.ncl",
 }

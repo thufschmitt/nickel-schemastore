@@ -1020,7 +1020,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern
-                            "^(?!.*(local|meta)).*$"
+                            "^(?!(?:meta|local)$).*$"
                         ],
                   rev = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always

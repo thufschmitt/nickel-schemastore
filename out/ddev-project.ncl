@@ -945,18 +945,81 @@ let rec _js2n__-refsenv
         | doc "Whether to \"corepack enable\" on Node.js configuration."
         | optional,
       database
-        | {
-          type
-            | std.enum.TagOrString
-            | [| 'postgres, 'mysql, 'mariadb |]
-            | doc "Specify the database type to use."
-            | optional,
-          version
-            | String
-            | doc "Specify the database version to use."
-            | optional,
-          ..
-        }
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { type = _js2n__-prdslib.const "mariadb", } {} true
+                  _js2n__-prdslib.always)
+                (_js2n__-prdslib.records.record
+                  {
+                    version =
+                      _js2n__-prdslib.enum
+                          [
+                            "5.5",
+                            "10.0",
+                            "10.1",
+                            "10.2",
+                            "10.3",
+                            "10.4",
+                            "10.5",
+                            "10.6",
+                            "10.7",
+                            "10.8",
+                            "10.11",
+                            "11.4"
+                          ],
+                  } {} true _js2n__-prdslib.always)
+                (_js2n__-prdslib.ifThenElse
+                  (_js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "mysql", } {} true
+                    _js2n__-prdslib.always)
+                  (_js2n__-prdslib.records.record
+                    {
+                      version =
+                        _js2n__-prdslib.enum [ "5.5", "5.6", "5.7", "8.0" ],
+                    } {} true _js2n__-prdslib.always)
+                  (_js2n__-prdslib.ifThenElse
+                    (_js2n__-prdslib.records.record
+                      { type = _js2n__-prdslib.const "postgres", } {} true
+                      _js2n__-prdslib.always)
+                    (_js2n__-prdslib.records.record
+                      {
+                        version =
+                          _js2n__-prdslib.enum
+                              [
+                                "9",
+                                "10",
+                                "11",
+                                "12",
+                                "13",
+                                "14",
+                                "15",
+                                "16",
+                                "17"
+                              ],
+                      } {} true _js2n__-prdslib.always)
+                    (_js2n__-prdslib.not
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.required [ "version" ],
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
+                        ])))),
+              _js2n__-prdslib.records.record
+                {
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "mariadb", "mysql", "postgres" ]
+                        ],
+                  version = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ])
         | doc "Specify the database type and version to use."
         | optional,
       dbimage_extra_packages

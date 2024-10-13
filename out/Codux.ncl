@@ -1027,6 +1027,9 @@ let rec _js2n__-refsenv
           Refer to https://help.codux.com/kb/en/article/kb02353 for more information.
         "%
         | optional,
+      externalProviders
+        | { wix | { projectId | String, .. } | optional, .. }
+        | optional,
       fileNamingConvention
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.oneOf
@@ -1108,10 +1111,11 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "environmentVariables" ],
               _js2n__-prdslib.records.record
-                { environmentVariables = _js2n__-prdslib.isType 'Record, } {}
-                true _js2n__-prdslib.always
+                {
+                  envFile = _js2n__-prdslib.isType '"String",
+                  environmentVariables = _js2n__-prdslib.isType 'Record,
+                } {} true _js2n__-prdslib.always
             ])
         | doc m%"
           Specifies environment variables to use globally across the project.

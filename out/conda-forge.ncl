@@ -1283,6 +1283,21 @@ let rec _js2n__-refsenv
           ```
         "%
         | optional,
+      linter
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.always, _js2n__-prdslib.isType 'Null ])
+        | doc m%"
+          Settings in this block are used to control how `conda smithy` lints
+          An example of the such configuration is:
+          
+          ```yaml
+          linter:
+              skip:
+                  - lint_noarch_selectors
+          ```
+        "%
+        | optional,
       matrix
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf

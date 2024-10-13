@@ -2237,6 +2237,13 @@ let rec _js2n__-refsenv
                       https://gohugo.io/getting-started/configuration-markup#goldmark
                     "%
                     | optional,
+                  wrapStandAloneImageWithinParagraph
+                    | Bool
+                    | doc m%"
+                      
+                      https://gohugo.io/getting-started/configuration-markup#goldmark
+                    "%
+                    | optional,
                 }
                 | doc m%"
                   The parser options

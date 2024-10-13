@@ -1743,9 +1743,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/FolderTraversalMethod!predicate",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/PlatformDetail!predicate"
-        | doc "Any source that connects to a platform should inherit this class"
-        = _js2n__-prdslib.allOf
+      "_js2n__-:definitions/PlatformDetail!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -5191,6 +5190,59 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/preset!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "config", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  config =
+                    _js2n__-refsenv."_js2n__-:definitions/preset_config!predicate",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "preset" ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/preset_config!predicate"
+        | doc "Base configuration class for stateful ingestion for source configs to inherit from."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  api_key = _js2n__-prdslib.isType '"String",
+                  api_secret = _js2n__-prdslib.isType '"String",
+                  connect_uri = _js2n__-prdslib.isType '"String",
+                  database_alias =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  display_uri = _js2n__-prdslib.isType '"String",
+                  domain =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate"
+                        ],
+                  env = _js2n__-prdslib.isType '"String",
+                  manager_uri = _js2n__-prdslib.isType '"String",
+                  options = _js2n__-prdslib.isType 'Record,
+                  password = _js2n__-prdslib.isType '"String",
+                  platform_instance = _js2n__-prdslib.isType '"String",
+                  provider = _js2n__-prdslib.isType '"String",
+                  stateful_ingestion =
+                    _js2n__-refsenv."_js2n__-:definitions/StatefulStaleMetadataRemovalConfig!predicate",
+                  username = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/presto!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -6299,6 +6351,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  api_key = _js2n__-prdslib.isType '"String",
+                  api_secret = _js2n__-prdslib.isType '"String",
                   connect_uri = _js2n__-prdslib.isType '"String",
                   database_alias =
                     _js2n__-prdslib.allOf
@@ -6316,6 +6370,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate"
                         ],
                   env = _js2n__-prdslib.isType '"String",
+                  manager_uri = _js2n__-prdslib.isType '"String",
                   options = _js2n__-prdslib.isType 'Record,
                   password = _js2n__-prdslib.isType '"String",
                   platform_instance = _js2n__-prdslib.isType '"String",
@@ -6791,77 +6846,78 @@ let rec _js2n__-refsenv
               source =
                 _js2n__-prdslib.anyOf
                     [
-                      _js2n__-refsenv."_js2n__-:definitions/postgres!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/mongodb!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/mode!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/trino!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/dynamodb!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/elasticsearch!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/azure-ad!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/sagemaker!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/starburst-trino-usage!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/datahub-lineage-file!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/looker!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/unity-catalog!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/datahub-business-glossary!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/teradata!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/slack!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/gcs!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/abs!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/s3!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/lookml!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/hive-metastore!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/pulsar!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/bigquery!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/glue!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/kafka!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/feast!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/clickhouse!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/csv-enricher!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/sigma!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/kafka-connect!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/redshift!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/redash!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/demo-data!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/datahub-gc!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/snowflake!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/fivetran!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/openapi!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/cockroachdb!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/nifi!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/dbt-cloud!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/metabase!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/okta!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/presto!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/dbt!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/sqlalchemy!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/sac!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/json-schema!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/clickhouse-usage!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/powerbi!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/athena!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/superset!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/mariadb!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/salesforce!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/file!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/mlflow!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/druid!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/mysql!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/sql-queries!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/powerbi-report-server!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/delta-lake!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/oracle!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/vertica!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/ldap!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/hana!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/hive!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/presto-on-hive!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/datahub!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/preset!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/file!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/postgres!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/feast!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/delta-lake!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/nifi!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/superset!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/bigquery!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/looker!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/grafana!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/iceberg!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/mssql!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/abs!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/tableau!predicate",
                       _js2n__-refsenv."_js2n__-:definitions/qlik-sense!predicate",
-                      _js2n__-refsenv."_js2n__-:definitions/ldap!predicate"
+                      _js2n__-refsenv."_js2n__-:definitions/sqlalchemy!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/datahub-lineage-file!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/kafka-connect!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/dynamodb!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/powerbi-report-server!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/kafka!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/glue!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/gcs!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/elasticsearch!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/json-schema!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mssql!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mysql!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/starburst-trino-usage!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/csv-enricher!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/slack!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/iceberg!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/unity-catalog!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/metabase!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/powerbi!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/hive-metastore!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/sql-queries!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/cockroachdb!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mariadb!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mongodb!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mlflow!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/presto-on-hive!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/salesforce!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/druid!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/azure-ad!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/lookml!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/datahub-gc!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/sagemaker!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/vertica!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/sac!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/redshift!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/okta!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/presto!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/teradata!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/oracle!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/pulsar!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/clickhouse-usage!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/athena!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/datahub-business-glossary!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/datahub!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/s3!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/sigma!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/dbt!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/fivetran!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/clickhouse!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/snowflake!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/mode!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/demo-data!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/hive!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/redash!predicate",
+                      _js2n__-refsenv."_js2n__-:definitions/dbt-cloud!predicate"
                     ],
               transformers =
                 _js2n__-prdslib.allOf

@@ -962,6 +962,39 @@ let rec _js2n__-refsenv
             {
               build-system =
                 _js2n__-refsenv."_js2n__-:definitions/BuildSystem!predicate",
+              dependency-groups =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9])$" =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.oneOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                include-group =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"String",
+                                                        _js2n__-prdslib.strings.pattern
+                                                          "^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9])$"
+                                                      ],
+                                              } {} false _js2n__-prdslib.never
+                                          ]
+                                      ])
+                                ],
+                        } false _js2n__-prdslib.never
+                    ],
               project =
                 _js2n__-prdslib.allOf
                     [
@@ -1030,6 +1063,7 @@ let rec _js2n__-refsenv
                                             "readme",
                                             "requires-python",
                                             "license",
+                                            "license-files",
                                             "authors",
                                             "maintainers",
                                             "keywords",
@@ -1108,6 +1142,13 @@ let rec _js2n__-refsenv
                                         } {} false _js2n__-prdslib.never
                                     ],
                                   _js2n__-prdslib.isType '"String"
+                                ],
+                          license-files =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
                                 ],
                           maintainers =
                             _js2n__-prdslib.allOf
@@ -1353,6 +1394,33 @@ let rec _js2n__-refsenv
                                               ],
                                       } {} true _js2n__-prdslib.always
                                   ]),
+                          license-files =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.not
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "dynamic" ],
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            dynamic =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.contains
+                                                      (_js2n__-prdslib.const
+                                                        "license-files")
+                                                  ],
+                                          } {} true _js2n__-prdslib.always
+                                      ]),
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      license =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} true _js2n__-prdslib.always
+                                ],
                           maintainers =
                             _js2n__-prdslib.not
                                 (_js2n__-prdslib.allOf
@@ -1496,6 +1564,7 @@ let rec _js2n__-refsenv
                           ruff = _js2n__-prdslib.always,
                           scikit-build = _js2n__-prdslib.always,
                           setuptools = _js2n__-prdslib.always,
+                          setuptools_scm = _js2n__-prdslib.always,
                           tox =
                             _js2n__-prdslib.allOf
                                 [
