@@ -897,6 +897,60 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/AnalyzeOptions!predicate"
+        | doc "Configures Ruff's `analyze` command."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  detect-string-imports =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  direction =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Direction!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  exclude =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  include-dependencies =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ])
+                        ],
+                  preview =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/ApiBan!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -935,6 +989,20 @@ let rec _js2n__-refsenv
                 [
                   _js2n__-prdslib.isType '"String",
                   _js2n__-prdslib.enum [ "pep257" ]
+                ]
+            ],
+      "_js2n__-:definitions/Direction!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "Dependencies" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "Dependents" ]
                 ]
             ],
       "_js2n__-:definitions/DocstringCodeLineWidth!predicate" =
@@ -1914,6 +1982,17 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.strings.minLength 1
                               ])
                         ],
+                  allowed-unused-imports =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   dummy-variable-rgx =
                     _js2n__-prdslib.anyOf
                         [
@@ -2493,6 +2572,17 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  allowed-unused-imports =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   extend-generics =
                     _js2n__-prdslib.allOf
                         [
@@ -3157,6 +3247,7 @@ let rec _js2n__-refsenv
                   "FURB15",
                   "FURB152",
                   "FURB154",
+                  "FURB156",
                   "FURB157",
                   "FURB16",
                   "FURB161",
@@ -3173,6 +3264,7 @@ let rec _js2n__-refsenv
                   "FURB180",
                   "FURB181",
                   "FURB187",
+                  "FURB188",
                   "FURB19",
                   "FURB192",
                   "G",
@@ -3456,6 +3548,7 @@ let rec _js2n__-refsenv
                   "PLR171",
                   "PLR1711",
                   "PLR1714",
+                  "PLR1716",
                   "PLR172",
                   "PLR1722",
                   "PLR173",
@@ -3732,6 +3825,8 @@ let rec _js2n__-refsenv
                   "RUF030",
                   "RUF031",
                   "RUF032",
+                  "RUF033",
+                  "RUF034",
                   "RUF1",
                   "RUF10",
                   "RUF100",
@@ -4055,6 +4150,32 @@ let rec _js2n__-refsenv
                   ])
             ])
         | doc "A list of allowed \"confusable\" Unicode characters to ignore when enforcing `RUF001`, `RUF002`, and `RUF003`."
+        | optional,
+      allowed-unused-imports
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
+        | doc m%"
+          A list of modules which is allowed even though they are not used in the code.
+          
+          This is useful when a module has a side effect when imported.
+        "%
+        | optional,
+      analyze
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/AnalyzeOptions!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc "Options to configure import map generation."
         | optional,
       builtins
         | _js2n__-prdslib.contract_from_predicate

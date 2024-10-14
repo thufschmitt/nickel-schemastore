@@ -1094,6 +1094,18 @@ let rec _js2n__-refsenv
                   image = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/DekafConfig!predicate"
+        | doc "Dekaf service configuration"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "config", "variant" ],
+              _js2n__-prdslib.records.record
+                {
+                  config = _js2n__-prdslib.always,
+                  variant = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/Derivation!predicate"
         | doc "Derive specifies how a collection is derived from other collections."
         = _js2n__-prdslib.allOf
@@ -1406,6 +1418,16 @@ let rec _js2n__-refsenv
                     {
                       local =
                         _js2n__-refsenv."_js2n__-:definitions/LocalConfig!predicate",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "dekaf" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      dekaf =
+                        _js2n__-refsenv."_js2n__-:definitions/DekafConfig!predicate",
                     } {} false _js2n__-prdslib.never
                 ]
             ],

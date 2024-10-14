@@ -1174,7 +1174,11 @@ let rec _js2n__-refsenv
       emulators
         | {
           apphosting
-            | { host | String | optional, port | Number | optional, }
+            | {
+              host | String | optional,
+              port | Number | optional,
+              startCommandOverride | String | optional,
+            }
             | optional,
           auth
             | { host | String | optional, port | Number | optional, }

@@ -986,8 +986,32 @@ let rec _js2n__-refsenv
                                         ],
                                       _js2n__-prdslib.strings.minLength 11
                                     ],
+                              iterations =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.minProperties 1,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[a-zA-Z0-9_-]+$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Integer,
+                                                  _js2n__-prdslib.numbers.minimum
+                                                    0
+                                                ],
+                                        } true _js2n__-prdslib.always
+                                    ],
+                              keepTag = _js2n__-prdslib.isType '"Bool",
                               limitToMaxValue = _js2n__-prdslib.isType '"Bool",
                               maxValue =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.minimum 0
+                                    ],
+                              startIndex =
                                 _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType 'Integer,

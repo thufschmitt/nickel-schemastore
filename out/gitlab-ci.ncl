@@ -1871,14 +1871,19 @@ let rec _js2n__-refsenv
                   only =
                     _js2n__-refsenv."_js2n__-:definitions/filter!predicate",
                   pages =
-                    _js2n__-prdslib.allOf
+                    _js2n__-prdslib.oneOf
                         [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              expire_in = _js2n__-prdslib.isType '"String",
-                              path_prefix = _js2n__-prdslib.isType '"String",
-                            } {} false _js2n__-prdslib.never
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  expire_in = _js2n__-prdslib.isType '"String",
+                                  path_prefix =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never
+                            ],
+                          _js2n__-prdslib.isType '"Bool"
                         ],
                   parallel =
                     _js2n__-refsenv."_js2n__-:definitions/parallel!predicate",

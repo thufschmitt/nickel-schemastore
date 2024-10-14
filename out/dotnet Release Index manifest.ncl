@@ -950,6 +950,7 @@ let rec _js2n__-refsenv
                   security = _js2n__-prdslib.isType '"Bool",
                   support-phase =
                     _js2n__-refsenv."_js2n__-:definitions/supportPhase!predicate",
+                  "supported-os.json" = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/releaseType!predicate"

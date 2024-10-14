@@ -1142,7 +1142,6 @@ let rec _js2n__-refsenv
               IsBetaVersion = _js2n__-prdslib.isType '"Bool",
               IsExperimentalVersion = _js2n__-prdslib.isType '"Bool",
               IsHidden = _js2n__-prdslib.isType '"Bool",
-              IsPluginExtension = _js2n__-prdslib.isType '"Bool",
               LocalizationTargets =
                 _js2n__-prdslib.allOf
                     [
@@ -1215,5 +1214,6 @@ let rec _js2n__-refsenv
                     ],
               Version = _js2n__-prdslib.isType '"Number",
               VersionName = _js2n__-prdslib.isType '"String",
+              bIsPluginExtension = _js2n__-prdslib.isType '"Bool",
             } {} false _js2n__-prdslib.never
         ])

@@ -1508,7 +1508,12 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.records.record
                           {
                             account = _js2n__-prdslib.isType '"String",
+                            clusterIdentifier =
+                              _js2n__-prdslib.isType '"String",
                             database = _js2n__-prdslib.isType '"String",
+                            endpoint = _js2n__-prdslib.isType '"String",
+                            host = _js2n__-prdslib.isType '"String",
+                            port = _js2n__-prdslib.isType 'Integer,
                             schema = _js2n__-prdslib.isType '"String",
                             type =
                               _js2n__-prdslib.allOf

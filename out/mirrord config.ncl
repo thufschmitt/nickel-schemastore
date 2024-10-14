@@ -1525,6 +1525,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  tls_enable =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   tls_key =
                     _js2n__-prdslib.anyOf
                         [
@@ -2209,6 +2215,28 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.enum [ "SQS" ]
                             ],
                     } {} true _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required
+                    [ "message_filter", "queue_type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      message_filter =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record {} {} true
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                      queue_type =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.enum [ "Kafka" ]
+                            ],
+                    } {} true _js2n__-prdslib.always
                 ]
             ],
       "_js2n__-:definitions/RolloutTarget!predicate"
@@ -2229,14 +2257,10 @@ let rec _js2n__-refsenv
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/SplitQueuesConfig!predicate"
-        | doc "```json { \"feature\": { \"split_queues\": { \"first-queue\": { \"queue_type\": \"SQS\", \"message_filter\": { \"wows\": \"so wows\", \"coolz\": \"^very .*\" } }, \"second-queue\": { \"queue_type\": \"SQS\", \"message_filter\": { \"who\": \"*you$\" } }, } } } ```"
+        | doc "```json { \"feature\": { \"split_queues\": { \"first-queue\": { \"queue_type\": \"SQS\", \"message_filter\": { \"wows\": \"so wows\", \"coolz\": \"^very\" } }, \"second-queue\": { \"queue_type\": \"SQS\", \"message_filter\": { \"who\": \"you$\" } }, \"third-queue\": { \"queue_type\": \"Kafka\", \"message_filter\": { \"who\": \"you$\" } }, \"fourth-queue\": { \"queue_type\": \"Kafka\", \"message_filter\": { \"wows\": \"so wows\", \"coolz\": \"^very\" } }, } } } ```"
         = _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.anyOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.isType 'Null
-                ],
+              _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record {} {} true
                 _js2n__-refsenv."_js2n__-:definitions/QueueFilter!predicate"
             ],
@@ -2375,6 +2399,16 @@ let rec _js2n__-refsenv
                       ])
                 ]
             ],
+      "_js2n__-:definitions/io.k8s.api.core.v1.ResourceClaim!predicate"
+        | doc "ResourceClaim references one entry in PodSpec.ResourceClaims."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                { name = _js2n__-prdslib.isType '"String", } {} true
+                _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/io.k8s.api.core.v1.ResourceRequirements!predicate"
         | doc "ResourceRequirements describes the compute resource requirements."
         = _js2n__-prdslib.allOf
@@ -2382,6 +2416,13 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  claims =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ResourceClaim!predicate"
+                        ],
                   limits =
                     _js2n__-prdslib.allOf
                         [
@@ -2418,7 +2459,7 @@ let rec _js2n__-refsenv
           
           The serialization format is:
           
-          <quantity>        ::= <signedNumber><suffix>
+          ``` <quantity>        ::= <signedNumber><suffix>
           
           	(Note that <suffix> may be empty, from the "" case in <decimalSI>.)
           
@@ -2430,7 +2471,7 @@ let rec _js2n__-refsenv
           
           	(Note that 1024 = 1Ki but 1000 = 1k; I didn't choose the capitalization.)
           
-          <decimalExponent> ::= "e" <signedNumber> | "E" <signedNumber>
+          <decimalExponent> ::= "e" <signedNumber> | "E" <signedNumber> ```
           
           No matter which of the three exponent forms is used, no quantity may represent a number greater than 2^63-1 in magnitude, nor may it have more than 3 decimal places. Numbers larger or more precise will be capped or rounded up. (E.g.: 0.1m will rounded up to 1m.) This may be extended in the future if we require larger or smaller quantities.
           
@@ -2438,16 +2479,13 @@ let rec _js2n__-refsenv
           
           Before serializing, Quantity will be put in "canonical form". This means that Exponent/suffix will be adjusted up or down (with a corresponding increase or decrease in Mantissa) such that:
           
-          	a. No precision is lost
-          	b. No fractional digits will be emitted
-          	c. The exponent (or suffix) is as large as possible.
+          - No precision is lost - No fractional digits will be emitted - The exponent (or suffix) is as large as possible.
           
           The sign will be omitted unless the number is negative.
           
           Examples:
           
-          	1.5 will be serialized as "1500m"
-          	1.5Gi will be serialized as "1536Mi"
+          - 1.5 will be serialized as "1500m" - 1.5Gi will be serialized as "1536Mi"
           
           Note that the quantity will NEVER be internally represented by a floating point number. That is the whole point of this exercise.
           

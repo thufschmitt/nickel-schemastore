@@ -904,6 +904,27 @@ let rec _js2n__-refsenv
           _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.records.record
+                { schema-version = _js2n__-prdslib.const "v2", } {} true
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.always
+            ],
+          _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.record
+                { schema-version = _js2n__-prdslib.const "v2.1", } {} true
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.always
+            ],
+          _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.record
+                { schema-version = _js2n__-prdslib.const "v2.2", } {} true
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.always
+            ],
+          _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.record
                 {
                   apiVersion = _js2n__-prdslib.const "v3",
                   kind = _js2n__-prdslib.const "service",

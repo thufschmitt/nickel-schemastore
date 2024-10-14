@@ -1683,7 +1683,22 @@ let rec _js2n__-refsenv
                                             [
                                               _js2n__-prdslib.isType '"String",
                                               _js2n__-prdslib.enum
-                                                [ "mintlify", "redocly" ]
+                                                [
+                                                  "mintlify",
+                                                  "redocly",
+                                                  "readmeIO"
+                                                ]
+                                            ],
+                                      readmeIO =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  openapiPath =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
                                             ],
                                       redocly =
                                         _js2n__-prdslib.allOf

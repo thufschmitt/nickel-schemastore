@@ -2442,6 +2442,13 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.arrays.arrayOf
                               (_js2n__-prdslib.isType '"String")
                           ],
+                    matchJsonata =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
                     matchManagers =
                       _js2n__-prdslib.oneOf
                           [
@@ -2530,6 +2537,9 @@ let rec _js2n__-refsenv
                                   ]
                               ]
                           ],
+                    overrideDatasource = _js2n__-prdslib.isType '"String",
+                    overrideDepName = _js2n__-prdslib.isType '"String",
+                    overridePackageName = _js2n__-prdslib.isType '"String",
                     prPriority = _js2n__-prdslib.isType 'Integer,
                     replacementName = _js2n__-prdslib.isType '"String",
                     replacementNameTemplate = _js2n__-prdslib.isType '"String",

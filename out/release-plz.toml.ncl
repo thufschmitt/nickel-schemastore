@@ -1380,6 +1380,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  pr_branch_prefix =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   pr_draft = _js2n__-prdslib.isType '"Bool",
                   pr_labels =
                     _js2n__-prdslib.allOf

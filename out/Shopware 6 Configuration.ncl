@@ -1261,6 +1261,55 @@ let rec _js2n__-refsenv
               | _js2n__-refsenv."_js2n__-:definitions/file_system_type!contract"
               | optional,
           },
+      "_js2n__-:definitions/framework!contract" =
+        {
+            cache
+              | {
+                app | String | optional,
+                default_redis_provider | String | optional,
+                system | String | optional,
+                ..
+              }
+              | optional,
+            lock | String | optional,
+            session
+              | {
+                cookie_lifetime
+                  | std.number.Integer
+                  | doc "The cookie lifetime of the session"
+                  | optional,
+                handler_id | String | optional,
+                name | String | doc "The cookie name of the session" | optional,
+                storage_factory_id | String | optional,
+                ..
+              }
+              | optional,
+            trusted_headers
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "x-forwarded-for",
+                              "x-forwarded-host",
+                              "x-forwarded-proto",
+                              "x-forwarded-port",
+                              "x-forwarded-prefix"
+                            ]
+                        ])
+                  ])
+              | optional,
+            trusted_proxies
+              | String
+              | doc "A list of IP ranges to be considered as proxies and trust the headers"
+              | optional,
+            ..
+          },
       "_js2n__-:definitions/html_sanitizer!contract" =
         {
             cache_dir | String | optional,
@@ -1568,6 +1617,9 @@ let rec _js2n__-refsenv
             elasticsearch
               | _js2n__-refsenv."_js2n__-:definitions/elasticsearch!contract"
               | optional,
+            framework
+              | _js2n__-refsenv."_js2n__-:definitions/framework!contract"
+              | optional,
             parameters
               | _js2n__-refsenv."_js2n__-:definitions/parameters!contract"
               | optional,
@@ -1577,6 +1629,7 @@ let rec _js2n__-refsenv
             storefront
               | _js2n__-refsenv."_js2n__-:definitions/storefront!contract"
               | optional,
+            ..
           },
       "_js2n__-:definitions/sales_channel_context!contract" =
         { expire_days | std.number.Integer | optional, },
