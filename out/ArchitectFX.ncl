@@ -897,143 +897,99 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/alerting_rule!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/config!predicate" =
+        _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "alert", "expr" ],
-              _js2n__-prdslib.records.record
-                {
-                  alert = _js2n__-prdslib.isType '"String",
-                  annotations =
-                    _js2n__-refsenv."_js2n__-:definitions/annotations!predicate",
-                  expr =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Integer
-                        ],
-                  for =
-                    _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
-                  keep_firing_for =
-                    _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
-                  labels =
-                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/annotations!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.anyOf
+              _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.isType 'Null
+                  _js2n__-prdslib.records.required [ ".field", ".value" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      ".field" = _js2n__-prdslib.isType '"String",
+                      ".value" = _js2n__-prdslib.always,
+                    } {} false _js2n__-prdslib.never
                 ],
-              _js2n__-prdslib.records.record {}
-                {
-                  "^[a-zA-Z_][a-zA-Z0-9_]*$" =
-                    _js2n__-refsenv."_js2n__-:definitions/tmpl_string!predicate",
-                } false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/duration!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.anyOf
-                [
-                  _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.isType 'Null
-                ],
-              _js2n__-prdslib.strings.minLength 1,
-              _js2n__-prdslib.strings.pattern
-                "^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$"
-            ],
-      "_js2n__-:definitions/label_value!predicate" =
-        _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/labels!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.anyOf
+              _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.isType 'Null
-                ],
-              _js2n__-prdslib.records.record {}
-                {
-                  "^[a-zA-Z_][a-zA-Z0-9_]*$" =
-                    _js2n__-refsenv."_js2n__-:definitions/label_value!predicate",
-                } false _js2n__-prdslib.never
+                  _js2n__-prdslib.records.required [ ".method" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      ".args" = _js2n__-prdslib.isType '"Array",
+                      ".method" = _js2n__-prdslib.isType '"String",
+                      ".transform" = _js2n__-prdslib.isType '"Bool",
+                      ".varargs" = _js2n__-prdslib.isType '"Array",
+                    } {} false _js2n__-prdslib.never
+                ]
             ],
-      "_js2n__-:definitions/recording_rule!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/entity!predicate"
+        | doc "Entity or tree node"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "expr", "record" ],
               _js2n__-prdslib.records.record
                 {
-                  expr =
-                    _js2n__-prdslib.anyOf
+                  ".args" = _js2n__-prdslib.isType '"Array",
+                  ".config" =
+                    _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Integer
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/config!predicate"
                         ],
-                  labels =
-                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
-                  record = _js2n__-prdslib.isType '"String",
-                } {} false _js2n__-prdslib.never
+                  ".factory" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/config!predicate"
+                        ],
+                  ".varargs" = _js2n__-prdslib.isType '"Array",
+                  children =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/entity!predicate"
+                        ],
+                } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/tmpl_string!predicate"
-        | doc "A string which is template-expanded before usage."
-        = _js2n__-prdslib.isType '"String",
     }
     in
   _js2n__-prdslib.contract_from_predicate
       (_js2n__-prdslib.allOf
         [
-          _js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.isType 'Null ],
+          _js2n__-prdslib.isType 'Record,
           _js2n__-prdslib.records.record
             {
-              groups =
+              ".config" =
                 _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.isType 'Null
-                        ],
+                      _js2n__-prdslib.isType '"Array",
                       _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.records.required [ "name" ],
-                            _js2n__-prdslib.records.record
-                              {
-                                interval =
-                                  _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
-                                limit =
-                                  _js2n__-prdslib.anyOf
-                                      [
-                                        _js2n__-prdslib.isType 'Integer,
-                                        _js2n__-prdslib.isType 'Null
-                                      ],
-                                name = _js2n__-prdslib.isType '"String",
-                                rules =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.anyOf
-                                          [
-                                            _js2n__-prdslib.isType '"Array",
-                                            _js2n__-prdslib.isType 'Null
-                                          ],
-                                        _js2n__-prdslib.arrays.arrayOf
-                                          (_js2n__-prdslib.oneOf
-                                            [
-                                              _js2n__-refsenv."_js2n__-:definitions/recording_rule!predicate",
-                                              _js2n__-refsenv."_js2n__-:definitions/alerting_rule!predicate"
-                                            ])
-                                      ],
-                              } {} false _js2n__-prdslib.never
-                          ])
+                        _js2n__-refsenv."_js2n__-:definitions/config!predicate"
                     ],
-            } {} false _js2n__-prdslib.never
+              ".controller" = _js2n__-prdslib.isType '"String",
+              ".deps" =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String"),
+                      _js2n__-prdslib.arrays.uniqueItems
+                    ],
+              ".imports" =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String"),
+                      _js2n__-prdslib.arrays.uniqueItems
+                    ],
+            }
+            {
+              "^[A-Za-z_][A-Za-z0-9_]*$" =
+                _js2n__-refsenv."_js2n__-:definitions/entity!predicate",
+            } true _js2n__-prdslib.always
         ])

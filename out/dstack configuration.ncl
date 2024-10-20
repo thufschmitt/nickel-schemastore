@@ -1040,6 +1040,7 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/PortMappingRequest!predicate"
                               ])
                         ],
+                  privileged = _js2n__-prdslib.isType '"Bool",
                   python =
                     _js2n__-refsenv."_js2n__-:definitions/PythonVersion!predicate",
                   regions =
@@ -1760,6 +1761,7 @@ let rec _js2n__-refsenv
                             ],
                           _js2n__-refsenv."_js2n__-:definitions/PortMappingRequest!predicate"
                         ],
+                  privileged = _js2n__-prdslib.isType '"Bool",
                   python =
                     _js2n__-refsenv."_js2n__-:definitions/PythonVersion!predicate",
                   regions =
@@ -1955,6 +1957,7 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/PortMappingRequest!predicate"
                               ])
                         ],
+                  privileged = _js2n__-prdslib.isType '"Bool",
                   python =
                     _js2n__-refsenv."_js2n__-:definitions/PythonVersion!predicate",
                   regions =

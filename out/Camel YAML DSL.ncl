@@ -11622,7 +11622,6 @@ let rec _js2n__-refsenv
                   timezone = _js2n__-prdslib.isType '"String",
                   unmarshalType = _js2n__-prdslib.isType '"String",
                   useList = _js2n__-prdslib.isType '"Bool",
-                  useWriter = _js2n__-prdslib.isType '"Bool",
                   xmlMapper = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
@@ -11687,6 +11686,7 @@ let rec _js2n__-refsenv
                   autoDiscoverObjectMapper = _js2n__-prdslib.isType '"Bool",
                   autoDiscoverSchemaResolver = _js2n__-prdslib.isType '"Bool",
                   collectionType = _js2n__-prdslib.isType '"String",
+                  combineUnicodeSurrogates = _js2n__-prdslib.isType '"Bool",
                   contentTypeHeader = _js2n__-prdslib.isType '"Bool",
                   dateFormatPattern = _js2n__-prdslib.isType '"String",
                   disableFeatures = _js2n__-prdslib.isType '"String",
@@ -11717,7 +11717,6 @@ let rec _js2n__-refsenv
                   unmarshalType = _js2n__-prdslib.isType '"String",
                   useDefaultObjectMapper = _js2n__-prdslib.isType '"Bool",
                   useList = _js2n__-prdslib.isType '"Bool",
-                  useWriter = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:items/definitions/org.apache.camel.model.dataformat.LZFDataFormat!predicate"

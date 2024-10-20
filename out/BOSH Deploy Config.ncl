@@ -897,143 +897,56 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/alerting_rule!predicate" =
+      "_js2n__-:definitions/DeployConfig!contract"
+        | doc "A config to enable `bosh deploy` flags on a BOSH Director-wide or per-deployment basis."
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "flags" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            exclude =
+                              _js2n__-refsenv."_js2n__-:definitions/Deployments!predicate",
+                            flags =
+                              _js2n__-refsenv."_js2n__-:definitions/Flags!predicate",
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "flags" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            flags =
+                              _js2n__-refsenv."_js2n__-:definitions/Flags!predicate",
+                            include =
+                              _js2n__-refsenv."_js2n__-:definitions/Deployments!predicate",
+                          } {} false _js2n__-prdslib.never
+                      ]
+                  ]
+              ]),
+      "_js2n__-:definitions/Deployments!predicate" =
         _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "alert", "expr" ],
-              _js2n__-prdslib.records.record
-                {
-                  alert = _js2n__-prdslib.isType '"String",
-                  annotations =
-                    _js2n__-refsenv."_js2n__-:definitions/annotations!predicate",
-                  expr =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Integer
-                        ],
-                  for =
-                    _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
-                  keep_firing_for =
-                    _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
-                  labels =
-                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
-                } {} false _js2n__-prdslib.never
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
             ],
-      "_js2n__-:definitions/annotations!predicate" =
+      "_js2n__-:definitions/Flags!predicate" =
         _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.anyOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.isType 'Null
-                ],
-              _js2n__-prdslib.records.record {}
-                {
-                  "^[a-zA-Z_][a-zA-Z0-9_]*$" =
-                    _js2n__-refsenv."_js2n__-:definitions/tmpl_string!predicate",
-                } false _js2n__-prdslib.never
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.pattern
+                      "^(fix|fix-releases|recreate|recreate-persistent-disks)$"
+                  ])
             ],
-      "_js2n__-:definitions/duration!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.anyOf
-                [
-                  _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.isType 'Null
-                ],
-              _js2n__-prdslib.strings.minLength 1,
-              _js2n__-prdslib.strings.pattern
-                "^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$"
-            ],
-      "_js2n__-:definitions/label_value!predicate" =
-        _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/labels!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.anyOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.isType 'Null
-                ],
-              _js2n__-prdslib.records.record {}
-                {
-                  "^[a-zA-Z_][a-zA-Z0-9_]*$" =
-                    _js2n__-refsenv."_js2n__-:definitions/label_value!predicate",
-                } false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/recording_rule!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "expr", "record" ],
-              _js2n__-prdslib.records.record
-                {
-                  expr =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Integer
-                        ],
-                  labels =
-                    _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
-                  record = _js2n__-prdslib.isType '"String",
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/tmpl_string!predicate"
-        | doc "A string which is template-expanded before usage."
-        = _js2n__-prdslib.isType '"String",
     }
     in
-  _js2n__-prdslib.contract_from_predicate
-      (_js2n__-prdslib.allOf
-        [
-          _js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.isType 'Null ],
-          _js2n__-prdslib.records.record
-            {
-              groups =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.records.required [ "name" ],
-                            _js2n__-prdslib.records.record
-                              {
-                                interval =
-                                  _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
-                                limit =
-                                  _js2n__-prdslib.anyOf
-                                      [
-                                        _js2n__-prdslib.isType 'Integer,
-                                        _js2n__-prdslib.isType 'Null
-                                      ],
-                                name = _js2n__-prdslib.isType '"String",
-                                rules =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.anyOf
-                                          [
-                                            _js2n__-prdslib.isType '"Array",
-                                            _js2n__-prdslib.isType 'Null
-                                          ],
-                                        _js2n__-prdslib.arrays.arrayOf
-                                          (_js2n__-prdslib.oneOf
-                                            [
-                                              _js2n__-refsenv."_js2n__-:definitions/recording_rule!predicate",
-                                              _js2n__-refsenv."_js2n__-:definitions/alerting_rule!predicate"
-                                            ])
-                                      ],
-                              } {} false _js2n__-prdslib.never
-                          ])
-                    ],
-            } {} false _js2n__-prdslib.never
-        ])
+  _js2n__-refsenv."_js2n__-:definitions/DeployConfig!contract"

@@ -1347,6 +1347,7 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.arrays.arrayOf
                                                 (_js2n__-prdslib.enum
                                                   [
+                                                    "env-injector",
                                                     "flutter-stable",
                                                     "flutter-beta",
                                                     "flutter-dev",

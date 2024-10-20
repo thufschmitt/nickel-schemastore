@@ -3996,6 +3996,12 @@ let rec _js2n__-refsenv
                   alt = _js2n__-prdslib.isType '"String",
                   backgroundColor =
                     _js2n__-refsenv."_js2n__-:definitions/iconBackgroundColor!predicate",
+                  fitType =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.enum [ "Cover", "Contain" ],
+                          _js2n__-refsenv."_js2n__-:definitions/simpleBinding!predicate"
+                        ],
                   initials = _js2n__-prdslib.isType '"String",
                   shape =
                     _js2n__-prdslib.allOf
@@ -5666,6 +5672,7 @@ let rec _js2n__-refsenv
       _version
         | std.enum.TagOrString
         | [|
+          '"1.67.0",
           '"1.66.0",
           '"1.65.0",
           '"1.64.0",
@@ -6345,7 +6352,8 @@ let rec _js2n__-refsenv
                               "1.44.0",
                               "1.45.0",
                               "1.46.0",
-                              "1.47.0"
+                              "1.47.0",
+                              "1.48.0"
                             ]
                         ],
                   configuration =
@@ -6454,8 +6462,6 @@ let rec _js2n__-refsenv
                                                     '"Number",
                                                   _js2n__-refsenv."_js2n__-:definitions/simpleBinding!predicate"
                                                 ],
-                                          visible =
-                                            _js2n__-refsenv."_js2n__-:definitions/visibility!predicate",
                                         } {} false _js2n__-prdslib.never
                                     ],
                               visible =
