@@ -1852,6 +1852,46 @@ let rec _js2n__-refsenv
                                                         _js2n__-prdslib.always
                                                       ]
                                                   ],
+                                            vxlan_port =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Integer,
+                                                    _js2n__-prdslib.numbers.maximum
+                                                      65535,
+                                                    _js2n__-prdslib.numbers.minimum
+                                                      0
+                                                  ],
+                                            vxlan_port_range =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.records.required
+                                                      [ "high", "low" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        high =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  65535,
+                                                                _js2n__-prdslib.numbers.minimum
+                                                                  0
+                                                              ],
+                                                        low =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  65535,
+                                                                _js2n__-prdslib.numbers.minimum
+                                                                  0
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
+                                                  ],
                                             vxlan_proxy =
                                               _js2n__-prdslib.allOf
                                                   [
@@ -3783,6 +3823,42 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.always,
                                             _js2n__-prdslib.always
                                           ]
+                                      ],
+                                vxlan_port =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Integer,
+                                        _js2n__-prdslib.numbers.maximum 65535,
+                                        _js2n__-prdslib.numbers.minimum 0
+                                      ],
+                                vxlan_port_range =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "high", "low" ],
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            high =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Integer,
+                                                    _js2n__-prdslib.numbers.maximum
+                                                      65535,
+                                                    _js2n__-prdslib.numbers.minimum
+                                                      0
+                                                  ],
+                                            low =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Integer,
+                                                    _js2n__-prdslib.numbers.maximum
+                                                      65535,
+                                                    _js2n__-prdslib.numbers.minimum
+                                                      0
+                                                  ],
+                                          } {} false _js2n__-prdslib.never
                                       ],
                                 vxlan_proxy =
                                   _js2n__-prdslib.allOf

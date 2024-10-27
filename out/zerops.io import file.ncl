@@ -999,6 +999,7 @@ let rec _js2n__-refsenv
               | std.enum.TagOrString
               | [|
                 '"valkey@7.2",
+                '"ubuntu@24.04",
                 '"ubuntu@22.04",
                 '"static@latest",
                 '"static@1.0",
@@ -1009,7 +1010,8 @@ let rec _js2n__-refsenv
                 '"rust@1.78",
                 '"rust@1",
                 'runtime,
-                '"rabbitmq@3",
+                '"rabbitmq@3.9",
+                '"qdrant@1.12",
                 '"qdrant@1.10",
                 '"python@3.9",
                 '"python@3.12",
@@ -1034,6 +1036,7 @@ let rec _js2n__-refsenv
                 '"nginx@latest",
                 '"nginx@1.22",
                 '"nats@2.10",
+                '"meilisearch@1.10",
                 '"mariadb@10.6",
                 '"keydb@6",
                 '"kafka@3.8",
@@ -1044,6 +1047,13 @@ let rec _js2n__-refsenv
                 '"golang@1",
                 '"go@1.22",
                 '"go@1",
+                '"gleam@1.5.1",
+                '"gleam@1.5",
+                '"gleam@1",
+                '"elixir@1.16.2",
+                '"elixir@1.16",
+                '"elixir@1",
+                '"elasticsearch@8.16",
                 '"dotnet@8",
                 '"dotnet@7",
                 '"dotnet@6",
@@ -1144,173 +1154,141 @@ let rec _js2n__-refsenv
                                                   ]
                                               ],
                                         base =
-                                          _js2n__-prdslib.allOf
+                                          _js2n__-prdslib.oneOf
                                               [
-                                                _js2n__-prdslib.enum
+                                                _js2n__-prdslib.allOf
                                                   [
-                                                    "22.04",
-                                                    "3.17",
-                                                    "3.18",
-                                                    "3.19",
-                                                    "3.20",
-                                                    "alpine@3.17",
-                                                    "alpine@3.18",
-                                                    "alpine@3.19",
-                                                    "alpine@3.20",
-                                                    "alpine@latest",
-                                                    "bun@1.1",
-                                                    "bun@1.1.15",
-                                                    "bun@latest",
-                                                    "deno@1",
-                                                    "deno@1.45.5",
-                                                    "deno@2.0.0",
-                                                    "deno@latest",
-                                                    "dotnet@6",
-                                                    "dotnet@7",
-                                                    "dotnet@8",
-                                                    "dotnet@latest",
-                                                    "go@1",
-                                                    "go@1.22",
-                                                    "go@latest",
-                                                    "golang@1",
-                                                    "golang@latest",
-                                                    "java@17",
-                                                    "java@21",
-                                                    "java@latest",
-                                                    "nodejs@18",
-                                                    "nodejs@20",
-                                                    "nodejs@22",
-                                                    "nodejs@latest",
-                                                    "php@8.1",
-                                                    "php@8.3",
-                                                    "php@latest",
-                                                    "python@3.11",
-                                                    "python@3.12",
-                                                    "python@latest",
-                                                    "rust@1",
-                                                    "rust@1.78",
-                                                    "rust@1.80",
-                                                    "rust@latest",
-                                                    "rust@nightly",
-                                                    "ubuntu@22.04",
-                                                    "ubuntu@latest"
-                                                  ],
-                                                _js2n__-prdslib.oneOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
                                                       [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [
-                                                            "22.04",
-                                                            "3.17",
-                                                            "3.18",
-                                                            "3.19",
-                                                            "3.20",
-                                                            "alpine@3.17",
-                                                            "alpine@3.18",
-                                                            "alpine@3.19",
-                                                            "alpine@3.20",
-                                                            "alpine@latest",
-                                                            "bun@1.1",
-                                                            "bun@1.1.15",
-                                                            "bun@latest",
-                                                            "deno@1",
-                                                            "deno@1.45.5",
-                                                            "deno@2.0.0",
-                                                            "deno@latest",
-                                                            "dotnet@6",
-                                                            "dotnet@7",
-                                                            "dotnet@8",
-                                                            "dotnet@latest",
-                                                            "go@1",
-                                                            "go@1.22",
-                                                            "go@latest",
-                                                            "golang@1",
-                                                            "golang@latest",
-                                                            "java@17",
-                                                            "java@21",
-                                                            "java@latest",
-                                                            "nodejs@18",
-                                                            "nodejs@20",
-                                                            "nodejs@22",
-                                                            "nodejs@latest",
-                                                            "php@8.1",
-                                                            "php@8.3",
-                                                            "php@latest",
-                                                            "python@3.11",
-                                                            "python@3.12",
-                                                            "python@latest",
-                                                            "rust@1",
-                                                            "rust@1.78",
-                                                            "rust@1.80",
-                                                            "rust@latest",
-                                                            "rust@nightly",
-                                                            "ubuntu@22.04",
-                                                            "ubuntu@latest"
-                                                          ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"Array",
-                                                        _js2n__-prdslib.arrays.arrayOf
-                                                          (_js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [
-                                                                  "22.04",
-                                                                  "3.17",
-                                                                  "3.18",
-                                                                  "3.19",
-                                                                  "3.20",
-                                                                  "alpine@3.17",
-                                                                  "alpine@3.18",
-                                                                  "alpine@3.19",
-                                                                  "alpine@3.20",
-                                                                  "alpine@latest",
-                                                                  "bun@1.1",
-                                                                  "bun@1.1.15",
-                                                                  "bun@latest",
-                                                                  "deno@1",
-                                                                  "deno@1.45.5",
-                                                                  "deno@2.0.0",
-                                                                  "deno@latest",
-                                                                  "dotnet@6",
-                                                                  "dotnet@7",
-                                                                  "dotnet@8",
-                                                                  "dotnet@latest",
-                                                                  "go@1",
-                                                                  "go@1.22",
-                                                                  "go@latest",
-                                                                  "golang@1",
-                                                                  "golang@latest",
-                                                                  "java@17",
-                                                                  "java@21",
-                                                                  "java@latest",
-                                                                  "nodejs@18",
-                                                                  "nodejs@20",
-                                                                  "nodejs@22",
-                                                                  "nodejs@latest",
-                                                                  "php@8.1",
-                                                                  "php@8.3",
-                                                                  "php@latest",
-                                                                  "python@3.11",
-                                                                  "python@3.12",
-                                                                  "python@latest",
-                                                                  "rust@1",
-                                                                  "rust@1.78",
-                                                                  "rust@1.80",
-                                                                  "rust@latest",
-                                                                  "rust@nightly",
-                                                                  "ubuntu@22.04",
-                                                                  "ubuntu@latest"
-                                                                ]
-                                                            ])
+                                                        "22.04",
+                                                        "24.04",
+                                                        "3.17",
+                                                        "3.18",
+                                                        "3.19",
+                                                        "3.20",
+                                                        "alpine@3.17",
+                                                        "alpine@3.18",
+                                                        "alpine@3.19",
+                                                        "alpine@3.20",
+                                                        "alpine@latest",
+                                                        "bun@1.1",
+                                                        "bun@1.1.15",
+                                                        "bun@latest",
+                                                        "deno@1",
+                                                        "deno@1.45.5",
+                                                        "deno@2.0.0",
+                                                        "deno@latest",
+                                                        "dotnet@6",
+                                                        "dotnet@7",
+                                                        "dotnet@8",
+                                                        "dotnet@latest",
+                                                        "elixir@1",
+                                                        "elixir@1.16",
+                                                        "elixir@1.16.2",
+                                                        "elixir@latest",
+                                                        "gleam@1",
+                                                        "gleam@1.5",
+                                                        "gleam@1.5.1",
+                                                        "gleam@latest",
+                                                        "go@1",
+                                                        "go@1.22",
+                                                        "go@latest",
+                                                        "golang@1",
+                                                        "golang@latest",
+                                                        "java@17",
+                                                        "java@21",
+                                                        "java@latest",
+                                                        "nodejs@18",
+                                                        "nodejs@20",
+                                                        "nodejs@22",
+                                                        "nodejs@latest",
+                                                        "php@8.1",
+                                                        "php@8.3",
+                                                        "php@latest",
+                                                        "python@3.11",
+                                                        "python@3.12",
+                                                        "python@latest",
+                                                        "rust@1",
+                                                        "rust@1.78",
+                                                        "rust@1.80",
+                                                        "rust@latest",
+                                                        "rust@nightly",
+                                                        "ubuntu@22.04",
+                                                        "ubuntu@24.04",
+                                                        "ubuntu@latest"
                                                       ]
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [
+                                                              "22.04",
+                                                              "24.04",
+                                                              "3.17",
+                                                              "3.18",
+                                                              "3.19",
+                                                              "3.20",
+                                                              "alpine@3.17",
+                                                              "alpine@3.18",
+                                                              "alpine@3.19",
+                                                              "alpine@3.20",
+                                                              "alpine@latest",
+                                                              "bun@1.1",
+                                                              "bun@1.1.15",
+                                                              "bun@latest",
+                                                              "deno@1",
+                                                              "deno@1.45.5",
+                                                              "deno@2.0.0",
+                                                              "deno@latest",
+                                                              "dotnet@6",
+                                                              "dotnet@7",
+                                                              "dotnet@8",
+                                                              "dotnet@latest",
+                                                              "elixir@1",
+                                                              "elixir@1.16",
+                                                              "elixir@1.16.2",
+                                                              "elixir@latest",
+                                                              "gleam@1",
+                                                              "gleam@1.5",
+                                                              "gleam@1.5.1",
+                                                              "gleam@latest",
+                                                              "go@1",
+                                                              "go@1.22",
+                                                              "go@latest",
+                                                              "golang@1",
+                                                              "golang@latest",
+                                                              "java@17",
+                                                              "java@21",
+                                                              "java@latest",
+                                                              "nodejs@18",
+                                                              "nodejs@20",
+                                                              "nodejs@22",
+                                                              "nodejs@latest",
+                                                              "php@8.1",
+                                                              "php@8.3",
+                                                              "php@latest",
+                                                              "python@3.11",
+                                                              "python@3.12",
+                                                              "python@latest",
+                                                              "rust@1",
+                                                              "rust@1.78",
+                                                              "rust@1.80",
+                                                              "rust@latest",
+                                                              "rust@nightly",
+                                                              "ubuntu@22.04",
+                                                              "ubuntu@24.04",
+                                                              "ubuntu@latest"
+                                                            ]
+                                                        ])
                                                   ]
                                               ],
                                         buildCommands =
@@ -1483,6 +1461,7 @@ let rec _js2n__-refsenv
                                                 _js2n__-prdslib.enum
                                                   [
                                                     "22.04",
+                                                    "24.04",
                                                     "3.17",
                                                     "3.18",
                                                     "3.19",
@@ -1503,6 +1482,14 @@ let rec _js2n__-refsenv
                                                     "dotnet@7",
                                                     "dotnet@8",
                                                     "dotnet@latest",
+                                                    "elixir@1",
+                                                    "elixir@1.16",
+                                                    "elixir@1.16.2",
+                                                    "elixir@latest",
+                                                    "gleam@1",
+                                                    "gleam@1.5",
+                                                    "gleam@1.5.1",
+                                                    "gleam@latest",
                                                     "go@1",
                                                     "go@1.22",
                                                     "go@latest",
@@ -1536,6 +1523,7 @@ let rec _js2n__-refsenv
                                                     "static@1.0",
                                                     "static@latest",
                                                     "ubuntu@22.04",
+                                                    "ubuntu@24.04",
                                                     "ubuntu@latest"
                                                   ]
                                               ],
@@ -1754,6 +1742,41 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.isType '"String",
                                         start =
                                           _js2n__-prdslib.isType '"String",
+                                        startCommands =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Record,
+                                                      _js2n__-prdslib.records.required
+                                                        [ "command" ],
+                                                      _js2n__-prdslib.records.record
+                                                        {
+                                                          command =
+                                                            _js2n__-prdslib.isType
+                                                                '"String",
+                                                          initCommands =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"Array",
+                                                                  _js2n__-prdslib.arrays.arrayOf
+                                                                    (_js2n__-prdslib.isType
+                                                                      '"String")
+                                                                ],
+                                                          name =
+                                                            _js2n__-prdslib.isType
+                                                                '"String",
+                                                          workingDir =
+                                                            _js2n__-prdslib.isType
+                                                                '"String",
+                                                        } {} false
+                                                        _js2n__-prdslib.never
+                                                    ])
+                                              ],
                                       } {} false _js2n__-prdslib.never
                                   ],
                           } {} false _js2n__-prdslib.never

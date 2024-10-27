@@ -1040,6 +1040,7 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/PortMappingRequest!predicate"
                               ])
                         ],
+                  privileged = _js2n__-prdslib.isType '"Bool",
                   python =
                     _js2n__-refsenv."_js2n__-:definitions/PythonVersion!predicate",
                   regions =
@@ -1348,7 +1349,8 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "3.8", "3.9", "3.10", "3.11", "3.12" ]
+              _js2n__-prdslib.enum
+                [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13" ]
             ],
       "_js2n__-:definitions/Range_int_!predicate" =
         _js2n__-prdslib.allOf
@@ -1760,6 +1762,7 @@ let rec _js2n__-refsenv
                             ],
                           _js2n__-refsenv."_js2n__-:definitions/PortMappingRequest!predicate"
                         ],
+                  privileged = _js2n__-prdslib.isType '"Bool",
                   python =
                     _js2n__-refsenv."_js2n__-:definitions/PythonVersion!predicate",
                   regions =
@@ -1955,6 +1958,7 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/PortMappingRequest!predicate"
                               ])
                         ],
+                  privileged = _js2n__-prdslib.isType '"Bool",
                   python =
                     _js2n__-refsenv."_js2n__-:definitions/PythonVersion!predicate",
                   regions =

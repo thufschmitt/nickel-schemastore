@@ -1455,6 +1455,13 @@ let rec _js2n__-refsenv
                             ],
                           _js2n__-prdslib.numbers.minimum 0
                         ],
+                  params =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   results_cache =
                     _js2n__-refsenv."_js2n__-:definitions/ResultsCache!predicate",
                   task_history =

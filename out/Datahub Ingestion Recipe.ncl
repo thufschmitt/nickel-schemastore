@@ -4328,7 +4328,6 @@ let rec _js2n__-refsenv
                               ])
                         ],
                   project_name = _js2n__-prdslib.isType '"String",
-                  sql_parser = _js2n__-prdslib.isType '"String",
                   stateful_ingestion =
                     _js2n__-refsenv."_js2n__-:definitions/StatefulStaleMetadataRemovalConfig!predicate",
                   tag_measures_and_dimensions = _js2n__-prdslib.isType '"Bool",
@@ -5153,6 +5152,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType '"Bool",
                   filter_dataset_endorsements =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
+                  include_workspace_name_in_dataset_urn =
+                    _js2n__-prdslib.isType '"Bool",
                   modified_since = _js2n__-prdslib.isType '"String",
                   native_query_parsing = _js2n__-prdslib.isType '"Bool",
                   ownership =
@@ -5188,6 +5189,24 @@ let rec _js2n__-refsenv
                   workspace_id_as_urn_part = _js2n__-prdslib.isType '"Bool",
                   workspace_id_pattern =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
+                  workspace_type_filter =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum
+                                  [
+                                    "Workspace",
+                                    "PersonalGroup",
+                                    "Personal",
+                                    "AdminWorkspace",
+                                    "AdminInsights"
+                                  ]
+                              ])
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/preset!predicate" =
