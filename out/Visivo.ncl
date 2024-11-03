@@ -917,6 +917,11 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | optional,
       dashboards | Array (Dyn) | optional,
+      dbt
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.always, _js2n__-prdslib.isType 'Null ])
+        | optional,
       defaults
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf

@@ -917,6 +917,18 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.strings.minLength 1
                     ],
             } {} true _js2n__-prdslib.always,
+      "_js2n__-:definitions/fileMapping!predicate" =
+        _js2n__-prdslib.records.record
+            {
+              libraries =
+                _js2n__-prdslib.arrays.contains
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "fileMappings" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]),
+            } {} true _js2n__-prdslib.always,
       "_js2n__-:definitions/libraryEntry!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -928,6 +940,44 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.strings.pattern "^[^\\\\]+$"
+                        ],
+                  fileMappings =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    destination =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.minLength 1
+                                          ],
+                                    files =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"Array",
+                                            _js2n__-prdslib.arrays.arrayOf
+                                              (_js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.strings.minLength
+                                                    1
+                                                ])
+                                          ],
+                                    root =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.minLength 1
+                                          ],
+                                  } {} true _js2n__-prdslib.always
+                              ])
                         ],
                   files =
                     _js2n__-prdslib.allOf
@@ -953,6 +1003,14 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.strings.minLength 1
                         ],
                 } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/manifestVersion3!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "version" ],
+              _js2n__-prdslib.records.record
+                { version = _js2n__-prdslib.const "3.0", } {} true
+                _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/specifiedDestination!predicate" =
         _js2n__-prdslib.allOf
@@ -1015,9 +1073,13 @@ let rec _js2n__-refsenv
                 [
                   _js2n__-refsenv."_js2n__-:definitions/specifiedDestination!predicate",
                   _js2n__-refsenv."_js2n__-:definitions/defaultDestination!predicate"
-                ]
+                ],
+              _js2n__-prdslib.ifThenElse
+                _js2n__-refsenv."_js2n__-:definitions/fileMapping!predicate"
+                _js2n__-refsenv."_js2n__-:definitions/manifestVersion3!predicate"
+                _js2n__-prdslib.always
             ],
-          _js2n__-prdslib.records.required [ "libraries" ],
+          _js2n__-prdslib.records.required [ "libraries", "version" ],
           _js2n__-prdslib.records.record
             {
               libraries =
@@ -1027,6 +1089,6 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.arrays.arrayOf
                         _js2n__-refsenv."_js2n__-:definitions/libraryEntry!predicate"
                     ],
-              version = _js2n__-prdslib.enum [ "1.0" ],
+              version = _js2n__-prdslib.enum [ "1.0", "3.0" ],
             } {} true _js2n__-prdslib.always
         ])

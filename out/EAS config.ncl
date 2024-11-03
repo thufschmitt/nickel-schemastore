@@ -1063,9 +1063,11 @@ let rec _js2n__-refsenv
                             [
                               "auto",
                               "latest",
+                              "sdk-52",
                               "sdk-51",
                               "sdk-50",
                               "sdk-49",
+                              "macos-sonoma-14.6-xcode-16.1",
                               "macos-sonoma-14.6-xcode-16.0",
                               "macos-sonoma-14.5-xcode-15.4",
                               "macos-sonoma-14.4-xcode-15.3",

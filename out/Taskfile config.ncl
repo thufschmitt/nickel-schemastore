@@ -1147,7 +1147,28 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required
+                                      [ "enum", "name" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        enum =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String")
+                                              ],
+                                        name = _js2n__-prdslib.isType '"String",
+                                      } {} false _js2n__-prdslib.never
+                                  ]
+                              ])
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1243,7 +1264,17 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/precondition!predicate"
                         ],
                   prefix = _js2n__-prdslib.isType '"String",
-                  prompt = _js2n__-prdslib.isType '"String",
+                  prompt =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ]
+                        ],
                   requires =
                     _js2n__-refsenv."_js2n__-:definitions/requires_obj!predicate",
                   run = _js2n__-refsenv."_js2n__-:definitions/run!predicate",

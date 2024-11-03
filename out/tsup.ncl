@@ -1033,7 +1033,16 @@ let rec _js2n__-refsenv
                   keepNames = _js2n__-prdslib.isType '"Bool",
                   legacyOutput = _js2n__-prdslib.isType '"Bool",
                   metafile = _js2n__-prdslib.isType '"Bool",
-                  minify = _js2n__-prdslib.isType '"Bool",
+                  minify =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.enum [ "terser" ]
+                            ]
+                        ],
                   minifyIdentifiers = _js2n__-prdslib.isType '"Bool",
                   minifySyntax = _js2n__-prdslib.isType '"Bool",
                   minifyWhitespace = _js2n__-prdslib.isType '"Bool",
@@ -1051,7 +1060,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "node", "browser" ]
+                          _js2n__-prdslib.enum [ "node", "browser", "neutral" ]
                         ],
                   pure =
                     _js2n__-prdslib.oneOf

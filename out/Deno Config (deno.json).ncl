@@ -1240,8 +1240,7 @@ let rec _js2n__-refsenv
                   (_js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
+                      _js2n__-prdslib.arrays.arrayOf _js2n__-prdslib.always,
                       _js2n__-prdslib.arrays.minItems 0,
                       _js2n__-prdslib.arrays.uniqueItems
                     ])
@@ -1252,8 +1251,7 @@ let rec _js2n__-refsenv
                   (_js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
+                      _js2n__-prdslib.arrays.arrayOf _js2n__-prdslib.always,
                       _js2n__-prdslib.arrays.minItems 0,
                       _js2n__-prdslib.arrays.uniqueItems
                     ])
@@ -1264,8 +1262,7 @@ let rec _js2n__-refsenv
                   (_js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
+                      _js2n__-prdslib.arrays.arrayOf _js2n__-prdslib.always,
                       _js2n__-prdslib.arrays.minItems 0,
                       _js2n__-prdslib.arrays.uniqueItems
                     ])

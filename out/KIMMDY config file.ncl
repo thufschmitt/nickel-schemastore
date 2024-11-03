@@ -1044,11 +1044,6 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.isType '"Bool")
         | doc "parameterize the topology during the setup task"
         | optional,
-      plot_rates
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.isType '"Bool")
-        | doc "Plot the reaction rates during the reactions step"
-        | optional,
       plumed
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"String")

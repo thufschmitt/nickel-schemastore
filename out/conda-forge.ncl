@@ -937,14 +937,14 @@ let rec _js2n__-refsenv
           ```yaml
           azure:
               settings_linux:
-              pool:
-                  name: your_local_pool_name
-                  demands:
-                    - some_key -equals some_value
-              workspace:
-                  clean: all
-              strategy:
-                  maxParallel: 1
+                  pool:
+                      name: your_local_pool_name
+                      demands:
+                          - some_key -equals some_value
+                  workspace:
+                      clean: all
+                  strategy:
+                      maxParallel: 1
           ```
           
           Below is an example configuration for adding a swapfile on an Azure agent for Linux:
@@ -953,6 +953,16 @@ let rec _js2n__-refsenv
           azure:
               settings_linux:
                   swapfile_size: 10GiB
+          ```
+          
+          If you need more space on Windows, you can use `C:` at the cost of IO performance:
+          
+          ```yaml
+          azure:
+              settings_win:
+                  variables:
+                      CONDA_BLD_PATH: "C:\bld"
+                      MINIFORGE_HOME: "C:\Miniforge"
           ```
         "%
         | optional,
@@ -1164,13 +1174,17 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.enum [ "conda", "mamba" ]
+                  _js2n__-prdslib.enum [ "conda", "mamba", "micromamba" ]
                 ],
               _js2n__-prdslib.isType 'Null
             ])
         | doc m%"
           Use this option to choose which tool is used to provision the tooling in your
-          feedstock.
+          feedstock. Defaults to micromamba.
+          
+          If conda or mamba are chosen, the latest Miniforge will be used to
+          provision the base environment. If micromamba is chosen, Miniforge
+          is not involved; the environment is created directly by micromamba.
         "%
         | optional,
       conda_solver

@@ -1040,6 +1040,7 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/PortMappingRequest!predicate"
                               ])
                         ],
+                  privileged = _js2n__-prdslib.isType '"Bool",
                   python =
                     _js2n__-refsenv."_js2n__-:definitions/PythonVersion!predicate",
                   regions =
@@ -1090,7 +1091,12 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate"
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/InstanceMountPointRequest!predicate",
+                                _js2n__-prdslib.isType '"String"
+                              ])
                         ],
                   working_dir = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
@@ -1237,6 +1243,17 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "any", "cluster" ]
             ],
+      "_js2n__-:definitions/InstanceMountPointRequest!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "instance_path", "path" ],
+              _js2n__-prdslib.records.record
+                {
+                  instance_path = _js2n__-prdslib.isType '"String",
+                  path = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/LetsEncryptGatewayCertificateRequest!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1348,7 +1365,8 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "3.8", "3.9", "3.10", "3.11", "3.12" ]
+              _js2n__-prdslib.enum
+                [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13" ]
             ],
       "_js2n__-:definitions/Range_int_!predicate" =
         _js2n__-prdslib.allOf
@@ -1760,6 +1778,7 @@ let rec _js2n__-refsenv
                             ],
                           _js2n__-refsenv."_js2n__-:definitions/PortMappingRequest!predicate"
                         ],
+                  privileged = _js2n__-prdslib.isType '"Bool",
                   python =
                     _js2n__-refsenv."_js2n__-:definitions/PythonVersion!predicate",
                   regions =
@@ -1827,7 +1846,12 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate"
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/InstanceMountPointRequest!predicate",
+                                _js2n__-prdslib.isType '"String"
+                              ])
                         ],
                   working_dir = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
@@ -1955,6 +1979,7 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/PortMappingRequest!predicate"
                               ])
                         ],
+                  privileged = _js2n__-prdslib.isType '"Bool",
                   python =
                     _js2n__-refsenv."_js2n__-:definitions/PythonVersion!predicate",
                   regions =
@@ -2004,7 +2029,12 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate"
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/VolumeMountPointRequest!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/InstanceMountPointRequest!predicate",
+                                _js2n__-prdslib.isType '"String"
+                              ])
                         ],
                   working_dir = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
