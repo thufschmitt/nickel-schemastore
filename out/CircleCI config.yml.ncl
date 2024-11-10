@@ -2238,6 +2238,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
                 [
+                  "16.2.0",
+                  "16.1.0",
                   "16.0.0",
                   "15.4.0",
                   "15.3.0",

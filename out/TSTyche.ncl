@@ -903,6 +903,26 @@ let rec _js2n__-refsenv
         | Bool
         | doc "Stop running tests after the first failed assertion."
         | optional,
+      plugins
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String"),
+              _js2n__-prdslib.arrays.uniqueItems
+            ])
+        | doc "The list of plugins to use."
+        | optional,
+      reporters
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String"),
+              _js2n__-prdslib.arrays.uniqueItems
+            ])
+        | doc "The list of reporters to use."
+        | optional,
       rootPath
         | String
         | doc "The path to a directory containing files of a test project."
@@ -932,6 +952,10 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.uniqueItems
             ])
         | doc "The list of glob patterns matching the test files."
+        | optional,
+      tsconfig
+        | String
+        | doc "The look up strategy to be used to find the TSConfig file."
         | optional,
       ..
     }

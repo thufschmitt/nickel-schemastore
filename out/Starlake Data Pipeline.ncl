@@ -1015,6 +1015,8 @@ let rec _js2n__-refsenv
                   dsvOptions =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
                   duckdbMode = _js2n__-prdslib.isType '"Bool",
+                  duckdbPath =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   emptyIsNull = _js2n__-prdslib.isType '"Bool",
                   env =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
@@ -1147,6 +1149,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   hiveDatabase =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  incoming =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   ingesting =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   replay =
@@ -1169,6 +1173,8 @@ let rec _js2n__-refsenv
                   comment =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  type =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
@@ -1283,7 +1289,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/AccessControlEntryV1!predicate"
                         ],
-                  attributesDesc =
+                  attributes =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",

@@ -925,13 +925,13 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   "default" =
@@ -1056,6 +1056,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/name-property!predicate",
                   private =
                     _js2n__-refsenv."_js2n__-:definitions/sub-command-private-property!predicate",
+                  variables =
+                    _js2n__-refsenv."_js2n__-:definitions/variables-property!predicate",
                 } { "^x_." = _js2n__-prdslib.always, } false
                 _js2n__-prdslib.never
             ],
@@ -1069,6 +1071,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
                 _js2n__-refsenv."_js2n__-:definitions/command-property!predicate",
+              _js2n__-prdslib.arrays.minItems 1,
               _js2n__-prdslib.arrays.uniqueItems
             ],
       "_js2n__-:definitions/completions-property!predicate"
@@ -1079,13 +1082,13 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.strings.minLength 1,
               _js2n__-prdslib.arrays.arrayOf
                 (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType '"String",
                     _js2n__-prdslib.strings.minLength 1
                   ]),
+              _js2n__-prdslib.arrays.minItems 1,
               _js2n__-prdslib.arrays.uniqueItems
             ],
       "_js2n__-:definitions/dependencies-command-property!predicate"
@@ -1121,7 +1124,6 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.strings.minLength 1,
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.oneOf
                       [
@@ -1132,6 +1134,7 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.isType 'Null
                       ]),
+                  _js2n__-prdslib.arrays.minItems 1,
                   _js2n__-prdslib.arrays.uniqueItems
                 ],
               _js2n__-prdslib.allOf
@@ -1180,13 +1183,13 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   "default" = _js2n__-prdslib.isType '"String",
@@ -1218,6 +1221,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
                 _js2n__-refsenv."_js2n__-:definitions/environment-variable!predicate",
+              _js2n__-prdslib.arrays.minItems 1,
               _js2n__-prdslib.arrays.uniqueItems
             ],
       "_js2n__-:definitions/examples-property!predicate" =
@@ -1296,13 +1300,13 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   arg =
@@ -1315,26 +1319,26 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   conflicts =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   "default" =
@@ -1365,13 +1369,13 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   private = _js2n__-prdslib.isType '"Bool",
@@ -1543,6 +1547,40 @@ let rec _js2n__-refsenv
           https://bashly.dannyb.co/configuration/command/#private
         "%
         = _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/variable!predicate"
+        | doc m%"
+          A global bash variable
+          https://bashly.dannyb.co/configuration/variable/#variable
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  name =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.minLength 1
+                        ],
+                  value = _js2n__-prdslib.always,
+                } { "^x_." = _js2n__-prdslib.always, } false
+                _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/variables-property!predicate"
+        | doc m%"
+          Bash variables for the current application
+          https://bashly.dannyb.co/configuration/command/#variables
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/variable!predicate",
+              _js2n__-prdslib.arrays.minItems 1,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
     }
     in
   _js2n__-prdslib.contract_from_predicate
@@ -1581,6 +1619,8 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/help-property!predicate",
               name =
                 _js2n__-refsenv."_js2n__-:definitions/name-property!predicate",
+              variables =
+                _js2n__-refsenv."_js2n__-:definitions/variables-property!predicate",
               version =
                 _js2n__-refsenv."_js2n__-:definitions/root-version-property!predicate",
             } { "^x_." = _js2n__-prdslib.always, } false _js2n__-prdslib.never

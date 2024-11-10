@@ -939,6 +939,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  ready_state =
+                    _js2n__-refsenv."_js2n__-:definitions/ReadyState!predicate",
                   refresh_append_overlap =
                     _js2n__-prdslib.anyOf
                         [
@@ -1398,6 +1400,21 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.enum [ "drop", "upsert" ]
             ],
       "_js2n__-:definitions/Params!predicate" = _js2n__-prdslib.isType 'Record,
+      "_js2n__-:definitions/ReadyState!predicate"
+        | doc "Controls when the table is marked ready for queries."
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "on_load" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "on_registration" ]
+                ]
+            ],
       "_js2n__-:definitions/RefreshMode!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1454,6 +1471,13 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType 'Null
                             ],
                           _js2n__-prdslib.numbers.minimum 0
+                        ],
+                  params =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
                         ],
                   results_cache =
                     _js2n__-refsenv."_js2n__-:definitions/ResultsCache!predicate",

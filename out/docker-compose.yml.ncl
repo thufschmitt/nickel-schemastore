@@ -1228,6 +1228,7 @@ let rec _js2n__-refsenv
                 (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "capabilities" ],
                     _js2n__-prdslib.records.record
                       {
                         capabilities =
@@ -1264,6 +1265,7 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.records.required [ "path" ],
                             _js2n__-prdslib.records.record
                               {
+                                format = _js2n__-prdslib.isType '"String",
                                 path = _js2n__-prdslib.isType '"String",
                                 required =
                                   _js2n__-prdslib.anyOf
@@ -1290,6 +1292,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.isType '"Array"
                             ],
+                      uniqueItems = _js2n__-prdslib.never,
                     } false _js2n__-prdslib.never
                 ],
               _js2n__-prdslib.allOf
@@ -2190,6 +2193,20 @@ let rec _js2n__-refsenv
                               ]),
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
+                  post_start =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/service_hook!predicate"
+                        ],
+                  pre_stop =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/service_hook!predicate"
+                        ],
                   privileged =
                     _js2n__-prdslib.anyOf
                         [
@@ -2424,6 +2441,27 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.never
                       ]
                   ])
+            ],
+      "_js2n__-:definitions/service_hook!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  command =
+                    _js2n__-refsenv."_js2n__-:definitions/command!predicate",
+                  environment =
+                    _js2n__-refsenv."_js2n__-:definitions/list_or_dict!predicate",
+                  privileged =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  user = _js2n__-prdslib.isType '"String",
+                  working_dir = _js2n__-prdslib.isType '"String",
+                } { "^x-" = _js2n__-prdslib.always, } false
+                _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/string_or_list!predicate" =
         _js2n__-prdslib.oneOf

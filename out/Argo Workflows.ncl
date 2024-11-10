@@ -1717,6 +1717,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   insecureIgnoreHostKey = _js2n__-prdslib.isType '"Bool",
+                  insecureSkipTLS = _js2n__-prdslib.isType '"Bool",
                   passwordSecret =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   repo = _js2n__-prdslib.isType '"String",
@@ -2661,13 +2662,13 @@ let rec _js2n__-refsenv
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.argoproj.workflow.v1alpha1.StopStrategy!predicate"
-        | doc "v3.6 and after: StopStrategy defines if the CronWorkflow should stop scheduling based on a condition"
+        | doc "StopStrategy defines if the CronWorkflow should stop scheduling based on an expression. v3.6 and after"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "condition" ],
+              _js2n__-prdslib.records.required [ "expression" ],
               _js2n__-prdslib.records.record
-                { condition = _js2n__-prdslib.isType '"String", } {} true
+                { expression = _js2n__-prdslib.isType '"String", } {} true
                 _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.argoproj.workflow.v1alpha1.Submit!predicate" =
