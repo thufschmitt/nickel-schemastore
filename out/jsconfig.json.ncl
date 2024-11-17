@@ -1459,12 +1459,12 @@ let rec _js2n__-refsenv
                                     [
                                       _js2n__-prdslib.enum
                                         [
-                                          "Classic",
-                                          "Node",
-                                          "Node10",
-                                          "Node16",
-                                          "NodeNext",
-                                          "Bundler"
+                                          "classic",
+                                          "node",
+                                          "node10",
+                                          "node16",
+                                          "nodenext",
+                                          "bundler"
                                         ],
                                       _js2n__-prdslib.strings.pattern
                                         "^(([Nn]ode)|([Nn]ode16)|([Nn]ode[Nn]ext)|([Cc]lassic)|([Bb]undler))$"

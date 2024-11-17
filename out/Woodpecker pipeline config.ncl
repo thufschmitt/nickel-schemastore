@@ -1024,8 +1024,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/step_privileged!predicate",
                   pull =
                     _js2n__-refsenv."_js2n__-:definitions/step_pull!predicate",
-                  secrets =
-                    _js2n__-refsenv."_js2n__-:definitions/step_secrets!predicate",
                   volumes =
                     _js2n__-refsenv."_js2n__-:definitions/step_volumes!predicate",
                   when =
@@ -1225,8 +1223,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/step_privileged!predicate",
                   pull =
                     _js2n__-refsenv."_js2n__-:definitions/step_pull!predicate",
-                  secrets =
-                    _js2n__-refsenv."_js2n__-:definitions/step_secrets!predicate",
                   settings =
                     _js2n__-refsenv."_js2n__-:definitions/step_settings!predicate",
                   volumes =
@@ -1423,14 +1419,6 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/step_pull!predicate"
         | doc "Always pull the latest image on pipeline execution Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#image"
         = _js2n__-prdslib.isType '"Bool",
-      "_js2n__-:definitions/step_secrets!predicate"
-        | doc "Pass secrets to a pipeline step at runtime. Read more: https://woodpecker-ci.org/docs/usage/secrets"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.strings.minLength 1,
-              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
-            ],
       "_js2n__-:definitions/step_settings!predicate"
         | doc "Change the settings of your plugin. Read more: https://woodpecker-ci.org/docs/usage/plugins/overview"
         = _js2n__-prdslib.allOf

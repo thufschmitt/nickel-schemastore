@@ -1262,6 +1262,7 @@ let rec _js2n__-refsenv
           'drupal,
           'django4,
           'craftcms,
+          'cakephp,
           'backdrop
         |]
         | doc "Provide the project type."

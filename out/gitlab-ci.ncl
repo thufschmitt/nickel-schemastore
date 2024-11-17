@@ -1097,7 +1097,7 @@ let rec _js2n__-refsenv
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
-                                "^(?!.*\\/)^(.*[^.]+.*)$"
+                                "^[^/]*[^./][^/]*$"
                             ],
                           _js2n__-prdslib.allOf
                             [
@@ -1481,8 +1481,13 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.strings.pattern
-                    "^(https?://|/?.?-?(?!\\w+://)\\w).+\\.ya?ml$"
+                  _js2n__-prdslib.anyOf
+                    [
+                      _js2n__-prdslib.strings.pattern "^https?://",
+                      _js2n__-prdslib.not
+                        (_js2n__-prdslib.strings.pattern "^\\w+://")
+                    ],
+                  _js2n__-prdslib.strings.pattern "\\w\\.ya?ml$"
                 ],
               _js2n__-prdslib.allOf
                 [

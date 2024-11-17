@@ -1134,6 +1134,48 @@ let rec _js2n__-refsenv
       saved_queries
         | Array
           {
+            config
+              | {
+                cache | { enabled | Bool | optional, } | optional,
+                enabled | Bool | optional,
+                export_as
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.enum [ "table", "view" ],
+                        _js2n__-prdslib.isType 'Null
+                      ])
+                  | optional,
+                group
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Null
+                      ])
+                  | optional,
+                meta
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.propertyNames
+                          (_js2n__-prdslib.isType '"String"),
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ])
+                  | optional,
+                schema
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Null
+                      ])
+                  | optional,
+                ..
+              }
+              | optional,
             description | String,
             exports | Array (Dyn) | optional,
             label | String,
@@ -1314,7 +1356,11 @@ let rec _js2n__-refsenv
               | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.never
               | optional,
             config
-              | { meta | {  .. } | optional, tags | Dyn | optional, }
+              | {
+                enabled | Dyn | optional,
+                meta | {  .. } | optional,
+                tags | Dyn | optional,
+              }
               | optional,
             description | String | optional,
             expect

@@ -917,9 +917,9 @@ let rec _js2n__-refsenv
                   "lotSize",
                   "materialColor",
                   "materialShape",
-                  "minimumInventory",
+                  "minimumInventories",
                   "ordering",
-                  "targetMFC",
+                  "targetMFCs",
                   "unitCost",
                   "uom",
                   "x",
@@ -1030,12 +1030,8 @@ let rec _js2n__-refsenv
                               "hexagon"
                             ]
                         ],
-                  minimumInventory =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Integer,
-                          _js2n__-prdslib.numbers.minimum 0
-                        ],
+                  minimumInventories =
+                    _js2n__-refsenv."_js2n__-:definitions/NonNegativeIntegerTimeDependentValues!predicate",
                   ordering = _js2n__-prdslib.isType '"Number",
                   otherDemand =
                     _js2n__-refsenv."_js2n__-:definitions/PositiveDateMap!predicate",
@@ -1055,12 +1051,8 @@ let rec _js2n__-refsenv
                         ],
                   stopshipBuffers =
                     _js2n__-refsenv."_js2n__-:definitions/NonNegativeIntegerTimeDependentValues!predicate",
-                  targetMFC =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Integer,
-                          _js2n__-prdslib.numbers.minimum 0
-                        ],
+                  targetMFCs =
+                    _js2n__-refsenv."_js2n__-:definitions/NonNegativeIntegerTimeDependentValues!predicate",
                   timeAggregateType =
                     _js2n__-prdslib.allOf
                         [
@@ -1379,8 +1371,8 @@ let rec _js2n__-refsenv
   {
       "$schema"
         | std.enum.TagOrString
-        | [| '"https://json.schemastore.org/abc-supply-plan-5.0.0.json" |]
-        | doc "Link to https://json.schemastore.org/abc-supply-plan-5.0.0.json",
+        | [| '"https://json.schemastore.org/abc-supply-plan-6.0.0.json" |]
+        | doc "Link to https://json.schemastore.org/abc-supply-plan-6.0.0.json",
       abcMaterialsMap
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

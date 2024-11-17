@@ -1377,6 +1377,7 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.enum
                                     [ "public", "restricted" ]
                                 ],
+                          provenance = _js2n__-prdslib.isType '"Bool",
                           registry = _js2n__-prdslib.isType '"String",
                           tag = _js2n__-prdslib.isType '"String",
                         } {} true _js2n__-prdslib.always

@@ -911,6 +911,121 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.always,
               _js2n__-prdslib.ifThenElse
                 (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1320.653", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1320.619", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1320.601", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1320.159", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1320.98", } {} true
+                  _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1320.2", } {} true
+                  _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1319.1431", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1319.1335", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1317.631", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1316.330", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1311.540", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1306.225", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1306.199", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1306.171", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1306.117", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1305.506", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1305.502", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1305.465", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1305.442", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1305.399", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1299.1070", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1289.621", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { UETVersion = _js2n__-prdslib.const "2024.1289.338", } {}
+                  true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
                   { UETVersion = _js2n__-prdslib.const "2024.1277.836", } {}
                   true _js2n__-prdslib.always) _js2n__-prdslib.always
                 _js2n__-prdslib.always,
@@ -2096,6 +2211,29 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.enum
                     [
                       "BleedingEdge",
+                      "2024.1320.653",
+                      "2024.1320.619",
+                      "2024.1320.601",
+                      "2024.1320.159",
+                      "2024.1320.98",
+                      "2024.1320.2",
+                      "2024.1319.1431",
+                      "2024.1319.1335",
+                      "2024.1317.631",
+                      "2024.1316.330",
+                      "2024.1311.540",
+                      "2024.1306.225",
+                      "2024.1306.199",
+                      "2024.1306.171",
+                      "2024.1306.117",
+                      "2024.1305.506",
+                      "2024.1305.502",
+                      "2024.1305.465",
+                      "2024.1305.442",
+                      "2024.1305.399",
+                      "2024.1299.1070",
+                      "2024.1289.621",
+                      "2024.1289.338",
                       "2024.1277.836",
                       "2024.1277.711",
                       "2024.1277.695",

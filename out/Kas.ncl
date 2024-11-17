@@ -1046,7 +1046,12 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.isType 'Record,
                         _js2n__-prdslib.records.record
                           {
-                            branch = _js2n__-prdslib.isType '"String",
+                            branch =
+                              _js2n__-prdslib.oneOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.isType 'Null
+                                  ],
                             commit = _js2n__-prdslib.isType '"String",
                             layers =
                               _js2n__-prdslib.allOf
@@ -1094,7 +1099,12 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.isType 'Null
                                   ],
                             refspec = _js2n__-prdslib.isType '"String",
-                            tag = _js2n__-prdslib.isType '"String",
+                            tag =
+                              _js2n__-prdslib.oneOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.isType 'Null
+                                  ],
                             type =
                               _js2n__-prdslib.allOf
                                   [
