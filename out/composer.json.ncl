@@ -2054,6 +2054,15 @@ let rec _js2n__-refsenv
         | optional,
       php-ext
         | {
+          build-path
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc "If specified, this is the subdirectory that will be used to build the extension instead of the root of the project."
+            | optional,
           configure-options
             | Array
               {

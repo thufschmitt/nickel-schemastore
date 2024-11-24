@@ -899,57 +899,29 @@ let rec _js2n__-refsenv
     = {}
     in
   {
-      commands_restrictions
-        | {
-          backport | Dyn | optional,
-          copy | Dyn | optional,
-          dequeue | Dyn | optional,
-          queue | Dyn | optional,
-          rebase | Dyn | optional,
-          refresh | Dyn | optional,
-          requeue | Dyn | optional,
-          squash | Dyn | optional,
-          update | Dyn | optional,
-        }
-        | doc "Commands restriction"
-        | optional,
-      defaults | { actions | Dyn | optional, .. } | optional,
-      extends | String | optional,
-      merge_protections | Array (Dyn) | optional,
-      merge_queue
-        | {
-          max_parallel_checks
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Integer,
-                  _js2n__-prdslib.numbers.maximum 128,
-                  _js2n__-prdslib.numbers.minimum 1
-                ])
-            | doc "The maximum number of checks allowed to run in parallel for the merge queue. Must be between 1 and 128."
-            | optional,
-          ..
-        }
-        | doc "The configuration of the merge queue"
-        | optional,
-      partition_rules | Array (Dyn) | optional,
-      priority_rules
-        | Array (Dyn)
-        | doc "The list of priority rules a pull request can match in order to be prioritized when added to a queue. The rule with the highest priority value wins."
-        | optional,
-      pull_request_rules | Array (Dyn) | optional,
-      queue_rules | Array (Dyn) | optional,
-      shared
+      commands_restrictions | Dyn | optional,
+      defaults | Dyn | optional,
+      extends
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.isType '"Bool",
-              _js2n__-prdslib.isType 'Integer,
-              _js2n__-prdslib.isType 'Null,
-              _js2n__-prdslib.isType '"Number",
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.isType '"String"
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.strings.minLength 1
+                ],
+              _js2n__-prdslib.isType 'Null
             ])
+        | optional,
+      merge_protections | Dyn | optional,
+      merge_queue | Dyn | optional,
+      partition_rules | Dyn | optional,
+      priority_rules | Dyn | optional,
+      pull_request_rules | Dyn | optional,
+      queue_rules | Dyn | optional,
+      shared
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.isType 'Null ])
         | optional,
     }

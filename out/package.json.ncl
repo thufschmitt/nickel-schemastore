@@ -976,7 +976,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/packageExportsEntryOrFallback!predicate",
                 }
                 {
-                  "^(?![\\.0-9])." =
+                  "^[^.0-9]+$" =
                     _js2n__-refsenv."_js2n__-:definitions/packageExportsEntryOrFallback!predicate",
                 } false _js2n__-prdslib.never
             ],
@@ -1377,6 +1377,7 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.enum
                                     [ "public", "restricted" ]
                                 ],
+                          provenance = _js2n__-prdslib.isType '"Bool",
                           registry = _js2n__-prdslib.isType '"String",
                           tag = _js2n__-prdslib.isType '"String",
                         } {} true _js2n__-prdslib.always

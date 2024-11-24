@@ -921,13 +921,13 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/CacheStrategy!predicate"
         | doc m%"
           The Strategy to use to detect if a file has changed.
-          - `metadata` - uses the file system timestamp and size to detect changes (fastest).
           - `content` - uses a hash of the file content to check file changes (slower - more accurate).
+          - `metadata` - uses the file system timestamp and size to detect changes (fastest, may not work in CI).
         "%
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "metadata", "content" ]
+              _js2n__-prdslib.enum [ "content", "metadata" ]
             ],
       "_js2n__-:definitions/CharacterSet!predicate"
         | doc m%"

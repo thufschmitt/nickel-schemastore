@@ -901,7 +901,7 @@ let rec _js2n__-refsenv
         | doc m%"
           Allows the user to specify the default behavior for file operations:
           
-          1. `"read"` - Read from the remote file system (default) 2. `"write"` - Read/Write from the remote file system. 3. `"local"` - Read from the local file system. 4. `"localwithoverrides"` - perform fs operation locally, unless the path matches a pre-defined or user-specified exception.
+          1. `"read"` or `true` - Read from the remote file system (default) 2. `"write"` - Read/Write from the remote file system. 3. `"local"` or `false` - Read from the local file system. 4. `"localwithoverrides"` - perform fs operation locally, unless the path matches a pre-defined or user-specified exception.
           
           > Note: by default, some paths are read locally or remotely, regardless of the selected FS mode. > This is described in further detail below.
           
@@ -1106,6 +1106,17 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  node_selector =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   privileged =
                     _js2n__-prdslib.anyOf
                         [
@@ -1116,6 +1127,12 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ResourceRequirements!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  service_account =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
                   startup_timeout =
@@ -1393,6 +1410,10 @@ let rec _js2n__-refsenv
         | doc m%"
           Allows the user to set or override the local process' environment variables with the ones from the remote pod.
           
+          Can be set to one of the options:
+          
+          1. `false` - Disables the feature, won't have remote environment variables. 2. `true` - Enables the feature, will obtain remote environment variables. 3. object - see below (means `true` + additional configuration).
+          
           Which environment variables to load from the remote pod are controlled by setting either [`include`](#feature-env-include) or [`exclude`](#feature-env-exclude).
           
           See the environment variables [reference](https://mirrord.dev/docs/reference/env/) for more details.
@@ -1404,6 +1425,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  env_file =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   exclude =
                     _js2n__-prdslib.anyOf
                         [
@@ -1448,7 +1475,19 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  disable_reuseaddr =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   enable_exec_hooks_linux =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  hide_ipv6_interfaces =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",
@@ -1467,6 +1506,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Null
                         ],
                   trust_any_certificate =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  use_dev_null =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",
@@ -2504,7 +2549,7 @@ let rec _js2n__-refsenv
         | doc m%"
           Controls whether or not mirrord accepts invalid TLS certificates (e.g. self-signed certificates).
           
-          Defaults to `false`.
+          If not provided, mirrord will use value from the kubeconfig.
         "%
         | optional,
       agent

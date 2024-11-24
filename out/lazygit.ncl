@@ -1535,6 +1535,10 @@ let rec _js2n__-refsenv
               One of 'dashboard' (default) | 'allBranchesLog'
             "%
             | optional,
+          switchTabsWithPanelJumpKeys
+            | Bool
+            | doc "If true, when using the panel jump keys (default 1 through 5) and target panel is already active, go to next tab instead"
+            | optional,
           switchToFilesAfterStashApply
             | Bool
             | doc "If true, jump to the Files panel after applying a stash"

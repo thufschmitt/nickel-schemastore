@@ -1249,7 +1249,6 @@ let rec _js2n__-refsenv
           'typo3,
           'silverstripe,
           'shopware6,
-          'python,
           'php,
           'magento2,
           'magento,
@@ -1260,8 +1259,8 @@ let rec _js2n__-refsenv
           'drupal7,
           'drupal6,
           'drupal,
-          'django4,
           'craftcms,
+          'cakephp,
           'backdrop
         |]
         | doc "Provide the project type."
@@ -1304,7 +1303,7 @@ let rec _js2n__-refsenv
         | optional,
       webserver_type
         | std.enum.TagOrString
-        | [| 'nginx-gunicorn, 'apache-fpm, 'nginx-fpm |]
+        | [| 'apache-fpm, 'nginx-fpm |]
         | doc "Sets the project's desired webserver type."
         | optional,
       working_dir

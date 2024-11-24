@@ -999,13 +999,60 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "localFileStorage" ],
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "localFileStorage" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "httpFileStorage" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "s3FileStorage" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
               _js2n__-prdslib.records.record
                 {
-                  httpFileStorage = _js2n__-prdslib.always,
+                  httpFileStorage =
+                    _js2n__-refsenv."_js2n__-:definitions/HttpFileStorage!predicate",
                   localFileStorage =
                     _js2n__-refsenv."_js2n__-:definitions/LocalFileStorage!predicate",
-                  s3FileStorage = _js2n__-prdslib.always,
+                  s3FileStorage =
+                    _js2n__-refsenv."_js2n__-:definitions/S3FileStorage!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Headers!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Bool",
+                    _js2n__-prdslib.isType '"Number",
+                    _js2n__-prdslib.isType '"String"
+                  ])
+            ],
+      "_js2n__-:definitions/HttpFileStorage!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  headers =
+                    _js2n__-refsenv."_js2n__-:definitions/Headers!predicate",
+                  query = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Jira!predicate" =
@@ -1032,14 +1079,14 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
-                  patentFilenames =
+                  otherLicenseFilenames =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
-                  rootLicenseFilenames =
+                  patentFilenames =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
@@ -1123,6 +1170,21 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.isType 'Record)
+            ],
+      "_js2n__-:definitions/S3FileStorage!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "bucketName" ],
+              _js2n__-prdslib.records.record
+                {
+                  accessKeyId = _js2n__-prdslib.isType '"String",
+                  awsRegion = _js2n__-prdslib.isType '"String",
+                  bucketName = _js2n__-prdslib.isType '"String",
+                  compression = _js2n__-prdslib.isType '"Bool",
+                  customEndpoint = _js2n__-prdslib.isType '"String",
+                  secretAccessKey = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Scanner!predicate" =
         _js2n__-prdslib.allOf
