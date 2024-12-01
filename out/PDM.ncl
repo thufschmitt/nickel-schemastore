@@ -966,9 +966,6 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.record
                         {
-                          ca_certs = _js2n__-prdslib.isType '"String",
-                          client_cert = _js2n__-prdslib.isType '"String",
-                          client_key = _js2n__-prdslib.isType '"String",
                           ignore_stored_index = _js2n__-prdslib.isType '"Bool",
                           json_api = _js2n__-prdslib.isType '"Bool",
                           password = _js2n__-prdslib.isType '"String",
@@ -1030,6 +1027,7 @@ let rec _js2n__-refsenv
                                 ],
                         } {} false _js2n__-prdslib.never
                     ],
+              use_uv = _js2n__-prdslib.isType '"Bool",
               venv =
                 _js2n__-prdslib.allOf
                     [
@@ -1038,7 +1036,6 @@ let rec _js2n__-refsenv
                         {
                           backend = _js2n__-prdslib.isType '"String",
                           in_project = _js2n__-prdslib.isType '"Bool",
-                          location = _js2n__-prdslib.isType '"String",
                           prompt = _js2n__-prdslib.isType '"String",
                           with_pip = _js2n__-prdslib.isType '"Bool",
                         } {} false _js2n__-prdslib.never

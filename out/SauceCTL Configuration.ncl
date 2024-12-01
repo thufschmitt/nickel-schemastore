@@ -1195,6 +1195,7 @@ let rec _js2n__-refsenv
                                     ],
                               registry = _js2n__-prdslib.isType '"String",
                               strictSSL = _js2n__-prdslib.isType '"Bool",
+                              usePackageLock = _js2n__-prdslib.isType '"Bool",
                             } {} false _js2n__-prdslib.never
                         ],
                 } {} true _js2n__-prdslib.always
@@ -1532,6 +1533,8 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.isType '"String",
                                             strictSSL =
                                               _js2n__-prdslib.isType '"Bool",
+                                            usePackageLock =
+                                              _js2n__-prdslib.isType '"Bool",
                                           } {} false _js2n__-prdslib.never
                                       ],
                               } {} true _js2n__-prdslib.always
@@ -1743,6 +1746,8 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.enum
                                           [
                                             "package.json",
+                                            "13.15.2",
+                                            "13.15.1",
                                             "13.14.2",
                                             "13.13.3",
                                             "13.13.1",
@@ -1752,9 +1757,7 @@ let rec _js2n__-refsenv
                                             "13.6.6",
                                             "13.6.3",
                                             "13.6.0",
-                                            "13.4.0",
-                                            "13.3.0",
-                                            "12.17.4"
+                                            "13.4.0"
                                           ],
                                   } {} false _js2n__-prdslib.never
                               ],
@@ -2499,6 +2502,8 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.isType '"String",
                                             strictSSL =
                                               _js2n__-prdslib.isType '"Bool",
+                                            usePackageLock =
+                                              _js2n__-prdslib.isType '"Bool",
                                           } {} false _js2n__-prdslib.never
                                       ],
                               } {} true _js2n__-prdslib.always
@@ -2539,6 +2544,7 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.enum
                                               [
                                                 "package.json",
+                                                "1.48.2",
                                                 "1.47.2",
                                                 "1.46.1",
                                                 "1.45.2",
@@ -2548,9 +2554,7 @@ let rec _js2n__-refsenv
                                                 "1.41.2",
                                                 "1.41.0",
                                                 "1.40.1",
-                                                "1.39.0",
-                                                "1.38.1",
-                                                "1.37.1"
+                                                "1.39.0"
                                               ],
                                             _js2n__-refsenv."_js2n__-:allOf/7/then/properties/playwright/properties/version!predicate"
                                           ],
@@ -3106,13 +3110,12 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.enum
                                               [
                                                 "package.json",
+                                                "3.7.0",
                                                 "3.6.2",
                                                 "3.6.1",
                                                 "3.6.0",
                                                 "3.5.0",
-                                                "3.4.0",
-                                                "3.3.0",
-                                                "3.2.0"
+                                                "3.4.0"
                                               ],
                                             _js2n__-refsenv."_js2n__-:allOf/7/then/properties/playwright/properties/version!predicate"
                                           ],
@@ -3501,7 +3504,7 @@ let rec _js2n__-refsenv
                                                             '"Array",
                                                       formatOptions =
                                                         _js2n__-prdslib.isType
-                                                            '"Array",
+                                                            'Record,
                                                       "import" =
                                                         _js2n__-prdslib.isType
                                                             '"Array",

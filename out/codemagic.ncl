@@ -960,13 +960,20 @@ let rec _js2n__-refsenv
                   cancel_previous_submissions =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                   copyright =
                     _js2n__-prdslib.anyOf
@@ -994,13 +1001,20 @@ let rec _js2n__-refsenv
                   expire_build_submitted_for_review =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                   issuer_id =
                     _js2n__-prdslib.anyOf
@@ -1065,13 +1079,20 @@ let rec _js2n__-refsenv
                   phased_release =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                   release_type =
                     _js2n__-prdslib.anyOf
@@ -1087,24 +1108,38 @@ let rec _js2n__-refsenv
                   submit_to_app_store =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                   submit_to_testflight =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1154,13 +1189,20 @@ let rec _js2n__-refsenv
                   ignore_failure =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                   name =
                     _js2n__-prdslib.anyOf
@@ -1587,13 +1629,20 @@ let rec _js2n__-refsenv
                   changes_not_sent_for_review =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                   credentials =
                     _js2n__-prdslib.allOf
@@ -1606,15 +1655,22 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.allOf
                             [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.strings.pattern
-                                "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.allOf
-                            [
                               _js2n__-prdslib.isType 'Integer,
                               _js2n__-prdslib.numbers.maximum 5,
                               _js2n__-prdslib.numbers.minimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
                             ]
                         ],
                   release_promotion =
@@ -1624,27 +1680,41 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.allOf
                             [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.strings.pattern
-                                "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.allOf
-                            [
                               _js2n__-prdslib.isType '"Number",
                               _js2n__-prdslib.numbers.exclusiveMaximum 1,
                               _js2n__-prdslib.numbers.exclusiveMinimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
                             ]
                         ],
                   submit_as_draft =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                   track =
                     _js2n__-prdslib.allOf
@@ -1872,13 +1942,20 @@ let rec _js2n__-refsenv
                   ignore_failure =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                   name =
                     _js2n__-prdslib.anyOf
@@ -1943,24 +2020,38 @@ let rec _js2n__-refsenv
                   failure =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                   success =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -2022,28 +2113,42 @@ let rec _js2n__-refsenv
                   promote_as_draft =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                   rollout_fraction =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.allOf
                             [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.strings.pattern
-                                "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.allOf
-                            [
                               _js2n__-prdslib.isType '"Number",
                               _js2n__-prdslib.numbers.exclusiveMaximum 1,
                               _js2n__-prdslib.numbers.exclusiveMinimum 0
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
                             ]
                         ],
                   track = _js2n__-prdslib.isType '"String",
@@ -2074,13 +2179,20 @@ let rec _js2n__-refsenv
                   notify_on_build_start =
                     _js2n__-prdslib.anyOf
                         [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType '"Bool"
+                            ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -2119,7 +2231,24 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/BranchPattern!predicate",
                           _js2n__-prdslib.arrays.minItems 1
                         ],
-                  cancel_previous_builds = _js2n__-prdslib.isType '"Bool",
+                  cancel_previous_builds =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
+                            ]
+                        ],
                   events =
                     _js2n__-prdslib.allOf
                         [
@@ -2217,11 +2346,22 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.allOf
                             [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.numbers.minimum 1
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1,
+                              _js2n__-prdslib.strings.pattern
+                                "^\\$\\{?([^:{}]+).*\\}?$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
                                 "^\\$\\{\\{\\s*inputs\\.[a-zA-Z]\\w*\\s*\\}\\}"
-                            ],
-                          _js2n__-prdslib.isType 'Integer
+                            ]
                         ],
                   name = _js2n__-prdslib.isType '"String",
                   pre_clone_scripts =

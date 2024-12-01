@@ -898,168 +898,155 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {}
     in
-  {
-      "$schema"
-        | String
-        | doc "The schema identifier for the project's configuration"
-        | optional,
-      activation
-        | Dyn
-        | doc "The scripts used on the activation of the project"
-        | optional,
-      build-dependencies
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.allOf
+        [
+          _js2n__-prdslib.isType 'Record,
+          _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true
-                (_js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.strings.minLength 1
-                      ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.records.required [ "project" ],
+                  _js2n__-prdslib.records.record {} {} true
                     _js2n__-prdslib.always
-                  ])
-            ])
-        | doc "The build `conda` dependencies, used in the build process"
-        | optional,
-      dependencies
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true
-                (_js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.strings.minLength 1
-                      ],
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.records.required [ "workspace" ],
+                  _js2n__-prdslib.records.record {} {} true
                     _js2n__-prdslib.always
-                  ])
-            ])
-        | doc "The `conda` dependencies, consisting of a package name and a requirement in [MatchSpec](https://github.com/conda/conda/blob/078e7ee79381060217e1ec7f9b0e9cf80ecc8f3f/conda/models/match_spec.py) format"
-        | optional,
-      environments
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {}
-                {
-                  "^[a-z\\d\\-]+$" =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.always,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.minLength 1
-                                  ])
-                            ]
-                        ],
-                } true _js2n__-prdslib.always
-            ])
-        | doc "The environments of the project, defined as a full object or a list of feature names."
-        | optional,
-      feature
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
-            ])
-        | doc "The features of the project"
-        | optional,
-      host-dependencies
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true
-                (_js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.strings.minLength 1
-                      ],
-                    _js2n__-prdslib.always
-                  ])
-            ])
-        | doc "The host `conda` dependencies, used in the build process"
-        | optional,
-      project | Dyn | doc "The project's metadata information",
-      pypi-dependencies
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true
-                (_js2n__-prdslib.anyOf
-                  [
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.strings.minLength 1
-                      ],
-                    _js2n__-prdslib.always,
-                    _js2n__-prdslib.always,
-                    _js2n__-prdslib.always,
-                    _js2n__-prdslib.always,
-                    _js2n__-prdslib.always,
-                    _js2n__-prdslib.always
-                  ])
-            ])
-        | doc "The PyPI dependencies"
-        | optional,
-      pypi-options
-        | Dyn
-        | doc "Options related to PyPI indexes, on the default feature"
-        | optional,
-      system-requirements
-        | Dyn
-        | doc "The system requirements of the project"
-        | optional,
-      target
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
-            ])
-        | doc "The targets of the project"
-        | optional,
-      tasks
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {}
-                {
-                  "^[^\\s\\$]+$" =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.always,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.strings.minLength 1
-                            ]
-                        ],
-                } true _js2n__-prdslib.always
-            ])
-        | doc "The tasks of the project"
-        | optional,
-      tool
-        | {  .. }
-        | doc "Third-party tool configurations, ignored by pixi"
-        | optional,
-    }
+                ]
+            ],
+          _js2n__-prdslib.records.record
+            {
+              "$schema" = _js2n__-prdslib.isType '"String",
+              activation = _js2n__-prdslib.always,
+              build-dependencies =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        (_js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.minLength 1
+                              ],
+                            _js2n__-prdslib.always
+                          ])
+                    ],
+              build-system = _js2n__-prdslib.always,
+              dependencies =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        (_js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.minLength 1
+                              ],
+                            _js2n__-prdslib.always
+                          ])
+                    ],
+              environments =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "^[a-z\\d\\-]+$" =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.always,
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.minLength 1
+                                          ])
+                                    ]
+                                ],
+                        } true _js2n__-prdslib.always
+                    ],
+              feature =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+              host-dependencies =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        (_js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.minLength 1
+                              ],
+                            _js2n__-prdslib.always
+                          ])
+                    ],
+              package = _js2n__-prdslib.always,
+              project = _js2n__-prdslib.always,
+              pypi-dependencies =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        (_js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.minLength 1
+                              ],
+                            _js2n__-prdslib.always,
+                            _js2n__-prdslib.always,
+                            _js2n__-prdslib.always,
+                            _js2n__-prdslib.always,
+                            _js2n__-prdslib.always,
+                            _js2n__-prdslib.always
+                          ])
+                    ],
+              pypi-options = _js2n__-prdslib.always,
+              system-requirements = _js2n__-prdslib.always,
+              target =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+              tasks =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "^[^\\s\\$]+$" =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.always,
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.minLength 1
+                                    ]
+                                ],
+                        } true _js2n__-prdslib.always
+                    ],
+              tool = _js2n__-prdslib.isType 'Record,
+              workspace = _js2n__-prdslib.always,
+            } {} false _js2n__-prdslib.never
+        ])

@@ -1177,6 +1177,7 @@ let rec _js2n__-refsenv
             | {
               host | String | optional,
               port | Number | optional,
+              rootDirectory | String | optional,
               startCommandOverride | String | optional,
             }
             | optional,
@@ -1188,6 +1189,7 @@ let rec _js2n__-refsenv
             | optional,
           dataconnect
             | {
+              dataDir | String | optional,
               host | String | optional,
               port | Number | optional,
               postgresHost | String | optional,

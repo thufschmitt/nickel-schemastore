@@ -1621,6 +1621,15 @@ let rec _js2n__-refsenv
             ])
         | doc "The install command for this project. When `null` is used this value will be automatically detected"
         | optional,
+      microFrontends
+        | {
+          config
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType '"String")
+            | doc "Path to the microfrontends configuration file",
+        }
+        | doc "Configuration for microfrontends"
+        | optional,
       name | String | doc "A name for the deployment" | optional,
       outputDirectory
         | _js2n__-prdslib.contract_from_predicate

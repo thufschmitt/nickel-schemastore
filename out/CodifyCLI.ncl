@@ -900,77 +900,1013 @@ let rec _js2n__-refsenv
     in
   Array (
       _js2n__-prdslib.contract_from_predicate
-        (_js2n__-prdslib.allOf
+        (_js2n__-prdslib.oneOf
           [
-            _js2n__-prdslib.isType 'Record,
             _js2n__-prdslib.allOf
               [
-                _js2n__-prdslib.ifThenElse
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "type" ],
-                      _js2n__-prdslib.records.record
-                        { type = _js2n__-prdslib.enum [ "project" ], } {} true
-                        _js2n__-prdslib.always
-                    ])
-                  (_js2n__-prdslib.records.record
-                    {
-                      description = _js2n__-prdslib.isType '"String",
-                      plugins =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.record {}
-                                { ".*" = _js2n__-prdslib.isType '"String", }
-                                true _js2n__-prdslib.always
-                            ],
-                      type = _js2n__-prdslib.always,
-                      version =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.strings.pattern
-                                "^([0-9]+)\\.([0-9]+)\\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?(?:\\+[0-9A-Za-z-]+)?$"
-                            ],
-                    } {} false _js2n__-prdslib.never) _js2n__-prdslib.always,
-                _js2n__-prdslib.ifThenElse
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.not
-                        (_js2n__-prdslib.records.record
-                          { type = _js2n__-prdslib.enum [ "project" ], } {} true
-                          _js2n__-prdslib.always),
-                      _js2n__-prdslib.records.required [ "type" ],
-                      _js2n__-prdslib.records.record {} {} true
-                        _js2n__-prdslib.always
-                    ])
-                  (_js2n__-prdslib.records.record
-                    {
-                      dependsOn =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.isType '"String"),
-                              _js2n__-prdslib.arrays.uniqueItems
-                            ],
-                      name =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.strings.pattern "^[\\w-]+$"
-                            ],
-                    } {} true _js2n__-prdslib.always) _js2n__-prdslib.always
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    description = _js2n__-prdslib.isType '"String",
+                    plugins =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {}
+                              { ".*" = _js2n__-prdslib.isType '"String", } true
+                              _js2n__-prdslib.always
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "project"
+                          ],
+                    version =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern
+                              "^([0-9]+)\\.([0-9]+)\\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?(?:\\+[0-9A-Za-z-]+)?$"
+                          ],
+                  } {} false _js2n__-prdslib.never
               ],
-            _js2n__-prdslib.records.required [ "type" ],
-            _js2n__-prdslib.records.record
-              {
-                type =
-                  _js2n__-prdslib.allOf
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    email = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "git"
+                          ],
+                    username = _js2n__-prdslib.isType '"String",
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "xcode-tools"
+                          ],
+                  } {} true _js2n__-prdslib.always
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    path = _js2n__-prdslib.isType '"String",
+                    paths =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                    prepend = _js2n__-prdslib.isType '"Bool",
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "path"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "alias", "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    alias =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern
+                              "^[^ 	\n/\\$`=|&;()<>'\"]*$"
+                          ],
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "alias"
+                          ],
+                    value = _js2n__-prdslib.isType '"String",
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    casks =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    directory = _js2n__-prdslib.isType '"String",
+                    formulae =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    skipAlreadyInstalledCasks = _js2n__-prdslib.isType '"Bool",
+                    taps =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "homebrew"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    global = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    pythonVersions =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "pyenv"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "git-lfs"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "aws-cli"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.allOf
                       [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.strings.pattern "^[a-zA-Z][\\w-]+$"
+                        _js2n__-prdslib.records.required
+                          [ "awsAccessKeyId", "awsSecretAccessKey", "region" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
                       ],
-              } {} true _js2n__-prdslib.always
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required
+                          [ "csvCredentials", "region" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]
+                  ],
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    awsAccessKeyId = _js2n__-prdslib.isType '"String",
+                    awsSecretAccessKey = _js2n__-prdslib.isType '"String",
+                    csvCredentials = _js2n__-prdslib.isType '"String",
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    metadataServiceNumAttempts =
+                      _js2n__-prdslib.isType '"String",
+                    metadataServiceTimeout = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    output = _js2n__-prdslib.isType '"String",
+                    profile = _js2n__-prdslib.isType '"String",
+                    region = _js2n__-prdslib.isType '"String",
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "aws-profile"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    directory = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "terraform"
+                          ],
+                    version = _js2n__-prdslib.isType '"String",
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    global = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    nodeVersions =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "nvm"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    add =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    global = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "jenv"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "pgcli"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    directory = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "vscode"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required
+                          [ "directory", "repository" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required
+                          [ "parentDirectory", "repository" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]
+                  ],
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    autoVerifySSH = _js2n__-prdslib.isType '"Bool",
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    directory = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    parentDirectory = _js2n__-prdslib.isType '"String",
+                    repository = _js2n__-prdslib.isType '"String",
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "git-clone"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    directory = _js2n__-prdslib.always,
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "android-studio"
+                          ],
+                    version = _js2n__-prdslib.isType '"String",
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    plugins =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "asdf"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "plugin", "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    gitUrl = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    plugin = _js2n__-prdslib.isType '"String",
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "asdf-plugin"
+                          ],
+                    versions =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required
+                  [ "plugin", "type", "version" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    plugin = _js2n__-prdslib.isType '"String",
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "asdf-global"
+                          ],
+                    version = _js2n__-prdslib.isType '"String",
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required
+                  [ "plugin", "type", "version" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    directories =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                    directory = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    plugin = _js2n__-prdslib.isType '"String",
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "asdf-local"
+                          ],
+                    version = _js2n__-prdslib.isType '"String",
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required
+                          [ "plugin", "versions" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "directory" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]
+                  ],
+                _js2n__-prdslib.records.required [ "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    directory = _js2n__-prdslib.isType '"String",
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    plugin = _js2n__-prdslib.isType '"String",
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "asdf-install"
+                          ],
+                    versions =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "passphrase", "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    bits = _js2n__-prdslib.isType '"Number",
+                    comment = _js2n__-prdslib.isType '"String",
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    fileName = _js2n__-prdslib.isType '"String",
+                    folder = _js2n__-prdslib.isType '"String",
+                    keyType =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.enum
+                              [
+                                "ecdsa",
+                                "ecdsa-sk",
+                                "ed25519",
+                                "ed25519-sk",
+                                "rsa"
+                              ]
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    passphrase = _js2n__-prdslib.isType '"String",
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "ssh-key"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "hosts", "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    hosts =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.records.required
+                                            [ "Host" ],
+                                          _js2n__-prdslib.records.record {} {}
+                                            true _js2n__-prdslib.always
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.records.required
+                                            [ "Match" ],
+                                          _js2n__-prdslib.records.record {} {}
+                                            true _js2n__-prdslib.always
+                                        ]
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      AddKeysToAgent =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      Compression =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      Host = _js2n__-prdslib.isType '"String",
+                                      IdentityFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      IgnoreUnknown =
+                                        _js2n__-prdslib.isType '"String",
+                                      LogLevel =
+                                        _js2n__-prdslib.isType '"String",
+                                      Match = _js2n__-prdslib.isType '"String",
+                                      PasswordAuthentication =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      Port = _js2n__-prdslib.isType '"Number",
+                                      PreferredAuthentications =
+                                        _js2n__-prdslib.isType '"String",
+                                      UseKeychain =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      User = _js2n__-prdslib.isType '"String",
+                                    } {} true _js2n__-prdslib.always
+                                ])
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "ssh-config"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "path", "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    appleUseKeychain = _js2n__-prdslib.isType '"Bool",
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    path = _js2n__-prdslib.isType '"String",
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "ssh-add"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "action", "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    action = _js2n__-prdslib.isType '"String",
+                    condition = _js2n__-prdslib.isType '"String",
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "action"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ],
+            _js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.required [ "contents", "path", "type" ],
+                _js2n__-prdslib.records.record
+                  {
+                    contents = _js2n__-prdslib.isType '"String",
+                    dependsOn =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String"),
+                            _js2n__-prdslib.arrays.uniqueItems
+                          ],
+                    name =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^[\\w-]+$"
+                          ],
+                    onlyCreate = _js2n__-prdslib.isType '"Bool",
+                    path = _js2n__-prdslib.isType '"String",
+                    type =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.const "file"
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ]
           ])
     )

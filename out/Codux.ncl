@@ -1028,7 +1028,10 @@ let rec _js2n__-refsenv
         "%
         | optional,
       externalProviders
-        | { wix | { projectId | String, .. } | optional, .. }
+        | {
+          wix | { metaSiteId | String, projectId | String, .. } | optional,
+          ..
+        }
         | optional,
       fileNamingConvention
         | _js2n__-prdslib.contract_from_predicate
