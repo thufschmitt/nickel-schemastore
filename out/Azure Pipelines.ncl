@@ -2438,6 +2438,8 @@ let rec _js2n__-refsenv
                         _js2n__-refsenv."_js2n__-:definitions/jobDependsOn!predicate",
                       displayName =
                         _js2n__-refsenv."_js2n__-:definitions/string!predicate",
+                      isSkippable =
+                        _js2n__-refsenv."_js2n__-:definitions/boolean!predicate",
                       jobs =
                         _js2n__-refsenv."_js2n__-:definitions/jobs!predicate",
                       lockBehavior =
@@ -2448,6 +2450,8 @@ let rec _js2n__-refsenv
                         _js2n__-refsenv."_js2n__-:definitions/string!predicate",
                       templateContext =
                         _js2n__-refsenv."_js2n__-:definitions/templateContext!predicate",
+                      trigger =
+                        _js2n__-refsenv."_js2n__-:definitions/stageTrigger!predicate",
                       variables =
                         _js2n__-refsenv."_js2n__-:definitions/variables!predicate",
                     } {} false _js2n__-prdslib.never
@@ -2462,6 +2466,20 @@ let rec _js2n__-refsenv
                       template =
                         _js2n__-refsenv."_js2n__-:definitions/nonEmptyString!predicate",
                     } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/stageTrigger!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.strings.pattern "^manual$"
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.strings.pattern "^automatic$"
                 ]
             ],
       "_js2n__-:definitions/stages!predicate" =
@@ -2640,6 +2658,8 @@ let rec _js2n__-refsenv
                         _js2n__-refsenv."_js2n__-:definitions/mappingOfStringString!predicate",
                       fetchDepth =
                         _js2n__-refsenv."_js2n__-:definitions/string!predicate",
+                      fetchFilter =
+                        _js2n__-refsenv."_js2n__-:definitions/string!predicate",
                       fetchTags =
                         _js2n__-refsenv."_js2n__-:definitions/string!predicate",
                       lfs =
@@ -2658,6 +2678,12 @@ let rec _js2n__-refsenv
                         _js2n__-refsenv."_js2n__-:definitions/stepTarget!predicate",
                       timeoutInMinutes =
                         _js2n__-refsenv."_js2n__-:definitions/nonEmptyString!predicate",
+                      workspaceRepo =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.enum [ "true", "false" ],
+                              _js2n__-refsenv."_js2n__-:definitions/string!predicate"
+                            ],
                     } {} false _js2n__-prdslib.never
                 ],
               _js2n__-prdslib.allOf
@@ -2995,56 +3021,6 @@ let rec _js2n__-refsenv
                     ],
                   _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
-                                    [ "azureSubscription" ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      FailOnStandardError =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      Inline = _js2n__-prdslib.isType '"String",
-                                      RestrictContextToCurrentTask =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      ScriptArguments =
-                                        _js2n__-prdslib.isType '"String",
-                                      ScriptPath =
-                                        _js2n__-prdslib.isType '"String",
-                                      ScriptType =
-                                        _js2n__-prdslib.enum
-                                            [ "FilePath", "InlineScript" ],
-                                      azurePowerShellVersion =
-                                        _js2n__-prdslib.enum
-                                            [ "LatestVersion", "OtherVersion" ],
-                                      azureSubscription =
-                                        _js2n__-prdslib.isType '"String",
-                                      errorActionPreference =
-                                        _js2n__-prdslib.enum
-                                            [
-                                              "stop",
-                                              "continue",
-                                              "silentlyContinue"
-                                            ],
-                                      preferredAzurePowerShellVersion =
-                                        _js2n__-prdslib.isType '"String",
-                                      pwsh = _js2n__-prdslib.isType '"Bool",
-                                      validateScriptSignature =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      workingDirectory =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^AzurePowerShell@4$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
                       _js2n__-prdslib.records.required [ "task" ],
                       _js2n__-prdslib.records.record
                         {
@@ -3128,33 +3104,52 @@ let rec _js2n__-refsenv
                     ],
                   _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
                       _js2n__-prdslib.records.record
                         {
                           inputs =
-                            _js2n__-prdslib.records.record
-                                {
-                                  ConnectedServiceName =
-                                    _js2n__-prdslib.isType '"String",
-                                  ConnectedServiceNameARM =
-                                    _js2n__-prdslib.isType '"String",
-                                  ConnectedServiceNameSelector =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "ConnectedServiceName",
-                                          "ConnectedServiceNameARM"
-                                        ],
-                                  Inline = _js2n__-prdslib.isType '"String",
-                                  ScriptArguments =
-                                    _js2n__-prdslib.isType '"String",
-                                  ScriptPath = _js2n__-prdslib.isType '"String",
-                                  ScriptType =
-                                    _js2n__-prdslib.enum
-                                        [ "FilePath", "InlineScript" ],
-                                } {} false _js2n__-prdslib.never,
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "azureSubscription" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      FailOnStandardError =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      Inline = _js2n__-prdslib.isType '"String",
+                                      RestrictContextToCurrentTask =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      ScriptArguments =
+                                        _js2n__-prdslib.isType '"String",
+                                      ScriptPath =
+                                        _js2n__-prdslib.isType '"String",
+                                      ScriptType =
+                                        _js2n__-prdslib.enum
+                                            [ "FilePath", "InlineScript" ],
+                                      azurePowerShellVersion =
+                                        _js2n__-prdslib.enum
+                                            [ "LatestVersion", "OtherVersion" ],
+                                      azureSubscription =
+                                        _js2n__-prdslib.isType '"String",
+                                      errorActionPreference =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "stop",
+                                              "continue",
+                                              "silentlyContinue"
+                                            ],
+                                      preferredAzurePowerShellVersion =
+                                        _js2n__-prdslib.isType '"String",
+                                      pwsh = _js2n__-prdslib.isType '"Bool",
+                                      validateScriptSignature =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      workingDirectory =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
                           task =
                             _js2n__-prdslib.strings.pattern
-                                "^AzurePowerShell@1$",
+                                "^AzurePowerShell@4$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -3203,6 +3198,37 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^AzurePowerShell@5$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.records.record
+                                {
+                                  ConnectedServiceName =
+                                    _js2n__-prdslib.isType '"String",
+                                  ConnectedServiceNameARM =
+                                    _js2n__-prdslib.isType '"String",
+                                  ConnectedServiceNameSelector =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "ConnectedServiceName",
+                                          "ConnectedServiceNameARM"
+                                        ],
+                                  Inline = _js2n__-prdslib.isType '"String",
+                                  ScriptArguments =
+                                    _js2n__-prdslib.isType '"String",
+                                  ScriptPath = _js2n__-prdslib.isType '"String",
+                                  ScriptType =
+                                    _js2n__-prdslib.enum
+                                        [ "FilePath", "InlineScript" ],
+                                } {} false _js2n__-prdslib.never,
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AzurePowerShell@1$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -3269,6 +3295,9 @@ let rec _js2n__-refsenv
                                 {
                                   artifactFeeds =
                                     _js2n__-prdslib.isType '"String",
+                                  azureDevOpsServiceConnection =
+                                    _js2n__-prdslib.isType '"String",
+                                  feedUrl = _js2n__-prdslib.isType '"String",
                                   onlyAddExtraIndex =
                                     _js2n__-prdslib.isType '"Bool",
                                   pythonDownloadServiceConnections =
@@ -3277,95 +3306,6 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^PipAuthenticate@1$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.records.record
-                                {
-                                  allowBrokenSymlinks =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  checkStyleRunAnalysis =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  codeCoverageClassFilesDirectories =
-                                    _js2n__-prdslib.isType '"String",
-                                  codeCoverageClassFilter =
-                                    _js2n__-prdslib.isType '"String",
-                                  codeCoverageFailIfEmpty =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  codeCoverageRestoreOriginalPomXml =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  codeCoverageSourceDirectories =
-                                    _js2n__-prdslib.isType '"String",
-                                  codeCoverageToolOption =
-                                    _js2n__-prdslib.enum
-                                        [ "None", "Cobertura", "JaCoCo" ],
-                                  effectivePomSkip =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  failWhenBugsFound =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  findBugsRunAnalysis =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  goals = _js2n__-prdslib.isType '"String",
-                                  isJacocoCoverageReportXML =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  javaHomeOption =
-                                    _js2n__-prdslib.enum
-                                        [ "JDKVersion", "Path" ],
-                                  jdkArchitectureOption =
-                                    _js2n__-prdslib.enum [ "x86", "x64" ],
-                                  jdkDirectory =
-                                    _js2n__-prdslib.isType '"String",
-                                  jdkVersionOption =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "default",
-                                          "1.17",
-                                          "1.11",
-                                          "1.10",
-                                          "1.9",
-                                          "1.8",
-                                          "1.7",
-                                          "1.6"
-                                        ],
-                                  mavenAuthenticateFeed =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  mavenDirectory =
-                                    _js2n__-prdslib.isType '"String",
-                                  mavenOptions =
-                                    _js2n__-prdslib.isType '"String",
-                                  mavenPomFile =
-                                    _js2n__-prdslib.isType '"String",
-                                  mavenSetM2Home =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  mavenVersionOption =
-                                    _js2n__-prdslib.enum [ "Default", "Path" ],
-                                  options = _js2n__-prdslib.isType '"String",
-                                  pmdRunAnalysis =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  publishJUnitResults =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  sonarQubeRunAnalysis =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  spotBugsGoal =
-                                    _js2n__-prdslib.enum
-                                        [ "spotbugs", "check" ],
-                                  spotBugsRunAnalysis =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  spotBugsVersion =
-                                    _js2n__-prdslib.isType '"String",
-                                  sqMavenPluginVersionChoice =
-                                    _js2n__-prdslib.enum [ "latest", "pom" ],
-                                  testResultsFiles =
-                                    _js2n__-prdslib.isType '"String",
-                                  testRunTitle =
-                                    _js2n__-prdslib.isType '"String",
-                                } {} false _js2n__-prdslib.never,
-                          task = _js2n__-prdslib.strings.pattern "^Maven@4$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -3543,6 +3483,97 @@ let rec _js2n__-refsenv
                           inputs =
                             _js2n__-prdslib.records.record
                                 {
+                                  allowBrokenSymlinks =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  azureSubscription =
+                                    _js2n__-prdslib.isType '"String",
+                                  checkStyleRunAnalysis =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  codeCoverageClassFilesDirectories =
+                                    _js2n__-prdslib.isType '"String",
+                                  codeCoverageClassFilter =
+                                    _js2n__-prdslib.isType '"String",
+                                  codeCoverageFailIfEmpty =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  codeCoverageRestoreOriginalPomXml =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  codeCoverageSourceDirectories =
+                                    _js2n__-prdslib.isType '"String",
+                                  codeCoverageToolOption =
+                                    _js2n__-prdslib.enum
+                                        [ "None", "Cobertura", "JaCoCo" ],
+                                  effectivePomSkip =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  failWhenBugsFound =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  findBugsRunAnalysis =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  goals = _js2n__-prdslib.isType '"String",
+                                  isJacocoCoverageReportXML =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  javaHomeOption =
+                                    _js2n__-prdslib.enum
+                                        [ "JDKVersion", "Path" ],
+                                  jdkArchitectureOption =
+                                    _js2n__-prdslib.enum [ "x86", "x64" ],
+                                  jdkDirectory =
+                                    _js2n__-prdslib.isType '"String",
+                                  jdkVersionOption =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "default",
+                                          "1.17",
+                                          "1.11",
+                                          "1.10",
+                                          "1.9",
+                                          "1.8",
+                                          "1.7",
+                                          "1.6"
+                                        ],
+                                  mavenAuthenticateFeed =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  mavenDirectory =
+                                    _js2n__-prdslib.isType '"String",
+                                  mavenOptions =
+                                    _js2n__-prdslib.isType '"String",
+                                  mavenPomFile =
+                                    _js2n__-prdslib.isType '"String",
+                                  mavenSetM2Home =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  mavenVersionOption =
+                                    _js2n__-prdslib.enum [ "Default", "Path" ],
+                                  options = _js2n__-prdslib.isType '"String",
+                                  pmdRunAnalysis =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  publishJUnitResults =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  sonarQubeRunAnalysis =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  spotBugsGoal =
+                                    _js2n__-prdslib.enum
+                                        [ "spotbugs", "check" ],
+                                  spotBugsRunAnalysis =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  spotBugsVersion =
+                                    _js2n__-prdslib.isType '"String",
+                                  sqMavenPluginVersionChoice =
+                                    _js2n__-prdslib.enum [ "latest", "pom" ],
+                                  testResultsFiles =
+                                    _js2n__-prdslib.isType '"String",
+                                  testRunTitle =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never,
+                          task = _js2n__-prdslib.strings.pattern "^Maven@4$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.records.record
+                                {
                                   checkStyleRunAnalysis =
                                     _js2n__-prdslib.isType '"Bool",
                                   codeCoverageClassFilesDirectories =
@@ -3631,6 +3662,8 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.records.record
                                 {
                                   arguments = _js2n__-prdslib.isType '"String",
+                                  azureSubscription =
+                                    _js2n__-prdslib.isType '"String",
                                   buildProperties =
                                     _js2n__-prdslib.isType '"String",
                                   command =
@@ -3818,162 +3851,6 @@ let rec _js2n__-refsenv
                     ],
                   _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.records.required [ "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.records.record
-                                {
-                                  AdditionalArguments =
-                                    _js2n__-prdslib.isType '"String",
-                                  AppSettings =
-                                    _js2n__-prdslib.isType '"String",
-                                  ConfigurationSettings =
-                                    _js2n__-prdslib.isType '"String",
-                                  ConnectionType =
-                                    _js2n__-prdslib.enum
-                                        [ "AzureRM", "PublishProfile" ],
-                                  DeploymentType =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "webDeploy",
-                                          "zipDeploy",
-                                          "runFromZip"
-                                        ],
-                                  DockerImageTag =
-                                    _js2n__-prdslib.isType '"String",
-                                  DockerNamespace =
-                                    _js2n__-prdslib.isType '"String",
-                                  DockerRepository =
-                                    _js2n__-prdslib.isType '"String",
-                                  ExcludeFilesFromAppDataFlag =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  InlineScript =
-                                    _js2n__-prdslib.isType '"String",
-                                  JSONFiles = _js2n__-prdslib.isType '"String",
-                                  PublishProfilePassword =
-                                    _js2n__-prdslib.isType '"String",
-                                  PublishProfilePath =
-                                    _js2n__-prdslib.isType '"String",
-                                  RemoveAdditionalFilesFlag =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  RenameFilesFlag =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  ResourceGroupName =
-                                    _js2n__-prdslib.isType '"String",
-                                  RuntimeStack =
-                                    _js2n__-prdslib.isType '"String",
-                                  RuntimeStackFunction =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "DOTNET|2.2",
-                                          "DOTNET|3.1",
-                                          "JAVA|8",
-                                          "JAVA|11",
-                                          "NODE|8",
-                                          "NODE|10",
-                                          "NODE|12",
-                                          "NODE|14",
-                                          "PYTHON|3.6",
-                                          "PYTHON|3.7",
-                                          "PYTHON|3.8"
-                                        ],
-                                  ScriptPath = _js2n__-prdslib.isType '"String",
-                                  ScriptType =
-                                    _js2n__-prdslib.enum
-                                        [ "", "Inline Script", "File Path" ],
-                                  SetParametersFile =
-                                    _js2n__-prdslib.isType '"String",
-                                  SlotName = _js2n__-prdslib.isType '"String",
-                                  StartupCommand =
-                                    _js2n__-prdslib.isType '"String",
-                                  TakeAppOfflineFlag =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  VirtualApplication =
-                                    _js2n__-prdslib.isType '"String",
-                                  WebAppName = _js2n__-prdslib.isType '"String",
-                                  WebConfigParameters =
-                                    _js2n__-prdslib.isType '"String",
-                                  appType =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "webApp",
-                                          "webAppLinux",
-                                          "webAppContainer",
-                                          "webAppHyperVContainer",
-                                          "functionApp",
-                                          "functionAppLinux",
-                                          "functionAppContainer",
-                                          "apiApp",
-                                          "mobileApp"
-                                        ],
-                                  azureSubscription =
-                                    _js2n__-prdslib.isType '"String",
-                                  deployToSlotOrASE =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  enableCustomDeployment =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  enableXmlTransform =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  enableXmlVariableSubstitution =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  packageForLinux =
-                                    _js2n__-prdslib.isType '"String",
-                                } {} false _js2n__-prdslib.never,
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^AzureRmWebAppDeployment@4$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
-                                    [ "ConnectedServiceName", "WebAppName" ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      AdditionalArguments =
-                                        _js2n__-prdslib.isType '"String",
-                                      ConnectedServiceName =
-                                        _js2n__-prdslib.isType '"String",
-                                      DeployToSlotFlag =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      ExcludeFilesFromAppDataFlag =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      Package =
-                                        _js2n__-prdslib.isType '"String",
-                                      RemoveAdditionalFilesFlag =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      ResourceGroupName =
-                                        _js2n__-prdslib.isType '"String",
-                                      SetParametersFile =
-                                        _js2n__-prdslib.isType '"String",
-                                      SlotName =
-                                        _js2n__-prdslib.isType '"String",
-                                      TakeAppOfflineFlag =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      UseWebDeploy =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      VirtualApplication =
-                                        _js2n__-prdslib.isType '"String",
-                                      WebAppName =
-                                        _js2n__-prdslib.isType '"String",
-                                      WebAppUri =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^AzureRmWebAppDeployment@2$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
                       _js2n__-prdslib.records.required [ "inputs", "task" ],
                       _js2n__-prdslib.records.record
                         {
@@ -4085,6 +3962,211 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^AzureRmWebAppDeployment@3$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "ConnectedServiceName", "WebAppName" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      AdditionalArguments =
+                                        _js2n__-prdslib.isType '"String",
+                                      ConnectedServiceName =
+                                        _js2n__-prdslib.isType '"String",
+                                      DeployToSlotFlag =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      ExcludeFilesFromAppDataFlag =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      Package =
+                                        _js2n__-prdslib.isType '"String",
+                                      RemoveAdditionalFilesFlag =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      ResourceGroupName =
+                                        _js2n__-prdslib.isType '"String",
+                                      SetParametersFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      SlotName =
+                                        _js2n__-prdslib.isType '"String",
+                                      TakeAppOfflineFlag =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      UseWebDeploy =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      VirtualApplication =
+                                        _js2n__-prdslib.isType '"String",
+                                      WebAppName =
+                                        _js2n__-prdslib.isType '"String",
+                                      WebAppUri =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AzureRmWebAppDeployment@2$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [
+                                      "ConnectedServiceName",
+                                      "Package",
+                                      "WebAppName"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      AdditionalArguments =
+                                        _js2n__-prdslib.isType '"String",
+                                      ConnectedServiceName =
+                                        _js2n__-prdslib.isType '"String",
+                                      DeployToSlotFlag =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      ExcludeFilesFromAppDataFlag =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      Package =
+                                        _js2n__-prdslib.isType '"String",
+                                      RemoveAdditionalFilesFlag =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      ResourceGroupName =
+                                        _js2n__-prdslib.isType '"String",
+                                      SetParametersFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      SlotName =
+                                        _js2n__-prdslib.isType '"String",
+                                      TakeAppOfflineFlag =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      VirtualApplication =
+                                        _js2n__-prdslib.isType '"String",
+                                      WebAppName =
+                                        _js2n__-prdslib.isType '"String",
+                                      WebAppUri =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AzureRMWebAppDeployment@1$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.records.record
+                                {
+                                  AdditionalArguments =
+                                    _js2n__-prdslib.isType '"String",
+                                  AppSettings =
+                                    _js2n__-prdslib.isType '"String",
+                                  ConfigurationSettings =
+                                    _js2n__-prdslib.isType '"String",
+                                  ConnectionType =
+                                    _js2n__-prdslib.enum
+                                        [ "AzureRM", "PublishProfile" ],
+                                  DeploymentType =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "webDeploy",
+                                          "zipDeploy",
+                                          "runFromZip"
+                                        ],
+                                  DockerImageTag =
+                                    _js2n__-prdslib.isType '"String",
+                                  DockerNamespace =
+                                    _js2n__-prdslib.isType '"String",
+                                  DockerRepository =
+                                    _js2n__-prdslib.isType '"String",
+                                  ExcludeFilesFromAppDataFlag =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  InlineScript =
+                                    _js2n__-prdslib.isType '"String",
+                                  JSONFiles = _js2n__-prdslib.isType '"String",
+                                  PublishProfilePassword =
+                                    _js2n__-prdslib.isType '"String",
+                                  PublishProfilePath =
+                                    _js2n__-prdslib.isType '"String",
+                                  RemoveAdditionalFilesFlag =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  RenameFilesFlag =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  ResourceGroupName =
+                                    _js2n__-prdslib.isType '"String",
+                                  RuntimeStack =
+                                    _js2n__-prdslib.isType '"String",
+                                  RuntimeStackFunction =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "DOTNET|2.2",
+                                          "DOTNET|3.1",
+                                          "JAVA|8",
+                                          "JAVA|11",
+                                          "NODE|8",
+                                          "NODE|10",
+                                          "NODE|12",
+                                          "NODE|14",
+                                          "PYTHON|3.6",
+                                          "PYTHON|3.7",
+                                          "PYTHON|3.8"
+                                        ],
+                                  ScriptPath = _js2n__-prdslib.isType '"String",
+                                  ScriptType =
+                                    _js2n__-prdslib.enum
+                                        [ "", "Inline Script", "File Path" ],
+                                  SetParametersFile =
+                                    _js2n__-prdslib.isType '"String",
+                                  SlotName = _js2n__-prdslib.isType '"String",
+                                  StartupCommand =
+                                    _js2n__-prdslib.isType '"String",
+                                  TakeAppOfflineFlag =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  VirtualApplication =
+                                    _js2n__-prdslib.isType '"String",
+                                  WebAppName = _js2n__-prdslib.isType '"String",
+                                  WebConfigParameters =
+                                    _js2n__-prdslib.isType '"String",
+                                  appType =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "webApp",
+                                          "webAppLinux",
+                                          "webAppContainer",
+                                          "webAppHyperVContainer",
+                                          "functionApp",
+                                          "functionAppLinux",
+                                          "functionAppContainer",
+                                          "apiApp",
+                                          "mobileApp"
+                                        ],
+                                  azureSubscription =
+                                    _js2n__-prdslib.isType '"String",
+                                  deployToSlotOrASE =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  enableCustomDeployment =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  enableXmlTransform =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  enableXmlVariableSubstitution =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  packageForLinux =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never,
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AzureRmWebAppDeployment@4$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -4250,31 +4332,6 @@ let rec _js2n__-refsenv
                                     [ "summaryFileLocation" ],
                                   _js2n__-prdslib.records.record
                                     {
-                                      failIfCoverageEmpty =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      pathToSources =
-                                        _js2n__-prdslib.isType '"String",
-                                      summaryFileLocation =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^PublishCodeCoverageResults@2$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
-                                    [ "summaryFileLocation" ],
-                                  _js2n__-prdslib.records.record
-                                    {
                                       additionalCodeCoverageFiles =
                                         _js2n__-prdslib.isType '"String",
                                       codeCoverageTool =
@@ -4293,6 +4350,31 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^PublishCodeCoverageResults@1$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "summaryFileLocation" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      failIfCoverageEmpty =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      pathToSources =
+                                        _js2n__-prdslib.isType '"String",
+                                      summaryFileLocation =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^PublishCodeCoverageResults@2$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -4357,6 +4439,38 @@ let rec _js2n__-refsenv
                           inputs =
                             _js2n__-prdslib.records.record
                                 {
+                                  instructions =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never,
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^ManualIntervention@6$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.records.record
+                                {
+                                  instructions =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never,
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^ManualIntervention@7$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.records.record
+                                {
                                   emailRecipients =
                                     _js2n__-prdslib.isType '"String",
                                   instructions =
@@ -4367,29 +4481,6 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^ManualIntervention@8$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
-                                    [ "provProfileSecureFile" ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      provProfileSecureFile =
-                                        _js2n__-prdslib.isType '"String",
-                                      removeProfile =
-                                        _js2n__-prdslib.isType '"Bool",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^InstallAppleProvisioningProfile@0$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -4413,6 +4504,29 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^InstallAppleProvisioningProfile@1$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "provProfileSecureFile" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      provProfileSecureFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      removeProfile =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^InstallAppleProvisioningProfile@0$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -4646,42 +4760,6 @@ let rec _js2n__-refsenv
                           inputs =
                             _js2n__-prdslib.records.record
                                 {
-                                  Dockerfile = _js2n__-prdslib.isType '"String",
-                                  addBaseImageData =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  addPipelineData =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  arguments = _js2n__-prdslib.isType '"String",
-                                  buildContext =
-                                    _js2n__-prdslib.isType '"String",
-                                  command =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "buildAndPush",
-                                          "build",
-                                          "push",
-                                          "login",
-                                          "logout",
-                                          "start",
-                                          "stop"
-                                        ],
-                                  container = _js2n__-prdslib.isType '"String",
-                                  containerRegistry =
-                                    _js2n__-prdslib.isType '"String",
-                                  repository = _js2n__-prdslib.isType '"String",
-                                  tags = _js2n__-prdslib.isType '"String",
-                                } {} false _js2n__-prdslib.never,
-                          task = _js2n__-prdslib.strings.pattern "^Docker@2$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.records.record
-                                {
                                   addBaseImageData =
                                     _js2n__-prdslib.isType '"Bool",
                                   addDefaultLabels =
@@ -4766,37 +4844,38 @@ let rec _js2n__-refsenv
                     ],
                   _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.required [ "task" ],
                       _js2n__-prdslib.records.record
                         {
                           inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
-                                    [ "jobName", "serverEndpoint" ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      captureConsole =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      capturePipeline =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      isMultibranchJob =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      jobName =
-                                        _js2n__-prdslib.isType '"String",
-                                      jobParameters =
-                                        _js2n__-prdslib.isType '"String",
-                                      multibranchPipelineBranch =
-                                        _js2n__-prdslib.isType '"String",
-                                      parameterizedJob =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      serverEndpoint =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^JenkinsQueueJob@1$",
+                            _js2n__-prdslib.records.record
+                                {
+                                  Dockerfile = _js2n__-prdslib.isType '"String",
+                                  addBaseImageData =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  addPipelineData =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  arguments = _js2n__-prdslib.isType '"String",
+                                  buildContext =
+                                    _js2n__-prdslib.isType '"String",
+                                  command =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "buildAndPush",
+                                          "build",
+                                          "push",
+                                          "login",
+                                          "logout",
+                                          "start",
+                                          "stop"
+                                        ],
+                                  container = _js2n__-prdslib.isType '"String",
+                                  containerRegistry =
+                                    _js2n__-prdslib.isType '"String",
+                                  repository = _js2n__-prdslib.isType '"String",
+                                  tags = _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never,
+                          task = _js2n__-prdslib.strings.pattern "^Docker@2$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -4838,6 +4917,41 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^JenkinsQueueJob@2$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "jobName", "serverEndpoint" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      captureConsole =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      capturePipeline =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      isMultibranchJob =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      jobName =
+                                        _js2n__-prdslib.isType '"String",
+                                      jobParameters =
+                                        _js2n__-prdslib.isType '"String",
+                                      multibranchPipelineBranch =
+                                        _js2n__-prdslib.isType '"String",
+                                      parameterizedJob =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      serverEndpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^JenkinsQueueJob@1$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -5078,6 +5192,9 @@ let rec _js2n__-refsenv
                                 {
                                   artifactFeed =
                                     _js2n__-prdslib.isType '"String",
+                                  azureDevOpsServiceConnection =
+                                    _js2n__-prdslib.isType '"String",
+                                  feedUrl = _js2n__-prdslib.isType '"String",
                                   pythonUploadServiceConnection =
                                     _js2n__-prdslib.isType '"String",
                                 } {} false _js2n__-prdslib.never,
@@ -5198,7 +5315,7 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.records.record
                                 {
                                   nodeVersion =
-                                    _js2n__-prdslib.enum [ "6", "10" ],
+                                    _js2n__-prdslib.enum [ "6", "10", "16" ],
                                 } {} false _js2n__-prdslib.never,
                           task =
                             _js2n__-prdslib.strings.pattern
@@ -5261,6 +5378,9 @@ let rec _js2n__-refsenv
                           inputs =
                             _js2n__-prdslib.records.record
                                 {
+                                  azureDevOpsServiceConnection =
+                                    _js2n__-prdslib.isType '"String",
+                                  feedUrl = _js2n__-prdslib.isType '"String",
                                   forceReinstallCredentialProvider =
                                     _js2n__-prdslib.isType '"Bool",
                                   nuGetServiceConnections =
@@ -5310,10 +5430,52 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.isType '"String",
                                   mavenServiceConnections =
                                     _js2n__-prdslib.isType '"String",
+                                  workloadIdentityServiceConnection =
+                                    _js2n__-prdslib.isType '"String",
                                 } {} false _js2n__-prdslib.never,
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^MavenAuthenticate@0$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [
+                                      "AppConfigurationEndpoint",
+                                      "azureSubscription"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      AppConfigurationEndpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      KeyFilter =
+                                        _js2n__-prdslib.isType '"String",
+                                      Label = _js2n__-prdslib.isType '"String",
+                                      SelectionMode =
+                                        _js2n__-prdslib.enum
+                                            [ "Default", "Snapshot" ],
+                                      SnapshotName =
+                                        _js2n__-prdslib.isType '"String",
+                                      SuppressWarningForOverriddenKeys =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      TreatKeyVaultErrorsAsWarning =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      TrimKeyPrefix =
+                                        _js2n__-prdslib.isType '"String",
+                                      azureSubscription =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AzureAppConfigurationExport@10$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -5432,6 +5594,78 @@ let rec _js2n__-refsenv
                                     [
                                       "appName",
                                       "appType",
+                                      "connectedServiceNameARM"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      appName =
+                                        _js2n__-prdslib.isType '"String",
+                                      appSettings =
+                                        _js2n__-prdslib.isType '"String",
+                                      appType =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "functionApp",
+                                              "functionAppLinux"
+                                            ],
+                                      connectedServiceNameARM =
+                                        _js2n__-prdslib.isType '"String",
+                                      deployToSlotOrASE =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      deploymentMethod =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "auto",
+                                              "zipDeploy",
+                                              "runFromPackage"
+                                            ],
+                                      isFlexConsumption =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      package =
+                                        _js2n__-prdslib.isType '"String",
+                                      resourceGroupName =
+                                        _js2n__-prdslib.isType '"String",
+                                      runtimeStack =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "DOTNET|6.0",
+                                              "DOTNET-ISOLATED|6.0",
+                                              "DOTNET-ISOLATED|7.0",
+                                              "DOTNET-ISOLATED|8.0",
+                                              "JAVA|8",
+                                              "JAVA|11",
+                                              "JAVA|17",
+                                              "JAVA|21",
+                                              "NODE|14",
+                                              "NODE|16",
+                                              "NODE|18",
+                                              "NODE|20",
+                                              "PYTHON|3.8",
+                                              "PYTHON|3.9",
+                                              "PYTHON|3.10",
+                                              "PYTHON|3.11"
+                                            ],
+                                      slotName =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AzureFunctionApp@2$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [
+                                      "appName",
+                                      "appType",
                                       "azureSubscription"
                                     ],
                                   _js2n__-prdslib.records.record
@@ -5468,20 +5702,22 @@ let rec _js2n__-refsenv
                                       runtimeStack =
                                         _js2n__-prdslib.enum
                                             [
-                                              "DOTNET|2.2",
-                                              "DOTNET|3.1",
                                               "DOTNET|6.0",
+                                              "DOTNET-ISOLATED|6.0",
+                                              "DOTNET-ISOLATED|7.0",
+                                              "DOTNET-ISOLATED|8.0",
                                               "JAVA|8",
                                               "JAVA|11",
-                                              "NODE|8",
-                                              "NODE|10",
-                                              "NODE|12",
+                                              "JAVA|17",
+                                              "JAVA|21",
                                               "NODE|14",
                                               "NODE|16",
-                                              "PYTHON|3.6",
-                                              "PYTHON|3.7",
+                                              "NODE|18",
+                                              "NODE|20",
                                               "PYTHON|3.8",
-                                              "PYTHON|3.9"
+                                              "PYTHON|3.9",
+                                              "PYTHON|3.10",
+                                              "PYTHON|3.11"
                                             ],
                                       slotName =
                                         _js2n__-prdslib.isType '"String",
@@ -5503,81 +5739,14 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.records.required
-                                    [
-                                      "appName",
-                                      "appType",
-                                      "connectedServiceNameARM"
-                                    ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      appName =
-                                        _js2n__-prdslib.isType '"String",
-                                      appSettings =
-                                        _js2n__-prdslib.isType '"String",
-                                      appType =
-                                        _js2n__-prdslib.enum
-                                            [
-                                              "functionApp",
-                                              "functionAppLinux"
-                                            ],
-                                      connectedServiceNameARM =
-                                        _js2n__-prdslib.isType '"String",
-                                      deployToSlotOrASE =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      deploymentMethod =
-                                        _js2n__-prdslib.enum
-                                            [
-                                              "auto",
-                                              "zipDeploy",
-                                              "runFromPackage"
-                                            ],
-                                      package =
-                                        _js2n__-prdslib.isType '"String",
-                                      resourceGroupName =
-                                        _js2n__-prdslib.isType '"String",
-                                      runtimeStack =
-                                        _js2n__-prdslib.enum
-                                            [
-                                              "DOTNET|2.2",
-                                              "DOTNET|3.1",
-                                              "DOTNET|6.0",
-                                              "DOTNET-ISOLATED|7.0",
-                                              "JAVA|8",
-                                              "JAVA|11",
-                                              "NODE|8",
-                                              "NODE|10",
-                                              "NODE|12",
-                                              "NODE|14",
-                                              "NODE|16",
-                                              "NODE|18",
-                                              "PYTHON|3.6",
-                                              "PYTHON|3.7",
-                                              "PYTHON|3.8",
-                                              "PYTHON|3.9",
-                                              "PYTHON|3.10"
-                                            ],
-                                      slotName =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^AzureFunctionApp@2$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
                                     [ "workingFile" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      azureDevOpsServiceConnection =
+                                        _js2n__-prdslib.isType '"String",
                                       customEndpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      feedUrl =
                                         _js2n__-prdslib.isType '"String",
                                       workingFile =
                                         _js2n__-prdslib.isType '"String",
@@ -5852,6 +6021,44 @@ let rec _js2n__-refsenv
                     ],
                   _js2n__-prdslib.allOf
                     [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [
+                                      "AppConfigurationEndpoint",
+                                      "Filters",
+                                      "SnapshotName",
+                                      "azureSubscription"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      AppConfigurationEndpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      CompositionType =
+                                        _js2n__-prdslib.enum
+                                            [ "key", "key_label" ],
+                                      Filters =
+                                        _js2n__-prdslib.isType '"String",
+                                      RetentionPeriod =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      SnapshotName =
+                                        _js2n__-prdslib.isType '"String",
+                                      Tags = _js2n__-prdslib.isType '"String",
+                                      azureSubscription =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AzureAppConfigurationSnapshot@1$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
                       _js2n__-prdslib.records.required [ "task" ],
                       _js2n__-prdslib.records.record
                         {
@@ -6072,6 +6279,10 @@ let rec _js2n__-refsenv
                                   selfSigned = _js2n__-prdslib.isType '"Bool",
                                   signatureFormat =
                                     _js2n__-prdslib.enum [ "cose", "jws" ],
+                                  timestampRootCert =
+                                    _js2n__-prdslib.isType '"String",
+                                  timestampURL =
+                                    _js2n__-prdslib.isType '"String",
                                   trustPolicy =
                                     _js2n__-prdslib.isType '"String",
                                   trustStore = _js2n__-prdslib.isType '"String",
@@ -6261,6 +6472,94 @@ let rec _js2n__-refsenv
                                 } {} false _js2n__-prdslib.never,
                           task =
                             _js2n__-prdslib.strings.pattern "^DockerCompose@0$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.records.record
+                                {
+                                  abortOnContainerExit =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  action =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "Build services",
+                                          "Push services",
+                                          "Run services",
+                                          "Run a specific service",
+                                          "Lock services",
+                                          "Write service image digests",
+                                          "Combine configuration",
+                                          "Run a Docker Compose command"
+                                        ],
+                                  additionalDockerComposeFiles =
+                                    _js2n__-prdslib.isType '"String",
+                                  additionalImageTags =
+                                    _js2n__-prdslib.isType '"String",
+                                  arguments = _js2n__-prdslib.isType '"String",
+                                  azureContainerRegistry =
+                                    _js2n__-prdslib.isType '"String",
+                                  azureSubscription =
+                                    _js2n__-prdslib.isType '"String",
+                                  baseResolveDirectory =
+                                    _js2n__-prdslib.isType '"String",
+                                  buildImages = _js2n__-prdslib.isType '"Bool",
+                                  containerCommand =
+                                    _js2n__-prdslib.isType '"String",
+                                  containerName =
+                                    _js2n__-prdslib.isType '"String",
+                                  containerregistrytype =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "Azure Container Registry",
+                                          "Container Registry"
+                                        ],
+                                  currentWorkingDirectory =
+                                    _js2n__-prdslib.isType '"String",
+                                  detached = _js2n__-prdslib.isType '"Bool",
+                                  dockerComposeCommand =
+                                    _js2n__-prdslib.isType '"String",
+                                  dockerComposeFile =
+                                    _js2n__-prdslib.isType '"String",
+                                  dockerComposeFileArgs =
+                                    _js2n__-prdslib.isType '"String",
+                                  dockerComposePath =
+                                    _js2n__-prdslib.isType '"String",
+                                  dockerHostEndpoint =
+                                    _js2n__-prdslib.isType '"String",
+                                  dockerRegistryEndpoint =
+                                    _js2n__-prdslib.isType '"String",
+                                  entrypoint = _js2n__-prdslib.isType '"String",
+                                  imageDigestComposeFile =
+                                    _js2n__-prdslib.isType '"String",
+                                  includeLatestTag =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  includeSourceTags =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  nopIfNoDockerComposeFile =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  outputDockerComposeFile =
+                                    _js2n__-prdslib.isType '"String",
+                                  ports = _js2n__-prdslib.isType '"String",
+                                  projectName =
+                                    _js2n__-prdslib.isType '"String",
+                                  qualifyImageNames =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  removeBuildOptions =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  requireAdditionalDockerComposeFiles =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  serviceName =
+                                    _js2n__-prdslib.isType '"String",
+                                  workingDirectory =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never,
+                          task =
+                            _js2n__-prdslib.strings.pattern "^DockerCompose@1$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -6498,25 +6797,9 @@ let rec _js2n__-refsenv
                                   args = _js2n__-prdslib.isType '"String",
                                   configuration =
                                     _js2n__-prdslib.isType '"String",
-                                  destinationDevices =
+                                  cwd = _js2n__-prdslib.isType '"String",
+                                  defaultKeychainPassword =
                                     _js2n__-prdslib.isType '"String",
-                                  destinationPlatform =
-                                    _js2n__-prdslib.isType '"String",
-                                  destinationPlatformOption =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "default",
-                                          "iOS",
-                                          "tvOS",
-                                          "macOS",
-                                          "custom"
-                                        ],
-                                  destinationSimulators =
-                                    _js2n__-prdslib.isType '"String",
-                                  destinationTypeOption =
-                                    _js2n__-prdslib.enum
-                                        [ "simulators", "devices" ],
-                                  exportArgs = _js2n__-prdslib.isType '"String",
                                   exportMethod =
                                     _js2n__-prdslib.isType '"String",
                                   exportOptions =
@@ -6527,51 +6810,43 @@ let rec _js2n__-refsenv
                                   exportPath = _js2n__-prdslib.isType '"String",
                                   exportTeamId =
                                     _js2n__-prdslib.isType '"String",
-                                  packageApp = _js2n__-prdslib.isType '"Bool",
-                                  provisioningProfileName =
+                                  iosSigningIdentity =
                                     _js2n__-prdslib.isType '"String",
-                                  provisioningProfileUuid =
+                                  outputPattern =
+                                    _js2n__-prdslib.isType '"String",
+                                  p12 = _js2n__-prdslib.isType '"String",
+                                  p12pwd = _js2n__-prdslib.isType '"String",
+                                  packageApp = _js2n__-prdslib.isType '"Bool",
+                                  packageTool =
+                                    _js2n__-prdslib.enum
+                                        [ "xcrun", "xcodebuild" ],
+                                  provProfile =
+                                    _js2n__-prdslib.isType '"String",
+                                  provProfileUuid =
                                     _js2n__-prdslib.isType '"String",
                                   publishJUnitResults =
                                     _js2n__-prdslib.isType '"Bool",
+                                  removeProfile =
+                                    _js2n__-prdslib.isType '"Bool",
                                   scheme = _js2n__-prdslib.isType '"String",
                                   sdk = _js2n__-prdslib.isType '"String",
-                                  signingIdentity =
-                                    _js2n__-prdslib.isType '"String",
-                                  signingOption =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "nosign",
-                                          "default",
-                                          "manual",
-                                          "auto"
-                                        ],
+                                  signMethod =
+                                    _js2n__-prdslib.enum [ "file", "id" ],
                                   teamId = _js2n__-prdslib.isType '"String",
-                                  testRunTitle =
-                                    _js2n__-prdslib.isType '"String",
+                                  unlockDefaultKeychain =
+                                    _js2n__-prdslib.isType '"Bool",
                                   useXcpretty = _js2n__-prdslib.isType '"Bool",
-                                  workingDirectory =
-                                    _js2n__-prdslib.isType '"String",
+                                  useXctool = _js2n__-prdslib.isType '"Bool",
                                   xcWorkspacePath =
                                     _js2n__-prdslib.isType '"String",
+                                  xcode8AutomaticSigning =
+                                    _js2n__-prdslib.isType '"Bool",
                                   xcodeDeveloperDir =
                                     _js2n__-prdslib.isType '"String",
-                                  xcodeVersion =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "8",
-                                          "9",
-                                          "10",
-                                          "11",
-                                          "12",
-                                          "13",
-                                          "default",
-                                          "specifyPath"
-                                        ],
-                                  xcprettyArgs =
+                                  xctoolReporter =
                                     _js2n__-prdslib.isType '"String",
                                 } {} false _js2n__-prdslib.never,
-                          task = _js2n__-prdslib.strings.pattern "^Xcode@5$",
+                          task = _js2n__-prdslib.strings.pattern "^Xcode@2$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -6726,9 +7001,25 @@ let rec _js2n__-refsenv
                                   args = _js2n__-prdslib.isType '"String",
                                   configuration =
                                     _js2n__-prdslib.isType '"String",
-                                  cwd = _js2n__-prdslib.isType '"String",
-                                  defaultKeychainPassword =
+                                  destinationDevices =
                                     _js2n__-prdslib.isType '"String",
+                                  destinationPlatform =
+                                    _js2n__-prdslib.isType '"String",
+                                  destinationPlatformOption =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "default",
+                                          "iOS",
+                                          "tvOS",
+                                          "macOS",
+                                          "custom"
+                                        ],
+                                  destinationSimulators =
+                                    _js2n__-prdslib.isType '"String",
+                                  destinationTypeOption =
+                                    _js2n__-prdslib.enum
+                                        [ "simulators", "devices" ],
+                                  exportArgs = _js2n__-prdslib.isType '"String",
                                   exportMethod =
                                     _js2n__-prdslib.isType '"String",
                                   exportOptions =
@@ -6739,43 +7030,51 @@ let rec _js2n__-refsenv
                                   exportPath = _js2n__-prdslib.isType '"String",
                                   exportTeamId =
                                     _js2n__-prdslib.isType '"String",
-                                  iosSigningIdentity =
-                                    _js2n__-prdslib.isType '"String",
-                                  outputPattern =
-                                    _js2n__-prdslib.isType '"String",
-                                  p12 = _js2n__-prdslib.isType '"String",
-                                  p12pwd = _js2n__-prdslib.isType '"String",
                                   packageApp = _js2n__-prdslib.isType '"Bool",
-                                  packageTool =
-                                    _js2n__-prdslib.enum
-                                        [ "xcrun", "xcodebuild" ],
-                                  provProfile =
+                                  provisioningProfileName =
                                     _js2n__-prdslib.isType '"String",
-                                  provProfileUuid =
+                                  provisioningProfileUuid =
                                     _js2n__-prdslib.isType '"String",
                                   publishJUnitResults =
                                     _js2n__-prdslib.isType '"Bool",
-                                  removeProfile =
-                                    _js2n__-prdslib.isType '"Bool",
                                   scheme = _js2n__-prdslib.isType '"String",
                                   sdk = _js2n__-prdslib.isType '"String",
-                                  signMethod =
-                                    _js2n__-prdslib.enum [ "file", "id" ],
+                                  signingIdentity =
+                                    _js2n__-prdslib.isType '"String",
+                                  signingOption =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "nosign",
+                                          "default",
+                                          "manual",
+                                          "auto"
+                                        ],
                                   teamId = _js2n__-prdslib.isType '"String",
-                                  unlockDefaultKeychain =
-                                    _js2n__-prdslib.isType '"Bool",
+                                  testRunTitle =
+                                    _js2n__-prdslib.isType '"String",
                                   useXcpretty = _js2n__-prdslib.isType '"Bool",
-                                  useXctool = _js2n__-prdslib.isType '"Bool",
+                                  workingDirectory =
+                                    _js2n__-prdslib.isType '"String",
                                   xcWorkspacePath =
                                     _js2n__-prdslib.isType '"String",
-                                  xcode8AutomaticSigning =
-                                    _js2n__-prdslib.isType '"Bool",
                                   xcodeDeveloperDir =
                                     _js2n__-prdslib.isType '"String",
-                                  xctoolReporter =
+                                  xcodeVersion =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "8",
+                                          "9",
+                                          "10",
+                                          "11",
+                                          "12",
+                                          "13",
+                                          "default",
+                                          "specifyPath"
+                                        ],
+                                  xcprettyArgs =
                                     _js2n__-prdslib.isType '"String",
                                 } {} false _js2n__-prdslib.never,
-                          task = _js2n__-prdslib.strings.pattern "^Xcode@2$",
+                          task = _js2n__-prdslib.strings.pattern "^Xcode@5$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -6974,11 +7273,10 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"String",
                                       key = _js2n__-prdslib.isType '"String",
                                       path = _js2n__-prdslib.isType '"String",
-                                      restoreKeys =
-                                        _js2n__-prdslib.isType '"String",
                                     } {} false _js2n__-prdslib.never
                                 ],
-                          task = _js2n__-prdslib.strings.pattern "^Cache@2$",
+                          task =
+                            _js2n__-prdslib.strings.pattern "^CacheBeta@0$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -6997,10 +7295,11 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"String",
                                       key = _js2n__-prdslib.isType '"String",
                                       path = _js2n__-prdslib.isType '"String",
+                                      restoreKeys =
+                                        _js2n__-prdslib.isType '"String",
                                     } {} false _js2n__-prdslib.never
                                 ],
-                          task =
-                            _js2n__-prdslib.strings.pattern "^CacheBeta@0$",
+                          task = _js2n__-prdslib.strings.pattern "^Cache@2$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -7967,6 +8266,37 @@ let rec _js2n__-refsenv
                                   args = _js2n__-prdslib.isType '"String",
                                   buildForSimulator =
                                     _js2n__-prdslib.isType '"Bool",
+                                  clean = _js2n__-prdslib.isType '"Bool",
+                                  configuration =
+                                    _js2n__-prdslib.isType '"String",
+                                  mdtoolFile = _js2n__-prdslib.isType '"String",
+                                  packageApp = _js2n__-prdslib.isType '"Bool",
+                                  runNugetRestore =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  signingIdentity =
+                                    _js2n__-prdslib.isType '"String",
+                                  signingProvisioningProfileID =
+                                    _js2n__-prdslib.isType '"String",
+                                  solutionFile =
+                                    _js2n__-prdslib.isType '"String",
+                                  workingDirectory =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never,
+                          task =
+                            _js2n__-prdslib.strings.pattern "^XamariniOS@2$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.records.record
+                                {
+                                  args = _js2n__-prdslib.isType '"String",
+                                  buildForSimulator =
+                                    _js2n__-prdslib.isType '"Bool",
                                   buildToolOption =
                                     _js2n__-prdslib.enum
                                         [ "xbuild", "msbuild" ],
@@ -8002,37 +8332,6 @@ let rec _js2n__-refsenv
                                 } {} false _js2n__-prdslib.never,
                           task =
                             _js2n__-prdslib.strings.pattern "^XamariniOS@1$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.records.record
-                                {
-                                  args = _js2n__-prdslib.isType '"String",
-                                  buildForSimulator =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  clean = _js2n__-prdslib.isType '"Bool",
-                                  configuration =
-                                    _js2n__-prdslib.isType '"String",
-                                  mdtoolFile = _js2n__-prdslib.isType '"String",
-                                  packageApp = _js2n__-prdslib.isType '"Bool",
-                                  runNugetRestore =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  signingIdentity =
-                                    _js2n__-prdslib.isType '"String",
-                                  signingProvisioningProfileID =
-                                    _js2n__-prdslib.isType '"String",
-                                  solutionFile =
-                                    _js2n__-prdslib.isType '"String",
-                                  workingDirectory =
-                                    _js2n__-prdslib.isType '"String",
-                                } {} false _js2n__-prdslib.never,
-                          task =
-                            _js2n__-prdslib.strings.pattern "^XamariniOS@2$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -8104,69 +8403,6 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^PublishTestResults@2$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
-                                    [
-                                      "Destination",
-                                      "SourcePath",
-                                      "azureSubscription",
-                                      "storage"
-                                    ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      AdditionalArgumentsForBlobCopy =
-                                        _js2n__-prdslib.isType '"String",
-                                      AdditionalArgumentsForVMCopy =
-                                        _js2n__-prdslib.isType '"String",
-                                      BlobPrefix =
-                                        _js2n__-prdslib.isType '"String",
-                                      CleanTargetBeforeCopy =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      ContainerName =
-                                        _js2n__-prdslib.isType '"String",
-                                      CopyFilesInParallel =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      Destination =
-                                        _js2n__-prdslib.enum
-                                            [ "AzureBlob", "AzureVMs" ],
-                                      MachineNames =
-                                        _js2n__-prdslib.isType '"String",
-                                      ResourceFilteringMethod =
-                                        _js2n__-prdslib.enum
-                                            [ "machineNames", "tags" ],
-                                      SourcePath =
-                                        _js2n__-prdslib.isType '"String",
-                                      TargetPath =
-                                        _js2n__-prdslib.isType '"String",
-                                      azureSubscription =
-                                        _js2n__-prdslib.isType '"String",
-                                      enableCopyPrerequisites =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      resourceGroup =
-                                        _js2n__-prdslib.isType '"String",
-                                      sasTokenTimeOutInMinutes =
-                                        _js2n__-prdslib.isType '"String",
-                                      skipCACheck =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      storage =
-                                        _js2n__-prdslib.isType '"String",
-                                      vmsAdminPassword =
-                                        _js2n__-prdslib.isType '"String",
-                                      vmsAdminUserName =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern "^AzureFileCopy@5$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -8443,6 +8679,130 @@ let rec _js2n__-refsenv
                     ],
                   _js2n__-prdslib.allOf
                     [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [
+                                      "Destination",
+                                      "SourcePath",
+                                      "azureSubscription",
+                                      "storage"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      AdditionalArgumentsForBlobCopy =
+                                        _js2n__-prdslib.isType '"String",
+                                      AdditionalArgumentsForVMCopy =
+                                        _js2n__-prdslib.isType '"String",
+                                      BlobPrefix =
+                                        _js2n__-prdslib.isType '"String",
+                                      CleanTargetBeforeCopy =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      ContainerName =
+                                        _js2n__-prdslib.isType '"String",
+                                      CopyFilesInParallel =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      Destination =
+                                        _js2n__-prdslib.enum
+                                            [ "AzureBlob", "AzureVMs" ],
+                                      MachineNames =
+                                        _js2n__-prdslib.isType '"String",
+                                      ResourceFilteringMethod =
+                                        _js2n__-prdslib.enum
+                                            [ "machineNames", "tags" ],
+                                      SourcePath =
+                                        _js2n__-prdslib.isType '"String",
+                                      TargetPath =
+                                        _js2n__-prdslib.isType '"String",
+                                      azureSubscription =
+                                        _js2n__-prdslib.isType '"String",
+                                      enableCopyPrerequisites =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      resourceGroup =
+                                        _js2n__-prdslib.isType '"String",
+                                      sasTokenTimeOutInMinutes =
+                                        _js2n__-prdslib.isType '"String",
+                                      skipCACheck =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      storage =
+                                        _js2n__-prdslib.isType '"String",
+                                      vmsAdminPassword =
+                                        _js2n__-prdslib.isType '"String",
+                                      vmsAdminUserName =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern "^AzureFileCopy@5$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [
+                                      "Destination",
+                                      "SourcePath",
+                                      "azureSubscription",
+                                      "storage"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      AdditionalArgumentsForBlobCopy =
+                                        _js2n__-prdslib.isType '"String",
+                                      AdditionalArgumentsForVMCopy =
+                                        _js2n__-prdslib.isType '"String",
+                                      BlobPrefix =
+                                        _js2n__-prdslib.isType '"String",
+                                      CleanTargetBeforeCopy =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      ContainerName =
+                                        _js2n__-prdslib.isType '"String",
+                                      CopyFilesInParallel =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      Destination =
+                                        _js2n__-prdslib.enum
+                                            [ "AzureBlob", "AzureVMs" ],
+                                      MachineNames =
+                                        _js2n__-prdslib.isType '"String",
+                                      ResourceFilteringMethod =
+                                        _js2n__-prdslib.enum
+                                            [ "machineNames", "tags" ],
+                                      SourcePath =
+                                        _js2n__-prdslib.isType '"String",
+                                      TargetPath =
+                                        _js2n__-prdslib.isType '"String",
+                                      azureSubscription =
+                                        _js2n__-prdslib.isType '"String",
+                                      enableCopyPrerequisites =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      resourceGroup =
+                                        _js2n__-prdslib.isType '"String",
+                                      skipCACheck =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      storage =
+                                        _js2n__-prdslib.isType '"String",
+                                      vmsAdminPassword =
+                                        _js2n__-prdslib.isType '"String",
+                                      vmsAdminUserName =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern "^AzureFileCopy@6$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
                       _js2n__-prdslib.records.required [ "task" ],
                       _js2n__-prdslib.records.record
                         {
@@ -8451,6 +8811,8 @@ let rec _js2n__-refsenv
                                 {
                                   CompressSymbols =
                                     _js2n__-prdslib.isType '"Bool",
+                                  ConnectedServiceName =
+                                    _js2n__-prdslib.isType '"String",
                                   DetailedLog = _js2n__-prdslib.isType '"Bool",
                                   IndexSources = _js2n__-prdslib.isType '"Bool",
                                   IndexableFileFormats =
@@ -8539,7 +8901,11 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"Bool",
                                       cleanTargetFolder =
                                         _js2n__-prdslib.isType '"Bool",
+                                      concurrentUploads =
+                                        _js2n__-prdslib.isType '"String",
                                       contents =
+                                        _js2n__-prdslib.isType '"String",
+                                      delayBetweenUploads =
                                         _js2n__-prdslib.isType '"String",
                                       failOnEmptySource =
                                         _js2n__-prdslib.isType '"Bool",
@@ -8562,87 +8928,6 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^CopyFilesOverSSH@0$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.records.record
-                                {
-                                  checkStyleRunAnalysis =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  codeCoverageClassFilesDirectories =
-                                    _js2n__-prdslib.isType '"String",
-                                  codeCoverageClassFilter =
-                                    _js2n__-prdslib.isType '"String",
-                                  codeCoverageFailIfEmpty =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  codeCoverageToolOption =
-                                    _js2n__-prdslib.enum
-                                        [ "None", "Cobertura", "JaCoCo" ],
-                                  findBugsRunAnalysis =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  gradleOptions =
-                                    _js2n__-prdslib.isType '"String",
-                                  gradleWrapperFile =
-                                    _js2n__-prdslib.isType '"String",
-                                  javaHomeOption =
-                                    _js2n__-prdslib.enum
-                                        [ "JDKVersion", "Path" ],
-                                  jdkArchitectureOption =
-                                    _js2n__-prdslib.enum [ "x86", "x64" ],
-                                  jdkDirectory =
-                                    _js2n__-prdslib.isType '"String",
-                                  jdkVersionOption =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "default",
-                                          "1.9",
-                                          "1.8",
-                                          "1.7",
-                                          "1.6"
-                                        ],
-                                  options = _js2n__-prdslib.isType '"String",
-                                  pmdRunAnalysis =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  publishJUnitResults =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  sonarQubeDBPassword =
-                                    _js2n__-prdslib.isType '"String",
-                                  sonarQubeDBUrl =
-                                    _js2n__-prdslib.isType '"String",
-                                  sonarQubeDBUsername =
-                                    _js2n__-prdslib.isType '"String",
-                                  sonarQubeFailWhenQualityGateFails =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  sonarQubeGradlePluginVersion =
-                                    _js2n__-prdslib.isType '"String",
-                                  sonarQubeIncludeFullReport =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  sonarQubeProjectKey =
-                                    _js2n__-prdslib.isType '"String",
-                                  sonarQubeProjectName =
-                                    _js2n__-prdslib.isType '"String",
-                                  sonarQubeProjectVersion =
-                                    _js2n__-prdslib.isType '"String",
-                                  sonarQubeRunAnalysis =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  sonarQubeServiceEndpoint =
-                                    _js2n__-prdslib.isType '"String",
-                                  sonarQubeSpecifyDB =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  tasks = _js2n__-prdslib.isType '"String",
-                                  testResultsFiles =
-                                    _js2n__-prdslib.isType '"String",
-                                  testRunTitle =
-                                    _js2n__-prdslib.isType '"String",
-                                  workingDirectory =
-                                    _js2n__-prdslib.isType '"String",
-                                } {} false _js2n__-prdslib.never,
-                          task = _js2n__-prdslib.strings.pattern "^Gradle@1$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -8795,48 +9080,83 @@ let rec _js2n__-refsenv
                     ],
                   _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.required [ "task" ],
                       _js2n__-prdslib.records.record
                         {
                           inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
-                                    [ "appFile", "appSlug", "serverEndpoint" ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      appFile =
-                                        _js2n__-prdslib.isType '"String",
-                                      appSlug =
-                                        _js2n__-prdslib.isType '"String",
-                                      distributionGroupId =
-                                        _js2n__-prdslib.isType '"String",
-                                      releaseNotesFile =
-                                        _js2n__-prdslib.isType '"String",
-                                      releaseNotesInput =
-                                        _js2n__-prdslib.isType '"String",
-                                      releaseNotesOption =
-                                        _js2n__-prdslib.enum
-                                            [ "input", "file" ],
-                                      serverEndpoint =
-                                        _js2n__-prdslib.isType '"String",
-                                      symbolsDsymFiles =
-                                        _js2n__-prdslib.isType '"String",
-                                      symbolsIncludeParentDirectory =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      symbolsMappingTxtFile =
-                                        _js2n__-prdslib.isType '"String",
-                                      symbolsOption =
-                                        _js2n__-prdslib.enum [ "Apple" ],
-                                      symbolsPath =
-                                        _js2n__-prdslib.isType '"String",
-                                      symbolsPdbFiles =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^AppCenterDistribute@0$",
+                            _js2n__-prdslib.records.record
+                                {
+                                  checkStyleRunAnalysis =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  codeCoverageClassFilesDirectories =
+                                    _js2n__-prdslib.isType '"String",
+                                  codeCoverageClassFilter =
+                                    _js2n__-prdslib.isType '"String",
+                                  codeCoverageFailIfEmpty =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  codeCoverageToolOption =
+                                    _js2n__-prdslib.enum
+                                        [ "None", "Cobertura", "JaCoCo" ],
+                                  findBugsRunAnalysis =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  gradleOptions =
+                                    _js2n__-prdslib.isType '"String",
+                                  gradleWrapperFile =
+                                    _js2n__-prdslib.isType '"String",
+                                  javaHomeOption =
+                                    _js2n__-prdslib.enum
+                                        [ "JDKVersion", "Path" ],
+                                  jdkArchitectureOption =
+                                    _js2n__-prdslib.enum [ "x86", "x64" ],
+                                  jdkDirectory =
+                                    _js2n__-prdslib.isType '"String",
+                                  jdkVersionOption =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "default",
+                                          "1.9",
+                                          "1.8",
+                                          "1.7",
+                                          "1.6"
+                                        ],
+                                  options = _js2n__-prdslib.isType '"String",
+                                  pmdRunAnalysis =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  publishJUnitResults =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  sonarQubeDBPassword =
+                                    _js2n__-prdslib.isType '"String",
+                                  sonarQubeDBUrl =
+                                    _js2n__-prdslib.isType '"String",
+                                  sonarQubeDBUsername =
+                                    _js2n__-prdslib.isType '"String",
+                                  sonarQubeFailWhenQualityGateFails =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  sonarQubeGradlePluginVersion =
+                                    _js2n__-prdslib.isType '"String",
+                                  sonarQubeIncludeFullReport =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  sonarQubeProjectKey =
+                                    _js2n__-prdslib.isType '"String",
+                                  sonarQubeProjectName =
+                                    _js2n__-prdslib.isType '"String",
+                                  sonarQubeProjectVersion =
+                                    _js2n__-prdslib.isType '"String",
+                                  sonarQubeRunAnalysis =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  sonarQubeServiceEndpoint =
+                                    _js2n__-prdslib.isType '"String",
+                                  sonarQubeSpecifyDB =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  tasks = _js2n__-prdslib.isType '"String",
+                                  testResultsFiles =
+                                    _js2n__-prdslib.isType '"String",
+                                  testRunTitle =
+                                    _js2n__-prdslib.isType '"String",
+                                  workingDirectory =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never,
+                          task = _js2n__-prdslib.strings.pattern "^Gradle@1$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -8992,6 +9312,52 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^AppCenterDistribute@3$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "appFile", "appSlug", "serverEndpoint" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      appFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      appSlug =
+                                        _js2n__-prdslib.isType '"String",
+                                      distributionGroupId =
+                                        _js2n__-prdslib.isType '"String",
+                                      releaseNotesFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      releaseNotesInput =
+                                        _js2n__-prdslib.isType '"String",
+                                      releaseNotesOption =
+                                        _js2n__-prdslib.enum
+                                            [ "input", "file" ],
+                                      serverEndpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      symbolsDsymFiles =
+                                        _js2n__-prdslib.isType '"String",
+                                      symbolsIncludeParentDirectory =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      symbolsMappingTxtFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      symbolsOption =
+                                        _js2n__-prdslib.enum [ "Apple" ],
+                                      symbolsPath =
+                                        _js2n__-prdslib.isType '"String",
+                                      symbolsPdbFiles =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AppCenterDistribute@0$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -9273,6 +9639,161 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.records.required
+                                    [
+                                      "azureContainerRegistry",
+                                      "azureResourceGroupForACR",
+                                      "azureSubscriptionForACR"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      arguments =
+                                        _js2n__-prdslib.isType '"String",
+                                      azureContainerRegistry =
+                                        _js2n__-prdslib.isType '"String",
+                                      azureResourceGroup =
+                                        _js2n__-prdslib.isType '"String",
+                                      azureResourceGroupForACR =
+                                        _js2n__-prdslib.isType '"String",
+                                      azureSubscription =
+                                        _js2n__-prdslib.isType '"String",
+                                      azureSubscriptionForACR =
+                                        _js2n__-prdslib.isType '"String",
+                                      caCert = _js2n__-prdslib.isType '"String",
+                                      canaryImage =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      certificate =
+                                        _js2n__-prdslib.isType '"String",
+                                      chartName =
+                                        _js2n__-prdslib.isType '"String",
+                                      chartNameForACR =
+                                        _js2n__-prdslib.isType '"String",
+                                      chartPath =
+                                        _js2n__-prdslib.isType '"String",
+                                      chartPathForACR =
+                                        _js2n__-prdslib.isType '"String",
+                                      chartType =
+                                        _js2n__-prdslib.enum
+                                            [ "Name", "FilePath" ],
+                                      chartVersion =
+                                        _js2n__-prdslib.isType '"String",
+                                      command =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "create",
+                                              "delete",
+                                              "expose",
+                                              "get",
+                                              "init",
+                                              "install",
+                                              "login",
+                                              "logout",
+                                              "ls",
+                                              "package",
+                                              "push",
+                                              "rollback",
+                                              "upgrade",
+                                              "uninstall"
+                                            ],
+                                      connectionType =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "Azure Resource Manager",
+                                              "Kubernetes Service Connection",
+                                              "None"
+                                            ],
+                                      destination =
+                                        _js2n__-prdslib.isType '"String",
+                                      enableTls =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      failOnStderr =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      "force" = _js2n__-prdslib.isType '"Bool",
+                                      install = _js2n__-prdslib.isType '"Bool",
+                                      kubernetesCluster =
+                                        _js2n__-prdslib.isType '"String",
+                                      kubernetesServiceConnection =
+                                        _js2n__-prdslib.isType '"String",
+                                      namespace =
+                                        _js2n__-prdslib.isType '"String",
+                                      overrideValues =
+                                        _js2n__-prdslib.isType '"String",
+                                      privatekey =
+                                        _js2n__-prdslib.isType '"String",
+                                      publishPipelineMetadata =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      recreate = _js2n__-prdslib.isType '"Bool",
+                                      releaseName =
+                                        _js2n__-prdslib.isType '"String",
+                                      resetValues =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      save = _js2n__-prdslib.isType '"Bool",
+                                      tillerNamespace =
+                                        _js2n__-prdslib.isType '"String",
+                                      updateDependency =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      upgradeTiller =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      useClusterAdmin =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      valueFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      waitForExecution =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern "^HelmDeploy@1$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "certSecureFile" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      certPwd =
+                                        _js2n__-prdslib.isType '"String",
+                                      certSecureFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      customKeychainPath =
+                                        _js2n__-prdslib.isType '"String",
+                                      deleteCert =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      deleteCustomKeychain =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      keychain =
+                                        _js2n__-prdslib.enum
+                                            [ "default", "temp", "custom" ],
+                                      keychainPassword =
+                                        _js2n__-prdslib.isType '"String",
+                                      opensslPkcsArgs =
+                                        _js2n__-prdslib.isType '"String",
+                                      setUpPartitionIdACLForPrivateKey =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      signingIdentity =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^InstallAppleCertificate@2$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
                                     [ "certSecureFile" ],
                                   _js2n__-prdslib.records.record
                                     {
@@ -9334,46 +9855,6 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^InstallAppleCertificate@0$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
-                                    [ "certSecureFile" ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      certPwd =
-                                        _js2n__-prdslib.isType '"String",
-                                      certSecureFile =
-                                        _js2n__-prdslib.isType '"String",
-                                      customKeychainPath =
-                                        _js2n__-prdslib.isType '"String",
-                                      deleteCert =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      deleteCustomKeychain =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      keychain =
-                                        _js2n__-prdslib.enum
-                                            [ "default", "temp", "custom" ],
-                                      keychainPassword =
-                                        _js2n__-prdslib.isType '"String",
-                                      opensslPkcsArgs =
-                                        _js2n__-prdslib.isType '"String",
-                                      setUpPartitionIdACLForPrivateKey =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      signingIdentity =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^InstallAppleCertificate@2$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -10064,6 +10545,31 @@ let rec _js2n__-refsenv
                     ],
                   _js2n__-prdslib.allOf
                     [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "targetPath" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      artifactName =
+                                        _js2n__-prdslib.isType '"String",
+                                      pipelineId =
+                                        _js2n__-prdslib.isType '"String",
+                                      targetPath =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^DownloadPipelineArtifact@0$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
                       _js2n__-prdslib.records.required [ "task" ],
                       _js2n__-prdslib.records.record
                         {
@@ -10100,31 +10606,6 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^DownloadPipelineArtifact@2$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
-                                    [ "targetPath" ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      artifactName =
-                                        _js2n__-prdslib.isType '"String",
-                                      pipelineId =
-                                        _js2n__-prdslib.isType '"String",
-                                      targetPath =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^DownloadPipelineArtifact@0$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -10386,6 +10867,8 @@ let rec _js2n__-refsenv
                           inputs =
                             _js2n__-prdslib.records.record
                                 {
+                                  azureSubscription =
+                                    _js2n__-prdslib.isType '"String",
                                   batchingBasedOnAgentsOption =
                                     _js2n__-prdslib.enum
                                         [ "autoBatchSize", "customBatchSize" ],
@@ -10520,6 +11003,34 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^ManualValidation@0$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "notifyUsers" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      approvers =
+                                        _js2n__-prdslib.isType '"String",
+                                      instructions =
+                                        _js2n__-prdslib.isType '"String",
+                                      notifyUsers =
+                                        _js2n__-prdslib.isType '"String",
+                                      onTimeout =
+                                        _js2n__-prdslib.enum
+                                            [ "reject", "resume" ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^ManualValidation@1$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -10866,7 +11377,7 @@ let rec _js2n__-refsenv
                                     } {} false _js2n__-prdslib.never
                                 ],
                           task =
-                            _js2n__-prdslib.strings.pattern "^AzureKeyVault@2$",
+                            _js2n__-prdslib.strings.pattern "^AzureKeyVault@1$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -10892,7 +11403,7 @@ let rec _js2n__-refsenv
                                     } {} false _js2n__-prdslib.never
                                 ],
                           task =
-                            _js2n__-prdslib.strings.pattern "^AzureKeyVault@1$",
+                            _js2n__-prdslib.strings.pattern "^AzureKeyVault@2$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -10903,23 +11414,13 @@ let rec _js2n__-refsenv
                           inputs =
                             _js2n__-prdslib.records.record
                                 {
-                                  includePreviewVersions =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  installationPath =
-                                    _js2n__-prdslib.isType '"String",
                                   packageType =
                                     _js2n__-prdslib.enum [ "runtime", "sdk" ],
-                                  performMultiLevelLookup =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  useGlobalJson =
-                                    _js2n__-prdslib.isType '"Bool",
                                   version = _js2n__-prdslib.isType '"String",
-                                  vsVersion = _js2n__-prdslib.isType '"String",
-                                  workingDirectory =
-                                    _js2n__-prdslib.isType '"String",
                                 } {} false _js2n__-prdslib.never,
                           task =
-                            _js2n__-prdslib.strings.pattern "^UseDotNet@2$",
+                            _js2n__-prdslib.strings.pattern
+                                "^DotNetCoreInstaller@0$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -10953,13 +11454,90 @@ let rec _js2n__-refsenv
                           inputs =
                             _js2n__-prdslib.records.record
                                 {
+                                  includePreviewVersions =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  installationPath =
+                                    _js2n__-prdslib.isType '"String",
                                   packageType =
                                     _js2n__-prdslib.enum [ "runtime", "sdk" ],
+                                  performMultiLevelLookup =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  requestTimeout =
+                                    _js2n__-prdslib.isType 'Integer,
+                                  useGlobalJson =
+                                    _js2n__-prdslib.isType '"Bool",
                                   version = _js2n__-prdslib.isType '"String",
+                                  vsVersion = _js2n__-prdslib.isType '"String",
+                                  workingDirectory =
+                                    _js2n__-prdslib.isType '"String",
                                 } {} false _js2n__-prdslib.never,
                           task =
+                            _js2n__-prdslib.strings.pattern "^UseDotNet@2$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [
+                                      "AppConfigurationEndpoint",
+                                      "ConfigurationFile",
+                                      "azureSubscription"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      AppConfigurationEndpoint =
+                                        _js2n__-prdslib.isType '"String",
+                                      ConfigurationFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      ContentType =
+                                        _js2n__-prdslib.isType '"String",
+                                      Depth = _js2n__-prdslib.isType '"String",
+                                      DryRun = _js2n__-prdslib.isType '"Bool",
+                                      ExcludeFeatureFlags =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      FileContentProfile =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "appconfig/default",
+                                              "appconfig/kvset"
+                                            ],
+                                      FileFormat =
+                                        _js2n__-prdslib.enum
+                                            [ "json", "yaml", "properties" ],
+                                      ImportMode =
+                                        _js2n__-prdslib.enum
+                                            [ "All", "Ignore-Match" ],
+                                      Label = _js2n__-prdslib.isType '"String",
+                                      Prefix = _js2n__-prdslib.isType '"String",
+                                      Separator =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              ".",
+                                              "/",
+                                              ":",
+                                              ";",
+                                              ",",
+                                              "-",
+                                              "_",
+                                              "__"
+                                            ],
+                                      Strict = _js2n__-prdslib.isType '"Bool",
+                                      Tags = _js2n__-prdslib.isType '"String",
+                                      UseFilePathExtension =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      azureSubscription =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
                             _js2n__-prdslib.strings.pattern
-                                "^DotNetCoreInstaller@0$",
+                                "^AzureAppConfigurationImport@10$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -11287,165 +11865,6 @@ let rec _js2n__-refsenv
                     ],
                   _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.records.required [ "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.records.record
-                                {
-                                  ConnectedServiceName =
-                                    _js2n__-prdslib.isType '"String",
-                                  ConnectedServiceNameClassic =
-                                    _js2n__-prdslib.isType '"String",
-                                  ConnectedServiceNameSelector =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "ConnectedServiceName",
-                                          "ConnectedServiceNameClassic"
-                                        ],
-                                  action =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "Create Or Update Resource Group",
-                                          "Select Resource Group",
-                                          "Start",
-                                          "Stop",
-                                          "Restart",
-                                          "Delete",
-                                          "DeleteRG"
-                                        ],
-                                  actionClassic =
-                                    _js2n__-prdslib.enum
-                                        [ "Select Resource Group" ],
-                                  cloudService =
-                                    _js2n__-prdslib.isType '"String",
-                                  csmFile = _js2n__-prdslib.isType '"String",
-                                  csmParametersFile =
-                                    _js2n__-prdslib.isType '"String",
-                                  deploymentMode =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "Validation",
-                                          "Incremental",
-                                          "Complete"
-                                        ],
-                                  enableDeploymentPrerequisitesForCreate =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  enableDeploymentPrerequisitesForSelect =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  location =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "Australia East",
-                                          "Australia Southeast",
-                                          "Brazil South",
-                                          "Canada Central",
-                                          "Canada East",
-                                          "Central India",
-                                          "Central US",
-                                          "East Asia",
-                                          "East US",
-                                          "East US 2 ",
-                                          "Japan East",
-                                          "Japan West",
-                                          "North Central US",
-                                          "North Europe",
-                                          "South Central US",
-                                          "South India",
-                                          "Southeast Asia",
-                                          "UK South",
-                                          "UK West",
-                                          "West Central US",
-                                          "West Europe",
-                                          "West India",
-                                          "West US",
-                                          "West US 2"
-                                        ],
-                                  outputVariable =
-                                    _js2n__-prdslib.isType '"String",
-                                  overrideParameters =
-                                    _js2n__-prdslib.isType '"String",
-                                  resourceGroupName =
-                                    _js2n__-prdslib.isType '"String",
-                                } {} false _js2n__-prdslib.never,
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^AzureResourceGroupDeployment@1$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
-                                    [ "azureResourceManagerConnection" ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      action =
-                                        _js2n__-prdslib.enum
-                                            [
-                                              "Create Or Update Resource Group",
-                                              "DeleteRG"
-                                            ],
-                                      addSpnToEnvironment =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      azureResourceManagerConnection =
-                                        _js2n__-prdslib.isType '"String",
-                                      csmFile =
-                                        _js2n__-prdslib.isType '"String",
-                                      csmFileLink =
-                                        _js2n__-prdslib.isType '"String",
-                                      csmParametersFile =
-                                        _js2n__-prdslib.isType '"String",
-                                      csmParametersFileLink =
-                                        _js2n__-prdslib.isType '"String",
-                                      deploymentMode =
-                                        _js2n__-prdslib.enum
-                                            [
-                                              "Incremental",
-                                              "Complete",
-                                              "Validation"
-                                            ],
-                                      deploymentName =
-                                        _js2n__-prdslib.isType '"String",
-                                      deploymentOutputs =
-                                        _js2n__-prdslib.isType '"String",
-                                      deploymentScope =
-                                        _js2n__-prdslib.enum
-                                            [
-                                              "Management Group",
-                                              "Subscription",
-                                              "Resource Group"
-                                            ],
-                                      location =
-                                        _js2n__-prdslib.isType '"String",
-                                      overrideParameters =
-                                        _js2n__-prdslib.isType '"String",
-                                      resourceGroupName =
-                                        _js2n__-prdslib.isType '"String",
-                                      subscriptionId =
-                                        _js2n__-prdslib.isType '"String",
-                                      templateLocation =
-                                        _js2n__-prdslib.enum
-                                            [
-                                              "Linked artifact",
-                                              "URL of the file"
-                                            ],
-                                      useWithoutJSON =
-                                        _js2n__-prdslib.isType '"Bool",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^AzureResourceManagerTemplateDeployment@3$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
                       _js2n__-prdslib.records.required [ "inputs", "task" ],
                       _js2n__-prdslib.records.record
                         {
@@ -11547,6 +11966,165 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.records.required
+                                    [ "azureResourceManagerConnection" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      action =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "Create Or Update Resource Group",
+                                              "DeleteRG"
+                                            ],
+                                      addSpnToEnvironment =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      azureResourceManagerConnection =
+                                        _js2n__-prdslib.isType '"String",
+                                      csmFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      csmFileLink =
+                                        _js2n__-prdslib.isType '"String",
+                                      csmParametersFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      csmParametersFileLink =
+                                        _js2n__-prdslib.isType '"String",
+                                      deploymentMode =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "Incremental",
+                                              "Complete",
+                                              "Validation"
+                                            ],
+                                      deploymentName =
+                                        _js2n__-prdslib.isType '"String",
+                                      deploymentOutputs =
+                                        _js2n__-prdslib.isType '"String",
+                                      deploymentScope =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "Management Group",
+                                              "Subscription",
+                                              "Resource Group"
+                                            ],
+                                      location =
+                                        _js2n__-prdslib.isType '"String",
+                                      overrideParameters =
+                                        _js2n__-prdslib.isType '"String",
+                                      resourceGroupName =
+                                        _js2n__-prdslib.isType '"String",
+                                      subscriptionId =
+                                        _js2n__-prdslib.isType '"String",
+                                      templateLocation =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "Linked artifact",
+                                              "URL of the file"
+                                            ],
+                                      useWithoutJSON =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AzureResourceManagerTemplateDeployment@3$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.records.record
+                                {
+                                  ConnectedServiceName =
+                                    _js2n__-prdslib.isType '"String",
+                                  ConnectedServiceNameClassic =
+                                    _js2n__-prdslib.isType '"String",
+                                  ConnectedServiceNameSelector =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "ConnectedServiceName",
+                                          "ConnectedServiceNameClassic"
+                                        ],
+                                  action =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "Create Or Update Resource Group",
+                                          "Select Resource Group",
+                                          "Start",
+                                          "Stop",
+                                          "Restart",
+                                          "Delete",
+                                          "DeleteRG"
+                                        ],
+                                  actionClassic =
+                                    _js2n__-prdslib.enum
+                                        [ "Select Resource Group" ],
+                                  cloudService =
+                                    _js2n__-prdslib.isType '"String",
+                                  csmFile = _js2n__-prdslib.isType '"String",
+                                  csmParametersFile =
+                                    _js2n__-prdslib.isType '"String",
+                                  deploymentMode =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "Validation",
+                                          "Incremental",
+                                          "Complete"
+                                        ],
+                                  enableDeploymentPrerequisitesForCreate =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  enableDeploymentPrerequisitesForSelect =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  location =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "Australia East",
+                                          "Australia Southeast",
+                                          "Brazil South",
+                                          "Canada Central",
+                                          "Canada East",
+                                          "Central India",
+                                          "Central US",
+                                          "East Asia",
+                                          "East US",
+                                          "East US 2 ",
+                                          "Japan East",
+                                          "Japan West",
+                                          "North Central US",
+                                          "North Europe",
+                                          "South Central US",
+                                          "South India",
+                                          "Southeast Asia",
+                                          "UK South",
+                                          "UK West",
+                                          "West Central US",
+                                          "West Europe",
+                                          "West India",
+                                          "West US",
+                                          "West US 2"
+                                        ],
+                                  outputVariable =
+                                    _js2n__-prdslib.isType '"String",
+                                  overrideParameters =
+                                    _js2n__-prdslib.isType '"String",
+                                  resourceGroupName =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never,
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AzureResourceGroupDeployment@1$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
                                     [ "serviceConnection" ],
                                   _js2n__-prdslib.records.record
                                     {
@@ -11634,32 +12212,6 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.isType '"String",
                                   archiveType =
                                     _js2n__-prdslib.enum
-                                        [ "default", "7z", "tar", "wim" ],
-                                  includeRootFolder =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  replaceExistingArchive =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  rootFolder = _js2n__-prdslib.isType '"String",
-                                  tarCompression =
-                                    _js2n__-prdslib.enum
-                                        [ "gz", "bz2", "xz", "none" ],
-                                } {} false _js2n__-prdslib.never,
-                          task =
-                            _js2n__-prdslib.strings.pattern "^ArchiveFiles@1$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.records.record
-                                {
-                                  archiveFile =
-                                    _js2n__-prdslib.isType '"String",
-                                  archiveType =
-                                    _js2n__-prdslib.enum
                                         [ "zip", "7z", "tar", "wim" ],
                                   includeRootFolder =
                                     _js2n__-prdslib.isType '"Bool",
@@ -11685,6 +12237,32 @@ let rec _js2n__-refsenv
                                 } {} false _js2n__-prdslib.never,
                           task =
                             _js2n__-prdslib.strings.pattern "^ArchiveFiles@2$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.records.record
+                                {
+                                  archiveFile =
+                                    _js2n__-prdslib.isType '"String",
+                                  archiveType =
+                                    _js2n__-prdslib.enum
+                                        [ "default", "7z", "tar", "wim" ],
+                                  includeRootFolder =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  replaceExistingArchive =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  rootFolder = _js2n__-prdslib.isType '"String",
+                                  tarCompression =
+                                    _js2n__-prdslib.enum
+                                        [ "gz", "bz2", "xz", "none" ],
+                                } {} false _js2n__-prdslib.never,
+                          task =
+                            _js2n__-prdslib.strings.pattern "^ArchiveFiles@1$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -11734,12 +12312,20 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"String",
                                       TargetFolder =
                                         _js2n__-prdslib.isType '"String",
+                                      delayBetweenRetries =
+                                        _js2n__-prdslib.isType '"String",
                                       flattenFolders =
                                         _js2n__-prdslib.isType '"Bool",
+                                      ignoreMakeDirErrors =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      preserveTimestamp =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      retryCount =
+                                        _js2n__-prdslib.isType '"String",
                                     } {} false _js2n__-prdslib.never
                                 ],
                           task =
-                            _js2n__-prdslib.strings.pattern "^CopyFiles@1$",
+                            _js2n__-prdslib.strings.pattern "^CopyFiles@2$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -11764,20 +12350,12 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"String",
                                       TargetFolder =
                                         _js2n__-prdslib.isType '"String",
-                                      delayBetweenRetries =
-                                        _js2n__-prdslib.isType '"String",
                                       flattenFolders =
                                         _js2n__-prdslib.isType '"Bool",
-                                      ignoreMakeDirErrors =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      preserveTimestamp =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      retryCount =
-                                        _js2n__-prdslib.isType '"String",
                                     } {} false _js2n__-prdslib.never
                                 ],
                           task =
-                            _js2n__-prdslib.strings.pattern "^CopyFiles@2$",
+                            _js2n__-prdslib.strings.pattern "^CopyFiles@1$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -12116,6 +12694,49 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.records.required
+                                    [
+                                      "azureSubscription",
+                                      "serviceBusNamespace",
+                                      "serviceBusQueueName"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      azureSubscription =
+                                        _js2n__-prdslib.isType '"String",
+                                      certificateString =
+                                        _js2n__-prdslib.isType '"String",
+                                      messageBody =
+                                        _js2n__-prdslib.isType '"String",
+                                      serviceBusNamespace =
+                                        _js2n__-prdslib.isType '"String",
+                                      serviceBusQueueName =
+                                        _js2n__-prdslib.isType '"String",
+                                      sessionId =
+                                        _js2n__-prdslib.isType '"String",
+                                      signPayload =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      signatureKey =
+                                        _js2n__-prdslib.isType '"String",
+                                      useDataContractSerializer =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      waitForCompletion =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^PublishToAzureServiceBus@2$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
                                     [ "azureSubscription" ],
                                   _js2n__-prdslib.records.record
                                     {
@@ -12130,6 +12751,87 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^PublishToAzureServiceBus@0$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.records.record
+                                {
+                                  action =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "bake",
+                                          "createSecret",
+                                          "delete",
+                                          "deploy",
+                                          "patch",
+                                          "promote",
+                                          "scale",
+                                          "reject"
+                                        ],
+                                  arguments = _js2n__-prdslib.isType '"String",
+                                  baselineAndCanaryReplicas =
+                                    _js2n__-prdslib.isType '"String",
+                                  containers = _js2n__-prdslib.isType '"String",
+                                  dockerComposeFile =
+                                    _js2n__-prdslib.isType '"String",
+                                  dockerRegistryEndpoint =
+                                    _js2n__-prdslib.isType '"String",
+                                  helmChart = _js2n__-prdslib.isType '"String",
+                                  imagePullSecrets =
+                                    _js2n__-prdslib.isType '"String",
+                                  kind =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "deployment",
+                                          "replicaset",
+                                          "statefulset"
+                                        ],
+                                  kubernetesServiceConnection =
+                                    _js2n__-prdslib.isType '"String",
+                                  kustomizationPath =
+                                    _js2n__-prdslib.isType '"String",
+                                  manifests = _js2n__-prdslib.isType '"String",
+                                  mergeStrategy =
+                                    _js2n__-prdslib.enum
+                                        [ "json", "merge", "strategic" ],
+                                  name = _js2n__-prdslib.isType '"String",
+                                  namespace = _js2n__-prdslib.isType '"String",
+                                  overrideFiles =
+                                    _js2n__-prdslib.isType '"String",
+                                  overrides = _js2n__-prdslib.isType '"String",
+                                  patch = _js2n__-prdslib.isType '"String",
+                                  percentage = _js2n__-prdslib.isType '"String",
+                                  releaseName =
+                                    _js2n__-prdslib.isType '"String",
+                                  renderType =
+                                    _js2n__-prdslib.enum
+                                        [ "helm", "kompose", "kustomize" ],
+                                  replicas = _js2n__-prdslib.isType '"String",
+                                  resourceFileToPatch =
+                                    _js2n__-prdslib.isType '"String",
+                                  resourceToPatch =
+                                    _js2n__-prdslib.enum [ "file", "name" ],
+                                  rolloutStatusTimeout =
+                                    _js2n__-prdslib.isType '"String",
+                                  secretArguments =
+                                    _js2n__-prdslib.isType '"String",
+                                  secretName = _js2n__-prdslib.isType '"String",
+                                  secretType =
+                                    _js2n__-prdslib.enum
+                                        [ "dockerRegistry", "generic" ],
+                                  strategy =
+                                    _js2n__-prdslib.enum [ "canary", "none" ],
+                                  trafficSplitMethod =
+                                    _js2n__-prdslib.enum [ "pod", "smi" ],
+                                } {} false _js2n__-prdslib.never,
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^KubernetesManifest@0$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -12235,77 +12937,49 @@ let rec _js2n__-refsenv
                           inputs =
                             _js2n__-prdslib.records.record
                                 {
-                                  action =
+                                  allowPartiallySucceededBuilds =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  artifactName =
+                                    _js2n__-prdslib.isType '"String",
+                                  branchName = _js2n__-prdslib.isType '"String",
+                                  buildId = _js2n__-prdslib.isType '"String",
+                                  buildType =
+                                    _js2n__-prdslib.enum
+                                        [ "current", "specific" ],
+                                  buildVersionToDownload =
                                     _js2n__-prdslib.enum
                                         [
-                                          "bake",
-                                          "createSecret",
-                                          "delete",
-                                          "deploy",
-                                          "patch",
-                                          "promote",
-                                          "scale",
-                                          "reject"
+                                          "latest",
+                                          "latestFromBranch",
+                                          "specific"
                                         ],
-                                  arguments = _js2n__-prdslib.isType '"String",
-                                  baselineAndCanaryReplicas =
+                                  checkDownloadedFiles =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  cleanDestinationFolder =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  downloadPath =
                                     _js2n__-prdslib.isType '"String",
-                                  containers = _js2n__-prdslib.isType '"String",
-                                  dockerComposeFile =
-                                    _js2n__-prdslib.isType '"String",
-                                  dockerRegistryEndpoint =
-                                    _js2n__-prdslib.isType '"String",
-                                  helmChart = _js2n__-prdslib.isType '"String",
-                                  imagePullSecrets =
-                                    _js2n__-prdslib.isType '"String",
-                                  kind =
+                                  downloadType =
                                     _js2n__-prdslib.enum
-                                        [
-                                          "deployment",
-                                          "replicaset",
-                                          "statefulset"
-                                        ],
-                                  kubernetesServiceConnection =
+                                        [ "single", "specific" ],
+                                  extractTars = _js2n__-prdslib.isType '"Bool",
+                                  itemPattern =
                                     _js2n__-prdslib.isType '"String",
-                                  kustomizationPath =
+                                  parallelizationLimit =
                                     _js2n__-prdslib.isType '"String",
-                                  manifests = _js2n__-prdslib.isType '"String",
-                                  mergeStrategy =
-                                    _js2n__-prdslib.enum
-                                        [ "json", "merge", "strategic" ],
-                                  name = _js2n__-prdslib.isType '"String",
-                                  namespace = _js2n__-prdslib.isType '"String",
-                                  overrideFiles =
+                                  pipeline = _js2n__-prdslib.isType '"String",
+                                  project = _js2n__-prdslib.isType '"String",
+                                  retryDownloadCount =
                                     _js2n__-prdslib.isType '"String",
-                                  overrides = _js2n__-prdslib.isType '"String",
-                                  patch = _js2n__-prdslib.isType '"String",
-                                  percentage = _js2n__-prdslib.isType '"String",
-                                  releaseName =
+                                  retryRedirectDownloadCount =
                                     _js2n__-prdslib.isType '"String",
-                                  renderType =
-                                    _js2n__-prdslib.enum
-                                        [ "helm", "kompose", "kustomize" ],
-                                  replicas = _js2n__-prdslib.isType '"String",
-                                  resourceFileToPatch =
-                                    _js2n__-prdslib.isType '"String",
-                                  resourceToPatch =
-                                    _js2n__-prdslib.enum [ "file", "name" ],
-                                  rolloutStatusTimeout =
-                                    _js2n__-prdslib.isType '"String",
-                                  secretArguments =
-                                    _js2n__-prdslib.isType '"String",
-                                  secretName = _js2n__-prdslib.isType '"String",
-                                  secretType =
-                                    _js2n__-prdslib.enum
-                                        [ "dockerRegistry", "generic" ],
-                                  strategy =
-                                    _js2n__-prdslib.enum [ "canary", "none" ],
-                                  trafficSplitMethod =
-                                    _js2n__-prdslib.enum [ "pod", "smi" ],
+                                  specificBuildWithTriggering =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  tags = _js2n__-prdslib.isType '"String",
                                 } {} false _js2n__-prdslib.never,
                           task =
                             _js2n__-prdslib.strings.pattern
-                                "^KubernetesManifest@0$",
+                                "^DownloadBuildArtifacts@0$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -12357,59 +13031,6 @@ let rec _js2n__-refsenv
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^DownloadBuildArtifacts@1$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.records.record
-                                {
-                                  allowPartiallySucceededBuilds =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  artifactName =
-                                    _js2n__-prdslib.isType '"String",
-                                  branchName = _js2n__-prdslib.isType '"String",
-                                  buildId = _js2n__-prdslib.isType '"String",
-                                  buildType =
-                                    _js2n__-prdslib.enum
-                                        [ "current", "specific" ],
-                                  buildVersionToDownload =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "latest",
-                                          "latestFromBranch",
-                                          "specific"
-                                        ],
-                                  checkDownloadedFiles =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  cleanDestinationFolder =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  downloadPath =
-                                    _js2n__-prdslib.isType '"String",
-                                  downloadType =
-                                    _js2n__-prdslib.enum
-                                        [ "single", "specific" ],
-                                  extractTars = _js2n__-prdslib.isType '"Bool",
-                                  itemPattern =
-                                    _js2n__-prdslib.isType '"String",
-                                  parallelizationLimit =
-                                    _js2n__-prdslib.isType '"String",
-                                  pipeline = _js2n__-prdslib.isType '"String",
-                                  project = _js2n__-prdslib.isType '"String",
-                                  retryDownloadCount =
-                                    _js2n__-prdslib.isType '"String",
-                                  retryRedirectDownloadCount =
-                                    _js2n__-prdslib.isType '"String",
-                                  specificBuildWithTriggering =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  tags = _js2n__-prdslib.isType '"String",
-                                } {} false _js2n__-prdslib.never,
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^DownloadBuildArtifacts@0$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -12495,6 +13116,8 @@ let rec _js2n__-refsenv
                                             [
                                               "Java_8",
                                               "Java_11",
+                                              "Java_17",
+                                              "Java_21",
                                               "NetCore_31"
                                             ],
                                       UseStagingDeployment =
@@ -12568,38 +13191,6 @@ let rec _js2n__-refsenv
                     ],
                   _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.records.required [ "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.records.record
-                                {
-                                  args = _js2n__-prdslib.isType '"String",
-                                  connectedServiceName =
-                                    _js2n__-prdslib.isType '"String",
-                                  connectedServiceNameARM =
-                                    _js2n__-prdslib.isType '"String",
-                                  connectedServiceNameSelector =
-                                    _js2n__-prdslib.enum
-                                        [
-                                          "connectedServiceName",
-                                          "connectedServiceNameARM"
-                                        ],
-                                  cwd = _js2n__-prdslib.isType '"String",
-                                  failOnStandardError =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  inlineScript =
-                                    _js2n__-prdslib.isType '"String",
-                                  scriptLocation =
-                                    _js2n__-prdslib.enum
-                                        [ "inlineScript", "scriptPath" ],
-                                  scriptPath = _js2n__-prdslib.isType '"String",
-                                } {} false _js2n__-prdslib.never,
-                          task = _js2n__-prdslib.strings.pattern "^AzureCLI@0$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
                       _js2n__-prdslib.records.required [ "inputs", "task" ],
                       _js2n__-prdslib.records.record
                         {
@@ -12620,6 +13211,8 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"Bool",
                                       inlineScript =
                                         _js2n__-prdslib.isType '"String",
+                                      keepAzSessionActive =
+                                        _js2n__-prdslib.isType '"Bool",
                                       powerShellErrorActionPreference =
                                         _js2n__-prdslib.enum
                                             [
@@ -12638,6 +13231,8 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.enum
                                             [ "ps", "pscore", "batch", "bash" ],
                                       useGlobalConfig =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      visibleAzLogin =
                                         _js2n__-prdslib.isType '"Bool",
                                       workingDirectory =
                                         _js2n__-prdslib.isType '"String",
@@ -12680,6 +13275,38 @@ let rec _js2n__-refsenv
                                     } {} false _js2n__-prdslib.never
                                 ],
                           task = _js2n__-prdslib.strings.pattern "^AzureCLI@1$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.records.record
+                                {
+                                  args = _js2n__-prdslib.isType '"String",
+                                  connectedServiceName =
+                                    _js2n__-prdslib.isType '"String",
+                                  connectedServiceNameARM =
+                                    _js2n__-prdslib.isType '"String",
+                                  connectedServiceNameSelector =
+                                    _js2n__-prdslib.enum
+                                        [
+                                          "connectedServiceName",
+                                          "connectedServiceNameARM"
+                                        ],
+                                  cwd = _js2n__-prdslib.isType '"String",
+                                  failOnStandardError =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  inlineScript =
+                                    _js2n__-prdslib.isType '"String",
+                                  scriptLocation =
+                                    _js2n__-prdslib.enum
+                                        [ "inlineScript", "scriptPath" ],
+                                  scriptPath = _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never,
+                          task = _js2n__-prdslib.strings.pattern "^AzureCLI@0$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -13153,6 +13780,30 @@ let rec _js2n__-refsenv
                     ],
                   _js2n__-prdslib.allOf
                     [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [ "scriptPath" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      args = _js2n__-prdslib.isType '"String",
+                                      cwd = _js2n__-prdslib.isType '"String",
+                                      failOnStandardError =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      scriptPath =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern "^ShellScript@1$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
                       _js2n__-prdslib.records.required [ "task" ],
                       _js2n__-prdslib.records.record
                         {
@@ -13274,6 +13925,55 @@ let rec _js2n__-refsenv
                                 [
                                   _js2n__-prdslib.records.required
                                     [
+                                      "azureSubscription",
+                                      "imageUrl",
+                                      "vmssName",
+                                      "vmssOsType"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      action =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "Update image",
+                                              "Configure application startup"
+                                            ],
+                                      azureSubscription =
+                                        _js2n__-prdslib.isType '"String",
+                                      customScript =
+                                        _js2n__-prdslib.isType '"String",
+                                      customScriptArguments =
+                                        _js2n__-prdslib.isType '"String",
+                                      customScriptsDirectory =
+                                        _js2n__-prdslib.isType '"String",
+                                      customScriptsStorageAccount =
+                                        _js2n__-prdslib.isType '"String",
+                                      imageUrl =
+                                        _js2n__-prdslib.isType '"String",
+                                      skipArchivingCustomScripts =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      vmssName =
+                                        _js2n__-prdslib.isType '"String",
+                                      vmssOsType =
+                                        _js2n__-prdslib.enum
+                                            [ "Windows", "Linux" ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AzureVmssDeployment@1$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
+                                    [
                                       "ConnectedServiceName",
                                       "Package",
                                       "WebSiteLocation",
@@ -13307,66 +14007,14 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.records.record
                         {
                           inputs =
-                            _js2n__-prdslib.records.record {} {} false
-                                _js2n__-prdslib.never,
+                            _js2n__-prdslib.records.record
+                                {
+                                  azureDevOpsServiceConnection =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never,
                           task =
                             _js2n__-prdslib.strings.pattern
                                 "^CondaAuthenticate@0$",
-                        } {} true _js2n__-prdslib.always
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.records.required [ "inputs", "task" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          inputs =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.records.required
-                                    [
-                                      "ARMConnectedServiceName",
-                                      "ARMStorageAccount",
-                                      "CsCfg",
-                                      "CsDef",
-                                      "CsPkg",
-                                      "ResourceGroupName",
-                                      "ServiceLocation",
-                                      "ServiceName"
-                                    ],
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      ARMConnectedServiceName =
-                                        _js2n__-prdslib.isType '"String",
-                                      ARMStorageAccount =
-                                        _js2n__-prdslib.isType '"String",
-                                      AllowUpgrade =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      AppendDateTimeToLabel =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      CsCfg = _js2n__-prdslib.isType '"String",
-                                      CsDef = _js2n__-prdslib.isType '"String",
-                                      CsPkg = _js2n__-prdslib.isType '"String",
-                                      DeploymentLabel =
-                                        _js2n__-prdslib.isType '"String",
-                                      DiagnosticStorageAccountKeys =
-                                        _js2n__-prdslib.isType '"String",
-                                      KeyVault =
-                                        _js2n__-prdslib.isType '"String",
-                                      ResourceGroupName =
-                                        _js2n__-prdslib.isType '"String",
-                                      ServiceLocation =
-                                        _js2n__-prdslib.isType '"String",
-                                      ServiceName =
-                                        _js2n__-prdslib.isType '"String",
-                                      UpgradeMode =
-                                        _js2n__-prdslib.isType '"String",
-                                      VerifyRoleInstanceStatus =
-                                        _js2n__-prdslib.isType '"Bool",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          task =
-                            _js2n__-prdslib.strings.pattern
-                                "^AzureCloudPowerShellDeployment@2$",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -13441,12 +14089,71 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.records.required
+                                    [
+                                      "ARMConnectedServiceName",
+                                      "ARMStorageAccount",
+                                      "CsCfg",
+                                      "CsDef",
+                                      "CsPkg",
+                                      "ResourceGroupName",
+                                      "ServiceLocation",
+                                      "ServiceName"
+                                    ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      ARMConnectedServiceName =
+                                        _js2n__-prdslib.isType '"String",
+                                      ARMStorageAccount =
+                                        _js2n__-prdslib.isType '"String",
+                                      AllowUpgrade =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      AppendDateTimeToLabel =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      CsCfg = _js2n__-prdslib.isType '"String",
+                                      CsDef = _js2n__-prdslib.isType '"String",
+                                      CsPkg = _js2n__-prdslib.isType '"String",
+                                      DeploymentLabel =
+                                        _js2n__-prdslib.isType '"String",
+                                      DiagnosticStorageAccountKeys =
+                                        _js2n__-prdslib.isType '"String",
+                                      KeyVault =
+                                        _js2n__-prdslib.isType '"String",
+                                      ResourceGroupName =
+                                        _js2n__-prdslib.isType '"String",
+                                      ServiceLocation =
+                                        _js2n__-prdslib.isType '"String",
+                                      ServiceName =
+                                        _js2n__-prdslib.isType '"String",
+                                      UpgradeMode =
+                                        _js2n__-prdslib.isType '"String",
+                                      VerifyRoleInstanceStatus =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          task =
+                            _js2n__-prdslib.strings.pattern
+                                "^AzureCloudPowerShellDeployment@2$",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "inputs", "task" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          inputs =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.records.required
                                     [ "configFile" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      azureDevOpsServiceConnection =
+                                        _js2n__-prdslib.isType '"String",
                                       cargoServiceConnections =
                                         _js2n__-prdslib.isType '"String",
                                       configFile =
+                                        _js2n__-prdslib.isType '"String",
+                                      registryNames =
                                         _js2n__-prdslib.isType '"String",
                                     } {} false _js2n__-prdslib.never
                                 ],
@@ -13854,26 +14561,27 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.enum [ "PowerShell@2" ],
                           _js2n__-prdslib.enum [ "PowerShell@1" ],
-                          _js2n__-prdslib.enum [ "AzurePowerShell@4" ],
                           _js2n__-prdslib.enum [ "AzurePowerShell@2" ],
                           _js2n__-prdslib.enum [ "AzurePowerShell@3" ],
-                          _js2n__-prdslib.enum [ "AzurePowerShell@1" ],
+                          _js2n__-prdslib.enum [ "AzurePowerShell@4" ],
                           _js2n__-prdslib.enum [ "AzurePowerShell@5" ],
+                          _js2n__-prdslib.enum [ "AzurePowerShell@1" ],
                           _js2n__-prdslib.enum
                             [ "MysqlDeploymentOnMachineGroup@1" ],
                           _js2n__-prdslib.enum [ "PipAuthenticate@0" ],
                           _js2n__-prdslib.enum [ "PipAuthenticate@1" ],
-                          _js2n__-prdslib.enum [ "Maven@4" ],
                           _js2n__-prdslib.enum [ "Maven@2" ],
                           _js2n__-prdslib.enum [ "Maven@3" ],
+                          _js2n__-prdslib.enum [ "Maven@4" ],
                           _js2n__-prdslib.enum [ "Maven@1" ],
                           _js2n__-prdslib.enum [ "DotNetCoreCLI@2" ],
                           _js2n__-prdslib.enum [ "DotNetCoreCLI@0" ],
                           _js2n__-prdslib.enum [ "DotNetCoreCLI@1" ],
                           _js2n__-prdslib.enum [ "XamarinComponentRestore@0" ],
-                          _js2n__-prdslib.enum [ "AzureRmWebAppDeployment@4" ],
-                          _js2n__-prdslib.enum [ "AzureRmWebAppDeployment@2" ],
                           _js2n__-prdslib.enum [ "AzureRmWebAppDeployment@3" ],
+                          _js2n__-prdslib.enum [ "AzureRmWebAppDeployment@2" ],
+                          _js2n__-prdslib.enum [ "AzureRMWebAppDeployment@1" ],
+                          _js2n__-prdslib.enum [ "AzureRmWebAppDeployment@4" ],
                           _js2n__-prdslib.enum
                             [ "PowerShellOnTargetMachines@1" ],
                           _js2n__-prdslib.enum
@@ -13881,16 +14589,18 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum
                             [ "PowerShellOnTargetMachines@2" ],
                           _js2n__-prdslib.enum
-                            [ "PublishCodeCoverageResults@2" ],
-                          _js2n__-prdslib.enum
                             [ "PublishCodeCoverageResults@1" ],
                           _js2n__-prdslib.enum
+                            [ "PublishCodeCoverageResults@2" ],
+                          _js2n__-prdslib.enum
                             [ "RunVisualStudioTestsusingTestAgent@1" ],
+                          _js2n__-prdslib.enum [ "ManualIntervention@6" ],
+                          _js2n__-prdslib.enum [ "ManualIntervention@7" ],
                           _js2n__-prdslib.enum [ "ManualIntervention@8" ],
                           _js2n__-prdslib.enum
-                            [ "InstallAppleProvisioningProfile@0" ],
-                          _js2n__-prdslib.enum
                             [ "InstallAppleProvisioningProfile@1" ],
+                          _js2n__-prdslib.enum
+                            [ "InstallAppleProvisioningProfile@0" ],
                           _js2n__-prdslib.enum [ "SonarQubePostTest@1" ],
                           _js2n__-prdslib.enum [ "PyPIPublisher@0" ],
                           _js2n__-prdslib.enum [ "ChefKnife@1" ],
@@ -13899,10 +14609,10 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "Go@0" ],
                           _js2n__-prdslib.enum [ "PublishPipelineMetadata@0" ],
                           _js2n__-prdslib.enum [ "Docker@0" ],
-                          _js2n__-prdslib.enum [ "Docker@2" ],
                           _js2n__-prdslib.enum [ "Docker@1" ],
-                          _js2n__-prdslib.enum [ "JenkinsQueueJob@1" ],
+                          _js2n__-prdslib.enum [ "Docker@2" ],
                           _js2n__-prdslib.enum [ "JenkinsQueueJob@2" ],
+                          _js2n__-prdslib.enum [ "JenkinsQueueJob@1" ],
                           _js2n__-prdslib.enum [ "FtpUpload@1" ],
                           _js2n__-prdslib.enum [ "FtpUpload@2" ],
                           _js2n__-prdslib.enum [ "WindowsMachineFileCopy@1" ],
@@ -13922,16 +14632,20 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum
                             [ "DownloadGitHubNugetPackage@1" ],
                           _js2n__-prdslib.enum [ "MavenAuthenticate@0" ],
+                          _js2n__-prdslib.enum
+                            [ "AzureAppConfigurationExport@10" ],
                           _js2n__-prdslib.enum [ "ReviewApp@0" ],
                           _js2n__-prdslib.enum [ "JavaToolInstaller@0" ],
                           _js2n__-prdslib.enum [ "Chef@1" ],
-                          _js2n__-prdslib.enum [ "AzureFunctionApp@1" ],
                           _js2n__-prdslib.enum [ "AzureFunctionApp@2" ],
+                          _js2n__-prdslib.enum [ "AzureFunctionApp@1" ],
                           _js2n__-prdslib.enum [ "npmAuthenticate@0" ],
                           _js2n__-prdslib.enum [ "MSBuild@1" ],
                           _js2n__-prdslib.enum [ "PackerBuild@0" ],
                           _js2n__-prdslib.enum [ "PackerBuild@1" ],
                           _js2n__-prdslib.enum [ "NuGetPackager@0" ],
+                          _js2n__-prdslib.enum
+                            [ "AzureAppConfigurationSnapshot@1" ],
                           _js2n__-prdslib.enum [ "DuffleInstaller@0" ],
                           _js2n__-prdslib.enum
                             [ "ServiceFabricUpdateAppVersions@1" ],
@@ -13943,21 +14657,22 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "AzureNLBManagement@1" ],
                           _js2n__-prdslib.enum [ "ApacheJMeterLoadTest@1" ],
                           _js2n__-prdslib.enum [ "DockerCompose@0" ],
+                          _js2n__-prdslib.enum [ "DockerCompose@1" ],
                           _js2n__-prdslib.enum [ "AzureMonitorAlerts@0" ],
                           _js2n__-prdslib.enum [ "XamarinTestCloud@1" ],
                           _js2n__-prdslib.enum [ "ServiceFabricDeploy@1" ],
-                          _js2n__-prdslib.enum [ "Xcode@5" ],
+                          _js2n__-prdslib.enum [ "Xcode@2" ],
                           _js2n__-prdslib.enum [ "Xcode@3" ],
                           _js2n__-prdslib.enum [ "Xcode@4" ],
-                          _js2n__-prdslib.enum [ "Xcode@2" ],
+                          _js2n__-prdslib.enum [ "Xcode@5" ],
                           _js2n__-prdslib.enum [ "NuGetPublisher@0" ],
                           _js2n__-prdslib.enum [ "queryWorkItems@0" ],
                           _js2n__-prdslib.enum [ "AzureWebAppContainer@1" ],
                           _js2n__-prdslib.enum
                             [ "SqlDacpacDeploymentOnMachineGroup@0" ],
                           _js2n__-prdslib.enum [ "CacheBeta@1" ],
-                          _js2n__-prdslib.enum [ "Cache@2" ],
                           _js2n__-prdslib.enum [ "CacheBeta@0" ],
+                          _js2n__-prdslib.enum [ "Cache@2" ],
                           _js2n__-prdslib.enum [ "CMake@1" ],
                           _js2n__-prdslib.enum [ "VSMobileCenterTest@0" ],
                           _js2n__-prdslib.enum [ "AppCenterTest@1" ],
@@ -13979,25 +14694,26 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "NuGetRestore@1" ],
                           _js2n__-prdslib.enum [ "NuGetCommand@2" ],
                           _js2n__-prdslib.enum [ "Delay@1" ],
-                          _js2n__-prdslib.enum [ "XamariniOS@1" ],
                           _js2n__-prdslib.enum [ "XamariniOS@2" ],
+                          _js2n__-prdslib.enum [ "XamariniOS@1" ],
                           _js2n__-prdslib.enum [ "PublishTestResults@1" ],
                           _js2n__-prdslib.enum [ "PublishTestResults@2" ],
-                          _js2n__-prdslib.enum [ "AzureFileCopy@5" ],
                           _js2n__-prdslib.enum [ "AzureFileCopy@1" ],
                           _js2n__-prdslib.enum [ "AzureFileCopy@2" ],
                           _js2n__-prdslib.enum [ "AzureFileCopy@3" ],
                           _js2n__-prdslib.enum [ "AzureFileCopy@4" ],
+                          _js2n__-prdslib.enum [ "AzureFileCopy@5" ],
+                          _js2n__-prdslib.enum [ "AzureFileCopy@6" ],
                           _js2n__-prdslib.enum [ "PublishSymbols@2" ],
                           _js2n__-prdslib.enum [ "PublishSymbols@1" ],
                           _js2n__-prdslib.enum [ "CopyFilesOverSSH@0" ],
-                          _js2n__-prdslib.enum [ "Gradle@1" ],
                           _js2n__-prdslib.enum [ "Gradle@2" ],
                           _js2n__-prdslib.enum [ "Gradle@3" ],
-                          _js2n__-prdslib.enum [ "AppCenterDistribute@0" ],
+                          _js2n__-prdslib.enum [ "Gradle@1" ],
                           _js2n__-prdslib.enum [ "AppCenterDistribute@1" ],
                           _js2n__-prdslib.enum [ "AppCenterDistribute@2" ],
                           _js2n__-prdslib.enum [ "AppCenterDistribute@3" ],
+                          _js2n__-prdslib.enum [ "AppCenterDistribute@0" ],
                           _js2n__-prdslib.enum [ "NuGetToolInstaller@0" ],
                           _js2n__-prdslib.enum [ "NuGetToolInstaller@1" ],
                           _js2n__-prdslib.enum [ "JenkinsDownloadArtifacts@1" ],
@@ -14005,9 +14721,10 @@ let rec _js2n__-refsenv
                             [ "AzureFunctionAppContainer@1" ],
                           _js2n__-prdslib.enum [ "DecryptFile@1" ],
                           _js2n__-prdslib.enum [ "HelmDeploy@0" ],
+                          _js2n__-prdslib.enum [ "HelmDeploy@1" ],
+                          _js2n__-prdslib.enum [ "InstallAppleCertificate@2" ],
                           _js2n__-prdslib.enum [ "InstallAppleCertificate@1" ],
                           _js2n__-prdslib.enum [ "InstallAppleCertificate@0" ],
-                          _js2n__-prdslib.enum [ "InstallAppleCertificate@2" ],
                           _js2n__-prdslib.enum [ "AzureFunction@1" ],
                           _js2n__-prdslib.enum [ "AzureFunction@0" ],
                           _js2n__-prdslib.enum [ "OpenPolicyAgentInstaller@0" ],
@@ -14026,8 +14743,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "AndroidSigning@1" ],
                           _js2n__-prdslib.enum [ "AndroidSigning@2" ],
                           _js2n__-prdslib.enum [ "AndroidSigning@3" ],
-                          _js2n__-prdslib.enum [ "DownloadPipelineArtifact@2" ],
                           _js2n__-prdslib.enum [ "DownloadPipelineArtifact@0" ],
+                          _js2n__-prdslib.enum [ "DownloadPipelineArtifact@2" ],
                           _js2n__-prdslib.enum [ "DownloadPipelineArtifact@1" ],
                           _js2n__-prdslib.enum [ "UsePythonVersion@0" ],
                           _js2n__-prdslib.enum [ "ServiceFabricPowerShell@1" ],
@@ -14035,6 +14752,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "VSTest@2" ],
                           _js2n__-prdslib.enum [ "VSTest@3" ],
                           _js2n__-prdslib.enum [ "ManualValidation@0" ],
+                          _js2n__-prdslib.enum [ "ManualValidation@1" ],
                           _js2n__-prdslib.enum [ "Ant@1" ],
                           _js2n__-prdslib.enum
                             [ "DeployVisualStudioTestAgent@2" ],
@@ -14045,11 +14763,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "BatchScript@1" ],
                           _js2n__-prdslib.enum [ "DownloadGithubNpmPackage@1" ],
                           _js2n__-prdslib.enum [ "VSBuild@1" ],
-                          _js2n__-prdslib.enum [ "AzureKeyVault@2" ],
                           _js2n__-prdslib.enum [ "AzureKeyVault@1" ],
-                          _js2n__-prdslib.enum [ "UseDotNet@2" ],
-                          _js2n__-prdslib.enum [ "DotNetCoreInstaller@1" ],
+                          _js2n__-prdslib.enum [ "AzureKeyVault@2" ],
                           _js2n__-prdslib.enum [ "DotNetCoreInstaller@0" ],
+                          _js2n__-prdslib.enum [ "DotNetCoreInstaller@1" ],
+                          _js2n__-prdslib.enum [ "UseDotNet@2" ],
+                          _js2n__-prdslib.enum
+                            [ "AzureAppConfigurationImport@10" ],
                           _js2n__-prdslib.enum [ "AzureAppServiceManage@0" ],
                           _js2n__-prdslib.enum [ "KubeloginInstaller@0" ],
                           _js2n__-prdslib.enum [ "FuncToolsInstaller@0" ],
@@ -14062,18 +14782,18 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "DownloadPackage@0" ],
                           _js2n__-prdslib.enum [ "DownloadPackage@1" ],
                           _js2n__-prdslib.enum
-                            [ "AzureResourceGroupDeployment@1" ],
+                            [ "AzureResourceGroupDeployment@2" ],
                           _js2n__-prdslib.enum
                             [ "AzureResourceManagerTemplateDeployment@3" ],
                           _js2n__-prdslib.enum
-                            [ "AzureResourceGroupDeployment@2" ],
+                            [ "AzureResourceGroupDeployment@1" ],
                           _js2n__-prdslib.enum [ "InvokeRESTAPI@0" ],
                           _js2n__-prdslib.enum [ "InvokeRESTAPI@1" ],
-                          _js2n__-prdslib.enum [ "ArchiveFiles@1" ],
                           _js2n__-prdslib.enum [ "ArchiveFiles@2" ],
+                          _js2n__-prdslib.enum [ "ArchiveFiles@1" ],
                           _js2n__-prdslib.enum [ "GitHubComment@0" ],
-                          _js2n__-prdslib.enum [ "CopyFiles@1" ],
                           _js2n__-prdslib.enum [ "CopyFiles@2" ],
+                          _js2n__-prdslib.enum [ "CopyFiles@1" ],
                           _js2n__-prdslib.enum [ "AzureMysqlDeployment@1" ],
                           _js2n__-prdslib.enum [ "Npm@0" ],
                           _js2n__-prdslib.enum [ "Npm@1" ],
@@ -14085,17 +14805,18 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum
                             [ "VisualStudioTestPlatformInstaller@1" ],
                           _js2n__-prdslib.enum [ "PublishToAzureServiceBus@1" ],
+                          _js2n__-prdslib.enum [ "PublishToAzureServiceBus@2" ],
                           _js2n__-prdslib.enum [ "PublishToAzureServiceBus@0" ],
-                          _js2n__-prdslib.enum [ "KubernetesManifest@1" ],
                           _js2n__-prdslib.enum [ "KubernetesManifest@0" ],
-                          _js2n__-prdslib.enum [ "DownloadBuildArtifacts@1" ],
+                          _js2n__-prdslib.enum [ "KubernetesManifest@1" ],
                           _js2n__-prdslib.enum [ "DownloadBuildArtifacts@0" ],
+                          _js2n__-prdslib.enum [ "DownloadBuildArtifacts@1" ],
                           _js2n__-prdslib.enum [ "CocoaPods@0" ],
                           _js2n__-prdslib.enum [ "AzureSpringCloud@0" ],
                           _js2n__-prdslib.enum [ "AzureWebApp@1" ],
-                          _js2n__-prdslib.enum [ "AzureCLI@0" ],
                           _js2n__-prdslib.enum [ "AzureCLI@2" ],
                           _js2n__-prdslib.enum [ "AzureCLI@1" ],
+                          _js2n__-prdslib.enum [ "AzureCLI@0" ],
                           _js2n__-prdslib.enum [ "GitHubRelease@0" ],
                           _js2n__-prdslib.enum [ "GitHubRelease@1" ],
                           _js2n__-prdslib.enum [ "cURLUploader@1" ],
@@ -14109,16 +14830,18 @@ let rec _js2n__-refsenv
                             [ "AzureFunctionOnKubernetes@1" ],
                           _js2n__-prdslib.enum [ "ShellScript@2" ],
                           _js2n__-prdslib.enum [ "Bash@3" ],
+                          _js2n__-prdslib.enum [ "ShellScript@1" ],
                           _js2n__-prdslib.enum [ "PublishBuildArtifacts@1" ],
                           _js2n__-prdslib.enum [ "InstallSSHKey@0" ],
                           _js2n__-prdslib.enum [ "AzureVmssDeployment@0" ],
+                          _js2n__-prdslib.enum [ "AzureVmssDeployment@1" ],
                           _js2n__-prdslib.enum
                             [ "AzureWebPowerShellDeployment@1" ],
                           _js2n__-prdslib.enum [ "CondaAuthenticate@0" ],
                           _js2n__-prdslib.enum
-                            [ "AzureCloudPowerShellDeployment@2" ],
-                          _js2n__-prdslib.enum
                             [ "AzureCloudPowerShellDeployment@1" ],
+                          _js2n__-prdslib.enum
+                            [ "AzureCloudPowerShellDeployment@2" ],
                           _js2n__-prdslib.enum [ "CargoAuthenticate@0" ],
                           _js2n__-prdslib.enum [ "DeleteFiles@1" ],
                           _js2n__-prdslib.enum [ "gulp@0" ],

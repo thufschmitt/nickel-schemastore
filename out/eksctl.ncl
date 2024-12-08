@@ -1042,6 +1042,20 @@ let rec _js2n__-refsenv
               autoApplyPodIdentityAssociations = _js2n__-prdslib.isType '"Bool",
               disableDefaultAddons = _js2n__-prdslib.isType '"Bool",
             } {} false _js2n__-prdslib.never,
+      "_js2n__-:definitions/AutoModeConfig!predicate" =
+        _js2n__-prdslib.records.record
+            {
+              enabled = _js2n__-prdslib.isType '"Bool",
+              nodePools =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String")
+                    ],
+              nodeRoleARN =
+                _js2n__-refsenv."_js2n__-:definitions/ARN!predicate",
+            } {} false _js2n__-prdslib.never,
       "_js2n__-:definitions/CapacityReservation!predicate"
         | doc "defines a nodegroup's Capacity Reservation targeting option"
         = _js2n__-prdslib.records.record
@@ -1115,6 +1129,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "eksctl.io/v1alpha5" ]
                         ],
+                  autoModeConfig =
+                    _js2n__-refsenv."_js2n__-:definitions/AutoModeConfig!predicate",
                   availabilityZones =
                     _js2n__-prdslib.allOf
                         [
@@ -1186,10 +1202,14 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/Outpost!predicate",
                   privateCluster =
                     _js2n__-refsenv."_js2n__-:definitions/PrivateCluster!predicate",
+                  remoteNetworkConfig =
+                    _js2n__-refsenv."_js2n__-:definitions/RemoteNetworkConfig!predicate",
                   secretsEncryption =
                     _js2n__-refsenv."_js2n__-:definitions/SecretsEncryption!predicate",
                   vpc =
                     _js2n__-refsenv."_js2n__-:definitions/ClusterVPC!predicate",
+                  zonalShiftConfig =
+                    _js2n__-refsenv."_js2n__-:definitions/ZonalShiftConfig!predicate",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/ClusterEndpoints!predicate"
@@ -2104,6 +2124,53 @@ let rec _js2n__-refsenv
               enabled = _js2n__-prdslib.isType '"Bool",
               skipEndpointCreation = _js2n__-prdslib.isType '"Bool",
             } {} false _js2n__-prdslib.never,
+      "_js2n__-:definitions/RemoteNetwork!predicate"
+        | doc "RemoteNetwork"
+        = _js2n__-prdslib.records.record
+            {
+              cidrs =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String")
+                    ],
+            } {} false _js2n__-prdslib.never,
+      "_js2n__-:definitions/RemoteNetworkConfig!predicate"
+        | doc "RemoteNetworkConfig"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required
+                [ "remoteNodeNetworks", "vpcGatewayID" ],
+              _js2n__-prdslib.records.record
+                {
+                  iam =
+                    _js2n__-refsenv."_js2n__-:definitions/RemoteNodesIAM!predicate",
+                  remoteNodeNetworks =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/RemoteNetwork!predicate"
+                        ],
+                  remotePodNetworks =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/RemoteNetwork!predicate"
+                        ],
+                  vpcGatewayID =
+                    _js2n__-refsenv."_js2n__-:definitions/VPCGateway!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/RemoteNodesIAM!predicate" =
+        _js2n__-prdslib.records.record
+            {
+              caBundleCert = _js2n__-prdslib.isType '"String",
+              provider = _js2n__-prdslib.isType '"String",
+              roleARN = _js2n__-prdslib.isType '"String",
+            } {} false _js2n__-prdslib.never,
       "_js2n__-:definitions/SecretsEncryption!predicate"
         | doc "defines the configuration for KMS encryption provider"
         = _js2n__-prdslib.allOf
@@ -2113,6 +2180,9 @@ let rec _js2n__-refsenv
                 { keyARN = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/VPCGateway!predicate"
+        | doc "VPCGatewayID the ID of the gateway that facilitates external connectivity from customer's VPC to their remote network(s). Valid options are Transit Gateway and Virtual Private Gateway."
+        = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/VolumeMapping!predicate"
         | doc "Additional Volume Configurations"
         = _js2n__-prdslib.records.record
@@ -2143,6 +2213,11 @@ let rec _js2n__-refsenv
               externalDNS = _js2n__-prdslib.isType '"Bool",
               imageBuilder = _js2n__-prdslib.isType '"Bool",
             } {} false _js2n__-prdslib.never,
+      "_js2n__-:definitions/ZonalShiftConfig!predicate"
+        | doc "holds the zonal shift configuration."
+        = _js2n__-prdslib.records.record
+            { enabled = _js2n__-prdslib.isType '"Bool", } {} false
+            _js2n__-prdslib.never,
       "_js2n__-:definitions/taintsWrapper!predicate"
         | doc "handles unmarshalling both map[string]string and []NodeGroupTaint"
         = _js2n__-prdslib.allOf

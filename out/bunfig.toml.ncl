@@ -916,6 +916,13 @@ let rec _js2n__-refsenv
               https://bun.sh/docs/runtime/bunfig#install-auto
             "%
             | optional,
+          ca
+            | String
+            | doc m%"
+              The CA certificate as a string
+              https://bun.sh/docs/runtime/bunfig#install-ca-and-install-cafile
+            "%
+            | optional,
           cache
             | {
               dir
@@ -945,6 +952,13 @@ let rec _js2n__-refsenv
             | doc m%"
               To configure the cache behavior
               https://bun.sh/docs/runtime/bunfig#install-cache
+            "%
+            | optional,
+          cafile
+            | String
+            | doc m%"
+              A path to a CA certificate file. The file can contain multiple certificates.
+              https://bun.sh/docs/runtime/bunfig#install-ca-and-install-cafile
             "%
             | optional,
           dev

@@ -899,7 +899,11 @@ let rec _js2n__-refsenv
     = {
       "_js2n__-:definitions/path!predicate"
         | doc "A JSON Pointer path."
-        = _js2n__-prdslib.isType '"String",
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^#?(|(/([^/~]|~[01])*)*)$"
+            ],
     }
     in
   Array (
@@ -943,7 +947,12 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.records.record
                   {
                     from =
-                      _js2n__-refsenv."_js2n__-:definitions/path!predicate",
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.strings.pattern
+                              "^#?(|(/([^/~]|~[01])*)*)$",
+                            _js2n__-refsenv."_js2n__-:definitions/path!predicate"
+                          ],
                     op =
                       _js2n__-prdslib.allOf
                           [

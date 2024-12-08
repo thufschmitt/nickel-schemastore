@@ -936,6 +936,8 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/discordVoiceChannelName!predicate",
                             _js2n__-refsenv."_js2n__-:definitions/emptyString!predicate"
                           ],
+                    RecentlyAdded =
+                      _js2n__-refsenv."_js2n__-:definitions/recentlyAddedVoiceChannel!predicate",
                     Series =
                       _js2n__-refsenv."_js2n__-:definitions/voiceChannel!predicate",
                     Tracks =
@@ -1065,6 +1067,8 @@ let rec _js2n__-refsenv
                     Movies =
                       _js2n__-refsenv."_js2n__-:definitions/voiceChannel!predicate",
                     Name = _js2n__-prdslib.isType '"String",
+                    RecentlyAdded =
+                      _js2n__-refsenv."_js2n__-:definitions/recentlyAddedVoiceChannel!predicate",
                     Series =
                       _js2n__-refsenv."_js2n__-:definitions/voiceChannel!predicate",
                     Tracks =
@@ -1084,6 +1088,42 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Integer,
               _js2n__-prdslib.numbers.minimum 1
             ],
+      "_js2n__-:definitions/recentlyAddedVoiceChannel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [
+                  "CustomEmoji",
+                  "CustomName",
+                  "Enable",
+                  "Hours",
+                  "VoiceChannelID"
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  CustomEmoji = _js2n__-prdslib.isType '"String",
+                  CustomName =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/discordVoiceChannelName!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/emptyString!predicate"
+                        ],
+                  Enable = _js2n__-prdslib.isType '"Bool",
+                  Hours =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.minimum 1
+                        ],
+                  VoiceChannelID =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/discordChannelId!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/numberZero!predicate"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/tautulliApiKey!contract"
         | doc "A Tautulli API key"
         = _js2n__-prdslib.contract_from_predicate
@@ -1102,7 +1142,7 @@ let rec _js2n__-refsenv
               [
                 _js2n__-prdslib.isType 'Record,
                 _js2n__-prdslib.records.required
-                  [ "CustomEmoji", "Enable", "VoiceChannelID" ],
+                  [ "CustomEmoji", "CustomName", "Enable", "VoiceChannelID" ],
                 _js2n__-prdslib.records.record
                   {
                     CustomEmoji = _js2n__-prdslib.isType '"String",
@@ -1126,7 +1166,7 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required
-                [ "CustomEmoji", "Enable", "VoiceChannelID" ],
+                [ "CustomEmoji", "CustomName", "Enable", "VoiceChannelID" ],
               _js2n__-prdslib.records.record
                 {
                   CustomEmoji = _js2n__-prdslib.isType '"String",

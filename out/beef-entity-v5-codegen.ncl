@@ -904,6 +904,10 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  authActionCreate = _js2n__-prdslib.isType '"String",
+                  authActionDelete = _js2n__-prdslib.isType '"String",
+                  authActionRead = _js2n__-prdslib.isType '"String",
+                  authActionUpdate = _js2n__-prdslib.isType '"String",
                   autoImplement =
                     _js2n__-prdslib.allOf
                         [
@@ -1101,6 +1105,8 @@ let rec _js2n__-refsenv
                 {
                   abstract = _js2n__-prdslib.isType '"Bool",
                   argumentName = _js2n__-prdslib.isType '"String",
+                  authEntity = _js2n__-prdslib.isType '"String",
+                  authPermission = _js2n__-prdslib.isType '"String",
                   authRole = _js2n__-prdslib.isType '"String",
                   autoImplement =
                     _js2n__-prdslib.allOf
@@ -1361,6 +1367,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "name" ],
               _js2n__-prdslib.records.record
                 {
+                  authAction = _js2n__-prdslib.isType '"String",
+                  authEntity = _js2n__-prdslib.isType '"String",
                   authPermission = _js2n__-prdslib.isType '"String",
                   authRole = _js2n__-prdslib.isType '"String",
                   autoImplement =
