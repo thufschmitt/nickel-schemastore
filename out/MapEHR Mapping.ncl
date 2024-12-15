@@ -897,6 +897,43 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/attribute!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  attributes =
+                    _js2n__-refsenv."_js2n__-:definitions/attributes!predicate",
+                  choice_key = _js2n__-prdslib.isType '"String",
+                  choices =
+                    _js2n__-refsenv."_js2n__-:definitions/choices!predicate",
+                  define =
+                    _js2n__-refsenv."_js2n__-:definitions/define!predicate",
+                  elements =
+                    _js2n__-refsenv."_js2n__-:definitions/elements!predicate",
+                  interpretation_interval =
+                    _js2n__-refsenv."_js2n__-:definitions/interpretation_interval!predicate",
+                  interpretation_intervals =
+                    _js2n__-refsenv."_js2n__-:definitions/interpretation_intervals!predicate",
+                  value = _js2n__-prdslib.isType '"String",
+                  value_interval = _js2n__-prdslib.isType '"String",
+                  value_intervals =
+                    _js2n__-refsenv."_js2n__-:definitions/value_intervals!predicate",
+                  value_type = _js2n__-prdslib.isType '"String",
+                  vars = _js2n__-refsenv."_js2n__-:definitions/vars!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/attributes!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^.+$" =
+                    _js2n__-refsenv."_js2n__-:definitions/attribute!predicate",
+                } false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/choices!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -905,11 +942,7 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/choices_map!predicate"
             ],
       "_js2n__-:definitions/choices_map!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-refsenv."_js2n__-:definitions/choices_map_entry!predicate"
-            ],
+        _js2n__-refsenv."_js2n__-:definitions/choices_map_entry!predicate",
       "_js2n__-:definitions/choices_map_entry!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1059,7 +1092,8 @@ let rec _js2n__-refsenv
                   "^.+$" =
                     _js2n__-prdslib.oneOf
                         [
-                          _js2n__-refsenv."_js2n__-:definitions/map_format_element!predicate"
+                          _js2n__-refsenv."_js2n__-:definitions/map_format_element!predicate",
+                          _js2n__-prdslib.isType 'Null
                         ],
                 } false _js2n__-prdslib.never
             ],
@@ -1112,6 +1146,8 @@ let rec _js2n__-refsenv
                           description = _js2n__-prdslib.isType '"String",
                           formats =
                             _js2n__-refsenv."_js2n__-:definitions/rule_formats!predicate",
+                          keep_missing_target_elements =
+                            _js2n__-prdslib.isType '"Bool",
                           map =
                             _js2n__-prdslib.allOf
                                 [
@@ -1135,6 +1171,8 @@ let rec _js2n__-refsenv
                           define =
                             _js2n__-refsenv."_js2n__-:definitions/define!predicate",
                           description = _js2n__-prdslib.isType '"String",
+                          keep_missing_target_elements =
+                            _js2n__-prdslib.isType '"Bool",
                           name = _js2n__-prdslib.isType '"String",
                           set =
                             _js2n__-prdslib.allOf
@@ -1191,6 +1229,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   attribute = _js2n__-prdslib.isType '"String",
+                  attributes =
+                    _js2n__-refsenv."_js2n__-:definitions/attributes!predicate",
                   choices =
                     _js2n__-refsenv."_js2n__-:definitions/choices!predicate",
                   define =
@@ -1242,6 +1282,10 @@ let rec _js2n__-refsenv
       define
         | _js2n__-refsenv."_js2n__-:definitions/define!contract"
         | doc "Define keys used in the rules. Example: weight: http://loinc.org/29463-7"
+        | optional,
+      keep_missing_target_elements
+        | Bool
+        | doc "Keep the target elements for which there is not source data."
         | optional,
       rules
         | _js2n__-refsenv."_js2n__-:definitions/rules!contract"

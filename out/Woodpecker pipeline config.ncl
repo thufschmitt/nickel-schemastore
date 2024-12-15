@@ -983,32 +983,16 @@ let rec _js2n__-refsenv
                   commands =
                     _js2n__-refsenv."_js2n__-:definitions/step_commands!predicate",
                   depends_on =
-                    _js2n__-prdslib.oneOf
-                        [
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.strings.minLength 1,
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.isType '"String")
-                            ],
-                          _js2n__-prdslib.isType '"String"
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/string_or_string_slice!predicate",
                   detach = _js2n__-prdslib.isType '"Bool",
                   directory =
                     _js2n__-refsenv."_js2n__-:definitions/step_directory!predicate",
+                  dns =
+                    _js2n__-refsenv."_js2n__-:definitions/string_or_string_slice!predicate",
+                  dns_search =
+                    _js2n__-refsenv."_js2n__-:definitions/string_or_string_slice!predicate",
                   entrypoint =
-                    _js2n__-prdslib.oneOf
-                        [
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.strings.minLength 1,
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.isType '"String")
-                            ],
-                          _js2n__-prdslib.isType '"String"
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/string_or_string_slice!predicate",
                   environment =
                     _js2n__-refsenv."_js2n__-:definitions/step_environment!predicate",
                   failure =
@@ -1024,8 +1008,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/step_privileged!predicate",
                   pull =
                     _js2n__-refsenv."_js2n__-:definitions/step_pull!predicate",
-                  secrets =
-                    _js2n__-refsenv."_js2n__-:definitions/step_secrets!predicate",
                   volumes =
                     _js2n__-refsenv."_js2n__-:definitions/step_volumes!predicate",
                   when =
@@ -1154,17 +1136,7 @@ let rec _js2n__-refsenv
                   backend_options =
                     _js2n__-refsenv."_js2n__-:definitions/step_backend_options!predicate",
                   depends_on =
-                    _js2n__-prdslib.oneOf
-                        [
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.strings.minLength 1,
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.isType '"String")
-                            ],
-                          _js2n__-prdslib.isType '"String"
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/string_or_string_slice!predicate",
                   detach = _js2n__-prdslib.isType '"Bool",
                   directory =
                     _js2n__-refsenv."_js2n__-:definitions/step_directory!predicate",
@@ -1225,8 +1197,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/step_privileged!predicate",
                   pull =
                     _js2n__-refsenv."_js2n__-:definitions/step_pull!predicate",
-                  secrets =
-                    _js2n__-refsenv."_js2n__-:definitions/step_secrets!predicate",
                   settings =
                     _js2n__-refsenv."_js2n__-:definitions/step_settings!predicate",
                   volumes =
@@ -1423,14 +1393,6 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/step_pull!predicate"
         | doc "Always pull the latest image on pipeline execution Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#image"
         = _js2n__-prdslib.isType '"Bool",
-      "_js2n__-:definitions/step_secrets!predicate"
-        | doc "Pass secrets to a pipeline step at runtime. Read more: https://woodpecker-ci.org/docs/usage/secrets"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.strings.minLength 1,
-              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
-            ],
       "_js2n__-:definitions/step_settings!predicate"
         | doc "Change the settings of your plugin. Read more: https://woodpecker-ci.org/docs/usage/plugins/overview"
         = _js2n__-prdslib.allOf
@@ -1556,6 +1518,18 @@ let rec _js2n__-refsenv
                             ]
                         ],
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/string_or_string_slice!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.strings.minLength 1,
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.isType '"String")
+                ],
+              _js2n__-prdslib.isType '"String"
             ],
       "_js2n__-:definitions/workflow_when!contract"
         | doc "Whole workflow can be skipped based on conditions. Read more: https://woodpecker-ci.org/docs/usage/workflow-syntax#when---global-workflow-conditions"

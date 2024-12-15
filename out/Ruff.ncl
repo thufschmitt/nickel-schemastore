@@ -897,6 +897,7 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/Alias!predicate" = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/AnalyzeOptions!predicate"
         | doc "Configures Ruff's `analyze` command."
         = _js2n__-prdslib.allOf
@@ -1280,7 +1281,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType 'Null
                             ],
                           _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/Alias!predicate"
                         ],
                   banned-aliases =
                     _js2n__-prdslib.allOf
@@ -1314,7 +1315,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType 'Null
                             ],
                           _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/Alias!predicate"
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1982,17 +1983,6 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.strings.minLength 1
                               ])
                         ],
-                  allowed-unused-imports =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.isType 'Null
-                            ],
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
                   dummy-variable-rgx =
                     _js2n__-prdslib.anyOf
                         [
@@ -2393,31 +2383,23 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/NameImports!predicate" =
         _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/OutputFormat!predicate" =
-        _js2n__-prdslib.oneOf
+        _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.allOf
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
                 [
-                  _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.enum
-                    [
-                      "concise",
-                      "full",
-                      "json",
-                      "json-lines",
-                      "junit",
-                      "grouped",
-                      "github",
-                      "gitlab",
-                      "pylint",
-                      "rdjson",
-                      "azure",
-                      "sarif"
-                    ]
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.enum [ "text" ]
+                  "concise",
+                  "full",
+                  "json",
+                  "json-lines",
+                  "junit",
+                  "grouped",
+                  "github",
+                  "gitlab",
+                  "pylint",
+                  "rdjson",
+                  "azure",
+                  "sarif"
                 ]
             ],
       "_js2n__-:definitions/ParametrizeNameType!predicate" =
@@ -2766,6 +2748,17 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  extend-markup-names =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   parenthesize-tuple-in-subscript =
                     _js2n__-prdslib.anyOf
                         [
@@ -2793,6 +2786,10 @@ let rec _js2n__-refsenv
                   "AIR0",
                   "AIR00",
                   "AIR001",
+                  "AIR3",
+                  "AIR30",
+                  "AIR301",
+                  "AIR302",
                   "ALL",
                   "ANN",
                   "ANN0",
@@ -2800,10 +2797,6 @@ let rec _js2n__-refsenv
                   "ANN001",
                   "ANN002",
                   "ANN003",
-                  "ANN1",
-                  "ANN10",
-                  "ANN101",
-                  "ANN102",
                   "ANN2",
                   "ANN20",
                   "ANN201",
@@ -3025,6 +3018,9 @@ let rec _js2n__-refsenv
                   "DTZ01",
                   "DTZ011",
                   "DTZ012",
+                  "DTZ9",
+                  "DTZ90",
+                  "DTZ901",
                   "E",
                   "E1",
                   "E10",
@@ -3111,8 +3107,6 @@ let rec _js2n__-refsenv
                   "E9",
                   "E90",
                   "E902",
-                  "E99",
-                  "E999",
                   "EM",
                   "EM1",
                   "EM10",
@@ -3265,6 +3259,7 @@ let rec _js2n__-refsenv
                   "FURB181",
                   "FURB187",
                   "FURB188",
+                  "FURB189",
                   "FURB19",
                   "FURB192",
                   "G",
@@ -3317,6 +3312,8 @@ let rec _js2n__-refsenv
                   "LOG002",
                   "LOG007",
                   "LOG009",
+                  "LOG01",
+                  "LOG015",
                   "N",
                   "N8",
                   "N80",
@@ -3421,6 +3418,9 @@ let rec _js2n__-refsenv
                   "PLC0414",
                   "PLC0415",
                   "PLC1",
+                  "PLC18",
+                  "PLC180",
+                  "PLC1802",
                   "PLC19",
                   "PLC190",
                   "PLC1901",
@@ -3612,6 +3612,7 @@ let rec _js2n__-refsenv
                   "PLW15",
                   "PLW150",
                   "PLW1501",
+                  "PLW1507",
                   "PLW1508",
                   "PLW1509",
                   "PLW151",
@@ -3640,8 +3641,6 @@ let rec _js2n__-refsenv
                   "PT001",
                   "PT002",
                   "PT003",
-                  "PT004",
-                  "PT005",
                   "PT006",
                   "PT007",
                   "PT008",
@@ -3705,6 +3704,7 @@ let rec _js2n__-refsenv
                   "PTH205",
                   "PTH206",
                   "PTH207",
+                  "PTH208",
                   "PYI",
                   "PYI0",
                   "PYI00",
@@ -3764,6 +3764,7 @@ let rec _js2n__-refsenv
                   "PYI058",
                   "PYI059",
                   "PYI06",
+                  "PYI061",
                   "PYI062",
                   "PYI063",
                   "PYI064",
@@ -3827,6 +3828,18 @@ let rec _js2n__-refsenv
                   "RUF032",
                   "RUF033",
                   "RUF034",
+                  "RUF035",
+                  "RUF036",
+                  "RUF038",
+                  "RUF039",
+                  "RUF04",
+                  "RUF040",
+                  "RUF041",
+                  "RUF046",
+                  "RUF048",
+                  "RUF05",
+                  "RUF052",
+                  "RUF055",
                   "RUF1",
                   "RUF10",
                   "RUF100",
@@ -3965,6 +3978,8 @@ let rec _js2n__-refsenv
                   "SIM40",
                   "SIM401",
                   "SIM9",
+                  "SIM90",
+                  "SIM905",
                   "SIM91",
                   "SIM910",
                   "SIM911",
@@ -3986,16 +4001,19 @@ let rec _js2n__-refsenv
                   "T20",
                   "T201",
                   "T203",
-                  "TCH",
-                  "TCH0",
-                  "TCH00",
-                  "TCH001",
-                  "TCH002",
-                  "TCH003",
-                  "TCH004",
-                  "TCH005",
-                  "TCH01",
-                  "TCH010",
+                  "TC",
+                  "TC0",
+                  "TC00",
+                  "TC001",
+                  "TC002",
+                  "TC003",
+                  "TC004",
+                  "TC005",
+                  "TC006",
+                  "TC007",
+                  "TC008",
+                  "TC01",
+                  "TC010",
                   "TD",
                   "TD0",
                   "TD00",
@@ -4021,11 +4039,11 @@ let rec _js2n__-refsenv
                   "TRY2",
                   "TRY20",
                   "TRY201",
+                  "TRY203",
                   "TRY3",
                   "TRY30",
                   "TRY300",
                   "TRY301",
-                  "TRY302",
                   "TRY4",
                   "TRY40",
                   "TRY400",
@@ -4059,7 +4077,6 @@ let rec _js2n__-refsenv
                   "UP024",
                   "UP025",
                   "UP026",
-                  "UP027",
                   "UP028",
                   "UP029",
                   "UP03",
@@ -4078,6 +4095,7 @@ let rec _js2n__-refsenv
                   "UP041",
                   "UP042",
                   "UP043",
+                  "UP044",
                   "W",
                   "W1",
                   "W19",
@@ -4150,23 +4168,6 @@ let rec _js2n__-refsenv
                   ])
             ])
         | doc "A list of allowed \"confusable\" Unicode characters to ignore when enforcing `RUF001`, `RUF002`, and `RUF003`."
-        | optional,
-      allowed-unused-imports
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.anyOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.isType 'Null
-                ],
-              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
-            ])
-        | doc m%"
-          A list of modules which is allowed even though they are not used in the code.
-          
-          This is useful when a module has a side effect when imported.
-        "%
         | optional,
       analyze
         | _js2n__-prdslib.contract_from_predicate
@@ -4901,7 +4902,7 @@ let rec _js2n__-refsenv
           
           1. The directory containing the nearest `pyproject.toml`, `ruff.toml`, or `.ruff.toml` file (the "project root"). 2. The `"src"` subdirectory of the project root.
           
-          These defaults ensure that uv supports both flat layouts and `src` layouts out-of-the-box. (If a configuration file is explicitly provided (e.g., via the `--config` command-line flag), the current working directory will be considered the project root.)
+          These defaults ensure that Ruff supports both flat layouts and `src` layouts out-of-the-box. (If a configuration file is explicitly provided (e.g., via the `--config` command-line flag), the current working directory will be considered the project root.)
           
           As an example, consider an alternative project structure, like:
           
@@ -4910,19 +4911,6 @@ let rec _js2n__-refsenv
           In this case, the `./lib` directory should be included in the `src` option (e.g., `src = ["lib"]`), such that when resolving imports, `my_package.foo` is considered first-party.
           
           This field supports globs. For example, if you have a series of Python packages in a `python_modules` directory, `src = ["python_modules/*"]` would expand to incorporate all packages in that directory. User home directory and environment variables will also be expanded.
-        "%
-        | optional,
-      tab-size
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.anyOf
-            [
-              _js2n__-refsenv."_js2n__-:definitions/IndentWidth!predicate",
-              _js2n__-prdslib.isType 'Null
-            ])
-        | doc m%"
-          The number of spaces a tab is equal to when enforcing long-line violations (like `E501`) or formatting code with the formatter.
-          
-          This option changes the number of spaces inserted by the formatter when using soft-tabs (`indent-style = space`).
         "%
         | optional,
       target-version

@@ -900,10 +900,6 @@ let rec _js2n__-refsenv
     in
   {
       developer_mode | Bool | doc "Not currently used." | optional,
-      disable_http2
-        | Bool
-        | doc "Whether to disable HTTP/2 listen in ddev-router."
-        | optional,
       fail_on_hook_fail
         | Bool
         | doc "Whether ddev start should be interrupted by a failing hook, on a single project or for all projects if used globally."
@@ -983,11 +979,6 @@ let rec _js2n__-refsenv
       required_docker_compose_version
         | String
         | doc "Specific docker-compose version for download."
-        | optional,
-      router
-        | std.enum.TagOrString
-        | [| 'nginx-proxy, 'traefik |]
-        | doc "The PHP version the project should use."
         | optional,
       router_bind_all_interfaces
         | Bool

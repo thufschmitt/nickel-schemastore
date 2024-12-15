@@ -2053,60 +2053,103 @@ let rec _js2n__-refsenv
         | doc "A set of string or regex patterns for non-numeric branch names that will not be handled as feature branches."
         | optional,
       php-ext
-        | {
-          configure-options
-            | Array
-              {
-                description
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.isType '"String")
-                  | doc "The description of what the flag does or means."
-                  | optional,
-                name
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.strings.pattern
-                          "^[a-zA-Z0-9][a-zA-Z0-9-_]*$"
-                      ])
-                  | doc "The name of the flag, this would typically be prefixed with `--`, for example, the value 'the-flag' would be passed as `./configure --the-flag`.",
-                needs-value
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.isType '"Bool")
-                  | doc "If this is set to true, the flag needs a value (e.g. --with-somelib=<path>), otherwise it is a flag without a value (e.g. --enable-some-feature)."
-                  | optional,
-                ..
-              }
-            | doc "These configure options make up the flags that can be passed to ./configure when installing the extension."
-            | optional,
-          extension-name
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.isType '"String")
-            | doc "If specified, this will be used as the name of the extension, where needed by tooling. If this is not specified, the extension name will be derived from the Composer package name (e.g. `vendor/name` would become `ext-name`). The extension name may be specified with or without the `ext-` prefix, and tools that use this must normalise this appropriately."
-            | optional,
-          "priority"
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Integer,
-                  _js2n__-prdslib.numbers.maximum 99,
-                  _js2n__-prdslib.numbers.minimum 10
-                ])
-            | doc "This is used to add a prefix to the INI file, e.g. `90-xdebug.ini` which affects the loading order. The priority is a number in the range 10-99 inclusive, with 10 being the highest priority (i.e. will be processed first), and 99 being the lowest priority (i.e. will be processed last). There are two digits so that the files sort correctly on any platform, whether the sorting is natural or not."
-            | optional,
-          support-nts
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.isType '"Bool")
-            | doc "Does this package support non-Thread Safe mode"
-            | optional,
-          support-zts
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.isType '"Bool")
-            | doc "Does this package support Zend Thread Safety"
-            | optional,
-          ..
-        }
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.not
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.records.required
+                      [ "os-families", "os-families-exclude" ],
+                    _js2n__-prdslib.records.record {} {} true
+                      _js2n__-prdslib.always
+                  ]),
+              _js2n__-prdslib.records.record
+                {
+                  build-path =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  configure-options =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required [ "name" ],
+                                _js2n__-prdslib.records.record
+                                  {
+                                    description =
+                                      _js2n__-prdslib.isType '"String",
+                                    name =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.strings.pattern
+                                              "^[a-zA-Z0-9][a-zA-Z0-9-_]*$"
+                                          ],
+                                    needs-value =
+                                      _js2n__-prdslib.isType '"Bool",
+                                  } {} true _js2n__-prdslib.always
+                              ])
+                        ],
+                  extension-name = _js2n__-prdslib.isType '"String",
+                  os-families =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum
+                                  [
+                                    "windows",
+                                    "bsd",
+                                    "darwin",
+                                    "solaris",
+                                    "linux",
+                                    "unknown"
+                                  ]
+                              ]),
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                  os-families-exclude =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum
+                                  [
+                                    "windows",
+                                    "bsd",
+                                    "darwin",
+                                    "solaris",
+                                    "linux",
+                                    "unknown"
+                                  ]
+                              ]),
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                  "priority" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 99,
+                          _js2n__-prdslib.numbers.minimum 10
+                        ],
+                  support-nts = _js2n__-prdslib.isType '"Bool",
+                  support-zts = _js2n__-prdslib.isType '"Bool",
+                } {} true _js2n__-prdslib.always
+            ])
         | doc "Settings for PHP extension packages."
         | optional,
       prefer-stable

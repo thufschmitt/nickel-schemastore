@@ -1463,6 +1463,10 @@ let rec _js2n__-refsenv
             | Bool
             | doc "If true, show the '5 of 20' footer at the bottom of list views"
             | optional,
+          showNumstatInFilesView
+            | Bool
+            | doc "If true, show the number of lines changed per file in the Files view"
+            | optional,
           showPanelJumps
             | Bool
             | doc "If true, show jump-to-window keybindings in window titles."
@@ -1534,6 +1538,10 @@ let rec _js2n__-refsenv
               Status panel view.
               One of 'dashboard' (default) | 'allBranchesLog'
             "%
+            | optional,
+          switchTabsWithPanelJumpKeys
+            | Bool
+            | doc "If true, when using the panel jump keys (default 1 through 5) and target panel is already active, go to next tab instead"
             | optional,
           switchToFilesAfterStashApply
             | Bool

@@ -2629,6 +2629,13 @@ let rec _js2n__-refsenv
                 {
                   compress = _js2n__-prdslib.isType '"Bool",
                   flushFrequency = _js2n__-prdslib.isType 'Integer,
+                  headers =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   parameters =
                     _js2n__-prdslib.allOf
                         [
@@ -2650,6 +2657,13 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SASLConfig!predicate",
                   schemaRegistry =
                     _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SchemaRegistryConfig!predicate",
+                  secureHeaders =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SecureHeader!predicate"
+                        ],
                   tls =
                     _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
                   topic = _js2n__-prdslib.isType '"String",

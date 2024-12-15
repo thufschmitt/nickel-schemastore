@@ -923,6 +923,8 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.isType 'Record,
                             _js2n__-prdslib.records.record
                               {
+                                description =
+                                  _js2n__-refsenv."_js2n__-:definitions/string-property!predicate",
                                 entries =
                                   _js2n__-prdslib.allOf
                                       [
@@ -933,12 +935,16 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.isType 'Record,
                                               _js2n__-prdslib.records.record
                                                 {
+                                                  description =
+                                                    _js2n__-refsenv."_js2n__-:definitions/string-property!predicate",
                                                   matches =
                                                     _js2n__-prdslib.isType
                                                         '"Bool",
                                                   name =
                                                     _js2n__-refsenv."_js2n__-:definitions/string-property!predicate",
                                                   script =
+                                                    _js2n__-refsenv."_js2n__-:definitions/string-property!predicate",
+                                                  task_list =
                                                     _js2n__-refsenv."_js2n__-:definitions/string-property!predicate",
                                                 } {} false _js2n__-prdslib.never
                                             ]),
@@ -964,7 +970,12 @@ let rec _js2n__-refsenv
                                                             'Record,
                                                           _js2n__-prdslib.records.record
                                                             {
+                                                              command_exists =
+                                                                _js2n__-prdslib.isType
+                                                                    'Null,
                                                               environment =
+                                                                _js2n__-refsenv."_js2n__-:definitions/string-property!predicate",
+                                                              file =
                                                                 _js2n__-refsenv."_js2n__-:definitions/string-property!predicate",
                                                             } {} false
                                                             _js2n__-prdslib.never
@@ -991,11 +1002,14 @@ let rec _js2n__-refsenv
                                       ],
                                 script =
                                   _js2n__-refsenv."_js2n__-:definitions/string-property!predicate",
+                                task_list =
+                                  _js2n__-refsenv."_js2n__-:definitions/string-property!predicate",
                               } {} false _js2n__-prdslib.never
                           ]),
                       _js2n__-prdslib.arrays.minItems 1,
                       _js2n__-prdslib.arrays.uniqueItems
                     ],
+              multi_selectable = _js2n__-prdslib.isType '"Bool",
               name =
                 _js2n__-refsenv."_js2n__-:definitions/string-property!predicate",
             } {} false _js2n__-prdslib.never

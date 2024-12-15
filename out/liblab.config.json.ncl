@@ -1902,6 +1902,8 @@ let rec _js2n__-refsenv
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/hookDependencies!predicate",
                                       ignoreFiles =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/ignoreFiles!predicate",
+                                      includeKotlinSnippets =
+                                        _js2n__-prdslib.isType '"Bool",
                                       liblabVersion =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/liblabVersion!predicate",
                                       packageName =
@@ -1918,8 +1920,6 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.required
-                                    [ "additionalConstructorParameters" ],
                                   _js2n__-prdslib.records.record
                                     {
                                       additionalConstructorParameters =

@@ -976,7 +976,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/packageExportsEntryOrFallback!predicate",
                 }
                 {
-                  "^(?![\\.0-9])." =
+                  "^[^.0-9]+$" =
                     _js2n__-refsenv."_js2n__-:definitions/packageExportsEntryOrFallback!predicate",
                 } false _js2n__-prdslib.never
             ],
@@ -1004,6 +1004,20 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
                 _js2n__-refsenv."_js2n__-:definitions/packageExportsEntry!predicate"
+            ],
+      "_js2n__-:definitions/peerDependencyMeta!predicate"
+        | doc "When a user installs your package, warnings are emitted if packages specified in \"peerDependencies\" are not already installed. The \"peerDependenciesMeta\" field serves to provide more information on how your peer dependencies are utilized. Most commonly, it allows peer dependencies to be marked as optional. Metadata for this field is specified with a simple hash of the package name to a metadata object."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      { "optional" = _js2n__-prdslib.isType '"Bool", } {} true
+                      _js2n__-prdslib.always
+                  ])
             ],
       "_js2n__-:definitions/person!predicate"
         | doc "A person who has been involved in creating or maintaining this package."
@@ -1268,6 +1282,16 @@ let rec _js2n__-refsenv
                         ]
                     ],
               homepage = _js2n__-prdslib.isType '"String",
+              imports =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "^#.+$" =
+                            _js2n__-refsenv."_js2n__-:definitions/packageExportsEntryOrFallback!predicate",
+                        } false _js2n__-prdslib.never
+                    ],
               jscpd = _js2n__-prdslib.always,
               jspm = _js2n__-prdslib.always,
               keywords =
@@ -1344,17 +1368,186 @@ let rec _js2n__-refsenv
               peerDependencies =
                 _js2n__-refsenv."_js2n__-:definitions/dependency!predicate",
               peerDependenciesMeta =
+                _js2n__-refsenv."_js2n__-:definitions/peerDependencyMeta!predicate",
+              pnpm =
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record {} {} true
-                        (_js2n__-prdslib.allOf
-                          [
+                      _js2n__-prdslib.records.record
+                        {
+                          allowNonAppliedPatches =
+                            _js2n__-prdslib.isType '"Bool",
+                          allowedDeprecatedVersions =
                             _js2n__-prdslib.isType 'Record,
+                          auditConfig =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      ignoreCves =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^CVE-\\d{4}-\\d{4,7}$"
+                                                  ])
+                                            ],
+                                      ignoreGhsas =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^GHSA(-[23456789cfghjmpqrvwx]{4}){3}$"
+                                                  ])
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          executionEnv =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      nodeVersion =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          ignoredOptionalDependencies =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          neverBuiltDependencies =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          onlyBuiltDependencies =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          onlyBuiltDependenciesFile =
+                            _js2n__-prdslib.isType '"String",
+                          overrides = _js2n__-prdslib.isType 'Record,
+                          packageExtensions =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^.+$" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  dependencies =
+                                                    _js2n__-refsenv."_js2n__-:definitions/dependency!predicate",
+                                                  optionalDependencies =
+                                                    _js2n__-refsenv."_js2n__-:definitions/dependency!predicate",
+                                                  peerDependencies =
+                                                    _js2n__-refsenv."_js2n__-:definitions/dependency!predicate",
+                                                  peerDependenciesMeta =
+                                                    _js2n__-refsenv."_js2n__-:definitions/peerDependencyMeta!predicate",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                    } false _js2n__-prdslib.never
+                                ],
+                          patchedDependencies = _js2n__-prdslib.isType 'Record,
+                          peerDependencyRules =
                             _js2n__-prdslib.records.record
-                              { "optional" = _js2n__-prdslib.isType '"Bool", }
-                              {} true _js2n__-prdslib.always
-                          ])
+                                {
+                                  allowAny =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                  allowedVersions =
+                                    _js2n__-prdslib.isType 'Record,
+                                  ignoreMissing =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                } {} false _js2n__-prdslib.never,
+                          requiredScripts =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          supportedArchitectures =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      cpu =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      libc =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      os =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          updateConfig =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      ignoreDependencies =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } {} false _js2n__-prdslib.never
                     ],
               preferGlobal = _js2n__-prdslib.isType '"Bool",
               prettier = _js2n__-prdslib.always,
@@ -1377,6 +1570,7 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.enum
                                     [ "public", "restricted" ]
                                 ],
+                          provenance = _js2n__-prdslib.isType '"Bool",
                           registry = _js2n__-prdslib.isType '"String",
                           tag = _js2n__-prdslib.isType '"String",
                         } {} true _js2n__-prdslib.always
