@@ -942,6 +942,9 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/BuildOptions!contract"
         | doc "Optional arguments to enable specific features of builds."
         = {
+            automapSubstitutions
+              | _js2n__-refsenv."_js2n__-:definitions/automapSubstitutions!contract"
+              | optional,
             defaultLogsBucketBehavior
               | std.enum.TagOrString
               | [|
@@ -1079,6 +1082,9 @@ let rec _js2n__-refsenv
                 
                 If the image used to run the step's container has an entrypoint, the args are used as arguments to that entrypoint. If the image does not define an entrypoint, the first element in args is used as the entrypoint, and the remainder will be used as arguments.
               "%
+              | optional,
+            automapSubstitutions
+              | _js2n__-refsenv."_js2n__-:definitions/automapSubstitutions!contract"
               | optional,
             dir
               | _js2n__-prdslib.contract_from_predicate
@@ -1220,6 +1226,10 @@ let rec _js2n__-refsenv
               | optional,
             ..
           },
+      "_js2n__-:definitions/automapSubstitutions!contract"
+        | doc "If set to true, automatically map all subsistutions and make them available as environment variables in a single step. If set to false, ignore substitutions for that step. Can be used for a build step or for an entire build."
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.isType '"Bool"),
     }
     in
   {

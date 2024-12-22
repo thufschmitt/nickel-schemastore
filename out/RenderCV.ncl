@@ -899,7 +899,7 @@ let rec _js2n__-refsenv
     = {}
     in
   {
-      cv | Dyn | doc "The data of the CV.",
+      cv | Dyn | doc "The data of the CV." | optional,
       design
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.oneOf

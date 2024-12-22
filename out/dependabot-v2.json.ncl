@@ -1747,6 +1747,13 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.allOf
                                       [
                                         _js2n__-prdslib.records.required
+                                          [ "exclude-patterns" ],
+                                        _js2n__-prdslib.records.record {} {}
+                                          true _js2n__-prdslib.always
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
                                           [ "update-types" ],
                                         _js2n__-prdslib.records.record {} {}
                                           true _js2n__-prdslib.always

@@ -1134,17 +1134,13 @@ let rec _js2n__-refsenv
                         (_js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.records.record
-                                  {
-                                    literal = _js2n__-prdslib.isType '"String",
-                                    name = _js2n__-prdslib.isType '"String",
-                                    rel = _js2n__-prdslib.isType '"String",
-                                    uri = _js2n__-prdslib.isType '"String",
-                                  } {} true _js2n__-prdslib.always,
-                                _js2n__-prdslib.always
-                              ]
+                            _js2n__-prdslib.records.record
+                              {
+                                literal = _js2n__-prdslib.isType '"String",
+                                name = _js2n__-prdslib.isType '"String",
+                                rel = _js2n__-prdslib.isType '"String",
+                                uri = _js2n__-prdslib.isType '"String",
+                              } {} true _js2n__-prdslib.always
                           ]),
                       _js2n__-prdslib.records.record {} {} false
                         _js2n__-prdslib.never

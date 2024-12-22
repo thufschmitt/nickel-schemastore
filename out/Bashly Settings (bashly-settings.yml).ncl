@@ -949,6 +949,54 @@ let rec _js2n__-refsenv
           https://bashly.dannyb.co/usage/settings/#conjoined_flag_args
         "%
         | optional,
+      enable_bash3_bouncer
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the code snippet that aborts when an old version of bash is detected in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_bash3_bouncer
+        "%
+        | optional,
+      enable_deps_array
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the code for the dependencies array in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_deps_array
+        "%
+        | optional,
+      enable_env_var_names_array
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the code for the env_var_names array in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_env_var_names_array
+        "%
+        | optional,
+      enable_header_comment
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the header comment in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_header_comment
+        "%
+        | optional,
+      enable_inspect_args
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the inspect_args function in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_inspect_args
+        "%
+        | optional,
+      enable_view_markers
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include view marker comments in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_view_markers
+        "%
+        | optional,
       env
         | std.enum.TagOrString
         | [| 'production, 'development |]

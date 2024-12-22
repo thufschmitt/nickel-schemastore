@@ -948,6 +948,7 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.isType '"Array",
                                         } {} false _js2n__-prdslib.never
                                     ],
+                              idle_timeout_s = _js2n__-prdslib.isType '"Number",
                               initialization_commands =
                                 _js2n__-refsenv."_js2n__-:definitions/commands!predicate",
                               labels =

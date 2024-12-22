@@ -1019,6 +1019,12 @@ let rec _js2n__-refsenv
                     | optional,
                 }
                 | optional,
+              from_sources
+                | {
+                  dest_names | Array (String) | optional,
+                  source_paths | Array (String),
+                }
+                | optional,
               when | String | optional,
             }
           | optional,

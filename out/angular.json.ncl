@@ -1063,11 +1063,65 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.allOf
                                         [
                                           _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.anyOf
+                                            [
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.not
+                                                    (_js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.records.required
+                                                          [ "baseHref" ],
+                                                        _js2n__-prdslib.records.record
+                                                          {} {} true
+                                                          _js2n__-prdslib.always
+                                                      ]),
+                                                  _js2n__-prdslib.records.required
+                                                    [ "subPath" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {} {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.not
+                                                    (_js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.records.required
+                                                          [ "subPath" ],
+                                                        _js2n__-prdslib.records.record
+                                                          {} {} true
+                                                          _js2n__-prdslib.always
+                                                      ]),
+                                                  _js2n__-prdslib.records.required
+                                                    [ "baseHref" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {} {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                              _js2n__-prdslib.not
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.records.required
+                                                      [ "baseHref", "subPath" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {} {} true
+                                                      _js2n__-prdslib.always
+                                                  ])
+                                            ],
                                           _js2n__-prdslib.records.record
                                             {
                                               baseHref =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              subPath =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^[\\w-]*$"
+                                                    ],
                                               translation =
                                                 _js2n__-prdslib.oneOf
                                                     [
@@ -1103,6 +1157,47 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.not
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.records.required
+                                              [ "baseHref" ],
+                                            _js2n__-prdslib.records.record {} {}
+                                              true _js2n__-prdslib.always
+                                          ]),
+                                      _js2n__-prdslib.records.required
+                                        [ "subPath" ],
+                                      _js2n__-prdslib.records.record {} {} true
+                                        _js2n__-prdslib.always
+                                    ],
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.not
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.records.required
+                                              [ "subPath" ],
+                                            _js2n__-prdslib.records.record {} {}
+                                              true _js2n__-prdslib.always
+                                          ]),
+                                      _js2n__-prdslib.records.required
+                                        [ "baseHref" ],
+                                      _js2n__-prdslib.records.record {} {} true
+                                        _js2n__-prdslib.always
+                                    ],
+                                  _js2n__-prdslib.not
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "baseHref", "subPath" ],
+                                        _js2n__-prdslib.records.record {} {}
+                                          true _js2n__-prdslib.always
+                                      ])
+                                ],
                               _js2n__-prdslib.records.record
                                 {
                                   baseHref = _js2n__-prdslib.isType '"String",
@@ -1112,6 +1207,13 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.isType '"String",
                                           _js2n__-prdslib.strings.pattern
                                             "^[a-zA-Z]{2,3}(-[a-zA-Z]{4})?(-([a-zA-Z]{2}|[0-9]{3}))?(-[a-zA-Z]{5,8})?(-x(-[a-zA-Z0-9]{1,8})+)?$"
+                                        ],
+                                  subPath =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^[\\w-]*$"
                                         ],
                                 } {} false _js2n__-prdslib.never
                             ]
@@ -1148,7 +1250,6 @@ let rec _js2n__-refsenv
                                     "@angular-devkit/build-angular:prerender",
                                     "@angular-devkit/build-angular:jest",
                                     "@angular-devkit/build-angular:web-test-runner",
-                                    "@angular-devkit/build-angular:protractor",
                                     "@angular-devkit/build-angular:server",
                                     "@angular-devkit/build-angular:ssr-dev-server"
                                   ])
@@ -1378,25 +1479,6 @@ let rec _js2n__-refsenv
                       builder =
                         _js2n__-prdslib.const
                             "@angular-devkit/build-angular:web-test-runner",
-                      configurations =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.record {} {} true
-                                _js2n__-prdslib.always
-                            ],
-                      defaultConfiguration = _js2n__-prdslib.isType '"String",
-                      options = _js2n__-prdslib.always,
-                    } {} false _js2n__-prdslib.never
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.record
-                    {
-                      builder =
-                        _js2n__-prdslib.const
-                            "@angular-devkit/build-angular:protractor",
                       configurations =
                         _js2n__-prdslib.allOf
                             [

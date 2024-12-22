@@ -905,7 +905,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   env = _js2n__-refsenv."_js2n__-:definitions/Env!predicate",
-                  exclude = _js2n__-prdslib.isType '"String",
+                  exclude =
+                    _js2n__-refsenv."_js2n__-:definitions/Exclude!predicate",
                   fail_text =
                     _js2n__-refsenv."_js2n__-:definitions/FailText!predicate",
                   files = _js2n__-prdslib.isType '"String",
@@ -932,6 +933,18 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.isType '"String")
+            ],
+      "_js2n__-:definitions/Exclude!predicate"
+        | doc "A list of globs to be excluded or a single regular expression (regex variant is deprecated)"
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.isType '"String")
+                ],
+              _js2n__-prdslib.isType '"String"
             ],
       "_js2n__-:definitions/FailText!predicate"
         | doc "Text to show when the command or script fails."

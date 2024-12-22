@@ -1305,6 +1305,10 @@ let rec _js2n__-refsenv
           _js2n__-refsenv."_js2n__-:definitions/enum_notification_types!contract"
         | doc "List of notifications types to skip sending"
         | optional,
+      packageNoOverwritePath
+        | String
+        | doc "Path to a custom package-no-overwrite XML file (used in smartDeploy command)"
+        | optional,
       poolConfig
         | {
           maxScratchOrgsNumber

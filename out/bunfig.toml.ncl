@@ -916,6 +916,13 @@ let rec _js2n__-refsenv
               https://bun.sh/docs/runtime/bunfig#install-auto
             "%
             | optional,
+          ca
+            | String
+            | doc m%"
+              The CA certificate as a string
+              https://bun.sh/docs/runtime/bunfig#install-ca-and-install-cafile
+            "%
+            | optional,
           cache
             | {
               dir
@@ -945,6 +952,13 @@ let rec _js2n__-refsenv
             | doc m%"
               To configure the cache behavior
               https://bun.sh/docs/runtime/bunfig#install-cache
+            "%
+            | optional,
+          cafile
+            | String
+            | doc m%"
+              A path to a CA certificate file. The file can contain multiple certificates.
+              https://bun.sh/docs/runtime/bunfig#install-ca-and-install-cafile
             "%
             | optional,
           dev
@@ -1059,6 +1073,15 @@ let rec _js2n__-refsenv
             | doc m%"
               The default registry is `https://registry.npmjs.org/`. This can be globally configured in `bunfig.toml`
               https://bun.sh/docs/runtime/bunfig#install-registry
+            "%
+            | optional,
+          saveTextLockfile
+            | Bool
+            | doc m%"
+              Generate `bun.lock`, a human-readable text-based lockfile. Once generated, Bun will use this file instead of `bun.lockb`, choosing it over the binary lockfile if both are present.
+              
+              Default false. In Bun v1.2.0 the default lockfile format will change to bun.lock.
+              https://bun.sh/docs/runtime/bunfig#install-savetextlockfile
             "%
             | optional,
           scopes
