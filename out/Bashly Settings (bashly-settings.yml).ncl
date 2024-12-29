@@ -949,6 +949,54 @@ let rec _js2n__-refsenv
           https://bashly.dannyb.co/usage/settings/#conjoined_flag_args
         "%
         | optional,
+      enable_bash3_bouncer
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the code snippet that aborts when an old version of bash is detected in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_bash3_bouncer
+        "%
+        | optional,
+      enable_deps_array
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the code for the dependencies array in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_deps_array
+        "%
+        | optional,
+      enable_env_var_names_array
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the code for the env_var_names array in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_env_var_names_array
+        "%
+        | optional,
+      enable_header_comment
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the header comment in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_header_comment
+        "%
+        | optional,
+      enable_inspect_args
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the inspect_args function in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_inspect_args
+        "%
+        | optional,
+      enable_view_markers
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include view marker comments in the generated script
+          https://bashly.dannyb.co/usage/settings/#enable_view_markers
+        "%
+        | optional,
       env
         | std.enum.TagOrString
         | [| 'production, 'development |]
@@ -1088,6 +1136,78 @@ let rec _js2n__-refsenv
         | doc m%"
           Enable and configure colorful output for --help
           https://bashly.dannyb.co/usage/settings/#usage_colors
+        "%
+        | optional,
+      var_aliases
+        | {
+          args
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc m%"
+              Alias name for the args array
+              https://bashly.dannyb.co/usage/settings/#var_aliases
+            "%
+            | optional,
+          deps
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc m%"
+              Alias name for the deps array
+              https://bashly.dannyb.co/usage/settings/#var_aliases
+            "%
+            | optional,
+          env_var_names
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc m%"
+              Alias name for the env_var_names array
+              https://bashly.dannyb.co/usage/settings/#var_aliases
+            "%
+            | optional,
+          other_args
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc m%"
+              Alias name for the other_args array (used when catch_all is enabled)
+              https://bashly.dannyb.co/usage/settings/#var_aliases
+            "%
+            | optional,
+        }
+        | doc m%"
+          Declare alias names for bashly's public global arrays
+          https://bashly.dannyb.co/usage/settings/#var_aliases
         "%
         | optional,
     }

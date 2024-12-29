@@ -951,6 +951,14 @@ let rec _js2n__-refsenv
                   type = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/BlueprintEnvReferenceObject!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { labels-selector = _js2n__-prdslib.isType '"String", } {} false
+                _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/BlueprintInputObject!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1035,7 +1043,7 @@ let rec _js2n__-refsenv
                               "agent",
                               "credentials",
                               "parameter",
-                              "radio",
+                              "env",
                               "input-source"
                             ]
                         ],
@@ -1090,6 +1098,16 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/GrainEnvReference!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^[\\w\\-\\.]+$" =
+                    _js2n__-prdslib.anyOf [ _js2n__-prdslib.isType '"String" ],
+                } false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/GrainInput!predicate" =
         _js2n__-prdslib.allOf
@@ -1227,6 +1245,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/EnvironementVariable!predicate"
+                        ],
+                  env_references =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/GrainEnvReference!predicate"
                         ],
                   files =
                     _js2n__-refsenv."_js2n__-:definitions/ShellGrainFiles!predicate",
@@ -1406,6 +1431,13 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.isType '"String",
                             } {} false _js2n__-prdslib.never
                         ],
+                  pod-annotations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/PodAnnotations!predicate"
+                        ],
                   pod-labels =
                     _js2n__-prdslib.allOf
                         [
@@ -1425,6 +1457,12 @@ let rec _js2n__-refsenv
                   path = _js2n__-prdslib.isType '"String",
                   store = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PodAnnotations!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/PodLabels!predicate" =
         _js2n__-prdslib.allOf
@@ -1516,6 +1554,22 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/Torque-Blueprint-Spec2!contract" =
         {
             description | String | optional,
+            env_references
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record {}
+                      {
+                        "^[a-zA-Z0-9-_ ().]{3,45}$" =
+                          _js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/BlueprintEnvReferenceObject!predicate",
+                                _js2n__-prdslib.isType 'Null
+                              ],
+                      } true _js2n__-prdslib.always
+                  ])
+              | optional,
             grains
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.allOf

@@ -953,6 +953,16 @@ let rec _js2n__-refsenv
             ])
         | doc "Configure the default action of certain signals is to cause a process to terminate and produce a core dump file, a file containing an image of the process's memory at the time of termination. Disabled by default."
         | optional,
+      env
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "Environment variables to set on the workspace."
+        | optional,
       experimentalNetwork
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"Bool")

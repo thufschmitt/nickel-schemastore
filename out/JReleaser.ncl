@@ -1400,6 +1400,7 @@ let rec _js2n__-refsenv
                 {
                   artifactId = _js2n__-prdslib.isType '"String",
                   groupId = _js2n__-prdslib.isType '"String",
+                  jar = _js2n__-prdslib.isType '"Bool",
                   javadocJar = _js2n__-prdslib.isType '"Bool",
                   sourceJar = _js2n__-prdslib.isType '"Bool",
                   verifyPom = _js2n__-prdslib.isType '"Bool",
@@ -4442,7 +4443,7 @@ let rec _js2n__-refsenv
               | optional,
           },
       "_js2n__-:definitions/JReleaserModel!contract"
-        | doc "JReleaser 1.14.0-SNAPSHOT"
+        | doc "JReleaser 1.15.0"
         = {
             announce
               | _js2n__-refsenv."_js2n__-:definitions/Announce!contract"
@@ -5810,6 +5811,7 @@ let rec _js2n__-refsenv
                   url = _js2n__-prdslib.isType '"String",
                   username = _js2n__-prdslib.isType '"String",
                   verifyPom = _js2n__-prdslib.isType '"Bool",
+                  verifyUrl = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/MavenCentralMavenDeployerMap!predicate" =
@@ -6010,6 +6012,7 @@ let rec _js2n__-refsenv
                   url = _js2n__-prdslib.isType '"String",
                   username = _js2n__-prdslib.isType '"String",
                   verifyPom = _js2n__-prdslib.isType '"Bool",
+                  verifyUrl = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Nexus2MavenDeployerMap!predicate" =
@@ -6286,6 +6289,7 @@ let rec _js2n__-refsenv
         {
             failOnError | Bool | optional,
             failOnWarning | Bool | optional,
+            strict | Bool | optional,
             version | String | optional,
           },
       "_js2n__-:definitions/Prerelease!contract" =

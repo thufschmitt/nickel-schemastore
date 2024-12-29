@@ -1059,7 +1059,7 @@ let rec _js2n__-refsenv
             | String
             | doc m%"
               Command used to display git log of all branches in the main window.
-              Deprecated: User `allBranchesLogCmds` instead.
+              Deprecated: Use `allBranchesLogCmds` instead.
             "%
             | optional,
           allBranchesLogCmds
@@ -1463,6 +1463,10 @@ let rec _js2n__-refsenv
             | Bool
             | doc "If true, show the '5 of 20' footer at the bottom of list views"
             | optional,
+          showNumstatInFilesView
+            | Bool
+            | doc "If true, show the number of lines changed per file in the Files view"
+            | optional,
           showPanelJumps
             | Bool
             | doc "If true, show jump-to-window keybindings in window titles."
@@ -1534,6 +1538,10 @@ let rec _js2n__-refsenv
               Status panel view.
               One of 'dashboard' (default) | 'allBranchesLog'
             "%
+            | optional,
+          switchTabsWithPanelJumpKeys
+            | Bool
+            | doc "If true, when using the panel jump keys (default 1 through 5) and target panel is already active, go to next tab instead"
             | optional,
           switchToFilesAfterStashApply
             | Bool
@@ -1695,6 +1703,14 @@ let rec _js2n__-refsenv
             | doc m%"
               Default size for focused window. Window size can be changed from within Lazygit with '+' and '_' (but this won't change the default).
               One of: 'normal' (default) | 'half' | 'full'
+            "%
+            | optional,
+          wrapLinesInStagingView
+            | Bool
+            | doc m%"
+              If true, wrap lines in the staging view to the width of the view. This
+              makes it much easier to work with diffs that have long lines, e.g.
+              paragraphs of markdown text.
             "%
             | optional,
         }

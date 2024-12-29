@@ -905,6 +905,14 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.BeanFactoryDefinition!predicate",
               _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:items/definitions/org.apache.camel.dsl.yaml.deserializers.DataFormatsDefinitionDeserializer!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.DataFormatsDefinition!predicate",
+              _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:items/definitions/org.apache.camel.dsl.yaml.deserializers.ErrorHandlerDeserializer!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -3417,6 +3425,7 @@ let rec _js2n__-refsenv
                           description = _js2n__-prdslib.isType '"String",
                           disabled = _js2n__-prdslib.isType '"Bool",
                           id = _js2n__-prdslib.isType '"String",
+                          logLanguage = _js2n__-prdslib.isType '"String",
                           logName = _js2n__-prdslib.isType '"String",
                           logger = _js2n__-prdslib.isType '"String",
                           loggingLevel =
@@ -3771,6 +3780,12 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.allOf
                           [
+                            _js2n__-prdslib.records.required [ "fury" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
                             _js2n__-prdslib.records.required [ "grok" ],
                             _js2n__-prdslib.records.record {} {} true
                               _js2n__-prdslib.always
@@ -3851,6 +3866,12 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.records.required [ "rss" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "smooks" ],
                             _js2n__-prdslib.records.record {} {} true
                               _js2n__-prdslib.always
                           ],
@@ -4063,6 +4084,16 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "fury" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          fury =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FuryDataFormat!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.required [ "grok" ],
                       _js2n__-prdslib.records.record
                         {
@@ -4198,6 +4229,16 @@ let rec _js2n__-refsenv
                         {
                           rss =
                             _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.RssDataFormat!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "smooks" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          smooks =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SmooksDataFormat!predicate",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -4358,6 +4399,7 @@ let rec _js2n__-refsenv
                   fhirJson = _js2n__-prdslib.always,
                   fhirXml = _js2n__-prdslib.always,
                   flatpack = _js2n__-prdslib.always,
+                  fury = _js2n__-prdslib.always,
                   grok = _js2n__-prdslib.always,
                   gzipDeflater = _js2n__-prdslib.always,
                   hl7 = _js2n__-prdslib.always,
@@ -4373,6 +4415,7 @@ let rec _js2n__-refsenv
                   pgp = _js2n__-prdslib.always,
                   protobuf = _js2n__-prdslib.always,
                   rss = _js2n__-prdslib.always,
+                  smooks = _js2n__-prdslib.always,
                   soap = _js2n__-prdslib.always,
                   swiftMt = _js2n__-prdslib.always,
                   swiftMx = _js2n__-prdslib.always,
@@ -9070,6 +9113,12 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.allOf
                           [
+                            _js2n__-prdslib.records.required [ "fury" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
                             _js2n__-prdslib.records.required [ "grok" ],
                             _js2n__-prdslib.records.record {} {} true
                               _js2n__-prdslib.always
@@ -9150,6 +9199,12 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.records.required [ "rss" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "smooks" ],
                             _js2n__-prdslib.records.record {} {} true
                               _js2n__-prdslib.always
                           ],
@@ -9362,6 +9417,16 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "fury" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          fury =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FuryDataFormat!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.required [ "grok" ],
                       _js2n__-prdslib.records.record
                         {
@@ -9497,6 +9562,16 @@ let rec _js2n__-refsenv
                         {
                           rss =
                             _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.RssDataFormat!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "smooks" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          smooks =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SmooksDataFormat!predicate",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -9658,6 +9733,7 @@ let rec _js2n__-refsenv
                   fhirJson = _js2n__-prdslib.always,
                   fhirXml = _js2n__-prdslib.always,
                   flatpack = _js2n__-prdslib.always,
+                  fury = _js2n__-prdslib.always,
                   grok = _js2n__-prdslib.always,
                   gzipDeflater = _js2n__-prdslib.always,
                   hl7 = _js2n__-prdslib.always,
@@ -9673,6 +9749,7 @@ let rec _js2n__-refsenv
                   pgp = _js2n__-prdslib.always,
                   protobuf = _js2n__-prdslib.always,
                   rss = _js2n__-prdslib.always,
+                  smooks = _js2n__-prdslib.always,
                   soap = _js2n__-prdslib.always,
                   swiftMt = _js2n__-prdslib.always,
                   swiftMx = _js2n__-prdslib.always,
@@ -11447,6 +11524,101 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "ref" ],
               _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:items/definitions/org.apache.camel.model.dataformat.DataFormatsDefinition!predicate"
+        | doc "Configure data formats."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  asn1 =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ASN1DataFormat!predicate",
+                  avro =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.AvroDataFormat!predicate",
+                  barcode =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.BarcodeDataFormat!predicate",
+                  base64 =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.Base64DataFormat!predicate",
+                  beanio =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.BeanioDataFormat!predicate",
+                  bindy =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.BindyDataFormat!predicate",
+                  cbor =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.CBORDataFormat!predicate",
+                  crypto =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.CryptoDataFormat!predicate",
+                  csv =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.CsvDataFormat!predicate",
+                  custom =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.CustomDataFormat!predicate",
+                  fhirJson =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FhirJsonDataFormat!predicate",
+                  fhirXml =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FhirXmlDataFormat!predicate",
+                  flatpack =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FlatpackDataFormat!predicate",
+                  fury =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FuryDataFormat!predicate",
+                  grok =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.GrokDataFormat!predicate",
+                  gzipDeflater =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.GzipDeflaterDataFormat!predicate",
+                  hl7 =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.HL7DataFormat!predicate",
+                  ical =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.IcalDataFormat!predicate",
+                  jacksonXml =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.JacksonXMLDataFormat!predicate",
+                  jaxb =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.JaxbDataFormat!predicate",
+                  json =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.JsonDataFormat!predicate",
+                  jsonApi =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.JsonApiDataFormat!predicate",
+                  lzf =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.LZFDataFormat!predicate",
+                  mimeMultipart =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.MimeMultipartDataFormat!predicate",
+                  parquetAvro =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ParquetAvroDataFormat!predicate",
+                  pgp =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.PGPDataFormat!predicate",
+                  protobuf =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ProtobufDataFormat!predicate",
+                  rss =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.RssDataFormat!predicate",
+                  smooks =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SmooksDataFormat!predicate",
+                  soap =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SoapDataFormat!predicate",
+                  swiftMt =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SwiftMtDataFormat!predicate",
+                  swiftMx =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SwiftMxDataFormat!predicate",
+                  syslog =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SyslogDataFormat!predicate",
+                  tarFile =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.TarFileDataFormat!predicate",
+                  thrift =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ThriftDataFormat!predicate",
+                  tidyMarkup =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.TidyMarkupDataFormat!predicate",
+                  univocityCsv =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.UniVocityCsvDataFormat!predicate",
+                  univocityFixed =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.UniVocityFixedDataFormat!predicate",
+                  univocityTsv =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.UniVocityTsvDataFormat!predicate",
+                  xmlSecurity =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.XMLSecurityDataFormat!predicate",
+                  yaml =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.YAMLDataFormat!predicate",
+                  zipDeflater =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ZipDeflaterDataFormat!predicate",
+                  zipFile =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ZipFileDataFormat!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:items/definitions/org.apache.camel.model.dataformat.FhirJsonDataFormat!predicate"
         | doc "Marshall and unmarshall FHIR objects to/from JSON."
         = _js2n__-prdslib.allOf
@@ -11553,6 +11725,20 @@ let rec _js2n__-refsenv
                   textQualifier = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:items/definitions/org.apache.camel.model.dataformat.FuryDataFormat!predicate"
+        | doc "Serialize and deserialize messages using Apache Fury"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  allowAutoWiredFury = _js2n__-prdslib.isType '"Bool",
+                  id = _js2n__-prdslib.isType '"String",
+                  requireClassRegistration = _js2n__-prdslib.isType '"Bool",
+                  threadSafe = _js2n__-prdslib.isType '"Bool",
+                  unmarshalType = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:items/definitions/org.apache.camel.model.dataformat.GrokDataFormat!predicate"
         | doc "Unmarshal unstructured data to objects using Logstash based Grok patterns."
         = _js2n__-prdslib.allOf
@@ -11622,7 +11808,6 @@ let rec _js2n__-refsenv
                   timezone = _js2n__-prdslib.isType '"String",
                   unmarshalType = _js2n__-prdslib.isType '"String",
                   useList = _js2n__-prdslib.isType '"Bool",
-                  useWriter = _js2n__-prdslib.isType '"Bool",
                   xmlMapper = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
@@ -11687,6 +11872,7 @@ let rec _js2n__-refsenv
                   autoDiscoverObjectMapper = _js2n__-prdslib.isType '"Bool",
                   autoDiscoverSchemaResolver = _js2n__-prdslib.isType '"Bool",
                   collectionType = _js2n__-prdslib.isType '"String",
+                  combineUnicodeSurrogates = _js2n__-prdslib.isType '"Bool",
                   contentTypeHeader = _js2n__-prdslib.isType '"Bool",
                   dateFormatPattern = _js2n__-prdslib.isType '"String",
                   disableFeatures = _js2n__-prdslib.isType '"String",
@@ -11717,7 +11903,6 @@ let rec _js2n__-refsenv
                   unmarshalType = _js2n__-prdslib.isType '"String",
                   useDefaultObjectMapper = _js2n__-prdslib.isType '"Bool",
                   useList = _js2n__-prdslib.isType '"Bool",
-                  useWriter = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:items/definitions/org.apache.camel.model.dataformat.LZFDataFormat!predicate"
@@ -11858,6 +12043,18 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 { id = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
+            ],
+      "_js2n__-:items/definitions/org.apache.camel.model.dataformat.SmooksDataFormat!predicate"
+        | doc "Transform and bind XML as well as non-XML data, including EDI, CSV, JSON, and YAML using Smooks."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "smooksConfig" ],
+              _js2n__-prdslib.records.record
+                {
+                  id = _js2n__-prdslib.isType '"String",
+                  smooksConfig = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:items/definitions/org.apache.camel.model.dataformat.SoapDataFormat!predicate"
         | doc "Marshal Java objects to SOAP messages and back."
@@ -14341,6 +14538,8 @@ let rec _js2n__-refsenv
               {
                 beans =
                   _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.dsl.yaml.deserializers.BeansDeserializer!predicate",
+                dataFormats =
+                  _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.dsl.yaml.deserializers.DataFormatsDefinitionDeserializer!predicate",
                 errorHandler =
                   _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.dsl.yaml.deserializers.ErrorHandlerDeserializer!predicate",
                 from =

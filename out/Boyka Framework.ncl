@@ -969,6 +969,46 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "NONE", "EAGER", "NORMAL" ]
             ],
+      "_js2n__-:definitions/PermissionDecision!predicate"
+        | doc "Permission decision for iOS devices"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "ALWAYS",
+                  "CRITICAL",
+                  "IN_USE",
+                  "LIMITED",
+                  "NEVER",
+                  "NO",
+                  "UNSET",
+                  "YES"
+                ]
+            ],
+      "_js2n__-:definitions/Permissions!predicate"
+        | doc "Permissions for iOS devices"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "CALENDAR",
+                  "CAMERA",
+                  "CONTACTS",
+                  "HEALTH",
+                  "HOME_KIT",
+                  "LOCATION",
+                  "MEDIA_LIBRARY",
+                  "MICROPHONE",
+                  "MOTION",
+                  "NOTIFICATIONS",
+                  "REMINDERS",
+                  "SIRI",
+                  "SPEECH",
+                  "USER_TRACKING"
+                ]
+            ],
       "_js2n__-:definitions/Protocol!predicate"
         | doc "Protocol for Target server"
         = _js2n__-prdslib.allOf
@@ -996,6 +1036,9 @@ let rec _js2n__-refsenv
                   "LOCAL"
                 ]
             ],
+      "_js2n__-:definitions/TestDataSource!contract"
+        | doc "Test data source for test data driven testing"
+        = std.contract.Sequence [ std.enum.TagOrString, [| 'EXCEL |] ],
       "_js2n__-:definitions/VideoQuality!predicate"
         | doc "Video recording quality"
         = _js2n__-prdslib.allOf
@@ -1054,7 +1097,6 @@ let rec _js2n__-refsenv
                       {
                         base_path = _js2n__-prdslib.isType '"String",
                         base_uri = _js2n__-prdslib.isType '"String",
-                        connection_timeout = _js2n__-prdslib.isType '"Number",
                         logging =
                           _js2n__-prdslib.allOf
                               [
@@ -1067,15 +1109,39 @@ let rec _js2n__-refsenv
                                   } {} true _js2n__-prdslib.always
                               ],
                         port = _js2n__-prdslib.isType '"Number",
-                        read_timeout = _js2n__-prdslib.isType '"Number",
                         schema_path = _js2n__-prdslib.isType '"String",
+                        timeout =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    connection_timeout =
+                                      _js2n__-prdslib.isType '"Number",
+                                    read_timeout =
+                                      _js2n__-prdslib.isType '"Number",
+                                    write_timeout =
+                                      _js2n__-prdslib.isType '"Number",
+                                  } {} true _js2n__-prdslib.always
+                              ],
                         validate_ssl = _js2n__-prdslib.isType '"Bool",
                         verify_host_name = _js2n__-prdslib.isType '"Bool",
-                        write_timeout = _js2n__-prdslib.isType '"Number",
                       } {} true _js2n__-prdslib.always
                   ])
             ])
         | doc "Collection of API configurations"
+        | optional,
+      data
+        | {
+          extension | String | doc "Data file extension" | optional,
+          external | Bool | doc "Is data file external or not" | optional,
+          path | String | doc "Test data file path" | optional,
+          type
+            | _js2n__-refsenv."_js2n__-:definitions/TestDataSource!contract"
+            | optional,
+          ..
+        }
+        | doc "Test Data related settings"
         | optional,
       listeners_package
         | String
@@ -1136,6 +1202,7 @@ let rec _js2n__-refsenv
                     (_js2n__-prdslib.allOf
                       [
                         _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "device", "server" ],
                         _js2n__-prdslib.records.record
                           {
                             device =
@@ -1185,12 +1252,16 @@ let rec _js2n__-refsenv
                                                   } {} true
                                                   _js2n__-prdslib.always
                                               ],
+                                        auto_grant_permissions =
+                                          _js2n__-prdslib.isType '"Bool",
                                         capabilities =
                                           _js2n__-refsenv."_js2n__-:definitions/caps!predicate",
                                         clear_files =
                                           _js2n__-prdslib.isType '"Bool",
                                         clear_logs =
                                           _js2n__-prdslib.isType '"Bool",
+                                        command_timeout =
+                                          _js2n__-prdslib.isType '"Number",
                                         full_reset =
                                           _js2n__-prdslib.isType '"Bool",
                                         ignore_unimportant_views =
@@ -1200,6 +1271,16 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.isType '"Bool",
                                         os =
                                           _js2n__-refsenv."_js2n__-:definitions/OS!predicate",
+                                        permissions =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.propertyNames
+                                                  _js2n__-refsenv."_js2n__-:definitions/Permissions!predicate",
+                                                _js2n__-prdslib.records.record
+                                                  {} {} true
+                                                  _js2n__-refsenv."_js2n__-:definitions/PermissionDecision!predicate"
+                                              ],
                                         server_install_timeout =
                                           _js2n__-prdslib.isType '"Number",
                                         server_launch_timeout =
@@ -1412,12 +1493,34 @@ let rec _js2n__-refsenv
                                                   } {} true
                                                   _js2n__-prdslib.always
                                               ],
+                                        web_view_connect_retries =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"Number",
+                                                _js2n__-prdslib.numbers.maximum
+                                                  10,
+                                                _js2n__-prdslib.numbers.minimum
+                                                  1
+                                              ],
+                                        web_view_connect_timeout =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"Number",
+                                                _js2n__-prdslib.numbers.maximum
+                                                  300,
+                                                _js2n__-prdslib.numbers.minimum
+                                                  1
+                                              ],
                                       } {} true _js2n__-prdslib.always
                                   ],
                             server =
                               _js2n__-prdslib.allOf
                                   [
                                     _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required
+                                      [ "driver" ],
                                     _js2n__-prdslib.records.record
                                       {
                                         allow_cors =
@@ -1627,6 +1730,18 @@ let rec _js2n__-refsenv
                                         width =
                                           _js2n__-prdslib.isType '"Number",
                                       } {} true _js2n__-prdslib.always
+                                  ],
+                            experimental_options =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.record {} {} true
+                                      (_js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.isType '"Number",
+                                          _js2n__-prdslib.isType '"Bool"
+                                        ])
                                   ],
                             headless = _js2n__-prdslib.isType '"Bool",
                             highlight = _js2n__-prdslib.isType '"Bool",

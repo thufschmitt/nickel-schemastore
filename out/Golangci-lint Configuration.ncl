@@ -910,18 +910,19 @@ let rec _js2n__-refsenv
                 "badLock",
                 "badRegexp",
                 "badSorting",
+                "badSyncOnceFunc",
                 "boolExprSimplify",
                 "builtinShadow",
                 "builtinShadowDecl",
                 "captLocal",
                 "caseOrder",
                 "codegenComment",
+                "commentFormatting",
                 "commentedOutCode",
                 "commentedOutImport",
-                "commentFormatting",
                 "defaultCaseOrder",
-                "deferUnlambda",
                 "deferInLoop",
+                "deferUnlambda",
                 "deprecatedComment",
                 "docStub",
                 "dupArg",
@@ -964,6 +965,7 @@ let rec _js2n__-refsenv
                 "preferStringWriter",
                 "preferWriteByte",
                 "ptrToRefParam",
+                "rangeAppendAll",
                 "rangeExprCopy",
                 "rangeValCopy",
                 "redundantSprint",
@@ -981,13 +983,12 @@ let rec _js2n__-refsenv
                 "sprintfQuotedString",
                 "sqlQuery",
                 "stringConcatSimplify",
-                "stringsCompare",
                 "stringXbytes",
-                "suspiciousSorting",
+                "stringsCompare",
                 "switchTrue",
                 "syncMapLoadAndDelete",
-                "timeCmpSimplify",
                 "timeExprSimplify",
+                "todoCommentWithoutDetail",
                 "tooManyResultsChecker",
                 "truncateCmp",
                 "typeAssertChain",
@@ -1103,6 +1104,7 @@ let rec _js2n__-refsenv
                 "structtag",
                 "testinggoroutine",
                 "tests",
+                "timeformat",
                 "unmarshal",
                 "unreachable",
                 "unsafeptr",
@@ -1147,12 +1149,16 @@ let rec _js2n__-refsenv
               "structtag",
               "testinggoroutine",
               "tests",
+              "timeformat",
               "unmarshal",
               "unreachable",
               "unsafeptr",
               "unusedresult",
               "unusedwrite"
             ],
+      "_js2n__-:definitions/iface-analyzers!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.enum [ "identical", "unused", "opaque" ]),
       "_js2n__-:definitions/linters!contract"
         | doc "Linters usable."
         = _js2n__-prdslib.contract_from_predicate
@@ -1169,7 +1175,6 @@ let rec _js2n__-refsenv
                     "contextcheck",
                     "copyloopvar",
                     "cyclop",
-                    "deadcode",
                     "decorder",
                     "depguard",
                     "dogsled",
@@ -1180,9 +1185,7 @@ let rec _js2n__-refsenv
                     "errchkjson",
                     "errname",
                     "errorlint",
-                    "execinquery",
                     "exhaustive",
-                    "exhaustivestruct",
                     "exhaustruct",
                     "exportloopref",
                     "fatcontext",
@@ -1206,7 +1209,6 @@ let rec _js2n__-refsenv
                     "gofumpt",
                     "goheader",
                     "goimports",
-                    "golint",
                     "gomoddirectives",
                     "gomodguard",
                     "goprintffuncname",
@@ -1215,19 +1217,17 @@ let rec _js2n__-refsenv
                     "gosmopolitan",
                     "govet",
                     "grouper",
-                    "ifshort",
+                    "iface",
                     "importas",
                     "inamedparam",
                     "ineffassign",
                     "interfacebloat",
-                    "interfacer",
                     "intrange",
                     "ireturn",
                     "lll",
                     "loggercheck",
                     "maintidx",
                     "makezero",
-                    "maligned",
                     "mirror",
                     "misspell",
                     "mnd",
@@ -1240,7 +1240,6 @@ let rec _js2n__-refsenv
                     "noctx",
                     "nolintlint",
                     "nonamedreturns",
-                    "nosnakecase",
                     "nosprintfhostport",
                     "paralleltest",
                     "perfsprint",
@@ -1249,13 +1248,12 @@ let rec _js2n__-refsenv
                     "promlinter",
                     "protogetter",
                     "reassign",
+                    "recvcheck",
                     "revive",
                     "rowserrcheck",
-                    "scopelint",
                     "sloglint",
                     "sqlclosecheck",
                     "staticcheck",
-                    "structcheck",
                     "stylecheck",
                     "tagalign",
                     "tagliatelle",
@@ -1269,7 +1267,6 @@ let rec _js2n__-refsenv
                     "unparam",
                     "unused",
                     "usestdlibvars",
-                    "varcheck",
                     "varnamelen",
                     "wastedassign",
                     "whitespace",
@@ -1294,7 +1291,6 @@ let rec _js2n__-refsenv
                   "contextcheck",
                   "copyloopvar",
                   "cyclop",
-                  "deadcode",
                   "decorder",
                   "depguard",
                   "dogsled",
@@ -1305,9 +1301,7 @@ let rec _js2n__-refsenv
                   "errchkjson",
                   "errname",
                   "errorlint",
-                  "execinquery",
                   "exhaustive",
-                  "exhaustivestruct",
                   "exhaustruct",
                   "exportloopref",
                   "fatcontext",
@@ -1331,7 +1325,6 @@ let rec _js2n__-refsenv
                   "gofumpt",
                   "goheader",
                   "goimports",
-                  "golint",
                   "gomoddirectives",
                   "gomodguard",
                   "goprintffuncname",
@@ -1340,19 +1333,17 @@ let rec _js2n__-refsenv
                   "gosmopolitan",
                   "govet",
                   "grouper",
-                  "ifshort",
+                  "iface",
                   "importas",
                   "inamedparam",
                   "ineffassign",
                   "interfacebloat",
-                  "interfacer",
                   "intrange",
                   "ireturn",
                   "lll",
                   "loggercheck",
                   "maintidx",
                   "makezero",
-                  "maligned",
                   "mirror",
                   "misspell",
                   "mnd",
@@ -1365,7 +1356,6 @@ let rec _js2n__-refsenv
                   "noctx",
                   "nolintlint",
                   "nonamedreturns",
-                  "nosnakecase",
                   "nosprintfhostport",
                   "paralleltest",
                   "perfsprint",
@@ -1374,13 +1364,12 @@ let rec _js2n__-refsenv
                   "promlinter",
                   "protogetter",
                   "reassign",
+                  "recvcheck",
                   "revive",
                   "rowserrcheck",
-                  "scopelint",
                   "sloglint",
                   "sqlclosecheck",
                   "staticcheck",
-                  "structcheck",
                   "stylecheck",
                   "tagalign",
                   "tagliatelle",
@@ -1394,7 +1383,6 @@ let rec _js2n__-refsenv
                   "unparam",
                   "unused",
                   "usestdlibvars",
-                  "varcheck",
                   "varnamelen",
                   "wastedassign",
                   "whitespace",
@@ -1442,6 +1430,8 @@ let rec _js2n__-refsenv
                 "errorf",
                 "exported",
                 "file-header",
+                "file-length-limit",
+                "filename-format",
                 "flag-parameter",
                 "function-length",
                 "function-result-limit",
@@ -2129,6 +2119,10 @@ let rec _js2n__-refsenv
                 | Bool
                 | doc "Force using `Expect` with `To`, `ToNot` or `NotTo`"
                 | optional,
+              force-succeed
+                | Bool
+                | doc "Force using the Succeed matcher for error functions, and the HaveOccurred matcher for non-function error values."
+                | optional,
               suppress-async-assertion
                 | Bool
                 | doc "Suppress the function all in async assertion warning."
@@ -2156,6 +2150,14 @@ let rec _js2n__-refsenv
               validate-async-intervals
                 | Bool
                 | doc "Best effort validation of async intervals (timeout and polling)."
+                | optional,
+            }
+            | optional,
+          gochecksumtype
+            | {
+              default-signifies-exhaustive
+                | Bool
+                | doc "Presence of `default` case in switch statements satisfies exhaustiveness, if all members are not listed."
                 | optional,
             }
             | optional,
@@ -2621,6 +2623,20 @@ let rec _js2n__-refsenv
               var-require-single-var | Bool | optional,
             }
             | optional,
+          iface
+            | {
+              enable
+                | Array
+                  _js2n__-refsenv."_js2n__-:definitions/iface-analyzers!contract"
+                | doc "Enable analyzers by name."
+                | optional,
+              settings
+                | {
+                  unused | { exclude | Array (String) | optional, } | optional,
+                }
+                | optional,
+            }
+            | optional,
           importas
             | {
               alias
@@ -2880,16 +2896,20 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.contract_from_predicate
                     (_js2n__-prdslib.enum
                       [
-                        "ptr",
+                        "chan",
                         "func",
                         "iface",
                         "map",
-                        "chan",
+                        "ptr",
                         "uintptr",
                         "unsafeptr"
                       ])
                 )
                 | doc "List of return types to check."
+                | optional,
+              detect-opposite
+                | Bool
+                | doc "In addition, detect opposite situation (simultaneous return of non-nil error and valid value)."
                 | optional,
             }
             | optional,
@@ -3317,7 +3337,9 @@ let rec _js2n__-refsenv
                         "blank-import",
                         "bool-compare",
                         "compares",
+                        "contains",
                         "empty",
+                        "encoded-compare",
                         "error-is-as",
                         "error-nil",
                         "expected-actual",
@@ -3327,6 +3349,7 @@ let rec _js2n__-refsenv
                         "len",
                         "negative-positive",
                         "nil-compare",
+                        "regexp",
                         "require-error",
                         "suite-broken-parallel",
                         "suite-dont-use-pkg",
@@ -3347,7 +3370,9 @@ let rec _js2n__-refsenv
                         "blank-import",
                         "bool-compare",
                         "compares",
+                        "contains",
                         "empty",
+                        "encoded-compare",
                         "error-is-as",
                         "error-nil",
                         "expected-actual",
@@ -3357,6 +3382,7 @@ let rec _js2n__-refsenv
                         "len",
                         "negative-positive",
                         "nil-compare",
+                        "regexp",
                         "require-error",
                         "suite-broken-parallel",
                         "suite-dont-use-pkg",
@@ -3385,7 +3411,7 @@ let rec _js2n__-refsenv
                     | optional,
                   require-f-funcs
                     | Bool
-                    | doc "To require f-assertions if format string is used."
+                    | doc "To require f-assertions (e.g. assert.Equalf) if format string is used, even if there are no variable-length variables."
                     | optional,
                 }
                 | optional,

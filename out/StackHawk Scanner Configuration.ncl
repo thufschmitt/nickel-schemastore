@@ -918,8 +918,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.isType '"String")
             ],
-      "_js2n__-:definitions/AppConf!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/AppConf!predicate"
+        | doc "Configuration parameters for the scanned application, independent of the scanner."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.oneOf
@@ -1003,8 +1004,13 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/WaitForAppTarget!predicate",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/AppRedactions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/AppRedactions!predicate"
+        | doc m%"
+          Redaction policy of scan logs and stdout when scanning this application.
+          
+          HawkScan maintains a list of redacted tokens; strings that are sensitive and should be scrubbed preemptively from logs and collected messages. By default, HawkScan redacts `app.authentication` credentials, and any provided script / discovery credentials.
+        "%
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1025,8 +1031,27 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/AuthTestPath!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/AuthTestPath!predicate"
+        | doc m%"
+          A configuration specifying how to verify if Scan authentication and authorization is working before running a scan.
+          
+          An example configuration of `app.authentication.testPath`:
+          ```yaml
+           app:
+            authentication:
+              testPath:
+                type: HEADER
+                path: /user/profile
+                success: ".*200.*"
+                requestMethod: POST
+                requestBody: '{"feeling": "KaaKaww!"}'
+                requestHeaders:
+                  Content-Type: "application/json"
+          ```
+          
+          This uses either `success` or `fail` criteria to determine if authorized access is working correctly.
+        "%
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.oneOf
@@ -1073,8 +1098,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/AuthTokens!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/AuthTokens!predicate"
+        | doc "Configuration for Token Authentication."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1090,8 +1116,14 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/NameValParam!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Authentication!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Authentication!predicate"
+        | doc m%"
+          Configuration block for application authentication to enable scanning as the provided user of your application.
+          If provided, HawkScan will first attempt to sign into your web application with the provided login credentials.
+          Only after successfully verifying will scanning occur.
+          For more information, see the Authenticated Scanning section.
+        "%
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.allOf
@@ -1244,8 +1276,13 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/UsernamePasswordCredentials!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/AuthenticationScript!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/AuthenticationScript!predicate"
+        | doc m%"
+          Configuration for a custom authentication script.
+          HawkScan will run the provided authentication script until a request matches the `loggedInIndicator`, or if the `loggedOutIndicator` is tripped on a request.
+          The authentication script name should also be included in the `hawkAddOn.scripts.name`
+        "%
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "name" ],
@@ -1258,8 +1295,9 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ParametersEntry!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/CookieAuthorization!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/CookieAuthorization!predicate"
+        | doc "An optional configuration specifying if authorization is maintained via a cookie session."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1303,8 +1341,9 @@ let rec _js2n__-refsenv
                   workingDir = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/CustomVariable!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/CustomVariable!predicate"
+        | doc "Generic custom variable for different API types."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1340,8 +1379,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.isType '"String")
             ],
-      "_js2n__-:definitions/ExternalCommandCredentials!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/ExternalCommandCredentials!predicate"
+        | doc "Optional configuration block allowing HawkScan to run a specified command line process. HawkScan will attempt to access a protected path in your web application with the supplied headers or cookies before scanning. For more information, see the [Authenticated Scanning section](https://docs.stackhawk.com/hawkscan/configuration/authenticated-scanning.html)."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "command" ],
@@ -1355,10 +1395,23 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  timeoutSeconds =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Number",
+                              _js2n__-prdslib.isType '"String"
+                            ],
+                          _js2n__-prdslib.numbers.minimum 0,
+                          _js2n__-prdslib.strings.pattern
+                            "^([0-9][0-9]+|[1-9]|0)$"
+                        ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/ExternalCredentials!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/ExternalCredentials!predicate"
+        | doc "Optional configuration block for specifying an externally supplied authorization token, HawkScan will attempt to access a protected path in your web application with the supplied token before scanning. For more information, see the [Authenticated Scanning section](https://docs.stackhawk.com/hawkscan/configuration/authenticated-scanning.html)."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1378,8 +1431,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/GraphQLConf!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/GraphQLConf!predicate"
+        | doc "[GraphQL](https://spec.graphql.org/June2018/) scanner parameters. See the StackHawk [graphQL configuration docs](https://docs.stackhawk.com/hawkscan/configuration/graphql-configuration.html) for more details."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1447,8 +1501,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/GraphQLCustomVariable!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/GraphQLCustomVariable!predicate"
+        | doc "Custom variable data specific to OpenAPI schemas."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1470,8 +1525,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/GraphQLExcludeOperationParam!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/GraphQLExcludeOperationParam!predicate"
+        | doc "A GraphQL operation to exclude from the spider by name and type."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1485,8 +1541,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/GrpcConf!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/GrpcConf!predicate"
+        | doc "[gRPC](https://grpc.io/) API scanner parameters. See the [gRPC configuration docs](https://docs.stackhawk.com/hawkscan/configuration/gRPC-configuration.html) for more details."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1522,8 +1579,13 @@ let rec _js2n__-refsenv
                   path = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/HARImportConfig!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/HARImportConfig!predicate"
+        | doc m%"
+          Configuration for using a HAR file as the discovery for a scan.
+          HAR files often contain requests including urls from many hosts, but only URLs matching the `app.host` or
+          `replaceHost` will be included in the scan.
+        "%
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.oneOf
@@ -1550,16 +1612,18 @@ let rec _js2n__-refsenv
                   replaceHost = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/HARImportDirectory!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/HARImportDirectory!predicate"
+        | doc "Paths to directories, for use with HARImportConfig."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 { path = _js2n__-prdslib.isType '"String", } {} true
                 _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/HARImportFiles!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/HARImportFiles!predicate"
+        | doc "Paths to .har HTTP Archive formatted files, for use with HARImportConfig."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1573,8 +1637,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/HawkAddOnConf!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/HawkAddOnConf!predicate"
+        | doc "Configuration block for HawkScan add-ons and custom scripts."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1590,8 +1655,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/HawkConf!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/HawkConf!predicate"
+        | doc "Configuration preferences for HawkScan, independent of the scanned application."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1643,8 +1709,9 @@ let rec _js2n__-refsenv
                   urlQueryParam = _js2n__-prdslib.isType '"Bool",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/InputVectorParams!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/InputVectorParams!predicate"
+        | doc "Fine-grained configuration of HawkScan input vectors. This configuration is how and where testable inputs are applied on http requests."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1655,8 +1722,9 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/InjectableParam!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/NameValParam!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/NameValParam!predicate"
+        | doc "General name / value parameter."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1665,8 +1733,9 @@ let rec _js2n__-refsenv
                   val = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/OAuth!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/OAuth!predicate"
+        | doc "Optional configuration block allowing HawkScan to authorize requests with a 3rd party [OAuth 2.0](https://oauth.net/2/) auth provider."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1677,8 +1746,9 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/OAuthParameters!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/OAuthCredentials!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/OAuthCredentials!predicate"
+        | doc ""
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1691,8 +1761,9 @@ let rec _js2n__-refsenv
                   username = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/OAuthParameters!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/OAuthParameters!predicate"
+        | doc ""
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1723,8 +1794,9 @@ let rec _js2n__-refsenv
                   tokenEndpoint = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/OpenApiConf!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/OpenApiConf!predicate"
+        | doc "[OpenApi](https://swagger.io/specification/) scanner parameters. See the StackHawk [OpenAPI configuration docs](https://docs.stackhawk.com/hawkscan/configuration/openapi-configuration.html) for more details."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1796,8 +1868,9 @@ let rec _js2n__-refsenv
                   strict = _js2n__-prdslib.isType '"Bool",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/OpenApiCustomVariable!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/OpenApiCustomVariable!predicate"
+        | doc "Custom variable data specific to OpenAPI schemas."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1833,8 +1906,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/OrganizationPolicy!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/OrganizationPolicy!predicate"
+        | doc ""
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "name" ],
@@ -1864,8 +1938,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.isType '"String")
             ],
-      "_js2n__-:definitions/PostmanConfig!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/PostmanConfig!predicate"
+        | doc "Configuration for the Postman Collection."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1875,8 +1950,9 @@ let rec _js2n__-refsenv
                   filePath = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Proxy!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Proxy!predicate"
+        | doc "Configuration block for a proxy. This enables HawkScan to traffic scanner requests through an outbound network proxy."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1887,8 +1963,9 @@ let rec _js2n__-refsenv
                   rootCACertPath = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/ProxyCredentials!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/ProxyCredentials!predicate"
+        | doc "Credential details for the outbound proxy behavior."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1899,8 +1976,9 @@ let rec _js2n__-refsenv
                   username = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Replacer!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Replacer!predicate"
+        | doc "Configuration block for header value replacement. These rules support manipulating request headers, useful for modifying requests to web applications running behind a proxy."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1914,8 +1992,13 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/ReplacerRules!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/ReplacerRules!predicate"
+        | doc m%"
+          A list of configuration blocks for the Replacer add-on rules.
+          Each configuration block in the list is made up of the following elements.
+          See [Configuration Examples](https://docs.stackhawk.com/hawkscan/configuration/#replacer-plugin-configuration) for more information.
+        "%
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "matchString", "replacement" ],
@@ -1961,8 +2044,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.isType '"String")
             ],
-      "_js2n__-:definitions/ScanConf!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/ScanConf!predicate"
+        | doc "Configuration block for HawkScan runtime."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2074,8 +2158,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Script!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Script!predicate"
+        | doc "Configuration block for custom scripts."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "language" ],
@@ -2118,8 +2203,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/SessionScript!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/SessionScript!predicate"
+        | doc "Optional configuration block for specifying a custom session management script. To learn more about session scripts, reference the [HawkScan Examples](https://github.com/kaakaww/hawkscan-examples){:target=\"_blank\"} repository."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "name" ],
@@ -2130,8 +2216,9 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ParametersEntry!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/SoapConf!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/SoapConf!predicate"
+        | doc "[SOAP](https://www.w3.org/TR/soap/) API scanner parameters. See the StackHawk [SOAP configuration docs](https://docs.stackhawk.com/hawkscan/configuration/soap-configuration.html) for more details."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2146,8 +2233,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Spider!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Spider!predicate"
+        | doc "Configuration block for the application crawling and Discovery Phase aka Spider. See the [Scan Discovery](https://docs.stackhawk.com/hawkscan/scan-discovery/) page for more details."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2187,8 +2275,36 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Tag!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Tag!predicate"
+        | doc m%"
+          Scan tags are name value pairs that represent metadata of the scan, capturing additional state or context around a scan.
+          
+          Examples could include adding commit SHAs, branch names, or project management issue titles.
+          
+          Tag names can use any combination of the following characters: `a-zA-Z-_`, and their values can be any string. Tag entries can also be interpolated from the environment.
+          
+          {:class="alert alert-info"}
+          > ℹ️ **NOTE:** Tag names beginning with `_STACKHAWK` are in a reserved tag name space.
+          
+          The following selection of YAML is an example of how you can configure your `stackhawk.yml` file to include scan tags:
+          
+          stackhawk.yml
+          {: .filename-tab}
+          ```yaml
+          app:
+          applicationId: <application-uuid>
+          env: localhost
+          host: http://localhost:8080
+          tags:
+          - name: category
+          value: hawksome
+          - name: Another-Value
+          value: ${SOMETHING_FROM_ENV:default}
+          - name: _GIT_COMMIT_SHA
+          value: ${MY_COMMIT_SHA_ENV:HEAD}
+          ```
+        "%
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2210,8 +2326,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/TokenAuthorization!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/TokenAuthorization!predicate"
+        | doc "An optional configuration telling HawkScan how to pass the authorization token to your application on each request to maintain authorized access."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "value" ],
@@ -2240,8 +2357,9 @@ let rec _js2n__-refsenv
                   value = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/TokenExtraction!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/TokenExtraction!predicate"
+        | doc "Token extraction is optional unless you're using the `tokenAuthorization` in combination with `usernamePassword` authentication. This configuration specifies how to extract the authorization token from the authentication response."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "value" ],
@@ -2256,8 +2374,12 @@ let rec _js2n__-refsenv
                   value = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/UsernamePasswordCredentials!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/UsernamePasswordCredentials!predicate"
+        | doc m%"
+          Optional configuration specifying a username and password based authentication configuration.
+          Currently POSTing the credentials via `FORM` or `JSON` type is supported. Use in conjunction `cookieAuthorization` or `tokenAuthorization` to maintain authorized access to your application.
+        "%
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required
@@ -2304,8 +2426,9 @@ let rec _js2n__-refsenv
                   usernameField = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/WaitForAppTarget!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/WaitForAppTarget!predicate"
+        | doc "A configuration specifying how to determine if app is up and ready or scanning."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required

@@ -916,12 +916,7 @@ let rec _js2n__-refsenv
                   cmd = _js2n__-prdslib.isType '"String",
                   ignore_error = _js2n__-prdslib.isType '"Bool",
                   platforms =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/platforms!predicate",
                   set =
                     _js2n__-prdslib.allOf
                         [
@@ -957,13 +952,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.record
-                                { task = _js2n__-prdslib.isType '"String", } {}
-                                false _js2n__-prdslib.never
-                            ]
+                          _js2n__-refsenv."_js2n__-:definitions/task_call!predicate"
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1020,6 +1009,8 @@ let rec _js2n__-refsenv
                 {
                   cmd = _js2n__-prdslib.isType '"String",
                   for = _js2n__-refsenv."_js2n__-:definitions/for!predicate",
+                  platforms =
+                    _js2n__-refsenv."_js2n__-:definitions/platforms!predicate",
                   silent = _js2n__-prdslib.isType '"Bool",
                   task = _js2n__-prdslib.isType '"String",
                   vars = _js2n__-refsenv."_js2n__-:definitions/vars!predicate",
@@ -1120,6 +1111,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "interleaved", "prefixed", "group" ]
             ],
+      "_js2n__-:definitions/platforms!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ],
       "_js2n__-:definitions/precondition!predicate" =
         _js2n__-prdslib.anyOf
             [
@@ -1147,7 +1144,28 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required
+                                      [ "enum", "name" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        enum =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.isType
+                                                    '"String")
+                                              ],
+                                        name = _js2n__-prdslib.isType '"String",
+                                      } {} false _js2n__-prdslib.never
+                                  ]
+                              ])
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1229,12 +1247,7 @@ let rec _js2n__-refsenv
                             [ "none", "checksum", "timestamp" ]
                         ],
                   platforms =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/platforms!predicate",
                   preconditions =
                     _js2n__-prdslib.allOf
                         [
@@ -1243,7 +1256,17 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/precondition!predicate"
                         ],
                   prefix = _js2n__-prdslib.isType '"String",
-                  prompt = _js2n__-prdslib.isType '"String",
+                  prompt =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ]
+                        ],
                   requires =
                     _js2n__-refsenv."_js2n__-:definitions/requires_obj!predicate",
                   run = _js2n__-refsenv."_js2n__-:definitions/run!predicate",

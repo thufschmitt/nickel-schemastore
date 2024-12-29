@@ -921,13 +921,13 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/CacheStrategy!predicate"
         | doc m%"
           The Strategy to use to detect if a file has changed.
-          - `metadata` - uses the file system timestamp and size to detect changes (fastest).
           - `content` - uses a hash of the file content to check file changes (slower - more accurate).
+          - `metadata` - uses the file system timestamp and size to detect changes (fastest, may not work in CI).
         "%
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "metadata", "content" ]
+              _js2n__-prdslib.enum [ "content", "metadata" ]
             ],
       "_js2n__-:definitions/CharacterSet!predicate"
         | doc m%"
@@ -1712,6 +1712,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   id = _js2n__-prdslib.isType '"String",
+                  ignoreRandomStrings = _js2n__-prdslib.isType '"Bool",
                   ignoreRegExpList =
                     _js2n__-refsenv."_js2n__-:definitions/RegExpPatternList!predicate",
                   ignoreWords =
@@ -1737,6 +1738,7 @@ let rec _js2n__-refsenv
                   loadDefaultConfiguration = _js2n__-prdslib.isType '"Bool",
                   maxDuplicateProblems = _js2n__-prdslib.isType '"Number",
                   maxNumberOfProblems = _js2n__-prdslib.isType '"Number",
+                  minRandomLength = _js2n__-prdslib.isType '"Number",
                   minWordLength = _js2n__-prdslib.isType '"Number",
                   name = _js2n__-prdslib.isType '"String",
                   noSuggestDictionaries =
@@ -2071,6 +2073,7 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.arrays.arrayOf
                         _js2n__-refsenv."_js2n__-:definitions/Glob!predicate"
                     ],
+              ignoreRandomStrings = _js2n__-prdslib.isType '"Bool",
               ignoreRegExpList =
                 _js2n__-refsenv."_js2n__-:definitions/RegExpPatternList!predicate",
               ignoreWords =
@@ -2107,6 +2110,7 @@ let rec _js2n__-refsenv
               loadDefaultConfiguration = _js2n__-prdslib.isType '"Bool",
               maxDuplicateProblems = _js2n__-prdslib.isType '"Number",
               maxNumberOfProblems = _js2n__-prdslib.isType '"Number",
+              minRandomLength = _js2n__-prdslib.isType '"Number",
               minWordLength = _js2n__-prdslib.isType '"Number",
               name = _js2n__-prdslib.isType '"String",
               noConfigSearch = _js2n__-prdslib.isType '"Bool",
