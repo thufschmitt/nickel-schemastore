@@ -898,76 +898,76 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {}
     in
-  {
-      build
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.allOf
+        [
+          _js2n__-prdslib.isType 'Record,
+          _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.anyOf
+              _js2n__-prdslib.allOf
                 [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.isType 'Null
+                  _js2n__-prdslib.records.required [ "slot" ],
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-prdslib.always
                 ],
-              _js2n__-prdslib.records.record
-                {
-                  cmd =
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.records.required [ "version" ],
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.records.required [ "tag" ],
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.not
+                (_js2n__-prdslib.oneOf
+                  [
                     _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.strings.pattern
-                                  "^[:\\-\\/\\w.]+$"
-                              ]),
-                          _js2n__-prdslib.arrays.minItems 1
-                        ],
-                  dockerfile = _js2n__-prdslib.isType '"String",
-                  install =
+                      [
+                        _js2n__-prdslib.records.required [ "slot" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ],
                     _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.required [ "cmd" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              cmd =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"Array",
-                                      _js2n__-prdslib.arrays.arrayOf
-                                        (_js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.strings.pattern
-                                              "^[:\\-\\/\\w.]+$"
-                                          ]),
-                                      _js2n__-prdslib.arrays.minItems 1
-                                    ],
-                            } {} false _js2n__-prdslib.never
-                        ],
-                  node_version =
+                      [
+                        _js2n__-prdslib.records.required [ "version" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ],
                     _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "18", "20", "21" ]
-                        ],
-                  package_manager =
+                      [
+                        _js2n__-prdslib.records.required [ "tag" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ],
                     _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "auto", "npm", "pnpm", "yarn" ]
-                        ],
-                } {} false _js2n__-prdslib.never
-            ])
-        | optional,
-      deploy
-        | {
-          addons
-            | {
-              postgres
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "slot", "version" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "slot", "tag" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "tag", "version" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]
+                  ])
+            ],
+          _js2n__-prdslib.records.required [ "deploy" ],
+          _js2n__-prdslib.records.record
+            {
+              build =
+                _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.anyOf
                         [
@@ -976,34 +976,385 @@ let rec _js2n__-refsenv
                         ],
                       _js2n__-prdslib.records.record
                         {
-                          config =
+                          cmd =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^[:\\-\\/\\w.]+$"
+                                      ]),
+                                  _js2n__-prdslib.arrays.minItems 1
+                                ],
+                          dockerfile = _js2n__-prdslib.isType '"String",
+                          install =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "cmd" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      cmd =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^[:\\-\\/\\w.]+$"
+                                                  ]),
+                                              _js2n__-prdslib.arrays.minItems 1
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          node_version =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum [ "18", "20", "21" ]
+                                ],
+                          package_manager =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum
+                                    [ "auto", "npm", "pnpm", "yarn" ]
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+              deploy =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "processor" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          addons =
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType 'Record,
                                   _js2n__-prdslib.records.record
                                     {
-                                      log_min_duration_statement =
+                                      hasura =
                                         _js2n__-prdslib.allOf
                                             [
-                                              _js2n__-prdslib.isType 'Integer,
-                                              _js2n__-prdslib.numbers.exclusiveMinimum
-                                                0
+                                              _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.isType 'Null
+                                                ],
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  env =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        '"String",
+                                                                      _js2n__-prdslib.records.record
+                                                                        {} {}
+                                                                        false
+                                                                        _js2n__-prdslib.never
+                                                                    ],
+                                                            }
+                                                            {
+                                                              "^[a-zA-Z_][a-zA-Z0-9_]*$" =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        '"String",
+                                                                      _js2n__-prdslib.records.record
+                                                                        {} {}
+                                                                        false
+                                                                        _js2n__-prdslib.never
+                                                                    ],
+                                                            } false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                  version =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
                                             ],
-                                      max_locks_per_transaction =
+                                      neon =
                                         _js2n__-prdslib.allOf
                                             [
-                                              _js2n__-prdslib.isType 'Integer,
-                                              _js2n__-prdslib.numbers.exclusiveMinimum
-                                                0
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  version =
+                                                    _js2n__-prdslib.const "16",
+                                                } {} false _js2n__-prdslib.never
                                             ],
-                                      max_pred_locks_per_transaction =
+                                      postgres =
                                         _js2n__-prdslib.allOf
                                             [
-                                              _js2n__-prdslib.isType 'Integer,
-                                              _js2n__-prdslib.numbers.exclusiveMinimum
-                                                0
+                                              _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.isType 'Null
+                                                ],
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  config =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {
+                                                              log_min_duration_statement =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        'Integer,
+                                                                      _js2n__-prdslib.numbers.exclusiveMinimum
+                                                                        0
+                                                                    ],
+                                                              max_locks_per_transaction =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        'Integer,
+                                                                      _js2n__-prdslib.numbers.exclusiveMinimum
+                                                                        0
+                                                                    ],
+                                                              max_pred_locks_per_transaction =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        'Integer,
+                                                                      _js2n__-prdslib.numbers.exclusiveMinimum
+                                                                        0
+                                                                    ],
+                                                              statement_timeout =
+                                                                _js2n__-prdslib.allOf
+                                                                    [
+                                                                      _js2n__-prdslib.isType
+                                                                        'Integer,
+                                                                      _js2n__-prdslib.numbers.exclusiveMinimum
+                                                                        0
+                                                                    ],
+                                                            } {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                  version =
+                                                    _js2n__-prdslib.const "14",
+                                                } {} false _js2n__-prdslib.never
                                             ],
-                                      statement_timeout =
+                                      rpc =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [
+                                                        "acala.http",
+                                                        "aleph-zero.http",
+                                                        "aleph-zero-testnet.http",
+                                                        "amplitude.http",
+                                                        "arbitrum-one.http",
+                                                        "arbitrum-goerli.http",
+                                                        "arbitrum-sepolia.http",
+                                                        "arbitrum-nova.http",
+                                                        "asset-hub-kusama.http",
+                                                        "asset-hub-polkadot.http",
+                                                        "asset-hub-rococo.http",
+                                                        "asset-hub-westend.http",
+                                                        "astar.http",
+                                                        "astar-substrate.http",
+                                                        "ava.http",
+                                                        "ava-testnet.http",
+                                                        "base.http",
+                                                        "base-goerli.http",
+                                                        "base-sepolia.http",
+                                                        "basilisk.http",
+                                                        "bittensor.http",
+                                                        "bittensor-testnet.http",
+                                                        "blast-l2.http",
+                                                        "bridge-hub-kusama.http",
+                                                        "bridge-hub-polkadot.http",
+                                                        "bridge-hub-rococo.http",
+                                                        "bridge-hub-westend.http",
+                                                        "bsc.http",
+                                                        "bsc-testnet.http",
+                                                        "centrifuge.http",
+                                                        "collectives-polkadot.http",
+                                                        "collectives-westend.http",
+                                                        "crust.http",
+                                                        "darwinia.http",
+                                                        "darwiniacrab.http",
+                                                        "eden.http",
+                                                        "eth.http",
+                                                        "eth-goerli.http",
+                                                        "eth-holesky.http",
+                                                        "eth-sepolia.http",
+                                                        "evmos.http",
+                                                        "fantom.http",
+                                                        "fantom-testnet.http",
+                                                        "frequency.http",
+                                                        "gnosis.http",
+                                                        "hydradx.http",
+                                                        "interlay.http",
+                                                        "karura.http",
+                                                        "khala.http",
+                                                        "kilt.http",
+                                                        "kintsugi.http",
+                                                        "kusama.http",
+                                                        "linea.http",
+                                                        "litentry.http",
+                                                        "mantle.http",
+                                                        "mantle-sepolia.http",
+                                                        "metis.http",
+                                                        "moonbase-alpha.http",
+                                                        "moonbase.http",
+                                                        "moonbeam.http",
+                                                        "moonbeam-substrate.http",
+                                                        "moonriver.http",
+                                                        "moonriver-substrate.http",
+                                                        "oktc.http",
+                                                        "opbnb.http",
+                                                        "opbnb-testnet.http",
+                                                        "optimism.http",
+                                                        "optimism-goerli.http",
+                                                        "pendulum.http",
+                                                        "phala.http",
+                                                        "polkadex.http",
+                                                        "polkadot.http",
+                                                        "polygon.http",
+                                                        "polygon-amoy-testnet.http",
+                                                        "polygon-testnet.http",
+                                                        "polygon-zkevm.http",
+                                                        "polygon-zkevm-cardona-testnet.http",
+                                                        "polygon-zkevm-testnet.http",
+                                                        "rococo.http",
+                                                        "scroll.http",
+                                                        "scroll-sepolia.http",
+                                                        "shibuya.http",
+                                                        "shibuya-substrate.http",
+                                                        "shiden.http",
+                                                        "shiden-substrate.http",
+                                                        "solana.http",
+                                                        "turing.http",
+                                                        "zeitgeist.http",
+                                                        "zksync.http",
+                                                        "zksync-sepolia.http"
+                                                      ]
+                                                  ])
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          api =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "cmd" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      cmd =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^[:\\-\\/\\w.]+$"
+                                                  ]),
+                                              _js2n__-prdslib.arrays.minItems 1
+                                            ],
+                                      env =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.records.record
+                                                            {} {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                }
+                                                {
+                                                  "^[a-zA-Z_][a-zA-Z0-9_]*$" =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.records.record
+                                                            {} {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                } false _js2n__-prdslib.never
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          cors =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      allow_credentials =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      allow_headers =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      allow_methods =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      allow_origin =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      enabled = _js2n__-prdslib.isType '"Bool",
+                                      expose_headers =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      max_age =
                                         _js2n__-prdslib.allOf
                                             [
                                               _js2n__-prdslib.isType 'Integer,
@@ -1012,500 +1363,508 @@ let rec _js2n__-refsenv
                                             ],
                                     } {} false _js2n__-prdslib.never
                                 ],
-                          version = _js2n__-prdslib.const "14",
+                          env =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.records.record {}
+                                                {} false _js2n__-prdslib.never
+                                            ],
+                                    }
+                                    {
+                                      "^[a-zA-Z_][a-zA-Z0-9_]*$" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.records.record {}
+                                                {} false _js2n__-prdslib.never
+                                            ],
+                                    } false _js2n__-prdslib.never
+                                ],
+                          init =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "cmd" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      cmd =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^[:\\-\\/\\w.]+$"
+                                                  ]),
+                                              _js2n__-prdslib.arrays.minItems 1
+                                            ],
+                                      env =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.records.record
+                                                            {} {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                }
+                                                {
+                                                  "^[a-zA-Z_][a-zA-Z0-9_]*$" =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.records.record
+                                                            {} {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                } false _js2n__-prdslib.never
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          migrate =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required [ "cmd" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      cmd =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^[:\\-\\/\\w.]+$"
+                                                  ]),
+                                              _js2n__-prdslib.arrays.minItems 1
+                                            ],
+                                      env =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.records.record
+                                                            {} {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                }
+                                                {
+                                                  "^[a-zA-Z_][a-zA-Z0-9_]*$" =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.records.record
+                                                            {} {} false
+                                                            _js2n__-prdslib.never
+                                                        ],
+                                                } false _js2n__-prdslib.never
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          processor =
+                            _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      _js2n__-prdslib.always
+                                  ])
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.required
+                                            [ "cmd", "name" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              cmd =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^[:\\-\\/\\w.]+$"
+                                                          ]),
+                                                      _js2n__-prdslib.arrays.minItems
+                                                        1
+                                                    ],
+                                              env =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Record,
+                                                      _js2n__-prdslib.records.record
+                                                        {
+                                                          "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.records.record
+                                                                    {} {} false
+                                                                    _js2n__-prdslib.never
+                                                                ],
+                                                        }
+                                                        {
+                                                          "^[a-zA-Z_][a-zA-Z0-9_]*$" =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.records.record
+                                                                    {} {} false
+                                                                    _js2n__-prdslib.never
+                                                                ],
+                                                        } false
+                                                        _js2n__-prdslib.never
+                                                    ],
+                                              name =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.maxLength
+                                                        63,
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+                                                    ],
+                                            } {} false _js2n__-prdslib.never
+                                        ]),
+                                    _js2n__-prdslib.arrays.minItems 1,
+                                    _js2n__-prdslib.arrays.uniqueItems
+                                  ])
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required [ "cmd" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        cmd =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType '"Array",
+                                                _js2n__-prdslib.arrays.arrayOf
+                                                  (_js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^[:\\-\\/\\w.]+$"
+                                                    ]),
+                                                _js2n__-prdslib.arrays.minItems
+                                                  1
+                                              ],
+                                        env =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.records.record
+                                                              {} {} false
+                                                              _js2n__-prdslib.never
+                                                          ],
+                                                  }
+                                                  {
+                                                    "^[a-zA-Z_][a-zA-Z0-9_]*$" =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.records.record
+                                                              {} {} false
+                                                              _js2n__-prdslib.never
+                                                          ],
+                                                  } false _js2n__-prdslib.never
+                                              ],
+                                        name =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.strings.maxLength
+                                                  63,
+                                                _js2n__-prdslib.strings.pattern
+                                                  "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+                                              ],
+                                      } {} false _js2n__-prdslib.never
+                                  ]),
+                          secrets =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^[a-zA-Z_][a-zA-Z0-9_]*$"
+                                      ])
+                                ],
                         } {} false _js2n__-prdslib.never
-                    ])
-                | optional,
-              rpc
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
+                    ],
+              description = _js2n__-prdslib.isType '"String",
+              manifestVersion = _js2n__-prdslib.const "subsquid.io/v0.1",
+              manifest_version = _js2n__-prdslib.const "subsquid.io/v0.1",
+              name =
+                _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.enum
-                              [
-                                "acala.http",
-                                "aleph-zero.http",
-                                "aleph-zero-testnet.http",
-                                "amplitude.http",
-                                "arbitrum-goerli.http",
-                                "arbitrum-sepolia.http",
-                                "arbitrum-one.http",
-                                "arbitrum-nova.http",
-                                "asset-hub-kusama.http",
-                                "asset-hub-polkadot.http",
-                                "asset-hub-rococo.http",
-                                "asset-hub-westend.http",
-                                "astar.http",
-                                "astar-substrate.http",
-                                "ava.http",
-                                "ava-testnet.http",
-                                "base.http",
-                                "base-goerli.http",
-                                "base-sepolia.http",
-                                "basilisk.http",
-                                "bittensor.http",
-                                "bittensor-testnet.http",
-                                "blast-l2.http",
-                                "bridge-hub-kusama.http",
-                                "bridge-hub-polkadot.http",
-                                "bridge-hub-rococo.http",
-                                "bridge-hub-westend.http",
-                                "bsc.http",
-                                "bsc-testnet.http",
-                                "centrifuge.http",
-                                "collectives-polkadot.http",
-                                "collectives-westend.http",
-                                "crust.http",
-                                "darwinia.http",
-                                "darwiniacrab.http",
-                                "eden.http",
-                                "eth.http",
-                                "eth-goerli.http",
-                                "eth-holesky.http",
-                                "eth-sepolia.http",
-                                "evmos.http",
-                                "fantom.http",
-                                "fantom-testnet.http",
-                                "frequency.http",
-                                "gnosis.http",
-                                "hydradx.http",
-                                "interlay.http",
-                                "karura.http",
-                                "khala.http",
-                                "kilt.http",
-                                "kintsugi.http",
-                                "kusama.http",
-                                "linea.http",
-                                "litentry.http",
-                                "mantle.http",
-                                "mantle-sepolia.http",
-                                "metis.http",
-                                "moonbase-alpha.http",
-                                "moonbase.http",
-                                "moonbeam.http",
-                                "moonbeam-substrate.http",
-                                "moonriver.http",
-                                "moonriver-substrate.http",
-                                "oktc.http",
-                                "opbnb.http",
-                                "opbnb-testnet.http",
-                                "optimism.http",
-                                "optimism-goerli.http",
-                                "pendulum.http",
-                                "phala.http",
-                                "polkadex.http",
-                                "polkadot.http",
-                                "polygon.http",
-                                "polygon-amoy-testnet.http",
-                                "polygon-testnet.http",
-                                "polygon-zkevm.http",
-                                "polygon-zkevm-cardona-testnet.http",
-                                "polygon-zkevm-testnet.http",
-                                "rococo.http",
-                                "scroll.http",
-                                "scroll-sepolia.http",
-                                "shibuya.http",
-                                "shibuya-substrate.http",
-                                "shiden.http",
-                                "shiden-substrate.http",
-                                "solana.http",
-                                "turing.http",
-                                "zeitgeist.http",
-                                "zksync.http",
-                                "zksync-sepolia.http"
-                              ]
-                          ])
-                    ])
-                | optional,
-            }
-            | optional,
-          api
-            | {
-              cmd
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 30,
+                      _js2n__-prdslib.strings.minLength 3,
+                      _js2n__-prdslib.strings.pattern
+                        "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$"
+                    ],
+              queries =
+                _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.strings.pattern "^[:\\-\\/\\w.]+$"
-                          ]),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ]),
-              env
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} false
+                        _js2n__-prdslib.never
+                    ],
+              scale =
+                _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.record
                         {
-                          "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
+                          addons =
                             _js2n__-prdslib.allOf
                                 [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.records.record {} {} false
-                                    _js2n__-prdslib.never
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      hasura =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  profile =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [
+                                                              "small",
+                                                              "medium",
+                                                              "large"
+                                                            ]
+                                                        ],
+                                                  replicas =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Integer,
+                                                          _js2n__-prdslib.numbers.maximum
+                                                            5,
+                                                          _js2n__-prdslib.numbers.exclusiveMinimum
+                                                            0
+                                                        ],
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      neon =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  autoscaling_limit_max_cu =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [
+                                                              "0.25",
+                                                              "0.5",
+                                                              "1",
+                                                              "2",
+                                                              "3",
+                                                              "4",
+                                                              "8"
+                                                            ]
+                                                        ],
+                                                  autoscaling_limit_min_cu =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [
+                                                              "0.25",
+                                                              "0.5",
+                                                              "1",
+                                                              "2",
+                                                              "3",
+                                                              "4",
+                                                              "8"
+                                                            ]
+                                                        ],
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      postgres =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  autoresize =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  autoresize_limit =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  profile =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [
+                                                              "small",
+                                                              "medium",
+                                                              "large"
+                                                            ]
+                                                        ],
+                                                  storage =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                      rpc =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  max-rate =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "\\d+rp[sm]"
+                                                        ],
+                                                  monthly-cap =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "\\d+[km]"
+                                                        ],
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                    } {} false _js2n__-prdslib.never
                                 ],
-                        }
-                        {
-                          "^[a-zA-Z_][a-zA-Z0-9_]*$" =
+                          api =
                             _js2n__-prdslib.allOf
                                 [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.records.record {} {} false
-                                    _js2n__-prdslib.never
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      profile =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "small", "medium", "large" ]
+                                            ],
+                                      replicas =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.maximum 5,
+                                              _js2n__-prdslib.numbers.exclusiveMinimum
+                                                0
+                                            ],
+                                    } {} false _js2n__-prdslib.never
                                 ],
-                        } false _js2n__-prdslib.never
-                    ])
-                | optional,
-            }
-            | optional,
-          env
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.record
-                    {
-                      "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.records.record {} {} false
-                                _js2n__-prdslib.never
-                            ],
-                    }
-                    {
-                      "^[a-zA-Z_][a-zA-Z0-9_]*$" =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.records.record {} {} false
-                                _js2n__-prdslib.never
-                            ],
-                    } false _js2n__-prdslib.never
-                ])
-            | optional,
-          init
-            | {
-              cmd
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
+                          dedicated = _js2n__-prdslib.isType '"Bool",
+                          processor =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      profile =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "small", "medium", "large" ]
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+              slot =
+                _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.strings.pattern "^[:\\-\\/\\w.]+$"
-                          ]),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ]),
-              env
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 6,
+                      _js2n__-prdslib.strings.minLength 2,
+                      _js2n__-prdslib.strings.pattern
+                        "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$"
+                    ],
+              tag =
+                _js2n__-prdslib.allOf
                     [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record
-                        {
-                          "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.records.record {} {} false
-                                    _js2n__-prdslib.never
-                                ],
-                        }
-                        {
-                          "^[a-zA-Z_][a-zA-Z0-9_]*$" =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.records.record {} {} false
-                                    _js2n__-prdslib.never
-                                ],
-                        } false _js2n__-prdslib.never
-                    ])
-                | optional,
-            }
-            | optional,
-          migrate
-            | {
-              cmd
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.strings.pattern "^[:\\-\\/\\w.]+$"
-                          ]),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ]),
-              env
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record
-                        {
-                          "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.records.record {} {} false
-                                    _js2n__-prdslib.never
-                                ],
-                        }
-                        {
-                          "^[a-zA-Z_][a-zA-Z0-9_]*$" =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.records.record {} {} false
-                                    _js2n__-prdslib.never
-                                ],
-                        } false _js2n__-prdslib.never
-                    ])
-                | optional,
-            }
-            | doc "[DEPRECATED] Please use \"deploy.init\" instead"
-            | optional,
-          processor
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.ifThenElse
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"Array",
-                    _js2n__-prdslib.arrays.arrayOf _js2n__-prdslib.always
-                  ])
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"Array",
-                    _js2n__-prdslib.arrays.arrayOf
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.required [ "cmd", "name" ],
-                          _js2n__-prdslib.records.record
-                            {
-                              cmd =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"Array",
-                                      _js2n__-prdslib.arrays.arrayOf
-                                        (_js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.strings.pattern
-                                              "^[:\\-\\/\\w.]+$"
-                                          ]),
-                                      _js2n__-prdslib.arrays.minItems 1
-                                    ],
-                              env =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.records.record
-                                                    {} {} false
-                                                    _js2n__-prdslib.never
-                                                ],
-                                        }
-                                        {
-                                          "^[a-zA-Z_][a-zA-Z0-9_]*$" =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.records.record
-                                                    {} {} false
-                                                    _js2n__-prdslib.never
-                                                ],
-                                        } false _js2n__-prdslib.never
-                                    ],
-                              name =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.strings.maxLength 63,
-                                      _js2n__-prdslib.strings.pattern
-                                        "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
-                                    ],
-                            } {} false _js2n__-prdslib.never
-                        ]),
-                    _js2n__-prdslib.arrays.minItems 1,
-                    _js2n__-prdslib.arrays.uniqueItems
-                  ])
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.required [ "cmd" ],
-                    _js2n__-prdslib.records.record
-                      {
-                        cmd =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.strings.pattern
-                                        "^[:\\-\\/\\w.]+$"
-                                    ]),
-                                _js2n__-prdslib.arrays.minItems 1
-                              ],
-                        env =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType 'Record,
-                                _js2n__-prdslib.records.record
-                                  {
-                                    "/^[a-zA-Z_][a-zA-Z0-9_]*$/" =
-                                      _js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.records.record {} {}
-                                              false _js2n__-prdslib.never
-                                          ],
-                                  }
-                                  {
-                                    "^[a-zA-Z_][a-zA-Z0-9_]*$" =
-                                      _js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.records.record {} {}
-                                              false _js2n__-prdslib.never
-                                          ],
-                                  } false _js2n__-prdslib.never
-                              ],
-                        name =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.strings.maxLength 63,
-                                _js2n__-prdslib.strings.pattern
-                                  "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
-                              ],
-                      } {} false _js2n__-prdslib.never
-                  ])),
-          secrets
-            | Array (
-              _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.strings.pattern "^[a-zA-Z_][a-zA-Z0-9_]*$"
-                  ])
-            )
-            | doc "[DEPRECATED] Please use secrets context https://docs.subsquid.io/cloud/resources/env-variables/#secrets"
-            | optional,
-        },
-      description | String | optional,
-      manifestVersion
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.const "subsquid.io/v0.1")
-        | doc "[DEPRECATED] Please use \"manifest_version\" instead."
-        | optional,
-      manifest_version
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.const "subsquid.io/v0.1")
-        | optional,
-      name
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.strings.maxLength 30,
-              _js2n__-prdslib.strings.minLength 3,
-              _js2n__-prdslib.strings.pattern "^[a-z0-9][a-z0-9\\-]*[a-z0-9]$"
-            ]),
-      queries | {} | optional,
-      scale
-        | {
-          addons
-            | {
-              postgres
-                | {
-                  profile
-                    | std.enum.TagOrString
-                    | [| 'large, 'medium, 'small |]
-                    | optional,
-                  storage | String | optional,
-                }
-                | optional,
-              rpc
-                | {
-                  max-rate
-                    | _js2n__-prdslib.contract_from_predicate
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.pattern "\\d+rp[sm]"
-                        ])
-                    | optional,
-                  monthly-cap
-                    | _js2n__-prdslib.contract_from_predicate
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.pattern "\\d+[km]"
-                        ])
-                    | optional,
-                }
-                | doc "[DEPRECATED] Please use billing settings in Cloud UI"
-                | optional,
-            }
-            | optional,
-          api
-            | {
-              profile
-                | std.enum.TagOrString
-                | [| 'large, 'medium, 'small |]
-                | optional,
-              replicas
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.maxLength 32,
+                      _js2n__-prdslib.strings.minLength 2,
+                      _js2n__-prdslib.strings.pattern
+                        "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$"
+                    ],
+              version =
+                _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Integer,
-                      _js2n__-prdslib.numbers.maximum 5,
+                      _js2n__-prdslib.numbers.maximum 1000000,
                       _js2n__-prdslib.numbers.exclusiveMinimum 0
-                    ])
-                | optional,
-            }
-            | optional,
-          dedicated | Bool | optional,
-          processor
-            | {
-              profile
-                | std.enum.TagOrString
-                | [| 'large, 'medium, 'small |]
-                | optional,
-            }
-            | optional,
-        }
-        | optional,
-      version
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Integer,
-              _js2n__-prdslib.numbers.maximum 1000000,
-              _js2n__-prdslib.numbers.exclusiveMinimum 0
-            ]),
-    }
+                    ],
+            } {} false _js2n__-prdslib.never
+        ])

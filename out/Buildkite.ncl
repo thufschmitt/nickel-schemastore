@@ -897,13 +897,80 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/agents!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/agentsObject!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/agentsList!predicate"
+            ],
+      "_js2n__-:definitions/agentsList!predicate"
+        | doc "Query rules to target specific agents in k=v format"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ],
+      "_js2n__-:definitions/agentsObject!predicate"
+        | doc "Query rules to target specific agents"
+        = _js2n__-prdslib.isType 'Record,
+      "_js2n__-:definitions/allowDependencyFailure!predicate"
+        | doc "Whether to proceed with this step and further steps if a step named in the depends_on attribute fails"
+        = _js2n__-prdslib.enum [ true, false, "true", "false" ],
+      "_js2n__-:definitions/automaticRetry!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  exit_status =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.enum [ "*" ]
+                            ],
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType 'Integer)
+                            ]
+                        ],
+                  limit =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.maximum 10,
+                          _js2n__-prdslib.numbers.minimum 1
+                        ],
+                  signal = _js2n__-prdslib.isType '"String",
+                  signal_reason =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "*",
+                              "none",
+                              "agent_refused",
+                              "agent_stop",
+                              "cancel",
+                              "process_run_error",
+                              "signature_rejected"
+                            ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/blockStep!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  allow_dependency_failure = _js2n__-prdslib.always,
+                  allow_dependency_failure =
+                    _js2n__-refsenv."_js2n__-:definitions/allowDependencyFailure!predicate",
                   block = _js2n__-prdslib.isType '"String",
                   blocked_state =
                     _js2n__-prdslib.allOf
@@ -911,16 +978,24 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "passed", "failed", "running" ]
                         ],
-                  branches = _js2n__-prdslib.always,
-                  depends_on = _js2n__-prdslib.always,
-                  fields = _js2n__-prdslib.always,
-                  id = _js2n__-prdslib.always,
-                  identifier = _js2n__-prdslib.always,
-                  "if" = _js2n__-prdslib.always,
-                  key = _js2n__-prdslib.always,
-                  label = _js2n__-prdslib.always,
-                  name = _js2n__-prdslib.always,
-                  prompt = _js2n__-prdslib.always,
+                  branches =
+                    _js2n__-refsenv."_js2n__-:definitions/branches!predicate",
+                  depends_on =
+                    _js2n__-refsenv."_js2n__-:definitions/dependsOn!predicate",
+                  fields =
+                    _js2n__-refsenv."_js2n__-:definitions/fields!predicate",
+                  id =
+                    _js2n__-refsenv."_js2n__-:definitions/blockStep/properties/key!predicate",
+                  identifier =
+                    _js2n__-refsenv."_js2n__-:definitions/blockStep/properties/key!predicate",
+                  "if" = _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                  key = _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+                  label =
+                    _js2n__-refsenv."_js2n__-:definitions/blockStep/properties/block!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/blockStep/properties/block!predicate",
+                  prompt =
+                    _js2n__-refsenv."_js2n__-:definitions/prompt!predicate",
                   type =
                     _js2n__-prdslib.allOf
                         [
@@ -929,14 +1004,198 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/blockStep/properties/block!predicate"
+        | doc "The label of the block step"
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/blockStep/properties/key!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+      "_js2n__-:definitions/branches!predicate"
+        | doc "Which branches will include this step in their builds"
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ],
+      "_js2n__-:definitions/buildNotify!predicate"
+        | doc "Array of notification options for this step"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.enum
+                          [ "github_check", "github_commit_status" ]
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            email = _js2n__-prdslib.isType '"String",
+                            "if" =
+                              _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            basecamp_campfire =
+                              _js2n__-prdslib.isType '"String",
+                            "if" =
+                              _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            "if" =
+                              _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                            slack =
+                              _js2n__-prdslib.oneOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Record,
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            channels =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.isType
+                                                        '"String")
+                                                  ],
+                                            message =
+                                              _js2n__-prdslib.isType '"String",
+                                          } {} true _js2n__-prdslib.always
+                                      ]
+                                  ],
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            "if" =
+                              _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                            webhook = _js2n__-prdslib.isType '"String",
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            "if" =
+                              _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                            pagerduty_change_event =
+                              _js2n__-prdslib.isType '"String",
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            github_commit_status =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        context =
+                                          _js2n__-prdslib.isType '"String",
+                                      } {} false _js2n__-prdslib.never
+                                  ],
+                            "if" =
+                              _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            github_check =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        context =
+                                          _js2n__-prdslib.isType '"String",
+                                      } {} true _js2n__-prdslib.always
+                                  ],
+                            "if" =
+                              _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                          } {} false _js2n__-prdslib.never
+                      ]
+                  ])
+            ],
+      "_js2n__-:definitions/cache!predicate"
+        | doc "The paths for the caches to be used in the step"
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.isType '"String")
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "paths" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      name = _js2n__-prdslib.isType '"String",
+                      paths =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                      size =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern "^\\d+g$"
+                            ],
+                    } {} true _js2n__-prdslib.always
+                ]
+            ],
+      "_js2n__-:definitions/cancelOnBuildFailing!predicate"
+        | doc "Whether to cancel the job as soon as the build is marked as failing"
+        = _js2n__-prdslib.enum [ true, false, "true", "false" ],
       "_js2n__-:definitions/commandStep!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  agents = _js2n__-prdslib.always,
-                  allow_dependency_failure = _js2n__-prdslib.always,
+                  agents =
+                    _js2n__-refsenv."_js2n__-:definitions/agents!predicate",
+                  allow_dependency_failure =
+                    _js2n__-refsenv."_js2n__-:definitions/allowDependencyFailure!predicate",
                   artifact_paths =
                     _js2n__-prdslib.anyOf
                         [
@@ -948,8 +1207,12 @@ let rec _js2n__-refsenv
                                 (_js2n__-prdslib.isType '"String")
                             ]
                         ],
-                  branches = _js2n__-prdslib.always,
-                  cancel_on_build_failing = _js2n__-prdslib.always,
+                  branches =
+                    _js2n__-refsenv."_js2n__-:definitions/branches!predicate",
+                  cache =
+                    _js2n__-refsenv."_js2n__-:definitions/cache!predicate",
+                  cancel_on_build_failing =
+                    _js2n__-refsenv."_js2n__-:definitions/cancelOnBuildFailing!predicate",
                   command =
                     _js2n__-prdslib.anyOf
                         [
@@ -971,13 +1234,17 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "ordered", "eager" ]
                         ],
-                  depends_on = _js2n__-prdslib.always,
-                  env = _js2n__-prdslib.always,
-                  id = _js2n__-prdslib.always,
-                  identifier = _js2n__-prdslib.always,
-                  "if" = _js2n__-prdslib.always,
-                  key = _js2n__-prdslib.always,
-                  label = _js2n__-prdslib.always,
+                  depends_on =
+                    _js2n__-refsenv."_js2n__-:definitions/dependsOn!predicate",
+                  env = _js2n__-refsenv."_js2n__-:definitions/env!predicate",
+                  id =
+                    _js2n__-refsenv."_js2n__-:definitions/commandStep/properties/key!predicate",
+                  identifier =
+                    _js2n__-refsenv."_js2n__-:definitions/commandStep/properties/key!predicate",
+                  "if" = _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                  key = _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+                  label =
+                    _js2n__-refsenv."_js2n__-:definitions/label!predicate",
                   matrix =
                     _js2n__-prdslib.oneOf
                         [
@@ -985,7 +1252,7 @@ let rec _js2n__-refsenv
                             [
                               _js2n__-prdslib.isType '"Array",
                               _js2n__-prdslib.arrays.arrayOf
-                                _js2n__-prdslib.always
+                                _js2n__-refsenv."_js2n__-:definitions/matrixElement!predicate"
                             ],
                           _js2n__-prdslib.allOf
                             [
@@ -1006,9 +1273,9 @@ let rec _js2n__-refsenv
                                                 _js2n__-prdslib.records.record
                                                   {
                                                     skip =
-                                                      _js2n__-prdslib.always,
+                                                      _js2n__-refsenv."_js2n__-:definitions/skip!predicate",
                                                     soft_fail =
-                                                      _js2n__-prdslib.always,
+                                                      _js2n__-refsenv."_js2n__-:definitions/softFail!predicate",
                                                     with =
                                                       _js2n__-prdslib.oneOf
                                                           [
@@ -1017,7 +1284,7 @@ let rec _js2n__-refsenv
                                                                 _js2n__-prdslib.isType
                                                                   '"Array",
                                                                 _js2n__-prdslib.arrays.arrayOf
-                                                                  _js2n__-prdslib.always
+                                                                  _js2n__-refsenv."_js2n__-:definitions/matrixElement!predicate"
                                                               ],
                                                             _js2n__-prdslib.allOf
                                                               [
@@ -1043,7 +1310,7 @@ let rec _js2n__-refsenv
                                             [
                                               _js2n__-prdslib.isType '"Array",
                                               _js2n__-prdslib.arrays.arrayOf
-                                                _js2n__-prdslib.always
+                                                _js2n__-refsenv."_js2n__-:definitions/matrixElement!predicate"
                                             ],
                                           _js2n__-prdslib.allOf
                                             [
@@ -1063,14 +1330,15 @@ let rec _js2n__-refsenv
                                                     _js2n__-prdslib.isType
                                                       '"Array",
                                                     _js2n__-prdslib.arrays.arrayOf
-                                                      _js2n__-prdslib.always
+                                                      _js2n__-refsenv."_js2n__-:definitions/matrixElement!predicate"
                                                   ])
                                             ]
                                         ],
                                 } {} true _js2n__-prdslib.always
                             ]
                         ],
-                  name = _js2n__-prdslib.always,
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/commandStep/properties/label!predicate",
                   notify =
                     _js2n__-prdslib.allOf
                         [
@@ -1091,7 +1359,8 @@ let rec _js2n__-refsenv
                                       {
                                         basecamp_campfire =
                                           _js2n__-prdslib.isType '"String",
-                                        "if" = _js2n__-prdslib.always,
+                                        "if" =
+                                          _js2n__-refsenv."_js2n__-:definitions/if!predicate",
                                       } {} false _js2n__-prdslib.never
                                   ],
                                 _js2n__-prdslib.allOf
@@ -1099,7 +1368,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.isType 'Record,
                                     _js2n__-prdslib.records.record
                                       {
-                                        "if" = _js2n__-prdslib.always,
+                                        "if" =
+                                          _js2n__-refsenv."_js2n__-:definitions/if!predicate",
                                         slack =
                                           _js2n__-prdslib.oneOf
                                               [
@@ -1123,8 +1393,8 @@ let rec _js2n__-refsenv
                                                         message =
                                                           _js2n__-prdslib.isType
                                                               '"String",
-                                                      } {} true
-                                                      _js2n__-prdslib.always
+                                                      } {} false
+                                                      _js2n__-prdslib.never
                                                   ]
                                               ],
                                       } {} false _js2n__-prdslib.never
@@ -1143,10 +1413,11 @@ let rec _js2n__-refsenv
                                                     context =
                                                       _js2n__-prdslib.isType
                                                           '"String",
-                                                  } {} true
-                                                  _js2n__-prdslib.always
+                                                  } {} false
+                                                  _js2n__-prdslib.never
                                               ],
-                                        "if" = _js2n__-prdslib.always,
+                                        "if" =
+                                          _js2n__-refsenv."_js2n__-:definitions/if!predicate",
                                       } {} false _js2n__-prdslib.never
                                   ],
                                 _js2n__-prdslib.allOf
@@ -1166,7 +1437,8 @@ let rec _js2n__-refsenv
                                                   } {} true
                                                   _js2n__-prdslib.always
                                               ],
-                                        "if" = _js2n__-prdslib.always,
+                                        "if" =
+                                          _js2n__-refsenv."_js2n__-:definitions/if!predicate",
                                       } {} false _js2n__-prdslib.never
                                   ]
                               ])
@@ -1203,67 +1475,41 @@ let rec _js2n__-refsenv
                               automatic =
                                 _js2n__-prdslib.anyOf
                                     [
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.anyOf
-                                            [
-                                              _js2n__-prdslib.isType '"Bool",
-                                              _js2n__-prdslib.isType '"String"
-                                            ],
-                                          _js2n__-prdslib.strings.pattern
-                                            "^(true|false)$"
-                                        ],
-                                      _js2n__-prdslib.always,
+                                      _js2n__-prdslib.enum
+                                        [ true, false, "true", "false" ],
+                                      _js2n__-refsenv."_js2n__-:definitions/automaticRetry!predicate",
                                       _js2n__-prdslib.allOf
                                         [
                                           _js2n__-prdslib.isType '"Array",
                                           _js2n__-prdslib.arrays.arrayOf
-                                            _js2n__-prdslib.always
+                                            _js2n__-refsenv."_js2n__-:definitions/automaticRetry!predicate"
                                         ]
                                     ],
                               manual =
                                 _js2n__-prdslib.anyOf
                                     [
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.anyOf
-                                            [
-                                              _js2n__-prdslib.isType '"Bool",
-                                              _js2n__-prdslib.isType '"String"
-                                            ],
-                                          _js2n__-prdslib.strings.pattern
-                                            "^(true|false)$"
-                                        ],
+                                      _js2n__-prdslib.enum
+                                        [ true, false, "true", "false" ],
                                       _js2n__-prdslib.allOf
                                         [
                                           _js2n__-prdslib.isType 'Record,
                                           _js2n__-prdslib.records.record
                                             {
                                               allowed =
-                                                _js2n__-prdslib.allOf
+                                                _js2n__-prdslib.enum
                                                     [
-                                                      _js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                          _js2n__-prdslib.isType
-                                                            '"String"
-                                                        ],
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^(true|false)$"
+                                                      true,
+                                                      false,
+                                                      "true",
+                                                      "false"
                                                     ],
                                               permit_on_passed =
-                                                _js2n__-prdslib.allOf
+                                                _js2n__-prdslib.enum
                                                     [
-                                                      _js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                          _js2n__-prdslib.isType
-                                                            '"String"
-                                                        ],
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^(true|false)$"
+                                                      true,
+                                                      false,
+                                                      "true",
+                                                      "false"
                                                     ],
                                               reason =
                                                 _js2n__-prdslib.isType
@@ -1271,7 +1517,7 @@ let rec _js2n__-refsenv
                                             } {} false _js2n__-prdslib.never
                                         ]
                                     ],
-                            } {} true _js2n__-prdslib.always
+                            } {} false _js2n__-prdslib.never
                         ],
                   signature =
                     _js2n__-prdslib.allOf
@@ -1290,8 +1536,9 @@ let rec _js2n__-refsenv
                               value = _js2n__-prdslib.isType '"String",
                             } {} true _js2n__-prdslib.always
                         ],
-                  skip = _js2n__-prdslib.always,
-                  soft_fail = _js2n__-prdslib.always,
+                  skip = _js2n__-refsenv."_js2n__-:definitions/skip!predicate",
+                  soft_fail =
+                    _js2n__-refsenv."_js2n__-:definitions/softFail!predicate",
                   timeout_in_minutes =
                     _js2n__-prdslib.allOf
                         [
@@ -1319,80 +1566,230 @@ let rec _js2n__-refsenv
                 ],
               _js2n__-prdslib.isType '"String"
             ],
-      "_js2n__-:definitions/groupStep!predicate" =
-        _js2n__-prdslib.records.record
-            {
-              allow_dependency_failure = _js2n__-prdslib.always,
-              depends_on = _js2n__-prdslib.always,
-              group =
-                _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.isType 'Null
-                    ],
-              id = _js2n__-prdslib.always,
-              identifier = _js2n__-prdslib.always,
-              "if" = _js2n__-prdslib.always,
-              key = _js2n__-prdslib.always,
-              label =
-                _js2n__-refsenv."_js2n__-:definitions/groupStep/properties/group!predicate",
-              name =
-                _js2n__-refsenv."_js2n__-:definitions/groupStep/properties/label!predicate",
-              notify = _js2n__-prdslib.always,
-              skip = _js2n__-prdslib.always,
-              steps =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.anyOf
+      "_js2n__-:definitions/commandStep/properties/key!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+      "_js2n__-:definitions/commandStep/properties/label!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/label!predicate",
+      "_js2n__-:definitions/dependsOn!predicate"
+        | doc "The step keys for a step to depend on"
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType 'Null,
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.allOf
                           [
-                            _js2n__-refsenv."_js2n__-:definitions/stringBlockStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/blockStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/commandStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/nestedCommandStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/triggerStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/nestedTriggerStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/stringInputStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/inputStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/nestedInputStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/stringWaitStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/waitStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/nestedWaitStep!predicate"
-                          ])
-                    ],
-              type =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.anyOf
-                        [ _js2n__-prdslib.isType '"String" ],
-                      _js2n__-prdslib.enum [ "group" ]
-                    ],
-            } {} false _js2n__-prdslib.never,
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record
+                              {
+                                allow_failure =
+                                  _js2n__-prdslib.enum
+                                      [ true, false, "true", "false" ],
+                                step = _js2n__-prdslib.isType '"String",
+                              } {} false _js2n__-prdslib.never
+                          ]
+                      ])
+                ]
+            ],
+      "_js2n__-:definitions/env!predicate"
+        | doc "Environment variables for this step"
+        = _js2n__-prdslib.isType 'Record,
+      "_js2n__-:definitions/fields!predicate"
+        | doc "A list of input fields required to be filled out before unblocking the step"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "key" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            "default" = _js2n__-prdslib.isType '"String",
+                            format = _js2n__-prdslib.isType '"String",
+                            hint = _js2n__-prdslib.isType '"String",
+                            key =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.pattern
+                                      "^[a-zA-Z0-9-_]+$"
+                                  ],
+                            required =
+                              _js2n__-prdslib.enum
+                                  [ true, false, "true", "false" ],
+                            text = _js2n__-prdslib.isType '"String",
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "key", "options" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            "default" =
+                              _js2n__-prdslib.oneOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          (_js2n__-prdslib.isType '"String")
+                                      ]
+                                  ],
+                            hint = _js2n__-prdslib.isType '"String",
+                            key =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.pattern
+                                      "^[a-zA-Z0-9-_]+$"
+                                  ],
+                            multiple =
+                              _js2n__-prdslib.enum
+                                  [ true, false, "true", "false" ],
+                            options =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.required
+                                            [ "label", "value" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              hint =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              label =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              required =
+                                                _js2n__-prdslib.enum
+                                                    [
+                                                      true,
+                                                      false,
+                                                      "true",
+                                                      "false"
+                                                    ],
+                                              value =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} false _js2n__-prdslib.never
+                                        ]),
+                                    _js2n__-prdslib.arrays.minItems 1
+                                  ],
+                            required =
+                              _js2n__-prdslib.enum
+                                  [ true, false, "true", "false" ],
+                            select = _js2n__-prdslib.isType '"String",
+                          } {} false _js2n__-prdslib.never
+                      ]
+                  ])
+            ],
+      "_js2n__-:definitions/groupStep!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "group", "steps" ],
+              _js2n__-prdslib.records.record
+                {
+                  allow_dependency_failure =
+                    _js2n__-refsenv."_js2n__-:definitions/allowDependencyFailure!predicate",
+                  depends_on =
+                    _js2n__-refsenv."_js2n__-:definitions/dependsOn!predicate",
+                  group =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  id =
+                    _js2n__-refsenv."_js2n__-:definitions/groupStep/properties/key!predicate",
+                  identifier =
+                    _js2n__-refsenv."_js2n__-:definitions/groupStep/properties/key!predicate",
+                  "if" = _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                  key = _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+                  label =
+                    _js2n__-refsenv."_js2n__-:definitions/groupStep/properties/group!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/groupStep/properties/group!predicate",
+                  notify =
+                    _js2n__-refsenv."_js2n__-:definitions/buildNotify!predicate",
+                  skip = _js2n__-refsenv."_js2n__-:definitions/skip!predicate",
+                  steps =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/blockStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/nestedBlockStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/stringBlockStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/inputStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/nestedInputStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/stringInputStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/commandStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/nestedCommandStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/waitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/nestedWaitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/stringWaitStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/triggerStep!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/nestedTriggerStep!predicate"
+                              ]),
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/groupStep/properties/group!predicate"
         | doc "The name to give to this group of steps"
         = _js2n__-prdslib.anyOf
             [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ],
-      "_js2n__-:definitions/groupStep/properties/label!predicate" =
-        _js2n__-refsenv."_js2n__-:definitions/groupStep/properties/group!predicate",
+      "_js2n__-:definitions/groupStep/properties/key!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+      "_js2n__-:definitions/if!predicate"
+        | doc "A boolean expression that omits the step when false"
+        = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/inputStep!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  allow_dependency_failure = _js2n__-prdslib.always,
-                  branches = _js2n__-prdslib.always,
-                  depends_on = _js2n__-prdslib.always,
-                  fields = _js2n__-prdslib.always,
-                  id = _js2n__-prdslib.always,
-                  identifier = _js2n__-prdslib.always,
-                  "if" = _js2n__-prdslib.always,
+                  allow_dependency_failure =
+                    _js2n__-refsenv."_js2n__-:definitions/allowDependencyFailure!predicate",
+                  branches =
+                    _js2n__-refsenv."_js2n__-:definitions/branches!predicate",
+                  depends_on =
+                    _js2n__-refsenv."_js2n__-:definitions/dependsOn!predicate",
+                  fields =
+                    _js2n__-refsenv."_js2n__-:definitions/fields!predicate",
+                  id =
+                    _js2n__-refsenv."_js2n__-:definitions/inputStep/properties/key!predicate",
+                  identifier =
+                    _js2n__-refsenv."_js2n__-:definitions/inputStep/properties/key!predicate",
+                  "if" = _js2n__-refsenv."_js2n__-:definitions/if!predicate",
                   input = _js2n__-prdslib.isType '"String",
-                  key = _js2n__-prdslib.always,
-                  label = _js2n__-prdslib.always,
-                  name = _js2n__-prdslib.always,
-                  prompt = _js2n__-prdslib.always,
+                  key = _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+                  label =
+                    _js2n__-refsenv."_js2n__-:definitions/inputStep/properties/input!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/inputStep/properties/input!predicate",
+                  prompt =
+                    _js2n__-refsenv."_js2n__-:definitions/prompt!predicate",
                   type =
                     _js2n__-prdslib.allOf
                         [
@@ -1400,6 +1797,30 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "input" ]
                         ],
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/inputStep/properties/input!predicate"
+        | doc "The label of the input step"
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/inputStep/properties/key!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+      "_js2n__-:definitions/key!predicate"
+        | doc "A unique identifier for a step, must not resemble a UUID"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.not
+                (_js2n__-prdslib.strings.pattern
+                  "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            ],
+      "_js2n__-:definitions/label!predicate"
+        | doc "The label that will be displayed in the pipeline visualisation in Buildkite. Supports emoji."
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/matrixElement!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.isType 'Integer,
+              _js2n__-prdslib.isType '"Bool"
             ],
       "_js2n__-:definitions/nestedBlockStep!predicate" =
         _js2n__-prdslib.allOf
@@ -1457,6 +1878,44 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/waitStep!predicate",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/prompt!predicate"
+        | doc "The instructional message displayed in the dialog box when the unblock step is activated"
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/skip!predicate"
+        | doc "Whether this step should be skipped. Passing a string provides a reason for skipping this command"
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"Bool",
+              _js2n__-prdslib.isType '"String"
+            ],
+      "_js2n__-:definitions/softFail!predicate"
+        | doc "The conditions for marking the step as a soft-fail."
+        = _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.enum [ true, false, "true", "false" ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            exit_status =
+                              _js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum [ "*" ]
+                                      ],
+                                    _js2n__-prdslib.isType 'Integer
+                                  ],
+                          } {} true _js2n__-prdslib.always
+                      ])
+                ]
+            ],
       "_js2n__-:definitions/stringBlockStep!predicate"
         | doc "Pauses the execution of a build and waits on a user to unblock it"
         = _js2n__-prdslib.allOf
@@ -1482,11 +1941,14 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "trigger" ],
               _js2n__-prdslib.records.record
                 {
-                  allow_dependency_failure = _js2n__-prdslib.always,
-                  async = _js2n__-prdslib.isType '"Bool",
-                  branches = _js2n__-prdslib.always,
+                  allow_dependency_failure =
+                    _js2n__-refsenv."_js2n__-:definitions/allowDependencyFailure!predicate",
+                  async = _js2n__-prdslib.enum [ true, false, "true", "false" ],
+                  branches =
+                    _js2n__-refsenv."_js2n__-:definitions/branches!predicate",
                   build =
                     _js2n__-prdslib.allOf
                         [
@@ -1495,29 +1957,27 @@ let rec _js2n__-refsenv
                             {
                               branch = _js2n__-prdslib.isType '"String",
                               commit = _js2n__-prdslib.isType '"String",
-                              env = _js2n__-prdslib.always,
-                              label = _js2n__-prdslib.always,
+                              env =
+                                _js2n__-refsenv."_js2n__-:definitions/env!predicate",
                               message = _js2n__-prdslib.isType '"String",
                               meta_data = _js2n__-prdslib.isType 'Record,
-                              name = _js2n__-prdslib.always,
-                              trigger = _js2n__-prdslib.isType '"String",
-                              type =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.enum [ "trigger" ]
-                                    ],
                             } {} false _js2n__-prdslib.never
                         ],
-                  depends_on = _js2n__-prdslib.always,
-                  id = _js2n__-prdslib.always,
-                  identifier = _js2n__-prdslib.always,
-                  "if" = _js2n__-prdslib.always,
-                  key = _js2n__-prdslib.always,
-                  label = _js2n__-prdslib.always,
-                  name = _js2n__-prdslib.always,
-                  skip = _js2n__-prdslib.always,
-                  soft_fail = _js2n__-prdslib.always,
+                  depends_on =
+                    _js2n__-refsenv."_js2n__-:definitions/dependsOn!predicate",
+                  id =
+                    _js2n__-refsenv."_js2n__-:definitions/triggerStep/properties/key!predicate",
+                  identifier =
+                    _js2n__-refsenv."_js2n__-:definitions/triggerStep/properties/key!predicate",
+                  "if" = _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                  key = _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+                  label =
+                    _js2n__-refsenv."_js2n__-:definitions/label!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/triggerStep/properties/label!predicate",
+                  skip = _js2n__-refsenv."_js2n__-:definitions/skip!predicate",
+                  soft_fail =
+                    _js2n__-refsenv."_js2n__-:definitions/softFail!predicate",
                   trigger = _js2n__-prdslib.isType '"String",
                   type =
                     _js2n__-prdslib.allOf
@@ -1527,19 +1987,34 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/triggerStep/properties/key!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+      "_js2n__-:definitions/triggerStep/properties/label!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/label!predicate",
       "_js2n__-:definitions/waitStep!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  allow_dependency_failure = _js2n__-prdslib.always,
-                  continue_on_failure = _js2n__-prdslib.isType '"Bool",
-                  depends_on = _js2n__-prdslib.always,
-                  id = _js2n__-prdslib.always,
-                  identifier = _js2n__-prdslib.always,
-                  "if" = _js2n__-prdslib.always,
-                  key = _js2n__-prdslib.always,
+                  allow_dependency_failure =
+                    _js2n__-refsenv."_js2n__-:definitions/allowDependencyFailure!predicate",
+                  branches =
+                    _js2n__-refsenv."_js2n__-:definitions/branches!predicate",
+                  continue_on_failure =
+                    _js2n__-prdslib.enum [ true, false, "true", "false" ],
+                  depends_on =
+                    _js2n__-refsenv."_js2n__-:definitions/dependsOn!predicate",
+                  id =
+                    _js2n__-refsenv."_js2n__-:definitions/waitStep/properties/key!predicate",
+                  identifier =
+                    _js2n__-refsenv."_js2n__-:definitions/waitStep/properties/key!predicate",
+                  "if" = _js2n__-refsenv."_js2n__-:definitions/if!predicate",
+                  key = _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+                  label =
+                    _js2n__-refsenv."_js2n__-:definitions/waitStep/properties/wait!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/waitStep/properties/wait!predicate",
                   type =
                     _js2n__-prdslib.allOf
                         [
@@ -1549,36 +2024,36 @@ let rec _js2n__-refsenv
                   wait =
                     _js2n__-prdslib.anyOf
                         [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.enum [ "" ]
-                            ]
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
                         ],
                   waiter =
                     _js2n__-prdslib.anyOf
                         [
-                          _js2n__-prdslib.isType 'Null,
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.enum [ "" ]
-                            ]
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/waitStep/properties/key!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/key!predicate",
+      "_js2n__-:definitions/waitStep/properties/wait!predicate"
+        | doc "Waits for previous steps to pass before continuing"
+        = _js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ],
     }
     in
   _js2n__-prdslib.contract_from_predicate
       (_js2n__-prdslib.allOf
         [
+          _js2n__-prdslib.isType 'Record,
           _js2n__-prdslib.records.required [ "steps" ],
           _js2n__-prdslib.records.record
             {
-              agents = _js2n__-prdslib.always,
-              env = _js2n__-prdslib.always,
-              notify = _js2n__-prdslib.always,
+              agents = _js2n__-refsenv."_js2n__-:definitions/agents!predicate",
+              env = _js2n__-refsenv."_js2n__-:definitions/env!predicate",
+              notify =
+                _js2n__-refsenv."_js2n__-:definitions/buildNotify!predicate",
               steps =
                 _js2n__-prdslib.allOf
                     [
@@ -1594,9 +2069,9 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/stringInputStep!predicate",
                             _js2n__-refsenv."_js2n__-:definitions/commandStep!predicate",
                             _js2n__-refsenv."_js2n__-:definitions/nestedCommandStep!predicate",
-                            _js2n__-refsenv."_js2n__-:definitions/stringWaitStep!predicate",
                             _js2n__-refsenv."_js2n__-:definitions/waitStep!predicate",
                             _js2n__-refsenv."_js2n__-:definitions/nestedWaitStep!predicate",
+                            _js2n__-refsenv."_js2n__-:definitions/stringWaitStep!predicate",
                             _js2n__-refsenv."_js2n__-:definitions/triggerStep!predicate",
                             _js2n__-refsenv."_js2n__-:definitions/nestedTriggerStep!predicate",
                             _js2n__-refsenv."_js2n__-:definitions/groupStep!predicate"

@@ -3091,6 +3091,7 @@ let rec _js2n__-refsenv
             password | String | optional,
             port | String | optional,
             url | String | optional,
+            username | String | optional,
           },
       "_js2n__-:definitions/RenameConfig!predicate" =
         _js2n__-prdslib.allOf

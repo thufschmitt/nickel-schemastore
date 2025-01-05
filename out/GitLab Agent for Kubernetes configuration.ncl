@@ -1171,12 +1171,20 @@ let rec _js2n__-refsenv
                 {
                   cadence = _js2n__-prdslib.isType '"String",
                   persist_ocs_status = _js2n__-prdslib.isType '"Bool",
+                  report_max_size = _js2n__-prdslib.isType '"String",
                   resource_requirements =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.records.record {} {} false
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/gitlab.agent.agentcfg.ResourceRequirements!predicate"
+                        ],
+                  scanner_timeout =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$"
                         ],
                   trivy_k8s_wrapper_image =
                     _js2n__-prdslib.allOf
@@ -1508,6 +1516,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} true
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  max_active_hours_before_stop =
+                    _js2n__-prdslib.isType 'Integer,
                   max_hours_before_termination_limit =
                     _js2n__-prdslib.isType 'Integer,
                   max_resources_per_workspace =
@@ -1517,6 +1527,8 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/gitlab.agent.agentcfg.ResourceRequirements!predicate"
                         ],
+                  max_stopped_hours_before_termination =
+                    _js2n__-prdslib.isType 'Integer,
                   network_policy =
                     _js2n__-prdslib.allOf
                         [
@@ -1537,6 +1549,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   cpu = _js2n__-prdslib.isType '"String",
+                  ephemeral_storage = _js2n__-prdslib.isType '"String",
                   memory = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],

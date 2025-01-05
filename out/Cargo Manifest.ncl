@@ -1759,7 +1759,7 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "1", "2" ]
+              _js2n__-prdslib.enum [ "1", "2", "3" ]
             ],
       "_js2n__-:definitions/RustVersion!predicate"
         | doc m%"

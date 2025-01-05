@@ -903,6 +903,7 @@ let rec _js2n__-refsenv
         | Array
           {
             default_name | String,
+            description | String | optional,
             policy_assignments
               | Array
                 {

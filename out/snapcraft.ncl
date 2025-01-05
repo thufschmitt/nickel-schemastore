@@ -1347,6 +1347,7 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.arrays.arrayOf
                                                 (_js2n__-prdslib.enum
                                                   [
+                                                    "env-injector",
                                                     "flutter-stable",
                                                     "flutter-beta",
                                                     "flutter-dev",
@@ -1356,6 +1357,7 @@ let rec _js2n__-refsenv
                                                     "gnome-3-34",
                                                     "gnome-3-38",
                                                     "kde-neon",
+                                                    "kde-neon-6",
                                                     "ros1-noetic",
                                                     "ros1-noetic-desktop",
                                                     "ros1-noetic-perception",

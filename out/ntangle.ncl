@@ -1099,6 +1099,10 @@ let rec _js2n__-refsenv
                   pathDatabaseMigrations = _js2n__-prdslib.isType '"String",
                   pathDatabaseSchema = _js2n__-prdslib.isType '"String",
                   pathDotNetPublisher = _js2n__-prdslib.isType '"String",
+                  pathSidecarDatabase = _js2n__-prdslib.isType '"String",
+                  pathSidecarDatabaseMigrations =
+                    _js2n__-prdslib.isType '"String",
+                  pathSidecarDatabaseSchema = _js2n__-prdslib.isType '"String",
                   schema = _js2n__-prdslib.isType '"String",
                   service =
                     _js2n__-prdslib.allOf
@@ -1235,6 +1239,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  trackingStoredProcedure = _js2n__-prdslib.isType '"String",
                   where =
                     _js2n__-prdslib.allOf
                         [

@@ -926,6 +926,17 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.records.minProperties 1,
                       _js2n__-prdslib.records.record
                         {
+                          anr =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      capture_unity_thread =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} true _js2n__-prdslib.always
+                                ],
                           app =
                             _js2n__-prdslib.allOf
                                 [
@@ -934,6 +945,71 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.record
                                     {
                                       report_disk_usage =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          app_exit_info =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      aei_enabled =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      app_exit_info_traces_limit =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          app_framework = _js2n__-prdslib.isType '"String",
+                          automatic_data_capture =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      anr_info = _js2n__-prdslib.isType '"Bool",
+                                      memory_info =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      network_connectivity_info =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      power_save_mode_info =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          background_activity =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      capture_enabled =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          base_urls =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      config = _js2n__-prdslib.isType '"String",
+                                      data = _js2n__-prdslib.isType 'Integer,
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          capture_fcm_pii_data = _js2n__-prdslib.isType '"Bool",
+                          capture_public_key = _js2n__-prdslib.isType '"String",
+                          compose =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      capture_compose_onclick =
                                         _js2n__-prdslib.isType '"Bool",
                                     } {} true _js2n__-prdslib.always
                                 ],
@@ -956,6 +1032,8 @@ let rec _js2n__-refsenv
                                     {
                                       capture_request_content_length =
                                         _js2n__-prdslib.isType '"Bool",
+                                      default_capture_limit =
+                                        _js2n__-prdslib.isType 'Integer,
                                       disabled_url_patterns =
                                         _js2n__-prdslib.allOf
                                             [
@@ -966,11 +1044,45 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.arrays.minItems 1,
                                               _js2n__-prdslib.arrays.uniqueItems
                                             ],
+                                      domains =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Record,
+                                                    _js2n__-prdslib.records.minProperties
+                                                      1,
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        domain_limit =
+                                                          _js2n__-prdslib.isType
+                                                              'Integer,
+                                                        domain_name =
+                                                          _js2n__-prdslib.isType
+                                                              '"String",
+                                                      } {} true
+                                                      _js2n__-prdslib.always
+                                                  ]),
+                                              _js2n__-prdslib.arrays.minItems 1,
+                                              _js2n__-prdslib.arrays.uniqueItems
+                                            ],
                                       enable_native_monitoring =
                                         _js2n__-prdslib.isType '"Bool",
-                                      trace_id_header =
-                                        _js2n__-prdslib.isType '"String",
+                                      enable_network_span_forwarding =
+                                        _js2n__-prdslib.isType '"Bool",
                                     } {} true _js2n__-prdslib.always
+                                ],
+                          sensitive_keys_denylist =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String"),
+                                  _js2n__-prdslib.arrays.minItems 1,
+                                  _js2n__-prdslib.arrays.uniqueItems
                                 ],
                           session =
                             _js2n__-prdslib.allOf
@@ -979,25 +1091,29 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.minProperties 1,
                                   _js2n__-prdslib.records.record
                                     {
-                                      async_end =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      max_session_seconds =
-                                        _js2n__-prdslib.isType 'Integer,
+                                      components =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String"),
+                                              _js2n__-prdslib.arrays.uniqueItems
+                                            ],
+                                      send_full_for =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String"),
+                                              _js2n__-prdslib.arrays.minItems 1,
+                                              _js2n__-prdslib.arrays.uniqueItems
+                                            ],
                                     } {} true _js2n__-prdslib.always
                                 ],
-                          startup_moment =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.minProperties 1,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      automatically_end =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      take_screenshot =
-                                        _js2n__-prdslib.isType '"Bool",
-                                    } {} true _js2n__-prdslib.always
-                                ],
+                          sig_handler_detection =
+                            _js2n__-prdslib.isType '"Bool",
                           taps =
                             _js2n__-prdslib.allOf
                                 [
@@ -1006,6 +1122,17 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.record
                                     {
                                       capture_coordinates =
+                                        _js2n__-prdslib.isType '"Bool",
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          view_config =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      enable_automatic_activity_capture =
                                         _js2n__-prdslib.isType '"Bool",
                                     } {} true _js2n__-prdslib.always
                                 ],
@@ -1021,6 +1148,17 @@ let rec _js2n__-refsenv
                                       enable = _js2n__-prdslib.isType '"Bool",
                                     } {} true _js2n__-prdslib.always
                                 ],
+                        } {} true _js2n__-prdslib.always
+                    ],
+              unity =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.minProperties 1,
+                      _js2n__-prdslib.records.record
+                        {
+                          symbols_archive_name =
+                            _js2n__-prdslib.isType '"String",
                         } {} true _js2n__-prdslib.always
                     ],
             } {} true _js2n__-prdslib.always
