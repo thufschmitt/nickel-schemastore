@@ -1021,7 +1021,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.strings.minLength 1,
               _js2n__-refsenv."_js2n__-:definitions/nullable_string!predicate"
             ])
-        | doc "Username on Pateron."
+        | doc "Username on Patreon."
         | optional,
       polar
         | _js2n__-prdslib.contract_from_predicate

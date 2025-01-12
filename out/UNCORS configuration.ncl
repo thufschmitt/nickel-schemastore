@@ -897,23 +897,1690 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/Duration!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Duration!predicate"
+        | doc "Duration in human-readable format. Supported units are 'h' (hours), 'm' (minutes), 's' (seconds), 'ms' (milliseconds), 'us' (microseconds), 'ns' (nanoseconds)."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.strings.pattern
                 "^(\\d+h)?\\s*(\\d+m)?\\s*(\\d+s)?\\s*(\\d+ms)?\\s*(\\d+(us|µs))?\\s*(\\d+(ns))?$"
             ],
-      "_js2n__-:definitions/FakeDataMockResponse!predicate" =
-        _js2n__-prdslib.isType 'Record,
-      "_js2n__-:definitions/FileMockResponse!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/FakeDataMockResponse!predicate"
+        | doc "Mock response definition based on fake data content"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "code", "fake" ],
+              _js2n__-prdslib.records.record
+                {
+                  code =
+                    _js2n__-refsenv."_js2n__-:definitions/StatusCode!predicate",
+                  delay =
+                    _js2n__-refsenv."_js2n__-:definitions/Duration!predicate",
+                  fake =
+                    _js2n__-refsenv."_js2n__-:definitions/FakeDataNode!predicate",
+                  headers =
+                    _js2n__-refsenv."_js2n__-:definitions/Headers!predicate",
+                  seed =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/FakeDataNode!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "achaccount", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "achrouting", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adjective", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adjectivedemonstrative", }
+                    {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adjectivedescriptive", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adjectiveindefinite", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adjectiveinterrogative", }
+                    {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adjectivepossessive", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adjectiveproper", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adjectivequantitative", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adverb", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adverbdegree", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adverbfrequencydefinite", }
+                    {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      type = _js2n__-prdslib.const "adverbfrequencyindefinite",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adverbmanner", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adverbplace", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adverbtimedefinite", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "adverbtimeindefinite", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "bitcoinaddress", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "bitcoinprivatekey", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "blurb", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "bool", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "bs", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "buzzword", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "chromeuseragent", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "city", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "color", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "company", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "companysuffix", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "connective", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "connectivecasual", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "connectivecomparative", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "connectivecomplaint", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "connectiveexamplify", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "connectivelisting", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "connectivetime", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "country", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "countryabr", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "creditcardcvv", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "creditcardexp", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  bins =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                  gaps = _js2n__-prdslib.isType '"Bool",
+                                  types =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "creditcardnumber",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "creditcardtype", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "currencylong", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "currencyshort", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "cusip", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                { format = _js2n__-prdslib.isType '"String", }
+                                {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "date",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  enddate = _js2n__-prdslib.isType '"String",
+                                  format = _js2n__-prdslib.isType '"String",
+                                  startdate = _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "daterange",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "day", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "digit", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  count =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "digitn",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "domainname", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "domainsuffix", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "email", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "emoji", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "emojialias", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "emojicategory", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "emojidescription", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "emojitag", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "firefoxuseragent", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "firstname", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "float32", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  max = _js2n__-prdslib.isType '"Number",
+                                  min = _js2n__-prdslib.isType '"Number",
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "float32range",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "float64", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  max = _js2n__-prdslib.isType '"Number",
+                                  min = _js2n__-prdslib.isType '"Number",
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "float64range",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "futuredate", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "gender", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "hexcolor", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "hobby", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "hour", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "httpmethod", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "httpstatuscode", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "httpstatuscodesimple", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "httpversion", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "int", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "int16", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "int32", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "int64", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "int8", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                { n = _js2n__-prdslib.isType 'Integer, } {}
+                                false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "intn",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "ipv4address", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "ipv6address", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "isin", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "jobdescriptor", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "joblevel", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "jobtitle", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "language", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "languageabbreviation", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "lastname", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "latitude", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "letter", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  count =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "lettern",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "loglevel", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "longitude", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  paragraphcount =
+                                    _js2n__-prdslib.isType 'Integer,
+                                  paragraphseparator =
+                                    _js2n__-prdslib.isType '"String",
+                                  sentencecount =
+                                    _js2n__-prdslib.isType 'Integer,
+                                  wordcount = _js2n__-prdslib.isType 'Integer,
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "loremipsumparagraph",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                { wordcount = _js2n__-prdslib.isType 'Integer, }
+                                {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "loremipsumsentence",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "loremipsumword", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "macaddress", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "middlename", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "minute", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "month", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "monthstring", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "name", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "nameprefix", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "namesuffix", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "nanosecond", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "noun", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "nounabstract", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "nouncollectiveanimal", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "nouncollectivepeople", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "nouncollectivething", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "nouncommon", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "nounconcrete", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "nouncountable", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "noununcountable", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  max = _js2n__-prdslib.isType 'Integer,
+                                  min = _js2n__-prdslib.isType 'Integer,
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "number",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "operauseragent", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  paragraphcount =
+                                    _js2n__-prdslib.isType 'Integer,
+                                  paragraphseparator =
+                                    _js2n__-prdslib.isType '"String",
+                                  sentencecount =
+                                    _js2n__-prdslib.isType 'Integer,
+                                  wordcount = _js2n__-prdslib.isType 'Integer,
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "paragraph",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  length = _js2n__-prdslib.isType 'Integer,
+                                  lower = _js2n__-prdslib.isType '"Bool",
+                                  numeric = _js2n__-prdslib.isType '"Bool",
+                                  space = _js2n__-prdslib.isType '"Bool",
+                                  special = _js2n__-prdslib.isType '"Bool",
+                                  upper = _js2n__-prdslib.isType '"Bool",
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "password",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "pastdate", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "phone", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "phoneformatted", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "phrase", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "preposition", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "prepositioncompound", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "prepositiondouble", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "prepositionsimple", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  max = _js2n__-prdslib.isType '"Number",
+                                  min = _js2n__-prdslib.isType '"Number",
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "price",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "pronoun", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "pronoundemonstrative", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "pronouninterrogative", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "pronounobject", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "pronounpersonal", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "pronounpossessive", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "pronounreflective", } {}
+                    false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "pronounrelative", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "question", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "quote", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "rgbcolor", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "safariuseragent", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "second", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                { wordcount = _js2n__-prdslib.isType 'Integer, }
+                                {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "sentence",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "slogan", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "ssn", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "state", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "stateabr", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "street", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "streetname", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "streetnumber", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "streetprefix", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "streetsuffix", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                { wordcount = _js2n__-prdslib.isType 'Integer, }
+                                {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "string",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "timezone", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "timezoneabv", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "timezonefull", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "timezoneoffset", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "timezoneregion", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "uint", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "uint16", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "uint32", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "uint64", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "uint8", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      options =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  n =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Integer,
+                                          _js2n__-prdslib.numbers.minimum 0
+                                        ],
+                                } {} false _js2n__-prdslib.never
+                            ],
+                      type = _js2n__-prdslib.const "uintn",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "url", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "useragent", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "username", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "uuid", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "verb", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "verbaction", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "verbhelping", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "verblinking", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "weekday", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "word", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "year", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    { type = _js2n__-prdslib.const "zip", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      properties =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record {} {} true
+                                _js2n__-refsenv."_js2n__-:definitions/FakeDataNode!predicate"
+                            ],
+                      type = _js2n__-prdslib.const "object",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "type" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      count = _js2n__-prdslib.isType 'Integer,
+                      item =
+                        _js2n__-refsenv."_js2n__-:definitions/FakeDataNode!predicate",
+                      type = _js2n__-prdslib.const "array",
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/FileMockResponse!predicate"
+        | doc "Mock response definition based on file content"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "code", "file" ],
               _js2n__-prdslib.records.record
                 {
-                  code = _js2n__-prdslib.isType 'Integer,
+                  code =
+                    _js2n__-refsenv."_js2n__-:definitions/StatusCode!predicate",
                   delay =
                     _js2n__-refsenv."_js2n__-:definitions/Duration!predicate",
                   file = _js2n__-prdslib.isType '"String",
@@ -921,8 +2588,9 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/Headers!predicate",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Headers!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Headers!predicate"
+        | doc "HTTP headers definition"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.minProperties 1,
@@ -930,53 +2598,57 @@ let rec _js2n__-refsenv
                 (_js2n__-prdslib.isType '"String")
             ],
       "_js2n__-:definitions/Mapping!predicate" =
-        _js2n__-prdslib.allOf
+        _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.oneOf
+              _js2n__-prdslib.allOf
                 [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.maxProperties 1,
-                      _js2n__-prdslib.records.minProperties 1,
-                      _js2n__-prdslib.records.record {} {} true
-                        (_js2n__-prdslib.isType '"String")
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.required [ "from", "to" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          cache =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    (_js2n__-prdslib.isType '"String"),
-                                  _js2n__-prdslib.arrays.minItems 1
-                                ],
-                          from = _js2n__-prdslib.isType '"String",
-                          mocks =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    _js2n__-refsenv."_js2n__-:definitions/Mock!predicate",
-                                  _js2n__-prdslib.arrays.minItems 1
-                                ],
-                          statics =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    _js2n__-refsenv."_js2n__-:definitions/StaticDirectory!predicate",
-                                  _js2n__-prdslib.arrays.minItems 1
-                                ],
-                          to = _js2n__-prdslib.isType '"String",
-                        } {} false _js2n__-prdslib.never
-                    ]
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.maxProperties 1,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "from", "to" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      cache =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String"),
+                              _js2n__-prdslib.arrays.minItems 1
+                            ],
+                      from = _js2n__-prdslib.isType '"String",
+                      mocks =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                _js2n__-refsenv."_js2n__-:definitions/Mock!predicate",
+                              _js2n__-prdslib.arrays.minItems 1
+                            ],
+                      rewrites =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                _js2n__-refsenv."_js2n__-:definitions/Rewrite!predicate",
+                              _js2n__-prdslib.arrays.minItems 1
+                            ],
+                      statics =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                _js2n__-refsenv."_js2n__-:definitions/StaticDirectory!predicate",
+                              _js2n__-prdslib.arrays.minItems 1
+                            ],
+                      to = _js2n__-prdslib.isType '"String",
+                    } {} false _js2n__-prdslib.never
                 ]
             ],
       "_js2n__-:definitions/Method!contract" =
@@ -1012,8 +2684,9 @@ let rec _js2n__-refsenv
                   "PATCH"
                 ]
             ],
-      "_js2n__-:definitions/Mock!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Mock!predicate"
+        | doc "Mocked request definition"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "path", "response" ],
@@ -1035,22 +2708,25 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Queries!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Queries!predicate"
+        | doc "HTTP query parameters definition"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.minProperties 1,
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.isType '"String")
             ],
-      "_js2n__-:definitions/RawMockResponse!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/RawMockResponse!predicate"
+        | doc "Mock response definition based on raw content"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "code", "raw" ],
               _js2n__-prdslib.records.record
                 {
-                  code = _js2n__-prdslib.isType 'Integer,
+                  code =
+                    _js2n__-refsenv."_js2n__-:definitions/StatusCode!predicate",
                   delay =
                     _js2n__-refsenv."_js2n__-:definitions/Duration!predicate",
                   headers =
@@ -1058,8 +2734,21 @@ let rec _js2n__-refsenv
                   raw = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/StaticDirectory!predicate" =
+      "_js2n__-:definitions/Rewrite!predicate" =
         _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "from", "to" ],
+              _js2n__-prdslib.records.record
+                {
+                  from = _js2n__-prdslib.isType '"String",
+                  host = _js2n__-prdslib.isType '"String",
+                  to = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/StaticDirectory!predicate"
+        | doc "Static serving directory definition"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "dir", "path" ],
@@ -1069,6 +2758,14 @@ let rec _js2n__-refsenv
                   index = _js2n__-prdslib.isType '"String",
                   path = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/StatusCode!predicate"
+        | doc "HTTP response status code"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Integer,
+              _js2n__-prdslib.numbers.maximum 599,
+              _js2n__-prdslib.numbers.minimum 100
             ],
     }
     in

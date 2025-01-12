@@ -896,380 +896,75 @@ let _js2n__-prdslib
   }
   in
 let rec _js2n__-refsenv
-    = {
-      "_js2n__-:definitions/Command!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "run" ],
-              _js2n__-prdslib.records.record
-                {
-                  env = _js2n__-refsenv."_js2n__-:definitions/Env!predicate",
-                  exclude = _js2n__-prdslib.isType '"String",
-                  fail_text =
-                    _js2n__-refsenv."_js2n__-:definitions/FailText!predicate",
-                  files = _js2n__-prdslib.isType '"String",
-                  glob = _js2n__-prdslib.isType '"String",
-                  interactive =
-                    _js2n__-refsenv."_js2n__-:definitions/Interactive!predicate",
-                  only = _js2n__-refsenv."_js2n__-:definitions/Only!predicate",
-                  "priority" =
-                    _js2n__-refsenv."_js2n__-:definitions/Priority!predicate",
-                  root = _js2n__-prdslib.isType '"String",
-                  run = _js2n__-prdslib.isType '"String",
-                  skip = _js2n__-refsenv."_js2n__-:definitions/Skip!predicate",
-                  stage_fixed =
-                    _js2n__-refsenv."_js2n__-:definitions/StageFixed!predicate",
-                  tags = _js2n__-refsenv."_js2n__-:definitions/Tags!predicate",
-                  use_stdin =
-                    _js2n__-refsenv."_js2n__-:definitions/UseStdin!predicate",
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/Env!predicate"
-        | doc "Specify environment variables for the command or script."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true
-                (_js2n__-prdslib.isType '"String")
-            ],
-      "_js2n__-:definitions/FailText!predicate"
-        | doc "Text to show when the command or script fails."
-        = _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/GitHook!contract" =
-        {
-            commands
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record {} {} true
-                      _js2n__-refsenv."_js2n__-:definitions/Command!predicate"
-                  ])
-              | doc "Commands to be executed for the hook."
-              | optional,
-            exclude_tags
-              | String
-              | doc "Tags or command names that you want to exclude."
-              | optional,
-            files
-              | String
-              | doc "A custom git command for files to be referenced in {files} template."
-              | optional,
-            follow
-              | Bool
-              | doc "Follow the STDOUT of the running commands and scripts."
-              | optional,
-            only
-              | _js2n__-refsenv."_js2n__-:definitions/Only!contract"
-              | optional,
-            parallel
-              | Bool
-              | doc "Whether run commands and scripts concurrently."
-              | optional,
-            piped
-              | Bool
-              | doc "Whether run commands and scripts sequentially. Will stop execution if one of the commands/scripts fail."
-              | optional,
-            scripts
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.record {} {} true
-                      _js2n__-refsenv."_js2n__-:definitions/Script!predicate"
-                  ])
-              | doc "Scripts to be executed for the hook."
-              | optional,
-            skip
-              | _js2n__-refsenv."_js2n__-:definitions/Skip!contract"
-              | optional,
-          },
-      "_js2n__-:definitions/Interactive!predicate"
-        | doc "Whether to use interactive mode and provide a STDIN for a command or script."
-        = _js2n__-prdslib.isType '"Bool",
-      "_js2n__-:definitions/Only!contract"
-        | doc "Force the command, script, or hook to execute only in certain conditions. This acts like the opposite of skip."
-        = _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.oneOf
-              [
-                _js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"Array",
-                    _js2n__-prdslib.arrays.arrayOf
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            { ref = _js2n__-prdslib.isType '"String", } {} true
-                            _js2n__-prdslib.always
-                        ])
-                  ],
-                _js2n__-prdslib.isType '"String"
-              ]),
-      "_js2n__-:definitions/Only!predicate"
-        | doc "Force the command, script, or hook to execute only in certain conditions. This acts like the opposite of skip."
-        = _js2n__-prdslib.oneOf
-            [
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.arrays.arrayOf
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.record
-                          { ref = _js2n__-prdslib.isType '"String", } {} true
-                          _js2n__-prdslib.always
-                      ])
-                ],
-              _js2n__-prdslib.isType '"String"
-            ],
-      "_js2n__-:definitions/Priority!predicate"
-        | doc "Set command priority from 1 to +Infinity. This option can be used to configure the order of the sequential commands."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Number",
-              _js2n__-prdslib.numbers.minimum 0
-            ],
-      "_js2n__-:definitions/Script!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  env = _js2n__-refsenv."_js2n__-:definitions/Env!predicate",
-                  fail_text =
-                    _js2n__-refsenv."_js2n__-:definitions/FailText!predicate",
-                  interactive =
-                    _js2n__-refsenv."_js2n__-:definitions/Interactive!predicate",
-                  only = _js2n__-refsenv."_js2n__-:definitions/Only!predicate",
-                  runner = _js2n__-prdslib.isType '"String",
-                  skip = _js2n__-refsenv."_js2n__-:definitions/Skip!predicate",
-                  stage_fixed =
-                    _js2n__-refsenv."_js2n__-:definitions/StageFixed!predicate",
-                  tags = _js2n__-refsenv."_js2n__-:definitions/Tags!predicate",
-                  use_stdin =
-                    _js2n__-refsenv."_js2n__-:definitions/UseStdin!predicate",
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/Skip!contract"
-        | doc "Skip all or specific commands and scripts"
-        = _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.oneOf
-              [
-                _js2n__-prdslib.isType '"Bool",
-                _js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"Array",
-                    _js2n__-prdslib.arrays.arrayOf
-                      (_js2n__-prdslib.isType '"String")
-                  ]
-              ]),
-      "_js2n__-:definitions/Skip!predicate"
-        | doc "Skip all or specific commands and scripts"
-        = _js2n__-prdslib.oneOf
-            [
-              _js2n__-prdslib.isType '"Bool",
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.arrays.arrayOf
-                    (_js2n__-prdslib.isType '"String")
-                ]
-            ],
-      "_js2n__-:definitions/StageFixed!predicate"
-        | doc "Only for the 'pre-commit' hooks, this automatically calls 'git add' after running the command or script."
-        = _js2n__-prdslib.isType '"Bool",
-      "_js2n__-:definitions/Tags!predicate"
-        | doc "Specify tags for commands and scripts, useful for excluding"
-        = _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/UseStdin!predicate"
-        | doc "Whether to pass the stdin from the OS to the command/script."
-        = _js2n__-prdslib.isType '"Bool",
-    }
+    = {}
     in
   {
-      applypatch-msg
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      assert_lefthook_installed
-        | Bool
-        | doc "If `true`, fail (with exit status 1) if `lefthook` executable can't be found in `$PATH`, under `node_modules/`, or any other supported method."
-        | optional,
+      applypatch-msg | Dyn | optional,
+      assert_lefthook_installed | Bool | optional,
       colors
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.oneOf
-            [
-              _js2n__-prdslib.isType '"Bool",
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.record {} {} true
-                    (_js2n__-prdslib.oneOf
-                      [
-                        _js2n__-prdslib.isType '"Number",
-                        _js2n__-prdslib.isType '"String"
-                      ])
-                ]
-            ])
-        | doc "Whether enable or disable colorful output of Lefthook."
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Record ])
+        | doc "Enable disable or set your own colors for lefthook output"
         | optional,
-      commit-msg
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
+      commit-msg | Dyn | optional,
       extends
         | Array (String)
-        | doc "Specify files to extend config with."
+        | doc "Specify files to extend config with"
         | optional,
-      fsmonitor-watchman
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
+      fsmonitor-watchman | Dyn | optional,
       min_version
         | String
-        | doc "Specify a minimum version for the lefthook binary."
+        | doc "Specify a minimum version for the lefthook binary"
         | optional,
       no_tty
         | Bool
-        | doc "Whether hide spinner and other interactive things."
+        | doc "Whether hide spinner and other interactive things"
         | optional,
-      p4-changelist
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
+      output
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType '"Array" ])
+        | doc "Manage verbosity by skipping the printing of output of some steps"
         | optional,
-      p4-post-changelist
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      p4-pre-submit
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      p4-prepare-changelist
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      post-applypatch
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      post-checkout
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      post-commit
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      post-index-change
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      post-merge
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      post-receive
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      post-rewrite
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      post-update
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      pre-applypatch
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      pre-auto-gc
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      pre-commit
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      pre-merge-commit
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      pre-push
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      pre-rebase
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      pre-receive
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      prepare-commit-msg
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      proc-receive
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      push-to-checkout
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      rc
-        | String
-        | doc "Provide an rc file, which is actually a simple sh script"
-        | optional,
-      rebase
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      reference-transaction
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      remote
-        | {
-          config
-            | String
-            | doc "DEPRECATED. An optional config path from remote's root."
-            | optional,
-          git_url
-            | String
-            | doc "DEPRECATED. A URL to Git repository. It will be accessed with privileges of the machine lefthook runs on."
-            | optional,
-          ref
-            | String
-            | doc "DEPRECATED. An optional branch or tag name."
-            | optional,
-        }
-        | doc "DEPRECATED. Remote configs enable sharing of lefthook configuration across many projects."
-        | optional,
+      p4-changelist | Dyn | optional,
+      p4-post-changelist | Dyn | optional,
+      p4-pre-submit | Dyn | optional,
+      p4-prepare-changelist | Dyn | optional,
+      post-applypatch | Dyn | optional,
+      post-checkout | Dyn | optional,
+      post-commit | Dyn | optional,
+      post-index-change | Dyn | optional,
+      post-merge | Dyn | optional,
+      post-receive | Dyn | optional,
+      post-rewrite | Dyn | optional,
+      post-update | Dyn | optional,
+      pre-applypatch | Dyn | optional,
+      pre-auto-gc | Dyn | optional,
+      pre-commit | Dyn | optional,
+      pre-merge-commit | Dyn | optional,
+      pre-push | Dyn | optional,
+      pre-rebase | Dyn | optional,
+      pre-receive | Dyn | optional,
+      prepare-commit-msg | Dyn | optional,
+      proc-receive | Dyn | optional,
+      push-to-checkout | Dyn | optional,
+      rc | String | doc "Provide an rc file - a simple sh script" | optional,
+      reference-transaction | Dyn | optional,
+      remote | Dyn | doc "Deprecated: use remotes" | optional,
       remotes
-        | Array
-          {
-            configs
-              | Array (String)
-              | doc "An optional array of config paths from remote's root."
-              | optional,
-            git_url
-              | String
-              | doc "A URL to Git repository. It will be accessed with privileges of the machine lefthook runs on."
-              | optional,
-            ref | String | doc "An optional *branch* or *tag* name." | optional,
-            ..
-          }
-        | doc "Provide multiple remote configs to use lefthook configurations shared across projects. Lefthook will automatically download and merge configurations into your local lefthook.yml."
+        | Array (Dyn)
+        | doc "Provide multiple remote configs to use lefthook configurations shared across projects. Lefthook will automatically download and merge configurations into main config."
         | optional,
-      sendemail-validate
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
+      sendemail-validate | Dyn | optional,
+      skip_lfs
+        | Bool
+        | doc "Skip running Git LFS hooks (enabled by default)"
         | optional,
       skip_output
         | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.enum
-                      [
-                        "meta",
-                        "success",
-                        "failure",
-                        "summary",
-                        "empty_summary",
-                        "execution",
-                        "execution_out",
-                        "execution_info",
-                        "skips"
-                      ]
-                  ]),
-              _js2n__-prdslib.arrays.uniqueItems
-            ])
-        | doc "Manage verbosity by skipping the printing of output of some steps."
+          (_js2n__-prdslib.oneOf
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType '"Array" ])
         | optional,
       source_dir
         | String
@@ -1277,10 +972,7 @@ let rec _js2n__-refsenv
         | optional,
       source_dir_local
         | String
-        | doc "Change a directory for local script files (not stored in VCS)."
+        | doc "Change a directory for local script files (not stored in VCS)"
         | optional,
-      update
-        | _js2n__-refsenv."_js2n__-:definitions/GitHook!contract"
-        | optional,
-      ..
+      update | Dyn | optional,
     }

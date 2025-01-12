@@ -1017,6 +1017,7 @@ let rec _js2n__-refsenv
                   namespace = _js2n__-prdslib.isType '"String",
                   releaseName = _js2n__-prdslib.isType '"String",
                   repo = _js2n__-prdslib.isType '"String",
+                  skipHooks = _js2n__-prdslib.isType '"Bool",
                   skipTests = _js2n__-prdslib.isType '"Bool",
                   valuesFile = _js2n__-prdslib.isType '"String",
                   valuesInline =

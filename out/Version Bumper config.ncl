@@ -926,7 +926,6 @@ let rec _js2n__-refsenv
               | _js2n__-refsenv."_js2n__-:definitions/versionPattern!contract"
               | doc "Must contain a `{%version%}` placeholder that is replaced by the version to release."
               | optional,
-            ..
           },
       "_js2n__-:definitions/versionPattern!contract" =
         _js2n__-prdslib.contract_from_predicate
@@ -935,6 +934,28 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.isType '"String",
                 _js2n__-prdslib.strings.pattern "\\{%version%\\}"
               ]),
+      "_js2n__-:definitions/versionRange!contract" =
+        std.contract.Sequence
+            [ std.enum.TagOrString, [| 'patch, 'next, 'minor, 'major |] ],
+      "_js2n__-:definitions/versionRangeIndicator!contract" =
+        {
+            patterns
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/versionRangePattern!contract",
+            range
+              | _js2n__-refsenv."_js2n__-:definitions/versionRange!contract",
+            strategy
+              | std.enum.TagOrString
+              | [| 'matchNone, 'matchAny, 'matchAll |]
+              | optional,
+          },
+      "_js2n__-:definitions/versionRangePattern!contract" =
+        {
+            pattern | String,
+            type
+              | std.enum.TagOrString
+              | [| 'fileModified, 'fileDeleted, 'fileAdded, 'commitMessage |],
+          },
     }
     in
   {
@@ -946,5 +967,9 @@ let rec _js2n__-refsenv
       rootPath
         | String
         | doc "This path will be used to calculate paths to configured files if they are configured as relative paths. If the root path is configured as relative path, it is calculated based on the config file path."
+        | optional,
+      versionRangeIndicators
+        | Array
+          _js2n__-refsenv."_js2n__-:definitions/versionRangeIndicator!contract"
         | optional,
     }

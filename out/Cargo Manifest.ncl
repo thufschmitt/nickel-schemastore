@@ -1025,6 +1025,17 @@ let rec _js2n__-refsenv
                   workspace = _js2n__-prdslib.isType '"Bool",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/DetailedLint!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  level =
+                    _js2n__-refsenv."_js2n__-:definitions/LintLevel!predicate",
+                  "priority" = _js2n__-prdslib.isType 'Integer,
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/Documentation!predicate"
         | doc m%"
           
@@ -1261,6 +1272,41 @@ let rec _js2n__-refsenv
           > **Note**: [crates.io](https://crates.io) requires either `license` or `license-file` to be set.
         "%
         = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/Lint!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/LintLevel!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/DetailedLint!predicate"
+            ],
+      "_js2n__-:definitions/LintLevel!predicate"
+        | doc "Specify the [lint level](https://doc.rust-lang.org/rustc/lints/levels.html) for a lint or lint group."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "forbid", "deny", "warn", "allow" ]
+            ],
+      "_js2n__-:definitions/Lints!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  clippy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/Lint!predicate"
+                        ],
+                  rust =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/Lint!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/Lto!predicate"
         | doc m%"
           The `lto` setting controls the [`-C lto` flag](https://doc.rust-lang.org/rustc/codegen-options/index.html#lto) which controls LLVM's [link time optimizations](https://llvm.org/docs/LinkTimeOptimization.html). LTO can produce better optimized code, using
@@ -1759,7 +1805,7 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "1", "2" ]
+              _js2n__-prdslib.enum [ "1", "2", "3" ]
             ],
       "_js2n__-:definitions/RustVersion!predicate"
         | doc m%"
@@ -1903,6 +1949,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  lints =
+                    _js2n__-refsenv."_js2n__-:definitions/Lints!predicate",
                   members =
                     _js2n__-prdslib.allOf
                         [
@@ -2072,6 +2120,18 @@ let rec _js2n__-refsenv
                           ])
                     ],
               lib = _js2n__-refsenv."_js2n__-:definitions/Target!predicate",
+              lints =
+                _js2n__-prdslib.anyOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/Lints!predicate",
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            { workspace = _js2n__-prdslib.isType '"Bool", } {}
+                            false _js2n__-prdslib.never
+                        ]
+                    ],
               package =
                 _js2n__-refsenv."_js2n__-:definitions/Package!predicate",
               patch =

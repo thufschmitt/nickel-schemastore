@@ -899,6 +899,195 @@ let rec _js2n__-refsenv
     = {}
     in
   {
+      action-item-collections
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "productLine", "title" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        productLine =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum
+                                  [
+                                    "DSR_AUTOMATION",
+                                    "DATA_INVENTORY",
+                                    "CONSENT_MANAGEMENT",
+                                    "PRIVACY_CENTER",
+                                    "ADMINISTRATION",
+                                    "ASSESSMENTS",
+                                    "PATHFINDER",
+                                    "PREFERENCE_MANAGEMENT",
+                                    "PROMPT_MANAGER",
+                                    "CONTRACT_SCANNING",
+                                    "WEB_AUDITOR",
+                                    "SOMBRA",
+                                    "SILO_DISCOVERY",
+                                    "STRUCTURED_DISCOVERY",
+                                    "UNSTRUCTURED_DISCOVERY",
+                                    "DATA_LINEAGE"
+                                  ]
+                              ],
+                        title = _js2n__-prdslib.isType '"String",
+                      } {} true _js2n__-prdslib.always
+                  ],
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        description = _js2n__-prdslib.isType '"String",
+                        hidden = _js2n__-prdslib.isType '"Bool",
+                      } {} true _js2n__-prdslib.always
+                  ]
+              ])
+        )
+        | optional,
+      action-items
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required
+                      [ "collections", "title", "type" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        collections =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        title = _js2n__-prdslib.isType '"String",
+                        type =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum
+                                  [
+                                    "ACTION_MISSING_SILOS",
+                                    "API_KEY_STALE",
+                                    "ASSESSMENT_FORM_ASSIGNED",
+                                    "ASSESSMENT_FORM_NEEDS_REVIEW",
+                                    "REQUEST_DATA_SILO_MARKED_ACTIONABLE",
+                                    "REQUEST_DATA_SILO_FILES_NEED_REVIEW",
+                                    "COMMUNICATION_UNREAD",
+                                    "DATA_SILO_COMMUNICATION_UNREAD",
+                                    "DATA_POINT",
+                                    "DATA_POINT_MISSING_FIELDS",
+                                    "DATA_SILO_NEEDS_RECONNECT",
+                                    "DATA_SILO_NEEDS_RECONNECT_ASSIGNED",
+                                    "DATA_SILO_NOT_CONFIGURED",
+                                    "DATA_SILO_NOT_CONFIGURED_ASSIGNED",
+                                    "DATA_SILO_MISSING_IDENTIFIERS",
+                                    "LOOKUP_PROCESSES_WITH_ERRORS",
+                                    "DATA_SILOS_NEEDING_MANUAL_ENTRY",
+                                    "PROFILE_DATA_POINT_STATUS",
+                                    "REQUEST_EXPIRY",
+                                    "REQUEST_DATA_SILO_ERROR",
+                                    "REQUEST_ENRICHER_ERROR",
+                                    "REQUEST_IDENTIFIER_NEEDS_VERIFICATION",
+                                    "REQUEST_ENRICHER_PERSON_NEEDS_MANUAL_ENTRY",
+                                    "REQUEST_ACTIONABLE_STATUS",
+                                    "REQUEST_ON_HOLD",
+                                    "USER_AWAITING_NOTIFICATION",
+                                    "USER_NEEDS_CONFIGURATION",
+                                    "SOMBRA_VERSION_UPGRADE",
+                                    "SOMBRA_NEEDS_KEY_ROTATION",
+                                    "DATA_FLOW_NEEDS_REVIEW",
+                                    "DATA_FLOW_ASSIGNED_FOR_REVIEW",
+                                    "COOKIE_NEEDS_REVIEW",
+                                    "COOKIE_ASSIGNED_FOR_REVIEW",
+                                    "CONSENT_MANAGER_VERSION_UPGRADE",
+                                    "PLUGINS_WITH_ERRORS",
+                                    "ONBOARDING",
+                                    "REQUEST_ASSIGNED_TO_USER",
+                                    "DATA_SILO_NEEDS_TRAINING",
+                                    "BUSINESS_ENTITY_NEEDS_DOCUMENTATION",
+                                    "DATA_POINT_DATABASE_QUERY_NEEDS_APPROVAL"
+                                  ]
+                              ],
+                      } {} true _js2n__-prdslib.always
+                  ],
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        attributes =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "key", "values" ],
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          key =
+                                            _js2n__-prdslib.isType '"String",
+                                          values =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.arrays.arrayOf
+                                                    (_js2n__-prdslib.isType
+                                                      '"String")
+                                                ],
+                                        } {} true _js2n__-prdslib.always
+                                    ])
+                              ],
+                        customerExperienceActionItemId =
+                          _js2n__-prdslib.isType '"String",
+                        dueDate = _js2n__-prdslib.isType '"String",
+                        link = _js2n__-prdslib.isType '"String",
+                        notes = _js2n__-prdslib.isType '"String",
+                        "priority" =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum
+                                  [
+                                    "WONT_DO",
+                                    "LOW",
+                                    "MEDIUM",
+                                    "HIGH",
+                                    "CRITICAL"
+                                  ]
+                              ],
+                        resolved = _js2n__-prdslib.isType '"Bool",
+                        teams =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        users =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                      } {} true _js2n__-prdslib.always
+                  ]
+              ])
+        )
+        | optional,
       actions
         | Array (
           _js2n__-prdslib.contract_from_predicate
@@ -11887,19 +12076,557 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.required [ "content", "title" ],
+                    _js2n__-prdslib.records.required [ "title" ],
                     _js2n__-prdslib.records.record
-                      {
-                        content = _js2n__-prdslib.isType '"String",
-                        title = _js2n__-prdslib.isType '"String",
-                      } {} true _js2n__-prdslib.always
+                      { title = _js2n__-prdslib.isType '"String", } {} true
+                      _js2n__-prdslib.always
                   ],
                 _js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType 'Record,
                     _js2n__-prdslib.records.record
                       {
-                        attributeKeys =
+                        archived = _js2n__-prdslib.isType '"Bool",
+                        attribute-keys =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        created-at = _js2n__-prdslib.isType '"String",
+                        creator = _js2n__-prdslib.isType '"String",
+                        description = _js2n__-prdslib.isType '"String",
+                        locked = _js2n__-prdslib.isType '"Bool",
+                        parent-id = _js2n__-prdslib.isType '"String",
+                        retention-schedule =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [ "duration-days", "operand", "type" ],
+                                _js2n__-prdslib.records.record
+                                  {
+                                    duration-days =
+                                      _js2n__-prdslib.isType '"Number",
+                                    operand =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.enum
+                                              [
+                                                "FULL_DELETE",
+                                                "PARTIAL_DELETE",
+                                                "NONE"
+                                              ]
+                                          ],
+                                    type =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.enum
+                                              [
+                                                "REQUESTS_CREATED_AT",
+                                                "ASSESSMENT_FORM_COMPLETED_AT"
+                                              ]
+                                          ],
+                                  } {} true _js2n__-prdslib.always
+                              ],
+                        sections =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.required
+                                            [ "questions", "title" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              questions =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Record,
+                                                                _js2n__-prdslib.records.required
+                                                                  [
+                                                                    "title",
+                                                                    "type"
+                                                                  ],
+                                                                _js2n__-prdslib.records.record
+                                                                  {
+                                                                    title =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    type =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"String",
+                                                                            _js2n__-prdslib.enum
+                                                                              [
+                                                                                "LONG_ANSWER_TEXT",
+                                                                                "SHORT_ANSWER_TEXT",
+                                                                                "SINGLE_SELECT",
+                                                                                "MULTI_SELECT",
+                                                                                "FILE",
+                                                                                "DESCRIPTION"
+                                                                              ]
+                                                                          ],
+                                                                  } {} true
+                                                                  _js2n__-prdslib.always
+                                                              ],
+                                                            _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Record,
+                                                                _js2n__-prdslib.records.record
+                                                                  {
+                                                                    allow-select-other =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"Bool",
+                                                                    allowed-mime-types =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"Array",
+                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                              (_js2n__-prdslib.isType
+                                                                                '"String")
+                                                                          ],
+                                                                    answer-options =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"Array",
+                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                              (_js2n__-prdslib.allOf
+                                                                                [
+                                                                                  _js2n__-prdslib.isType
+                                                                                    'Record,
+                                                                                  _js2n__-prdslib.records.required
+                                                                                    [
+                                                                                      "value"
+                                                                                    ],
+                                                                                  _js2n__-prdslib.records.record
+                                                                                    {
+                                                                                      value =
+                                                                                        _js2n__-prdslib.isType
+                                                                                            '"String",
+                                                                                    }
+                                                                                    {}
+                                                                                    true
+                                                                                    _js2n__-prdslib.always
+                                                                                ])
+                                                                          ],
+                                                                    attribute-key =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    description =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    display-logic =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.allOf
+                                                                              [
+                                                                                _js2n__-prdslib.isType
+                                                                                  'Record,
+                                                                                _js2n__-prdslib.records.required
+                                                                                  [
+                                                                                    "action"
+                                                                                  ],
+                                                                                _js2n__-prdslib.records.record
+                                                                                  {
+                                                                                    action =
+                                                                                      _js2n__-prdslib.allOf
+                                                                                          [
+                                                                                            _js2n__-prdslib.isType
+                                                                                              '"String",
+                                                                                            _js2n__-prdslib.enum
+                                                                                              [
+                                                                                                "SHOW",
+                                                                                                "SKIP"
+                                                                                              ]
+                                                                                          ],
+                                                                                  }
+                                                                                  {}
+                                                                                  true
+                                                                                  _js2n__-prdslib.always
+                                                                              ],
+                                                                            _js2n__-prdslib.allOf
+                                                                              [
+                                                                                _js2n__-prdslib.isType
+                                                                                  'Record,
+                                                                                _js2n__-prdslib.records.record
+                                                                                  {
+                                                                                    nested-rule =
+                                                                                      _js2n__-prdslib.always,
+                                                                                    rule =
+                                                                                      _js2n__-prdslib.allOf
+                                                                                          [
+                                                                                            _js2n__-prdslib.allOf
+                                                                                              [
+                                                                                                _js2n__-prdslib.isType
+                                                                                                  'Record,
+                                                                                                _js2n__-prdslib.records.required
+                                                                                                  [
+                                                                                                    "comparison-operator",
+                                                                                                    "depends-on-question-reference-id"
+                                                                                                  ],
+                                                                                                _js2n__-prdslib.records.record
+                                                                                                  {
+                                                                                                    comparison-operator =
+                                                                                                      _js2n__-prdslib.allOf
+                                                                                                          [
+                                                                                                            _js2n__-prdslib.isType
+                                                                                                              '"String",
+                                                                                                            _js2n__-prdslib.enum
+                                                                                                              [
+                                                                                                                "IS_EQUAL_TO",
+                                                                                                                "IS_NOT_EQUAL_TO",
+                                                                                                                "IS_ONE_OF",
+                                                                                                                "IS_NOT_ONE_OF",
+                                                                                                                "CONTAINS",
+                                                                                                                "IS_SHOWN",
+                                                                                                                "IS_NOT_SHOWN"
+                                                                                                              ]
+                                                                                                          ],
+                                                                                                    depends-on-question-reference-id =
+                                                                                                      _js2n__-prdslib.isType
+                                                                                                          '"String",
+                                                                                                  }
+                                                                                                  {}
+                                                                                                  true
+                                                                                                  _js2n__-prdslib.always
+                                                                                              ],
+                                                                                            _js2n__-prdslib.allOf
+                                                                                              [
+                                                                                                _js2n__-prdslib.isType
+                                                                                                  'Record,
+                                                                                                _js2n__-prdslib.records.record
+                                                                                                  {
+                                                                                                    comparison-operands =
+                                                                                                      _js2n__-prdslib.allOf
+                                                                                                          [
+                                                                                                            _js2n__-prdslib.isType
+                                                                                                              '"Array",
+                                                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                                                              (_js2n__-prdslib.isType
+                                                                                                                '"String")
+                                                                                                          ],
+                                                                                                  }
+                                                                                                  {}
+                                                                                                  true
+                                                                                                  _js2n__-prdslib.always
+                                                                                              ]
+                                                                                          ],
+                                                                                  }
+                                                                                  {}
+                                                                                  true
+                                                                                  _js2n__-prdslib.always
+                                                                              ]
+                                                                          ],
+                                                                    is-required =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"Bool",
+                                                                    placeholder =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    reference-id =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    require-risk-evaluation =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"Bool",
+                                                                    require-risk-matrix-evaluation =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"Bool",
+                                                                    risk-categories =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"Array",
+                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                              (_js2n__-prdslib.isType
+                                                                                '"String")
+                                                                          ],
+                                                                    risk-framework =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    risk-logic =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"Array",
+                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                              (_js2n__-prdslib.allOf
+                                                                                [
+                                                                                  _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.required
+                                                                                        [
+                                                                                          "comparison-operands",
+                                                                                          "comparison-operator"
+                                                                                        ],
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          comparison-operands =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    '"Array",
+                                                                                                  _js2n__-prdslib.arrays.arrayOf
+                                                                                                    (_js2n__-prdslib.isType
+                                                                                                      '"String")
+                                                                                                ],
+                                                                                          comparison-operator =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    '"String",
+                                                                                                  _js2n__-prdslib.enum
+                                                                                                    [
+                                                                                                      "IS_EQUAL_TO",
+                                                                                                      "IS_NOT_EQUAL_TO",
+                                                                                                      "IS_ONE_OF",
+                                                                                                      "IS_NOT_ONE_OF",
+                                                                                                      "CONTAINS",
+                                                                                                      "IS_SHOWN",
+                                                                                                      "IS_NOT_SHOWN"
+                                                                                                    ]
+                                                                                                ],
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ],
+                                                                                  _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          risk-level =
+                                                                                            _js2n__-prdslib.isType
+                                                                                                '"String",
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ]
+                                                                                ])
+                                                                          ],
+                                                                    selected-answers =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"Array",
+                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                              (_js2n__-prdslib.isType
+                                                                                '"String")
+                                                                          ],
+                                                                    sub-type =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"String",
+                                                                            _js2n__-prdslib.enum
+                                                                              [
+                                                                                "NONE",
+                                                                                "CUSTOM",
+                                                                                "USER",
+                                                                                "TEAM",
+                                                                                "DATA_SUB_CATEGORY",
+                                                                                "PROCESSING_PURPOSE_SUB_CATEGORY",
+                                                                                "VENDOR",
+                                                                                "REGION",
+                                                                                "BUSINESS_ENTITY",
+                                                                                "SAA_S_CATEGORY",
+                                                                                "DATA_PROCESSING_AGREEMENT_STATUS",
+                                                                                "DEPRECATION_STATE",
+                                                                                "IDENTIFIER",
+                                                                                "DATA_SILO",
+                                                                                "RECOMMENDED_FOR_CONSENT",
+                                                                                "RECOMMENDED_FOR_PRIVACY",
+                                                                                "SUBJECT",
+                                                                                "RETENTION_TYPE",
+                                                                                "CONTROLLERSHIP",
+                                                                                "HAS_PERSONAL_DATA",
+                                                                                "ATTRIBUTE_KEY"
+                                                                              ]
+                                                                          ],
+                                                                    sync-column =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"String",
+                                                                            _js2n__-prdslib.enum
+                                                                              [
+                                                                                "TITLE",
+                                                                                "SLUG",
+                                                                                "DESCRIPTION",
+                                                                                "HEADQUARTER_COUNTRY",
+                                                                                "CONNECTION_STATE",
+                                                                                "CONNECT_START_TIME",
+                                                                                "CONTACT_EMAIL",
+                                                                                "CONTACT_NAME",
+                                                                                "COUNTRY",
+                                                                                "COUNTRY_SUB_DIVISION",
+                                                                                "CREDENTIALS_REFRESH_SCHEDULED_AT",
+                                                                                "DATA_PROCESSING_AGREEMENT_LINK",
+                                                                                "DATA_PROCESSING_AGREEMENT_STATUS",
+                                                                                "DATA_RETENTION_NOTE",
+                                                                                "DEFAULT_ACCESS_REQUEST_VISIBILITY",
+                                                                                "DELETED_AT",
+                                                                                "DEPRECATION_STATE",
+                                                                                "EMAIL_SENDING_LOCK",
+                                                                                "EXPIRED_AT",
+                                                                                "EXTERNAL_ID",
+                                                                                "HAS_PERSONAL_DATA",
+                                                                                "HEADERS",
+                                                                                "IS_LIVE",
+                                                                                "LAST_CONNECTED_AT",
+                                                                                "LAST_ENABLED_AT",
+                                                                                "LAST_LOOKUP_PROCESS_CREATION_TIME",
+                                                                                "MANUAL_WORK_RETRY_FREQUENCY",
+                                                                                "MANUAL_WORK_RETRY_START_AT",
+                                                                                "NOTES",
+                                                                                "NOTIFY_EMAIL_ADDRESS",
+                                                                                "NOTIFY_WEBHOOK_URL",
+                                                                                "OUTER_TYPE",
+                                                                                "PLAINTEXT_CONTEXT",
+                                                                                "PROMPT_A_VENDOR_EMAIL_COMPLETION_LINK_TYPE",
+                                                                                "PROMPT_A_VENDOR_EMAIL_INCLUDE_IDENTIFIERS_ATTACHMENT",
+                                                                                "PROMPT_A_VENDOR_EMAIL_SCHEDULED_AT",
+                                                                                "PROMPT_A_VENDOR_EMAIL_SEND_FREQUENCY",
+                                                                                "PROMPT_A_VENDOR_EMAIL_SEND_TYPE",
+                                                                                "PROMPT_A_VENDOR_EMAIL_START_AT",
+                                                                                "RECOMMENDED_FOR_CONSENT",
+                                                                                "RECOMMENDED_FOR_PRIVACY",
+                                                                                "RECONNECT_FORM_ITEMS",
+                                                                                "SAAS_CONTEXT",
+                                                                                "SECRET_HEADERS",
+                                                                                "SUBDOMAIN",
+                                                                                "TYPE",
+                                                                                "URL",
+                                                                                "WEBSITE_URL",
+                                                                                "TRANSFER_REGIONS",
+                                                                                "CONTROLLERSHIPS",
+                                                                                "NAME",
+                                                                                "DATA_POINT_ID",
+                                                                                "ENCRYPTED_SAMPLES_S3_KEY",
+                                                                                "ACCESS_REQUESTED_VISIBILITY_ENABLED",
+                                                                                "ENSURE_REQUEST_REDACTION_ENABLED",
+                                                                                "LAST_CLASSIFIED_AT",
+                                                                                "LAST_RUN_AT",
+                                                                                "ERROR",
+                                                                                "ERROR_COUNT",
+                                                                                "CONTEXT",
+                                                                                "CONTENT_CLASSIFICATION_STATUS",
+                                                                                "NON_NULL_CHECK_COMPLETED",
+                                                                                "CONTROLLERSHIP",
+                                                                                "RETENTION_TYPE",
+                                                                                "RETENTION_PERIOD",
+                                                                                "SCAN_RUN_ID",
+                                                                                "CONTACT_PHONE",
+                                                                                "ADDRESS",
+                                                                                "HEADQUARTER_SUB_DIVISION",
+                                                                                "PRIVACY_POLICY_URL",
+                                                                                "CATEGORY",
+                                                                                "IS_DEFAULT",
+                                                                                "REGEX",
+                                                                                "PURPOSE",
+                                                                                "DATA_PROTECTION_OFFICER_EMAIL",
+                                                                                "DATA_PROTECTION_OFFICER_NAME",
+                                                                                "DATA_TYPE",
+                                                                                "ENCRYPTION",
+                                                                                "IS_PRIMARY_KEY"
+                                                                              ]
+                                                                          ],
+                                                                    sync-model =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"String",
+                                                                            _js2n__-prdslib.enum
+                                                                              [
+                                                                                "dataSilo",
+                                                                                "subDataPoint",
+                                                                                "vendor",
+                                                                                "dataSubCategory",
+                                                                                "processingPurposeSubCategory",
+                                                                                "businessEntity"
+                                                                              ]
+                                                                          ],
+                                                                  } {} true
+                                                                  _js2n__-prdslib.always
+                                                              ]
+                                                          ])
+                                                    ],
+                                              title =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} true _js2n__-prdslib.always
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              assignees =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.isType
+                                                          '"String")
+                                                    ],
+                                              external-assignees =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.isType
+                                                          '"String")
+                                                    ],
+                                              is-reviewed =
+                                                _js2n__-prdslib.isType '"Bool",
+                                              status =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} true _js2n__-prdslib.always
+                                        ]
+                                    ])
+                              ],
+                        source =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum
+                                  [ "MANUAL", "DATA_INVENTORY", "IMPORT" ]
+                              ],
+                        status =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum [ "DRAFT", "PUBLISHED" ]
+                              ],
+                        templates =
                           _js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"Array",
@@ -11912,8 +12639,717 @@ let rec _js2n__-refsenv
         )
         | optional,
       assessments
-        | Array
-          { assessment-template | String, content | String, title | String, .. }
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "group", "title" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        group = _js2n__-prdslib.isType '"String",
+                        title = _js2n__-prdslib.isType '"String",
+                      } {} true _js2n__-prdslib.always
+                  ],
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        approved-at = _js2n__-prdslib.isType '"String",
+                        archived = _js2n__-prdslib.isType '"Bool",
+                        assigned-at = _js2n__-prdslib.isType '"String",
+                        assignees =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        attributes =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "key", "values" ],
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          key =
+                                            _js2n__-prdslib.isType '"String",
+                                          values =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.arrays.arrayOf
+                                                    (_js2n__-prdslib.isType
+                                                      '"String")
+                                                ],
+                                        } {} true _js2n__-prdslib.always
+                                    ])
+                              ],
+                        created-at = _js2n__-prdslib.isType '"String",
+                        creator = _js2n__-prdslib.isType '"String",
+                        description = _js2n__-prdslib.isType '"String",
+                        due-date = _js2n__-prdslib.isType '"String",
+                        external = _js2n__-prdslib.isType '"Bool",
+                        external-assignees =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        locked = _js2n__-prdslib.isType '"Bool",
+                        rejected-at = _js2n__-prdslib.isType '"String",
+                        resources =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "title", "type" ],
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          title =
+                                            _js2n__-prdslib.isType '"String",
+                                          type =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [
+                                                      "actionItem",
+                                                      "airgapCookie",
+                                                      "airgapDataFlow",
+                                                      "assessmentForm",
+                                                      "assessmentGroup",
+                                                      "auditorRun",
+                                                      "auditorSchedule",
+                                                      "businessEntity",
+                                                      "dataSubCategory",
+                                                      "dataPoint",
+                                                      "dataPointLevel",
+                                                      "dataSilo",
+                                                      "enricher",
+                                                      "identifier",
+                                                      "legalHold",
+                                                      "legalMatter",
+                                                      "processingPurposeSubCategory",
+                                                      "prompt",
+                                                      "promptGroup",
+                                                      "promptRun",
+                                                      "request",
+                                                      "subject",
+                                                      "subDataPoint",
+                                                      "vendor"
+                                                    ]
+                                                ],
+                                        } {} true _js2n__-prdslib.always
+                                    ])
+                              ],
+                        retention-schedule =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.required
+                                  [ "duration-days", "operand", "type" ],
+                                _js2n__-prdslib.records.record
+                                  {
+                                    duration-days =
+                                      _js2n__-prdslib.isType '"Number",
+                                    operand =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.enum
+                                              [
+                                                "FULL_DELETE",
+                                                "PARTIAL_DELETE",
+                                                "NONE"
+                                              ]
+                                          ],
+                                    type =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.enum
+                                              [
+                                                "REQUESTS_CREATED_AT",
+                                                "ASSESSMENT_FORM_COMPLETED_AT"
+                                              ]
+                                          ],
+                                  } {} true _js2n__-prdslib.always
+                              ],
+                        reviewers =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        rows =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "title", "type" ],
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          title =
+                                            _js2n__-prdslib.isType '"String",
+                                          type =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [
+                                                      "actionItem",
+                                                      "airgapCookie",
+                                                      "airgapDataFlow",
+                                                      "assessmentForm",
+                                                      "assessmentGroup",
+                                                      "auditorRun",
+                                                      "auditorSchedule",
+                                                      "businessEntity",
+                                                      "dataSubCategory",
+                                                      "dataPoint",
+                                                      "dataPointLevel",
+                                                      "dataSilo",
+                                                      "enricher",
+                                                      "identifier",
+                                                      "legalHold",
+                                                      "legalMatter",
+                                                      "processingPurposeSubCategory",
+                                                      "prompt",
+                                                      "promptGroup",
+                                                      "promptRun",
+                                                      "request",
+                                                      "subject",
+                                                      "subDataPoint",
+                                                      "vendor"
+                                                    ]
+                                                ],
+                                        } {} true _js2n__-prdslib.always
+                                    ])
+                              ],
+                        sections =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.required
+                                            [ "questions", "title" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              questions =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Record,
+                                                                _js2n__-prdslib.records.required
+                                                                  [
+                                                                    "title",
+                                                                    "type"
+                                                                  ],
+                                                                _js2n__-prdslib.records.record
+                                                                  {
+                                                                    title =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    type =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"String",
+                                                                            _js2n__-prdslib.enum
+                                                                              [
+                                                                                "LONG_ANSWER_TEXT",
+                                                                                "SHORT_ANSWER_TEXT",
+                                                                                "SINGLE_SELECT",
+                                                                                "MULTI_SELECT",
+                                                                                "FILE",
+                                                                                "DESCRIPTION"
+                                                                              ]
+                                                                          ],
+                                                                  } {} true
+                                                                  _js2n__-prdslib.always
+                                                              ],
+                                                            _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Record,
+                                                                _js2n__-prdslib.records.record
+                                                                  {
+                                                                    allow-select-other =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"Bool",
+                                                                    allowed-mime-types =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"Array",
+                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                              (_js2n__-prdslib.isType
+                                                                                '"String")
+                                                                          ],
+                                                                    answer-options =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"Array",
+                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                              (_js2n__-prdslib.allOf
+                                                                                [
+                                                                                  _js2n__-prdslib.isType
+                                                                                    'Record,
+                                                                                  _js2n__-prdslib.records.required
+                                                                                    [
+                                                                                      "value"
+                                                                                    ],
+                                                                                  _js2n__-prdslib.records.record
+                                                                                    {
+                                                                                      value =
+                                                                                        _js2n__-prdslib.isType
+                                                                                            '"String",
+                                                                                    }
+                                                                                    {}
+                                                                                    true
+                                                                                    _js2n__-prdslib.always
+                                                                                ])
+                                                                          ],
+                                                                    attribute-key =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    description =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    display-logic =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.allOf
+                                                                              [
+                                                                                _js2n__-prdslib.isType
+                                                                                  'Record,
+                                                                                _js2n__-prdslib.records.required
+                                                                                  [
+                                                                                    "action"
+                                                                                  ],
+                                                                                _js2n__-prdslib.records.record
+                                                                                  {
+                                                                                    action =
+                                                                                      _js2n__-prdslib.allOf
+                                                                                          [
+                                                                                            _js2n__-prdslib.isType
+                                                                                              '"String",
+                                                                                            _js2n__-prdslib.enum
+                                                                                              [
+                                                                                                "SHOW",
+                                                                                                "SKIP"
+                                                                                              ]
+                                                                                          ],
+                                                                                  }
+                                                                                  {}
+                                                                                  true
+                                                                                  _js2n__-prdslib.always
+                                                                              ],
+                                                                            _js2n__-prdslib.allOf
+                                                                              [
+                                                                                _js2n__-prdslib.isType
+                                                                                  'Record,
+                                                                                _js2n__-prdslib.records.record
+                                                                                  {
+                                                                                    nested-rule =
+                                                                                      _js2n__-prdslib.always,
+                                                                                    rule =
+                                                                                      _js2n__-prdslib.allOf
+                                                                                          [
+                                                                                            _js2n__-prdslib.allOf
+                                                                                              [
+                                                                                                _js2n__-prdslib.isType
+                                                                                                  'Record,
+                                                                                                _js2n__-prdslib.records.required
+                                                                                                  [
+                                                                                                    "comparison-operator",
+                                                                                                    "depends-on-question-reference-id"
+                                                                                                  ],
+                                                                                                _js2n__-prdslib.records.record
+                                                                                                  {
+                                                                                                    comparison-operator =
+                                                                                                      _js2n__-prdslib.allOf
+                                                                                                          [
+                                                                                                            _js2n__-prdslib.isType
+                                                                                                              '"String",
+                                                                                                            _js2n__-prdslib.enum
+                                                                                                              [
+                                                                                                                "IS_EQUAL_TO",
+                                                                                                                "IS_NOT_EQUAL_TO",
+                                                                                                                "IS_ONE_OF",
+                                                                                                                "IS_NOT_ONE_OF",
+                                                                                                                "CONTAINS",
+                                                                                                                "IS_SHOWN",
+                                                                                                                "IS_NOT_SHOWN"
+                                                                                                              ]
+                                                                                                          ],
+                                                                                                    depends-on-question-reference-id =
+                                                                                                      _js2n__-prdslib.isType
+                                                                                                          '"String",
+                                                                                                  }
+                                                                                                  {}
+                                                                                                  true
+                                                                                                  _js2n__-prdslib.always
+                                                                                              ],
+                                                                                            _js2n__-prdslib.allOf
+                                                                                              [
+                                                                                                _js2n__-prdslib.isType
+                                                                                                  'Record,
+                                                                                                _js2n__-prdslib.records.record
+                                                                                                  {
+                                                                                                    comparison-operands =
+                                                                                                      _js2n__-prdslib.allOf
+                                                                                                          [
+                                                                                                            _js2n__-prdslib.isType
+                                                                                                              '"Array",
+                                                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                                                              (_js2n__-prdslib.isType
+                                                                                                                '"String")
+                                                                                                          ],
+                                                                                                  }
+                                                                                                  {}
+                                                                                                  true
+                                                                                                  _js2n__-prdslib.always
+                                                                                              ]
+                                                                                          ],
+                                                                                  }
+                                                                                  {}
+                                                                                  true
+                                                                                  _js2n__-prdslib.always
+                                                                              ]
+                                                                          ],
+                                                                    is-required =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"Bool",
+                                                                    placeholder =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    reference-id =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    require-risk-evaluation =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"Bool",
+                                                                    require-risk-matrix-evaluation =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"Bool",
+                                                                    risk-categories =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"Array",
+                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                              (_js2n__-prdslib.isType
+                                                                                '"String")
+                                                                          ],
+                                                                    risk-framework =
+                                                                      _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                    risk-logic =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"Array",
+                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                              (_js2n__-prdslib.allOf
+                                                                                [
+                                                                                  _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.required
+                                                                                        [
+                                                                                          "comparison-operands",
+                                                                                          "comparison-operator"
+                                                                                        ],
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          comparison-operands =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    '"Array",
+                                                                                                  _js2n__-prdslib.arrays.arrayOf
+                                                                                                    (_js2n__-prdslib.isType
+                                                                                                      '"String")
+                                                                                                ],
+                                                                                          comparison-operator =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    '"String",
+                                                                                                  _js2n__-prdslib.enum
+                                                                                                    [
+                                                                                                      "IS_EQUAL_TO",
+                                                                                                      "IS_NOT_EQUAL_TO",
+                                                                                                      "IS_ONE_OF",
+                                                                                                      "IS_NOT_ONE_OF",
+                                                                                                      "CONTAINS",
+                                                                                                      "IS_SHOWN",
+                                                                                                      "IS_NOT_SHOWN"
+                                                                                                    ]
+                                                                                                ],
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ],
+                                                                                  _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          risk-level =
+                                                                                            _js2n__-prdslib.isType
+                                                                                                '"String",
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ]
+                                                                                ])
+                                                                          ],
+                                                                    selected-answers =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"Array",
+                                                                            _js2n__-prdslib.arrays.arrayOf
+                                                                              (_js2n__-prdslib.isType
+                                                                                '"String")
+                                                                          ],
+                                                                    sub-type =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"String",
+                                                                            _js2n__-prdslib.enum
+                                                                              [
+                                                                                "NONE",
+                                                                                "CUSTOM",
+                                                                                "USER",
+                                                                                "TEAM",
+                                                                                "DATA_SUB_CATEGORY",
+                                                                                "PROCESSING_PURPOSE_SUB_CATEGORY",
+                                                                                "VENDOR",
+                                                                                "REGION",
+                                                                                "BUSINESS_ENTITY",
+                                                                                "SAA_S_CATEGORY",
+                                                                                "DATA_PROCESSING_AGREEMENT_STATUS",
+                                                                                "DEPRECATION_STATE",
+                                                                                "IDENTIFIER",
+                                                                                "DATA_SILO",
+                                                                                "RECOMMENDED_FOR_CONSENT",
+                                                                                "RECOMMENDED_FOR_PRIVACY",
+                                                                                "SUBJECT",
+                                                                                "RETENTION_TYPE",
+                                                                                "CONTROLLERSHIP",
+                                                                                "HAS_PERSONAL_DATA",
+                                                                                "ATTRIBUTE_KEY"
+                                                                              ]
+                                                                          ],
+                                                                    sync-column =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"String",
+                                                                            _js2n__-prdslib.enum
+                                                                              [
+                                                                                "TITLE",
+                                                                                "SLUG",
+                                                                                "DESCRIPTION",
+                                                                                "HEADQUARTER_COUNTRY",
+                                                                                "CONNECTION_STATE",
+                                                                                "CONNECT_START_TIME",
+                                                                                "CONTACT_EMAIL",
+                                                                                "CONTACT_NAME",
+                                                                                "COUNTRY",
+                                                                                "COUNTRY_SUB_DIVISION",
+                                                                                "CREDENTIALS_REFRESH_SCHEDULED_AT",
+                                                                                "DATA_PROCESSING_AGREEMENT_LINK",
+                                                                                "DATA_PROCESSING_AGREEMENT_STATUS",
+                                                                                "DATA_RETENTION_NOTE",
+                                                                                "DEFAULT_ACCESS_REQUEST_VISIBILITY",
+                                                                                "DELETED_AT",
+                                                                                "DEPRECATION_STATE",
+                                                                                "EMAIL_SENDING_LOCK",
+                                                                                "EXPIRED_AT",
+                                                                                "EXTERNAL_ID",
+                                                                                "HAS_PERSONAL_DATA",
+                                                                                "HEADERS",
+                                                                                "IS_LIVE",
+                                                                                "LAST_CONNECTED_AT",
+                                                                                "LAST_ENABLED_AT",
+                                                                                "LAST_LOOKUP_PROCESS_CREATION_TIME",
+                                                                                "MANUAL_WORK_RETRY_FREQUENCY",
+                                                                                "MANUAL_WORK_RETRY_START_AT",
+                                                                                "NOTES",
+                                                                                "NOTIFY_EMAIL_ADDRESS",
+                                                                                "NOTIFY_WEBHOOK_URL",
+                                                                                "OUTER_TYPE",
+                                                                                "PLAINTEXT_CONTEXT",
+                                                                                "PROMPT_A_VENDOR_EMAIL_COMPLETION_LINK_TYPE",
+                                                                                "PROMPT_A_VENDOR_EMAIL_INCLUDE_IDENTIFIERS_ATTACHMENT",
+                                                                                "PROMPT_A_VENDOR_EMAIL_SCHEDULED_AT",
+                                                                                "PROMPT_A_VENDOR_EMAIL_SEND_FREQUENCY",
+                                                                                "PROMPT_A_VENDOR_EMAIL_SEND_TYPE",
+                                                                                "PROMPT_A_VENDOR_EMAIL_START_AT",
+                                                                                "RECOMMENDED_FOR_CONSENT",
+                                                                                "RECOMMENDED_FOR_PRIVACY",
+                                                                                "RECONNECT_FORM_ITEMS",
+                                                                                "SAAS_CONTEXT",
+                                                                                "SECRET_HEADERS",
+                                                                                "SUBDOMAIN",
+                                                                                "TYPE",
+                                                                                "URL",
+                                                                                "WEBSITE_URL",
+                                                                                "TRANSFER_REGIONS",
+                                                                                "CONTROLLERSHIPS",
+                                                                                "NAME",
+                                                                                "DATA_POINT_ID",
+                                                                                "ENCRYPTED_SAMPLES_S3_KEY",
+                                                                                "ACCESS_REQUESTED_VISIBILITY_ENABLED",
+                                                                                "ENSURE_REQUEST_REDACTION_ENABLED",
+                                                                                "LAST_CLASSIFIED_AT",
+                                                                                "LAST_RUN_AT",
+                                                                                "ERROR",
+                                                                                "ERROR_COUNT",
+                                                                                "CONTEXT",
+                                                                                "CONTENT_CLASSIFICATION_STATUS",
+                                                                                "NON_NULL_CHECK_COMPLETED",
+                                                                                "CONTROLLERSHIP",
+                                                                                "RETENTION_TYPE",
+                                                                                "RETENTION_PERIOD",
+                                                                                "SCAN_RUN_ID",
+                                                                                "CONTACT_PHONE",
+                                                                                "ADDRESS",
+                                                                                "HEADQUARTER_SUB_DIVISION",
+                                                                                "PRIVACY_POLICY_URL",
+                                                                                "CATEGORY",
+                                                                                "IS_DEFAULT",
+                                                                                "REGEX",
+                                                                                "PURPOSE",
+                                                                                "DATA_PROTECTION_OFFICER_EMAIL",
+                                                                                "DATA_PROTECTION_OFFICER_NAME",
+                                                                                "DATA_TYPE",
+                                                                                "ENCRYPTION",
+                                                                                "IS_PRIMARY_KEY"
+                                                                              ]
+                                                                          ],
+                                                                    sync-model =
+                                                                      _js2n__-prdslib.allOf
+                                                                          [
+                                                                            _js2n__-prdslib.isType
+                                                                              '"String",
+                                                                            _js2n__-prdslib.enum
+                                                                              [
+                                                                                "dataSilo",
+                                                                                "subDataPoint",
+                                                                                "vendor",
+                                                                                "dataSubCategory",
+                                                                                "processingPurposeSubCategory",
+                                                                                "businessEntity"
+                                                                              ]
+                                                                          ],
+                                                                  } {} true
+                                                                  _js2n__-prdslib.always
+                                                              ]
+                                                          ])
+                                                    ],
+                                              title =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} true _js2n__-prdslib.always
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              assignees =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.isType
+                                                          '"String")
+                                                    ],
+                                              external-assignees =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.isType
+                                                          '"String")
+                                                    ],
+                                              is-reviewed =
+                                                _js2n__-prdslib.isType '"Bool",
+                                              status =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} true _js2n__-prdslib.always
+                                        ]
+                                    ])
+                              ],
+                        status =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum
+                                  [
+                                    "DRAFT",
+                                    "SHARED",
+                                    "IN_PROGRESS",
+                                    "IN_REVIEW",
+                                    "CHANGES_REQUESTED",
+                                    "REJECTED",
+                                    "APPROVED"
+                                  ]
+                              ],
+                        submitted-at = _js2n__-prdslib.isType '"String",
+                        title-is-internal = _js2n__-prdslib.isType '"Bool",
+                      } {} true _js2n__-prdslib.always
+                  ]
+              ])
+        )
         | optional,
       attributes
         | Array (
@@ -11961,20 +13397,29 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.enum
                                         [
                                           "actionItem",
-                                          "dataSilo",
-                                          "subDataPoint",
                                           "airgapCookie",
                                           "airgapDataFlow",
-                                          "request",
-                                          "vendor",
+                                          "assessmentForm",
+                                          "assessmentGroup",
+                                          "auditorRun",
+                                          "auditorSchedule",
                                           "businessEntity",
                                           "dataSubCategory",
+                                          "dataPoint",
+                                          "dataPointLevel",
+                                          "dataSilo",
+                                          "enricher",
+                                          "identifier",
+                                          "legalHold",
+                                          "legalMatter",
                                           "processingPurposeSubCategory",
-                                          "assessment",
-                                          "assessmentTemplate",
                                           "prompt",
                                           "promptGroup",
-                                          "promptRun"
+                                          "promptRun",
+                                          "request",
+                                          "subject",
+                                          "subDataPoint",
+                                          "vendor"
                                         ]
                                     ])
                               ],
@@ -17466,6 +18911,20 @@ let rec _js2n__-refsenv
                                     "ZW-MW"
                                   ]
                               ],
+                        owners =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        teams =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
                       } {} true _js2n__-prdslib.always
                   ]
               ])
@@ -18227,10 +19686,10 @@ let rec _js2n__-refsenv
                                         [
                                           _js2n__-prdslib.isType 'Record,
                                           _js2n__-prdslib.records.required
-                                            [ "name" ],
+                                            [ "trackingType" ],
                                           _js2n__-prdslib.records.record
                                             {
-                                              name =
+                                              trackingType =
                                                 _js2n__-prdslib.isType
                                                     '"String",
                                             } {} true _js2n__-prdslib.always
@@ -18245,10 +19704,10 @@ let rec _js2n__-refsenv
                                         [
                                           _js2n__-prdslib.isType 'Record,
                                           _js2n__-prdslib.records.required
-                                            [ "name" ],
+                                            [ "trackingType" ],
                                           _js2n__-prdslib.records.record
                                             {
-                                              name =
+                                              trackingType =
                                                 _js2n__-prdslib.isType
                                                     '"String",
                                             } {} true _js2n__-prdslib.always
@@ -29628,111 +31087,124 @@ let rec _js2n__-refsenv
                                                                             _js2n__-prdslib.arrays.arrayOf
                                                                               (_js2n__-prdslib.allOf
                                                                                 [
-                                                                                  _js2n__-prdslib.isType
-                                                                                    'Record,
-                                                                                  _js2n__-prdslib.records.required
+                                                                                  _js2n__-prdslib.allOf
                                                                                     [
-                                                                                      "category",
-                                                                                      "classifierVersion",
-                                                                                      "confidence",
-                                                                                      "confidenceLabel",
-                                                                                      "status"
-                                                                                    ],
-                                                                                  _js2n__-prdslib.records.record
-                                                                                    {
-                                                                                      category =
-                                                                                        _js2n__-prdslib.allOf
-                                                                                            [
-                                                                                              _js2n__-prdslib.allOf
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.required
+                                                                                        [
+                                                                                          "category",
+                                                                                          "confidence",
+                                                                                          "confidenceLabel",
+                                                                                          "status"
+                                                                                        ],
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          category =
+                                                                                            _js2n__-prdslib.allOf
                                                                                                 [
-                                                                                                  _js2n__-prdslib.isType
-                                                                                                    'Record,
-                                                                                                  _js2n__-prdslib.records.required
+                                                                                                  _js2n__-prdslib.allOf
                                                                                                     [
-                                                                                                      "category"
-                                                                                                    ],
-                                                                                                  _js2n__-prdslib.records.record
-                                                                                                    {
-                                                                                                      category =
-                                                                                                        _js2n__-prdslib.allOf
-                                                                                                            [
-                                                                                                              _js2n__-prdslib.isType
-                                                                                                                '"String",
-                                                                                                              _js2n__-prdslib.enum
+                                                                                                      _js2n__-prdslib.isType
+                                                                                                        'Record,
+                                                                                                      _js2n__-prdslib.records.required
+                                                                                                        [
+                                                                                                          "category"
+                                                                                                        ],
+                                                                                                      _js2n__-prdslib.records.record
+                                                                                                        {
+                                                                                                          category =
+                                                                                                            _js2n__-prdslib.allOf
                                                                                                                 [
-                                                                                                                  "FINANCIAL",
-                                                                                                                  "HEALTH",
-                                                                                                                  "CONTACT",
-                                                                                                                  "LOCATION",
-                                                                                                                  "DEMOGRAPHIC",
-                                                                                                                  "ID",
-                                                                                                                  "ONLINE_ACTIVITY",
-                                                                                                                  "USER_PROFILE",
-                                                                                                                  "SOCIAL_MEDIA",
-                                                                                                                  "CONNECTION",
-                                                                                                                  "TRACKING",
-                                                                                                                  "DEVICE",
-                                                                                                                  "SURVEY",
-                                                                                                                  "OTHER",
-                                                                                                                  "UNSPECIFIED",
-                                                                                                                  "NOT_PERSONAL_DATA",
-                                                                                                                  "INTEGRATION_IDENTIFIER"
-                                                                                                                ]
-                                                                                                            ],
-                                                                                                    }
-                                                                                                    {}
-                                                                                                    true
-                                                                                                    _js2n__-prdslib.always
+                                                                                                                  _js2n__-prdslib.isType
+                                                                                                                    '"String",
+                                                                                                                  _js2n__-prdslib.enum
+                                                                                                                    [
+                                                                                                                      "FINANCIAL",
+                                                                                                                      "HEALTH",
+                                                                                                                      "CONTACT",
+                                                                                                                      "LOCATION",
+                                                                                                                      "DEMOGRAPHIC",
+                                                                                                                      "ID",
+                                                                                                                      "ONLINE_ACTIVITY",
+                                                                                                                      "USER_PROFILE",
+                                                                                                                      "SOCIAL_MEDIA",
+                                                                                                                      "CONNECTION",
+                                                                                                                      "TRACKING",
+                                                                                                                      "DEVICE",
+                                                                                                                      "SURVEY",
+                                                                                                                      "OTHER",
+                                                                                                                      "UNSPECIFIED",
+                                                                                                                      "NOT_PERSONAL_DATA",
+                                                                                                                      "INTEGRATION_IDENTIFIER"
+                                                                                                                    ]
+                                                                                                                ],
+                                                                                                        }
+                                                                                                        {}
+                                                                                                        true
+                                                                                                        _js2n__-prdslib.always
+                                                                                                    ],
+                                                                                                  _js2n__-prdslib.allOf
+                                                                                                    [
+                                                                                                      _js2n__-prdslib.isType
+                                                                                                        'Record,
+                                                                                                      _js2n__-prdslib.records.record
+                                                                                                        {
+                                                                                                          name =
+                                                                                                            _js2n__-prdslib.isType
+                                                                                                                '"String",
+                                                                                                        }
+                                                                                                        {}
+                                                                                                        true
+                                                                                                        _js2n__-prdslib.always
+                                                                                                    ]
                                                                                                 ],
-                                                                                              _js2n__-prdslib.allOf
+                                                                                          confidence =
+                                                                                            _js2n__-prdslib.isType
+                                                                                                '"Number",
+                                                                                          confidenceLabel =
+                                                                                            _js2n__-prdslib.allOf
                                                                                                 [
                                                                                                   _js2n__-prdslib.isType
-                                                                                                    'Record,
-                                                                                                  _js2n__-prdslib.records.record
-                                                                                                    {
-                                                                                                      name =
-                                                                                                        _js2n__-prdslib.isType
-                                                                                                            '"String",
-                                                                                                    }
-                                                                                                    {}
-                                                                                                    true
-                                                                                                    _js2n__-prdslib.always
-                                                                                                ]
-                                                                                            ],
-                                                                                      classifierVersion =
-                                                                                        _js2n__-prdslib.isType
-                                                                                            '"Number",
-                                                                                      confidence =
-                                                                                        _js2n__-prdslib.isType
-                                                                                            '"Number",
-                                                                                      confidenceLabel =
-                                                                                        _js2n__-prdslib.allOf
-                                                                                            [
-                                                                                              _js2n__-prdslib.isType
-                                                                                                '"String",
-                                                                                              _js2n__-prdslib.enum
+                                                                                                    '"String",
+                                                                                                  _js2n__-prdslib.enum
+                                                                                                    [
+                                                                                                      "HIGH",
+                                                                                                      "MEDIUM",
+                                                                                                      "LOW"
+                                                                                                    ]
+                                                                                                ],
+                                                                                          status =
+                                                                                            _js2n__-prdslib.allOf
                                                                                                 [
-                                                                                                  "HIGH",
-                                                                                                  "MEDIUM",
-                                                                                                  "LOW"
-                                                                                                ]
-                                                                                            ],
-                                                                                      status =
-                                                                                        _js2n__-prdslib.allOf
-                                                                                            [
-                                                                                              _js2n__-prdslib.isType
-                                                                                                '"String",
-                                                                                              _js2n__-prdslib.enum
-                                                                                                [
-                                                                                                  "APPROVED",
-                                                                                                  "PENDING",
-                                                                                                  "REJECTED"
-                                                                                                ]
-                                                                                            ],
-                                                                                    }
-                                                                                    {}
-                                                                                    true
-                                                                                    _js2n__-prdslib.always
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    '"String",
+                                                                                                  _js2n__-prdslib.enum
+                                                                                                    [
+                                                                                                      "APPROVED",
+                                                                                                      "PENDING",
+                                                                                                      "REJECTED"
+                                                                                                    ]
+                                                                                                ],
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ],
+                                                                                  _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          classifierVersion =
+                                                                                            _js2n__-prdslib.isType
+                                                                                                '"Number",
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ]
                                                                                 ])
                                                                           ],
                                                                     purposes =
@@ -35657,6 +37129,7 @@ let rec _js2n__-refsenv
                                   (_js2n__-prdslib.isType '"String")
                               ],
                         displayDescription = _js2n__-prdslib.isType '"String",
+                        displayOrder = _js2n__-prdslib.isType '"Number",
                         displayTitle = _js2n__-prdslib.isType '"String",
                         isRequiredInForm = _js2n__-prdslib.isType '"Bool",
                         placeholder = _js2n__-prdslib.isType '"String",
@@ -35704,6 +37177,552 @@ let rec _js2n__-refsenv
                   ]
               ])
         )
+        | optional,
+      messages
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "id" ],
+                    _js2n__-prdslib.records.record
+                      { id = _js2n__-prdslib.isType '"String", } {} true
+                      _js2n__-prdslib.always
+                  ],
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        defaultMessage = _js2n__-prdslib.isType '"String",
+                        targetReactIntlId = _js2n__-prdslib.isType '"String",
+                        translations =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    af-ZA = _js2n__-prdslib.isType '"String",
+                                    ar = _js2n__-prdslib.isType '"String",
+                                    ar-AE = _js2n__-prdslib.isType '"String",
+                                    bg-BG = _js2n__-prdslib.isType '"String",
+                                    cs-CZ = _js2n__-prdslib.isType '"String",
+                                    da-DK = _js2n__-prdslib.isType '"String",
+                                    de = _js2n__-prdslib.isType '"String",
+                                    de-AT = _js2n__-prdslib.isType '"String",
+                                    de-CH = _js2n__-prdslib.isType '"String",
+                                    de-DE = _js2n__-prdslib.isType '"String",
+                                    el-GR = _js2n__-prdslib.isType '"String",
+                                    en = _js2n__-prdslib.isType '"String",
+                                    en-AE = _js2n__-prdslib.isType '"String",
+                                    en-AU = _js2n__-prdslib.isType '"String",
+                                    en-CA = _js2n__-prdslib.isType '"String",
+                                    en-GB = _js2n__-prdslib.isType '"String",
+                                    en-IE = _js2n__-prdslib.isType '"String",
+                                    en-NZ = _js2n__-prdslib.isType '"String",
+                                    en-US = _js2n__-prdslib.isType '"String",
+                                    es = _js2n__-prdslib.isType '"String",
+                                    es-419 = _js2n__-prdslib.isType '"String",
+                                    es-ES = _js2n__-prdslib.isType '"String",
+                                    et-EE = _js2n__-prdslib.isType '"String",
+                                    fi-FI = _js2n__-prdslib.isType '"String",
+                                    fr = _js2n__-prdslib.isType '"String",
+                                    fr-BE = _js2n__-prdslib.isType '"String",
+                                    fr-CA = _js2n__-prdslib.isType '"String",
+                                    fr-CH = _js2n__-prdslib.isType '"String",
+                                    fr-FR = _js2n__-prdslib.isType '"String",
+                                    he-IL = _js2n__-prdslib.isType '"String",
+                                    hi-IN = _js2n__-prdslib.isType '"String",
+                                    hr-HR = _js2n__-prdslib.isType '"String",
+                                    hu-HU = _js2n__-prdslib.isType '"String",
+                                    id-ID = _js2n__-prdslib.isType '"String",
+                                    is-IS = _js2n__-prdslib.isType '"String",
+                                    it = _js2n__-prdslib.isType '"String",
+                                    it-CH = _js2n__-prdslib.isType '"String",
+                                    it-IT = _js2n__-prdslib.isType '"String",
+                                    ja = _js2n__-prdslib.isType '"String",
+                                    ja-JP = _js2n__-prdslib.isType '"String",
+                                    ko-KR = _js2n__-prdslib.isType '"String",
+                                    lt-LT = _js2n__-prdslib.isType '"String",
+                                    lv-LV = _js2n__-prdslib.isType '"String",
+                                    mr-IN = _js2n__-prdslib.isType '"String",
+                                    ms-MY = _js2n__-prdslib.isType '"String",
+                                    mt-MT = _js2n__-prdslib.isType '"String",
+                                    nb-NO = _js2n__-prdslib.isType '"String",
+                                    nl-BE = _js2n__-prdslib.isType '"String",
+                                    nl-NL = _js2n__-prdslib.isType '"String",
+                                    pl-PL = _js2n__-prdslib.isType '"String",
+                                    pt-BR = _js2n__-prdslib.isType '"String",
+                                    pt-PT = _js2n__-prdslib.isType '"String",
+                                    ro-RO = _js2n__-prdslib.isType '"String",
+                                    ru = _js2n__-prdslib.isType '"String",
+                                    ru-RU = _js2n__-prdslib.isType '"String",
+                                    sk-SK = _js2n__-prdslib.isType '"String",
+                                    sl-SL = _js2n__-prdslib.isType '"String",
+                                    sr-Latn-RS =
+                                      _js2n__-prdslib.isType '"String",
+                                    sv-SE = _js2n__-prdslib.isType '"String",
+                                    ta-IN = _js2n__-prdslib.isType '"String",
+                                    th-TH = _js2n__-prdslib.isType '"String",
+                                    tr-TR = _js2n__-prdslib.isType '"String",
+                                    uk-UA = _js2n__-prdslib.isType '"String",
+                                    vi-VN = _js2n__-prdslib.isType '"String",
+                                    zh-CN = _js2n__-prdslib.isType '"String",
+                                    zh-HK = _js2n__-prdslib.isType '"String",
+                                    zu-ZA = _js2n__-prdslib.isType '"String",
+                                  } {} true _js2n__-prdslib.always
+                              ],
+                      } {} true _js2n__-prdslib.always
+                  ]
+              ])
+        )
+        | optional,
+      partitions
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "name" ],
+                    _js2n__-prdslib.records.record
+                      { name = _js2n__-prdslib.isType '"String", } {} true
+                      _js2n__-prdslib.always
+                  ],
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      { partition = _js2n__-prdslib.isType '"String", } {} true
+                      _js2n__-prdslib.always
+                  ]
+              ])
+        )
+        | optional,
+      policies
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "title" ],
+                    _js2n__-prdslib.records.record
+                      { title = _js2n__-prdslib.isType '"String", } {} true
+                      _js2n__-prdslib.always
+                  ],
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        content = _js2n__-prdslib.isType '"String",
+                        disableEffectiveOn = _js2n__-prdslib.isType '"Bool",
+                        disabledLocales =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "en",
+                                          "ar",
+                                          "fr",
+                                          "es",
+                                          "de",
+                                          "it",
+                                          "ja",
+                                          "ru",
+                                          "ar-AE",
+                                          "fr-FR",
+                                          "de-DE",
+                                          "de-AT",
+                                          "de-CH",
+                                          "it-IT",
+                                          "it-CH",
+                                          "af-ZA",
+                                          "bg-BG",
+                                          "zh-CN",
+                                          "hr-HR",
+                                          "cs-CZ",
+                                          "da-DK",
+                                          "en-GB",
+                                          "en-CA",
+                                          "en-AE",
+                                          "fi-FI",
+                                          "el-GR",
+                                          "hi-IN",
+                                          "hu-HU",
+                                          "id-ID",
+                                          "ja-JP",
+                                          "ko-KR",
+                                          "lt-LT",
+                                          "ms-MY",
+                                          "mr-IN",
+                                          "nb-NO",
+                                          "pl-PL",
+                                          "pt-BR",
+                                          "pt-PT",
+                                          "ro-RO",
+                                          "ru-RU",
+                                          "sr-Latn-RS",
+                                          "sv-SE",
+                                          "ta-IN",
+                                          "th-TH",
+                                          "tr-TR",
+                                          "uk-UA",
+                                          "vi-VN",
+                                          "zu-ZA",
+                                          "en-US",
+                                          "en-AU",
+                                          "fr-BE",
+                                          "fr-CA",
+                                          "fr-CH",
+                                          "en-IE",
+                                          "nl-NL",
+                                          "nl-BE",
+                                          "es-ES",
+                                          "es-419",
+                                          "zh-HK",
+                                          "he-IL",
+                                          "en-NZ",
+                                          "et-EE",
+                                          "is-IS",
+                                          "lv-LV",
+                                          "mt-MT",
+                                          "sk-SK",
+                                          "sl-SL"
+                                        ]
+                                    ])
+                              ],
+                        effectiveOn = _js2n__-prdslib.isType '"String",
+                      } {} true _js2n__-prdslib.always
+                  ]
+              ])
+        )
+        | optional,
+      privacy-center
+        | {
+          defaultLocale
+            | std.enum.TagOrString
+            | [|
+              'sl-SL,
+              'sk-SK,
+              'mt-MT,
+              'lv-LV,
+              'is-IS,
+              'et-EE,
+              'en-NZ,
+              'he-IL,
+              'zh-HK,
+              'es-419,
+              'es-ES,
+              'nl-BE,
+              'nl-NL,
+              'en-IE,
+              'fr-CH,
+              'fr-CA,
+              'fr-BE,
+              'en-AU,
+              'en-US,
+              'zu-ZA,
+              'vi-VN,
+              'uk-UA,
+              'tr-TR,
+              'th-TH,
+              'ta-IN,
+              'sv-SE,
+              'sr-Latn-RS,
+              'ru-RU,
+              'ro-RO,
+              'pt-PT,
+              'pt-BR,
+              'pl-PL,
+              'nb-NO,
+              'mr-IN,
+              'ms-MY,
+              'lt-LT,
+              'ko-KR,
+              'ja-JP,
+              'id-ID,
+              'hu-HU,
+              'hi-IN,
+              'el-GR,
+              'fi-FI,
+              'en-AE,
+              'en-CA,
+              'en-GB,
+              'da-DK,
+              'cs-CZ,
+              'hr-HR,
+              'zh-CN,
+              'bg-BG,
+              'af-ZA,
+              'it-CH,
+              'it-IT,
+              'de-CH,
+              'de-AT,
+              'de-DE,
+              'fr-FR,
+              'ar-AE,
+              'ru,
+              'ja,
+              'it,
+              'de,
+              'es,
+              'fr,
+              'ar,
+              'en
+            |]
+            | optional,
+          isDisabled | Bool | optional,
+          locales
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.enum
+                          [
+                            "en",
+                            "ar",
+                            "fr",
+                            "es",
+                            "de",
+                            "it",
+                            "ja",
+                            "ru",
+                            "ar-AE",
+                            "fr-FR",
+                            "de-DE",
+                            "de-AT",
+                            "de-CH",
+                            "it-IT",
+                            "it-CH",
+                            "af-ZA",
+                            "bg-BG",
+                            "zh-CN",
+                            "hr-HR",
+                            "cs-CZ",
+                            "da-DK",
+                            "en-GB",
+                            "en-CA",
+                            "en-AE",
+                            "fi-FI",
+                            "el-GR",
+                            "hi-IN",
+                            "hu-HU",
+                            "id-ID",
+                            "ja-JP",
+                            "ko-KR",
+                            "lt-LT",
+                            "ms-MY",
+                            "mr-IN",
+                            "nb-NO",
+                            "pl-PL",
+                            "pt-BR",
+                            "pt-PT",
+                            "ro-RO",
+                            "ru-RU",
+                            "sr-Latn-RS",
+                            "sv-SE",
+                            "ta-IN",
+                            "th-TH",
+                            "tr-TR",
+                            "uk-UA",
+                            "vi-VN",
+                            "zu-ZA",
+                            "en-US",
+                            "en-AU",
+                            "fr-BE",
+                            "fr-CA",
+                            "fr-CH",
+                            "en-IE",
+                            "nl-NL",
+                            "nl-BE",
+                            "es-ES",
+                            "es-419",
+                            "zh-HK",
+                            "he-IL",
+                            "en-NZ",
+                            "et-EE",
+                            "is-IS",
+                            "lv-LV",
+                            "mt-MT",
+                            "sk-SK",
+                            "sl-SL"
+                          ]
+                      ])
+                ])
+            | optional,
+          preferBrowserDefaultLocale | Bool | optional,
+          replyToEmail | String | optional,
+          showConsentManager | Bool | optional,
+          showCookies | Bool | optional,
+          showDataFlows | Bool | optional,
+          showDataPractices | Bool | optional,
+          showManageYourPrivacy | Bool | optional,
+          showMarketingPreferences | Bool | optional,
+          showPolicies | Bool | optional,
+          showPrivacyPreferences | Bool | optional,
+          showPrivacyRequestButton | Bool | optional,
+          showTrackingTechnologies | Bool | optional,
+          supportEmail | String | optional,
+          theme
+            | {
+              colors
+                | {
+                  accentOnSidebar | String | optional,
+                  bgAccent | String | optional,
+                  error | String | optional,
+                  heroBg | String | optional,
+                  highlight | String | optional,
+                  primary | String | optional,
+                  secondary | String | optional,
+                  sidebarNavBg | String | optional,
+                  tableOutline | String | optional,
+                  textLightOnBg | String | optional,
+                  textOnAboutTranscend | String | optional,
+                  textOnBg | String | optional,
+                  textOnHero | String | optional,
+                  textOnPrimary | String | optional,
+                  textOnSidebar | String | optional,
+                  widgetBg | String | optional,
+                  ..
+                }
+                | optional,
+              componentStyles
+                | {
+                  body | String | optional,
+                  emailButton | String | optional,
+                  emailContainer | String | optional,
+                  h1 | String | optional,
+                  h2 | String | optional,
+                  h3 | String | optional,
+                  hero | String | optional,
+                  heroBackground | String | optional,
+                  primaryButton | String | optional,
+                  secondaryButton | String | optional,
+                  sideMenuText | String | optional,
+                  takeControlConfirmation | String | optional,
+                  ..
+                }
+                | optional,
+              textStyles
+                | {
+                  fontFamilyBody
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.required
+                                [ "name", "url" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  name = _js2n__-prdslib.isType '"String",
+                                  url = _js2n__-prdslib.isType '"String",
+                                } {} true _js2n__-prdslib.always
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  assets =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.required
+                                                  [ "name", "url" ],
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    name =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    url =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                  } {} true
+                                                  _js2n__-prdslib.always
+                                              ])
+                                        ],
+                                } {} true _js2n__-prdslib.always
+                            ]
+                        ])
+                    | optional,
+                  fontFamilyHeader
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.required
+                                [ "name", "url" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  name = _js2n__-prdslib.isType '"String",
+                                  url = _js2n__-prdslib.isType '"String",
+                                } {} true _js2n__-prdslib.always
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  assets =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.required
+                                                  [ "name", "url" ],
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    name =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                    url =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                  } {} true
+                                                  _js2n__-prdslib.always
+                                              ])
+                                        ],
+                                } {} true _js2n__-prdslib.always
+                            ]
+                        ])
+                    | optional,
+                  ..
+                }
+                | optional,
+              ..
+            }
+            | optional,
+          transformAccessReportJsonToCsv | Bool | optional,
+          useCustomEmailDomain | Bool | optional,
+          useNoReplyEmailAddress | Bool | optional,
+          ..
+        }
         | optional,
       processing-purposes
         | Array (
@@ -35883,7 +37902,6 @@ let rec _js2n__-refsenv
                                           "viewScopes",
                                           "viewSSO",
                                           "viewEmployees",
-                                          "viewOptOutStatus",
                                           "viewDataInventory",
                                           "manageDataInventory",
                                           "manageGlobalAttributes",
@@ -35911,7 +37929,14 @@ let rec _js2n__-refsenv
                                           "viewAuditEvents",
                                           "manageActionItemCollections",
                                           "viewManagedConsentDatabaseAdminApi",
-                                          "manageStoredPreferences"
+                                          "manageStoredPreferences",
+                                          "managePreferenceStoreSettings",
+                                          "viewPreferenceStoreSettings",
+                                          "managePolicies",
+                                          "viewPolicies",
+                                          "manageIntlMessages",
+                                          "viewIntlMessages",
+                                          "llmLogTransfer"
                                         ]
                                     ])
                               ],

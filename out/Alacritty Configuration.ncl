@@ -1306,7 +1306,7 @@ let rec _js2n__-refsenv
         }
         | doc "The bell is rung every time the BEL control character is received."
         | optional,
-      color
+      colors
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.records.record
             {
@@ -1340,7 +1340,7 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType '"String",
                                   _js2n__-prdslib.strings.pattern "#[a-z0-9]{6}"
                                 ],
-                          megenta =
+                          magenta =
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType '"String",
@@ -1418,7 +1418,7 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType '"String",
                                   _js2n__-prdslib.strings.pattern "#[a-z0-9]{6}"
                                 ],
-                          megenta =
+                          magenta =
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType '"String",
@@ -1585,7 +1585,7 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType '"String",
                                   _js2n__-prdslib.strings.pattern "#[a-z0-9]{6}"
                                 ],
-                          megenta =
+                          magenta =
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType '"String",
