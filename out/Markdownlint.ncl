@@ -1457,7 +1457,18 @@ let rec _js2n__-refsenv
                                 ],
                         } {} false _js2n__-prdslib.never
                     ],
-              MD051 = _js2n__-prdslib.isType '"Bool",
+              MD051 =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                      _js2n__-prdslib.records.record
+                        { ignore_case = _js2n__-prdslib.isType '"Bool", } {}
+                        false _js2n__-prdslib.never
+                    ],
               MD052 =
                 _js2n__-prdslib.allOf
                     [
@@ -1800,7 +1811,18 @@ let rec _js2n__-refsenv
                         } {} false _js2n__-prdslib.never
                     ],
               line_length = _js2n__-prdslib.isType '"Bool",
-              link-fragments = _js2n__-prdslib.isType '"Bool",
+              link-fragments =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                      _js2n__-prdslib.records.record
+                        { ignore_case = _js2n__-prdslib.isType '"Bool", } {}
+                        false _js2n__-prdslib.never
+                    ],
               link-image-reference-definitions =
                 _js2n__-prdslib.allOf
                     [

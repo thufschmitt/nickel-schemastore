@@ -1858,7 +1858,17 @@ let rec _js2n__-refsenv
           displayName | String | doc "Connector Display Name" | optional,
           information | String | doc "Connector Short Description" | optional,
           platforms
-            | String
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String")
+                    ],
+                  _js2n__-prdslib.isType '"String"
+                ])
             | doc "Connector Typical Platform Description"
             | optional,
           projectVersion

@@ -951,6 +951,7 @@ let rec _js2n__-refsenv
         | optional,
       cwd | String | optional,
       disclaimer | String | optional,
+      extensions | String | optional,
       granularity
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

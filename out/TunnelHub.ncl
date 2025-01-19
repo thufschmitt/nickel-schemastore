@@ -934,6 +934,7 @@ let rec _js2n__-refsenv
                   "nodejs16.x",
                   "nodejs18.x",
                   "nodejs20.x",
+                  "nodejs22.x",
                   "nodejs4.3",
                   "nodejs4.3-edge",
                   "nodejs6.10",

@@ -899,6 +899,61 @@ let rec _js2n__-refsenv
     = {}
     in
   {
+      "build.configuration"
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.items
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "name", "steps" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          buildDirectory = _js2n__-prdslib.isType '"String",
+                          name = _js2n__-prdslib.isType '"String",
+                          steps =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.items
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.required
+                                            [ "executable" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              arguments =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.items
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String"
+                                                        ]
+                                                    ],
+                                              executable =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              workingDirectory =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} true _js2n__-prdslib.always
+                                        ]
+                                    ]
+                                ],
+                        } {} true _js2n__-prdslib.always
+                    ]
+                ]
+            ])
+        | doc "A list of build configurations"
+        | optional,
       "files.exclude"
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

@@ -929,6 +929,22 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "dec", "hsd", "lor", "txt", "ydk" ]
             ],
+      "_js2n__-:definitions/DeckPlayCard!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  cardQuery = _js2n__-prdslib.isType '"String",
+                  deckQuery = _js2n__-prdslib.isType '"String",
+                  position =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Float2!predicate"
+                        ],
+                  rotation = _js2n__-prdslib.isType 'Integer,
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/DeckUrl!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1243,6 +1259,13 @@ let rec _js2n__-refsenv
                     [
                       _js2n__-refsenv."_js2n__-:definitions/DeckFileType!predicate"
                     ],
+              deckPlayCards =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        _js2n__-refsenv."_js2n__-:definitions/DeckPlayCard!predicate"
+                    ],
               deckSharePreference =
                 _js2n__-prdslib.oneOf
                     [
@@ -1304,6 +1327,13 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType '"Array",
                       _js2n__-prdslib.arrays.arrayOf
                         _js2n__-refsenv."_js2n__-:definitions/GamePlayZone!predicate"
+                    ],
+              gameStartDecks =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        _js2n__-refsenv."_js2n__-:definitions/DeckUrl!predicate"
                     ],
               gameStartHandCount = _js2n__-prdslib.isType 'Integer,
               gameStartPointsCount = _js2n__-prdslib.isType 'Integer,

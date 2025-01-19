@@ -3091,6 +3091,7 @@ let rec _js2n__-refsenv
             password | String | optional,
             port | String | optional,
             url | String | optional,
+            username | String | optional,
           },
       "_js2n__-:definitions/RenameConfig!predicate" =
         _js2n__-prdslib.allOf
@@ -3326,6 +3327,18 @@ let rec _js2n__-refsenv
               "%
               | optional,
           },
+      "_js2n__-:definitions/SOAPHeaders!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "headers", "namespace" ],
+              _js2n__-prdslib.records.record
+                {
+                  alias = _js2n__-prdslib.isType '"String",
+                  headers = _js2n__-prdslib.isType 'Record,
+                  namespace = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/ServeConfig!contract" =
         {
             batchingLimit
@@ -3443,6 +3456,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "source" ],
               _js2n__-prdslib.records.record
                 {
+                  bodyAlias = _js2n__-prdslib.isType '"String",
                   operationHeaders = _js2n__-prdslib.isType 'Record,
                   schemaHeaders =
                     _js2n__-prdslib.anyOf
@@ -3456,6 +3470,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType '"Array"
                         ],
+                  soapHeaders =
+                    _js2n__-refsenv."_js2n__-:definitions/SOAPHeaders!predicate",
                   source = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],

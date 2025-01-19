@@ -1409,7 +1409,8 @@ let rec _js2n__-refsenv
                                           "firstUpperCase",
                                           "firstUpperCaseInvariant",
                                           "titleCase",
-                                          "kebabCase"
+                                          "kebabCase",
+                                          "snakeCase"
                                         ],
                                 } {} true _js2n__-prdslib.always
                             ]),
@@ -1510,6 +1511,9 @@ let rec _js2n__-refsenv
                           {} true _js2n__-prdslib.always,
                         _js2n__-prdslib.records.record
                           { identifier = _js2n__-prdslib.enum [ "kebabCase" ], }
+                          {} true _js2n__-prdslib.always,
+                        _js2n__-prdslib.records.record
+                          { identifier = _js2n__-prdslib.enum [ "snakeCase" ], }
                           {} true _js2n__-prdslib.always
                       ],
                     _js2n__-prdslib.records.record

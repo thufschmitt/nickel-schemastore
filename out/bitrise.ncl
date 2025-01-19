@@ -906,6 +906,8 @@ let rec _js2n__-refsenv
                   description = _js2n__-prdslib.isType '"String",
                   envs =
                     _js2n__-refsenv."_js2n__-:definitions/EnvModel!predicate",
+                  status_report_name =
+                    _js2n__-refsenv."_js2n__-:definitions/StatusReportNameModel!predicate",
                   summary = _js2n__-prdslib.isType '"String",
                   title = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
@@ -933,7 +935,7 @@ let rec _js2n__-refsenv
             (_js2n__-prdslib.allOf
               [
                 _js2n__-prdslib.isType 'Record,
-                _js2n__-prdslib.oneOf
+                _js2n__-prdslib.anyOf
                   [
                     _js2n__-prdslib.allOf
                       [
@@ -943,7 +945,7 @@ let rec _js2n__-refsenv
                       ],
                     _js2n__-prdslib.allOf
                       [
-                        _js2n__-prdslib.records.required [ "includes" ],
+                        _js2n__-prdslib.records.required [ "include" ],
                         _js2n__-prdslib.records.record {} {} true
                           _js2n__-prdslib.always
                       ]
@@ -965,7 +967,7 @@ let rec _js2n__-refsenv
                     default_step_lib_source = _js2n__-prdslib.isType '"String",
                     description = _js2n__-prdslib.isType '"String",
                     format_version = _js2n__-prdslib.isType '"String",
-                    includes =
+                    include =
                       _js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.isType '"Array",
@@ -1151,6 +1153,39 @@ let rec _js2n__-refsenv
                 { package_name = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/GraphPipelineWorkflowModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  abort_on_fail = _js2n__-prdslib.isType '"Bool",
+                  depends_on =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  run_if =
+                    _js2n__-refsenv."_js2n__-:definitions/GraphPipelineWorkflowRunIfModel!predicate",
+                  should_always_run =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "off", "workflow" ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/GraphPipelineWorkflowRunIfModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "expression" ],
+              _js2n__-prdslib.records.record
+                { expression = _js2n__-prdslib.isType '"String", } {} false
+                _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/IncludeItemModel!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1192,10 +1227,22 @@ let rec _js2n__-refsenv
                                   } true _js2n__-prdslib.always
                               ])
                         ],
+                  status_report_name =
+                    _js2n__-refsenv."_js2n__-:definitions/StatusReportNameModel!predicate",
                   summary = _js2n__-prdslib.isType '"String",
                   title = _js2n__-prdslib.isType '"String",
                   triggers =
                     _js2n__-refsenv."_js2n__-:definitions/TriggersModel!predicate",
+                  workflows =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              ".*" =
+                                _js2n__-refsenv."_js2n__-:definitions/GraphPipelineWorkflowModel!predicate",
+                            } true _js2n__-prdslib.always
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/PullrequestTriggerModel!predicate" =
@@ -1298,6 +1345,15 @@ let rec _js2n__-refsenv
                               ])
                         ],
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/StatusReportNameModel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.maxLength 100,
+              _js2n__-prdslib.strings.minLength 1,
+              _js2n__-prdslib.strings.pattern
+                "^[a-zA-Z0-9,./():\\-_ <>\\[\\]\\|]*$"
             ],
       "_js2n__-:definitions/StepBundleModel!predicate" =
         _js2n__-prdslib.allOf
@@ -1614,6 +1670,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.always,
                             } true _js2n__-prdslib.always
                         ],
+                  status_report_name =
+                    _js2n__-refsenv."_js2n__-:definitions/StatusReportNameModel!predicate",
                   steps =
                     _js2n__-prdslib.allOf
                         [

@@ -1267,6 +1267,7 @@ let rec _js2n__-refsenv
                 {
                   active =
                     _js2n__-refsenv."_js2n__-:definitions/Active!predicate",
+                  applyDefaultMatrix = _js2n__-prdslib.isType '"Bool",
                   archiveName = _js2n__-prdslib.isType '"String",
                   artifacts =
                     _js2n__-prdslib.allOf
@@ -1302,6 +1303,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/Format-1!predicate"
                         ],
+                  matrix =
+                    _js2n__-refsenv."_js2n__-:definitions/Matrix!predicate",
                   options =
                     _js2n__-refsenv."_js2n__-:definitions/ArchiveOptions!predicate",
                   platform =
@@ -1400,6 +1403,7 @@ let rec _js2n__-refsenv
                 {
                   artifactId = _js2n__-prdslib.isType '"String",
                   groupId = _js2n__-prdslib.isType '"String",
+                  jar = _js2n__-prdslib.isType '"Bool",
                   javadocJar = _js2n__-prdslib.isType '"Bool",
                   sourceJar = _js2n__-prdslib.isType '"Bool",
                   verifyPom = _js2n__-prdslib.isType '"Bool",
@@ -1634,6 +1638,23 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.records.record {} {} true
                           _js2n__-refsenv."_js2n__-:definitions/ArchiveAssembler!predicate"
+                      ]
+                  ])
+              | optional,
+            deb
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/Map(String,DebAssembler)!predicate",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-refsenv."_js2n__-:definitions/DebAssembler!predicate"
                       ]
                   ])
               | optional,
@@ -2233,6 +2254,7 @@ let rec _js2n__-refsenv
             active
               | _js2n__-refsenv."_js2n__-:definitions/Active!contract"
               | optional,
+            applyDefaultMatrix | Bool | optional,
             cmd | String | optional,
             condition | String | optional,
             continueOnError | Bool | optional,
@@ -2256,6 +2278,9 @@ let rec _js2n__-refsenv
             filter
               | _js2n__-refsenv."_js2n__-:definitions/Filter!contract"
               | optional,
+            matrix
+              | _js2n__-refsenv."_js2n__-:definitions/Matrix!contract"
+              | optional,
             platforms | Array (String) | optional,
             verbose | Bool | optional,
           },
@@ -2264,6 +2289,7 @@ let rec _js2n__-refsenv
             active
               | _js2n__-refsenv."_js2n__-:definitions/Active!contract"
               | optional,
+            applyDefaultMatrix | Bool | optional,
             before
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/CommandHook!contract"
@@ -2290,6 +2316,9 @@ let rec _js2n__-refsenv
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/CommandHook!contract"
               | optional,
+            matrix
+              | _js2n__-refsenv."_js2n__-:definitions/Matrix!contract"
+              | optional,
             success
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/CommandHook!contract"
@@ -2309,6 +2338,76 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:definitions/Contributors!contract" =
         { enabled | Bool | optional, format | String | optional, },
+      "_js2n__-:definitions/Control!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  breaks =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  builtUsing = _js2n__-prdslib.isType '"String",
+                  conflicts =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  depends =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  description = _js2n__-prdslib.isType '"String",
+                  enhances =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  essential = _js2n__-prdslib.isType '"Bool",
+                  homepage = _js2n__-prdslib.isType '"String",
+                  maintainer = _js2n__-prdslib.isType '"String",
+                  packageName = _js2n__-prdslib.isType '"String",
+                  packageRevision = _js2n__-prdslib.isType 'Integer,
+                  packageVersion = _js2n__-prdslib.isType '"String",
+                  preDepends =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  "priority" =
+                    _js2n__-refsenv."_js2n__-:definitions/Priority!predicate",
+                  provides = _js2n__-prdslib.isType '"String",
+                  recommends =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  section =
+                    _js2n__-refsenv."_js2n__-:definitions/Section!predicate",
+                  suggests =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/Cosign!contract" =
         {
             privateKeyFile | String | optional,
@@ -2333,6 +2432,62 @@ let rec _js2n__-refsenv
               | optional,
             version | String | optional,
           },
+      "_js2n__-:definitions/DebAssembler!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  active =
+                    _js2n__-refsenv."_js2n__-:definitions/Active!predicate",
+                  architecture = _js2n__-prdslib.isType '"String",
+                  artifacts =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Artifact!predicate"
+                        ],
+                  assemblerRef = _js2n__-prdslib.isType '"String",
+                  control =
+                    _js2n__-refsenv."_js2n__-:definitions/Control!predicate",
+                  distributionType =
+                    _js2n__-refsenv."_js2n__-:definitions/DistributionType!predicate",
+                  executable = _js2n__-prdslib.isType '"String",
+                  exported = _js2n__-prdslib.isType '"Bool",
+                  extraProperties =
+                    _js2n__-refsenv."_js2n__-:definitions/Properties!predicate",
+                  fileSets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/FileSet!predicate"
+                        ],
+                  files =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Glob!predicate"
+                        ],
+                  installationPath = _js2n__-prdslib.isType '"String",
+                  platform =
+                    _js2n__-refsenv."_js2n__-:definitions/Platform!predicate",
+                  skipTemplates =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  stereotype =
+                    _js2n__-refsenv."_js2n__-:definitions/Stereotype!predicate",
+                  swid =
+                    _js2n__-refsenv."_js2n__-:definitions/SwidTag!predicate",
+                  templateDirectory = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/Dependencies!contract" =
         {
             externalDependencies | Array (String) | optional,
@@ -4156,6 +4311,7 @@ let rec _js2n__-refsenv
             active
               | _js2n__-refsenv."_js2n__-:definitions/Active!contract"
               | optional,
+            applyDefaultMatrix | Bool | optional,
             command
               | _js2n__-refsenv."_js2n__-:definitions/CommandHooks!contract"
               | optional,
@@ -4176,6 +4332,9 @@ let rec _js2n__-refsenv
                           (_js2n__-prdslib.isType '"String")
                       ]
                   ])
+              | optional,
+            matrix
+              | _js2n__-refsenv."_js2n__-:definitions/Matrix!contract"
               | optional,
             script
               | _js2n__-refsenv."_js2n__-:definitions/ScriptHooks!contract"
@@ -4442,7 +4601,7 @@ let rec _js2n__-refsenv
               | optional,
           },
       "_js2n__-:definitions/JReleaserModel!contract"
-        | doc "JReleaser 1.14.0-SNAPSHOT"
+        | doc "JReleaser 1.16.0"
         = {
             announce
               | _js2n__-refsenv."_js2n__-:definitions/Announce!contract"
@@ -4504,6 +4663,9 @@ let rec _js2n__-refsenv
               | optional,
             hooks
               | _js2n__-refsenv."_js2n__-:definitions/Hooks!contract"
+              | optional,
+            matrix
+              | _js2n__-refsenv."_js2n__-:definitions/Matrix!contract"
               | optional,
             packagers
               | _js2n__-refsenv."_js2n__-:definitions/Packagers!contract"
@@ -5384,6 +5546,12 @@ let rec _js2n__-refsenv
             order | std.number.Integer | optional,
             title | String | optional,
           },
+      "_js2n__-:definitions/Languages!contract" =
+        {
+            java
+              | _js2n__-refsenv."_js2n__-:definitions/Java-2!contract"
+              | optional,
+          },
       "_js2n__-:definitions/Launcher!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -5604,6 +5772,38 @@ let rec _js2n__-refsenv
                   username = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/Map(String,DebAssembler)!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]?$" =
+                    _js2n__-refsenv."_js2n__-:definitions/DebAssembler!predicate",
+                } true
+                _js2n__-refsenv."_js2n__-:definitions/DebAssembler!predicate"
+            ],
+      "_js2n__-:definitions/Map(String,List(String))!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]?$" =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } true
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.isType '"String")
+                  ])
+            ],
       "_js2n__-:definitions/MastodonAnnouncer!contract" =
         {
             accessToken | String | optional,
@@ -5620,6 +5820,98 @@ let rec _js2n__-refsenv
             statusTemplate | String | optional,
             statuses | Array (String) | optional,
           },
+      "_js2n__-:definitions/Matrix!contract" =
+        {
+            rows
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ]
+                    ])
+              )
+              | optional,
+            vars
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/Map(String,List(String))!predicate",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                        _js2n__-prdslib.records.record {} {} true
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ])
+                      ]
+                  ])
+              | optional,
+          },
+      "_js2n__-:definitions/Matrix!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  rows =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/StringProperties!predicate",
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.anyOf
+                                      [
+                                        _js2n__-prdslib.isType 'Record,
+                                        _js2n__-prdslib.isType 'Null
+                                      ],
+                                    _js2n__-prdslib.records.record {} {} true
+                                      (_js2n__-prdslib.isType '"String")
+                                  ]
+                              ])
+                        ],
+                  vars =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Map(String,List(String))!predicate",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.isType 'Null
+                                ],
+                              _js2n__-prdslib.records.record {} {} true
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.isType '"String")
+                                  ])
+                            ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/MattermostAnnouncer!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -5810,6 +6102,7 @@ let rec _js2n__-refsenv
                   url = _js2n__-prdslib.isType '"String",
                   username = _js2n__-prdslib.isType '"String",
                   verifyPom = _js2n__-prdslib.isType '"Bool",
+                  verifyUrl = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/MavenCentralMavenDeployerMap!predicate" =
@@ -6010,6 +6303,7 @@ let rec _js2n__-refsenv
                   url = _js2n__-prdslib.isType '"String",
                   username = _js2n__-prdslib.isType '"String",
                   verifyPom = _js2n__-prdslib.isType '"Bool",
+                  verifyUrl = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Nexus2MavenDeployerMap!predicate" =
@@ -6286,10 +6580,18 @@ let rec _js2n__-refsenv
         {
             failOnError | Bool | optional,
             failOnWarning | Bool | optional,
+            strict | Bool | optional,
             version | String | optional,
           },
       "_js2n__-:definitions/Prerelease!contract" =
         { enabled | Bool | optional, pattern | String | optional, },
+      "_js2n__-:definitions/Priority!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [ "REQUIRED", "IMPORTANT", "STANDARD", "OPTIONAL" ]
+            ],
       "_js2n__-:definitions/Project!contract" =
         {
             authors | Array (String) | optional,
@@ -6302,8 +6604,8 @@ let rec _js2n__-refsenv
               | Array _js2n__-refsenv."_js2n__-:definitions/Icon!contract"
               | optional,
             inceptionYear | String | optional,
-            java
-              | _js2n__-refsenv."_js2n__-:definitions/Java-2!contract"
+            languages
+              | _js2n__-refsenv."_js2n__-:definitions/Languages!contract"
               | optional,
             license | String | optional,
             links
@@ -6752,6 +7054,7 @@ let rec _js2n__-refsenv
             active
               | _js2n__-refsenv."_js2n__-:definitions/Active!contract"
               | optional,
+            applyDefaultMatrix | Bool | optional,
             condition | String | optional,
             continueOnError | Bool | optional,
             environment
@@ -6774,6 +7077,9 @@ let rec _js2n__-refsenv
             filter
               | _js2n__-refsenv."_js2n__-:definitions/Filter!contract"
               | optional,
+            matrix
+              | _js2n__-refsenv."_js2n__-:definitions/Matrix!contract"
+              | optional,
             platforms | Array (String) | optional,
             run | String | optional,
             shell
@@ -6786,6 +7092,7 @@ let rec _js2n__-refsenv
             active
               | _js2n__-refsenv."_js2n__-:definitions/Active!contract"
               | optional,
+            applyDefaultMatrix | Bool | optional,
             before
               | Array _js2n__-refsenv."_js2n__-:definitions/ScriptHook!contract"
               | optional,
@@ -6809,6 +7116,9 @@ let rec _js2n__-refsenv
               | optional,
             failure
               | Array _js2n__-refsenv."_js2n__-:definitions/ScriptHook!contract"
+              | optional,
+            matrix
+              | _js2n__-refsenv."_js2n__-:definitions/Matrix!contract"
               | optional,
             success
               | Array _js2n__-refsenv."_js2n__-:definitions/ScriptHook!contract"
@@ -6874,6 +7184,71 @@ let rec _js2n__-refsenv
                   readTimeout = _js2n__-prdslib.isType 'Integer,
                   releaseNotesUrl = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Section!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "ADMIN",
+                  "CLI_MONO",
+                  "COMM",
+                  "DATABASE",
+                  "DEBUG",
+                  "DEVEL",
+                  "DOC",
+                  "EDITORS",
+                  "EDUCATION",
+                  "ELECTRONICS",
+                  "EMBEDDED",
+                  "FONTS",
+                  "GAMES",
+                  "GNOME",
+                  "GNU_R",
+                  "GNUSTEP",
+                  "GRAPHICS",
+                  "HAMRADIO",
+                  "HASKELL",
+                  "HTTPD",
+                  "INTERPRETERS",
+                  "INTROSPECTION",
+                  "JAVA",
+                  "JAVASCRIPT",
+                  "KDE",
+                  "KERNEL",
+                  "LIBDEVEL",
+                  "LIBS",
+                  "LISP",
+                  "LOCALIZATION",
+                  "MAIL",
+                  "MATH",
+                  "METAPACKAGES",
+                  "MISC",
+                  "NET",
+                  "NEWS",
+                  "OCAML",
+                  "OLDLIBS",
+                  "OTHEROSFS",
+                  "PERL",
+                  "PHP",
+                  "PYTHON",
+                  "RUBY",
+                  "RUST",
+                  "SCIENCE",
+                  "SHELLS",
+                  "SOUND",
+                  "TASKS",
+                  "TEX",
+                  "TEXT",
+                  "UTILS",
+                  "VCS",
+                  "VIDEO",
+                  "WEB",
+                  "X11",
+                  "XFCE",
+                  "ZOPE"
+                ]
             ],
       "_js2n__-:definitions/SftpDownloader!predicate" =
         _js2n__-prdslib.allOf
