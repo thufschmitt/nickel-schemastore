@@ -1015,6 +1015,8 @@ let rec _js2n__-refsenv
                   dsvOptions =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
                   duckdbMode = _js2n__-prdslib.isType '"Bool",
+                  duckdbPath =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   emptyIsNull = _js2n__-prdslib.isType '"Bool",
                   env =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
@@ -1056,6 +1058,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   kafka =
                     _js2n__-refsenv."_js2n__-:definitions/KafkaConfigV1!predicate",
+                  loadConnectionRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   loadStrategyClass =
                     _js2n__-prdslib.allOf
                         [
@@ -1124,6 +1128,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   timezone =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  transformConnectionRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   treeValidatorClass =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   udfs =
@@ -1147,6 +1153,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   hiveDatabase =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  incoming =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   ingesting =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   replay =
@@ -1169,6 +1177,8 @@ let rec _js2n__-refsenv
                   comment =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  type =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
@@ -1283,7 +1293,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/AccessControlEntryV1!predicate"
                         ],
-                  attributesDesc =
+                  attributes =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
@@ -1369,6 +1379,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  loader =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   options =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
                   quote =
@@ -1447,33 +1459,6 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
                 } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/Duration!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  finite = _js2n__-prdslib.isType '"Bool",
-                  length = _js2n__-prdslib.isType 'Integer,
-                  unit =
-                    _js2n__-refsenv."_js2n__-:definitions/DurationUnit!predicate",
-                } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/DurationUnit!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.const "NANOSECONDS",
-                  _js2n__-prdslib.const "MICROSECONDS",
-                  _js2n__-prdslib.const "MILLISECONDS",
-                  _js2n__-prdslib.const "SECONDS",
-                  _js2n__-prdslib.const "MINUTES",
-                  _js2n__-prdslib.const "HOURS",
-                  _js2n__-prdslib.const "DAYS"
-                ],
-              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
             ],
       "_js2n__-:definitions/ExpectationsConfigV1!predicate" =
         _js2n__-prdslib.allOf
@@ -1772,10 +1757,8 @@ let rec _js2n__-refsenv
                 {
                   path =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
-                  pollTime =
-                    _js2n__-refsenv."_js2n__-:definitions/Duration!predicate",
-                  refreshTime =
-                    _js2n__-refsenv."_js2n__-:definitions/Duration!predicate",
+                  pollTime = _js2n__-prdslib.isType 'Integer,
+                  refreshTime = _js2n__-prdslib.isType 'Integer,
                   timeout = _js2n__-prdslib.isType 'Integer,
                 } {} true _js2n__-prdslib.always
             ],

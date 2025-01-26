@@ -906,12 +906,84 @@ let rec _js2n__-refsenv
               (_js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.record {} {} true
+                  _js2n__-prdslib.records.record {}
+                    {
+                      "block.block.*" = _js2n__-prdslib.always,
+                      "contact.form.*" = _js2n__-prdslib.always,
+                      "core.entity_form_display.*.*.*" = _js2n__-prdslib.always,
+                      "core.entity_view_display.*.*.*" = _js2n__-prdslib.always,
+                      "editor.editor.*" = _js2n__-prdslib.always,
+                      "field.field.*.*.*" = _js2n__-prdslib.always,
+                      "field.storage.*.*" = _js2n__-prdslib.always,
+                      "user.role.*" = _js2n__-prdslib.always,
+                      "workflows.workflow.*" = _js2n__-prdslib.always,
+                    } true
                     (_js2n__-prdslib.allOf
                       [
                         _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.record {} {} true
-                          _js2n__-prdslib.always
+                        _js2n__-prdslib.records.record
+                          {
+                            cloneAs =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.always
+                                  ],
+                            create =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.always
+                                  ],
+                            createForEach =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.always
+                                  ],
+                            createForEachIfNotExists =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.always
+                                  ],
+                            createIfNotExists =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.always
+                                  ],
+                            set =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.always
+                                  ],
+                            setMultiple =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.always
+                                  ],
+                            setThirdPartySetting =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.always
+                                  ],
+                            setThirdPartySettings =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.always
+                                  ],
+                            simpleConfigUpdate =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.always
+                                  ],
+                          } {} true _js2n__-prdslib.always
                       ])
                 ])
             | doc "The key is the configuration object targeted and the value is the action to be performed. For each action additional properties can be provided."
@@ -939,13 +1011,21 @@ let rec _js2n__-refsenv
         }
         | optional,
       content
-        | Array (String)
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.items [ _js2n__-prdslib.isType '"String" ]
+            ])
         | doc "The contents are stored in a directory relative to the recipe file."
         | optional,
       description | String,
       install | Array (String) | optional,
       name | String,
       recipes | Array (String) | optional,
-      type | String,
+      type
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.always ]),
       ..
     }

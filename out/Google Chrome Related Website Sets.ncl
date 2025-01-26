@@ -899,53 +899,80 @@ let rec _js2n__-refsenv
     = {}
     in
   {
-      contact | String | optional,
       sets
-        | Array (
-          _js2n__-prdslib.contract_from_predicate
-            (_js2n__-prdslib.allOf
-              [
-                _js2n__-prdslib.isType 'Record,
-                _js2n__-prdslib.records.required [ "contact", "primary" ],
-                _js2n__-prdslib.records.record
-                  {
-                    associatedSites =
-                      _js2n__-prdslib.allOf
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.allOf
                           [
-                            _js2n__-prdslib.isType '"Array",
-                            _js2n__-prdslib.arrays.arrayOf
-                              (_js2n__-prdslib.isType '"String")
-                          ],
-                    ccTLDs =
-                      _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required
+                              [ "associatedSites" ],
                             _js2n__-prdslib.records.record {} {} true
-                              (_js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    (_js2n__-prdslib.isType '"String")
-                                ])
+                              _js2n__-prdslib.always
                           ],
-                    primary = _js2n__-prdslib.isType '"String",
-                    rationaleBySite =
-                      _js2n__-prdslib.allOf
+                        _js2n__-prdslib.allOf
                           [
-                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required [ "serviceSites" ],
                             _js2n__-prdslib.records.record {} {} true
-                              (_js2n__-prdslib.isType '"String")
+                              _js2n__-prdslib.always
                           ],
-                    serviceSites =
-                      _js2n__-prdslib.allOf
+                        _js2n__-prdslib.allOf
                           [
-                            _js2n__-prdslib.isType '"Array",
-                            _js2n__-prdslib.arrays.arrayOf
-                              (_js2n__-prdslib.isType '"String")
-                          ],
-                  } {} true _js2n__-prdslib.always
-              ])
-        )
+                            _js2n__-prdslib.records.required [ "ccTLDs" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ],
+                    _js2n__-prdslib.records.required [ "contact", "primary" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        associatedSites =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String"),
+                                _js2n__-prdslib.arrays.uniqueItems
+                              ],
+                        ccTLDs =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {} {} true
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ])
+                              ],
+                        contact = _js2n__-prdslib.isType '"String",
+                        primary = _js2n__-prdslib.isType '"String",
+                        rationaleBySite =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {} {} true
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        serviceSites =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String"),
+                                _js2n__-prdslib.arrays.uniqueItems
+                              ],
+                      } {} false _js2n__-prdslib.never
+                  ]),
+              _js2n__-prdslib.arrays.uniqueItems
+            ])
         | optional,
-      ..
     }

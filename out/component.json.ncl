@@ -898,120 +898,341 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {}
     in
-  _js2n__-prdslib.contract_from_predicate
-      (_js2n__-prdslib.allOf
-        [
-          _js2n__-prdslib.isType 'Record,
-          _js2n__-prdslib.records.record
-            {
-              demo = _js2n__-prdslib.isType '"String",
-              dependencies =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record {} {} true
-                        (_js2n__-prdslib.isType '"String")
-                    ],
-              description = _js2n__-prdslib.isType '"String",
-              development = _js2n__-prdslib.always,
-              files =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ],
-              fonts =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ],
-              images =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ],
-              json =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ],
-              keywords =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ],
-              license = _js2n__-prdslib.isType '"String",
-              locals =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ],
-              main = _js2n__-prdslib.isType '"String",
-              name =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.strings.pattern "^[0-9a-z-_]+$"
-                    ],
-              paths =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ],
-              private = _js2n__-prdslib.isType '"Bool",
-              remotes =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ],
-              repo = _js2n__-prdslib.isType '"String",
-              scripts =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ],
-              styles =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ],
-              templates =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.minItems 1
-                    ],
-              version = _js2n__-prdslib.isType '"String",
-            } {} true _js2n__-prdslib.always
-        ])
+  {
+      demo
+        | String
+        | doc "Path to or URL of a demonstration of the component."
+        | optional,
+      dependencies
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Record
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ])
+        | doc "Dependencies that are required by the component. Can be specified as an array of files or an object with named entries."
+        | optional,
+      description
+        | String
+        | doc "A brief description of the component's purpose and functionality."
+        | optional,
+      development
+        | Dyn
+        | doc "Development-specific configuration that extends the main configuration."
+        | optional,
+      files
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Record
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ])
+        | doc "Additional files that are part of the component. Can be specified as an array of files or an object with named entries."
+        | optional,
+      fonts
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Record
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ])
+        | doc "Fonts that are part of the component. Can be specified as an array of files or an object with named entries."
+        | optional,
+      framework
+        | String
+        | doc "Framework compatibility  (e.g., 'react', 'vue', 'angular', 'svelte', 'alpinejs', 'laravel', 'web-components')."
+        | optional,
+      images
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Record
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ])
+        | doc "Image assets that are part of the component. Can be specified as an array of files or an object with named entries."
+        | optional,
+      json
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Record
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ])
+        | doc "Json data that are part of the component. Can be specified as an array of files or an object with named entries."
+        | optional,
+      keywords
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String"),
+              _js2n__-prdslib.arrays.minItems 1
+            ])
+        | doc "An array of keywords that describe the component, used for search and categorization."
+        | optional,
+      license
+        | String
+        | doc "The license identifier under which the component is distributed (e.g., 'MIT', 'Apache-2.0')."
+        | optional,
+      locals
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Record
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ])
+        | doc "Local dependencies that are required by the component. Can be specified as an array of files or an object with named entries."
+        | optional,
+      main
+        | String
+        | doc "The primary entry point file of the component."
+        | optional,
+      name
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^[0-9a-z-_]+$"
+            ])
+        | doc "The name of the component. Must be lowercase, can contain hyphens and underscores."
+        | optional,
+      paths
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Record
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ])
+        | doc "Custom file paths configuration for the component."
+        | optional,
+      private
+        | Bool
+        | doc "Indicates whether the component should be treated as private and not published to public registries."
+        | optional,
+      remotes
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Record
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ])
+        | doc "Remote dependencies that are required by the component. Can be specified as an array of files or an object with named entries."
+        | optional,
+      repo
+        | String
+        | doc "The repository location in the format 'username/repository'."
+        | optional,
+      scripts
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Record
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ])
+        | doc "Scripts that are part of the component. Can be specified as an array of files or an object with named entries."
+        | optional,
+      styles
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Record
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ])
+        | doc "Styles that are part of the component. Can be specified as an array of files or an object with named entries."
+        | optional,
+      templates
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.oneOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.isType 'Record
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.minProperties 1,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ]
+            ])
+        | doc "Templates that can be imported to be used within the component."
+        | optional,
+      type
+        | String
+        | doc "Type of the component (e.g., 'component', 'block', 'template')."
+        | optional,
+      url | String | doc "URL to the component." | optional,
+      version
+        | String
+        | doc "The semantic version number of the component (e.g., '1.0.0')."
+        | optional,
+      ..
+    }

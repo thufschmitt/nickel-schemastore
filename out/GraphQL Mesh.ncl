@@ -1562,6 +1562,13 @@ let rec _js2n__-refsenv
                         ],
                   requestTimeout = _js2n__-prdslib.isType 'Integer,
                   schemaHeaders = _js2n__-prdslib.isType 'Record,
+                  selectQueryOrMutationField =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/SelectQueryOrMutationFieldConfig!predicate"
+                        ],
                   source =
                     _js2n__-prdslib.anyOf
                         [
@@ -2533,23 +2540,6 @@ let rec _js2n__-refsenv
                   trackResolvers = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/OASSelectQueryOrMutationFieldConfig!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "fieldName", "type" ],
-              _js2n__-prdslib.records.record
-                {
-                  fieldName = _js2n__-prdslib.isType '"String",
-                  type =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [ "query", "mutation", "Query", "Mutation" ]
-                        ],
-                } {} false _js2n__-prdslib.never
-            ],
       "_js2n__-:definitions/ODataHandler!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2593,7 +2583,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/OASSelectQueryOrMutationFieldConfig!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/SelectQueryOrMutationFieldConfig!predicate"
                         ],
                   source = _js2n__-prdslib.isType '"String",
                   timeout = _js2n__-prdslib.isType 'Integer,
@@ -2998,27 +2988,10 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/RAMLSelectQueryOrMutationFieldConfig!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/SelectQueryOrMutationFieldConfig!predicate"
                         ],
                   source = _js2n__-prdslib.isType '"String",
                   timeout = _js2n__-prdslib.isType 'Integer,
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:definitions/RAMLSelectQueryOrMutationFieldConfig!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "fieldName", "type" ],
-              _js2n__-prdslib.records.record
-                {
-                  fieldName = _js2n__-prdslib.isType '"String",
-                  type =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [ "query", "mutation", "Query", "Mutation" ]
-                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/RateLimitPluginConfig!predicate" =
@@ -3091,6 +3064,7 @@ let rec _js2n__-refsenv
             password | String | optional,
             port | String | optional,
             url | String | optional,
+            username | String | optional,
           },
       "_js2n__-:definitions/RenameConfig!predicate" =
         _js2n__-prdslib.allOf
@@ -3326,6 +3300,35 @@ let rec _js2n__-refsenv
               "%
               | optional,
           },
+      "_js2n__-:definitions/SOAPHeaders!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "headers", "namespace" ],
+              _js2n__-prdslib.records.record
+                {
+                  alias = _js2n__-prdslib.isType '"String",
+                  headers = _js2n__-prdslib.isType 'Record,
+                  namespace = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/SelectQueryOrMutationFieldConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "fieldName", "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  fieldName = _js2n__-prdslib.isType '"String",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "query", "mutation", "Query", "Mutation" ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/ServeConfig!contract" =
         {
             batchingLimit
@@ -3443,6 +3446,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "source" ],
               _js2n__-prdslib.records.record
                 {
+                  bodyAlias = _js2n__-prdslib.isType '"String",
                   operationHeaders = _js2n__-prdslib.isType 'Record,
                   schemaHeaders =
                     _js2n__-prdslib.anyOf
@@ -3456,6 +3460,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType '"Array"
                         ],
+                  soapHeaders =
+                    _js2n__-refsenv."_js2n__-:definitions/SOAPHeaders!predicate",
                   source = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],

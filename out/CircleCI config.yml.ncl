@@ -1551,7 +1551,53 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.maxProperties 1,
+                                    _js2n__-prdslib.records.minProperties 1,
+                                    _js2n__-prdslib.records.record {}
+                                      {
+                                        "^[A-Za-z][A-Za-z\\s\\d_-]*$" =
+                                          _js2n__-prdslib.oneOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [
+                                                        "success",
+                                                        "failed",
+                                                        "canceled"
+                                                      ]
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.strings.minLength
+                                                      1,
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [
+                                                              "success",
+                                                              "failed",
+                                                              "canceled"
+                                                            ]
+                                                        ])
+                                                  ]
+                                              ],
+                                      } true _js2n__-prdslib.always
+                                  ]
+                              ])
                         ],
                   type = _js2n__-prdslib.enum [ "approval" ],
                 } {} true _js2n__-prdslib.always
@@ -2238,6 +2284,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
                 [
+                  "16.2.0",
+                  "16.1.0",
                   "16.0.0",
                   "15.4.0",
                   "15.3.0",

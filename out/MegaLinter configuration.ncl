@@ -1044,6 +1044,7 @@ let rec _js2n__-refsenv
                 'REPOSITORY_DEVSKIM,
                 'REPOSITORY_CHECKOV,
                 'RAKU_RAKU,
+                'PYTHON_RUFF_FORMAT,
                 'PYTHON_RUFF,
                 'PYTHON_PYRIGHT,
                 'PYTHON_PYLINT,
@@ -5838,6 +5839,11 @@ let rec _js2n__-refsenv
         | Array (String)
         | doc "List of env variables explicitly not filtered before calling PYTHON_BLACK and its pre/post commands"
         | optional,
+      PYTHON_DEFAULT_STYLE
+        | std.enum.TagOrString
+        | [| 'ruff, 'black |]
+        | doc "Style of python formatting to apply"
+        | optional,
       PYTHON_FILTER_REGEX_EXCLUDE | String | optional,
       PYTHON_FILTER_REGEX_INCLUDE | String | optional,
       PYTHON_FLAKE8_ARGUMENTS
@@ -6174,6 +6180,61 @@ let rec _js2n__-refsenv
       PYTHON_RUFF_FILE_NAMES_REGEX | Array (String) | optional,
       PYTHON_RUFF_FILTER_REGEX_EXCLUDE | String | optional,
       PYTHON_RUFF_FILTER_REGEX_INCLUDE | String | optional,
+      PYTHON_RUFF_FORMAT_ARGUMENTS
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType '"String"
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "PYTHON_RUFF_FORMAT: User custom arguments to add in linter CLI call"
+        | optional,
+      PYTHON_RUFF_FORMAT_CLI_EXECUTABLE | Array (String) | optional,
+      PYTHON_RUFF_FORMAT_CLI_LINT_MODE
+        | std.enum.TagOrString
+        | [| 'project, 'list_of_files, 'file |]
+        | optional,
+      PYTHON_RUFF_FORMAT_COMMAND_REMOVE_ARGUMENTS
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType '"String"
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
+        | doc "PYTHON_RUFF_FORMAT: User custom arguments to remove before calling linter"
+        | optional,
+      PYTHON_RUFF_FORMAT_CONFIG_FILE
+        | String
+        | doc "PYTHON_RUFF_FORMAT: User custom config file name if different from default"
+        | optional,
+      PYTHON_RUFF_FORMAT_DISABLE_ERRORS | Bool | optional,
+      PYTHON_RUFF_FORMAT_DISABLE_ERRORS_IF_LESS_THAN | Number | optional,
+      PYTHON_RUFF_FORMAT_FILE_EXTENSIONS | Array (String) | optional,
+      PYTHON_RUFF_FORMAT_FILE_NAMES_REGEX | Array (String) | optional,
+      PYTHON_RUFF_FORMAT_FILTER_REGEX_EXCLUDE | String | optional,
+      PYTHON_RUFF_FORMAT_FILTER_REGEX_INCLUDE | String | optional,
+      PYTHON_RUFF_FORMAT_POST_COMMANDS
+        | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+        | optional,
+      PYTHON_RUFF_FORMAT_PRE_COMMANDS
+        | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+        | optional,
+      PYTHON_RUFF_FORMAT_RULES_PATH
+        | String
+        | doc "PYTHON_RUFF_FORMAT: Path where to find linter configuration file"
+        | optional,
+      PYTHON_RUFF_FORMAT_UNSECURED_ENV_VARIABLES
+        | Array (String)
+        | doc "List of env variables explicitly not filtered before calling PYTHON_RUFF_FORMAT and its pre/post commands"
+        | optional,
       PYTHON_RUFF_POST_COMMANDS
         | Array _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
         | optional,

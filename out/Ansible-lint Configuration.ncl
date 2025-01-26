@@ -1057,5 +1057,6 @@ let rec _js2n__-refsenv
       var_naming_pattern | String | optional,
       verbosity | std.number.Integer | optional,
       warn_list | Array (String) | optional,
+      write_exclude_list | Array (String) | optional,
       write_list | Array (String) | optional,
     }

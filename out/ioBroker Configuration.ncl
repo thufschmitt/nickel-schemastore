@@ -915,44 +915,7 @@ let rec _js2n__-refsenv
               | doc "Absolute path to back-up directory or empty to back-up in data directory",
             period
               | Number
-              | doc "by default backup every 2 hours. Time is in minutes. To disable backup set the value to 0",
-          },
-      "_js2n__-:definitions/DatabaseOptions!contract" =
-        {
-            "// type" | String,
-            backup
-              | _js2n__-refsenv."_js2n__-:definitions/DatabaseBackupOptions!contract",
-            connectTimeout | Number,
-            dataDir | String,
-            host | String,
-            jsonlOptions
-              | _js2n__-refsenv."_js2n__-:definitions/JsonlOptions!contract",
-            options
-              | {
-                auth_pass | String,
-                db | Number,
-                family | Number,
-                retry_max_count | Number,
-                retry_max_delay | Number,
-                tls
-                  | {
-                    ca | String | doc "The certificate content" | optional,
-                    cert | String | doc "The cert file content" | optional,
-                    key | String | doc "The key file content" | optional,
-                    rejectUnauthorized
-                      | Bool
-                      | doc "Needs to be false with self-signed certs"
-                      | optional,
-                  }
-                  | doc "As soon as the tls property is defined, redis will try to connect via tls (currently only for redis)"
-                  | optional,
-              },
-            port | Number,
-            type
-              | std.enum.TagOrString
-              | [| 'redis, 'file, 'jsonl |]
-              | doc "Possible values: 'file' - [port 9001], 'jsonl' - [port 9001], 'redis' - [port 6379 or 26379 for sentinel].",
-            writeFileInterval | Number,
+              | doc "By default backup every 2 hours. Time is in minutes. To disable backup set the value to 0",
           },
       "_js2n__-:definitions/IoBJson!contract"
         | doc "The ioBroker global config"
@@ -966,7 +929,8 @@ let rec _js2n__-refsenv
               | doc "Use 'verbatim' for ipv6 first, else use 'ipv4first'",
             log
               | {
-                level | String,
+                level
+                  | _js2n__-refsenv."_js2n__-:definitions/global.ioBroker.LogLevel!contract",
                 maxDays | Number,
                 noStdout | Bool,
                 transport | {  .. },
@@ -996,7 +960,7 @@ let rec _js2n__-refsenv
                         ])
                   ]),
             states
-              | _js2n__-refsenv."_js2n__-:definitions/DatabaseOptions!contract",
+              | _js2n__-refsenv."_js2n__-:definitions/StatesDatabaseOptions!contract",
             system
               | {
                 "// allowShellCommands" | String,
@@ -1014,10 +978,10 @@ let rec _js2n__-refsenv
                 compact
                   | Bool
                   | doc "Controller will try to start the instances as a part of the same process. No spawn will be done. Only by adapters that support it and have flag compact flag in io-package.json",
-                hostname | String | doc "if empty, determine use real hostname",
+                hostname | String | doc "If empty, determine use real hostname",
                 instanceStartInterval
                   | Number
-                  | doc "interval to wait between multiple instances starts",
+                  | doc "Interval to wait between multiple instances starts",
                 memLimitError
                   | Number
                   | doc "If the available RAM is below this threshold on adapter start, an error will be logged.",
@@ -1026,7 +990,7 @@ let rec _js2n__-refsenv
                   | doc "If the available RAM is below this threshold on adapter start, a warning will be logged.",
                 memoryLimitMB
                   | Number
-                  | doc "do not use more than memory limit mb by ioB process (0 to deactivate)",
+                  | doc "Do not use more than memory limit mb by ioB process (0 to deactivate)",
                 statisticsInterval
                   | Number
                   | doc "Interval how often the counters for input/output in adapters and controller will be updated in ms",
@@ -1074,7 +1038,6 @@ let rec _js2n__-refsenv
             host | String,
             jsonlOptions
               | _js2n__-refsenv."_js2n__-:definitions/JsonlOptions!contract",
-            maxQueue | Number,
             noFileCache | Bool,
             options
               | {
@@ -1103,6 +1066,52 @@ let rec _js2n__-refsenv
               | doc "Possible values: 'file' - [port 9001], 'jsonl' - [port 9001], 'redis' - [port 6379 or 26379 for sentinel].",
             writeFileInterval | Number,
           },
+      "_js2n__-:definitions/StatesDatabaseOptions!contract" =
+        {
+            "// type" | String,
+            backup
+              | _js2n__-refsenv."_js2n__-:definitions/DatabaseBackupOptions!contract",
+            connectTimeout | Number,
+            dataDir | String,
+            host | String,
+            jsonlOptions
+              | _js2n__-refsenv."_js2n__-:definitions/JsonlOptions!contract",
+            maxQueue
+              | Number
+              | doc "Limit maximum number of log entries in the list (only read by adapter.ts from the config file)",
+            options
+              | {
+                auth_pass | String,
+                db | Number,
+                family | Number,
+                retry_max_count | Number,
+                retry_max_delay | Number,
+                tls
+                  | {
+                    ca | String | doc "The certificate content" | optional,
+                    cert | String | doc "The cert file content" | optional,
+                    key | String | doc "The key file content" | optional,
+                    rejectUnauthorized
+                      | Bool
+                      | doc "Needs to be false with self-signed certs"
+                      | optional,
+                  }
+                  | doc "As soon as the tls property is defined, redis will try to connect via tls (currently only for redis)"
+                  | optional,
+              },
+            port | Number,
+            type
+              | std.enum.TagOrString
+              | [| 'redis, 'file, 'jsonl |]
+              | doc "Possible values: 'file' - [port 9001], 'jsonl' - [port 9001], 'redis' - [port 6379 or 26379 for sentinel].",
+            writeFileInterval | Number,
+          },
+      "_js2n__-:definitions/global.ioBroker.LogLevel!contract" =
+        std.contract.Sequence
+            [
+              std.enum.TagOrString,
+              [| 'error, 'warn, 'info, 'debug, 'silly |]
+            ],
     }
     in
   _js2n__-refsenv."_js2n__-:definitions/IoBJson!contract"

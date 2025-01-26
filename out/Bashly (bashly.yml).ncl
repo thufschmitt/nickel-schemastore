@@ -900,7 +900,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/args-property!predicate"
         | doc m%"
           Arguments of the current script or sub-command
-          https://bashly.dannyb.co/configuration/command/#args
+          https://bashly.dev/configuration/command/#args
         "%
         = _js2n__-prdslib.allOf
             [
@@ -913,7 +913,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/argument!predicate"
         | doc m%"
           A positional argument of the current script or sub-command
-          https://bashly.dannyb.co/configuration/argument/
+          https://bashly.dev/configuration/argument/
         "%
         = _js2n__-prdslib.allOf
             [
@@ -925,13 +925,13 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   "default" =
@@ -975,7 +975,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/catch-all-property!predicate"
         | doc m%"
           Whether to allow additional arguments or flags for the current command
-          https://bashly.dannyb.co/configuration/command/#catch_all
+          https://bashly.dev/configuration/command/#catch_all
         "%
         = _js2n__-prdslib.oneOf
             [
@@ -1009,7 +1009,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/command-property!predicate"
         | doc m%"
           A command of the current application
-          https://bashly.dannyb.co/configuration/command/#command
+          https://bashly.dev/configuration/command/#command
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1056,42 +1056,45 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/name-property!predicate",
                   private =
                     _js2n__-refsenv."_js2n__-:definitions/sub-command-private-property!predicate",
+                  variables =
+                    _js2n__-refsenv."_js2n__-:definitions/variables-property!predicate",
                 } { "^x_." = _js2n__-prdslib.always, } false
                 _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/commands-property!predicate"
         | doc m%"
           Subcommands of the current script or sub-command
-          https://bashly.dannyb.co/configuration/command/#commands
+          https://bashly.dev/configuration/command/#commands
         "%
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
                 _js2n__-refsenv."_js2n__-:definitions/command-property!predicate",
+              _js2n__-prdslib.arrays.minItems 1,
               _js2n__-prdslib.arrays.uniqueItems
             ],
       "_js2n__-:definitions/completions-property!predicate"
         | doc m%"
           Completions of the current script or sub-command
-          https://bashly.dannyb.co/configuration/command/#completions
+          https://bashly.dev/configuration/command/#completions
         "%
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.strings.minLength 1,
               _js2n__-prdslib.arrays.arrayOf
                 (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType '"String",
                     _js2n__-prdslib.strings.minLength 1
                   ]),
+              _js2n__-prdslib.arrays.minItems 1,
               _js2n__-prdslib.arrays.uniqueItems
             ],
       "_js2n__-:definitions/dependencies-command-property!predicate"
         | doc m%"
           Dependencies of the current script or sub-command
-          https://bashly.dannyb.co/configuration/dependency/#command
+          https://bashly.dev/configuration/dependency/#command
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1108,7 +1111,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/dependencies-help-property!predicate"
         | doc m%"
           A help for the current dependency
-          https://bashly.dannyb.co/configuration/dependency/#help
+          https://bashly.dev/configuration/dependency/#help
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1121,7 +1124,6 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.strings.minLength 1,
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.oneOf
                       [
@@ -1132,6 +1134,7 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.isType 'Null
                       ]),
+                  _js2n__-prdslib.arrays.minItems 1,
                   _js2n__-prdslib.arrays.uniqueItems
                 ],
               _js2n__-prdslib.allOf
@@ -1168,7 +1171,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/environment-variable!predicate"
         | doc m%"
           An environment variable of the current application
-          https://bashly.dannyb.co/configuration/environment-variable/#environment-variable
+          https://bashly.dev/configuration/environment-variable/#environment-variable
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1180,13 +1183,13 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   "default" = _js2n__-prdslib.isType '"String",
@@ -1211,13 +1214,14 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/environment-variables-property!predicate"
         | doc m%"
           Environment variables of the current application
-          https://bashly.dannyb.co/configuration/environment-variable/#environment-variable
+          https://bashly.dev/configuration/environment-variable/#environment-variable
         "%
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
                 _js2n__-refsenv."_js2n__-:definitions/environment-variable!predicate",
+              _js2n__-prdslib.arrays.minItems 1,
               _js2n__-prdslib.arrays.uniqueItems
             ],
       "_js2n__-:definitions/examples-property!predicate" =
@@ -1244,7 +1248,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/filename-property!predicate"
         | doc m%"
           A partial file path of the current script or sub-command
-          https://bashly.dannyb.co/configuration/command/#filename
+          https://bashly.dev/configuration/command/#filename
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1254,7 +1258,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/filters-property!predicate"
         | doc m%"
           Filters of the current script or sub-command
-          https://bashly.dannyb.co/configuration/command/#filters
+          https://bashly.dev/configuration/command/#filters
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1270,7 +1274,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/flag!predicate"
         | doc m%"
           A flag of the current script or sub-command
-          https://bashly.dannyb.co/configuration/flag/
+          https://bashly.dev/configuration/flag/
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1296,13 +1300,13 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   arg =
@@ -1315,26 +1319,26 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   conflicts =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   "default" =
@@ -1365,13 +1369,13 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.strings.minLength 1,
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
                                 _js2n__-prdslib.strings.minLength 1
                               ]),
+                          _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   private = _js2n__-prdslib.isType '"Bool",
@@ -1398,7 +1402,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/flags-property!predicate"
         | doc m%"
           Flags of the current script or sub-command
-          https://bashly.dannyb.co/configuration/command/#flags
+          https://bashly.dev/configuration/command/#flags
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1411,7 +1415,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/footer-property!predicate"
         | doc m%"
           A description footer for the current script or sub-command
-          https://bashly.dannyb.co/configuration/command/#footer
+          https://bashly.dev/configuration/command/#footer
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1421,7 +1425,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/function-property!predicate"
         | doc m%"
           An internal function for the current script or sub-command
-          https://bashly.dannyb.co/configuration/command/#function
+          https://bashly.dev/configuration/command/#function
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1431,7 +1435,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/help-property!predicate"
         | doc m%"
           A description of the current script or sub-command
-          https://bashly.dannyb.co/configuration/command/#help
+          https://bashly.dev/configuration/command/#help
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1441,7 +1445,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/name-property!predicate"
         | doc m%"
           A name of the current script or sub-command
-          https://bashly.dannyb.co/configuration/command/#name
+          https://bashly.dev/configuration/command/#name
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1451,7 +1455,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/root-extensible-property!predicate"
         | doc m%"
           Whether to delegate the current unknown command to an external executable
-          https://bashly.dannyb.co/configuration/command/#extensible
+          https://bashly.dev/configuration/command/#extensible
         "%
         = _js2n__-prdslib.oneOf
             [
@@ -1461,7 +1465,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/root-version-property!predicate"
         | doc m%"
           A version of the current script
-          https://bashly.dannyb.co/configuration/command/#version
+          https://bashly.dev/configuration/command/#version
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1492,7 +1496,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/sub-command-default-property!predicate"
         | doc m%"
           Whether to use the current command as a fallback when CLI used incorrectly
-          https://bashly.dannyb.co/configuration/command/#default
+          https://bashly.dev/configuration/command/#default
         "%
         = _js2n__-prdslib.oneOf
             [
@@ -1506,7 +1510,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/sub-command-expose-property!predicate"
         | doc m%"
           Whether to expose the current sub-command if it has sub-commands
-          https://bashly.dannyb.co/configuration/command/#expose
+          https://bashly.dev/configuration/command/#expose
         "%
         = _js2n__-prdslib.oneOf
             [
@@ -1520,7 +1524,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/sub-command-group-property!predicate"
         | doc m%"
           A group of the current sub-command
-          https://bashly.dannyb.co/configuration/command/#group
+          https://bashly.dev/configuration/command/#group
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1530,7 +1534,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/sub-command-import-property!predicate"
         | doc m%"
           A file import for the current sub-command
-          https://bashly.dannyb.co/configuration/command/#import
+          https://bashly.dev/configuration/command/#import
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1540,9 +1544,43 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/sub-command-private-property!predicate"
         | doc m%"
           Whether hide the current sub-command from help
-          https://bashly.dannyb.co/configuration/command/#private
+          https://bashly.dev/configuration/command/#private
         "%
         = _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/variable!predicate"
+        | doc m%"
+          A global bash variable
+          https://bashly.dev/configuration/variable/#variable
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  name =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.minLength 1
+                        ],
+                  value = _js2n__-prdslib.always,
+                } { "^x_." = _js2n__-prdslib.always, } false
+                _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/variables-property!predicate"
+        | doc m%"
+          Bash variables for the current application
+          https://bashly.dev/configuration/command/#variables
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/variable!predicate",
+              _js2n__-prdslib.arrays.minItems 1,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
     }
     in
   _js2n__-prdslib.contract_from_predicate
@@ -1581,6 +1619,8 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/help-property!predicate",
               name =
                 _js2n__-refsenv."_js2n__-:definitions/name-property!predicate",
+              variables =
+                _js2n__-refsenv."_js2n__-:definitions/variables-property!predicate",
               version =
                 _js2n__-refsenv."_js2n__-:definitions/root-version-property!predicate",
             } { "^x_." = _js2n__-prdslib.always, } false _js2n__-prdslib.never

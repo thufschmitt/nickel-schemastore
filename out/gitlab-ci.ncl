@@ -1097,7 +1097,7 @@ let rec _js2n__-refsenv
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
-                                "^(?!.*\\/)^(.*[^.]+.*)$"
+                                "^[^/]*[^./][^/]*$"
                             ],
                           _js2n__-prdslib.allOf
                             [
@@ -1481,8 +1481,13 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.strings.pattern
-                    "^(https?://|/?.?-?(?!\\w+://)\\w).+\\.ya?ml$"
+                  _js2n__-prdslib.anyOf
+                    [
+                      _js2n__-prdslib.strings.pattern "^https?://",
+                      _js2n__-prdslib.not
+                        (_js2n__-prdslib.strings.pattern "^\\w+://")
+                    ],
+                  _js2n__-prdslib.strings.pattern "\\w\\.ya?ml$"
                 ],
               _js2n__-prdslib.allOf
                 [
@@ -1710,6 +1715,12 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.isType 'Record,
                                           _js2n__-prdslib.records.record
                                             {
+                                              agent =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              flux_resource_path =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
                                               namespace =
                                                 _js2n__-prdslib.allOf
                                                     [
@@ -2097,8 +2108,12 @@ let rec _js2n__-refsenv
                                                       [
                                                         _js2n__-prdslib.isType
                                                           'Record,
+                                                        _js2n__-prdslib.records.required
+                                                          [ "local" ],
                                                         _js2n__-prdslib.records.record
                                                           {
+                                                            inputs =
+                                                              _js2n__-refsenv."_js2n__-:definitions/inputs!predicate",
                                                             local =
                                                               _js2n__-prdslib.allOf
                                                                   [
@@ -2114,8 +2129,12 @@ let rec _js2n__-refsenv
                                                       [
                                                         _js2n__-prdslib.isType
                                                           'Record,
+                                                        _js2n__-prdslib.records.required
+                                                          [ "template" ],
                                                         _js2n__-prdslib.records.record
                                                           {
+                                                            inputs =
+                                                              _js2n__-refsenv."_js2n__-:definitions/inputs!predicate",
                                                             template =
                                                               _js2n__-prdslib.allOf
                                                                   [
@@ -2143,6 +2162,8 @@ let rec _js2n__-refsenv
                                                                     _js2n__-prdslib.strings.pattern
                                                                       "\\.ya?ml$"
                                                                   ],
+                                                            inputs =
+                                                              _js2n__-refsenv."_js2n__-:definitions/inputs!predicate",
                                                             job =
                                                               _js2n__-prdslib.isType
                                                                   '"String",
@@ -2165,6 +2186,8 @@ let rec _js2n__-refsenv
                                                                     _js2n__-prdslib.strings.pattern
                                                                       "\\.ya?ml$"
                                                                   ],
+                                                            inputs =
+                                                              _js2n__-refsenv."_js2n__-:definitions/inputs!predicate",
                                                             project =
                                                               _js2n__-prdslib.allOf
                                                                   [
@@ -2180,6 +2203,43 @@ let rec _js2n__-refsenv
                                                                       '"String",
                                                                     _js2n__-prdslib.strings.minLength
                                                                       1
+                                                                  ],
+                                                          } {} false
+                                                          _js2n__-prdslib.never
+                                                      ],
+                                                    _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.required
+                                                          [ "component" ],
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            component =
+                                                              _js2n__-prdslib.isType
+                                                                  '"String",
+                                                            inputs =
+                                                              _js2n__-refsenv."_js2n__-:definitions/inputs!predicate",
+                                                          } {} false
+                                                          _js2n__-prdslib.never
+                                                      ],
+                                                    _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.required
+                                                          [ "remote" ],
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            inputs =
+                                                              _js2n__-refsenv."_js2n__-:definitions/inputs!predicate",
+                                                            remote =
+                                                              _js2n__-prdslib.allOf
+                                                                  [
+                                                                    _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                    _js2n__-prdslib.strings.pattern
+                                                                      "^https?://.+\\.ya?ml$"
                                                                   ],
                                                           } {} false
                                                           _js2n__-prdslib.never
@@ -2730,41 +2790,206 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.strings.minLength 1
             ],
+      "_js2n__-:definitions/step!predicate"
+        | doc "Any of these step use cases are valid."
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "name", "step" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      env =
+                        _js2n__-refsenv."_js2n__-:definitions/stepNamedStrings!predicate",
+                      inputs =
+                        _js2n__-refsenv."_js2n__-:definitions/stepNamedValues!predicate",
+                      name =
+                        _js2n__-refsenv."_js2n__-:definitions/stepName!predicate",
+                      step =
+                        _js2n__-prdslib.oneOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-refsenv."_js2n__-:definitions/stepReference!predicate"
+                            ],
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "steps" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          delegate = _js2n__-prdslib.isType '"String",
+                          env =
+                            _js2n__-refsenv."_js2n__-:definitions/stepNamedStrings!predicate",
+                          outputs =
+                            _js2n__-refsenv."_js2n__-:definitions/stepNamedValues!predicate",
+                          steps =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    _js2n__-refsenv."_js2n__-:definitions/step!predicate"
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "run" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          delegate = _js2n__-prdslib.isType '"String",
+                          env =
+                            _js2n__-refsenv."_js2n__-:definitions/stepNamedStrings!predicate",
+                          outputs =
+                            _js2n__-refsenv."_js2n__-:definitions/stepNamedValues!predicate",
+                          run =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    _js2n__-refsenv."_js2n__-:definitions/step!predicate"
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "action", "name" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      action =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1
+                            ],
+                      env =
+                        _js2n__-refsenv."_js2n__-:definitions/stepNamedStrings!predicate",
+                      inputs =
+                        _js2n__-refsenv."_js2n__-:definitions/stepNamedValues!predicate",
+                      name =
+                        _js2n__-refsenv."_js2n__-:definitions/stepName!predicate",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "name", "script" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      env =
+                        _js2n__-refsenv."_js2n__-:definitions/stepNamedStrings!predicate",
+                      name =
+                        _js2n__-refsenv."_js2n__-:definitions/stepName!predicate",
+                      script =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.minLength 1
+                            ],
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "exec" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      env =
+                        _js2n__-refsenv."_js2n__-:definitions/stepNamedStrings!predicate",
+                      exec =
+                        _js2n__-refsenv."_js2n__-:definitions/stepExec!predicate",
+                    } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/stepExec!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "command" ],
+              _js2n__-prdslib.records.record
+                {
+                  command =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                  work_dir = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/stepGitReference!predicate"
+        | doc "GitReference is a reference to a step in a Git repository containing the full set of configuration options."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "rev", "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  dir = _js2n__-prdslib.isType '"String",
+                  rev = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/stepName!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.pattern "^[a-zA-Z_][a-zA-Z0-9_]*$"
+            ],
+      "_js2n__-:definitions/stepNamedStrings!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^[a-zA-Z_][a-zA-Z0-9_]*$" = _js2n__-prdslib.isType '"String",
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/stepNamedValues!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^[a-zA-Z_][a-zA-Z0-9_]*$" =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null,
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/stepReference!predicate"
+        | doc "Git a reference to a step in a Git repository."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "git" ],
+              _js2n__-prdslib.records.record
+                {
+                  git =
+                    _js2n__-refsenv."_js2n__-:definitions/stepGitReference!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/steps!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.oneOf
-                      [
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "step" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "script" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ]
-                      ],
-                    _js2n__-prdslib.records.required [ "name" ],
-                    _js2n__-prdslib.records.record
-                      {
-                        env =
-                          _js2n__-refsenv."_js2n__-:definitions/globalVariables!predicate",
-                        inputs =
-                          _js2n__-refsenv."_js2n__-:definitions/inputs!predicate",
-                        name = _js2n__-prdslib.isType '"String",
-                        script = _js2n__-prdslib.isType '"String",
-                        step = _js2n__-prdslib.isType '"String",
-                      } {} false _js2n__-prdslib.never
-                  ])
+                _js2n__-refsenv."_js2n__-:definitions/step!predicate"
             ],
       "_js2n__-:definitions/string_file_list!predicate" =
         _js2n__-prdslib.oneOf
