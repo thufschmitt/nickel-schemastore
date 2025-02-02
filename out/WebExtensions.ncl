@@ -1534,6 +1534,16 @@ let rec _js2n__-refsenv
       name
         | String
         | doc "Name of the extension. This is used to identify the extension in the browser's user interface and on sites like addons.mozilla.org.<br>It's good practice to keep the name short enough to display in the UI. Also, the length of the name of a published extension may be limited.<br>These restrictions do not apply to self-hosted extensions or extensions distributed outside the stores.<br>This is a localizable property.<br><br>https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/name",
+      offline_enabled
+        | Bool
+        | doc m%"
+          Whether the app or extension is expected to work offline. When Chrome detects that it is offline, apps with this field set to true will be highlighted on the New Tab page.
+          
+          As of Chrome 35, apps (ChromeOS only from 2018) are assumed to be offline enabled and the default value of "offline_enabled" is true unless "webview" permission is requested. In this case, network connectivity is assumed to be required and "offline_enabled" defaults to false.
+          
+          The "offline_enabled" value is also used to determine whether a network connectivity check will be performed when launching an app in ChromeOS kiosk mode. A network connectivity check will be performed when apps are not offline enabled, and app launching put on hold until the device obtains connectivity to the Internet. https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/offline_enabled
+        "%
+        | optional,
       omnibox
         | {
           keyword

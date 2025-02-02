@@ -961,24 +961,13 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.anyOf
-                [
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.strings.minLength 2
-                    ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.strings.minLength 2
-                          ])
-                    ]
-                ],
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.minLength 2
+                  ]),
               _js2n__-prdslib.arrays.uniqueItems
             ])
         | doc "A list of known false positives that may occur"

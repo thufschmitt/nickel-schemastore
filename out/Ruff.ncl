@@ -897,6 +897,7 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/Alias!predicate" = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/AnalyzeOptions!predicate"
         | doc "Configures Ruff's `analyze` command."
         = _js2n__-prdslib.allOf
@@ -1017,8 +1018,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.const "dynamic"
             ],
-      "_js2n__-:definitions/Flake8AnnotationsOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8AnnotationsOptions!predicate"
+        | doc "Options for the `flake8-annotations` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1055,8 +1057,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8BanditOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8BanditOptions!predicate"
+        | doc "Options for the `flake8-bandit` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1091,8 +1094,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8BooleanTrapOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8BooleanTrapOptions!predicate"
+        | doc "Options for the `flake8-boolean-trap` plugin"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1110,8 +1114,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8BugbearOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8BugbearOptions!predicate"
+        | doc "Options for the `flake8-bugbear` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1129,8 +1134,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8BuiltinsOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8BuiltinsOptions!predicate"
+        | doc "Options for the `flake8-builtins` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1159,8 +1165,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8ComprehensionsOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8ComprehensionsOptions!predicate"
+        | doc "Options for the `flake8-comprehensions` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1173,8 +1180,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8CopyrightOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8CopyrightOptions!predicate"
+        | doc "Options for the `flake8-copyright` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1203,8 +1211,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8ErrMsgOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8ErrMsgOptions!predicate"
+        | doc "Options for the `flake8-errmsg` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1221,8 +1230,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8GetTextOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8GetTextOptions!predicate"
+        | doc "Options for the `flake8-gettext` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1251,8 +1261,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8ImplicitStrConcatOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8ImplicitStrConcatOptions!predicate"
+        | doc "Options for the `flake8-implicit-str-concat` plugin"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1265,8 +1276,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8ImportConventionsOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8ImportConventionsOptions!predicate"
+        | doc "Options for the `flake8-import-conventions` plugin"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1280,7 +1292,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType 'Null
                             ],
                           _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/Alias!predicate"
                         ],
                   banned-aliases =
                     _js2n__-prdslib.allOf
@@ -1314,12 +1326,13 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType 'Null
                             ],
                           _js2n__-prdslib.records.record {} {} true
-                            (_js2n__-prdslib.isType '"String")
+                            _js2n__-refsenv."_js2n__-:definitions/Alias!predicate"
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8PytestStyleOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8PytestStyleOptions!predicate"
+        | doc "Options for the `flake8-pytest-style` plugin"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1376,10 +1389,33 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  warns-extend-require-match-for =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  warns-require-match-for =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8QuotesOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8QuotesOptions!predicate"
+        | doc "Options for the `flake8-quotes` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1410,8 +1446,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8SelfOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8SelfOptions!predicate"
+        | doc "Options for the `flake8_self` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1440,8 +1477,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8TidyImportsOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8TidyImportsOptions!predicate"
+        | doc "Options for the `flake8-tidy-imports` plugin"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1476,8 +1514,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8TypeCheckingOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8TypeCheckingOptions!predicate"
+        | doc "Options for the `flake8-type-checking` plugin"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1529,8 +1568,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/Flake8UnusedArgumentsOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Flake8UnusedArgumentsOptions!predicate"
+        | doc "Options for the `flake8-unused-arguments` plugin"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1645,8 +1685,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Integer,
               _js2n__-prdslib.numbers.minimum 1
             ],
-      "_js2n__-:definitions/IsortOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/IsortOptions!predicate"
+        | doc "Options for the `isort` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1982,17 +2023,6 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.strings.minLength 1
                               ])
                         ],
-                  allowed-unused-imports =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.isType 'Null
-                            ],
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.isType '"String")
-                        ],
                   dummy-variable-rgx =
                     _js2n__-prdslib.anyOf
                         [
@@ -2296,6 +2326,12 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/PycodestyleOptions!predicate",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  pydoclint =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/PydoclintOptions!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   pydocstyle =
                     _js2n__-prdslib.anyOf
                         [
@@ -2372,8 +2408,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/McCabeOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/McCabeOptions!predicate"
+        | doc "Options for the `mccabe` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2393,31 +2430,23 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/NameImports!predicate" =
         _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/OutputFormat!predicate" =
-        _js2n__-prdslib.oneOf
+        _js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.allOf
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
                 [
-                  _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.enum
-                    [
-                      "concise",
-                      "full",
-                      "json",
-                      "json-lines",
-                      "junit",
-                      "grouped",
-                      "github",
-                      "gitlab",
-                      "pylint",
-                      "rdjson",
-                      "azure",
-                      "sarif"
-                    ]
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.enum [ "text" ]
+                  "concise",
+                  "full",
+                  "json",
+                  "json-lines",
+                  "junit",
+                  "grouped",
+                  "github",
+                  "gitlab",
+                  "pylint",
+                  "rdjson",
+                  "azure",
+                  "sarif"
                 ]
             ],
       "_js2n__-:definitions/ParametrizeNameType!predicate" =
@@ -2438,8 +2467,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "tuple", "list" ]
             ],
-      "_js2n__-:definitions/Pep8NamingOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/Pep8NamingOptions!predicate"
+        | doc "Options for the `pep8-naming` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2490,8 +2520,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/PyUpgradeOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/PyUpgradeOptions!predicate"
+        | doc "Options for the `pyupgrade` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2504,8 +2535,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/PycodestyleOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/PycodestyleOptions!predicate"
+        | doc "Options for the `pycodestyle` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2530,8 +2562,24 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/PydocstyleOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/PydoclintOptions!predicate"
+        | doc "Options for the `pydoclint` plugin."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  ignore-one-line-docstrings =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/PydocstyleOptions!predicate"
+        | doc "Options for the `pydocstyle` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2553,6 +2601,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  ignore-var-parameters =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   property-decorators =
                     _js2n__-prdslib.allOf
                         [
@@ -2566,8 +2620,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/PyflakesOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/PyflakesOptions!predicate"
+        | doc "Options for the `pyflakes` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2596,8 +2651,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/PylintOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/PylintOptions!predicate"
+        | doc "Options for the `pylint` plugin."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2760,12 +2816,35 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:definitions/RequiredVersion!predicate" =
         _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/RuffOptions!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/RuffOptions!predicate"
+        | doc "Options for the `ruff` plugin"
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  allowed-markup-calls =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  extend-markup-names =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   parenthesize-tuple-in-subscript =
                     _js2n__-prdslib.anyOf
                         [
@@ -2793,6 +2872,11 @@ let rec _js2n__-refsenv
                   "AIR0",
                   "AIR00",
                   "AIR001",
+                  "AIR3",
+                  "AIR30",
+                  "AIR301",
+                  "AIR302",
+                  "AIR303",
                   "ALL",
                   "ANN",
                   "ANN0",
@@ -2800,10 +2884,6 @@ let rec _js2n__-refsenv
                   "ANN001",
                   "ANN002",
                   "ANN003",
-                  "ANN1",
-                  "ANN10",
-                  "ANN101",
-                  "ANN102",
                   "ANN2",
                   "ANN20",
                   "ANN201",
@@ -2887,9 +2967,12 @@ let rec _js2n__-refsenv
                   "B9",
                   "B90",
                   "B901",
+                  "B903",
                   "B904",
                   "B905",
                   "B909",
+                  "B91",
+                  "B911",
                   "BLE",
                   "BLE0",
                   "BLE00",
@@ -3025,6 +3108,9 @@ let rec _js2n__-refsenv
                   "DTZ01",
                   "DTZ011",
                   "DTZ012",
+                  "DTZ9",
+                  "DTZ90",
+                  "DTZ901",
                   "E",
                   "E1",
                   "E10",
@@ -3111,8 +3197,6 @@ let rec _js2n__-refsenv
                   "E9",
                   "E90",
                   "E902",
-                  "E99",
-                  "E999",
                   "EM",
                   "EM1",
                   "EM10",
@@ -3234,6 +3318,7 @@ let rec _js2n__-refsenv
                   "FURB116",
                   "FURB118",
                   "FURB12",
+                  "FURB122",
                   "FURB129",
                   "FURB13",
                   "FURB131",
@@ -3265,6 +3350,7 @@ let rec _js2n__-refsenv
                   "FURB181",
                   "FURB187",
                   "FURB188",
+                  "FURB189",
                   "FURB19",
                   "FURB192",
                   "G",
@@ -3317,6 +3403,8 @@ let rec _js2n__-refsenv
                   "LOG002",
                   "LOG007",
                   "LOG009",
+                  "LOG01",
+                  "LOG015",
                   "N",
                   "N8",
                   "N80",
@@ -3421,6 +3509,9 @@ let rec _js2n__-refsenv
                   "PLC0414",
                   "PLC0415",
                   "PLC1",
+                  "PLC18",
+                  "PLC180",
+                  "PLC1802",
                   "PLC19",
                   "PLC190",
                   "PLC1901",
@@ -3594,6 +3685,7 @@ let rec _js2n__-refsenv
                   "PLW021",
                   "PLW0211",
                   "PLW024",
+                  "PLW0244",
                   "PLW0245",
                   "PLW04",
                   "PLW040",
@@ -3612,6 +3704,7 @@ let rec _js2n__-refsenv
                   "PLW15",
                   "PLW150",
                   "PLW1501",
+                  "PLW1507",
                   "PLW1508",
                   "PLW1509",
                   "PLW151",
@@ -3640,8 +3733,6 @@ let rec _js2n__-refsenv
                   "PT001",
                   "PT002",
                   "PT003",
-                  "PT004",
-                  "PT005",
                   "PT006",
                   "PT007",
                   "PT008",
@@ -3666,6 +3757,11 @@ let rec _js2n__-refsenv
                   "PT025",
                   "PT026",
                   "PT027",
+                  "PT028",
+                  "PT029",
+                  "PT03",
+                  "PT030",
+                  "PT031",
                   "PTH",
                   "PTH1",
                   "PTH10",
@@ -3705,6 +3801,9 @@ let rec _js2n__-refsenv
                   "PTH205",
                   "PTH206",
                   "PTH207",
+                  "PTH208",
+                  "PTH21",
+                  "PTH210",
                   "PYI",
                   "PYI0",
                   "PYI00",
@@ -3764,6 +3863,7 @@ let rec _js2n__-refsenv
                   "PYI058",
                   "PYI059",
                   "PYI06",
+                  "PYI061",
                   "PYI062",
                   "PYI063",
                   "PYI064",
@@ -3827,6 +3927,26 @@ let rec _js2n__-refsenv
                   "RUF032",
                   "RUF033",
                   "RUF034",
+                  "RUF035",
+                  "RUF036",
+                  "RUF037",
+                  "RUF038",
+                  "RUF039",
+                  "RUF04",
+                  "RUF040",
+                  "RUF041",
+                  "RUF043",
+                  "RUF046",
+                  "RUF047",
+                  "RUF048",
+                  "RUF049",
+                  "RUF05",
+                  "RUF051",
+                  "RUF052",
+                  "RUF055",
+                  "RUF056",
+                  "RUF057",
+                  "RUF058",
                   "RUF1",
                   "RUF10",
                   "RUF100",
@@ -3965,6 +4085,8 @@ let rec _js2n__-refsenv
                   "SIM40",
                   "SIM401",
                   "SIM9",
+                  "SIM90",
+                  "SIM905",
                   "SIM91",
                   "SIM910",
                   "SIM911",
@@ -3986,16 +4108,19 @@ let rec _js2n__-refsenv
                   "T20",
                   "T201",
                   "T203",
-                  "TCH",
-                  "TCH0",
-                  "TCH00",
-                  "TCH001",
-                  "TCH002",
-                  "TCH003",
-                  "TCH004",
-                  "TCH005",
-                  "TCH01",
-                  "TCH010",
+                  "TC",
+                  "TC0",
+                  "TC00",
+                  "TC001",
+                  "TC002",
+                  "TC003",
+                  "TC004",
+                  "TC005",
+                  "TC006",
+                  "TC007",
+                  "TC008",
+                  "TC01",
+                  "TC010",
                   "TD",
                   "TD0",
                   "TD00",
@@ -4021,11 +4146,11 @@ let rec _js2n__-refsenv
                   "TRY2",
                   "TRY20",
                   "TRY201",
+                  "TRY203",
                   "TRY3",
                   "TRY30",
                   "TRY300",
                   "TRY301",
-                  "TRY302",
                   "TRY4",
                   "TRY40",
                   "TRY400",
@@ -4059,7 +4184,6 @@ let rec _js2n__-refsenv
                   "UP024",
                   "UP025",
                   "UP026",
-                  "UP027",
                   "UP028",
                   "UP029",
                   "UP03",
@@ -4078,6 +4202,10 @@ let rec _js2n__-refsenv
                   "UP041",
                   "UP042",
                   "UP043",
+                  "UP044",
+                  "UP045",
+                  "UP046",
+                  "UP047",
                   "W",
                   "W1",
                   "W19",
@@ -4150,23 +4278,6 @@ let rec _js2n__-refsenv
                   ])
             ])
         | doc "A list of allowed \"confusable\" Unicode characters to ignore when enforcing `RUF001`, `RUF002`, and `RUF003`."
-        | optional,
-      allowed-unused-imports
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.anyOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.isType 'Null
-                ],
-              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
-            ])
-        | doc m%"
-          A list of modules which is allowed even though they are not used in the code.
-          
-          This is useful when a module has a side effect when imported.
-        "%
         | optional,
       analyze
         | _js2n__-prdslib.contract_from_predicate
@@ -4901,7 +5012,7 @@ let rec _js2n__-refsenv
           
           1. The directory containing the nearest `pyproject.toml`, `ruff.toml`, or `.ruff.toml` file (the "project root"). 2. The `"src"` subdirectory of the project root.
           
-          These defaults ensure that uv supports both flat layouts and `src` layouts out-of-the-box. (If a configuration file is explicitly provided (e.g., via the `--config` command-line flag), the current working directory will be considered the project root.)
+          These defaults ensure that Ruff supports both flat layouts and `src` layouts out-of-the-box. (If a configuration file is explicitly provided (e.g., via the `--config` command-line flag), the current working directory will be considered the project root.)
           
           As an example, consider an alternative project structure, like:
           
@@ -4910,19 +5021,6 @@ let rec _js2n__-refsenv
           In this case, the `./lib` directory should be included in the `src` option (e.g., `src = ["lib"]`), such that when resolving imports, `my_package.foo` is considered first-party.
           
           This field supports globs. For example, if you have a series of Python packages in a `python_modules` directory, `src = ["python_modules/*"]` would expand to incorporate all packages in that directory. User home directory and environment variables will also be expanded.
-        "%
-        | optional,
-      tab-size
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.anyOf
-            [
-              _js2n__-refsenv."_js2n__-:definitions/IndentWidth!predicate",
-              _js2n__-prdslib.isType 'Null
-            ])
-        | doc m%"
-          The number of spaces a tab is equal to when enforcing long-line violations (like `E501`) or formatting code with the formatter.
-          
-          This option changes the number of spaces inserted by the formatter when using soft-tabs (`indent-style = space`).
         "%
         | optional,
       target-version

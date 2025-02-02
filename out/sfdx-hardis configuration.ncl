@@ -1165,6 +1165,10 @@ let rec _js2n__-refsenv
         | String
         | doc "When creating a new sfdx-hardis task, this git branch is used as base to create the feature/debug sub branch. The merge request will later have this branch as target."
         | optional,
+      docDeployToOrg
+        | Bool
+        | doc "Automatically deploy MkDocs HTML documentation from CI/CD Workflows to Salesforce org as static resource"
+        | optional,
       extends
         | String
         | doc "You can base your local sfdx-hardis configuration on a remote config file. That allows you to have the same config base for all your projects"
@@ -1254,6 +1258,10 @@ let rec _js2n__-refsenv
         | Array (String)
         | doc "List of ListView items to set to Mine after a delivery (that does not accept value 'Everything')"
         | optional,
+      mergeTargets
+        | Array (String)
+        | doc "In branch-scoped config file, declares the list of branches that the current one can have as merge target. For example, integration will have mergeTargets [uat]"
+        | optional,
       monitoringAllowedSectionsActions
         | {  .. }
         | doc "Override list of Setup Audit Trail elements that won't be considered as suspect by monitoring tools"
@@ -1304,6 +1312,10 @@ let rec _js2n__-refsenv
         | Array
           _js2n__-refsenv."_js2n__-:definitions/enum_notification_types!contract"
         | doc "List of notifications types to skip sending"
+        | optional,
+      packageNoOverwritePath
+        | String
+        | doc "Path to a custom package-no-overwrite XML file (used in smartDeploy command)"
         | optional,
       poolConfig
         | {

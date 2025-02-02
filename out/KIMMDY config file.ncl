@@ -1044,11 +1044,6 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.isType '"Bool")
         | doc "parameterize the topology during the setup task"
         | optional,
-      plot_rates
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.isType '"Bool")
-        | doc "Plot the reaction rates during the reactions step"
-        | optional,
       plumed
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"String")
@@ -1147,6 +1142,11 @@ let rec _js2n__-refsenv
               ])
         )
         | doc "List of tasks. Each task can be a string (the name of the task) or an object with the task name and a multiplicity `mult: <int>`",
+      skip_truncation
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"Bool")
+        | doc "Don't truncate trajectories to the time at which a reaction occurs. This is useful when only the reaction rates are interesting and it is not required to continue the simulation after a reaction."
+        | optional,
       slurm
         | {
           N

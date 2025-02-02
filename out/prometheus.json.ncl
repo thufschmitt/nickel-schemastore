@@ -2296,6 +2296,23 @@ let rec _js2n__-refsenv
                                   _js2n__-refsenv."_js2n__-:definitions/ec2_sd_configs!predicate",
                                 eureka_sd_configs =
                                   _js2n__-refsenv."_js2n__-:definitions/eureka_sd_configs!predicate",
+                                fallback_scrape_protocol =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.anyOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.isType 'Null
+                                          ],
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "OpenMetricsText0.0.1",
+                                            "OpenMetricsText1.0.0",
+                                            "PrometheusProto",
+                                            "PrometheusText0.0.4",
+                                            "PrometheusText1.0.0"
+                                          ]
+                                      ],
                                 file_sd_configs =
                                   _js2n__-refsenv."_js2n__-:definitions/file_sd_configs!predicate",
                                 follow_redirects =

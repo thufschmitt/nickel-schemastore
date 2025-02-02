@@ -1104,24 +1104,6 @@ let rec _js2n__-refsenv
       "_js2n__-:allOf/1/then/properties/showConsoleLog!predicate"
         | doc "Shows suites console.log locally. By default console.log is only shown on failures."
         = _js2n__-prdslib.isType '"Bool",
-      "_js2n__-:allOf/1/then/properties/suites/items/properties/appSettings!predicate"
-        | doc "Overwrite real device settings."
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  audioCapture = _js2n__-prdslib.isType '"Bool",
-                  instrumentation =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            { networkCapture = _js2n__-prdslib.isType '"Bool", }
-                            {} true _js2n__-prdslib.always
-                        ],
-                } {} true _js2n__-prdslib.always
-            ],
       "_js2n__-:allOf/1/then/properties/suites/items/properties/emulators/items/properties/orientation!predicate"
         | doc "The screen orientation to use."
         = _js2n__-prdslib.enum [ "landscape", "portrait" ],
@@ -1195,6 +1177,7 @@ let rec _js2n__-refsenv
                                     ],
                               registry = _js2n__-prdslib.isType '"String",
                               strictSSL = _js2n__-prdslib.isType '"Bool",
+                              usePackageLock = _js2n__-prdslib.isType '"Bool",
                             } {} false _js2n__-prdslib.never
                         ],
                 } {} true _js2n__-prdslib.always
@@ -1233,13 +1216,13 @@ let rec _js2n__-refsenv
               "Windows 10",
               "Windows 11"
             ],
-      "_js2n__-:allOf/7/then/properties/playwright/properties/version!predicate"
+      "_js2n__-:allOf/8/then/properties/playwright/properties/version!predicate"
         | doc "Which framework version to use."
         = _js2n__-prdslib.always,
-      "_js2n__-:allOf/7/then/properties/suites/items/properties/browserName!predicate"
+      "_js2n__-:allOf/8/then/properties/suites/items/properties/browserName!predicate"
         | doc "The name of the browser in which to run the tests."
         = _js2n__-prdslib.always,
-      "_js2n__-:allOf/8/then/definitions/reporters!predicate"
+      "_js2n__-:allOf/9/then/definitions/reporters!predicate"
         | doc "Supported saucectl reporters."
         = _js2n__-prdslib.allOf
             [
@@ -1260,7 +1243,7 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:allOf/8/then/definitions/sauce!predicate"
+      "_js2n__-:allOf/9/then/definitions/sauce!predicate"
         | doc "All settings related to how tests are run and identified in the Sauce Labs platform."
         = _js2n__-prdslib.allOf
             [
@@ -1280,7 +1263,7 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:allOf/8/then/definitions/service!predicate"
+      "_js2n__-:allOf/9/then/definitions/service!predicate"
         | doc "The set of properties providing details about how to run the service container."
         = _js2n__-prdslib.allOf
             [
@@ -1321,7 +1304,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.enum [ "", "c1m1", "c2m2", "c3m3" ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:allOf/8/then/definitions/suite!predicate"
+      "_js2n__-:allOf/9/then/definitions/suite!predicate"
         | doc "The set of properties providing details about how to run the container."
         = _js2n__-prdslib.allOf
             [
@@ -1373,7 +1356,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/service!predicate"
+                            _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/service!predicate"
                         ],
                   timeout =
                     _js2n__-prdslib.allOf
@@ -1385,7 +1368,7 @@ let rec _js2n__-refsenv
                   workload = _js2n__-prdslib.enum [ "webdriver", "other" ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate"
+      "_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate"
         | doc "Instructs how long (in ms, s, m, or h) saucectl should wait for a suite to complete."
         = _js2n__-prdslib.allOf
             [
@@ -1531,6 +1514,8 @@ let rec _js2n__-refsenv
                                             registry =
                                               _js2n__-prdslib.isType '"String",
                                             strictSSL =
+                                              _js2n__-prdslib.isType '"Bool",
+                                            usePackageLock =
                                               _js2n__-prdslib.isType '"Bool",
                                           } {} false _js2n__-prdslib.never
                                       ],
@@ -1743,6 +1728,9 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.enum
                                           [
                                             "package.json",
+                                            "13.16.0",
+                                            "13.15.2",
+                                            "13.15.1",
                                             "13.14.2",
                                             "13.13.3",
                                             "13.13.1",
@@ -1752,9 +1740,7 @@ let rec _js2n__-refsenv
                                             "13.6.6",
                                             "13.6.3",
                                             "13.6.0",
-                                            "13.4.0",
-                                            "13.3.0",
-                                            "12.17.4"
+                                            "13.4.0"
                                           ],
                                   } {} false _js2n__-prdslib.never
                               ],
@@ -2134,7 +2120,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.records.record
                                   {
                                     timeout =
-                                      _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                      _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                   } {} false _js2n__-prdslib.never
                               ],
                         espresso =
@@ -2207,12 +2193,27 @@ let rec _js2n__-refsenv
                                                                 'Record,
                                                               _js2n__-prdslib.records.record
                                                                 {
+                                                                  biometrics =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  bypassScreenshotRestriction =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  imageInjection =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
                                                                   networkCapture =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  vitals =
                                                                     _js2n__-prdslib.isType
                                                                         '"Bool",
                                                                 } {} true
                                                                 _js2n__-prdslib.always
                                                             ],
+                                                      resigningEnabled =
+                                                        _js2n__-prdslib.isType
+                                                            '"Bool",
                                                     } {} true
                                                     _js2n__-prdslib.always
                                                 ],
@@ -2422,7 +2423,7 @@ let rec _js2n__-refsenv
                                                     }
                                                 ],
                                           timeout =
-                                            _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                            _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                         } {} false _js2n__-prdslib.never
                                     ]),
                                 _js2n__-prdslib.arrays.minItems 1
@@ -2499,6 +2500,8 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.isType '"String",
                                             strictSSL =
                                               _js2n__-prdslib.isType '"Bool",
+                                            usePackageLock =
+                                              _js2n__-prdslib.isType '"Bool",
                                           } {} false _js2n__-prdslib.never
                                       ],
                               } {} true _js2n__-prdslib.always
@@ -2518,7 +2521,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.records.record
                                   {
                                     timeout =
-                                      _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                      _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                   } {} false _js2n__-prdslib.never
                               ],
                         env = _js2n__-prdslib.isType 'Record,
@@ -2539,6 +2542,8 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.enum
                                               [
                                                 "package.json",
+                                                "1.49.0",
+                                                "1.48.2",
                                                 "1.47.2",
                                                 "1.46.1",
                                                 "1.45.2",
@@ -2548,11 +2553,9 @@ let rec _js2n__-refsenv
                                                 "1.41.2",
                                                 "1.41.0",
                                                 "1.40.1",
-                                                "1.39.0",
-                                                "1.38.1",
-                                                "1.37.1"
+                                                "1.39.0"
                                               ],
-                                            _js2n__-refsenv."_js2n__-:allOf/7/then/properties/playwright/properties/version!predicate"
+                                            _js2n__-refsenv."_js2n__-:allOf/8/then/properties/playwright/properties/version!predicate"
                                           ],
                                   } {} false _js2n__-prdslib.never
                               ],
@@ -2604,7 +2607,7 @@ let rec _js2n__-refsenv
                                                                   "webkit",
                                                                   "chrome"
                                                                 ],
-                                                              _js2n__-refsenv."_js2n__-:allOf/7/then/properties/suites/items/properties/browserName!predicate"
+                                                              _js2n__-refsenv."_js2n__-:allOf/8/then/properties/suites/items/properties/browserName!predicate"
                                                             ],
                                                       globalTimeout =
                                                         _js2n__-prdslib.isType
@@ -2678,7 +2681,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-refsenv."_js2n__-:allOf/3/then/properties/suites/items/properties/platform!predicate"
                                                 ],
                                           playwrightVersion =
-                                            _js2n__-refsenv."_js2n__-:allOf/7/then/properties/playwright/properties/version!predicate",
+                                            _js2n__-refsenv."_js2n__-:allOf/8/then/properties/playwright/properties/version!predicate",
                                           preExec =
                                             _js2n__-prdslib.isType '"Array",
                                           screenResolution =
@@ -2695,7 +2698,7 @@ let rec _js2n__-refsenv
                                           timeZone =
                                             _js2n__-prdslib.isType '"String",
                                           timeout =
-                                            _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                            _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                         } {} false _js2n__-prdslib.never
                                     ]),
                                 _js2n__-prdslib.arrays.minItems 1
@@ -2726,7 +2729,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.records.record
                                   {
                                     timeout =
-                                      _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                      _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                   } {} false _js2n__-prdslib.never
                               ],
                         kind = _js2n__-prdslib.const "puppeteer-replay",
@@ -2749,7 +2752,7 @@ let rec _js2n__-refsenv
                                                 [
                                                   _js2n__-prdslib.enum
                                                     [ "chrome" ],
-                                                  _js2n__-refsenv."_js2n__-:allOf/7/then/properties/suites/items/properties/browserName!predicate"
+                                                  _js2n__-refsenv."_js2n__-:allOf/8/then/properties/suites/items/properties/browserName!predicate"
                                                 ],
                                           browserVersion =
                                             _js2n__-prdslib.isType '"String",
@@ -2769,7 +2772,7 @@ let rec _js2n__-refsenv
                                           recordings =
                                             _js2n__-prdslib.isType '"Array",
                                           timeout =
-                                            _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                            _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                         } {} false _js2n__-prdslib.never
                                     ]),
                                 _js2n__-prdslib.arrays.minItems 1
@@ -2802,7 +2805,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.records.record
                                   {
                                     timeout =
-                                      _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                      _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                   } {} false _js2n__-prdslib.never
                               ],
                         env =
@@ -2862,7 +2865,7 @@ let rec _js2n__-refsenv
                                                       "microsoftedge",
                                                       "safari"
                                                     ],
-                                                  _js2n__-refsenv."_js2n__-:allOf/7/then/properties/suites/items/properties/browserName!predicate"
+                                                  _js2n__-refsenv."_js2n__-:allOf/8/then/properties/suites/items/properties/browserName!predicate"
                                                 ],
                                           browserVersion =
                                             _js2n__-refsenv."_js2n__-:allOf/3/then/properties/suites/items/properties/browserVersion!predicate",
@@ -3086,7 +3089,7 @@ let rec _js2n__-refsenv
                                           timeZone =
                                             _js2n__-refsenv."_js2n__-:allOf/2/then/properties/suites/items/properties/timeZone!predicate",
                                           timeout =
-                                            _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                            _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                         } {} false _js2n__-prdslib.never
                                     ]),
                                 _js2n__-prdslib.arrays.minItems 1
@@ -3106,15 +3109,14 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.enum
                                               [
                                                 "package.json",
+                                                "3.7.0",
                                                 "3.6.2",
                                                 "3.6.1",
                                                 "3.6.0",
                                                 "3.5.0",
-                                                "3.4.0",
-                                                "3.3.0",
-                                                "3.2.0"
+                                                "3.4.0"
                                               ],
-                                            _js2n__-refsenv."_js2n__-:allOf/7/then/properties/playwright/properties/version!predicate"
+                                            _js2n__-refsenv."_js2n__-:allOf/8/then/properties/playwright/properties/version!predicate"
                                           ],
                                   } {} false _js2n__-prdslib.never
                               ],
@@ -3145,7 +3147,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.records.record
                                   {
                                     timeout =
-                                      _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                      _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                   } {} false _js2n__-prdslib.never
                               ],
                         env =
@@ -3187,7 +3189,49 @@ let rec _js2n__-refsenv
                                           appDescription =
                                             _js2n__-prdslib.isType '"String",
                                           appSettings =
-                                            _js2n__-refsenv."_js2n__-:allOf/1/then/properties/suites/items/properties/appSettings!predicate",
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      audioCapture =
+                                                        _js2n__-prdslib.isType
+                                                            '"Bool",
+                                                      instrumentation =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                'Record,
+                                                              _js2n__-prdslib.records.record
+                                                                {
+                                                                  biometrics =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  groupDirectory =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  imageInjection =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  networkCapture =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  sysAlertsDelay =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  vitals =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                } {} true
+                                                                _js2n__-prdslib.always
+                                                            ],
+                                                      resigningEnabled =
+                                                        _js2n__-prdslib.isType
+                                                            '"Bool",
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
                                           devices =
                                             _js2n__-prdslib.allOf
                                                 [
@@ -3263,7 +3307,11 @@ let rec _js2n__-refsenv
                                             _js2n__-refsenv."_js2n__-:allOf/1/then/properties/suites/items/properties/passThreshold!predicate",
                                           shard =
                                             _js2n__-prdslib.enum
-                                                [ "", "concurrency" ],
+                                                [
+                                                  "",
+                                                  "concurrency",
+                                                  "testList"
+                                                ],
                                           simulators =
                                             _js2n__-prdslib.allOf
                                                 [
@@ -3347,7 +3395,7 @@ let rec _js2n__-refsenv
                                                     _js2n__-prdslib.never
                                                 ],
                                           timeout =
-                                            _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                            _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                         } {} false _js2n__-prdslib.never
                                     ]),
                                 _js2n__-prdslib.arrays.minItems 1
@@ -3364,6 +3412,257 @@ let rec _js2n__-refsenv
                                     otherApps = _js2n__-prdslib.isType '"Array",
                                     testApp = _js2n__-prdslib.isType '"String",
                                     testAppDescription =
+                                      _js2n__-prdslib.isType '"String",
+                                  } {} false _js2n__-prdslib.never
+                              ],
+                      } {} true _js2n__-prdslib.always
+                  ]) _js2n__-prdslib.always,
+              _js2n__-prdslib.ifThenElse
+                (_js2n__-prdslib.records.record
+                  { kind = _js2n__-prdslib.const "xctest", } {} true
+                  _js2n__-prdslib.always)
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-refsenv."_js2n__-:allOf/1/then/allOf/0!predicate",
+                        _js2n__-refsenv."_js2n__-:allOf/1/then/allOf/1!predicate",
+                        _js2n__-refsenv."_js2n__-:allOf/1/then/allOf/2!predicate"
+                      ],
+                    _js2n__-prdslib.records.required
+                      [ "apiVersion", "kind", "suites" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        apiVersion = _js2n__-prdslib.const "v1alpha",
+                        defaults =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    timeout =
+                                      _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
+                                  } {} false _js2n__-prdslib.never
+                              ],
+                        env =
+                          _js2n__-refsenv."_js2n__-:allOf/2/then/properties/env!predicate",
+                        kind = _js2n__-prdslib.const "xctest",
+                        showConsoleLog =
+                          _js2n__-refsenv."_js2n__-:allOf/1/then/properties/showConsoleLog!predicate",
+                        suites =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.records.required
+                                            [ "devices" ],
+                                          _js2n__-prdslib.records.record {} {}
+                                            true _js2n__-prdslib.always
+                                        ],
+                                      _js2n__-prdslib.records.required
+                                        [ "name" ],
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          app =
+                                            _js2n__-prdslib.isType '"String",
+                                          appDescription =
+                                            _js2n__-prdslib.isType '"String",
+                                          appSettings =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      audioCapture =
+                                                        _js2n__-prdslib.isType
+                                                            '"Bool",
+                                                      instrumentation =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                'Record,
+                                                              _js2n__-prdslib.records.record
+                                                                {
+                                                                  biometrics =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  groupDirectory =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  imageInjection =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  networkCapture =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  sysAlertsDelay =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  vitals =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                } {} true
+                                                                _js2n__-prdslib.always
+                                                            ],
+                                                      resigningEnabled =
+                                                        _js2n__-prdslib.isType
+                                                            '"Bool",
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                          devices =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.arrays.arrayOf
+                                                    (_js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.oneOf
+                                                          [
+                                                            _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.records.required
+                                                                  [ "id" ],
+                                                                _js2n__-prdslib.records.record
+                                                                  {} {} true
+                                                                  _js2n__-prdslib.always
+                                                              ],
+                                                            _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.records.required
+                                                                  [ "name" ],
+                                                                _js2n__-prdslib.records.record
+                                                                  {} {} true
+                                                                  _js2n__-prdslib.always
+                                                              ]
+                                                          ],
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            id =
+                                                              _js2n__-prdslib.isType
+                                                                  '"String",
+                                                            name =
+                                                              _js2n__-prdslib.isType
+                                                                  '"String",
+                                                            options =
+                                                              _js2n__-prdslib.allOf
+                                                                  [
+                                                                    _js2n__-prdslib.isType
+                                                                      'Record,
+                                                                    _js2n__-prdslib.records.record
+                                                                      {
+                                                                        carrierConnectivity =
+                                                                          _js2n__-prdslib.isType
+                                                                              '"Bool",
+                                                                        deviceType =
+                                                                          _js2n__-prdslib.enum
+                                                                              [
+                                                                                "ANY",
+                                                                                "PHONE",
+                                                                                "TABLET"
+                                                                              ],
+                                                                        private =
+                                                                          _js2n__-prdslib.isType
+                                                                              '"Bool",
+                                                                      } {} false
+                                                                      _js2n__-prdslib.never
+                                                                  ],
+                                                            platformVersion =
+                                                              _js2n__-prdslib.isType
+                                                                  '"String",
+                                                          } {} false
+                                                          _js2n__-prdslib.never
+                                                      ])
+                                                ],
+                                          env =
+                                            _js2n__-refsenv."_js2n__-:allOf/2/then/properties/env!predicate",
+                                          name =
+                                            _js2n__-prdslib.isType '"String",
+                                          otherApps =
+                                            _js2n__-prdslib.isType '"Array",
+                                          passThreshold =
+                                            _js2n__-refsenv."_js2n__-:allOf/1/then/properties/suites/items/properties/passThreshold!predicate",
+                                          shard =
+                                            _js2n__-prdslib.enum
+                                                [
+                                                  "",
+                                                  "concurrency",
+                                                  "testList"
+                                                ],
+                                          smartRetry =
+                                            _js2n__-refsenv."_js2n__-:allOf/1/then/properties/suites/items/properties/smartRetry!predicate",
+                                          testListFile =
+                                            _js2n__-prdslib.isType '"String",
+                                          testOptions =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      class =
+                                                        _js2n__-prdslib.isType
+                                                            '"Array",
+                                                      defaultTestExecutionTimeAllowance =
+                                                        _js2n__-prdslib.isType
+                                                            '"Number",
+                                                      maximumTestExecutionTimeAllowance =
+                                                        _js2n__-prdslib.isType
+                                                            '"Number",
+                                                      notClass =
+                                                        _js2n__-prdslib.isType
+                                                            '"Array",
+                                                      statusBarOverrideTime =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      testLanguage =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      testRegion =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      testTimeoutsEnabled =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"String",
+                                                              _js2n__-prdslib.enum
+                                                                [ "Yes", "No" ]
+                                                            ],
+                                                    } {} false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                          timeout =
+                                            _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
+                                          xcTestRunFile =
+                                            _js2n__-prdslib.isType '"String",
+                                          xcTestRunFileDescription =
+                                            _js2n__-prdslib.isType '"String",
+                                        } {} false _js2n__-prdslib.never
+                                    ]),
+                                _js2n__-prdslib.arrays.minItems 1
+                              ],
+                        xctest =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    app = _js2n__-prdslib.isType '"String",
+                                    appDescription =
+                                      _js2n__-prdslib.isType '"String",
+                                    otherApps = _js2n__-prdslib.isType '"Array",
+                                    xcTestRunFile =
+                                      _js2n__-prdslib.isType '"String",
+                                    xcTestRunFileDescription =
                                       _js2n__-prdslib.isType '"String",
                                   } {} false _js2n__-prdslib.never
                               ],
@@ -3439,7 +3738,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.records.record
                                   {
                                     timeout =
-                                      _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                      _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                   } {} false _js2n__-prdslib.never
                               ],
                         env =
@@ -3501,7 +3800,7 @@ let rec _js2n__-refsenv
                                                             '"Array",
                                                       formatOptions =
                                                         _js2n__-prdslib.isType
-                                                            '"Array",
+                                                            'Record,
                                                       "import" =
                                                         _js2n__-prdslib.isType
                                                             '"Array",
@@ -3557,7 +3856,7 @@ let rec _js2n__-refsenv
                                           timeZone =
                                             _js2n__-refsenv."_js2n__-:allOf/2/then/properties/suites/items/properties/timeZone!predicate",
                                           timeout =
-                                            _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite/properties/timeout!predicate",
+                                            _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite/properties/timeout!predicate",
                                         } {} false _js2n__-prdslib.never
                                     ]),
                                 _js2n__-prdslib.arrays.minItems 1
@@ -3577,18 +3876,18 @@ let rec _js2n__-refsenv
                       {
                         apiVersion = _js2n__-prdslib.const "v1alpha",
                         defaults =
-                          _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite!predicate",
+                          _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite!predicate",
                         kind = _js2n__-prdslib.const "imagerunner",
                         reporters =
-                          _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/reporters!predicate",
+                          _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/reporters!predicate",
                         sauce =
-                          _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/sauce!predicate",
+                          _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/sauce!predicate",
                         suites =
                           _js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"Array",
                                 _js2n__-prdslib.arrays.arrayOf
-                                  _js2n__-refsenv."_js2n__-:allOf/8/then/definitions/suite!predicate",
+                                  _js2n__-refsenv."_js2n__-:allOf/9/then/definitions/suite!predicate",
                                 _js2n__-prdslib.arrays.minItems 1
                               ],
                       } {} true _js2n__-prdslib.always
@@ -3607,6 +3906,7 @@ let rec _js2n__-refsenv
                       "puppeteer-replay",
                       "testcafe",
                       "xcuitest",
+                      "xctest",
                       "playwright-cucumberjs"
                     ],
             } {} true _js2n__-prdslib.always
