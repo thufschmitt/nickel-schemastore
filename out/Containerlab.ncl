@@ -1191,6 +1191,14 @@ let rec _js2n__-refsenv
                 ],
               _js2n__-prdslib.records.record
                 {
+                  aliases =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
+                        ],
                   auto-remove = _js2n__-prdslib.isType '"Bool",
                   binds =
                     _js2n__-prdslib.allOf
@@ -1354,6 +1362,7 @@ let rec _js2n__-refsenv
                               "cisco_iol",
                               "cvx",
                               "cumulus_cvx",
+                              "huawei_vrp",
                               "openbsd",
                               "freebsd",
                               "generic_vm",
@@ -1420,19 +1429,21 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
-                  publish =
+                  restart-policy =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.strings.pattern
-                                  "(^http|^https|^tcp|^tls)/(([0-9]+$)|([0-9]+/.+$))"
-                              ]),
-                          _js2n__-prdslib.arrays.minItems 1,
-                          _js2n__-prdslib.arrays.uniqueItems
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "no",
+                              "No",
+                              "on-failure",
+                              "On-failure",
+                              "Always",
+                              "always",
+                              "unless-stopped",
+                              "Unless-stopped"
+                            ]
                         ],
                   runtime =
                     _js2n__-prdslib.allOf
@@ -1720,6 +1731,8 @@ let rec _js2n__-refsenv
                               generic_vm =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               host =
+                                _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
+                              huawei_vrp =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               ipinfusion_ocnos =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",

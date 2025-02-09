@@ -910,18 +910,19 @@ let rec _js2n__-refsenv
                 "badLock",
                 "badRegexp",
                 "badSorting",
+                "badSyncOnceFunc",
                 "boolExprSimplify",
                 "builtinShadow",
                 "builtinShadowDecl",
                 "captLocal",
                 "caseOrder",
                 "codegenComment",
+                "commentFormatting",
                 "commentedOutCode",
                 "commentedOutImport",
-                "commentFormatting",
                 "defaultCaseOrder",
-                "deferUnlambda",
                 "deferInLoop",
+                "deferUnlambda",
                 "deprecatedComment",
                 "docStub",
                 "dupArg",
@@ -964,6 +965,7 @@ let rec _js2n__-refsenv
                 "preferStringWriter",
                 "preferWriteByte",
                 "ptrToRefParam",
+                "rangeAppendAll",
                 "rangeExprCopy",
                 "rangeValCopy",
                 "redundantSprint",
@@ -981,13 +983,12 @@ let rec _js2n__-refsenv
                 "sprintfQuotedString",
                 "sqlQuery",
                 "stringConcatSimplify",
-                "stringsCompare",
                 "stringXbytes",
-                "suspiciousSorting",
+                "stringsCompare",
                 "switchTrue",
                 "syncMapLoadAndDelete",
-                "timeCmpSimplify",
                 "timeExprSimplify",
+                "todoCommentWithoutDetail",
                 "tooManyResultsChecker",
                 "truncateCmp",
                 "typeAssertChain",
@@ -1099,15 +1100,18 @@ let rec _js2n__-refsenv
                 "slog",
                 "sortslice",
                 "stdmethods",
+                "stdversion",
                 "stringintconv",
                 "structtag",
                 "testinggoroutine",
                 "tests",
+                "timeformat",
                 "unmarshal",
                 "unreachable",
                 "unsafeptr",
                 "unusedresult",
-                "unusedwrite"
+                "unusedwrite",
+                "waitgroup"
               ]),
       "_js2n__-:definitions/govet-analyzers!predicate" =
         _js2n__-prdslib.enum
@@ -1143,16 +1147,22 @@ let rec _js2n__-refsenv
               "slog",
               "sortslice",
               "stdmethods",
+              "stdversion",
               "stringintconv",
               "structtag",
               "testinggoroutine",
               "tests",
+              "timeformat",
               "unmarshal",
               "unreachable",
               "unsafeptr",
               "unusedresult",
-              "unusedwrite"
+              "unusedwrite",
+              "waitgroup"
             ],
+      "_js2n__-:definitions/iface-analyzers!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.enum [ "identical", "unused", "opaque" ]),
       "_js2n__-:definitions/linters!contract"
         | doc "Linters usable."
         = _js2n__-prdslib.contract_from_predicate
@@ -1169,7 +1179,6 @@ let rec _js2n__-refsenv
                     "contextcheck",
                     "copyloopvar",
                     "cyclop",
-                    "deadcode",
                     "decorder",
                     "depguard",
                     "dogsled",
@@ -1180,11 +1189,10 @@ let rec _js2n__-refsenv
                     "errchkjson",
                     "errname",
                     "errorlint",
-                    "execinquery",
                     "exhaustive",
-                    "exhaustivestruct",
                     "exhaustruct",
                     "exportloopref",
+                    "exptostd",
                     "fatcontext",
                     "forbidigo",
                     "forcetypeassert",
@@ -1206,7 +1214,6 @@ let rec _js2n__-refsenv
                     "gofumpt",
                     "goheader",
                     "goimports",
-                    "golint",
                     "gomoddirectives",
                     "gomodguard",
                     "goprintffuncname",
@@ -1215,19 +1222,17 @@ let rec _js2n__-refsenv
                     "gosmopolitan",
                     "govet",
                     "grouper",
-                    "ifshort",
+                    "iface",
                     "importas",
                     "inamedparam",
                     "ineffassign",
                     "interfacebloat",
-                    "interfacer",
                     "intrange",
                     "ireturn",
                     "lll",
                     "loggercheck",
                     "maintidx",
                     "makezero",
-                    "maligned",
                     "mirror",
                     "misspell",
                     "mnd",
@@ -1235,12 +1240,12 @@ let rec _js2n__-refsenv
                     "nakedret",
                     "nestif",
                     "nilerr",
+                    "nilnesserr",
                     "nilnil",
                     "nlreturn",
                     "noctx",
                     "nolintlint",
                     "nonamedreturns",
-                    "nosnakecase",
                     "nosprintfhostport",
                     "paralleltest",
                     "perfsprint",
@@ -1249,13 +1254,12 @@ let rec _js2n__-refsenv
                     "promlinter",
                     "protogetter",
                     "reassign",
+                    "recvcheck",
                     "revive",
                     "rowserrcheck",
-                    "scopelint",
                     "sloglint",
                     "sqlclosecheck",
                     "staticcheck",
-                    "structcheck",
                     "stylecheck",
                     "tagalign",
                     "tagliatelle",
@@ -1269,7 +1273,7 @@ let rec _js2n__-refsenv
                     "unparam",
                     "unused",
                     "usestdlibvars",
-                    "varcheck",
+                    "usetesting",
                     "varnamelen",
                     "wastedassign",
                     "whitespace",
@@ -1294,7 +1298,6 @@ let rec _js2n__-refsenv
                   "contextcheck",
                   "copyloopvar",
                   "cyclop",
-                  "deadcode",
                   "decorder",
                   "depguard",
                   "dogsled",
@@ -1305,11 +1308,10 @@ let rec _js2n__-refsenv
                   "errchkjson",
                   "errname",
                   "errorlint",
-                  "execinquery",
                   "exhaustive",
-                  "exhaustivestruct",
                   "exhaustruct",
                   "exportloopref",
+                  "exptostd",
                   "fatcontext",
                   "forbidigo",
                   "forcetypeassert",
@@ -1331,7 +1333,6 @@ let rec _js2n__-refsenv
                   "gofumpt",
                   "goheader",
                   "goimports",
-                  "golint",
                   "gomoddirectives",
                   "gomodguard",
                   "goprintffuncname",
@@ -1340,19 +1341,17 @@ let rec _js2n__-refsenv
                   "gosmopolitan",
                   "govet",
                   "grouper",
-                  "ifshort",
+                  "iface",
                   "importas",
                   "inamedparam",
                   "ineffassign",
                   "interfacebloat",
-                  "interfacer",
                   "intrange",
                   "ireturn",
                   "lll",
                   "loggercheck",
                   "maintidx",
                   "makezero",
-                  "maligned",
                   "mirror",
                   "misspell",
                   "mnd",
@@ -1360,12 +1359,12 @@ let rec _js2n__-refsenv
                   "nakedret",
                   "nestif",
                   "nilerr",
+                  "nilnesserr",
                   "nilnil",
                   "nlreturn",
                   "noctx",
                   "nolintlint",
                   "nonamedreturns",
-                  "nosnakecase",
                   "nosprintfhostport",
                   "paralleltest",
                   "perfsprint",
@@ -1374,13 +1373,12 @@ let rec _js2n__-refsenv
                   "promlinter",
                   "protogetter",
                   "reassign",
+                  "recvcheck",
                   "revive",
                   "rowserrcheck",
-                  "scopelint",
                   "sloglint",
                   "sqlclosecheck",
                   "staticcheck",
-                  "structcheck",
                   "stylecheck",
                   "tagalign",
                   "tagliatelle",
@@ -1394,7 +1392,7 @@ let rec _js2n__-refsenv
                   "unparam",
                   "unused",
                   "usestdlibvars",
-                  "varcheck",
+                  "usetesting",
                   "varnamelen",
                   "wastedassign",
                   "whitespace",
@@ -1442,6 +1440,8 @@ let rec _js2n__-refsenv
                 "errorf",
                 "exported",
                 "file-header",
+                "file-length-limit",
+                "filename-format",
                 "flag-parameter",
                 "function-length",
                 "function-result-limit",
@@ -1488,6 +1488,22 @@ let rec _js2n__-refsenv
                 "var-naming",
                 "waitgroup-by-value"
               ]),
+      "_js2n__-:definitions/tagliatelle-cases!predicate" =
+        _js2n__-prdslib.enum
+            [
+              "camel",
+              "pascal",
+              "kebab",
+              "snake",
+              "goCamel",
+              "goPascal",
+              "goKebab",
+              "goSnake",
+              "upper",
+              "upperSnake",
+              "lower",
+              "header"
+            ],
     }
     in
   {
@@ -1576,6 +1592,10 @@ let rec _js2n__-refsenv
           new-from-rev
             | String
             | doc "Show only new issues created after this git revision."
+            | optional,
+          uniq-by-line
+            | Bool
+            | doc "Make issues output unique by line."
             | optional,
           whole-files
             | Bool
@@ -2085,9 +2105,17 @@ let rec _js2n__-refsenv
                 | Bool
                 | doc "Enable custom order of sections."
                 | optional,
+              no-inline-comments
+                | Bool
+                | doc "Checks that no inline Comments are present."
+                | optional,
               no-lex-order
                 | Bool
                 | doc "Drops lexical ordering for custom sections."
+                | optional,
+              no-prefix-comments
+                | Bool
+                | doc "Checks that no prefix Comments(comment lines above an import) are present."
                 | optional,
               sections
                 | Array (
@@ -2129,6 +2157,10 @@ let rec _js2n__-refsenv
                 | Bool
                 | doc "Force using `Expect` with `To`, `ToNot` or `NotTo`"
                 | optional,
+              force-succeed
+                | Bool
+                | doc "Force using the Succeed matcher for error functions, and the HaveOccurred matcher for non-function error values."
+                | optional,
               suppress-async-assertion
                 | Bool
                 | doc "Suppress the function all in async assertion warning."
@@ -2156,6 +2188,18 @@ let rec _js2n__-refsenv
               validate-async-intervals
                 | Bool
                 | doc "Best effort validation of async intervals (timeout and polling)."
+                | optional,
+            }
+            | optional,
+          gochecksumtype
+            | {
+              default-signifies-exhaustive
+                | Bool
+                | doc "Presence of `default` case in switch statements satisfies exhaustiveness, if all members are not listed."
+                | optional,
+              include-shared-interfaces
+                | Bool
+                | doc "Include shared interfaces in the exhaustiviness check."
                 | optional,
             }
             | optional,
@@ -2413,6 +2457,14 @@ let rec _js2n__-refsenv
                 | Bool
                 | doc "Forbid the use of the `exclude` directives."
                 | optional,
+              go-debug-forbidden
+                | Bool
+                | doc "Forbid the use of the `godebug` directive."
+                | optional,
+              go-version-pattern
+                | String
+                | doc "Defines a pattern to validate `go` minimum version directive."
+                | optional,
               replace-allow-list
                 | Array (String)
                 | doc "List of allowed `replace` directives."
@@ -2424,6 +2476,18 @@ let rec _js2n__-refsenv
               retract-allow-no-explanation
                 | Bool
                 | doc "Allow to not explain why the version has been retracted in the `retract` directives."
+                | optional,
+              tool-forbidden
+                | Bool
+                | doc "Forbid the use of the `tool` directives."
+                | optional,
+              toolchain-forbidden
+                | Bool
+                | doc "Forbid the use of the `toolchain` directive."
+                | optional,
+              toolchain-pattern
+                | String
+                | doc "Defines a pattern to validate `toolchain` directive."
                 | optional,
             }
             | optional,
@@ -2621,6 +2685,20 @@ let rec _js2n__-refsenv
               var-require-single-var | Bool | optional,
             }
             | optional,
+          iface
+            | {
+              enable
+                | Array
+                  _js2n__-refsenv."_js2n__-:definitions/iface-analyzers!contract"
+                | doc "Enable analyzers by name."
+                | optional,
+              settings
+                | {
+                  unused | { exclude | Array (String) | optional, } | optional,
+                }
+                | optional,
+            }
+            | optional,
           importas
             | {
               alias
@@ -2763,6 +2841,10 @@ let rec _js2n__-refsenv
                 | Array (String)
                 | doc "List of custom rules to check against, where each rule is a single logger pattern, useful for wrapped loggers."
                 | optional,
+              slog
+                | Bool
+                | doc "Allow check for the log/slog library."
+                | optional,
               zap
                 | Bool
                 | doc "Allow check for the \"sugar logger\" from go.uber.org/zap library."
@@ -2880,16 +2962,20 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.contract_from_predicate
                     (_js2n__-prdslib.enum
                       [
-                        "ptr",
+                        "chan",
                         "func",
                         "iface",
                         "map",
-                        "chan",
+                        "ptr",
                         "uintptr",
                         "unsafeptr"
                       ])
                 )
                 | doc "List of return types to check."
+                | optional,
+              detect-opposite
+                | Bool
+                | doc "In addition, detect opposite situation (simultaneous return of non-nil error and valid value)."
                 | optional,
             }
             | optional,
@@ -3037,6 +3123,18 @@ let rec _js2n__-refsenv
             }
             | optional,
           reassign | { patterns | Array (String) | optional, } | optional,
+          recvcheck
+            | {
+              disable-builtin
+                | Bool
+                | doc "Disables the built-in method exclusions."
+                | optional,
+              exclusions
+                | Array (String)
+                | doc "User-defined method exclusions."
+                | optional,
+            }
+            | optional,
           revive
             | {
               confidence | Number | optional,
@@ -3257,6 +3355,120 @@ let rec _js2n__-refsenv
             | {
               case
                 | {
+                  extended-rules
+                    | _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^.+$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "case" ],
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          case =
+                                            _js2n__-refsenv."_js2n__-:definitions/tagliatelle-cases!predicate",
+                                          extra-initialisms =
+                                            _js2n__-prdslib.isType '"Bool",
+                                          initialism-overrides =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {}
+                                                    {
+                                                      "^.+$" =
+                                                        _js2n__-prdslib.isType
+                                                            '"Bool",
+                                                    } true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                            } true _js2n__-prdslib.always
+                        ])
+                    | doc "Defines the association between tag name and case."
+                    | optional,
+                  ignored-fields
+                    | Array (String)
+                    | doc "The field names to ignore."
+                    | optional,
+                  overrides
+                    | Array
+                      {
+                        extended-rules
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {}
+                                  {
+                                    "^.+$" =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.required
+                                              [ "case" ],
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                case =
+                                                  _js2n__-refsenv."_js2n__-:definitions/tagliatelle-cases!predicate",
+                                                extra-initialisms =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
+                                                initialism-overrides =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.record
+                                                          {}
+                                                          {
+                                                            "^.+$" =
+                                                              _js2n__-prdslib.isType
+                                                                  '"Bool",
+                                                          } true
+                                                          _js2n__-prdslib.always
+                                                      ],
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                  } true _js2n__-prdslib.always
+                              ])
+                          | doc "Defines the association between tag name and case."
+                          | optional,
+                        ignore
+                          | Bool
+                          | doc "Ignore the package (takes precedence over all other configurations)."
+                          | optional,
+                        ignored-fields
+                          | Array (String)
+                          | doc "The field names to ignore."
+                          | optional,
+                        pkg | String | doc "A package path.",
+                        rules
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {}
+                                  {
+                                    "^.+$" =
+                                      _js2n__-refsenv."_js2n__-:definitions/tagliatelle-cases!predicate",
+                                  } true _js2n__-prdslib.always
+                              ])
+                          | optional,
+                        use-field-name
+                          | Bool
+                          | doc "Use the struct field name to check the name of the struct tag."
+                          | optional,
+                      }
+                    | doc "Overrides the default/root configuration."
+                    | optional,
                   rules
                     | _js2n__-prdslib.contract_from_predicate
                       (_js2n__-prdslib.allOf
@@ -3265,21 +3477,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {}
                             {
                               "^.+$" =
-                                _js2n__-prdslib.enum
-                                    [
-                                      "camel",
-                                      "pascal",
-                                      "kebab",
-                                      "snake",
-                                      "goCamel",
-                                      "goPascal",
-                                      "goKebab",
-                                      "goSnake",
-                                      "upper",
-                                      "upperSnake",
-                                      "lower",
-                                      "header"
-                                    ],
+                                _js2n__-refsenv."_js2n__-:definitions/tagliatelle-cases!predicate",
                             } true _js2n__-prdslib.always
                         ])
                     | optional,
@@ -3317,7 +3515,9 @@ let rec _js2n__-refsenv
                         "blank-import",
                         "bool-compare",
                         "compares",
+                        "contains",
                         "empty",
+                        "encoded-compare",
                         "error-is-as",
                         "error-nil",
                         "expected-actual",
@@ -3327,6 +3527,7 @@ let rec _js2n__-refsenv
                         "len",
                         "negative-positive",
                         "nil-compare",
+                        "regexp",
                         "require-error",
                         "suite-broken-parallel",
                         "suite-dont-use-pkg",
@@ -3347,7 +3548,9 @@ let rec _js2n__-refsenv
                         "blank-import",
                         "bool-compare",
                         "compares",
+                        "contains",
                         "empty",
+                        "encoded-compare",
                         "error-is-as",
                         "error-nil",
                         "expected-actual",
@@ -3357,6 +3560,7 @@ let rec _js2n__-refsenv
                         "len",
                         "negative-positive",
                         "nil-compare",
+                        "regexp",
                         "require-error",
                         "suite-broken-parallel",
                         "suite-dont-use-pkg",
@@ -3385,7 +3589,7 @@ let rec _js2n__-refsenv
                     | optional,
                   require-f-funcs
                     | Bool
-                    | doc "To require f-assertions if format string is used."
+                    | doc "To require f-assertions (e.g. assert.Equalf) if format string is used, even if there are no variable-length variables."
                     | optional,
                 }
                 | optional,
@@ -3574,6 +3778,17 @@ let rec _js2n__-refsenv
                 | optional,
             }
             | optional,
+          usetesting
+            | {
+              context-background | Bool | optional,
+              context-todo | Bool | optional,
+              os-chdir | Bool | optional,
+              os-create-temp | Bool | optional,
+              os-mkdir-temp | Bool | optional,
+              os-setenv | Bool | optional,
+              os-temp-dir | Bool | optional,
+            }
+            | optional,
           varnamelen
             | {
               check-receiver
@@ -3626,6 +3841,10 @@ let rec _js2n__-refsenv
             | optional,
           wrapcheck
             | {
+              extra-ignore-sigs
+                | Array (String)
+                | doc "An array of strings specifying additional substrings of signatures to ignore."
+                | optional,
               ignoreInterfaceRegexps
                 | Array (String)
                 | doc "An array of glob patterns which, if matched to an underlying interface name, will ignore unwrapped errors returned from a function whose call is defined on the given interface."
@@ -3764,10 +3983,6 @@ let rec _js2n__-refsenv
           sort-results
             | Bool
             | doc "Sort results by: filepath, line and column."
-            | optional,
-          uniq-by-line
-            | Bool
-            | doc "Make issues output unique by line."
             | optional,
         }
         | doc "Output configuration options."

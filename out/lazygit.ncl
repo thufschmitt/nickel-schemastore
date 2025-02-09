@@ -1059,7 +1059,7 @@ let rec _js2n__-refsenv
             | String
             | doc m%"
               Command used to display git log of all branches in the main window.
-              Deprecated: User `allBranchesLogCmds` instead.
+              Deprecated: Use `allBranchesLogCmds` instead.
             "%
             | optional,
           allBranchesLogCmds
@@ -1284,7 +1284,7 @@ let rec _js2n__-refsenv
               One of 'rounded' (default) | 'single' | 'double' | 'hidden'
             "%
             | optional,
-          branchColors
+          branchColorPatterns
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.allOf
                 [
@@ -1293,6 +1293,19 @@ let rec _js2n__-refsenv
                     (_js2n__-prdslib.isType '"String")
                 ])
             | doc "See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-branch-color"
+            | optional,
+          branchColors
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ])
+            | doc m%"
+              See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-branch-color
+              Deprecated: use branchColorPatterns instead
+            "%
             | optional,
           commandLogSize
             | _js2n__-prdslib.contract_from_predicate
@@ -1396,6 +1409,14 @@ let rec _js2n__-refsenv
               One of 'auto' (default) | 'always' | 'never'
             "%
             | optional,
+          screenMode
+            | std.enum.TagOrString
+            | [| 'full, 'half, 'normal |]
+            | doc m%"
+              Default size for focused window. Can be changed from within Lazygit with '+' and '_' (but this won't change the default).
+              One of: 'normal' (default) | 'half' | 'full'
+            "%
+            | optional,
           scrollHeight
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.allOf
@@ -1462,6 +1483,10 @@ let rec _js2n__-refsenv
           showListFooter
             | Bool
             | doc "If true, show the '5 of 20' footer at the bottom of list views"
+            | optional,
+          showNumstatInFilesView
+            | Bool
+            | doc "If true, show the number of lines changed per file in the Files view"
             | optional,
           showPanelJumps
             | Bool
@@ -1534,6 +1559,10 @@ let rec _js2n__-refsenv
               Status panel view.
               One of 'dashboard' (default) | 'allBranchesLog'
             "%
+            | optional,
+          switchTabsWithPanelJumpKeys
+            | Bool
+            | doc "If true, when using the panel jump keys (default 1 through 5) and target panel is already active, go to next tab instead"
             | optional,
           switchToFilesAfterStashApply
             | Bool
@@ -1689,12 +1718,12 @@ let rec _js2n__-refsenv
               Uses Go's time format syntax: https://pkg.go.dev/time#Time.Format
             "%
             | optional,
-          windowSize
-            | std.enum.TagOrString
-            | [| 'full, 'half, 'normal |]
+          wrapLinesInStagingView
+            | Bool
             | doc m%"
-              Default size for focused window. Window size can be changed from within Lazygit with '+' and '_' (but this won't change the default).
-              One of: 'normal' (default) | 'half' | 'full'
+              If true, wrap lines in the staging view to the width of the view. This
+              makes it much easier to work with diffs that have long lines, e.g.
+              paragraphs of markdown text.
             "%
             | optional,
         }
@@ -1761,11 +1790,13 @@ let rec _js2n__-refsenv
           files
             | {
               amendLastCommit | String | optional,
+              collapseAll | String | optional,
               commitChanges | String | optional,
               commitChangesWithEditor | String | optional,
               commitChangesWithoutHook | String | optional,
               confirmDiscard | String | optional,
               copyFileInfoToClipboard | String | optional,
+              expandAll | String | optional,
               fetch | String | optional,
               findBaseCommitForFixup | String | optional,
               ignoreFile | String | optional,

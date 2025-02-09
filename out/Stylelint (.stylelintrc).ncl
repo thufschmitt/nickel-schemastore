@@ -1480,11 +1480,7 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.oneOf
                   [
                     _js2n__-prdslib.isType 'Null,
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"Bool",
-                        _js2n__-prdslib.enum [ true, [  ] ]
-                      ],
+                    _js2n__-prdslib.isType '"Bool",
                     _js2n__-prdslib.allOf
                       [
                         _js2n__-prdslib.isType '"Array",
@@ -1498,11 +1494,7 @@ let rec _js2n__-refsenv
                                 ],
                               _js2n__-prdslib.anyOf
                                 [
-                                  _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"Bool",
-                                      _js2n__-prdslib.enum [ true, {} ]
-                                    ],
+                                  _js2n__-prdslib.isType '"Bool",
                                   _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
                                 ]
                             ]),
@@ -1524,11 +1516,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.oneOf
                 [
                   _js2n__-prdslib.isType 'Null,
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Bool",
-                      _js2n__-prdslib.enum [ true, [  ] ]
-                    ],
+                  _js2n__-prdslib.isType '"Bool",
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType '"Array",
@@ -1542,11 +1530,7 @@ let rec _js2n__-refsenv
                               ],
                             _js2n__-prdslib.anyOf
                               [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"Bool",
-                                    _js2n__-prdslib.enum [ true, {} ]
-                                  ],
+                                _js2n__-prdslib.isType '"Bool",
                                 _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
                               ]
                           ]),
@@ -1774,19 +1758,23 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/arrayStringRule!predicate",
             } {} true _js2n__-prdslib.always,
       "_js2n__-:definitions/coreRule!predicate" =
-        _js2n__-prdslib.records.record
-            {
-              disableFix = _js2n__-prdslib.isType '"Bool",
-              message = _js2n__-prdslib.isType '"String",
-              reportDisables = _js2n__-prdslib.isType '"Bool",
-              severity =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.enum [ "warning", "error" ]
-                    ],
-              url = _js2n__-prdslib.isType '"String",
-            } {} true _js2n__-prdslib.always,
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  disableFix = _js2n__-prdslib.isType '"Bool",
+                  message = _js2n__-prdslib.isType '"String",
+                  reportDisables = _js2n__-prdslib.isType '"Bool",
+                  severity =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "warning", "error" ]
+                        ],
+                  url = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/customMedia!predicate" =
         _js2n__-prdslib.records.record
             {
@@ -3854,49 +3842,30 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/booleanRule!predicate",
             } {} true _js2n__-prdslib.always,
       "_js2n__-:definitions/objectRule!predicate" =
-        _js2n__-prdslib.allOf
+        _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.anyOf
+              _js2n__-prdslib.isType 'Null,
+              _js2n__-prdslib.allOf
                 [
-                  _js2n__-prdslib.isType 'Null,
                   _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.isType '"Array"
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-refsenv."_js2n__-:definitions/simpleStringOrArrayStringRule!predicate"
                 ],
-              _js2n__-prdslib.oneOf
+              _js2n__-prdslib.allOf
                 [
-                  _js2n__-prdslib.isType 'Null,
-                  _js2n__-prdslib.allOf
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.items
                     [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record {}
-                        {
-                          ".*" =
-                            _js2n__-refsenv."_js2n__-:definitions/simpleArrayStringRule!predicate",
-                        } true _js2n__-prdslib.always
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/simpleStringOrArrayStringRule!predicate"
+                        ],
+                      _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
                     ],
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.anyOf
-                              [ _js2n__-prdslib.isType 'Record ],
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType 'Record,
-                                _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate",
-                                _js2n__-prdslib.records.record {}
-                                  {
-                                    "^((?!message|severity).)*$" =
-                                      _js2n__-refsenv."_js2n__-:definitions/simpleArrayStringRule!predicate",
-                                  } true _js2n__-prdslib.always
-                              ]
-                          ]),
-                      _js2n__-prdslib.arrays.maxItems 2,
-                      _js2n__-prdslib.arrays.minItems 2,
-                      _js2n__-prdslib.arrays.uniqueItems
-                    ]
+                  _js2n__-prdslib.arrays.maxItems 2,
+                  _js2n__-prdslib.arrays.minItems 2
                 ]
             ],
       "_js2n__-:definitions/property!predicate" =
@@ -4647,7 +4616,6 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.isType '"Array",
                 _js2n__-prdslib.arrays.arrayOf
                   (_js2n__-prdslib.isType '"String"),
-                _js2n__-prdslib.arrays.minItems 1,
                 _js2n__-prdslib.arrays.uniqueItems
               ]),
       "_js2n__-:definitions/simpleArrayStringRule!predicate" =
@@ -4655,7 +4623,6 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String"),
-              _js2n__-prdslib.arrays.minItems 1,
               _js2n__-prdslib.arrays.uniqueItems
             ],
       "_js2n__-:definitions/simpleStringOrArrayStringRule!contract" =
@@ -4827,11 +4794,7 @@ let rec _js2n__-refsenv
                               ],
                             _js2n__-prdslib.anyOf
                               [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ {} ]
-                                  ],
+                                _js2n__-prdslib.isType '"String",
                                 _js2n__-refsenv."_js2n__-:definitions/coreRule!predicate"
                               ]
                           ]),

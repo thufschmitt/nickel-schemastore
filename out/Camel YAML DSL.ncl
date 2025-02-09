@@ -905,6 +905,14 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.BeanFactoryDefinition!predicate",
               _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:items/definitions/org.apache.camel.dsl.yaml.deserializers.DataFormatsDefinitionDeserializer!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.DataFormatsDefinition!predicate",
+              _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:items/definitions/org.apache.camel.dsl.yaml.deserializers.ErrorHandlerDeserializer!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1199,7 +1207,7 @@ let rec _js2n__-refsenv
                         ],
                   id = _js2n__-prdslib.isType '"String",
                   onWhen =
-                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.WhenDefinition!predicate",
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.OnWhenDefinition!predicate",
                   steps =
                     _js2n__-prdslib.allOf
                         [
@@ -3155,6 +3163,8 @@ let rec _js2n__-refsenv
                   description = _js2n__-prdslib.isType '"String",
                   disabled = _js2n__-prdslib.isType '"Bool",
                   id = _js2n__-prdslib.isType '"String",
+                  onWhen =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.OnWhenDefinition!predicate",
                   steps =
                     _js2n__-prdslib.allOf
                         [
@@ -3177,6 +3187,8 @@ let rec _js2n__-refsenv
                       description = _js2n__-prdslib.isType '"String",
                       disabled = _js2n__-prdslib.isType '"Bool",
                       id = _js2n__-prdslib.isType '"String",
+                      onWhen =
+                        _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.OnWhenDefinition!predicate",
                       steps =
                         _js2n__-prdslib.allOf
                             [
@@ -3204,6 +3216,8 @@ let rec _js2n__-refsenv
                           description = _js2n__-prdslib.isType '"String",
                           disabled = _js2n__-prdslib.isType '"Bool",
                           id = _js2n__-prdslib.isType '"String",
+                          onWhen =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.OnWhenDefinition!predicate",
                           skipSendToOriginalEndpoint =
                             _js2n__-prdslib.isType '"String",
                           steps =
@@ -3387,7 +3401,6 @@ let rec _js2n__-refsenv
                   disabled = _js2n__-prdslib.isType '"Bool",
                   failoverLoadBalancer = _js2n__-prdslib.always,
                   id = _js2n__-prdslib.isType '"String",
-                  inheritErrorHandler = _js2n__-prdslib.isType '"Bool",
                   randomLoadBalancer = _js2n__-prdslib.always,
                   roundRobinLoadBalancer = _js2n__-prdslib.always,
                   steps =
@@ -3417,6 +3430,7 @@ let rec _js2n__-refsenv
                           description = _js2n__-prdslib.isType '"String",
                           disabled = _js2n__-prdslib.isType '"Bool",
                           id = _js2n__-prdslib.isType '"String",
+                          logLanguage = _js2n__-prdslib.isType '"String",
                           logName = _js2n__-prdslib.isType '"String",
                           logger = _js2n__-prdslib.isType '"String",
                           loggingLevel =
@@ -3652,6 +3666,7 @@ let rec _js2n__-refsenv
                   method = _js2n__-prdslib.always,
                   mvel = _js2n__-prdslib.always,
                   ognl = _js2n__-prdslib.always,
+                  onPrepare = _js2n__-prdslib.isType '"String",
                   python = _js2n__-prdslib.always,
                   ref = _js2n__-prdslib.always,
                   simple = _js2n__-prdslib.always,
@@ -3771,6 +3786,12 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.allOf
                           [
+                            _js2n__-prdslib.records.required [ "fury" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
                             _js2n__-prdslib.records.required [ "grok" ],
                             _js2n__-prdslib.records.record {} {} true
                               _js2n__-prdslib.always
@@ -3851,6 +3872,12 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.records.required [ "rss" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "smooks" ],
                             _js2n__-prdslib.records.record {} {} true
                               _js2n__-prdslib.always
                           ],
@@ -4063,6 +4090,16 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "fury" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          fury =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FuryDataFormat!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.required [ "grok" ],
                       _js2n__-prdslib.records.record
                         {
@@ -4198,6 +4235,16 @@ let rec _js2n__-refsenv
                         {
                           rss =
                             _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.RssDataFormat!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "smooks" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          smooks =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SmooksDataFormat!predicate",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -4358,6 +4405,7 @@ let rec _js2n__-refsenv
                   fhirJson = _js2n__-prdslib.always,
                   fhirXml = _js2n__-prdslib.always,
                   flatpack = _js2n__-prdslib.always,
+                  fury = _js2n__-prdslib.always,
                   grok = _js2n__-prdslib.always,
                   gzipDeflater = _js2n__-prdslib.always,
                   hl7 = _js2n__-prdslib.always,
@@ -4373,6 +4421,7 @@ let rec _js2n__-refsenv
                   pgp = _js2n__-prdslib.always,
                   protobuf = _js2n__-prdslib.always,
                   rss = _js2n__-prdslib.always,
+                  smooks = _js2n__-prdslib.always,
                   soap = _js2n__-prdslib.always,
                   swiftMt = _js2n__-prdslib.always,
                   swiftMx = _js2n__-prdslib.always,
@@ -4445,7 +4494,7 @@ let rec _js2n__-refsenv
                   onCompleteOnly = _js2n__-prdslib.isType '"Bool",
                   onFailureOnly = _js2n__-prdslib.isType '"Bool",
                   onWhen =
-                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.WhenDefinition!predicate",
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.OnWhenDefinition!predicate",
                   parallelProcessing = _js2n__-prdslib.isType '"Bool",
                   steps =
                     _js2n__-prdslib.allOf
@@ -4481,7 +4530,7 @@ let rec _js2n__-refsenv
                   onExceptionOccurredRef = _js2n__-prdslib.isType '"String",
                   onRedeliveryRef = _js2n__-prdslib.isType '"String",
                   onWhen =
-                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.WhenDefinition!predicate",
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.OnWhenDefinition!predicate",
                   redeliveryPolicy =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.RedeliveryPolicyDefinition!predicate",
                   redeliveryPolicyRef = _js2n__-prdslib.isType '"String",
@@ -4506,7 +4555,6 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   description = _js2n__-prdslib.isType '"String",
-                  disabled = _js2n__-prdslib.isType '"Bool",
                   fallbackViaNetwork = _js2n__-prdslib.isType '"Bool",
                   id = _js2n__-prdslib.isType '"String",
                   steps =
@@ -4516,6 +4564,225 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.ProcessorDefinition!predicate"
                         ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:items/definitions/org.apache.camel.model.OnWhenDefinition!predicate"
+        | doc "To use a predicate to determine when to trigger this."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.language.ExpressionDefinition!predicate",
+                  _js2n__-prdslib.not
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "expression" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "constant" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "csimple" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "datasonnet" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required
+                              [ "exchangeProperty" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "groovy" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "header" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "hl7terser" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "java" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "joor" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "jq" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "js" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "jsonpath" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "language" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "method" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "mvel" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "ognl" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "python" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "ref" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "simple" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "spel" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "tokenize" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "variable" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "wasm" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "xpath" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "xquery" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "xtokenize" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]
+                      ]),
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "expression" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          expression =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.language.ExpressionDefinition!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  constant = _js2n__-prdslib.always,
+                  csimple = _js2n__-prdslib.always,
+                  datasonnet = _js2n__-prdslib.always,
+                  description = _js2n__-prdslib.isType '"String",
+                  exchangeProperty = _js2n__-prdslib.always,
+                  expression = _js2n__-prdslib.always,
+                  groovy = _js2n__-prdslib.always,
+                  header = _js2n__-prdslib.always,
+                  hl7terser = _js2n__-prdslib.always,
+                  id = _js2n__-prdslib.isType '"String",
+                  java = _js2n__-prdslib.always,
+                  joor = _js2n__-prdslib.always,
+                  jq = _js2n__-prdslib.always,
+                  js = _js2n__-prdslib.always,
+                  jsonpath = _js2n__-prdslib.always,
+                  language = _js2n__-prdslib.always,
+                  method = _js2n__-prdslib.always,
+                  mvel = _js2n__-prdslib.always,
+                  ognl = _js2n__-prdslib.always,
+                  python = _js2n__-prdslib.always,
+                  ref = _js2n__-prdslib.always,
+                  simple = _js2n__-prdslib.always,
+                  spel = _js2n__-prdslib.always,
+                  tokenize = _js2n__-prdslib.always,
+                  variable = _js2n__-prdslib.always,
+                  wasm = _js2n__-prdslib.always,
+                  xpath = _js2n__-prdslib.always,
+                  xquery = _js2n__-prdslib.always,
+                  xtokenize = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:items/definitions/org.apache.camel.model.OptimisticLockRetryPolicyDefinition!predicate"
@@ -4942,10 +5209,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.MarshalDefinition!predicate",
                   multicast =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.MulticastDefinition!predicate",
-                  onFallback =
-                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.OnFallbackDefinition!predicate",
-                  otherwise =
-                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.OtherwiseDefinition!predicate",
                   pausable =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.PausableDefinition!predicate",
                   pipeline =
@@ -5028,10 +5291,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.UnmarshalDefinition!predicate",
                   validate =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.ValidateDefinition!predicate",
-                  when =
-                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.WhenDefinition!predicate",
-                  whenSkipSendToEndpoint =
-                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.WhenSkipSendToEndpointDefinition!predicate",
                   wireTap =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.WireTapDefinition!predicate",
                 } {} false _js2n__-prdslib.never
@@ -9070,6 +9329,12 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.allOf
                           [
+                            _js2n__-prdslib.records.required [ "fury" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
                             _js2n__-prdslib.records.required [ "grok" ],
                             _js2n__-prdslib.records.record {} {} true
                               _js2n__-prdslib.always
@@ -9150,6 +9415,12 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.records.required [ "rss" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "smooks" ],
                             _js2n__-prdslib.records.record {} {} true
                               _js2n__-prdslib.always
                           ],
@@ -9362,6 +9633,16 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "fury" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          fury =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FuryDataFormat!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.required [ "grok" ],
                       _js2n__-prdslib.records.record
                         {
@@ -9497,6 +9778,16 @@ let rec _js2n__-refsenv
                         {
                           rss =
                             _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.RssDataFormat!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "smooks" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          smooks =
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SmooksDataFormat!predicate",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -9658,6 +9949,7 @@ let rec _js2n__-refsenv
                   fhirJson = _js2n__-prdslib.always,
                   fhirXml = _js2n__-prdslib.always,
                   flatpack = _js2n__-prdslib.always,
+                  fury = _js2n__-prdslib.always,
                   grok = _js2n__-prdslib.always,
                   gzipDeflater = _js2n__-prdslib.always,
                   hl7 = _js2n__-prdslib.always,
@@ -9673,6 +9965,7 @@ let rec _js2n__-refsenv
                   pgp = _js2n__-prdslib.always,
                   protobuf = _js2n__-prdslib.always,
                   rss = _js2n__-prdslib.always,
+                  smooks = _js2n__-prdslib.always,
                   soap = _js2n__-prdslib.always,
                   swiftMt = _js2n__-prdslib.always,
                   swiftMx = _js2n__-prdslib.always,
@@ -9927,233 +10220,6 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:items/definitions/org.apache.camel.model.WhenDefinition!predicate"
         | doc "Triggers a route when the expression evaluates to true"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.language.ExpressionDefinition!predicate",
-                  _js2n__-prdslib.not
-                    (_js2n__-prdslib.anyOf
-                      [
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "expression" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "constant" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "csimple" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "datasonnet" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required
-                              [ "exchangeProperty" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "groovy" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "header" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "hl7terser" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "java" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "joor" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "jq" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "js" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "jsonpath" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "language" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "method" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "mvel" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "ognl" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "python" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "ref" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "simple" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "spel" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "tokenize" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "variable" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "wasm" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "xpath" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "xquery" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.records.required [ "xtokenize" ],
-                            _js2n__-prdslib.records.record {} {} true
-                              _js2n__-prdslib.always
-                          ]
-                      ]),
-                  _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.required [ "expression" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          expression =
-                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.language.ExpressionDefinition!predicate",
-                        } {} true _js2n__-prdslib.always
-                    ]
-                ],
-              _js2n__-prdslib.records.record
-                {
-                  constant = _js2n__-prdslib.always,
-                  csimple = _js2n__-prdslib.always,
-                  datasonnet = _js2n__-prdslib.always,
-                  description = _js2n__-prdslib.isType '"String",
-                  disabled = _js2n__-prdslib.isType '"Bool",
-                  exchangeProperty = _js2n__-prdslib.always,
-                  expression = _js2n__-prdslib.always,
-                  groovy = _js2n__-prdslib.always,
-                  header = _js2n__-prdslib.always,
-                  hl7terser = _js2n__-prdslib.always,
-                  id = _js2n__-prdslib.isType '"String",
-                  java = _js2n__-prdslib.always,
-                  joor = _js2n__-prdslib.always,
-                  jq = _js2n__-prdslib.always,
-                  js = _js2n__-prdslib.always,
-                  jsonpath = _js2n__-prdslib.always,
-                  language = _js2n__-prdslib.always,
-                  method = _js2n__-prdslib.always,
-                  mvel = _js2n__-prdslib.always,
-                  ognl = _js2n__-prdslib.always,
-                  python = _js2n__-prdslib.always,
-                  ref = _js2n__-prdslib.always,
-                  simple = _js2n__-prdslib.always,
-                  spel = _js2n__-prdslib.always,
-                  steps =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.ProcessorDefinition!predicate"
-                        ],
-                  tokenize = _js2n__-prdslib.always,
-                  variable = _js2n__-prdslib.always,
-                  wasm = _js2n__-prdslib.always,
-                  xpath = _js2n__-prdslib.always,
-                  xquery = _js2n__-prdslib.always,
-                  xtokenize = _js2n__-prdslib.always,
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:items/definitions/org.apache.camel.model.WhenSkipSendToEndpointDefinition!predicate"
-        | doc "Predicate to determine if the message should be sent or not to the endpoint, when using interceptSentToEndpoint."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -11447,6 +11513,101 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "ref" ],
               _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:items/definitions/org.apache.camel.model.dataformat.DataFormatsDefinition!predicate"
+        | doc "Configure data formats."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  asn1 =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ASN1DataFormat!predicate",
+                  avro =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.AvroDataFormat!predicate",
+                  barcode =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.BarcodeDataFormat!predicate",
+                  base64 =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.Base64DataFormat!predicate",
+                  beanio =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.BeanioDataFormat!predicate",
+                  bindy =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.BindyDataFormat!predicate",
+                  cbor =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.CBORDataFormat!predicate",
+                  crypto =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.CryptoDataFormat!predicate",
+                  csv =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.CsvDataFormat!predicate",
+                  custom =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.CustomDataFormat!predicate",
+                  fhirJson =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FhirJsonDataFormat!predicate",
+                  fhirXml =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FhirXmlDataFormat!predicate",
+                  flatpack =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FlatpackDataFormat!predicate",
+                  fury =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.FuryDataFormat!predicate",
+                  grok =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.GrokDataFormat!predicate",
+                  gzipDeflater =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.GzipDeflaterDataFormat!predicate",
+                  hl7 =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.HL7DataFormat!predicate",
+                  ical =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.IcalDataFormat!predicate",
+                  jacksonXml =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.JacksonXMLDataFormat!predicate",
+                  jaxb =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.JaxbDataFormat!predicate",
+                  json =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.JsonDataFormat!predicate",
+                  jsonApi =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.JsonApiDataFormat!predicate",
+                  lzf =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.LZFDataFormat!predicate",
+                  mimeMultipart =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.MimeMultipartDataFormat!predicate",
+                  parquetAvro =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ParquetAvroDataFormat!predicate",
+                  pgp =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.PGPDataFormat!predicate",
+                  protobuf =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ProtobufDataFormat!predicate",
+                  rss =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.RssDataFormat!predicate",
+                  smooks =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SmooksDataFormat!predicate",
+                  soap =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SoapDataFormat!predicate",
+                  swiftMt =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SwiftMtDataFormat!predicate",
+                  swiftMx =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SwiftMxDataFormat!predicate",
+                  syslog =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.SyslogDataFormat!predicate",
+                  tarFile =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.TarFileDataFormat!predicate",
+                  thrift =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ThriftDataFormat!predicate",
+                  tidyMarkup =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.TidyMarkupDataFormat!predicate",
+                  univocityCsv =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.UniVocityCsvDataFormat!predicate",
+                  univocityFixed =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.UniVocityFixedDataFormat!predicate",
+                  univocityTsv =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.UniVocityTsvDataFormat!predicate",
+                  xmlSecurity =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.XMLSecurityDataFormat!predicate",
+                  yaml =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.YAMLDataFormat!predicate",
+                  zipDeflater =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ZipDeflaterDataFormat!predicate",
+                  zipFile =
+                    _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.dataformat.ZipFileDataFormat!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:items/definitions/org.apache.camel.model.dataformat.FhirJsonDataFormat!predicate"
         | doc "Marshall and unmarshall FHIR objects to/from JSON."
         = _js2n__-prdslib.allOf
@@ -11553,6 +11714,20 @@ let rec _js2n__-refsenv
                   textQualifier = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:items/definitions/org.apache.camel.model.dataformat.FuryDataFormat!predicate"
+        | doc "Serialize and deserialize messages using Apache Fury"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  allowAutoWiredFury = _js2n__-prdslib.isType '"Bool",
+                  id = _js2n__-prdslib.isType '"String",
+                  requireClassRegistration = _js2n__-prdslib.isType '"Bool",
+                  threadSafe = _js2n__-prdslib.isType '"Bool",
+                  unmarshalType = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:items/definitions/org.apache.camel.model.dataformat.GrokDataFormat!predicate"
         | doc "Unmarshal unstructured data to objects using Logstash based Grok patterns."
         = _js2n__-prdslib.allOf
@@ -11622,7 +11797,6 @@ let rec _js2n__-refsenv
                   timezone = _js2n__-prdslib.isType '"String",
                   unmarshalType = _js2n__-prdslib.isType '"String",
                   useList = _js2n__-prdslib.isType '"Bool",
-                  useWriter = _js2n__-prdslib.isType '"Bool",
                   xmlMapper = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
@@ -11687,6 +11861,7 @@ let rec _js2n__-refsenv
                   autoDiscoverObjectMapper = _js2n__-prdslib.isType '"Bool",
                   autoDiscoverSchemaResolver = _js2n__-prdslib.isType '"Bool",
                   collectionType = _js2n__-prdslib.isType '"String",
+                  combineUnicodeSurrogates = _js2n__-prdslib.isType '"Bool",
                   contentTypeHeader = _js2n__-prdslib.isType '"Bool",
                   dateFormatPattern = _js2n__-prdslib.isType '"String",
                   disableFeatures = _js2n__-prdslib.isType '"String",
@@ -11717,7 +11892,6 @@ let rec _js2n__-refsenv
                   unmarshalType = _js2n__-prdslib.isType '"String",
                   useDefaultObjectMapper = _js2n__-prdslib.isType '"Bool",
                   useList = _js2n__-prdslib.isType '"Bool",
-                  useWriter = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:items/definitions/org.apache.camel.model.dataformat.LZFDataFormat!predicate"
@@ -11858,6 +12032,18 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 { id = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
+            ],
+      "_js2n__-:items/definitions/org.apache.camel.model.dataformat.SmooksDataFormat!predicate"
+        | doc "Transform and bind XML as well as non-XML data, including EDI, CSV, JSON, and YAML using Smooks."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "smooksConfig" ],
+              _js2n__-prdslib.records.record
+                {
+                  id = _js2n__-prdslib.isType '"String",
+                  smooksConfig = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:items/definitions/org.apache.camel.model.dataformat.SoapDataFormat!predicate"
         | doc "Marshal Java objects to SOAP messages and back."
@@ -14240,8 +14426,9 @@ let rec _js2n__-refsenv
                   scopes = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jCharacterTokenizerDefinition!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jCharacterTokenizerDefinition!predicate"
+        | doc "Camel AI: Tokenizer for splitting by character."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
@@ -14258,8 +14445,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jParagraphTokenizerDefinition!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jParagraphTokenizerDefinition!predicate"
+        | doc "Camel AI: Tokenizer for splitting by paragraphs."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
@@ -14276,8 +14464,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jSentenceTokenizerDefinition!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jSentenceTokenizerDefinition!predicate"
+        | doc "Camel AI: Tokenizer for splitting by sentences."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
@@ -14312,8 +14501,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jWordTokenizerDefinition!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jWordTokenizerDefinition!predicate"
+        | doc "Camel AI: Tokenizer for splitting by word."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
@@ -14341,6 +14531,8 @@ let rec _js2n__-refsenv
               {
                 beans =
                   _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.dsl.yaml.deserializers.BeansDeserializer!predicate",
+                dataFormats =
+                  _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.dsl.yaml.deserializers.DataFormatsDefinitionDeserializer!predicate",
                 errorHandler =
                   _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.dsl.yaml.deserializers.ErrorHandlerDeserializer!predicate",
                 from =

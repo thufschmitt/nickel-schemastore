@@ -912,6 +912,37 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.enum [ "split" ]
                 ]
             ],
+      "_js2n__-:definitions/CacheKey!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "file" ],
+                  _js2n__-prdslib.records.record
+                    { file = _js2n__-prdslib.isType '"String", } {} false
+                    _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "git" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      git =
+                        _js2n__-refsenv."_js2n__-:definitions/GitPattern!predicate",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required [ "env" ],
+                  _js2n__-prdslib.records.record
+                    { env = _js2n__-prdslib.isType '"String", } {} false
+                    _js2n__-prdslib.never
+                ]
+            ],
       "_js2n__-:definitions/ConfigSettingValue!predicate" =
         _js2n__-prdslib.oneOf
             [
@@ -972,8 +1003,84 @@ let rec _js2n__-refsenv
           See: - <https://peps.python.org/pep-0685/#specification/> - <https://packaging.python.org/en/latest/specifications/name-normalization/>
         "%
         = _js2n__-prdslib.isType '"String",
-      "_js2n__-:definitions/FlatIndexLocation!predicate"
-        | doc "The path to a directory of distributions, or a URL to an HTML file with a flat listing of distributions."
+      "_js2n__-:definitions/ForkStrategy!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "fewest" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "requires-python" ]
+                ]
+            ],
+      "_js2n__-:definitions/GitPattern!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"Bool",
+              _js2n__-refsenv."_js2n__-:definitions/GitSet!predicate"
+            ],
+      "_js2n__-:definitions/GitSet!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  commit =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  tags =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/GroupName!predicate"
+        | doc m%"
+          The normalized name of a dependency group.
+          
+          See: - <https://peps.python.org/pep-0735/> - <https://packaging.python.org/en/latest/specifications/name-normalization/>
+        "%
+        = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/Index!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  "default" = _js2n__-prdslib.isType '"Bool",
+                  explicit = _js2n__-prdslib.isType '"Bool",
+                  name =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/IndexName!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  publish-url =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  url =
+                    _js2n__-refsenv."_js2n__-:definitions/IndexUrl!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/IndexName!predicate"
+        | doc m%"
+          The normalized name of an index.
+          
+          Index names may contain letters, digits, hyphens, underscores, and periods, and must be ASCII.
+        "%
         = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/IndexStrategy!predicate" =
         _js2n__-prdslib.oneOf
@@ -1036,6 +1143,9 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.enum [ "symlink" ]
                 ]
             ],
+      "_js2n__-:definitions/MarkerTree!predicate"
+        | doc "A PEP 508-compliant marker expression, e.g., `sys_platform == 'Darwin'`"
+        = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/PackageName!predicate"
         | doc m%"
           The normalized name of a package.
@@ -1076,17 +1186,6 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
-                  allow-insecure-host =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.isType 'Null
-                            ],
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/TrustedHost!predicate"
-                        ],
                   annotation-style =
                     _js2n__-prdslib.anyOf
                         [
@@ -1116,6 +1215,17 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
+                        ],
+                  dependency-metadata =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/StaticMetadata!predicate"
                         ],
                   emit-build-options =
                     _js2n__-prdslib.anyOf
@@ -1184,7 +1294,13 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType 'Null
                             ],
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/FlatIndexLocation!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/IndexUrl!predicate"
+                        ],
+                  fork-strategy =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ForkStrategy!predicate",
+                          _js2n__-prdslib.isType 'Null
                         ],
                   generate-hashes =
                     _js2n__-prdslib.anyOf
@@ -1272,6 +1388,17 @@ let rec _js2n__-refsenv
                             ],
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/PackageName!predicate"
+                        ],
+                  no-extra =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ExtraName!predicate"
                         ],
                   no-header =
                     _js2n__-prdslib.anyOf
@@ -1501,14 +1628,17 @@ let rec _js2n__-refsenv
                 ]
             ],
       "_js2n__-:definitions/PythonVersion!predicate"
-        | doc "A Python version specifier, e.g. `3.7` or `3.8.0`."
+        | doc "A Python version specifier, e.g. `3.11` or `3.12.4`."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.strings.pattern "^3\\.\\d+(\\.\\d+)?$"
             ],
+      "_js2n__-:definitions/RequiredVersion!predicate"
+        | doc "A version specifier, e.g. `>=0.5.0` or `==0.5.0`."
+        = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/Requirement!predicate"
-        | doc "A PEP 508 dependency specifier"
+        | doc "A PEP 508 dependency specifier, e.g., `ruff >= 0.6.0`"
         = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/ResolutionMode!predicate" =
         _js2n__-prdslib.oneOf
@@ -1529,6 +1659,63 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.enum [ "lowest-direct" ]
                 ]
             ],
+      "_js2n__-:definitions/SchemaConflictItem!predicate"
+        | doc m%"
+          A single item in a conflicting set.
+          
+          Each item is a pair of an (optional) package and a corresponding extra or group name for that package.
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  extra =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/ExtraName!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  group =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/GroupName!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  package =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/PackageName!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/SchemaConflictSet!predicate"
+        | doc m%"
+          Like [`ConflictSet`], but for deserialization in `pyproject.toml`.
+          
+          The schema format is different from the in-memory format. Specifically, the schema format does not allow specifying the package name (or will make it optional in the future), where as the in-memory format needs the package name.
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/SchemaConflictItem!predicate"
+            ],
+      "_js2n__-:definitions/SchemaConflicts!predicate"
+        | doc m%"
+          Like [`Conflicts`], but for deserialization in `pyproject.toml`.
+          
+          The schema format is different from the in-memory format. Specifically, the schema format does not allow specifying the package name (or will make it optional in the future), where as the in-memory format needs the package name.
+          
+          N.B. `Conflicts` is still used for (de)serialization. Specifically, in the lock file, where the package name is required.
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/SchemaConflictSet!predicate"
+            ],
       "_js2n__-:definitions/Source!predicate"
         | doc "A `tool.uv.sources` value."
         = _js2n__-prdslib.anyOf
@@ -1545,7 +1732,21 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.isType 'Null
                             ],
+                      extra =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/ExtraName!predicate",
+                              _js2n__-prdslib.isType 'Null
+                            ],
                       git = _js2n__-prdslib.isType '"String",
+                      group =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/GroupName!predicate",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                      marker =
+                        _js2n__-refsenv."_js2n__-:definitions/MarkerTree!predicate",
                       rev =
                         _js2n__-prdslib.anyOf
                             [
@@ -1555,7 +1756,7 @@ let rec _js2n__-refsenv
                       subdirectory =
                         _js2n__-prdslib.anyOf
                             [
-                              _js2n__-prdslib.isType '"String",
+                              _js2n__-refsenv."_js2n__-:definitions/String!predicate",
                               _js2n__-prdslib.isType 'Null
                             ],
                       tag =
@@ -1572,10 +1773,24 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.records.required [ "url" ],
                   _js2n__-prdslib.records.record
                     {
+                      extra =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/ExtraName!predicate",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                      group =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/GroupName!predicate",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                      marker =
+                        _js2n__-refsenv."_js2n__-:definitions/MarkerTree!predicate",
                       subdirectory =
                         _js2n__-prdslib.anyOf
                             [
-                              _js2n__-prdslib.isType '"String",
+                              _js2n__-refsenv."_js2n__-:definitions/String!predicate",
                               _js2n__-prdslib.isType 'Null
                             ],
                       url = _js2n__-prdslib.isType '"String",
@@ -1593,7 +1808,22 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"Bool",
                               _js2n__-prdslib.isType 'Null
                             ],
-                      path = _js2n__-prdslib.isType '"String",
+                      extra =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/ExtraName!predicate",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                      group =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/GroupName!predicate",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                      marker =
+                        _js2n__-refsenv."_js2n__-:definitions/MarkerTree!predicate",
+                      path =
+                        _js2n__-refsenv."_js2n__-:definitions/String!predicate",
                     } {} false _js2n__-prdslib.never
                 ],
               _js2n__-prdslib.allOf
@@ -1601,55 +1831,99 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType 'Record,
                   _js2n__-prdslib.records.required [ "index" ],
                   _js2n__-prdslib.records.record
-                    { index = _js2n__-prdslib.isType '"String", } {} false
-                    _js2n__-prdslib.never
+                    {
+                      extra =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/ExtraName!predicate",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                      group =
+                        _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/GroupName!predicate",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                      index =
+                        _js2n__-refsenv."_js2n__-:definitions/IndexName!predicate",
+                      marker =
+                        _js2n__-refsenv."_js2n__-:definitions/MarkerTree!predicate",
+                    } {} false _js2n__-prdslib.never
                 ],
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType 'Record,
                   _js2n__-prdslib.records.required [ "workspace" ],
                   _js2n__-prdslib.records.record
-                    { workspace = _js2n__-prdslib.isType '"Bool", } {} false
-                    _js2n__-prdslib.never
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.required
-                    [ "git", "index", "path", "url", "workspace" ],
-                  _js2n__-prdslib.records.record
                     {
-                      branch =
+                      extra =
                         _js2n__-prdslib.anyOf
                             [
-                              _js2n__-prdslib.isType '"String",
+                              _js2n__-refsenv."_js2n__-:definitions/ExtraName!predicate",
                               _js2n__-prdslib.isType 'Null
                             ],
-                      git = _js2n__-prdslib.isType '"String",
-                      index = _js2n__-prdslib.isType '"String",
-                      path = _js2n__-prdslib.isType '"String",
-                      rev =
+                      group =
                         _js2n__-prdslib.anyOf
                             [
-                              _js2n__-prdslib.isType '"String",
+                              _js2n__-refsenv."_js2n__-:definitions/GroupName!predicate",
                               _js2n__-prdslib.isType 'Null
                             ],
-                      subdirectory =
-                        _js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.isType 'Null
-                            ],
-                      tag =
-                        _js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.isType 'Null
-                            ],
-                      url = _js2n__-prdslib.isType '"String",
+                      marker =
+                        _js2n__-refsenv."_js2n__-:definitions/MarkerTree!predicate",
                       workspace = _js2n__-prdslib.isType '"Bool",
                     } {} false _js2n__-prdslib.never
                 ]
+            ],
+      "_js2n__-:definitions/Sources!predicate" =
+        _js2n__-refsenv."_js2n__-:definitions/SourcesWire!predicate",
+      "_js2n__-:definitions/SourcesWire!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/Source!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    _js2n__-refsenv."_js2n__-:definitions/Source!predicate"
+                ]
+            ],
+      "_js2n__-:definitions/StaticMetadata!predicate"
+        | doc "A subset of the Python Package Metadata 2.3 standard as specified in <https://packaging.python.org/specifications/core-metadata/>."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/PackageName!predicate",
+                  provides-extras =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ExtraName!predicate"
+                        ],
+                  requires-dist =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Requirement!predicate"
+                        ],
+                  requires-python =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  version =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/String!predicate" =
         _js2n__-prdslib.isType '"String",
@@ -1719,6 +1993,11 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "x86_64-manylinux2014" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
                   _js2n__-prdslib.enum [ "x86_64-manylinux_2_17" ]
                 ],
               _js2n__-prdslib.allOf
@@ -1734,6 +2013,56 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "x86_64-manylinux_2_32" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "x86_64-manylinux_2_33" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "x86_64-manylinux_2_34" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "x86_64-manylinux_2_35" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "x86_64-manylinux_2_36" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "x86_64-manylinux_2_37" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "x86_64-manylinux_2_38" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "x86_64-manylinux_2_39" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "x86_64-manylinux_2_40" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "aarch64-manylinux2014" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
                   _js2n__-prdslib.enum [ "aarch64-manylinux_2_17" ]
                 ],
               _js2n__-prdslib.allOf
@@ -1745,7 +2074,59 @@ let rec _js2n__-refsenv
                 [
                   _js2n__-prdslib.isType '"String",
                   _js2n__-prdslib.enum [ "aarch64-manylinux_2_31" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "aarch64-manylinux_2_32" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "aarch64-manylinux_2_33" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "aarch64-manylinux_2_34" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "aarch64-manylinux_2_35" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "aarch64-manylinux_2_36" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "aarch64-manylinux_2_37" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "aarch64-manylinux_2_38" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "aarch64-manylinux_2_39" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "aarch64-manylinux_2_40" ]
                 ]
+            ],
+      "_js2n__-:definitions/ToolUvSources!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                _js2n__-refsenv."_js2n__-:definitions/Sources!predicate"
             ],
       "_js2n__-:definitions/ToolUvWorkspace!predicate" =
         _js2n__-prdslib.allOf
@@ -1780,6 +2161,20 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/TrustedHost!predicate"
         | doc "A host or host-port pair."
         = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/TrustedPublishing!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "always", "never" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "automatic" ]
+                ]
+            ],
     }
     in
   {
@@ -1811,6 +2206,55 @@ let rec _js2n__-refsenv
           Path to the cache directory.
           
           Defaults to `$HOME/Library/Caches/uv` on macOS, `$XDG_CACHE_HOME/uv` or `$HOME/.cache/uv` on Linux, and `%LOCALAPPDATA%\uv\cache` on Windows.
+        "%
+        | optional,
+      cache-keys
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/CacheKey!predicate"
+            ])
+        | doc m%"
+          The keys to consider when caching builds for the project.
+          
+          Cache keys enable you to specify the files or directories that should trigger a rebuild when modified. By default, uv will rebuild a project whenever the `pyproject.toml`, `setup.py`, or `setup.cfg` files in the project directory are modified, i.e.:
+          
+          ```toml cache-keys = [{ file = "pyproject.toml" }, { file = "setup.py" }, { file = "setup.cfg" }] ```
+          
+          As an example: if a project uses dynamic metadata to read its dependencies from a `requirements.txt` file, you can specify `cache-keys = [{ file = "requirements.txt" }, { file = "pyproject.toml" }]` to ensure that the project is rebuilt whenever the `requirements.txt` file is modified (in addition to watching the `pyproject.toml`).
+          
+          Globs are supported, following the syntax of the [`glob`](https://docs.rs/glob/0.3.1/glob/struct.Pattern.html) crate. For example, to invalidate the cache whenever a `.toml` file in the project directory or any of its subdirectories is modified, you can specify `cache-keys = [{ file = "**/*.toml" }]`. Note that the use of globs can be expensive, as uv may need to walk the filesystem to determine whether any files have changed.
+          
+          Cache keys can also include version control information. For example, if a project uses `setuptools_scm` to read its version from a Git commit, you can specify `cache-keys = [{ git = { commit = true }, { file = "pyproject.toml" }]` to include the current Git commit hash in the cache key (in addition to the `pyproject.toml`). Git tags are also supported via `cache-keys = [{ git = { commit = true, tags = true } }]`.
+          
+          Cache keys can also include environment variables. For example, if a project relies on `MACOSX_DEPLOYMENT_TARGET` or other environment variables to determine its behavior, you can specify `cache-keys = [{ env = "MACOSX_DEPLOYMENT_TARGET" }]` to invalidate the cache whenever the environment variable changes.
+          
+          Cache keys only affect the project defined by the `pyproject.toml` in which they're specified (as opposed to, e.g., affecting all members in a workspace), and all paths and globs are interpreted as relative to the project directory.
+        "%
+        | optional,
+      check-url
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/IndexUrl!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc m%"
+          Check an index URL for existing files to skip duplicate uploads.
+          
+          This option allows retrying publishing that failed after only some, but not all files have been uploaded, and handles error due to parallel uploads of the same file.
+          
+          Before uploading, the index is checked. If the exact same file already exists in the index, the file will not be uploaded. If an error occurred during the upload, the index is checked again, to handle cases where the identical file was uploaded twice in parallel.
+          
+          The exact behavior will vary based on the index. When uploading to PyPI, uploading the same file succeeds even without `--check-url`, while most other indexes error.
+          
+          The index must provide one of the supported hashes (SHA-256, SHA-384, or SHA-512).
         "%
         | optional,
       compile-bytecode
@@ -1881,6 +2325,15 @@ let rec _js2n__-refsenv
             ])
         | doc "Settings to pass to the [PEP 517](https://peps.python.org/pep-0517/) build backend, specified as `KEY=VALUE` pairs."
         | optional,
+      conflicts
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/SchemaConflicts!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc "A list of sets of conflicting groups or extras."
+        | optional,
       constraint-dependencies
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1893,6 +2346,40 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
             ])
         | doc "PEP 508-style requirements, e.g., `ruff==0.5.0`, or `ruff @ https://...`."
+        | optional,
+      default-groups
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/GroupName!predicate"
+            ])
+        | doc "The list of `dependency-groups` to install by default."
+        | optional,
+      dependency-metadata
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/StaticMetadata!predicate"
+            ])
+        | doc m%"
+          Pre-defined static metadata for dependencies of the project (direct or transitive). When provided, enables the resolver to use the specified metadata instead of querying the registry or building the relevant package from source.
+          
+          Metadata should be provided in adherence with the [Metadata 2.3](https://packaging.python.org/en/latest/specifications/core-metadata/) standard, though only the following fields are respected:
+          
+          - `name`: The name of the package. - (Optional) `version`: The version of the package. If omitted, the metadata will be applied to all versions of the package. - (Optional) `requires-dist`: The dependencies of the package (e.g., `werkzeug>=0.14`). - (Optional) `requires-python`: The Python version required by the package (e.g., `>=3.10`). - (Optional) `provides-extras`: The extras provided by the package.
+        "%
         | optional,
       dev-dependencies
         | _js2n__-prdslib.contract_from_predicate
@@ -1950,9 +2437,11 @@ let rec _js2n__-refsenv
           
           Accepts either a repository compliant with [PEP 503](https://peps.python.org/pep-0503/) (the simple repository API), or a local directory laid out in the same format.
           
-          All indexes provided via this flag take priority over the index specified by [`index_url`](#index-url). When multiple indexes are provided, earlier values take priority.
+          All indexes provided via this flag take priority over the index specified by [`index_url`](#index-url) or [`index`](#index) with `default = true`. When multiple indexes are provided, earlier values take priority.
           
           To control uv's resolution strategy when multiple indexes are present, see [`index_strategy`](#index-strategy).
+          
+          (Deprecated: use `index` instead.)
         "%
         | optional,
       find-links
@@ -1965,14 +2454,57 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType 'Null
                 ],
               _js2n__-prdslib.arrays.arrayOf
-                _js2n__-refsenv."_js2n__-:definitions/FlatIndexLocation!predicate"
+                _js2n__-refsenv."_js2n__-:definitions/IndexUrl!predicate"
             ])
         | doc m%"
           Locations to search for candidate distributions, in addition to those found in the registry indexes.
           
-          If a path, the target must be a directory that contains packages as wheel files (`.whl`) or source distributions (`.tar.gz` or `.zip`) at the top level.
+          If a path, the target must be a directory that contains packages as wheel files (`.whl`) or source distributions (e.g., `.tar.gz` or `.zip`) at the top level.
           
           If a URL, the page must contain a flat list of links to package files adhering to the formats described above.
+        "%
+        | optional,
+      fork-strategy
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/ForkStrategy!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc m%"
+          The strategy to use when selecting multiple versions of a given package across Python versions and platforms.
+          
+          By default, uv will optimize for selecting the latest version of each package for each supported Python version (`requires-python`), while minimizing the number of selected versions across platforms.
+          
+          Under `fewest`, uv will minimize the number of selected versions for each package, preferring older versions that are compatible with a wider range of supported Python versions or platforms.
+        "%
+        | optional,
+      index
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/Index!predicate"
+            ])
+        | doc m%"
+          The indexes to use when resolving dependencies.
+          
+          Accepts either a repository compliant with [PEP 503](https://peps.python.org/pep-0503/) (the simple repository API), or a local directory laid out in the same format.
+          
+          Indexes are considered in the order in which they're defined, such that the first-defined index has the highest priority. Further, the indexes provided by this setting are given higher priority than any indexes specified via [`index_url`](#index-url) or [`extra_index_url`](#extra-index-url). uv will only consider the first index that contains a given package, unless an alternative [index strategy](#index-strategy) is specified.
+          
+          If an index is marked as `explicit = true`, it will be used exclusively for the dependencies that select it explicitly via `[tool.uv.sources]`, as in:
+          
+          ```toml [[tool.uv.index]] name = "pytorch" url = "https://download.pytorch.org/whl/cu121" explicit = true
+          
+          [tool.uv.sources] torch = { index = "pytorch" } ```
+          
+          If an index is marked as `default = true`, it will be moved to the end of the prioritized list, such that it is given the lowest priority when resolving packages. Additionally, marking an index as default will disable the PyPI default index.
         "%
         | optional,
       index-strategy
@@ -1985,7 +2517,7 @@ let rec _js2n__-refsenv
         | doc m%"
           The strategy to use when resolving against multiple index URLs.
           
-          By default, uv will stop at the first index on which a given package is available, and limit resolutions to those present on that first index (`first-match`). This prevents "dependency confusion" attacks, whereby an attack can upload a malicious package under the same name to a secondary.
+          By default, uv will stop at the first index on which a given package is available, and limit resolutions to those present on that first index (`first-index`). This prevents "dependency confusion" attacks, whereby an attacker can upload a malicious package under the same name to an alternate index.
         "%
         | optional,
       index-url
@@ -2000,7 +2532,9 @@ let rec _js2n__-refsenv
           
           Accepts either a repository compliant with [PEP 503](https://peps.python.org/pep-0503/) (the simple repository API), or a local directory laid out in the same format.
           
-          The index provided by this setting is given lower priority than any indexes specified via [`extra_index_url`](#extra-index-url).
+          The index provided by this setting is given lower priority than any indexes specified via [`extra_index_url`](#extra-index-url) or [`index`](#index).
+          
+          (Deprecated: use `index` instead.)
         "%
         | optional,
       keyring-provider
@@ -2199,6 +2733,24 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
         | doc "Whether to enable experimental, preview features."
         | optional,
+      publish-url
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
+        | doc "The URL for publishing packages to the Python package index (by default: <https://upload.pypi.org/legacy/>)."
+        | optional,
+      pypy-install-mirror
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
+        | doc m%"
+          Mirror URL to use for downloading managed PyPy installations.
+          
+          By default, managed PyPy installations are downloaded from [downloads.python.org](https://downloads.python.org/). This variable can be set to a mirror URL to use a different source for PyPy installations. The provided URL will replace `https://downloads.python.org/pypy` in, e.g., `https://downloads.python.org/pypy/pypy3.8-v7.3.7-osx64.tar.bz2`.
+          
+          Distributions can be read from a local directory by using the `file://` URL scheme.
+        "%
+        | optional,
       python-downloads
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
@@ -2207,6 +2759,18 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Null
             ])
         | doc "Whether to allow Python downloads."
+        | optional,
+      python-install-mirror
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
+        | doc m%"
+          Mirror URL for downloading managed Python installations.
+          
+          By default, managed Python installations are downloaded from [`python-build-standalone`](https://github.com/astral-sh/python-build-standalone). This variable can be set to a mirror URL to use a different source for Python installations. The provided URL will replace `https://github.com/astral-sh/python-build-standalone/releases/download` in, e.g., `https://github.com/astral-sh/python-build-standalone/releases/download/20240713/cpython-3.12.4%2B20240713-aarch64-apple-darwin-install_only.tar.gz`.
+          
+          Distributions can be read from a local directory by using the `file://` URL scheme.
+        "%
         | optional,
       python-preference
         | _js2n__-prdslib.contract_from_predicate
@@ -2237,6 +2801,21 @@ let rec _js2n__-refsenv
             ])
         | doc "Reinstall a specific package, regardless of whether it's already installed. Implies `refresh-package`."
         | optional,
+      required-version
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/RequiredVersion!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc m%"
+          Enforce a requirement on the version of uv.
+          
+          If the version of uv does not meet the requirement at runtime, uv will exit with an error.
+          
+          Accepts a [PEP 440](https://peps.python.org/pep-0440/) specifier, like `==0.5.0` or `>=0.5.0`.
+        "%
+        | optional,
       resolution
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
@@ -2252,17 +2831,31 @@ let rec _js2n__-refsenv
         | optional,
       sources
         | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
+          (_js2n__-prdslib.anyOf
             [
-              _js2n__-prdslib.anyOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.isType 'Null
-                ],
-              _js2n__-prdslib.records.record {} {} true
-                _js2n__-refsenv."_js2n__-:definitions/Source!predicate"
+              _js2n__-refsenv."_js2n__-:definitions/ToolUvSources!predicate",
+              _js2n__-prdslib.isType 'Null
             ])
-        | doc "The sources to use (e.g., workspace members, Git repositories, local paths) when resolving dependencies."
+        | doc m%"
+          The sources to use when resolving dependencies.
+          
+          `tool.uv.sources` enriches the dependency metadata with additional sources, incorporated during development. A dependency source can be a Git repository, a URL, a local path, or an alternative registry.
+          
+          See [Dependencies](https://docs.astral.sh/uv/concepts/projects/dependencies/) for more.
+        "%
+        | optional,
+      trusted-publishing
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/TrustedPublishing!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc m%"
+          Configure trusted publishing via GitHub Actions.
+          
+          By default, uv checks for trusted publishing when running in GitHub Actions, but ignores it if it isn't configured or the workflow doesn't have enough permissions (e.g., a pull request from a fork).
+        "%
         | optional,
       upgrade
         | _js2n__-prdslib.contract_from_predicate

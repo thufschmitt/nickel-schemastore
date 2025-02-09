@@ -911,9 +911,6 @@ let rec _js2n__-refsenv
             api_browser
               | _js2n__-refsenv."_js2n__-:definitions/api_browser!contract"
               | optional,
-            jwt_key
-              | _js2n__-refsenv."_js2n__-:definitions/jwt_key!contract"
-              | optional,
             max_limit
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.anyOf
@@ -983,10 +980,11 @@ let rec _js2n__-refsenv
             delay | std.number.Integer | optional,
             delay_options
               | {
+                connection | String | optional,
                 dsn | String | optional,
                 storage
                   | std.enum.TagOrString
-                  | [| 'redis, 'cache |]
+                  | [| 'mysql, 'redis, 'cache |]
                   | optional,
               }
               | optional,
@@ -1074,7 +1072,15 @@ let rec _js2n__-refsenv
             expire_days | std.number.Integer | optional,
             storage
               | {
-                config | { dsn | String | optional, } | optional,
+                config
+                  | {
+                    connection | String | optional,
+                    dsn
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.isType '"String")
+                      | optional,
+                  }
+                  | optional,
                 type | std.enum.TagOrString | [| 'redis, 'mysql |] | optional,
               }
               | optional,
@@ -1207,6 +1213,47 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.isType '"Bool",
                         _js2n__-prdslib.isType '"String"
                       ])
+                  | optional,
+                sigV4
+                  | {
+                    credentials_provider
+                      | {
+                        key_id
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.isType '"Bool",
+                                _js2n__-prdslib.isType '"String"
+                              ])
+                          | optional,
+                        secret_key
+                          | _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.isType '"Bool",
+                                _js2n__-prdslib.isType '"String"
+                              ])
+                          | optional,
+                      }
+                      | optional,
+                    enabled | Bool | optional,
+                    region
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType '"Bool",
+                            _js2n__-prdslib.isType '"String"
+                          ])
+                      | optional,
+                    service
+                      | _js2n__-prdslib.contract_from_predicate
+                        (_js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType '"Bool",
+                            _js2n__-prdslib.isType '"String"
+                          ])
+                      | optional,
+                  }
                   | optional,
                 verify_server_cert | Bool | optional,
               }
@@ -1448,10 +1495,29 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType 'Record,
-                                _js2n__-prdslib.records.required [ "url" ],
+                                _js2n__-prdslib.oneOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "url" ],
+                                        _js2n__-prdslib.records.record {} {}
+                                          true _js2n__-prdslib.always
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "connection" ],
+                                        _js2n__-prdslib.records.record {} {}
+                                          true _js2n__-prdslib.always
+                                      ]
+                                  ],
                                 _js2n__-prdslib.records.record
-                                  { url = _js2n__-prdslib.isType '"String", } {}
-                                  false _js2n__-prdslib.never
+                                  {
+                                    connection =
+                                      _js2n__-prdslib.isType '"String",
+                                    url = _js2n__-prdslib.isType '"String",
+                                  } {} false _js2n__-prdslib.never
                               ],
                       } {} true _js2n__-prdslib.always
                   ]) _js2n__-prdslib.always,
@@ -1466,22 +1532,6 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/jwt_key!contract" =
-        {
-            private_key_passphrase
-              | String
-              | doc "Passphrase for the private key file."
-              | optional,
-            private_key_path
-              | String
-              | doc "Path to the private key file."
-              | optional,
-            public_key_path
-              | String
-              | doc "Path to the public key file."
-              | optional,
-            use_app_secret | Bool | optional,
-          },
       "_js2n__-:definitions/logger!contract" =
         {
             enforce_throw_exception | Bool | optional,
@@ -1528,7 +1578,15 @@ let rec _js2n__-refsenv
           },
       "_js2n__-:definitions/number_range!contract" =
         {
-            config | { dsn | String | optional, } | optional,
+            config
+              | {
+                connection | String | optional,
+                dsn
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.isType '"String")
+                  | optional,
+              }
+              | optional,
             increment_storage
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.anyOf
@@ -1544,6 +1602,8 @@ let rec _js2n__-refsenv
               | optional,
           },
       "_js2n__-:definitions/parameters!contract" = {  .. },
+      "_js2n__-:definitions/product_stream!contract" =
+        { indexing | Bool | optional, },
       "_js2n__-:definitions/profiler!contract" =
         {
             integrations
@@ -1611,6 +1671,24 @@ let rec _js2n__-refsenv
             policy | String | optional,
             reset | String | optional,
             ..
+          },
+      "_js2n__-:definitions/redis!contract" =
+        {
+            connections
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record {} {} true
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            { dsn = _js2n__-prdslib.isType '"String", } {} false
+                            _js2n__-prdslib.never
+                        ])
+                  ])
+              | optional,
           },
       "_js2n__-:definitions/root!contract" =
         {
@@ -1692,8 +1770,14 @@ let rec _js2n__-refsenv
             number_range
               | _js2n__-refsenv."_js2n__-:definitions/number_range!contract"
               | optional,
+            product_stream
+              | _js2n__-refsenv."_js2n__-:definitions/product_stream!contract"
+              | optional,
             profiler
               | _js2n__-refsenv."_js2n__-:definitions/profiler!contract"
+              | optional,
+            redis
+              | _js2n__-refsenv."_js2n__-:definitions/redis!contract"
               | optional,
             sales_channel_context
               | _js2n__-refsenv."_js2n__-:definitions/sales_channel_context!contract"
@@ -1791,7 +1875,7 @@ let rec _js2n__-refsenv
               | {
                 base_uri | String | optional,
                 batch_size | std.number.Integer | optional,
-                enable_dispatch | Bool | optional,
+                dispatch_enabled | Bool | optional,
               }
               | optional,
           },

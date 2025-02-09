@@ -1118,6 +1118,13 @@ let rec _js2n__-refsenv
             [ "EngineAssociation", "FileVersion" ],
           _js2n__-prdslib.records.record
             {
+              AdditionalPluginDirectories =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String")
+                    ],
               Category = _js2n__-prdslib.isType '"String",
               Description = _js2n__-prdslib.isType '"String",
               DisableEnginePluginsByDefault = _js2n__-prdslib.isType '"Bool",
@@ -1126,7 +1133,7 @@ let rec _js2n__-refsenv
                     [
                       _js2n__-prdslib.isType '"String",
                       _js2n__-prdslib.strings.pattern
-                        "(^([0-9]+)\\.([0-9]+)$)|(^\\{[A-F0-9]{8}(-[A-F0-9]{4}){3}-[A-F0-9]{12}\\}$)"
+                        "(^([0-9]+)\\.([0-9]+)$)|(^\\{[A-F0-9]{8}(-[A-F0-9]{4}){3}-[A-F0-9]{12}\\}$)|^$|[\\\\/]"
                     ],
               EpicSampleNameHash = _js2n__-prdslib.isType '"Number",
               FileVersion = _js2n__-prdslib.isType '"Number",

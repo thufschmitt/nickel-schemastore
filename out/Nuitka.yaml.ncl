@@ -922,6 +922,33 @@ let rec _js2n__-refsenv
                 | std.enum.TagOrString
                 | [| 'no, 'yes, '"default" |]
                 | optional,
+              global_replacements
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        (_js2n__-prdslib.isType '"String")
+                    ])
+                | optional,
+              global_replacements_plain
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        (_js2n__-prdslib.isType '"String")
+                    ])
+                | optional,
+              global_replacements_re
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        (_js2n__-prdslib.isType '"String")
+                    ])
+                | optional,
               module_code | String | optional,
               no-auto-follow | {  .. } | optional,
               no-follow | {  .. } | optional,
@@ -1017,6 +1044,12 @@ let rec _js2n__-refsenv
                           ])
                     )
                     | optional,
+                }
+                | optional,
+              from_sources
+                | {
+                  dest_names | Array (String) | optional,
+                  source_paths | Array (String),
                 }
                 | optional,
               when | String | optional,
@@ -1120,6 +1153,7 @@ let rec _js2n__-refsenv
                   ])
               | optional,
             setup_code | Array (String) | optional,
+            when | String | optional,
           }
           | optional,
       }

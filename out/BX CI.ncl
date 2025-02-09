@@ -998,6 +998,9 @@ let rec _js2n__-refsenv
               | doc "Sets whether the scan should be executed synchronously (default). The Synchronous mode allows viewing scan results in Jenkins"
               | optional,
           },
+      "_js2n__-:definitions/context!predicate"
+        | doc "Dockerfile context. If not set defaults to dockerfile file path (parent folder)"
+        = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/credentials!contract"
         | doc "Jenkins credentials ID"
         = String,
@@ -1017,6 +1020,9 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/dockerfile!contract"
         | doc "Dockerfile path"
         = String,
+      "_js2n__-:definitions/dockerfile!predicate"
+        | doc "Dockerfile path"
+        = _js2n__-prdslib.isType '"String",
       "_js2n__-:definitions/failFast!predicate"
         | doc "Forces parallel stages to all be aborted when one of them fails"
         = _js2n__-prdslib.isType '"Bool",
@@ -1035,77 +1041,119 @@ let rec _js2n__-refsenv
           },
       "_js2n__-:definitions/outputDocker!contract" =
         {
-            args
+            images
               | Array
-                _js2n__-refsenv."_js2n__-:definitions/outputDockerBuildArgs!contract"
-              | doc "List of build args (--build-arg) to pass in docker build"
+                _js2n__-refsenv."_js2n__-:definitions/outputDockerImage!contract",
+            multiArch
+              | {
+                architectures | Array (String) | optional,
+                enabled
+                  | Bool
+                  | doc "Whether the multi-arch build should be enabled"
+                  | optional,
+                ..
+              }
               | optional,
-            dockerfile
-              | _js2n__-refsenv."_js2n__-:definitions/dockerfile!contract"
-              | doc "Path to Dockerfile used to generate the docker image",
-            image_name
-              | String
-              | doc "Image name for the generated docker image. Cannot include tag. Tag will be automatically generated based on project version.",
             publish
               | _js2n__-refsenv."_js2n__-:definitions/outputDockerPublish!contract"
               | doc "Docker publishing information. If not present, no images will be published"
               | optional,
-            vulnerability_scan
-              | {
-                enabled
-                  | Bool
-                  | doc "Whether the vulnerability scan step should be run"
-                  | optional,
-              }
-              | doc "Configuration for running vulnerability scans on published Docker images"
-              | optional,
           },
-      "_js2n__-:definitions/outputDockerBuildArgs!contract" =
+      "_js2n__-:definitions/outputDockerBuildArgs!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "key", "value" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          additionalProperties = _js2n__-prdslib.never,
+                          key = _js2n__-prdslib.isType '"String",
+                          value = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "env", "key" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          additionalProperties = _js2n__-prdslib.never,
+                          env =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^[A-Za-z_][A-Za-z0-9_]*$"
+                                ],
+                          key = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  env =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^[A-Za-z_][A-Za-z0-9_]*$"
+                        ],
+                  key = _js2n__-prdslib.isType '"String",
+                  value = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/outputDockerImage!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.allOf
               [
                 _js2n__-prdslib.isType 'Record,
-                _js2n__-prdslib.oneOf
+                _js2n__-prdslib.anyOf
                   [
                     _js2n__-prdslib.allOf
                       [
-                        _js2n__-prdslib.not
-                          (_js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.records.required [ "value" ],
-                              _js2n__-prdslib.records.record {} {} true
-                                _js2n__-prdslib.always
-                            ]),
-                        _js2n__-prdslib.records.required [ "env" ],
-                        _js2n__-prdslib.records.record {} {} true
-                          _js2n__-prdslib.always
+                        _js2n__-prdslib.records.required [ "dockerfile" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            dockerfile =
+                              _js2n__-refsenv."_js2n__-:definitions/dockerfile!predicate",
+                          } {} true _js2n__-prdslib.always
                       ],
                     _js2n__-prdslib.allOf
                       [
-                        _js2n__-prdslib.not
-                          (_js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.records.required [ "env" ],
-                              _js2n__-prdslib.records.record {} {} true
-                                _js2n__-prdslib.always
-                            ]),
-                        _js2n__-prdslib.records.required [ "value" ],
-                        _js2n__-prdslib.records.record {} {} true
-                          _js2n__-prdslib.always
+                        _js2n__-prdslib.records.required [ "context" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            context =
+                              _js2n__-refsenv."_js2n__-:definitions/context!predicate",
+                          } {} true _js2n__-prdslib.always
                       ]
                   ],
-                _js2n__-prdslib.records.required [ "key" ],
+                _js2n__-prdslib.records.required [ "name" ],
                 _js2n__-prdslib.records.record
                   {
-                    env =
+                    args =
                       _js2n__-prdslib.allOf
                           [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.strings.pattern
-                              "^[A-Za-z_][A-Za-z0-9_]*$"
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              _js2n__-refsenv."_js2n__-:definitions/outputDockerBuildArgs!predicate"
                           ],
-                    key = _js2n__-prdslib.isType '"String",
-                    value = _js2n__-prdslib.isType '"String",
+                    context =
+                      _js2n__-refsenv."_js2n__-:definitions/context!predicate",
+                    dockerfile =
+                      _js2n__-refsenv."_js2n__-:definitions/dockerfile!predicate",
+                    name = _js2n__-prdslib.isType '"String",
+                    vulnerability_scan =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record
+                              { enabled = _js2n__-prdslib.isType '"Bool", } {}
+                              true _js2n__-prdslib.always
+                          ],
                   } {} false _js2n__-prdslib.never
               ]),
       "_js2n__-:definitions/outputDockerPublish!contract" =
@@ -1113,16 +1161,22 @@ let rec _js2n__-refsenv
             _js2n__-refsenv."_js2n__-:definitions/dockerReleaseChannel!contract",
       "_js2n__-:definitions/outputHelm!contract" =
         {
-            path
-              | String
-              | doc "Path to the folder with all required chart config files",
+            charts
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/outputHelmChart!contract"
+              | optional,
             publish
               | _js2n__-refsenv."_js2n__-:definitions/outputHelmPublish!contract"
               | doc "Helm chart publishing configuration. If not present, no charts will be published",
+          },
+      "_js2n__-:definitions/outputHelmChart!contract" =
+        {
+            path | String | doc "Path to the Helm chart directory",
             updates
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/outputHelmUpdates!contract"
-              | doc "Updates that must be done before packing Helm chart. It's a list of objects that specifies which updates must be done on which files",
+              | doc "List of files to update"
+              | optional,
           },
       "_js2n__-:definitions/outputHelmPublish!contract" =
         Array
@@ -1146,44 +1200,30 @@ let rec _js2n__-refsenv
                   [
                     _js2n__-prdslib.allOf
                       [
-                        _js2n__-prdslib.not
-                          (_js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.records.required [ "value" ],
-                              _js2n__-prdslib.records.record {} {} true
-                                _js2n__-prdslib.always
-                            ]),
-                        _js2n__-prdslib.records.required [ "env" ],
-                        _js2n__-prdslib.records.record {} {} true
-                          _js2n__-prdslib.always
+                        _js2n__-prdslib.records.required [ "env", "key" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            additionalProperties = _js2n__-prdslib.never,
+                            env =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.pattern
+                                      "^[A-Za-z_][A-Za-z0-9_]*$"
+                                  ],
+                            key = _js2n__-prdslib.isType '"String",
+                          } {} false _js2n__-prdslib.never
                       ],
                     _js2n__-prdslib.allOf
                       [
-                        _js2n__-prdslib.not
-                          (_js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.records.required [ "env" ],
-                              _js2n__-prdslib.records.record {} {} true
-                                _js2n__-prdslib.always
-                            ]),
-                        _js2n__-prdslib.records.required [ "value" ],
-                        _js2n__-prdslib.records.record {} {} true
-                          _js2n__-prdslib.always
+                        _js2n__-prdslib.records.required [ "key", "value" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            key = _js2n__-prdslib.isType '"String",
+                            value = _js2n__-prdslib.isType '"String",
+                          } {} false _js2n__-prdslib.never
                       ]
-                  ],
-                _js2n__-prdslib.records.required [ "key" ],
-                _js2n__-prdslib.records.record
-                  {
-                    env =
-                      _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.strings.pattern
-                              "^[A-Za-z_][A-Za-z0-9_]*$"
-                          ],
-                    key = _js2n__-prdslib.isType '"String",
-                    value = _js2n__-prdslib.isType '"String",
-                  } {} false _js2n__-prdslib.never
+                  ]
               ]),
       "_js2n__-:definitions/outputPackage!contract" =
         {
@@ -1269,7 +1309,7 @@ let rec _js2n__-refsenv
               | optional,
             branch_pattern
               | String
-              | doc "Indicates what branches static analysis will be performed."
+              | doc "Indicates on which branches static analysis will be performed."
               | optional,
             breaks_build
               | Bool
@@ -1303,11 +1343,15 @@ let rec _js2n__-refsenv
                   fail_fast =
                     _js2n__-refsenv."_js2n__-:definitions/failFast!predicate",
                   parallel =
-                    _js2n__-prdslib.records.record {}
-                        {
-                          "^\\w+( \\w+)*$" =
-                            _js2n__-refsenv."_js2n__-:definitions/singleStage!predicate",
-                        } true _js2n__-prdslib.always,
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^\\w+( \\w+)*$" =
+                                _js2n__-refsenv."_js2n__-:definitions/singleStage!predicate",
+                            } true _js2n__-prdslib.always
+                        ],
                   steps =
                     _js2n__-refsenv."_js2n__-:definitions/steps!predicate",
                   when = _js2n__-refsenv."_js2n__-:definitions/when!predicate",
@@ -1506,7 +1550,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/stage!predicate",
                 } true _js2n__-prdslib.always
             ])
-        | doc "Defines the stages and steps required to build the project.",
+        | doc "Defines the stages and steps required to build the project."
+        | optional,
       timeout
         | _js2n__-refsenv."_js2n__-:definitions/timeout!contract"
         | doc "Build timeout in seconds"
