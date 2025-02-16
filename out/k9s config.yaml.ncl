@@ -954,6 +954,7 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.records.record
                         {
                           buffer = _js2n__-prdslib.isType 'Integer,
+                          disableAutoscroll = _js2n__-prdslib.isType '"Bool",
                           showTime = _js2n__-prdslib.isType '"Bool",
                           sinceSeconds = _js2n__-prdslib.isType 'Integer,
                           tail = _js2n__-prdslib.isType 'Integer,

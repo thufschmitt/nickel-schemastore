@@ -1046,6 +1046,19 @@ let rec _js2n__-refsenv
         | String
         | doc "The pointer to the `Predictor` object in your code, which defines how predictions are run on your model."
         | optional,
+      tests
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType 'Record)
+            ])
+        | doc "A list of test cog commands to run."
+        | optional,
       train
         | String
         | doc "The pointer to the `Predictor` object in your code, which defines how predictions are run on your model."

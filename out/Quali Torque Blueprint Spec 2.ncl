@@ -951,6 +951,14 @@ let rec _js2n__-refsenv
                   type = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/BlueprintEnvReferenceObject!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { labels-selector = _js2n__-prdslib.isType '"String", } {} false
+                _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/BlueprintInputObject!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1035,7 +1043,7 @@ let rec _js2n__-refsenv
                               "agent",
                               "credentials",
                               "parameter",
-                              "radio",
+                              "env",
                               "input-source"
                             ]
                         ],
@@ -1076,7 +1084,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record {}
                 {
-                  "^[A-Z0-9_]+" =
+                  "^[A-Za-z0-9_]+" =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"String",
@@ -1085,11 +1093,37 @@ let rec _js2n__-refsenv
                         ],
                 } false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/EnvironmentLabel!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^{?[a-zA-Z0-9-_.@#\\s]+}?$" =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                } false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/GrainCommand!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/GrainEnvReference!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^[\\w\\-\\.]+$" =
+                    _js2n__-prdslib.anyOf [ _js2n__-prdslib.isType '"String" ],
+                } false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/GrainInput!predicate" =
         _js2n__-prdslib.allOf
@@ -1106,6 +1140,46 @@ let rec _js2n__-refsenv
                         ],
                 } false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/GrainLabels!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  on-failure =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/EnvironmentLabel!predicate",
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.pattern
+                                      "^{?[a-zA-Z0-9-_.@#\\s]+}?$"
+                                  ]
+                              ])
+                        ],
+                  on-success =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/EnvironmentLabel!predicate",
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.pattern
+                                      "^{?[a-zA-Z0-9-_.@#\\s]+}?$"
+                                  ]
+                              ])
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/GrainObject!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1120,6 +1194,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.strings.pattern
                             "^((.+)(,\\s*)?)+[^,]$"
                         ],
+                  env-labels =
+                    _js2n__-refsenv."_js2n__-:definitions/GrainLabels!predicate",
                   kind =
                     _js2n__-prdslib.allOf
                         [
@@ -1137,7 +1213,8 @@ let rec _js2n__-refsenv
                               "cloudshell",
                               "argocd",
                               "opentofu",
-                              "terragrunt"
+                              "terragrunt",
+                              "aws-cdk"
                             ]
                         ],
                   spec =
@@ -1157,11 +1234,17 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  post-aws-cdk-deploy =
+                    _js2n__-refsenv."_js2n__-:definitions/ScriptObject!predicate",
                   post-helm-install =
                     _js2n__-refsenv."_js2n__-:definitions/ScriptOutputsObject!predicate",
                   post-kubernetes-install =
                     _js2n__-refsenv."_js2n__-:definitions/ScriptOutputsObject!predicate",
                   post-tf-plan =
+                    _js2n__-refsenv."_js2n__-:definitions/ScriptObject!predicate",
+                  pre-ansible-run =
+                    _js2n__-refsenv."_js2n__-:definitions/ScriptOutputsObject!predicate",
+                  pre-aws-cdk-deploy =
                     _js2n__-refsenv."_js2n__-:definitions/ScriptObject!predicate",
                   pre-tf-destroy =
                     _js2n__-refsenv."_js2n__-:definitions/ScriptObject!predicate",
@@ -1227,6 +1310,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/EnvironementVariable!predicate"
+                        ],
+                  env_references =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/GrainEnvReference!predicate"
                         ],
                   files =
                     _js2n__-refsenv."_js2n__-:definitions/ShellGrainFiles!predicate",
@@ -1393,6 +1483,13 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  nodeSelector =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/NodeSelector!predicate"
+                        ],
                   permissions =
                     _js2n__-prdslib.allOf
                         [
@@ -1405,6 +1502,13 @@ let rec _js2n__-refsenv
                               secret-namespace =
                                 _js2n__-prdslib.isType '"String",
                             } {} false _js2n__-prdslib.never
+                        ],
+                  pod-annotations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/PodAnnotations!predicate"
                         ],
                   pod-labels =
                     _js2n__-prdslib.allOf
@@ -1425,6 +1529,18 @@ let rec _js2n__-refsenv
                   path = _js2n__-prdslib.isType '"String",
                   store = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/NodeSelector!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/PodAnnotations!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/PodLabels!predicate" =
         _js2n__-prdslib.allOf
@@ -1516,7 +1632,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/Torque-Blueprint-Spec2!contract" =
         {
             description | String | optional,
-            grains
+            env_references
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.allOf
                   [
@@ -1524,6 +1640,22 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.record {}
                       {
                         "^[a-zA-Z0-9-_ ().]{3,45}$" =
+                          _js2n__-prdslib.oneOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/BlueprintEnvReferenceObject!predicate",
+                                _js2n__-prdslib.isType 'Null
+                              ],
+                      } true _js2n__-prdslib.always
+                  ])
+              | optional,
+            grains
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record {}
+                      {
+                        "^[a-zA-Z0-9-_ ]{3,45}$" =
                           _js2n__-prdslib.oneOf
                               [
                                 _js2n__-refsenv."_js2n__-:definitions/GrainObject!predicate",
@@ -1575,6 +1707,21 @@ let rec _js2n__-refsenv
                         text = _js2n__-prdslib.isType '"String",
                       } {} false _js2n__-prdslib.never
                   ])
+              | optional,
+            labels
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.oneOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/EnvironmentLabel!predicate",
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^{?[a-zA-Z0-9-_.@#\\s]+}?$"
+                        ]
+                    ])
+              )
               | optional,
             layout
               | _js2n__-prdslib.contract_from_predicate

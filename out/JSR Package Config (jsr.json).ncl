@@ -936,6 +936,6 @@ let rec _js2n__-refsenv
           ..
         }
         | optional,
-      version | String | doc "The version of this JSR package.",
+      version | String | doc "The version of this JSR package." | optional,
       ..
     }

@@ -917,6 +917,13 @@ let rec _js2n__-refsenv
                     { version = _js2n__-prdslib.const "1.5.0", } {} true
                     _js2n__-prdslib.always,
                   _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.records.record
+                    { version = _js2n__-prdslib.const "1.6.0", } {} true
+                    _js2n__-prdslib.always,
+                  _js2n__-prdslib.always
                 ]
             ],
           _js2n__-prdslib.records.required [ "variant", "version" ],
@@ -932,7 +939,7 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.enum [ "1.4.0", "1.5.0" ]
+                      _js2n__-prdslib.enum [ "1.4.0", "1.5.0", "1.6.0" ]
                     ],
             } {} true _js2n__-prdslib.always
         ])

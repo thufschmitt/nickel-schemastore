@@ -1033,7 +1033,13 @@ let rec _js2n__-refsenv
         = _js2n__-refsenv."_js2n__-:definitions/propertySets/properties/url!predicate",
       "_js2n__-:definitions/types/properties/globalCSS!predicate"
         | doc "Description for globalCSS"
-        = _js2n__-refsenv."_js2n__-:definitions/propertySets/properties/url!predicate",
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/propertySets/properties/url!predicate",
+              _js2n__-prdslib.records.record
+                { scope = _js2n__-prdslib.enum [ "company", "layout" ], } {}
+                true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/types/properties/globalJS!predicate"
         | doc "Description for globalJS"
         = _js2n__-prdslib.allOf
@@ -1044,7 +1050,7 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType 'Record,
                   _js2n__-prdslib.records.record
                     {
-                      scope = _js2n__-prdslib.isType '"String",
+                      scope = _js2n__-prdslib.enum [ "company", "layout" ],
                       scriptElementAttributes =
                         _js2n__-prdslib.allOf
                             [
@@ -1162,6 +1168,7 @@ let rec _js2n__-refsenv
                   clayURL = _js2n__-prdslib.isType '"String",
                   mainRTLURL = _js2n__-prdslib.isType '"String",
                   mainURL = _js2n__-prdslib.isType '"String",
+                  scope = _js2n__-prdslib.enum [ "controlPanel", "layout" ],
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/types/properties/themeFavicon!predicate"

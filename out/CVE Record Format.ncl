@@ -910,6 +910,13 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/affected!predicate",
                   configurations =
                     _js2n__-refsenv."_js2n__-:definitions/configurations!predicate",
+                  cpeApplicability =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/cpeApplicabilityElement!predicate"
+                        ],
                   credits =
                     _js2n__-refsenv."_js2n__-:definitions/credits!predicate",
                   datePublic =
@@ -995,6 +1002,13 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/affected!predicate",
                   configurations =
                     _js2n__-refsenv."_js2n__-:definitions/configurations!predicate",
+                  cpeApplicability =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/cpeApplicabilityElement!predicate"
+                        ],
                   credits =
                     _js2n__-refsenv."_js2n__-:definitions/credits!predicate",
                   dateAssigned =
@@ -1094,6 +1108,95 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/description!predicate",
               _js2n__-prdslib.arrays.minItems 1,
               _js2n__-prdslib.arrays.uniqueItems
+            ],
+      "_js2n__-:definitions/cpe22and23!predicate"
+        | doc "Common Platform Enumeration (CPE) Name in either 2.2 or 2.3 format"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.maxLength 2048,
+              _js2n__-prdslib.strings.minLength 1,
+              _js2n__-prdslib.strings.pattern
+                "([c][pP][eE]:/[AHOaho]?(:[A-Za-z0-9._\\-~%]*){0,6})|(cpe:2\\.3:[aho*\\-](:(((\\?*|\\*?)([a-zA-Z0-9\\-._]|(\\\\[\\\\*?!\"#$%&'()+,/:;<=>@\\[\\]\\^`{|}~]))+(\\?*|\\*?))|[*\\-])){5}(:(([a-zA-Z]{2,3}(-([a-zA-Z]{2}|[0-9]{3}))?)|[*\\-]))(:(((\\?*|\\*?)([a-zA-Z0-9\\-._]|(\\\\[\\\\*?!\"#$%&'()+,/:;<=>@\\[\\]\\^`{|}~]))+(\\?*|\\*?))|[*\\-])){4})"
+            ],
+      "_js2n__-:definitions/cpe23!predicate"
+        | doc "Common Platform Enumeration (CPE) Name in 2.3 format"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.maxLength 2048,
+              _js2n__-prdslib.strings.minLength 1,
+              _js2n__-prdslib.strings.pattern
+                "(cpe:2\\.3:[aho*\\-](:(((\\?*|\\*?)([a-zA-Z0-9\\-._]|(\\\\[\\\\*?!\"#$%&'()+,/:;<=>@\\[\\]\\^`{|}~]))+(\\?*|\\*?))|[*\\-])){5}(:(([a-zA-Z]{2,3}(-([a-zA-Z]{2}|[0-9]{3}))?)|[*\\-]))(:(((\\?*|\\*?)([a-zA-Z0-9\\-._]|(\\\\[\\\\*?!\"#$%&'()+,/:;<=>@\\[\\]\\^`{|}~]))+(\\?*|\\*?))|[*\\-])){4})"
+            ],
+      "_js2n__-:definitions/cpeApplicabilityElement!predicate"
+        | doc "Affected products defined using an implementation of the CPE Applicability Language, mostly copied/forked from the NIST NVD CVE API v2.0 schema (optional). An operator property allows AND or OR logic between CPEs or combinations of CPEs. The negate and vulnerable Boolean properties allow CPEs to be inverted and/or defined as vulnerable or not. Multiple version fields are provided for capturing ranges of products when defining a CPE Match String Range. NOTE: When defining a cpeApplicability block, it is recommended that it align with (as much as possible) the product data provided within the affected block."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "nodes" ],
+              _js2n__-prdslib.records.record
+                {
+                  negate = _js2n__-prdslib.isType '"Bool",
+                  nodes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/cpe_node!predicate"
+                        ],
+                  operator =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "AND", "OR" ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/cpe_match!predicate"
+        | doc "CPE match string or range"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "criteria", "vulnerable" ],
+              _js2n__-prdslib.records.record
+                {
+                  criteria =
+                    _js2n__-refsenv."_js2n__-:definitions/cpe23!predicate",
+                  matchCriteriaId =
+                    _js2n__-refsenv."_js2n__-:definitions/uuidType!predicate",
+                  versionEndExcluding =
+                    _js2n__-refsenv."_js2n__-:definitions/version!predicate",
+                  versionEndIncluding =
+                    _js2n__-refsenv."_js2n__-:definitions/version!predicate",
+                  versionStartExcluding =
+                    _js2n__-refsenv."_js2n__-:definitions/version!predicate",
+                  versionStartIncluding =
+                    _js2n__-refsenv."_js2n__-:definitions/version!predicate",
+                  vulnerable = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/cpe_node!predicate"
+        | doc "Defines a CPE configuration node in an applicability statement."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "cpeMatch", "operator" ],
+              _js2n__-prdslib.records.record
+                {
+                  cpeMatch =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/cpe_match!predicate"
+                        ],
+                  negate = _js2n__-prdslib.isType '"Bool",
+                  operator =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "AND", "OR" ]
+                        ],
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/credits!predicate"
         | doc "Statements acknowledging specific people, organizations, or tools recognizing the work done in researching, discovering, remediating or helping with activities related to this CVE."
@@ -3348,14 +3451,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.strings.maxLength 2048,
-                                _js2n__-prdslib.strings.minLength 1,
-                                _js2n__-prdslib.strings.pattern
-                                  "([c][pP][eE]:/[AHOaho]?(:[A-Za-z0-9._\\-~%]*){0,6})|(cpe:2\\.3:[aho*\\-](:(((\\?*|\\*?)([a-zA-Z0-9\\-._]|(\\\\[\\\\*?!\"#$%&'()+,/:;<=>@\\[\\]\\^`{|}~]))+(\\?*|\\*?))|[*\\-])){5}(:(([a-zA-Z]{2,3}(-([a-zA-Z]{2}|[0-9]{3}))?)|[*\\-]))(:(((\\?*|\\*?)([a-zA-Z0-9\\-._]|(\\\\[\\\\*?!\"#$%&'()+,/:;<=>@\\[\\]\\^`{|}~]))+(\\?*|\\*?))|[*\\-])){4})"
-                              ]),
+                            _js2n__-refsenv."_js2n__-:definitions/cpe22and23!predicate",
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   defaultStatus =

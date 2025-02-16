@@ -3872,6 +3872,13 @@ let rec _js2n__-refsenv
           mounts
             | Array
               {
+                disableWatch
+                  | Bool
+                  | doc m%"
+                    Whether to disable watching
+                    https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
+                  "%
+                  | optional,
                 excludeFiles
                   | _js2n__-prdslib.contract_from_predicate
                     (_js2n__-prdslib.oneOf

@@ -1323,92 +1323,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.oneOf
-                                  [
-                                    _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Record,
-                                        _js2n__-prdslib.records.required
-                                          [ "uses" ],
-                                        _js2n__-prdslib.records.record
-                                          {
-                                            uses =
-                                              _js2n__-prdslib.isType '"String",
-                                          } {} true _js2n__-prdslib.always
-                                      ],
-                                    _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Record,
-                                        _js2n__-prdslib.records.required
-                                          [ "run" ],
-                                        _js2n__-prdslib.records.record
-                                          {
-                                            run =
-                                              _js2n__-prdslib.isType '"String",
-                                          } {} true _js2n__-prdslib.always
-                                      ]
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType 'Record,
-                                    _js2n__-prdslib.records.record
-                                      {
-                                        continue-on-error =
-                                          _js2n__-prdslib.oneOf
-                                              [
-                                                _js2n__-prdslib.isType '"Bool",
-                                                _js2n__-refsenv."_js2n__-:definitions/expressionSyntax!predicate"
-                                              ],
-                                        env =
-                                          _js2n__-refsenv."_js2n__-:definitions/env!predicate",
-                                        id = _js2n__-prdslib.isType '"String",
-                                        "if" =
-                                          _js2n__-prdslib.anyOf
-                                              [
-                                                _js2n__-prdslib.isType '"Bool",
-                                                _js2n__-prdslib.isType
-                                                  '"Number",
-                                                _js2n__-prdslib.isType '"String"
-                                              ],
-                                        name = _js2n__-prdslib.isType '"String",
-                                        run = _js2n__-prdslib.isType '"String",
-                                        shell =
-                                          _js2n__-refsenv."_js2n__-:definitions/shell!predicate",
-                                        timeout-minutes =
-                                          _js2n__-prdslib.oneOf
-                                              [
-                                                _js2n__-prdslib.isType
-                                                  '"Number",
-                                                _js2n__-refsenv."_js2n__-:definitions/expressionSyntax!predicate"
-                                              ],
-                                        uses = _js2n__-prdslib.isType '"String",
-                                        with =
-                                          _js2n__-prdslib.allOf
-                                              [
-                                                _js2n__-prdslib.records.record
-                                                  {
-                                                    args =
-                                                      _js2n__-prdslib.isType
-                                                          '"String",
-                                                    entrypoint =
-                                                      _js2n__-prdslib.isType
-                                                          '"String",
-                                                  } {} true
-                                                  _js2n__-prdslib.always,
-                                                _js2n__-refsenv."_js2n__-:definitions/env!predicate"
-                                              ],
-                                        working-directory =
-                                          _js2n__-refsenv."_js2n__-:definitions/working-directory!predicate",
-                                      } {} false _js2n__-prdslib.never,
-                                    _js2n__-prdslib.records.dependencies
-                                      {
-                                        shell = [ "run" ],
-                                        working-directory = [ "run" ],
-                                      }
-                                  ]
-                              ]),
+                            _js2n__-refsenv."_js2n__-:definitions/step!predicate",
                           _js2n__-prdslib.arrays.minItems 1
                         ],
                   strategy =
@@ -1649,6 +1564,69 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.enum
                     [ "bash", "pwsh", "python", "sh", "cmd", "powershell" ]
                 ]
+            ],
+      "_js2n__-:definitions/step!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "uses" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "run" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  continue-on-error =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-refsenv."_js2n__-:definitions/expressionSyntax!predicate"
+                        ],
+                  env = _js2n__-refsenv."_js2n__-:definitions/env!predicate",
+                  id = _js2n__-prdslib.isType '"String",
+                  "if" =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  run = _js2n__-prdslib.isType '"String",
+                  shell =
+                    _js2n__-refsenv."_js2n__-:definitions/shell!predicate",
+                  timeout-minutes =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-refsenv."_js2n__-:definitions/expressionSyntax!predicate"
+                        ],
+                  uses = _js2n__-prdslib.isType '"String",
+                  with =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record
+                            {
+                              args = _js2n__-prdslib.isType '"String",
+                              entrypoint = _js2n__-prdslib.isType '"String",
+                            } {} true _js2n__-prdslib.always,
+                          _js2n__-refsenv."_js2n__-:definitions/env!predicate"
+                        ],
+                  working-directory =
+                    _js2n__-refsenv."_js2n__-:definitions/working-directory!predicate",
+                } {} false _js2n__-prdslib.never,
+              _js2n__-prdslib.records.dependencies
+                { shell = [ "run" ], working-directory = [ "run" ], }
             ],
       "_js2n__-:definitions/stringContainingExpressionSyntax!predicate" =
         _js2n__-prdslib.allOf

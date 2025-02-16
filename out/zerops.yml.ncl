@@ -920,182 +920,163 @@ let rec _js2n__-refsenv
                   | optional,
                 base
                   | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.allOf
+                    (_js2n__-prdslib.oneOf
                       [
-                        _js2n__-prdslib.enum
+                        _js2n__-prdslib.allOf
                           [
-                            "22.04",
-                            "3.17",
-                            "3.18",
-                            "3.19",
-                            "3.20",
-                            "alpine@3.17",
-                            "alpine@3.18",
-                            "alpine@3.19",
-                            "alpine@3.20",
-                            "alpine@latest",
-                            "bun@1.1",
-                            "bun@1.1.15",
-                            "bun@latest",
-                            "deno@1",
-                            "deno@1.45.5",
-                            "deno@2.0.0",
-                            "deno@latest",
-                            "dotnet@6",
-                            "dotnet@7",
-                            "dotnet@8",
-                            "dotnet@latest",
-                            "go@1",
-                            "go@1.22",
-                            "go@latest",
-                            "golang@1",
-                            "golang@latest",
-                            "java@17",
-                            "java@21",
-                            "java@latest",
-                            "nodejs@18",
-                            "nodejs@20",
-                            "nodejs@22",
-                            "nodejs@latest",
-                            "php@8.1",
-                            "php@8.3",
-                            "php@latest",
-                            "python@3.11",
-                            "python@3.12",
-                            "python@latest",
-                            "rust@1",
-                            "rust@1.78",
-                            "rust@1.80",
-                            "rust@latest",
-                            "rust@nightly",
-                            "ubuntu@22.04",
-                            "ubuntu@latest"
-                          ],
-                        _js2n__-prdslib.oneOf
-                          [
-                            _js2n__-prdslib.allOf
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.enum
                               [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.enum
-                                  [
-                                    "22.04",
-                                    "3.17",
-                                    "3.18",
-                                    "3.19",
-                                    "3.20",
-                                    "alpine@3.17",
-                                    "alpine@3.18",
-                                    "alpine@3.19",
-                                    "alpine@3.20",
-                                    "alpine@latest",
-                                    "bun@1.1",
-                                    "bun@1.1.15",
-                                    "bun@latest",
-                                    "deno@1",
-                                    "deno@1.45.5",
-                                    "deno@2.0.0",
-                                    "deno@latest",
-                                    "dotnet@6",
-                                    "dotnet@7",
-                                    "dotnet@8",
-                                    "dotnet@latest",
-                                    "go@1",
-                                    "go@1.22",
-                                    "go@latest",
-                                    "golang@1",
-                                    "golang@latest",
-                                    "java@17",
-                                    "java@21",
-                                    "java@latest",
-                                    "nodejs@18",
-                                    "nodejs@20",
-                                    "nodejs@22",
-                                    "nodejs@latest",
-                                    "php@8.1",
-                                    "php@8.3",
-                                    "php@latest",
-                                    "python@3.11",
-                                    "python@3.12",
-                                    "python@latest",
-                                    "rust@1",
-                                    "rust@1.78",
-                                    "rust@1.80",
-                                    "rust@latest",
-                                    "rust@nightly",
-                                    "ubuntu@22.04",
-                                    "ubuntu@latest"
-                                  ]
-                              ],
-                            _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.enum
-                                        [
-                                          "22.04",
-                                          "3.17",
-                                          "3.18",
-                                          "3.19",
-                                          "3.20",
-                                          "alpine@3.17",
-                                          "alpine@3.18",
-                                          "alpine@3.19",
-                                          "alpine@3.20",
-                                          "alpine@latest",
-                                          "bun@1.1",
-                                          "bun@1.1.15",
-                                          "bun@latest",
-                                          "deno@1",
-                                          "deno@1.45.5",
-                                          "deno@2.0.0",
-                                          "deno@latest",
-                                          "dotnet@6",
-                                          "dotnet@7",
-                                          "dotnet@8",
-                                          "dotnet@latest",
-                                          "go@1",
-                                          "go@1.22",
-                                          "go@latest",
-                                          "golang@1",
-                                          "golang@latest",
-                                          "java@17",
-                                          "java@21",
-                                          "java@latest",
-                                          "nodejs@18",
-                                          "nodejs@20",
-                                          "nodejs@22",
-                                          "nodejs@latest",
-                                          "php@8.1",
-                                          "php@8.3",
-                                          "php@latest",
-                                          "python@3.11",
-                                          "python@3.12",
-                                          "python@latest",
-                                          "rust@1",
-                                          "rust@1.78",
-                                          "rust@1.80",
-                                          "rust@latest",
-                                          "rust@nightly",
-                                          "ubuntu@22.04",
-                                          "ubuntu@latest"
-                                        ]
-                                    ])
+                                "22.04",
+                                "24.04",
+                                "3.17",
+                                "3.18",
+                                "3.19",
+                                "3.20",
+                                "alpine@3.17",
+                                "alpine@3.18",
+                                "alpine@3.19",
+                                "alpine@3.20",
+                                "alpine@latest",
+                                "bun@1.1",
+                                "bun@1.1.34",
+                                "bun@1.2",
+                                "bun@1.2.2",
+                                "bun@canary",
+                                "bun@latest",
+                                "bun@nightly",
+                                "deno@1",
+                                "deno@1.45.5",
+                                "deno@2.0.0",
+                                "deno@latest",
+                                "dotnet@6",
+                                "dotnet@7",
+                                "dotnet@8",
+                                "dotnet@9",
+                                "dotnet@latest",
+                                "elixir@1",
+                                "elixir@1.16",
+                                "elixir@1.16.2",
+                                "elixir@latest",
+                                "gleam@1",
+                                "gleam@1.5",
+                                "gleam@1.5.1",
+                                "gleam@latest",
+                                "go@1",
+                                "go@1.22",
+                                "go@latest",
+                                "golang@1",
+                                "golang@latest",
+                                "java@17",
+                                "java@21",
+                                "java@latest",
+                                "nodejs@18",
+                                "nodejs@20",
+                                "nodejs@22",
+                                "nodejs@latest",
+                                "php@8.1",
+                                "php@8.3",
+                                "php@8.4",
+                                "php@latest",
+                                "python@3.11",
+                                "python@3.12",
+                                "python@latest",
+                                "rust@1",
+                                "rust@1.78",
+                                "rust@1.80",
+                                "rust@latest",
+                                "rust@nightly",
+                                "ubuntu@22.04",
+                                "ubuntu@24.04",
+                                "ubuntu@latest"
                               ]
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum
+                                    [
+                                      "22.04",
+                                      "24.04",
+                                      "3.17",
+                                      "3.18",
+                                      "3.19",
+                                      "3.20",
+                                      "alpine@3.17",
+                                      "alpine@3.18",
+                                      "alpine@3.19",
+                                      "alpine@3.20",
+                                      "alpine@latest",
+                                      "bun@1.1",
+                                      "bun@1.1.34",
+                                      "bun@1.2",
+                                      "bun@1.2.2",
+                                      "bun@canary",
+                                      "bun@latest",
+                                      "bun@nightly",
+                                      "deno@1",
+                                      "deno@1.45.5",
+                                      "deno@2.0.0",
+                                      "deno@latest",
+                                      "dotnet@6",
+                                      "dotnet@7",
+                                      "dotnet@8",
+                                      "dotnet@9",
+                                      "dotnet@latest",
+                                      "elixir@1",
+                                      "elixir@1.16",
+                                      "elixir@1.16.2",
+                                      "elixir@latest",
+                                      "gleam@1",
+                                      "gleam@1.5",
+                                      "gleam@1.5.1",
+                                      "gleam@latest",
+                                      "go@1",
+                                      "go@1.22",
+                                      "go@latest",
+                                      "golang@1",
+                                      "golang@latest",
+                                      "java@17",
+                                      "java@21",
+                                      "java@latest",
+                                      "nodejs@18",
+                                      "nodejs@20",
+                                      "nodejs@22",
+                                      "nodejs@latest",
+                                      "php@8.1",
+                                      "php@8.3",
+                                      "php@8.4",
+                                      "php@latest",
+                                      "python@3.11",
+                                      "python@3.12",
+                                      "python@latest",
+                                      "rust@1",
+                                      "rust@1.78",
+                                      "rust@1.80",
+                                      "rust@latest",
+                                      "rust@nightly",
+                                      "ubuntu@22.04",
+                                      "ubuntu@24.04",
+                                      "ubuntu@latest"
+                                    ]
+                                ])
                           ]
                       ])
                   | doc "Sets the base technology for the build environment. If you need to install more technologies to the build environment, set multiple values as a yaml array."
                   | optional,
                 buildCommands
                   | Array (String)
-                  | doc "Defines build commands. At least one command is required. Zerops triggers each command in the defined order in a dedicated build container."
+                  | doc "Defines build commands. Zerops triggers each command in the defined order in a dedicated build container."
                   | optional,
                 cache
                   | _js2n__-prdslib.contract_from_predicate
                     (_js2n__-prdslib.oneOf
                       [
+                        _js2n__-prdslib.isType '"Bool",
                         _js2n__-prdslib.isType '"String",
                         _js2n__-prdslib.allOf
                           [
@@ -1216,6 +1197,7 @@ let rec _js2n__-refsenv
                   | std.enum.TagOrString
                   | [|
                     '"ubuntu@latest",
+                    '"ubuntu@24.04",
                     '"ubuntu@22.04",
                     '"static@latest",
                     '"static@1.0",
@@ -1230,9 +1212,11 @@ let rec _js2n__-refsenv
                     '"python@3.12",
                     '"python@3.11",
                     '"php-nginx@latest",
+                    '"php-nginx@8.4",
                     '"php-nginx@8.3",
                     '"php-nginx@8.1",
                     '"php-apache@latest",
+                    '"php-apache@8.4",
                     '"php-apache@8.3",
                     '"php-apache@8.1",
                     '"nodejs@latest",
@@ -1249,16 +1233,33 @@ let rec _js2n__-refsenv
                     '"go@latest",
                     '"go@1.22",
                     '"go@1",
+                    '"gleam@latest",
+                    '"gleam@1.5.1",
+                    '"gleam@1.5",
+                    '"gleam@1",
+                    '"elixir@latest",
+                    '"elixir@1.16.2",
+                    '"elixir@1.16",
+                    '"elixir@1",
                     '"dotnet@latest",
+                    '"dotnet@9",
                     '"dotnet@8",
                     '"dotnet@7",
                     '"dotnet@6",
+                    '"docker@latest",
+                    '"docker@26.1.5",
+                    '"docker@26.1",
+                    '"docker@26",
                     '"deno@latest",
                     '"deno@2.0.0",
                     '"deno@1.45.5",
                     '"deno@1",
+                    '"bun@nightly",
                     '"bun@latest",
-                    '"bun@1.1.15",
+                    '"bun@canary",
+                    '"bun@1.2.2",
+                    '"bun@1.2",
+                    '"bun@1.1.34",
                     '"bun@1.1",
                     '"alpine@latest",
                     '"alpine@3.20",
@@ -1269,9 +1270,29 @@ let rec _js2n__-refsenv
                     '"3.19",
                     '"3.18",
                     '"3.17",
+                    '"24.04",
                     '"22.04"
                   |]
                   | doc "Sets the base technology for the runtime environment. If you don't specify the run.base attribute, Zerops keeps the current version for your runtime."
+                  | optional,
+                crontab
+                  | Array
+                    {
+                      allContainers
+                        | Bool
+                        | doc "If set to true, the job runs on all containers; otherwise, it runs on a single container (default: false)",
+                      command
+                        | String
+                        | doc "Specifies the shell command to run at the scheduled time.",
+                      timing
+                        | String
+                        | doc "Defines when the cron job runs in standard cron format.",
+                      workingDir
+                        | String
+                        | doc "The directory where the command will be executed (default: /var/www)"
+                        | optional,
+                    }
+                  | doc "A list of cron jobs with their respective schedule (timing), the command to run (command), and additional options like allContainers and workingDir."
                   | optional,
                 documentRoot
                   | String
@@ -1367,7 +1388,7 @@ let rec _js2n__-refsenv
                       description | String | optional,
                       httpSupport
                         | Bool
-                        | doc "True is the default setting for TCP protocol. Set false if a web server isn't running on the port. Zerops uses this information for the configuration of public access. True is available only in combination with the TCP protocol."
+                        | doc "Set to true if a web server is running on the port. Zerops uses this information for the configuration of public access. True is available only in combination with the TCP protocol. Default value is false."
                         | optional,
                       port
                         | std.number.Integer
@@ -1389,9 +1410,24 @@ let rec _js2n__-refsenv
                     redirects
                       | Array
                         {
-                          from | String,
-                          status | std.number.Integer | optional,
-                          to | String,
+                          from
+                            | String
+                            | doc "Relative or an absolute (defined by with http://) path to be matched against request location. May contain * at the end for regex.",
+                          preservePath
+                            | Bool
+                            | doc "Whether part of the path after From should be preserved. Used to forward contents of one directory to another in non-masked redirects."
+                            | optional,
+                          preserveQuery
+                            | Bool
+                            | doc "Whether query parameters should be preserved. Used in non-masked redirects."
+                            | optional,
+                          status
+                            | std.number.Integer
+                            | doc "Which HTTP status code to use for the redirect. If not set, and To and From are relative, an internal/masked redirect will be used."
+                            | optional,
+                          to
+                            | String
+                            | doc "Relative or an absolute (defined by with http://) path to redirect user to.",
                         }
                       | optional,
                     root | String | optional,
@@ -1404,6 +1440,19 @@ let rec _js2n__-refsenv
                 start
                   | String
                   | doc "Defines the start command for your application."
+                  | optional,
+                startCommands
+                  | Array
+                    {
+                      command | String,
+                      initCommands
+                        | Array (String)
+                        | doc "Defines one or more commands to be run each time a new runtime container is started or a container is restarted."
+                        | optional,
+                      name | String | optional,
+                      workingDir | String | optional,
+                    }
+                  | doc "Defines the start commands for the runtime environment."
                   | optional,
               }
               | doc "Runtime configuration."

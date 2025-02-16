@@ -910,6 +910,10 @@ let rec _js2n__-refsenv
               | String
               | doc "Alt text for the avatar. Like refAlt, not required but highly encouraged."
               | optional,
+            avatarAttribution
+              | String
+              | doc "Attribution for the avatar image, in whatever format you want. Not required, but strongly encouraged."
+              | optional,
             birthdate | String | doc "The birthdate of the fursona." | optional,
             colors
               | Array (
@@ -932,6 +936,10 @@ let rec _js2n__-refsenv
                   ])
               | doc "Any additional notes or links for this fursona."
               | optional,
+            gallery
+              | Array (Dyn)
+              | doc "A list of additional images to display"
+              | optional,
             gender | String | doc "This fursona's gender." | optional,
             name | String | doc "The name of this fursona." | optional,
             pronouns | String | doc "This fursona's pronouns." | optional,
@@ -942,6 +950,10 @@ let rec _js2n__-refsenv
             refAlt
               | String
               | doc "Alt text to be added to the ref sheet image. Not required but highly encouraged."
+              | optional,
+            refAttribution
+              | String
+              | doc "Attribution for the ref sheet, in whatever format you want. Not required, but strongly encouraged."
               | optional,
             species | String | doc "This fursona's species." | optional,
             ..

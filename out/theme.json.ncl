@@ -994,6 +994,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
                   "core/file" =
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
+                  "core/footnotes" =
+                    _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
                   "core/freeform" =
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
                   "core/gallery" =
@@ -1068,8 +1070,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
                   "core/post-terms" =
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
-                  "core/post-time-to-read" =
-                    _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
                   "core/post-title" =
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
                   "core/preformatted" =
@@ -1089,6 +1089,8 @@ let rec _js2n__-refsenv
                   "core/query-pagination-previous" =
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
                   "core/query-title" =
+                    _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
+                  "core/query-total" =
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
                   "core/quote" =
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
@@ -1115,8 +1117,6 @@ let rec _js2n__-refsenv
                   "core/spacer" =
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
                   "core/table" =
-                    _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
-                  "core/table-of-contents" =
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
                   "core/tag-cloud" =
                     _js2n__-refsenv."_js2n__-:definitions/settingsPropertiesComplete!predicate",
@@ -1876,6 +1876,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
                   "core/file" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
+                  "core/footnotes" =
+                    _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
                   "core/freeform" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
                   "core/gallery" =
@@ -1950,8 +1952,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
                   "core/post-terms" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
-                  "core/post-time-to-read" =
-                    _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
                   "core/post-title" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
                   "core/preformatted" =
@@ -1971,6 +1971,8 @@ let rec _js2n__-refsenv
                   "core/query-pagination-previous" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
                   "core/query-title" =
+                    _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
+                  "core/query-total" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
                   "core/quote" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
@@ -1997,8 +1999,6 @@ let rec _js2n__-refsenv
                   "core/spacer" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
                   "core/table" =
-                    _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
-                  "core/table-of-contents" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
                   "core/tag-cloud" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
@@ -2749,6 +2749,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
                   "core/file" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
+                  "core/footnotes" =
+                    _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
                   "core/freeform" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
                   "core/gallery" =
@@ -2823,8 +2825,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
                   "core/post-terms" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
-                  "core/post-time-to-read" =
-                    _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
                   "core/post-title" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
                   "core/preformatted" =
@@ -2845,6 +2845,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
                   "core/query-title" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
+                  "core/query-total" =
+                    _js2n__-refsenv."_js2n__-:definitions/stylesPropertiesAndElementsComplete!predicate",
                   "core/quote" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
                   "core/read-more" =
@@ -2870,8 +2872,6 @@ let rec _js2n__-refsenv
                   "core/spacer" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
                   "core/table" =
-                    _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
-                  "core/table-of-contents" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",
                   "core/tag-cloud" =
                     _js2n__-refsenv."_js2n__-:definitions/stylesVariationBlockPropertiesComplete!predicate",

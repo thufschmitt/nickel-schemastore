@@ -929,6 +929,11 @@ let rec _js2n__-refsenv
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.isType '"String")
             | optional,
+          domain
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType '"String")
+            | doc "The technical id of the domain"
+            | optional,
           maturity
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.isType '"String")
