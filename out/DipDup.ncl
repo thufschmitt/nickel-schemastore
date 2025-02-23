@@ -948,6 +948,11 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
+                    _js2n__-prdslib.always,
+                    _js2n__-prdslib.always,
+                    _js2n__-prdslib.always,
+                    _js2n__-prdslib.always,
+                    _js2n__-prdslib.always,
                     _js2n__-prdslib.always
                   ])
             ])
@@ -976,6 +981,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.anyOf
                   [
+                    _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
@@ -1029,6 +1035,15 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.always, _js2n__-prdslib.isType 'Null ])
         | doc "Prometheus integration config"
         | optional,
+      runtimes
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ])
+        | doc "Mapping of runtime aliases and runtime configs"
+        | optional,
       sentry
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
@@ -1047,6 +1062,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.anyOf
                   [
+                    _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,

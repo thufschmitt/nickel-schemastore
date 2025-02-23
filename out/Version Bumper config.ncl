@@ -906,8 +906,127 @@ let rec _js2n__-refsenv
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/versionPattern!contract"
               | doc "Each pattern must contain a `{%version%}` placeholder that is replaced by the new version. Patterns are internally converted to regular expressions, so feel free to use regex syntax such as `\\s+`.",
+            reportMissing | Bool | optional,
             reportUnmatched | Bool | optional,
           },
+      "_js2n__-:definitions/preset!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "name", "options" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          name =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum [ "composer-package" ]
+                                ],
+                          options =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    { path = _js2n__-prdslib.isType '"String", }
+                                    {} false _js2n__-prdslib.never
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "name", "options" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          name =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum [ "npm-package" ]
+                                ],
+                          options =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "packageName" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      packageName =
+                                        _js2n__-prdslib.isType '"String",
+                                      path = _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "name" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          name =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum
+                                    [
+                                      "conventional-commits",
+                                      "typo3-commit-guidelines"
+                                    ]
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "name" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          name =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum [ "typo3-extension" ]
+                                ],
+                          options =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      documentation =
+                                        _js2n__-prdslib.oneOf
+                                            [
+                                              _js2n__-prdslib.isType '"Bool",
+                                              _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [ "auto", "legacy" ]
+                                                ]
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ]
+                ]
+            ],
+      "_js2n__-:definitions/presetShort!predicate"
+        | doc "Configuration for presets which do not have required preset options"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "composer-package",
+                  "conventional-commits",
+                  "typo3-commit-guidelines",
+                  "typo3-extension"
+                ]
+            ],
       "_js2n__-:definitions/releaseOptions!contract" =
         {
             commitMessage
@@ -926,7 +1045,6 @@ let rec _js2n__-refsenv
               | _js2n__-refsenv."_js2n__-:definitions/versionPattern!contract"
               | doc "Must contain a `{%version%}` placeholder that is replaced by the version to release."
               | optional,
-            ..
           },
       "_js2n__-:definitions/versionPattern!contract" =
         _js2n__-prdslib.contract_from_predicate
@@ -935,16 +1053,53 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.isType '"String",
                 _js2n__-prdslib.strings.pattern "\\{%version%\\}"
               ]),
+      "_js2n__-:definitions/versionRange!contract" =
+        std.contract.Sequence
+            [ std.enum.TagOrString, [| 'patch, 'next, 'minor, 'major |] ],
+      "_js2n__-:definitions/versionRangeIndicator!contract" =
+        {
+            patterns
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/versionRangePattern!contract",
+            range
+              | _js2n__-refsenv."_js2n__-:definitions/versionRange!contract",
+            strategy
+              | std.enum.TagOrString
+              | [| 'matchNone, 'matchAny, 'matchAll |]
+              | optional,
+          },
+      "_js2n__-:definitions/versionRangePattern!contract" =
+        {
+            pattern | String,
+            type
+              | std.enum.TagOrString
+              | [| 'fileModified, 'fileDeleted, 'fileAdded, 'commitMessage |],
+          },
     }
     in
   {
       filesToModify
-        | Array _js2n__-refsenv."_js2n__-:definitions/fileToModify!contract",
+        | Array _js2n__-refsenv."_js2n__-:definitions/fileToModify!contract"
+        | optional,
+      presets
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.oneOf
+              [
+                _js2n__-refsenv."_js2n__-:definitions/preset!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/presetShort!predicate"
+              ])
+        )
+        | optional,
       releaseOptions
         | _js2n__-refsenv."_js2n__-:definitions/releaseOptions!contract"
         | optional,
       rootPath
         | String
         | doc "This path will be used to calculate paths to configured files if they are configured as relative paths. If the root path is configured as relative path, it is calculated based on the config file path."
+        | optional,
+      versionRangeIndicators
+        | Array
+          _js2n__-refsenv."_js2n__-:definitions/versionRangeIndicator!contract"
         | optional,
     }

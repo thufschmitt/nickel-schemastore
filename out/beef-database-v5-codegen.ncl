@@ -963,6 +963,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/Query!predicate"
                         ],
+                  replace = _js2n__-prdslib.isType '"Bool",
                   schema = _js2n__-prdslib.isType '"String",
                   tables =
                     _js2n__-prdslib.allOf
@@ -1095,6 +1096,7 @@ let rec _js2n__-refsenv
                   schema = _js2n__-prdslib.isType '"String",
                   view = _js2n__-prdslib.isType '"Bool",
                   viewName = _js2n__-prdslib.isType '"String",
+                  viewReplace = _js2n__-prdslib.isType '"Bool",
                   viewSchema = _js2n__-prdslib.isType '"String",
                   where =
                     _js2n__-prdslib.allOf
@@ -1318,6 +1320,7 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/Parameter!predicate"
                         ],
                   permission = _js2n__-prdslib.isType '"String",
+                  replace = _js2n__-prdslib.isType '"Bool",
                   reselectStatement = _js2n__-prdslib.isType '"String",
                   storedProcedureName = _js2n__-prdslib.isType '"String",
                   type =
@@ -1422,6 +1425,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/Relationship!predicate"
                         ],
+                  replace = _js2n__-prdslib.isType '"Bool",
                   schema = _js2n__-prdslib.isType '"String",
                   storedProcedures =
                     _js2n__-prdslib.allOf

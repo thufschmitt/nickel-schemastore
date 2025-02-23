@@ -925,27 +925,7 @@ let rec _js2n__-refsenv
                                   } {} false _js2n__-prdslib.never
                               ],
                         command = _js2n__-prdslib.isType '"String",
-                        context =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.enum
-                                  [
-                                    "status",
-                                    "files",
-                                    "worktrees",
-                                    "localBranches",
-                                    "remotes",
-                                    "remoteBranches",
-                                    "tags",
-                                    "commits",
-                                    "reflogCommits",
-                                    "subCommits",
-                                    "commitFiles",
-                                    "stash",
-                                    "global"
-                                  ]
-                              ],
+                        context = _js2n__-prdslib.isType '"String",
                         description = _js2n__-prdslib.isType '"String",
                         key = _js2n__-prdslib.isType '"String",
                         loadingText = _js2n__-prdslib.isType '"String",
@@ -1059,7 +1039,7 @@ let rec _js2n__-refsenv
             | String
             | doc m%"
               Command used to display git log of all branches in the main window.
-              Deprecated: User `allBranchesLogCmds` instead.
+              Deprecated: Use `allBranchesLogCmds` instead.
             "%
             | optional,
           allBranchesLogCmds
@@ -1109,16 +1089,17 @@ let rec _js2n__-refsenv
             | doc "Config relating to committing"
             | optional,
           commitPrefix
-            | {
-              pattern
-                | String
-                | doc "pattern to match on. E.g. for 'feature/AB-123' to match on the AB-123 use \"^\\\\w+\\\\/(\\\\w+-\\\\w+).*\""
-                | optional,
-              replace
-                | String
-                | doc "Replace directive. E.g. for 'feature/AB-123' to start the commit message with 'AB-123 ' use \"[$1] \""
-                | optional,
-            }
+            | Array
+              {
+                pattern
+                  | String
+                  | doc "pattern to match on. E.g. for 'feature/AB-123' to match on the AB-123 use \"^\\\\w+\\\\/(\\\\w+-\\\\w+).*\""
+                  | optional,
+                replace
+                  | String
+                  | doc "Replace directive. E.g. for 'feature/AB-123' to start the commit message with 'AB-123 ' use \"[$1] \""
+                  | optional,
+              }
             | doc "See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#predefined-commit-message-prefix"
             | optional,
           commitPrefixes
@@ -1129,12 +1110,17 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.records.record {} {} true
                     (_js2n__-prdslib.allOf
                       [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.record
-                          {
-                            pattern = _js2n__-prdslib.isType '"String",
-                            replace = _js2n__-prdslib.isType '"String",
-                          } {} false _js2n__-prdslib.never
+                        _js2n__-prdslib.isType '"Array",
+                        _js2n__-prdslib.arrays.arrayOf
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  pattern = _js2n__-prdslib.isType '"String",
+                                  replace = _js2n__-prdslib.isType '"String",
+                                } {} false _js2n__-prdslib.never
+                            ])
                       ])
                 ])
             | doc "See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#predefined-commit-message-prefix"
@@ -1284,7 +1270,7 @@ let rec _js2n__-refsenv
               One of 'rounded' (default) | 'single' | 'double' | 'hidden'
             "%
             | optional,
-          branchColors
+          branchColorPatterns
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.allOf
                 [
@@ -1293,6 +1279,19 @@ let rec _js2n__-refsenv
                     (_js2n__-prdslib.isType '"String")
                 ])
             | doc "See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-branch-color"
+            | optional,
+          branchColors
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.isType '"String")
+                ])
+            | doc m%"
+              See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-branch-color
+              Deprecated: use branchColorPatterns instead
+            "%
             | optional,
           commandLogSize
             | _js2n__-prdslib.contract_from_predicate
@@ -1396,6 +1395,14 @@ let rec _js2n__-refsenv
               One of 'auto' (default) | 'always' | 'never'
             "%
             | optional,
+          screenMode
+            | std.enum.TagOrString
+            | [| 'full, 'half, 'normal |]
+            | doc m%"
+              Default size for focused window. Can be changed from within Lazygit with '+' and '_' (but this won't change the default).
+              One of: 'normal' (default) | 'half' | 'full'
+            "%
+            | optional,
           scrollHeight
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.allOf
@@ -1452,7 +1459,7 @@ let rec _js2n__-refsenv
             | Bool
             | doc m%"
               If true, display the files in the file views as a tree. If false, display the files as a flat list.
-              This can be toggled from within Lazygit with the '~' key, but that will not change the default.
+              This can be toggled from within Lazygit with the '`' key, but that will not change the default.
             "%
             | optional,
           showIcons
@@ -1462,6 +1469,10 @@ let rec _js2n__-refsenv
           showListFooter
             | Bool
             | doc "If true, show the '5 of 20' footer at the bottom of list views"
+            | optional,
+          showNumstatInFilesView
+            | Bool
+            | doc "If true, show the number of lines changed per file in the Files view"
             | optional,
           showPanelJumps
             | Bool
@@ -1535,6 +1546,10 @@ let rec _js2n__-refsenv
               One of 'dashboard' (default) | 'allBranchesLog'
             "%
             | optional,
+          switchTabsWithPanelJumpKeys
+            | Bool
+            | doc "If true, when using the panel jump keys (default 1 through 5) and target panel is already active, go to next tab instead"
+            | optional,
           switchToFilesAfterStashApply
             | Bool
             | doc "If true, jump to the Files panel after applying a stash"
@@ -1542,6 +1557,18 @@ let rec _js2n__-refsenv
           switchToFilesAfterStashPop
             | Bool
             | doc "If true, jump to the Files panel after popping a stash"
+            | optional,
+          tabWidth
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Integer,
+                  _js2n__-prdslib.numbers.minimum 1
+                ])
+            | doc m%"
+              The number of spaces per tab; used for everything that's shown in the main view, but probably mostly relevant for diffs.
+              Note that when using a pager, the pager has its own tab width setting, so you need to pass it separately in the pager command.
+            "%
             | optional,
           theme
             | {
@@ -1689,12 +1716,12 @@ let rec _js2n__-refsenv
               Uses Go's time format syntax: https://pkg.go.dev/time#Time.Format
             "%
             | optional,
-          windowSize
-            | std.enum.TagOrString
-            | [| 'full, 'half, 'normal |]
+          wrapLinesInStagingView
+            | Bool
             | doc m%"
-              Default size for focused window. Window size can be changed from within Lazygit with '+' and '_' (but this won't change the default).
-              One of: 'normal' (default) | 'half' | 'full'
+              If true, wrap lines in the staging view to the width of the view. This
+              makes it much easier to work with diffs that have long lines, e.g.
+              paragraphs of markdown text.
             "%
             | optional,
         }
@@ -1761,11 +1788,13 @@ let rec _js2n__-refsenv
           files
             | {
               amendLastCommit | String | optional,
+              collapseAll | String | optional,
               commitChanges | String | optional,
               commitChangesWithEditor | String | optional,
               commitChangesWithoutHook | String | optional,
               confirmDiscard | String | optional,
               copyFileInfoToClipboard | String | optional,
+              expandAll | String | optional,
               fetch | String | optional,
               findBaseCommitForFixup | String | optional,
               ignoreFile | String | optional,

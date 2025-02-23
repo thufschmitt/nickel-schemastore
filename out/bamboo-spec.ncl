@@ -1331,6 +1331,19 @@ let rec _js2n__-refsenv
           _js2n__-prdslib.isType 'Record,
           _js2n__-prdslib.records.record
             {
+              branch-overrides =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {}
+                              { "[a-zA-Z0-9\\s+_-]" = _js2n__-prdslib.always, }
+                              true _js2n__-prdslib.always
+                          ])
+                    ],
               default-environment-permissions =
                 _js2n__-prdslib.allOf
                     [

@@ -920,6 +920,10 @@ let rec _js2n__-refsenv
             | Dyn
             | doc "The test cases against which submissions are validated",
           "testdata.yaml" | Dyn | optional,
+          valid_outputs
+            | Dyn
+            | doc "Valid test cases for which the `.out` must pass output validation."
+            | optional,
         }
         | doc "the root test group. must contain the testgroups 'sample' and 'secret'.",
       generators
