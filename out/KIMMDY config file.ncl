@@ -969,7 +969,15 @@ let rec _js2n__-refsenv
         | optional,
       kmc
         | std.enum.TagOrString
-        | [| 'multi_rfkmc, 'extrande_mod, 'extrande, 'frm, 'rfkmc, '"" |]
+        | [|
+          'dummy_first,
+          'multi_rfkmc,
+          'extrande_mod,
+          'extrande,
+          'frm,
+          'rfkmc,
+          '""
+        |]
         | doc "KMC algorithm overwrite. Should be set by the reactions, but can be changed here. Not all reactions may support all algorithms."
         | optional,
       log
@@ -1044,11 +1052,6 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.isType '"Bool")
         | doc "parameterize the topology during the setup task"
         | optional,
-      plot_rates
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.isType '"Bool")
-        | doc "Plot the reaction rates during the reactions step"
-        | optional,
       plumed
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"String")
@@ -1074,14 +1077,9 @@ let rec _js2n__-refsenv
         | doc "GROMACS rtp file that contains residuetypes. Looks for `aminoacids.rtp` it not set. KIMMDY will first look in the current working directory and then relative to the forecfield directory."
         | optional,
       restart
-        | {
-          run_directory
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.isType '"String")
-            | doc "KIMMDY run directory to restart from",
-          ..
-        }
-        | doc "Restart from a previous run."
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType 'Record)
+        | doc "Restart or continue from a previous run (in config.out) instead of starting from scratch"
         | optional,
       save_recipes
         | _js2n__-prdslib.contract_from_predicate
@@ -1147,6 +1145,11 @@ let rec _js2n__-refsenv
               ])
         )
         | doc "List of tasks. Each task can be a string (the name of the task) or an object with the task name and a multiplicity `mult: <int>`",
+      skip_truncation
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"Bool")
+        | doc "Don't truncate trajectories to the time at which a reaction occurs. This is useful when only the reaction rates are interesting and it is not required to continue the simulation after a reaction."
+        | optional,
       slurm
         | {
           N
@@ -1173,6 +1176,11 @@ let rec _js2n__-refsenv
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.isType 'Integer)
             | doc "n tasks per node"
+            | optional,
+          runcmd
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType '"String")
+            | doc "Command to (re)submit the jobscript. Default is `sbatch`. For local testing replace with an empty string do run the jobscript directly."
             | optional,
         }
         | doc "SLURM HPC options"

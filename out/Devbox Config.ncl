@@ -927,6 +927,15 @@ let rec _js2n__-refsenv
         | String
         | doc "The name of the Devbox development environment."
         | optional,
+      nixpkgs
+        | {
+          commit
+            | String
+            | doc "The commit hash of the nixpkgs repository to use"
+            | optional,
+          ..
+        }
+        | optional,
       packages
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.oneOf

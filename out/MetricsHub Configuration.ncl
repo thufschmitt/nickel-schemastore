@@ -897,6 +897,12 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/collectPeriod!contract"
+        | doc "Sets the collect period that MetricsHub uses to collects metrics from the monitored resources (Default: 2m)."
+        = _js2n__-refsenv."_js2n__-:definitions/duration!contract",
+      "_js2n__-:definitions/collectPeriod!predicate"
+        | doc "Sets the collect period that MetricsHub uses to collects metrics from the monitored resources (Default: 2m)."
+        = _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
       "_js2n__-:definitions/computes!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1064,6 +1070,12 @@ let rec _js2n__-refsenv
                       ]
                   ])
             ],
+      "_js2n__-:definitions/discoveryCycle!contract"
+        | doc "Sets the cycle that MetricsHub uses to perform discoveries and detect new components in your monitored environment. By default, MetricsHub runs a discovery after 30 collects."
+        = std.number.Integer,
+      "_js2n__-:definitions/discoveryCycle!predicate"
+        | doc "Sets the cycle that MetricsHub uses to perform discoveries and detect new components in your monitored environment. By default, MetricsHub runs a discovery after 30 collects."
+        = _js2n__-prdslib.isType 'Integer,
       "_js2n__-:definitions/duration!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.oneOf
@@ -1087,6 +1099,12 @@ let rec _js2n__-refsenv
                     "^[0-9]+\\s*[years|yrs|y|weeks|wks|w|days|d|hours|hrs|h|minutes|mins|m!seconds|secs|s|milliseconds|ms]*$"
                 ]
             ],
+      "_js2n__-:definitions/enableSelfMonitoring!contract"
+        | doc "Enables or disables self monitoring signals. E.g. job duration metrics."
+        = Bool,
+      "_js2n__-:definitions/enableSelfMonitoring!predicate"
+        | doc "Enables or disables self monitoring signals. E.g. job duration metrics."
+        = _js2n__-prdslib.isType '"Bool",
       "_js2n__-:definitions/executeForEachEntryOf!predicate"
         | doc "Execute For Each Entry"
         = _js2n__-prdslib.allOf
@@ -1117,6 +1135,13 @@ let rec _js2n__-refsenv
                   source = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/hostname!predicate"
+        | doc "The hostname to which the query is sent."
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.isType '"String"
+            ],
       "_js2n__-:definitions/httpMethod!predicate"
         | doc "HTTP Method"
         = _js2n__-prdslib.allOf
@@ -1124,9 +1149,74 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "get", "post", "delete", "put" ]
             ],
+      "_js2n__-:definitions/jobTimeout!contract"
+        | doc "Sets how long until the job times out (Default: 5m)."
+        = _js2n__-refsenv."_js2n__-:definitions/duration!contract",
+      "_js2n__-:definitions/jobTimeout!predicate"
+        | doc "Sets how long until the job times out (Default: 5m)."
+        = _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+      "_js2n__-:definitions/loggerLevel!contract"
+        | doc "Logger Level (Default: error)"
+        = std.contract.Sequence
+            [
+              std.enum.TagOrString,
+              [| 'off, 'fatal, 'error, 'warn, 'info, 'debug, 'trace, 'all |]
+            ],
+      "_js2n__-:definitions/loggerLevel!predicate"
+        | doc "Logger Level (Default: error)"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "all",
+                  "trace",
+                  "debug",
+                  "info",
+                  "warn",
+                  "error",
+                  "fatal",
+                  "off"
+                ]
+            ],
+      "_js2n__-:definitions/monitorFilters!contract"
+        | doc "Monitor inclusion or exclusion in data collection. This parameter accepts '+<monitor_name>' for inclusion and '!<monitor_name>' for exclusion."
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType '"Array",
+                _js2n__-prdslib.arrays.arrayOf
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.pattern "^[+!]?[a-zA-Z0-9_.-]+$"
+                    ]),
+                _js2n__-prdslib.arrays.minItems 1,
+                _js2n__-prdslib.arrays.uniqueItems
+              ]),
+      "_js2n__-:definitions/monitorFilters!predicate"
+        | doc "Monitor inclusion or exclusion in data collection. This parameter accepts '+<monitor_name>' for inclusion and '!<monitor_name>' for exclusion."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.pattern "^[+!]?[a-zA-Z0-9_.-]+$"
+                  ]),
+              _js2n__-prdslib.arrays.minItems 1,
+              _js2n__-prdslib.arrays.uniqueItems
+            ],
       "_js2n__-:definitions/namespace!predicate"
         | doc "Forces a specific namespace for connectors that perform namespace auto-detection (Advanced)."
         = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/resolveHostnameToFqdn!contract"
+        | doc "Resolve hostnames to FQDN (Default: false)."
+        = Bool,
+      "_js2n__-:definitions/resolveHostnameToFqdn!predicate"
+        | doc "Resolve hostnames to FQDN (Default: false)."
+        = _js2n__-prdslib.isType '"Bool",
       "_js2n__-:definitions/resources!contract"
         | doc "Contains Resources"
         = _js2n__-prdslib.contract_from_predicate
@@ -1139,6 +1229,38 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.record
                         {
+                          additionalConnectors =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^[a-zA-Z0-9_.-]+$" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  "force" =
+                                                    _js2n__-prdslib.isType
+                                                        '"Bool",
+                                                  uses =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  variables =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Record,
+                                                          _js2n__-prdslib.records.record
+                                                            {} {} true
+                                                            (_js2n__-prdslib.isType
+                                                              '"String")
+                                                        ],
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                    } false _js2n__-prdslib.never
+                                ],
                           alertingSystemConfig =
                             _js2n__-prdslib.allOf
                                 [
@@ -1163,7 +1285,7 @@ let rec _js2n__-refsenv
                                       ])
                                 ],
                           collectPeriod =
-                            _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                            _js2n__-refsenv."_js2n__-:definitions/collectPeriod!predicate",
                           connectors =
                             _js2n__-prdslib.allOf
                                 [
@@ -1171,24 +1293,14 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.arrays.arrayOf
                                     (_js2n__-prdslib.isType '"String")
                                 ],
-                          discoveryCycle = _js2n__-prdslib.isType '"String",
+                          discoveryCycle =
+                            _js2n__-refsenv."_js2n__-:definitions/discoveryCycle!predicate",
+                          enableSelfMonitoring =
+                            _js2n__-refsenv."_js2n__-:definitions/enableSelfMonitoring!predicate",
                           jobTimeout =
-                            _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                            _js2n__-refsenv."_js2n__-:definitions/jobTimeout!predicate",
                           loggerLevel =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum
-                                    [
-                                      "all",
-                                      "trace",
-                                      "debug",
-                                      "info",
-                                      "warn",
-                                      "error",
-                                      "fatal"
-                                    ]
-                                ],
+                            _js2n__-refsenv."_js2n__-:definitions/loggerLevel!predicate",
                           metrics =
                             _js2n__-prdslib.allOf
                                 [
@@ -1200,6 +1312,8 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"Number"
                                       ])
                                 ],
+                          monitorFilters =
+                            _js2n__-refsenv."_js2n__-:definitions/monitorFilters!predicate",
                           monitors =
                             _js2n__-prdslib.allOf
                                 [
@@ -1432,8 +1546,7 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.records.record
                                                 {
                                                   hostname =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
+                                                    _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                   https =
                                                     _js2n__-prdslib.isType
                                                         '"Bool",
@@ -1460,8 +1573,7 @@ let rec _js2n__-refsenv
                                                     _js2n__-prdslib.isType
                                                         '"String",
                                                   hostname =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
+                                                    _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                   password =
                                                     _js2n__-prdslib.isType
                                                         '"String",
@@ -1475,6 +1587,43 @@ let rec _js2n__-refsenv
                                                         '"String",
                                                 } {} true _js2n__-prdslib.always
                                             ],
+                                      jdbc =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  database =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  hostname =
+                                                    _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
+                                                  password =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  port =
+                                                    _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Integer,
+                                                          _js2n__-prdslib.numbers.maximum
+                                                            65535,
+                                                          _js2n__-prdslib.numbers.minimum
+                                                            1
+                                                        ],
+                                                  timeout =
+                                                    _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                                                  type =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  url =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                  username =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
+                                                } {} true _js2n__-prdslib.always
+                                            ],
                                       osCommand =
                                         _js2n__-prdslib.allOf
                                             [
@@ -1482,8 +1631,7 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.records.record
                                                 {
                                                   hostname =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
+                                                    _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                   sudoCommand =
                                                     _js2n__-prdslib.isType
                                                         '"String",
@@ -1510,8 +1658,7 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.records.record
                                                 {
                                                   hostname =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
+                                                    _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                   timeout =
                                                     _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
                                                 } {} true _js2n__-prdslib.always
@@ -1526,11 +1673,12 @@ let rec _js2n__-refsenv
                                                     _js2n__-prdslib.isType
                                                         '"String",
                                                   hostname =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
+                                                    _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                   port =
                                                     _js2n__-prdslib.isType
                                                         '"Number",
+                                                  retryIntervals =
+                                                    _js2n__-refsenv."_js2n__-:definitions/retryIntervals!predicate",
                                                   timeout =
                                                     _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
                                                   version =
@@ -1558,15 +1706,18 @@ let rec _js2n__-refsenv
                                                             [
                                                               "NO_AUTH",
                                                               "MD5",
-                                                              "SHA"
+                                                              "SHA",
+                                                              "SHA256",
+                                                              "SHA512",
+                                                              "SHA224",
+                                                              "SHA384"
                                                             ]
                                                         ],
                                                   contextName =
                                                     _js2n__-prdslib.isType
                                                         '"String",
                                                   hostname =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
+                                                    _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                   password =
                                                     _js2n__-prdslib.isType
                                                         '"String",
@@ -1589,8 +1740,7 @@ let rec _js2n__-refsenv
                                                     _js2n__-prdslib.isType
                                                         '"String",
                                                   retryIntervals =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
+                                                    _js2n__-refsenv."_js2n__-:definitions/retryIntervals!predicate",
                                                   timeout =
                                                     _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
                                                   username =
@@ -1605,8 +1755,7 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.records.record
                                                 {
                                                   hostname =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
+                                                    _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                   password =
                                                     _js2n__-prdslib.isType
                                                         '"String",
@@ -1642,8 +1791,7 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.records.record
                                                 {
                                                   hostname =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
+                                                    _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                   namespace =
                                                     _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                   password =
@@ -1685,8 +1833,7 @@ let rec _js2n__-refsenv
                                                               ])
                                                         ],
                                                   hostname =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
+                                                    _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                   namespace =
                                                     _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                   password =
@@ -1711,8 +1858,7 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.records.record
                                                 {
                                                   hostname =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
+                                                    _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                   namespace =
                                                     _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                   password =
@@ -1728,21 +1874,11 @@ let rec _js2n__-refsenv
                                     } {} true _js2n__-prdslib.always
                                 ],
                           resolveHostnameToFqdn =
-                            _js2n__-prdslib.isType '"Bool",
-                          sequential = _js2n__-prdslib.isType '"Bool",
-                          variables =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    (_js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Record,
-                                        _js2n__-prdslib.records.record {} {}
-                                          true
-                                          (_js2n__-prdslib.isType '"String")
-                                      ])
-                                ],
+                            _js2n__-refsenv."_js2n__-:definitions/resolveHostnameToFqdn!predicate",
+                          sequential =
+                            _js2n__-refsenv."_js2n__-:definitions/sequential!predicate",
+                          stateSetCompression =
+                            _js2n__-refsenv."_js2n__-:definitions/stateSetCompression!predicate",
                         } {} true _js2n__-prdslib.always
                     ])
               ]),
@@ -1757,6 +1893,38 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType 'Record,
                     _js2n__-prdslib.records.record
                       {
+                        additionalConnectors =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {}
+                                  {
+                                    "^[a-zA-Z0-9_.-]+$" =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                "force" =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
+                                                uses =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                variables =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.record
+                                                          {} {} true
+                                                          (_js2n__-prdslib.isType
+                                                            '"String")
+                                                      ],
+                                              } {} false _js2n__-prdslib.never
+                                          ],
+                                  } false _js2n__-prdslib.never
+                              ],
                         alertingSystemConfig =
                           _js2n__-prdslib.allOf
                               [
@@ -1781,7 +1949,7 @@ let rec _js2n__-refsenv
                                     ])
                               ],
                         collectPeriod =
-                          _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/collectPeriod!predicate",
                         connectors =
                           _js2n__-prdslib.allOf
                               [
@@ -1789,24 +1957,14 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.arrays.arrayOf
                                   (_js2n__-prdslib.isType '"String")
                               ],
-                        discoveryCycle = _js2n__-prdslib.isType '"String",
+                        discoveryCycle =
+                          _js2n__-refsenv."_js2n__-:definitions/discoveryCycle!predicate",
+                        enableSelfMonitoring =
+                          _js2n__-refsenv."_js2n__-:definitions/enableSelfMonitoring!predicate",
                         jobTimeout =
-                          _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/jobTimeout!predicate",
                         loggerLevel =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.enum
-                                  [
-                                    "all",
-                                    "trace",
-                                    "debug",
-                                    "info",
-                                    "warn",
-                                    "error",
-                                    "fatal"
-                                  ]
-                              ],
+                          _js2n__-refsenv."_js2n__-:definitions/loggerLevel!predicate",
                         metrics =
                           _js2n__-prdslib.allOf
                               [
@@ -1818,6 +1976,8 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.isType '"Number"
                                     ])
                               ],
+                        monitorFilters =
+                          _js2n__-refsenv."_js2n__-:definitions/monitorFilters!predicate",
                         monitors =
                           _js2n__-prdslib.allOf
                               [
@@ -2046,8 +2206,7 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.records.record
                                               {
                                                 hostname =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                 https =
                                                   _js2n__-prdslib.isType
                                                       '"Bool",
@@ -2074,8 +2233,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.isType
                                                       '"String",
                                                 hostname =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                 password =
                                                   _js2n__-prdslib.isType
                                                       '"String",
@@ -2089,6 +2247,43 @@ let rec _js2n__-refsenv
                                                       '"String",
                                               } {} true _js2n__-prdslib.always
                                           ],
+                                    jdbc =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                database =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                hostname =
+                                                  _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
+                                                password =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                port =
+                                                  _js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Integer,
+                                                        _js2n__-prdslib.numbers.maximum
+                                                          65535,
+                                                        _js2n__-prdslib.numbers.minimum
+                                                          1
+                                                      ],
+                                                timeout =
+                                                  _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                                                type =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                url =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                username =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                              } {} true _js2n__-prdslib.always
+                                          ],
                                     osCommand =
                                       _js2n__-prdslib.allOf
                                           [
@@ -2096,8 +2291,7 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.records.record
                                               {
                                                 hostname =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                 sudoCommand =
                                                   _js2n__-prdslib.isType
                                                       '"String",
@@ -2124,8 +2318,7 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.records.record
                                               {
                                                 hostname =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                 timeout =
                                                   _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
                                               } {} true _js2n__-prdslib.always
@@ -2140,11 +2333,12 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.isType
                                                       '"String",
                                                 hostname =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                 port =
                                                   _js2n__-prdslib.isType
                                                       '"Number",
+                                                retryIntervals =
+                                                  _js2n__-refsenv."_js2n__-:definitions/retryIntervals!predicate",
                                                 timeout =
                                                   _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
                                                 version =
@@ -2172,15 +2366,18 @@ let rec _js2n__-refsenv
                                                           [
                                                             "NO_AUTH",
                                                             "MD5",
-                                                            "SHA"
+                                                            "SHA",
+                                                            "SHA256",
+                                                            "SHA512",
+                                                            "SHA224",
+                                                            "SHA384"
                                                           ]
                                                       ],
                                                 contextName =
                                                   _js2n__-prdslib.isType
                                                       '"String",
                                                 hostname =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                 password =
                                                   _js2n__-prdslib.isType
                                                       '"String",
@@ -2203,8 +2400,7 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.isType
                                                       '"String",
                                                 retryIntervals =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:definitions/retryIntervals!predicate",
                                                 timeout =
                                                   _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
                                                 username =
@@ -2219,8 +2415,7 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.records.record
                                               {
                                                 hostname =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                 password =
                                                   _js2n__-prdslib.isType
                                                       '"String",
@@ -2256,8 +2451,7 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.records.record
                                               {
                                                 hostname =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                 namespace =
                                                   _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                 password =
@@ -2299,8 +2493,7 @@ let rec _js2n__-refsenv
                                                             ])
                                                       ],
                                                 hostname =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                 namespace =
                                                   _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                 password =
@@ -2325,8 +2518,7 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.records.record
                                               {
                                                 hostname =
-                                                  _js2n__-prdslib.isType
-                                                      '"String",
+                                                  _js2n__-refsenv."_js2n__-:definitions/hostname!predicate",
                                                 namespace =
                                                   _js2n__-refsenv."_js2n__-:definitions/namespace!predicate",
                                                 password =
@@ -2341,20 +2533,12 @@ let rec _js2n__-refsenv
                                           ],
                                   } {} true _js2n__-prdslib.always
                               ],
-                        resolveHostnameToFqdn = _js2n__-prdslib.isType '"Bool",
-                        sequential = _js2n__-prdslib.isType '"Bool",
-                        variables =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType 'Record,
-                                _js2n__-prdslib.records.record {} {} true
-                                  (_js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.record {} {} true
-                                        (_js2n__-prdslib.isType '"String")
-                                    ])
-                              ],
+                        resolveHostnameToFqdn =
+                          _js2n__-refsenv."_js2n__-:definitions/resolveHostnameToFqdn!predicate",
+                        sequential =
+                          _js2n__-refsenv."_js2n__-:definitions/sequential!predicate",
+                        stateSetCompression =
+                          _js2n__-refsenv."_js2n__-:definitions/stateSetCompression!predicate",
                       } {} true _js2n__-prdslib.always
                   ])
             ],
@@ -2365,6 +2549,25 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "http_status", "header", "body", "all" ]
             ],
+      "_js2n__-:definitions/retryIntervals!predicate"
+        | doc "An array of retry intervals (in milliseconds) between request retries."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.numbers.minimum 0
+                  ]),
+              _js2n__-prdslib.arrays.minItems 1
+            ],
+      "_js2n__-:definitions/sequential!contract"
+        | doc "Sequential mode. This forces all network calls to be ordered in a sequential order."
+        = Bool,
+      "_js2n__-:definitions/sequential!predicate"
+        | doc "Sequential mode. This forces all network calls to be ordered in a sequential order."
+        = _js2n__-prdslib.isType '"Bool",
       "_js2n__-:definitions/sources!predicate"
         | doc "Contains Sources"
         = _js2n__-prdslib.allOf
@@ -2620,11 +2823,35 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.allOf
                                   [
                                     _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.const "internalDbQuery"
+                                  ],
+                          } {} true _js2n__-prdslib.always,
+                        _js2n__-prdslib.records.record
+                          {
+                            computes =
+                              _js2n__-refsenv."_js2n__-:definitions/computes!predicate",
+                            forceSerialization = _js2n__-prdslib.isType '"Bool",
+                            query = _js2n__-prdslib.isType '"String",
+                            type =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
                                     _js2n__-prdslib.const "sql"
                                   ],
                           } {} true _js2n__-prdslib.always
                       ]
                   ])
+            ],
+      "_js2n__-:definitions/stateSetCompression!contract"
+        | doc "Represents the possible compression methods for the state set metrics."
+        = std.contract.Sequence
+            [ std.enum.TagOrString, [| 'suppressZeros, 'none |] ],
+      "_js2n__-:definitions/stateSetCompression!predicate"
+        | doc "Represents the possible compression methods for the state set metrics."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "none", "suppressZeros" ]
             ],
       "_js2n__-:definitions/transportProtocols!predicate" =
         _js2n__-prdslib.allOf
@@ -2661,15 +2888,17 @@ let rec _js2n__-refsenv
         | doc "Top level attributes"
         | optional,
       collectPeriod
-        | _js2n__-refsenv."_js2n__-:definitions/duration!contract"
+        | _js2n__-refsenv."_js2n__-:definitions/collectPeriod!contract"
         | optional,
       discoveryCycle
-        | String
-        | doc "Discovery frequency (In collect cycles)"
+        | _js2n__-refsenv."_js2n__-:definitions/discoveryCycle!contract"
+        | optional,
+      enableSelfMonitoring
+        | _js2n__-refsenv."_js2n__-:definitions/enableSelfMonitoring!contract"
         | optional,
       jobPoolSize | std.number.Integer | doc "Job Pool Size" | optional,
       jobTimeout
-        | _js2n__-refsenv."_js2n__-:definitions/duration!contract"
+        | _js2n__-refsenv."_js2n__-:definitions/jobTimeout!contract"
         | optional,
       license
         | {
@@ -2695,9 +2924,7 @@ let rec _js2n__-refsenv
         | doc "MetricsHub License"
         | optional,
       loggerLevel
-        | std.enum.TagOrString
-        | [| 'fatal, 'error, 'warn, 'info, 'debug, 'trace, 'all |]
-        | doc "Logger Level"
+        | _js2n__-refsenv."_js2n__-:definitions/loggerLevel!contract"
         | optional,
       metrics
         | _js2n__-prdslib.contract_from_predicate
@@ -2712,6 +2939,9 @@ let rec _js2n__-refsenv
                   ])
             ])
         | doc "Top level metrics"
+        | optional,
+      monitorFilters
+        | _js2n__-refsenv."_js2n__-:definitions/monitorFilters!contract"
         | optional,
       otel
         | _js2n__-prdslib.contract_from_predicate
@@ -2789,7 +3019,13 @@ let rec _js2n__-refsenv
         | doc "Customizes the OpenTelemetry Collector sub-process."
         | optional,
       outputDirectory | String | doc "Output directory" | optional,
-      resolveHostnameToFqdn | Bool | doc "Resolve hostnames to FQDN" | optional,
+      patchDirectory
+        | String
+        | doc "The path of the custom connectors directory, connectors will also be loaded from the default directory."
+        | optional,
+      resolveHostnameToFqdn
+        | _js2n__-refsenv."_js2n__-:definitions/resolveHostnameToFqdn!contract"
+        | optional,
       resourceGroups
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -2825,25 +3061,15 @@ let rec _js2n__-refsenv
                                     ])
                               ],
                         collectPeriod =
-                          _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
-                        discoveryCycle = _js2n__-prdslib.isType '"String",
+                          _js2n__-refsenv."_js2n__-:definitions/collectPeriod!predicate",
+                        discoveryCycle =
+                          _js2n__-refsenv."_js2n__-:definitions/discoveryCycle!predicate",
+                        enableSelfMonitoring =
+                          _js2n__-refsenv."_js2n__-:definitions/enableSelfMonitoring!predicate",
                         jobTimeout =
-                          _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/jobTimeout!predicate",
                         loggerLevel =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.enum
-                                  [
-                                    "all",
-                                    "trace",
-                                    "debug",
-                                    "info",
-                                    "warn",
-                                    "error",
-                                    "fatal"
-                                  ]
-                              ],
+                          _js2n__-refsenv."_js2n__-:definitions/loggerLevel!predicate",
                         metrics =
                           _js2n__-prdslib.allOf
                               [
@@ -2855,11 +3081,17 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.isType '"Number"
                                     ])
                               ],
+                        monitorFilters =
+                          _js2n__-refsenv."_js2n__-:definitions/monitorFilters!predicate",
                         outputDirectory = _js2n__-prdslib.isType '"String",
-                        resolveHostnameToFqdn = _js2n__-prdslib.isType '"Bool",
+                        resolveHostnameToFqdn =
+                          _js2n__-refsenv."_js2n__-:definitions/resolveHostnameToFqdn!predicate",
                         resources =
                           _js2n__-refsenv."_js2n__-:definitions/resources!predicate",
-                        sequential = _js2n__-prdslib.isType '"Bool",
+                        sequential =
+                          _js2n__-refsenv."_js2n__-:definitions/sequential!predicate",
+                        stateSetCompression =
+                          _js2n__-refsenv."_js2n__-:definitions/stateSetCompression!predicate",
                       } {} true _js2n__-prdslib.always
                   ])
             ])
@@ -2869,8 +3101,10 @@ let rec _js2n__-refsenv
         | _js2n__-refsenv."_js2n__-:definitions/resources!contract"
         | optional,
       sequential
-        | Bool
-        | doc "Sequential mode. This forces all network calls to be ordered in a sequential order."
+        | _js2n__-refsenv."_js2n__-:definitions/sequential!contract"
+        | optional,
+      stateSetCompression
+        | _js2n__-refsenv."_js2n__-:definitions/stateSetCompression!contract"
         | optional,
       ..
     }

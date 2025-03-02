@@ -907,7 +907,12 @@ let rec _js2n__-refsenv
                   alert = _js2n__-prdslib.isType '"String",
                   annotations =
                     _js2n__-refsenv."_js2n__-:definitions/annotations!predicate",
-                  expr = _js2n__-prdslib.isType '"String",
+                  expr =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Integer
+                        ],
                   for =
                     _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
                   keep_firing_for =
@@ -965,7 +970,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "expr", "record" ],
               _js2n__-prdslib.records.record
                 {
-                  expr = _js2n__-prdslib.isType '"String",
+                  expr =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Integer
+                        ],
                   labels =
                     _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
                   record = _js2n__-prdslib.isType '"String",
@@ -1000,6 +1010,8 @@ let rec _js2n__-refsenv
                               {
                                 interval =
                                   _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
+                                labels =
+                                  _js2n__-refsenv."_js2n__-:definitions/labels!predicate",
                                 limit =
                                   _js2n__-prdslib.anyOf
                                       [

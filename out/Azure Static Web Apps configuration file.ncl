@@ -1473,6 +1473,7 @@ let rec _js2n__-refsenv
                                       "node:14",
                                       "node:16",
                                       "node:18",
+                                      "node:20",
                                       "python:3.8",
                                       "python:3.9",
                                       "python:3.10"

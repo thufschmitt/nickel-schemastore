@@ -1750,6 +1750,10 @@ let rec _js2n__-refsenv
               | [| 'SIX_HOURS, 'ONE_HOUR, 'FIFTEEN_MINUTES |]
               | doc "(OPTIONAL) Specifies how often to publish updates to policy findings for the account. This includes publishing updates to Security Hub and Amazon EventBridge (formerly called Amazon CloudWatch Events). An enum value that specifies how frequently findings are published Possible values FIFTEEN_MINUTES, ONE_HOUR, or SIX_HOURS"
               | optional,
+            publishPolicyFindings
+              | Bool
+              | doc "Specifies whether to publish findings at all"
+              | optional,
             publishSensitiveDataFindings
               | Bool
               | doc "Specifies whether to publish sensitive data findings to Security Hub. If you set this value to true, Amazon Macie automatically publishes all sensitive data findings that weren't suppressed by a findings filter. The default value is false.",
@@ -2146,6 +2150,8 @@ let rec _js2n__-refsenv
               [|
                 'us-west-2,
                 'us-west-1,
+                'us-isof-east-1,
+                'us-isof-south-1,
                 'us-iso-west-1,
                 'us-isob-east-1,
                 'us-iso-east-1,
@@ -2157,6 +2163,7 @@ let rec _js2n__-refsenv
                 'me-south-1,
                 'me-central-1,
                 'il-central-1,
+                'eu-isoe-west-1,
                 'eu-west-3,
                 'eu-west-2,
                 'eu-west-1,
@@ -2169,6 +2176,7 @@ let rec _js2n__-refsenv
                 'cn-north-1,
                 'ca-west-1,
                 'ca-central-1,
+                'ap-southeast-5,
                 'ap-southeast-4,
                 'ap-southeast-3,
                 'ap-southeast-2,

@@ -1049,6 +1049,57 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.isType '"String")
             ],
+      "_js2n__-:definitions/resource.azure.bicep.v0!predicate"
+        | doc "Represents a resource that is deployed using Azure Bicep."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "path" ],
+              _js2n__-prdslib.records.record
+                {
+                  connectionString =
+                    _js2n__-refsenv."_js2n__-:definitions/connectionString!predicate",
+                  params =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.oneOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.isType '"Bool",
+                                _js2n__-prdslib.isType '"Number",
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.isType '"String"
+                              ])
+                        ],
+                  path = _js2n__-prdslib.isType '"String",
+                  type = _js2n__-prdslib.const "azure.bicep.v0",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/resource.azure.bicep.v1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/resource.azure.bicep.v0!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record
+                    {
+                      scope =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  resourceGroup =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} true _js2n__-prdslib.always
+                            ],
+                      type = _js2n__-prdslib.const "azure.bicep.v1",
+                    } {} true _js2n__-prdslib.always
+                ]
+            ],
       "_js2n__-:definitions/value!predicate"
         | doc "A value that can be referenced via an expression in the manifest"
         = _js2n__-prdslib.isType '"String",
@@ -1160,6 +1211,12 @@ let rec _js2n__-refsenv
                                   _js2n__-refsenv."_js2n__-:definitions/build!predicate",
                                 connectionString =
                                   _js2n__-refsenv."_js2n__-:definitions/connectionString!predicate",
+                                deployment =
+                                  _js2n__-prdslib.oneOf
+                                      [
+                                        _js2n__-refsenv."_js2n__-:definitions/resource.azure.bicep.v0!predicate",
+                                        _js2n__-refsenv."_js2n__-:definitions/resource.azure.bicep.v1!predicate"
+                                      ],
                                 entrypoint = _js2n__-prdslib.isType '"String",
                                 env =
                                   _js2n__-refsenv."_js2n__-:definitions/env!predicate",
@@ -1183,6 +1240,28 @@ let rec _js2n__-refsenv
                                   _js2n__-refsenv."_js2n__-:definitions/env!predicate",
                                 path = _js2n__-prdslib.isType '"String",
                                 type = _js2n__-prdslib.const "project.v0",
+                              } {} false _js2n__-prdslib.never
+                          ],
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required [ "path", "type" ],
+                            _js2n__-prdslib.records.record
+                              {
+                                args =
+                                  _js2n__-refsenv."_js2n__-:definitions/args!predicate",
+                                bindings =
+                                  _js2n__-refsenv."_js2n__-:definitions/bindings!predicate",
+                                deployment =
+                                  _js2n__-prdslib.oneOf
+                                      [
+                                        _js2n__-refsenv."_js2n__-:definitions/resource.azure.bicep.v0!predicate",
+                                        _js2n__-refsenv."_js2n__-:definitions/resource.azure.bicep.v1!predicate"
+                                      ],
+                                env =
+                                  _js2n__-refsenv."_js2n__-:definitions/env!predicate",
+                                path = _js2n__-prdslib.isType '"String",
+                                type = _js2n__-prdslib.const "project.v1",
                               } {} false _js2n__-prdslib.never
                           ],
                         _js2n__-prdslib.allOf
@@ -1243,54 +1322,77 @@ let rec _js2n__-refsenv
                                                         [
                                                           _js2n__-prdslib.isType
                                                             'Record,
-                                                          _js2n__-prdslib.records.required
-                                                            [ "generate" ],
-                                                          _js2n__-prdslib.records.record
-                                                            {
-                                                              generate =
-                                                                _js2n__-prdslib.allOf
+                                                          _js2n__-prdslib.oneOf
+                                                            [
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.records.required
                                                                     [
-                                                                      _js2n__-prdslib.isType
-                                                                        'Record,
-                                                                      _js2n__-prdslib.records.required
-                                                                        [
-                                                                          "minLength"
-                                                                        ],
-                                                                      _js2n__-prdslib.records.record
-                                                                        {
-                                                                          lower =
-                                                                            _js2n__-prdslib.isType
-                                                                                '"Bool",
-                                                                          minLength =
-                                                                            _js2n__-prdslib.isType
-                                                                                '"Number",
-                                                                          minLower =
-                                                                            _js2n__-prdslib.isType
-                                                                                '"Number",
-                                                                          minNumeric =
-                                                                            _js2n__-prdslib.isType
-                                                                                '"Number",
-                                                                          minSpecial =
-                                                                            _js2n__-prdslib.isType
-                                                                                '"Number",
-                                                                          minUpper =
-                                                                            _js2n__-prdslib.isType
-                                                                                '"Number",
-                                                                          numeric =
-                                                                            _js2n__-prdslib.isType
-                                                                                '"Bool",
-                                                                          special =
-                                                                            _js2n__-prdslib.isType
-                                                                                '"Bool",
-                                                                          upper =
-                                                                            _js2n__-prdslib.isType
-                                                                                '"Bool",
-                                                                        } {}
-                                                                        false
-                                                                        _js2n__-prdslib.never
+                                                                      "generate"
                                                                     ],
-                                                            } {} false
-                                                            _js2n__-prdslib.never
+                                                                  _js2n__-prdslib.records.record
+                                                                    {
+                                                                      additionalProperties =
+                                                                        _js2n__-prdslib.never,
+                                                                      generate =
+                                                                        _js2n__-prdslib.allOf
+                                                                            [
+                                                                              _js2n__-prdslib.isType
+                                                                                'Record,
+                                                                              _js2n__-prdslib.records.required
+                                                                                [
+                                                                                  "minLength"
+                                                                                ],
+                                                                              _js2n__-prdslib.records.record
+                                                                                {
+                                                                                  lower =
+                                                                                    _js2n__-prdslib.isType
+                                                                                        '"Bool",
+                                                                                  minLength =
+                                                                                    _js2n__-prdslib.isType
+                                                                                        '"Number",
+                                                                                  minLower =
+                                                                                    _js2n__-prdslib.isType
+                                                                                        '"Number",
+                                                                                  minNumeric =
+                                                                                    _js2n__-prdslib.isType
+                                                                                        '"Number",
+                                                                                  minSpecial =
+                                                                                    _js2n__-prdslib.isType
+                                                                                        '"Number",
+                                                                                  minUpper =
+                                                                                    _js2n__-prdslib.isType
+                                                                                        '"Number",
+                                                                                  numeric =
+                                                                                    _js2n__-prdslib.isType
+                                                                                        '"Bool",
+                                                                                  special =
+                                                                                    _js2n__-prdslib.isType
+                                                                                        '"Bool",
+                                                                                  upper =
+                                                                                    _js2n__-prdslib.isType
+                                                                                        '"Bool",
+                                                                                }
+                                                                                {}
+                                                                                true
+                                                                                _js2n__-prdslib.always
+                                                                            ],
+                                                                    } {} true
+                                                                    _js2n__-prdslib.always
+                                                                ],
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.records.required
+                                                                    [ "value" ],
+                                                                  _js2n__-prdslib.records.record
+                                                                    {
+                                                                      value =
+                                                                        _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                    } {} true
+                                                                    _js2n__-prdslib.always
+                                                                ]
+                                                            ]
                                                         ],
                                                   secret =
                                                     _js2n__-prdslib.isType
@@ -1368,33 +1470,8 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.const "dapr.component.v0",
                               } {} false _js2n__-prdslib.never
                           ],
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.records.required [ "path" ],
-                            _js2n__-prdslib.records.record
-                              {
-                                connectionString =
-                                  _js2n__-refsenv."_js2n__-:definitions/connectionString!predicate",
-                                params =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Record,
-                                        _js2n__-prdslib.records.record {} {}
-                                          true
-                                          (_js2n__-prdslib.oneOf
-                                            [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.isType '"Bool",
-                                              _js2n__-prdslib.isType '"Number",
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.isType '"String"
-                                            ])
-                                      ],
-                                path = _js2n__-prdslib.isType '"String",
-                                type = _js2n__-prdslib.const "azure.bicep.v0",
-                              } {} false _js2n__-prdslib.never
-                          ],
+                        _js2n__-refsenv."_js2n__-:definitions/resource.azure.bicep.v0!predicate",
+                        _js2n__-refsenv."_js2n__-:definitions/resource.azure.bicep.v1!predicate",
                         _js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.isType 'Record,
@@ -1472,9 +1549,11 @@ let rec _js2n__-refsenv
                                               "container.v1",
                                               "dockerfile.v0",
                                               "project.v0",
+                                              "project.v1",
                                               "value.v0",
                                               "executable.v0",
                                               "azure.bicep.v0",
+                                              "azure.bicep.v1",
                                               "aws.cloudformation.template.v0",
                                               "aws.cloudformation.stack.v0",
                                               "dapr.component.v0",

@@ -909,7 +909,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.required
-                            [ "inputFields", "paginationType", "resultsArray" ],
+                            [ "inputFields", "resultsArray", "type" ],
                           _js2n__-prdslib.records.record
                             {
                               inputFields =
@@ -946,12 +946,6 @@ let rec _js2n__-refsenv
                                               } {} false _js2n__-prdslib.never
                                           ])
                                     ],
-                              paginationType =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.const "limitOffset"
-                                    ],
                               resultsArray =
                                 _js2n__-prdslib.allOf
                                     [
@@ -965,6 +959,12 @@ let rec _js2n__-refsenv
                                           results =
                                             _js2n__-prdslib.isType '"String",
                                         } {} false _js2n__-prdslib.never
+                                    ],
+                              type =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.const "limitOffset"
                                     ],
                             } {} false _js2n__-prdslib.never
                         ],
@@ -1312,8 +1312,8 @@ let rec _js2n__-refsenv
                                                                         _js2n__-prdslib.records.required
                                                                           [
                                                                             "inputFields",
-                                                                            "paginationType",
-                                                                            "resultsArray"
+                                                                            "resultsArray",
+                                                                            "type"
                                                                           ],
                                                                         _js2n__-prdslib.records.record
                                                                           {
@@ -1363,14 +1363,6 @@ let rec _js2n__-refsenv
                                                                                             _js2n__-prdslib.never
                                                                                         ])
                                                                                   ],
-                                                                            paginationType =
-                                                                              _js2n__-prdslib.allOf
-                                                                                  [
-                                                                                    _js2n__-prdslib.isType
-                                                                                      '"String",
-                                                                                    _js2n__-prdslib.const
-                                                                                      "limitOffset"
-                                                                                  ],
                                                                             resultsArray =
                                                                               _js2n__-prdslib.allOf
                                                                                   [
@@ -1393,6 +1385,14 @@ let rec _js2n__-refsenv
                                                                                       {}
                                                                                       false
                                                                                       _js2n__-prdslib.never
+                                                                                  ],
+                                                                            type =
+                                                                              _js2n__-prdslib.allOf
+                                                                                  [
+                                                                                    _js2n__-prdslib.isType
+                                                                                      '"String",
+                                                                                    _js2n__-prdslib.const
+                                                                                      "limitOffset"
                                                                                   ],
                                                                           } {}
                                                                           false
@@ -1902,6 +1902,8 @@ let rec _js2n__-refsenv
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/hookDependencies!predicate",
                                       ignoreFiles =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/ignoreFiles!predicate",
+                                      includeKotlinSnippets =
+                                        _js2n__-prdslib.isType '"Bool",
                                       liblabVersion =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/liblabVersion!predicate",
                                       packageName =
@@ -1918,8 +1920,6 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.required
-                                    [ "additionalConstructorParameters" ],
                                   _js2n__-prdslib.records.record
                                     {
                                       additionalConstructorParameters =
@@ -2128,6 +2128,16 @@ let rec _js2n__-refsenv
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/ignoreFiles!predicate",
                                       liblabVersion =
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/liblabVersion!predicate",
+                                      namingStrategy =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [
+                                                  "default",
+                                                  "originalPropertyNames"
+                                                ]
+                                            ],
                                       npmName =
                                         _js2n__-prdslib.isType '"String",
                                       npmOrg = _js2n__-prdslib.isType '"String",
@@ -2197,12 +2207,7 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.records.required [ "code" ],
                             _js2n__-prdslib.records.record
                               {
-                                code =
-                                  _js2n__-prdslib.anyOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.isType '"Number"
-                                      ],
+                                code = _js2n__-prdslib.isType '"String",
                                 path =
                                   _js2n__-prdslib.allOf
                                       [

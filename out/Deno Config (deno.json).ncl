@@ -1053,6 +1053,10 @@ let rec _js2n__-refsenv
               (_js2n__-prdslib.isType '"Bool")
             | doc "Raise an error when a function parameter isn't read"
             | optional,
+          rootDirs
+            | Array (String)
+            | doc "Declare many “virtual” directories acting as a single root."
+            | optional,
           strict
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.isType '"Bool")
@@ -1228,6 +1232,10 @@ let rec _js2n__-refsenv
             | Array (String)
             | doc "List of files, directories or globs that will be linted."
             | optional,
+          plugins
+            | Array (String)
+            | doc "UNSTABLE: List of plugins to load. These can be paths, npm or jsr specifiers"
+            | optional,
           report
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.enum [ "pretty", "json", "compact" ])
@@ -1240,8 +1248,7 @@ let rec _js2n__-refsenv
                   (_js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
+                      _js2n__-prdslib.arrays.arrayOf _js2n__-prdslib.always,
                       _js2n__-prdslib.arrays.minItems 0,
                       _js2n__-prdslib.arrays.uniqueItems
                     ])
@@ -1252,8 +1259,7 @@ let rec _js2n__-refsenv
                   (_js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
+                      _js2n__-prdslib.arrays.arrayOf _js2n__-prdslib.always,
                       _js2n__-prdslib.arrays.minItems 0,
                       _js2n__-prdslib.arrays.uniqueItems
                     ])
@@ -1264,8 +1270,7 @@ let rec _js2n__-refsenv
                   (_js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
+                      _js2n__-prdslib.arrays.arrayOf _js2n__-prdslib.always,
                       _js2n__-prdslib.arrays.minItems 0,
                       _js2n__-prdslib.arrays.uniqueItems
                     ])
@@ -1354,7 +1359,27 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {}
                 {
                   "^[A-Za-z][A-Za-z0-9_\\-:]*$" =
-                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  command = _js2n__-prdslib.isType '"String",
+                                  dependencies =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"Array",
+                                          _js2n__-prdslib.arrays.arrayOf
+                                            (_js2n__-prdslib.isType '"String")
+                                        ],
+                                  description =
+                                    _js2n__-prdslib.isType '"String",
+                                } {} true _js2n__-prdslib.always
+                            ]
+                        ],
                 } false _js2n__-prdslib.never
             ])
         | doc "Configuration for deno task"

@@ -1087,6 +1087,9 @@ let rec _js2n__-refsenv
                 'npm-bundled,
                 'localmodule,
                 'local,
+                'jsdoc-import-tag,
+                'jsdoc-bracket-import,
+                'jsdoc,
                 '"import",
                 'import-equals,
                 'export,
@@ -1129,6 +1132,9 @@ let rec _js2n__-refsenv
                   "export",
                   "import-equals",
                   "import",
+                  "jsdoc",
+                  "jsdoc-bracket-import",
+                  "jsdoc-import-tag",
                   "local",
                   "localmodule",
                   "npm-bundled",
@@ -1520,6 +1526,10 @@ let rec _js2n__-refsenv
               | Bool
               | doc "if true combines the package.jsons found from the module up to the base folder the cruise is initiated from. Useful for how (some) mono-repos manage dependencies & dependency definitions. Defaults to `false`."
               | optional,
+            detectJSDocImports
+              | Bool
+              | doc "When true, dependency-cruiser will detect dependencies in JSDoc-style import statements. Implies `\"parser\": \"tsc\"`. Defaults to false."
+              | optional,
             doNotFollow
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.oneOf
@@ -1610,7 +1620,7 @@ let rec _js2n__-refsenv
               | optional,
             forceDeriveDependents
               | Bool
-              | doc "When true includes de-normalized dependents in the cruise-result, even though there's no rule in the rule set that requires them. Defaults to false."
+              | doc "Hasn't had any effect on dependency-cruiser's behaviour since a few major versions ago. If there's a need to manipulate this use the `skipAnalysisNotInRules` option in stead. Previously documented behaviour: When true includes de-normalized dependents in the cruise-result, even though there's no rule in the rule set that requires them. Defaults to false."
               | optional,
             highlight
               | _js2n__-prdslib.contract_from_predicate
@@ -1690,6 +1700,10 @@ let rec _js2n__-refsenv
               | optional,
             reporterOptions
               | _js2n__-refsenv."_js2n__-:definitions/ReporterOptionsType!contract"
+              | optional,
+            skipAnalysisNotInRules
+              | Bool
+              | doc "When this flag is set to true, dependency-cruiser will skip all analysis that don't serve a rule. E.g. if there's no 'circular' rule in the rule set it won't analyse cycles. This flag affects cycle, dependents and orphan analysis. If you have a rule set that doesn't use one of these features, switching it to true will make cruises faster. Defaults to false for backwards compatibility. For most uses of dependency-cruiser we recommend to switch this option to true, though."
               | optional,
             tsConfig
               | {
@@ -1955,6 +1969,10 @@ let rec _js2n__-refsenv
             path
               | _js2n__-refsenv."_js2n__-:definitions/REAsStringsType!contract"
               | doc "Criteria at least one dependency of each matching module must adhere to."
+              | optional,
+            reachable
+              | Bool
+              | doc "Whether or not to match transitive ('indirect') dependencies as well as direct ones."
               | optional,
           },
       "_js2n__-:definitions/RuleSummaryType!contract"
