@@ -901,15 +901,15 @@ let rec _js2n__-refsenv
   {
       data
         | {
-          invalid_answers
+          invalid_answer
             | Dyn
             | doc "Test cases whose answer files are invalid. Inputs must be valid."
             | optional,
-          invalid_inputs
+          invalid_input
             | Dyn
             | doc "Test cases whose input files are invalid"
             | optional,
-          invalid_outputs
+          invalid_output
             | Dyn
             | doc "Valid test cases for which the `.out` string is rejected by output validation."
             | optional,
@@ -920,8 +920,12 @@ let rec _js2n__-refsenv
             | Dyn
             | doc "The test cases against which submissions are validated",
           "testdata.yaml" | Dyn | optional,
+          valid_output
+            | Dyn
+            | doc "Valid test cases for which the `.out` must pass output validation."
+            | optional,
         }
-        | doc "the root test group. must contain the testgroups 'sample' and 'secret'.",
+        | doc "The root test group. Must contain the test groups 'sample' and 'secret'.",
       generators
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

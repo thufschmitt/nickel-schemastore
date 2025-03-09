@@ -958,7 +958,14 @@ let rec _js2n__-refsenv
               | Array _js2n__-refsenv."_js2n__-:definitions/sample!contract"
               | doc "Expected samples at the given evaluation time."
               | optional,
-            expr | String | doc "PromQL expression to evaluate",
+            expr
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType 'Integer
+                  ])
+              | doc "PromQL expression to evaluate",
           },
       "_js2n__-:definitions/sample!contract" =
         {

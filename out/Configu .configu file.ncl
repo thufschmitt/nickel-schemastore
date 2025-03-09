@@ -895,4 +895,141 @@ let _js2n__-prdslib
         },
   }
   in
-let rec _js2n__-refsenv = {} in Dyn
+let rec _js2n__-refsenv
+    = {}
+    in
+  {
+      "$schema"
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.minLength 1
+            ])
+        | doc "Url to JSON Schema"
+        | optional,
+      backup
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.strings.minLength 1
+            ])
+        | optional,
+      interface
+        | {
+          debug | Bool | doc "Enables or disables debug mode." | optional,
+          proxy
+            | {
+              auth
+                | {
+                  bearer
+                    | {
+                      keys
+                        | _js2n__-prdslib.contract_from_predicate
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String"),
+                              _js2n__-prdslib.arrays.minItems 1
+                            ])
+                        | doc "List of preshared keys that are allowed to access the server.",
+                    }
+                    | doc "Enables or disables preshared key authentication."
+                    | optional,
+                }
+                | optional,
+              domain
+                | String
+                | doc "The domain of the proxy server."
+                | optional,
+              host
+                | String
+                | doc "The host address of the proxy server."
+                | optional,
+              http
+                | {
+                  enabled
+                    | Bool
+                    | doc "Enables or disables the HTTP server."
+                    | optional,
+                  port
+                    | Number
+                    | doc "The host port to serve the HTTP server on."
+                    | optional,
+                }
+                | optional,
+              tls
+                | {
+                  cert
+                    | String
+                    | doc "The (absolute) file path of the certificate to use for the TLS connection.",
+                  enabled
+                    | Bool
+                    | doc "Enables or disables transport layer security (TLS).",
+                  key
+                    | String
+                    | doc "The (absolute) file path of the TLS key that should be used for the TLS connection.",
+                }
+                | optional,
+            }
+            | doc "Configuration for the Configu proxy server."
+            | optional,
+        }
+        | doc "Global configuration for a Configu interface."
+        | optional,
+      register
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.minLength 1
+                  ]),
+              _js2n__-prdslib.arrays.uniqueItems
+            ])
+        | optional,
+      schemas
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.isType '"String")
+            ])
+        | optional,
+      scripts
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.isType '"String")
+            ])
+        | optional,
+      stores
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "type" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        backup = _js2n__-prdslib.isType '"Bool",
+                        configuration = _js2n__-prdslib.isType 'Record,
+                        "default" = _js2n__-prdslib.isType '"Bool",
+                        type = _js2n__-prdslib.isType '"String",
+                        version = _js2n__-prdslib.isType '"String",
+                      } {} false _js2n__-prdslib.never
+                  ])
+            ])
+        | optional,
+    }

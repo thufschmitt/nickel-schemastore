@@ -941,6 +941,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   example = _js2n__-prdslib.isType '"String",
+                  examples = _js2n__-prdslib.isType '"Array",
                   exclusiveMaximum = _js2n__-prdslib.isType '"Number",
                   exclusiveMinimum = _js2n__-prdslib.isType '"Number",
                   fields =
@@ -955,6 +956,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
                   keys =
                     _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
+                  lineage = _js2n__-prdslib.always,
                   links =
                     _js2n__-prdslib.allOf
                         [
@@ -974,6 +976,13 @@ let rec _js2n__-refsenv
                   pii = _js2n__-prdslib.isType '"Bool",
                   precision = _js2n__-prdslib.isType '"Number",
                   primary = _js2n__-prdslib.isType '"Bool",
+                  primaryKey = _js2n__-prdslib.isType '"Bool",
+                  quality =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf _js2n__-prdslib.always
+                        ],
                   references = _js2n__-prdslib.isType '"String",
                   required = _js2n__-prdslib.isType '"Bool",
                   scale = _js2n__-prdslib.isType '"Number",
@@ -996,7 +1005,7 @@ let rec _js2n__-refsenv
   {
       dataContractSpecification
         | std.enum.TagOrString
-        | [| '"0.9.0", '"0.9.1", '"0.9.2", '"0.9.3" |]
+        | [| '"0.9.0", '"0.9.1", '"0.9.2", '"0.9.3", '"1.1.0" |]
         | doc "Specifies the Data Contract Specification being used.",
       definitions
         | _js2n__-prdslib.contract_from_predicate
@@ -1004,18 +1013,19 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.propertyNames
-                (_js2n__-prdslib.strings.pattern "^[a-zA-Z0-9_-]+$"),
+                (_js2n__-prdslib.strings.pattern "^[a-zA-Z0-9/_-]+$"),
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.required [ "name", "type" ],
+                    _js2n__-prdslib.records.required [ "type" ],
                     _js2n__-prdslib.records.record
                       {
                         classification = _js2n__-prdslib.isType '"String",
                         description = _js2n__-prdslib.isType '"String",
                         domain = _js2n__-prdslib.isType '"String",
                         example = _js2n__-prdslib.isType '"String",
+                        examples = _js2n__-prdslib.isType '"Array",
                         exclusiveMaximum = _js2n__-prdslib.isType '"Number",
                         exclusiveMinimum = _js2n__-prdslib.isType '"Number",
                         fields =
@@ -1066,32 +1076,6 @@ let rec _js2n__-refsenv
             ])
         | doc "Clear and concise explanations of syntax, semantic, and classification of business objects in a given domain."
         | optional,
-      examples
-        | Array
-          {
-            data
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.oneOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.isType '"Array"
-                  ]),
-            description
-              | String
-              | doc "An optional string describing the example."
-              | optional,
-            model
-              | String
-              | doc "The reference to the model in the schema, e.g., a table name."
-              | optional,
-            type
-              | std.enum.TagOrString
-              | [| 'custom, 'yaml, 'json, 'csv |]
-              | doc "The type of the example data. Well-known types are csv, json, yaml, custom.",
-            ..
-          }
-        | doc "The Examples Object is an array of Example Objects."
-        | optional,
       id | String | doc "Specifies the identifier of the data contract.",
       info
         | {
@@ -1122,8 +1106,7 @@ let rec _js2n__-refsenv
             | doc "The owner or team responsible for managing the data contract and providing the data."
             | optional,
           status
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.isType '"String")
+            | String
             | doc "The status of the data contract. Can be proposed, in development, active, retired."
             | optional,
           title | String | doc "The title of the data contract.",
@@ -1180,6 +1163,7 @@ let rec _js2n__-refsenv
                                     ])
                               ],
                         description = _js2n__-prdslib.isType '"String",
+                        examples = _js2n__-prdslib.isType '"Array",
                         fields =
                           _js2n__-prdslib.allOf
                               [
@@ -1256,6 +1240,8 @@ let rec _js2n__-refsenv
                                                 ],
                                           example =
                                             _js2n__-prdslib.isType '"String",
+                                          examples =
+                                            _js2n__-prdslib.isType '"Array",
                                           exclusiveMaximum =
                                             _js2n__-prdslib.isType '"Number",
                                           exclusiveMinimum =
@@ -1275,6 +1261,7 @@ let rec _js2n__-refsenv
                                             _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
                                           keys =
                                             _js2n__-refsenv."_js2n__-:properties/models/additionalProperties/properties/fields/additionalProperties!predicate",
+                                          lineage = _js2n__-prdslib.always,
                                           links =
                                             _js2n__-prdslib.allOf
                                                 [
@@ -1305,6 +1292,16 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.isType '"Number",
                                           primary =
                                             _js2n__-prdslib.isType '"Bool",
+                                          primaryKey =
+                                            _js2n__-prdslib.isType '"Bool",
+                                          quality =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.arrays.arrayOf
+                                                    _js2n__-prdslib.always
+                                                ],
                                           references =
                                             _js2n__-prdslib.isType '"String",
                                           required =
@@ -1330,6 +1327,20 @@ let rec _js2n__-refsenv
                                         } {} true _js2n__-prdslib.always
                                     ])
                               ],
+                        primaryKey =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        quality =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  _js2n__-prdslib.always
+                              ],
                         title = _js2n__-prdslib.isType '"String",
                         type =
                           _js2n__-prdslib.allOf
@@ -1343,428 +1354,159 @@ let rec _js2n__-refsenv
             ])
         | doc "Specifies the logical data model. Use the models name (e.g., the table name) as the key."
         | optional,
-      quality
-        | {
-          specification
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.isType 'Record
-                ]),
-          type
-            | std.enum.TagOrString
-            | [| 'custom, 'great-expectations, 'montecarlo, 'SodaCL |]
-            | doc "The type of the quality check. Typical values are SodaCL, montecarlo, great-expectations, custom.",
-          ..
-        }
-        | doc "The quality object contains quality attributes and checks."
-        | optional,
-      schema
-        | {
-          specification
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.isType 'Record
-                ]),
-          type
-            | std.enum.TagOrString
-            | [|
-              'custom,
-              'protobuf,
-              'avro,
-              'sql-ddl,
-              'json-schema,
-              'bigquery,
-              'dbt
-            |]
-            | doc "The type of the schema. Typical values are dbt, bigquery, json-schema, sql-ddl, avro, protobuf, custom.",
-          ..
-        }
-        | doc "The schema of the data contract describes the syntax and semantics of provided data sets. It supports different schema types."
-        | optional,
       servers
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  description = _js2n__-prdslib.isType '"String",
-                  environment = _js2n__-prdslib.isType '"String",
-                } {} true
-                (_js2n__-prdslib.oneOf
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.allOf
                       [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "dataset", "project", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            dataset = _js2n__-prdslib.isType '"String",
-                            project = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
-                                      [ "bigquery", "BigQuery" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.records.record
+                            { type = _js2n__-prdslib.const "bigquery", } {} true
+                            _js2n__-prdslib.always) _js2n__-prdslib.always
+                          _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "postgres", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "s3", } {} true
+                                _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "sftp", } {} true
+                                _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "redshift", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "azure", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "sqlserver", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "snowflake", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "databricks", }
+                                {} true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "dataframe", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "glue", } {} true
+                                _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "postgres", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "oracle", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "kafka", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "pubsub", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "kinesis", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "trino", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.records.required [ "type" ],
+                              _js2n__-prdslib.records.record
+                                { type = _js2n__-prdslib.const "local", } {}
+                                true _js2n__-prdslib.always
+                            ]) _js2n__-prdslib.always _js2n__-prdslib.always
                       ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required [ "location", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            delimiter =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "new_line", "array" ]
-                                  ],
-                            endpointUrl = _js2n__-prdslib.isType '"String",
-                            format =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
-                                      [ "parquet", "delta", "json", "csv" ]
-                                  ],
-                            location = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "s3" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required [ "location", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            delimiter =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "new_line", "array" ]
-                                  ],
-                            format =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
-                                      [ "parquet", "delta", "json", "csv" ]
-                                  ],
-                            location = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "gcs" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required [ "location", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            delimiter =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "new_line", "array" ]
-                                  ],
-                            format =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
-                                      [ "parquet", "delta", "json", "csv" ]
-                                  ],
-                            location = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "sftp" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "account", "database", "schema", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            account = _js2n__-prdslib.isType '"String",
-                            clusterIdentifier =
-                              _js2n__-prdslib.isType '"String",
-                            database = _js2n__-prdslib.isType '"String",
-                            endpoint = _js2n__-prdslib.isType '"String",
-                            host = _js2n__-prdslib.isType '"String",
-                            port = _js2n__-prdslib.isType 'Integer,
-                            schema = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "redshift" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "format", "location", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            delimiter =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "new_line", "array" ]
-                                  ],
-                            format =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
-                                      [ "parquet", "delta", "json", "csv" ]
-                                  ],
-                            location = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "azure" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "database", "host", "schema", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            database = _js2n__-prdslib.isType '"String",
-                            host = _js2n__-prdslib.isType '"String",
-                            port = _js2n__-prdslib.isType 'Integer,
-                            schema = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "sqlserver" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "account", "database", "schema", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            account = _js2n__-prdslib.isType '"String",
-                            database = _js2n__-prdslib.isType '"String",
-                            schema = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "snowflake" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "catalog", "schema", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            catalog = _js2n__-prdslib.isType '"String",
-                            host = _js2n__-prdslib.isType '"String",
-                            schema = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.const "databricks"
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required [ "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.const "dataframe"
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "account", "database", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            account = _js2n__-prdslib.isType '"String",
-                            database = _js2n__-prdslib.isType '"String",
-                            format = _js2n__-prdslib.isType '"String",
-                            location = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.const "glue"
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "database", "host", "port", "schema", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            database = _js2n__-prdslib.isType '"String",
-                            host = _js2n__-prdslib.isType '"String",
-                            port = _js2n__-prdslib.isType 'Integer,
-                            schema = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.const "postgres"
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "host", "port", "serviceName", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            host = _js2n__-prdslib.isType '"String",
-                            port = _js2n__-prdslib.isType 'Integer,
-                            serviceName = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.const "oracle"
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "host", "topic", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            format = _js2n__-prdslib.isType '"String",
-                            host = _js2n__-prdslib.isType '"String",
-                            topic = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "kafka" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "project", "topic", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            project = _js2n__-prdslib.isType '"String",
-                            topic = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "pubsub" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required [ "stream", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            format = _js2n__-prdslib.isType '"String",
-                            region = _js2n__-prdslib.isType '"String",
-                            stream = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "kinesis" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "catalog", "host", "port", "schema", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            catalog = _js2n__-prdslib.isType '"String",
-                            host = _js2n__-prdslib.isType '"String",
-                            port = _js2n__-prdslib.isType 'Integer,
-                            schema = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.const "trino"
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ],
-                    _js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType 'Record,
-                        _js2n__-prdslib.records.required
-                          [ "format", "path", "type" ],
-                        _js2n__-prdslib.records.record
-                          {
-                            format = _js2n__-prdslib.isType '"String",
-                            path = _js2n__-prdslib.isType '"String",
-                            type =
-                              _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum [ "local" ]
-                                  ],
-                          } {} true _js2n__-prdslib.always
-                      ]
+                    _js2n__-prdslib.always
                   ])
             ])
         | doc "Information about the servers."
@@ -1963,6 +1705,19 @@ let rec _js2n__-refsenv
           noticePeriod
             | String
             | doc "The period of time that must be given by either party to terminate or modify a data usage agreement. Uses ISO-8601 period format, e.g., 'P3M' for a period of three months."
+            | optional,
+          policies
+            | Array
+              {
+                description
+                  | String
+                  | doc "A description of the policy."
+                  | optional,
+                type | String | doc "The type of the policy." | optional,
+                url | String | doc "A URL to the policy document." | optional,
+                ..
+              }
+            | doc "The limitations describe the restrictions on how the data can be used, can be technical or restrictions on what the data may not be used for."
             | optional,
           usage
             | String

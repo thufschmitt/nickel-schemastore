@@ -1014,6 +1014,17 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/DocString!predicate",
                   docs =
                     _js2n__-refsenv."_js2n__-:definitions/DocString!predicate",
+                  errors =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-refsenv."_js2n__-:definitions/TypeName!predicate",
+                                _js2n__-refsenv."_js2n__-:definitions/EndpointError!predicate"
+                              ])
+                        ],
                   http =
                     _js2n__-prdslib.allOf
                         [
@@ -1031,6 +1042,19 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String"),
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/EndpointError!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "error" ],
+              _js2n__-prdslib.records.record
+                {
+                  docs =
+                    _js2n__-refsenv."_js2n__-:definitions/DocString!predicate",
+                  error =
+                    _js2n__-refsenv."_js2n__-:definitions/TypeName!predicate",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/EnumTypeDefinition!predicate" =

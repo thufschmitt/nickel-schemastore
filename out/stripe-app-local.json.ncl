@@ -918,6 +918,7 @@ let rec _js2n__-refsenv
       name | Dyn | optional,
       permissions | Dyn | optional,
       post_install_action | Dyn | optional,
+      sandbox_install_compatible | Dyn | optional,
       stripe_api_access_type | Dyn | optional,
       ui_extension
         | {

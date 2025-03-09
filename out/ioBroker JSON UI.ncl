@@ -910,6 +910,7 @@ let rec _js2n__-refsenv
                   defaultFunc = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -959,6 +960,7 @@ let rec _js2n__-refsenv
                   defaultFunc = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -995,6 +997,7 @@ let rec _js2n__-refsenv
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
                   doNotSave = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1067,6 +1070,7 @@ let rec _js2n__-refsenv
                   "slider",
                   "state",
                   "staticImage",
+                  "staticInfo",
                   "staticLink",
                   "staticText",
                   "table",
@@ -1091,6 +1095,7 @@ let rec _js2n__-refsenv
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
                   divider = _js2n__-prdslib.isType '"String",
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1145,6 +1150,7 @@ let rec _js2n__-refsenv
                   defaultFunc = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1175,12 +1181,19 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   allowSaveWithError = _js2n__-prdslib.always,
+                  bundlerType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "module" ]
+                        ],
                   confirm = _js2n__-prdslib.always,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
                   defaultFunc = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1219,6 +1232,7 @@ let rec _js2n__-refsenv
                   defaultFunc = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1255,6 +1269,7 @@ let rec _js2n__-refsenv
               defaultSendTo = _js2n__-prdslib.always,
               delete = _js2n__-prdslib.isType '"Bool",
               disabled = _js2n__-prdslib.always,
+              expertMode = _js2n__-prdslib.always,
               fileTypes = _js2n__-prdslib.enum [ "audio", "image", "text" ],
               help = _js2n__-prdslib.always,
               helpLink = _js2n__-prdslib.always,
@@ -1327,6 +1342,7 @@ let rec _js2n__-refsenv
                   defaultFunc = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1365,6 +1381,7 @@ let rec _js2n__-refsenv
                   defaultFunc = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1385,6 +1402,37 @@ let rec _js2n__-refsenv
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
+                  xl = _js2n__-prdslib.always,
+                  xs = _js2n__-prdslib.always,
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/jsonEditorProps!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.required [ "type" ],
+              _js2n__-prdslib.records.record
+                {
+                  allowEmpty = _js2n__-prdslib.isType '"Bool",
+                  allowSaveWithError = _js2n__-prdslib.always,
+                  darkStyle = _js2n__-prdslib.always,
+                  defaultSendTo = _js2n__-prdslib.always,
+                  disabled = _js2n__-prdslib.always,
+                  doNotApplyWithError = _js2n__-prdslib.isType '"Bool",
+                  expertMode = _js2n__-prdslib.always,
+                  hidden = _js2n__-prdslib.always,
+                  hideOnlyControl = _js2n__-prdslib.always,
+                  json5 = _js2n__-prdslib.isType '"Bool",
+                  label = _js2n__-prdslib.always,
+                  lg = _js2n__-prdslib.always,
+                  md = _js2n__-prdslib.always,
+                  newLine = _js2n__-prdslib.always,
+                  noMultiEdit = _js2n__-prdslib.always,
+                  noTranslation = _js2n__-prdslib.always,
+                  sm = _js2n__-prdslib.always,
+                  style = _js2n__-prdslib.always,
+                  tooltip = _js2n__-prdslib.always,
+                  type = _js2n__-prdslib.always,
+                  validateJson = _js2n__-prdslib.isType '"Bool",
                   xl = _js2n__-prdslib.always,
                   xs = _js2n__-prdslib.always,
                 } {} false _js2n__-prdslib.never
@@ -1417,6 +1465,7 @@ let rec _js2n__-refsenv
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
                   doNotSave = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1436,6 +1485,12 @@ let rec _js2n__-refsenv
                   style = _js2n__-prdslib.always,
                   tooltip = _js2n__-prdslib.always,
                   type = _js2n__-prdslib.always,
+                  unit =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.isType '"String"
+                        ],
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
                   validatorNoSaveOnError = _js2n__-prdslib.always,
@@ -1457,6 +1512,7 @@ let rec _js2n__-refsenv
                   defaultFunc = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1548,6 +1604,7 @@ let rec _js2n__-refsenv
                   disabled = _js2n__-prdslib.always,
                   doNotSave = _js2n__-prdslib.always,
                   encrypted = _js2n__-prdslib.isType '"Bool",
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1589,6 +1646,7 @@ let rec _js2n__-refsenv
                   defaultFunc = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   fgColor = _js2n__-prdslib.isType '"String",
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
@@ -1637,6 +1695,7 @@ let rec _js2n__-refsenv
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
                   error = _js2n__-prdslib.isType 'Record,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1680,6 +1739,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "oid", "type" ],
               _js2n__-prdslib.records.record
                 {
+                  addColon = _js2n__-prdslib.isType '"Bool",
+                  blinkOnUpdate = _js2n__-prdslib.isType '"Bool",
+                  buttonValue =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.isType '"Bool"
+                        ],
                   confirm = _js2n__-prdslib.always,
                   control =
                     _js2n__-prdslib.allOf
@@ -1701,22 +1769,27 @@ let rec _js2n__-refsenv
                   controlled = _js2n__-prdslib.isType '"Bool",
                   darkStyle = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   falseImage = _js2n__-prdslib.isType '"String",
                   falseText = _js2n__-prdslib.isType '"String",
                   falseTextStyle = _js2n__-prdslib.isType 'Record,
+                  foreign = _js2n__-prdslib.isType '"Bool",
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
                   hideOnlyControl = _js2n__-prdslib.always,
                   label = _js2n__-prdslib.always,
+                  labelIcon = _js2n__-prdslib.isType '"String",
                   lg = _js2n__-prdslib.always,
                   max = _js2n__-prdslib.isType '"Number",
                   md = _js2n__-prdslib.always,
                   min = _js2n__-prdslib.isType '"Number",
+                  narrow = _js2n__-prdslib.isType '"Bool",
                   newLine = _js2n__-prdslib.always,
                   noTranslation = _js2n__-prdslib.always,
                   oid = _js2n__-prdslib.isType '"String",
                   readOnly = _js2n__-prdslib.isType '"Bool",
+                  size = _js2n__-prdslib.always,
                   sm = _js2n__-prdslib.always,
                   step = _js2n__-prdslib.isType '"Number",
                   style = _js2n__-prdslib.always,
@@ -1726,7 +1799,12 @@ let rec _js2n__-refsenv
                   trueText = _js2n__-prdslib.isType '"String",
                   trueTextStyle = _js2n__-prdslib.isType 'Record,
                   type = _js2n__-prdslib.always,
-                  unit = _js2n__-prdslib.isType '"String",
+                  unit =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.isType '"String"
+                        ],
                   variant =
                     _js2n__-prdslib.allOf
                         [
@@ -1754,6 +1832,7 @@ let rec _js2n__-refsenv
                   defaultFunc = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -1837,6 +1916,7 @@ let rec _js2n__-refsenv
                                   defaultFunc = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
                                   hidden = _js2n__-prdslib.always,
@@ -1885,6 +1965,7 @@ let rec _js2n__-refsenv
                                   defaultFunc = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   freeSolo = _js2n__-prdslib.isType '"Bool",
                                   help = _js2n__-prdslib.always,
@@ -1942,6 +2023,7 @@ let rec _js2n__-refsenv
                                   disabled = _js2n__-prdslib.always,
                                   doNotSave =
                                     _js2n__-refsenv."_js2n__-:definitions/doNotSaveProp!predicate",
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -1998,6 +2080,7 @@ let rec _js2n__-refsenv
                                   defaultFunc = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -2052,6 +2135,7 @@ let rec _js2n__-refsenv
                                   defaultFunc = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -2100,6 +2184,7 @@ let rec _js2n__-refsenv
                                       darkStyle = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -2158,6 +2243,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -2211,6 +2297,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       height = _js2n__-prdslib.isType '"Number",
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
@@ -2256,6 +2343,7 @@ let rec _js2n__-refsenv
                                   defaultSendTo = _js2n__-prdslib.always,
                                   delete = _js2n__-prdslib.isType '"Bool",
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   fileTypes =
                                     _js2n__-prdslib.enum
                                         [ "audio", "image", "text" ],
@@ -2316,6 +2404,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -2393,6 +2482,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -2447,6 +2537,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       filename =
                                         _js2n__-prdslib.isType '"String",
                                       help = _js2n__-prdslib.always,
@@ -2514,6 +2605,7 @@ let rec _js2n__-refsenv
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
                                       error = _js2n__-prdslib.isType 'Record,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -2579,6 +2671,7 @@ let rec _js2n__-refsenv
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
                                   encrypted = _js2n__-prdslib.isType '"Bool",
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -2630,6 +2723,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       filename =
                                         _js2n__-prdslib.isType '"String",
                                       help = _js2n__-prdslib.always,
@@ -2678,6 +2772,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -2733,6 +2828,7 @@ let rec _js2n__-refsenv
                                   defaultFunc = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -2780,6 +2876,7 @@ let rec _js2n__-refsenv
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
                                   doNotSave = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -2803,6 +2900,12 @@ let rec _js2n__-refsenv
                                   title = _js2n__-prdslib.always,
                                   tooltip = _js2n__-prdslib.always,
                                   type = _js2n__-prdslib.always,
+                                  unit =
+                                    _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
                                   validator = _js2n__-prdslib.always,
                                   validatorErrorText = _js2n__-prdslib.always,
                                   validatorNoSaveOnError =
@@ -2843,6 +2946,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       filter = _js2n__-prdslib.always,
                                       freeSolo = _js2n__-prdslib.isType '"Bool",
                                       help = _js2n__-prdslib.always,
@@ -2924,6 +3028,7 @@ let rec _js2n__-refsenv
                                   defaultFunc = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -2972,6 +3077,7 @@ let rec _js2n__-refsenv
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
                                   doNotSave = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -3033,6 +3139,7 @@ let rec _js2n__-refsenv
                                   defaultFunc = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -3107,6 +3214,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -3165,6 +3273,7 @@ let rec _js2n__-refsenv
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
                                       error = _js2n__-prdslib.isType 'Record,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -3226,6 +3335,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       fgColor =
                                         _js2n__-prdslib.isType '"String",
                                       help = _js2n__-prdslib.always,
@@ -3278,6 +3388,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -3325,6 +3436,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -3372,6 +3484,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -3419,6 +3532,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -3483,6 +3597,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -3540,6 +3655,7 @@ let rec _js2n__-refsenv
                                   defaultFunc = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -3606,6 +3722,7 @@ let rec _js2n__-refsenv
                                   defaultFunc = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -3633,6 +3750,89 @@ let rec _js2n__-refsenv
                                   validatorErrorText = _js2n__-prdslib.always,
                                   validatorNoSaveOnError =
                                     _js2n__-prdslib.always,
+                                  width = _js2n__-prdslib.always,
+                                  xl = _js2n__-prdslib.always,
+                                  xs = _js2n__-prdslib.always,
+                                } {} false _js2n__-prdslib.never
+                            ]) _js2n__-prdslib.always,
+                        _js2n__-prdslib.ifThenElse
+                          (_js2n__-prdslib.records.record
+                            { type = _js2n__-prdslib.const "staticInfo", } {}
+                            true _js2n__-prdslib.always)
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-refsenv."_js2n__-:definitions/tableItemBaseProps!predicate",
+                              _js2n__-prdslib.records.required
+                                [ "data", "label", "type" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  addColon = _js2n__-prdslib.isType '"Bool",
+                                  attr = _js2n__-prdslib.always,
+                                  blink =
+                                    _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType '"Bool",
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                  blinkOnUpdate =
+                                    _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType '"Bool",
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
+                                  booleanAsCheckbox =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  copyToClipboard =
+                                    _js2n__-prdslib.isType '"Bool",
+                                  darkStyle = _js2n__-prdslib.always,
+                                  data =
+                                    _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.isType '"Number",
+                                          _js2n__-prdslib.isType '"Bool"
+                                        ],
+                                  expertMode = _js2n__-prdslib.always,
+                                  filter = _js2n__-prdslib.always,
+                                  help = _js2n__-prdslib.always,
+                                  helpLink = _js2n__-prdslib.always,
+                                  hidden = _js2n__-prdslib.always,
+                                  highlight = _js2n__-prdslib.isType '"Bool",
+                                  html = _js2n__-prdslib.isType '"Bool",
+                                  label = _js2n__-prdslib.always,
+                                  labelIcon = _js2n__-prdslib.isType '"String",
+                                  lg = _js2n__-prdslib.always,
+                                  md = _js2n__-prdslib.always,
+                                  narrow = _js2n__-prdslib.isType '"Bool",
+                                  newLine = _js2n__-prdslib.always,
+                                  noTranslation = _js2n__-prdslib.always,
+                                  size =
+                                    _js2n__-prdslib.oneOf
+                                        [
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "small", "normal", "large" ]
+                                            ],
+                                          _js2n__-prdslib.isType '"Number"
+                                        ],
+                                  sm = _js2n__-prdslib.always,
+                                  sort = _js2n__-prdslib.always,
+                                  style = _js2n__-prdslib.always,
+                                  styleLabel = _js2n__-prdslib.isType 'Record,
+                                  styleUnit = _js2n__-prdslib.isType 'Record,
+                                  styleValue = _js2n__-prdslib.isType 'Record,
+                                  title = _js2n__-prdslib.always,
+                                  tooltip = _js2n__-prdslib.always,
+                                  type = _js2n__-prdslib.always,
+                                  unit =
+                                    _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.isType '"String"
+                                        ],
                                   width = _js2n__-prdslib.always,
                                   xl = _js2n__-prdslib.always,
                                   xs = _js2n__-prdslib.always,
@@ -3668,6 +3868,7 @@ let rec _js2n__-refsenv
                                   defaultFunc = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -3719,6 +3920,7 @@ let rec _js2n__-refsenv
                                       defaultFunc = _js2n__-prdslib.always,
                                       defaultSendTo = _js2n__-prdslib.always,
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
                                       hidden = _js2n__-prdslib.always,
@@ -3768,6 +3970,7 @@ let rec _js2n__-refsenv
                                       delimiter =
                                         _js2n__-prdslib.isType '"String",
                                       disabled = _js2n__-prdslib.always,
+                                      expertMode = _js2n__-prdslib.always,
                                       filter = _js2n__-prdslib.always,
                                       help = _js2n__-prdslib.always,
                                       helpLink = _js2n__-prdslib.always,
@@ -3817,6 +4020,7 @@ let rec _js2n__-refsenv
                                   defaultFunc = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   filter = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -3976,6 +4180,7 @@ let rec _js2n__-refsenv
                                   darkStyle = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
                                   hidden = _js2n__-prdslib.always,
@@ -4014,6 +4219,7 @@ let rec _js2n__-refsenv
                                   darkStyle = _js2n__-prdslib.always,
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
+                                  expertMode = _js2n__-prdslib.always,
                                   format = _js2n__-prdslib.isType '"String",
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
@@ -4096,6 +4302,7 @@ let rec _js2n__-refsenv
                                   defaultSendTo = _js2n__-prdslib.always,
                                   disabled = _js2n__-prdslib.always,
                                   divider = _js2n__-prdslib.isType '"String",
+                                  expertMode = _js2n__-prdslib.always,
                                   help = _js2n__-prdslib.always,
                                   helpLink = _js2n__-prdslib.always,
                                   hidden = _js2n__-prdslib.always,
@@ -4262,12 +4469,14 @@ let rec _js2n__-refsenv
                 {
                   allowSaveWithError = _js2n__-prdslib.always,
                   confirm = _js2n__-prdslib.always,
+                  copyToClipboard = _js2n__-prdslib.isType '"Bool",
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
                   defaultFunc = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
                   doNotSave = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   help = _js2n__-prdslib.always,
                   helpLink = _js2n__-prdslib.always,
                   hidden = _js2n__-prdslib.always,
@@ -4314,6 +4523,7 @@ let rec _js2n__-refsenv
                   darkStyle = _js2n__-prdslib.always,
                   defaultSendTo = _js2n__-prdslib.always,
                   disabled = _js2n__-prdslib.always,
+                  expertMode = _js2n__-prdslib.always,
                   format = _js2n__-prdslib.isType '"String",
                   hidden = _js2n__-prdslib.always,
                   hideOnlyControl = _js2n__-prdslib.always,
@@ -4403,6 +4613,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -4472,6 +4684,8 @@ let rec _js2n__-refsenv
                                                 defaultSendTo =
                                                   _js2n__-prdslib.always,
                                                 disabled =
+                                                  _js2n__-prdslib.always,
+                                                expertMode =
                                                   _js2n__-prdslib.always,
                                                 freeSolo =
                                                   _js2n__-prdslib.isType
@@ -4553,6 +4767,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 doNotSave =
                                                   _js2n__-refsenv."_js2n__-:definitions/doNotSaveProp!predicate",
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -4634,6 +4850,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -4700,6 +4918,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -4754,6 +4974,8 @@ let rec _js2n__-refsenv
                                                 defaultSendTo =
                                                   _js2n__-prdslib.always,
                                                 disabled =
+                                                  _js2n__-prdslib.always,
+                                                expertMode =
                                                   _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
@@ -4828,6 +5050,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -4897,6 +5121,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 height =
                                                   _js2n__-prdslib.isType
                                                       '"Number",
@@ -4959,6 +5185,8 @@ let rec _js2n__-refsenv
                                                 defaultSendTo =
                                                   _js2n__-prdslib.always,
                                                 disabled =
+                                                  _js2n__-prdslib.always,
+                                                expertMode =
                                                   _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
@@ -5057,6 +5285,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -5129,6 +5359,8 @@ let rec _js2n__-refsenv
                                                 defaultSendTo =
                                                   _js2n__-prdslib.always,
                                                 disabled =
+                                                  _js2n__-prdslib.always,
+                                                expertMode =
                                                   _js2n__-prdslib.always,
                                                 filename =
                                                   _js2n__-prdslib.isType
@@ -5226,6 +5458,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 filename =
                                                   _js2n__-prdslib.isType
                                                       '"String",
@@ -5290,6 +5524,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -5321,6 +5557,14 @@ let rec _js2n__-refsenv
                                                 tooltip =
                                                   _js2n__-prdslib.always,
                                                 type = _js2n__-prdslib.always,
+                                                unit =
+                                                  _js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.isType
+                                                          '"String"
+                                                      ],
                                                 validator =
                                                   _js2n__-prdslib.always,
                                                 validatorErrorText =
@@ -5399,6 +5643,8 @@ let rec _js2n__-refsenv
                                                 defaultSendTo =
                                                   _js2n__-prdslib.always,
                                                 disabled =
+                                                  _js2n__-prdslib.always,
+                                                expertMode =
                                                   _js2n__-prdslib.always,
                                                 freeSolo =
                                                   _js2n__-prdslib.isType
@@ -5509,6 +5755,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -5612,6 +5860,8 @@ let rec _js2n__-refsenv
                                                           (_js2n__-prdslib.isType
                                                             '"String")
                                                       ],
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 export =
                                                   _js2n__-prdslib.isType
                                                       '"Bool",
@@ -5695,6 +5945,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -5773,6 +6025,8 @@ let rec _js2n__-refsenv
                                                 error =
                                                   _js2n__-prdslib.isType
                                                       'Record,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -5851,6 +6105,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -5910,6 +6166,8 @@ let rec _js2n__-refsenv
                                                 defaultSendTo =
                                                   _js2n__-prdslib.always,
                                                 disabled =
+                                                  _js2n__-prdslib.always,
+                                                expertMode =
                                                   _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
@@ -5971,6 +6229,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -6029,6 +6289,8 @@ let rec _js2n__-refsenv
                                                 defaultSendTo =
                                                   _js2n__-prdslib.always,
                                                 disabled =
+                                                  _js2n__-prdslib.always,
+                                                expertMode =
                                                   _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
@@ -6111,6 +6373,8 @@ let rec _js2n__-refsenv
                                                 defaultSendTo =
                                                   _js2n__-prdslib.always,
                                                 disabled =
+                                                  _js2n__-prdslib.always,
+                                                expertMode =
                                                   _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
@@ -6208,6 +6472,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 disabled =
                                                   _js2n__-prdslib.always,
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
                                                   _js2n__-prdslib.always,
@@ -6249,6 +6515,126 @@ let rec _js2n__-refsenv
                                         (_js2n__-prdslib.records.record
                                           {
                                             type =
+                                              _js2n__-prdslib.const
+                                                  "staticInfo",
+                                          } {} true _js2n__-prdslib.always)
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.records.required
+                                              [ "data", "label", "type" ],
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                addColon =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
+                                                blink =
+                                                  _js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"Bool",
+                                                        _js2n__-prdslib.isType
+                                                          '"String"
+                                                      ],
+                                                blinkOnUpdate =
+                                                  _js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          '"Bool",
+                                                        _js2n__-prdslib.isType
+                                                          '"String"
+                                                      ],
+                                                booleanAsCheckbox =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
+                                                copyToClipboard =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
+                                                darkStyle =
+                                                  _js2n__-prdslib.always,
+                                                data =
+                                                  _js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.isType
+                                                          '"String",
+                                                        _js2n__-prdslib.isType
+                                                          '"Number",
+                                                        _js2n__-prdslib.isType
+                                                          '"Bool"
+                                                      ],
+                                                expertMode =
+                                                  _js2n__-prdslib.always,
+                                                help = _js2n__-prdslib.always,
+                                                helpLink =
+                                                  _js2n__-prdslib.always,
+                                                hidden = _js2n__-prdslib.always,
+                                                highlight =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
+                                                html =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
+                                                label = _js2n__-prdslib.always,
+                                                labelIcon =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                lg = _js2n__-prdslib.always,
+                                                md = _js2n__-prdslib.always,
+                                                narrow =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
+                                                newLine =
+                                                  _js2n__-prdslib.always,
+                                                noTranslation =
+                                                  _js2n__-prdslib.always,
+                                                size =
+                                                  _js2n__-prdslib.oneOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [
+                                                                "small",
+                                                                "normal",
+                                                                "large"
+                                                              ]
+                                                          ],
+                                                        _js2n__-prdslib.isType
+                                                          '"Number"
+                                                      ],
+                                                sm = _js2n__-prdslib.always,
+                                                style = _js2n__-prdslib.always,
+                                                styleLabel =
+                                                  _js2n__-prdslib.isType
+                                                      'Record,
+                                                styleUnit =
+                                                  _js2n__-prdslib.isType
+                                                      'Record,
+                                                styleValue =
+                                                  _js2n__-prdslib.isType
+                                                      'Record,
+                                                tooltip =
+                                                  _js2n__-prdslib.always,
+                                                type = _js2n__-prdslib.always,
+                                                unit =
+                                                  _js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.isType
+                                                          '"String"
+                                                      ],
+                                                xl = _js2n__-prdslib.always,
+                                                xs = _js2n__-prdslib.always,
+                                              } {} false _js2n__-prdslib.never
+                                          ]) _js2n__-prdslib.always,
+                                      _js2n__-prdslib.ifThenElse
+                                        (_js2n__-prdslib.records.record
+                                          {
+                                            type =
                                               _js2n__-prdslib.const "instance",
                                           } {} true _js2n__-prdslib.always)
                                         _js2n__-refsenv."_js2n__-:definitions/instanceProps!predicate"
@@ -6279,6 +6665,8 @@ let rec _js2n__-refsenv
                                                 defaultSendTo =
                                                   _js2n__-prdslib.always,
                                                 disabled =
+                                                  _js2n__-prdslib.always,
+                                                expertMode =
                                                   _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
@@ -6344,6 +6732,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.isType
                                                       '"String",
                                                 disabled =
+                                                  _js2n__-prdslib.always,
+                                                expertMode =
                                                   _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
@@ -6508,6 +6898,15 @@ let rec _js2n__-refsenv
                                         (_js2n__-prdslib.records.record
                                           {
                                             type =
+                                              _js2n__-prdslib.const
+                                                  "jsonEditor",
+                                          } {} true _js2n__-prdslib.always)
+                                        _js2n__-refsenv."_js2n__-:definitions/jsonEditorProps!predicate"
+                                        _js2n__-prdslib.always,
+                                      _js2n__-prdslib.ifThenElse
+                                        (_js2n__-prdslib.records.record
+                                          {
+                                            type =
                                               _js2n__-prdslib.const "interface",
                                           } {} true _js2n__-prdslib.always)
                                         _js2n__-refsenv."_js2n__-:definitions/interfaceProps!predicate"
@@ -6540,6 +6939,8 @@ let rec _js2n__-refsenv
                                                 defaultSendTo =
                                                   _js2n__-prdslib.always,
                                                 disabled =
+                                                  _js2n__-prdslib.always,
+                                                expertMode =
                                                   _js2n__-prdslib.always,
                                                 help = _js2n__-prdslib.always,
                                                 helpLink =
@@ -6687,6 +7088,8 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"String",
                                       doNotSave =
                                         _js2n__-refsenv."_js2n__-:definitions/doNotSaveProp!predicate",
+                                      expertMode =
+                                        _js2n__-prdslib.isType '"Bool",
                                       help =
                                         _js2n__-prdslib.oneOf
                                             [
@@ -6789,6 +7192,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -6841,6 +7245,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         freeSolo =
                                           _js2n__-prdslib.isType '"Bool",
                                         help = _js2n__-prdslib.always,
@@ -6899,6 +7304,7 @@ let rec _js2n__-refsenv
                                         disabled = _js2n__-prdslib.always,
                                         doNotSave =
                                           _js2n__-refsenv."_js2n__-:definitions/doNotSaveProp!predicate",
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -6955,6 +7361,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7003,6 +7410,7 @@ let rec _js2n__-refsenv
                                         "default" = _js2n__-prdslib.always,
                                         defaultFunc = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7045,6 +7453,7 @@ let rec _js2n__-refsenv
                                         darkStyle = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7103,6 +7512,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7153,6 +7563,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         height =
                                           _js2n__-prdslib.isType '"Number",
                                         help = _js2n__-prdslib.always,
@@ -7198,6 +7609,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7272,6 +7684,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7323,6 +7736,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         filename =
                                           _js2n__-prdslib.isType '"String",
                                         help = _js2n__-prdslib.always,
@@ -7393,6 +7807,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         filename =
                                           _js2n__-prdslib.isType '"String",
                                         filter = _js2n__-prdslib.always,
@@ -7440,6 +7855,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7459,6 +7875,12 @@ let rec _js2n__-refsenv
                                         style = _js2n__-prdslib.always,
                                         tooltip = _js2n__-prdslib.always,
                                         type = _js2n__-prdslib.always,
+                                        unit =
+                                          _js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.isType '"String"
+                                              ],
                                         validator = _js2n__-prdslib.always,
                                         validatorErrorText =
                                           _js2n__-prdslib.always,
@@ -7520,6 +7942,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         freeSolo =
                                           _js2n__-prdslib.isType '"Bool",
                                         help = _js2n__-prdslib.always,
@@ -7605,6 +8028,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7685,6 +8109,7 @@ let rec _js2n__-refsenv
                                                   (_js2n__-prdslib.isType
                                                     '"String")
                                               ],
+                                        expertMode = _js2n__-prdslib.always,
                                         export = _js2n__-prdslib.isType '"Bool",
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
@@ -7747,6 +8172,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7802,6 +8228,7 @@ let rec _js2n__-refsenv
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
                                         error = _js2n__-prdslib.isType 'Record,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7857,6 +8284,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7901,6 +8329,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7945,6 +8374,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -7989,6 +8419,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -8053,6 +8484,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -8125,6 +8557,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -8158,6 +8591,96 @@ let rec _js2n__-refsenv
                                   ]) _js2n__-prdslib.always,
                               _js2n__-prdslib.ifThenElse
                                 (_js2n__-prdslib.records.record
+                                  { type = _js2n__-prdslib.const "staticInfo", }
+                                  {} true _js2n__-prdslib.always)
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.records.required
+                                      [ "data", "label", "type" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        addColon =
+                                          _js2n__-prdslib.isType '"Bool",
+                                        blink =
+                                          _js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType '"Bool",
+                                                _js2n__-prdslib.isType '"String"
+                                              ],
+                                        blinkOnUpdate =
+                                          _js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType '"Bool",
+                                                _js2n__-prdslib.isType '"String"
+                                              ],
+                                        booleanAsCheckbox =
+                                          _js2n__-prdslib.isType '"Bool",
+                                        copyToClipboard =
+                                          _js2n__-prdslib.isType '"Bool",
+                                        darkStyle = _js2n__-prdslib.always,
+                                        data =
+                                          _js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.isType
+                                                  '"Number",
+                                                _js2n__-prdslib.isType '"Bool"
+                                              ],
+                                        expertMode = _js2n__-prdslib.always,
+                                        help = _js2n__-prdslib.always,
+                                        helpLink = _js2n__-prdslib.always,
+                                        hidden = _js2n__-prdslib.always,
+                                        highlight =
+                                          _js2n__-prdslib.isType '"Bool",
+                                        html = _js2n__-prdslib.isType '"Bool",
+                                        label = _js2n__-prdslib.always,
+                                        labelIcon =
+                                          _js2n__-prdslib.isType '"String",
+                                        lg = _js2n__-prdslib.always,
+                                        md = _js2n__-prdslib.always,
+                                        narrow = _js2n__-prdslib.isType '"Bool",
+                                        newLine = _js2n__-prdslib.always,
+                                        noTranslation = _js2n__-prdslib.always,
+                                        size =
+                                          _js2n__-prdslib.oneOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [
+                                                        "small",
+                                                        "normal",
+                                                        "large"
+                                                      ]
+                                                  ],
+                                                _js2n__-prdslib.isType '"Number"
+                                              ],
+                                        sm = _js2n__-prdslib.always,
+                                        style = _js2n__-prdslib.always,
+                                        styleLabel =
+                                          _js2n__-prdslib.isType 'Record,
+                                        styleUnit =
+                                          _js2n__-prdslib.isType 'Record,
+                                        styleValue =
+                                          _js2n__-prdslib.isType 'Record,
+                                        tooltip = _js2n__-prdslib.always,
+                                        type = _js2n__-prdslib.always,
+                                        unit =
+                                          _js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.isType '"String"
+                                              ],
+                                        xl = _js2n__-prdslib.always,
+                                        xs = _js2n__-prdslib.always,
+                                      } {} false _js2n__-prdslib.never
+                                  ]) _js2n__-prdslib.always,
+                              _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.records.record
                                   { type = _js2n__-prdslib.const "instance", }
                                   {} true _js2n__-prdslib.always)
                                 _js2n__-refsenv."_js2n__-:definitions/instanceProps!predicate"
@@ -8180,6 +8703,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -8225,6 +8749,7 @@ let rec _js2n__-refsenv
                                         delimiter =
                                           _js2n__-prdslib.isType '"String",
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -8349,6 +8874,12 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.always,
                               _js2n__-prdslib.ifThenElse
                                 (_js2n__-prdslib.records.record
+                                  { type = _js2n__-prdslib.const "jsonEditor", }
+                                  {} true _js2n__-prdslib.always)
+                                _js2n__-refsenv."_js2n__-:definitions/jsonEditorProps!predicate"
+                                _js2n__-prdslib.always,
+                              _js2n__-prdslib.ifThenElse
+                                (_js2n__-prdslib.records.record
                                   { type = _js2n__-prdslib.const "interface", }
                                   {} true _js2n__-prdslib.always)
                                 _js2n__-refsenv."_js2n__-:definitions/interfaceProps!predicate"
@@ -8372,6 +8903,7 @@ let rec _js2n__-refsenv
                                         defaultFunc = _js2n__-prdslib.always,
                                         defaultSendTo = _js2n__-prdslib.always,
                                         disabled = _js2n__-prdslib.always,
+                                        expertMode = _js2n__-prdslib.always,
                                         help = _js2n__-prdslib.always,
                                         helpLink = _js2n__-prdslib.always,
                                         hidden = _js2n__-prdslib.always,
@@ -8501,6 +9033,7 @@ let rec _js2n__-refsenv
                               disabled = _js2n__-prdslib.isType '"String",
                               doNotSave =
                                 _js2n__-refsenv."_js2n__-:definitions/doNotSaveProp!predicate",
+                              expertMode = _js2n__-prdslib.isType '"Bool",
                               help =
                                 _js2n__-prdslib.oneOf
                                     [

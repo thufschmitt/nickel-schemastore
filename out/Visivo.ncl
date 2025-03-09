@@ -899,7 +899,31 @@ let rec _js2n__-refsenv
     = {}
     in
   {
-      alerts
+      alerts | Array (Dyn) | optional,
+      charts | Array (Dyn) | optional,
+      cli_version
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
+        | optional,
+      dashboards
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.oneOf
+              [ _js2n__-prdslib.always, _js2n__-prdslib.always ])
+        )
+        | optional,
+      dbt
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.always, _js2n__-prdslib.isType 'Null ])
+        | optional,
+      defaults
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.always, _js2n__-prdslib.isType 'Null ])
+        | optional,
+      destinations
         | Array (
           _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.oneOf
@@ -909,18 +933,6 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.always
               ])
         )
-        | optional,
-      charts | Array (Dyn) | optional,
-      cli_version
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
-        | optional,
-      dashboards | Array (Dyn) | optional,
-      defaults
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.always, _js2n__-prdslib.isType 'Null ])
         | optional,
       includes | Array (Dyn) | optional,
       models
@@ -952,6 +964,8 @@ let rec _js2n__-refsenv
           _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.oneOf
               [
+                _js2n__-prdslib.always,
+                _js2n__-prdslib.always,
                 _js2n__-prdslib.always,
                 _js2n__-prdslib.always,
                 _js2n__-prdslib.always,

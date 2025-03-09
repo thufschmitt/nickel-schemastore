@@ -918,6 +918,27 @@ let rec _js2n__-refsenv
               | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
               | doc "Backup policy definition json file. This file must be present in config repository",
           },
+      "_js2n__-:definitions/IChatbotPolicyConfig!contract"
+        | doc m%"
+          Chatbot policy.
+          
+          Chatbot policies allow you to control access to an organization's accounts
+          from chat applications such as Slack and Microsoft Teams.
+        "%
+        = {
+            deploymentTargets
+              | _js2n__-refsenv."_js2n__-:definitions/IDeploymentTargets!contract"
+              | doc "Chatbot policy deployment targets",
+            description
+              | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
+              | doc "A description to assign to the policy.",
+            name
+              | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
+              | doc "The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.",
+            policy
+              | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
+              | doc "Chatbot policy definition json file. This file must be present in config repository",
+          },
       "_js2n__-:definitions/IDeploymentTargets!contract" =
         {
             accounts | Array (String) | optional,
@@ -932,6 +953,11 @@ let rec _js2n__-refsenv
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/IBackupPolicyConfig!contract"
               | doc "A Record of Backup Policy configurations",
+            chatbotPolicies
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/IChatbotPolicyConfig!contract"
+              | doc "A list of Chatbot Policy configurations"
+              | optional,
             enable | Bool | doc "Indicates whether AWS Organization enabled.",
             organizationalUnitIds
               | Array

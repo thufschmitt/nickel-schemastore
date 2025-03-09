@@ -1040,6 +1040,14 @@ let rec _js2n__-refsenv
                 {
                   "optional" = _js2n__-prdslib.isType '"Bool",
                   path = _js2n__-prdslib.isType '"String",
+                  relative =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.const "git",
+                          _js2n__-prdslib.const "crate",
+                          _js2n__-prdslib.const "workspace",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/script!predicate" =

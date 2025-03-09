@@ -913,11 +913,13 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/package-ecosystem-values!predicate" =
         _js2n__-prdslib.enum
             [
+              "bun",
               "bundler",
               "cargo",
               "composer",
               "devcontainers",
               "docker",
+              "dotnet-sdk",
               "elm",
               "gitsubmodule",
               "github-actions",
@@ -1741,6 +1743,13 @@ let rec _js2n__-refsenv
                                       [
                                         _js2n__-prdslib.records.required
                                           [ "patterns" ],
+                                        _js2n__-prdslib.records.record {} {}
+                                          true _js2n__-prdslib.always
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "exclude-patterns" ],
                                         _js2n__-prdslib.records.record {} {}
                                           true _js2n__-prdslib.always
                                       ],

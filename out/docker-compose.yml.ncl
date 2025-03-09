@@ -1201,9 +1201,13 @@ let rec _js2n__-refsenv
                                               [
                                                 "rebuild",
                                                 "sync",
-                                                "sync+restart"
+                                                "restart",
+                                                "sync+restart",
+                                                "sync+exec"
                                               ]
                                           ],
+                                    exec =
+                                      _js2n__-refsenv."_js2n__-:definitions/service_hook!predicate",
                                     ignore =
                                       _js2n__-prdslib.allOf
                                           [
@@ -1228,6 +1232,7 @@ let rec _js2n__-refsenv
                 (_js2n__-prdslib.allOf
                   [
                     _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "capabilities" ],
                     _js2n__-prdslib.records.record
                       {
                         capabilities =
@@ -1264,6 +1269,7 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.records.required [ "path" ],
                             _js2n__-prdslib.records.record
                               {
+                                format = _js2n__-prdslib.isType '"String",
                                 path = _js2n__-prdslib.isType '"String",
                                 required =
                                   _js2n__-prdslib.anyOf
@@ -1285,10 +1291,15 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.records.record {}
                     {
                       ".+" =
-                        _js2n__-prdslib.anyOf
+                        _js2n__-prdslib.oneOf
                             [
                               _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.isType '"Array"
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ]
                             ],
                     } false _js2n__-prdslib.never
                 ],
@@ -1329,6 +1340,43 @@ let rec _js2n__-refsenv
                       } { "^x-" = _js2n__-prdslib.always, } false
                       _js2n__-prdslib.never
                   ])
+            ],
+      "_js2n__-:definitions/gpus!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "all" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            capabilities =
+                              _js2n__-refsenv."_js2n__-:definitions/list_of_strings!predicate",
+                            count =
+                              _js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.isType 'Integer
+                                  ],
+                            device_ids =
+                              _js2n__-refsenv."_js2n__-:definitions/list_of_strings!predicate",
+                            driver = _js2n__-prdslib.isType '"String",
+                            options =
+                              _js2n__-refsenv."_js2n__-:definitions/list_or_dict!predicate",
+                          } {} true _js2n__-prdslib.always
+                      ]),
+                  _js2n__-prdslib.records.record {}
+                    { "^x-" = _js2n__-prdslib.always, } false
+                    _js2n__-prdslib.never
+                ]
             ],
       "_js2n__-:definitions/healthcheck!predicate" =
         _js2n__-prdslib.allOf
@@ -1381,6 +1429,17 @@ let rec _js2n__-refsenv
                         _js2n__-refsenv."_js2n__-:definitions/string_or_list!predicate",
                       project_directory = _js2n__-prdslib.isType '"String",
                     } {} false _js2n__-prdslib.never
+                ]
+            ],
+      "_js2n__-:definitions/label_file!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.isType '"String")
                 ]
             ],
       "_js2n__-:definitions/list_of_strings!predicate" =
@@ -1446,6 +1505,12 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.isType '"Number"
                                     ],
                             } true _js2n__-prdslib.always
+                        ],
+                  enable_ipv4 =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType '"String"
                         ],
                   enable_ipv6 =
                     _js2n__-prdslib.anyOf
@@ -1969,6 +2034,7 @@ let rec _js2n__-refsenv
                         ],
                   extra_hosts =
                     _js2n__-refsenv."_js2n__-:definitions/extra_hosts!predicate",
+                  gpus = _js2n__-refsenv."_js2n__-:definitions/gpus!predicate",
                   group_add =
                     _js2n__-prdslib.allOf
                         [
@@ -1993,6 +2059,8 @@ let rec _js2n__-refsenv
                         ],
                   ipc = _js2n__-prdslib.isType '"String",
                   isolation = _js2n__-prdslib.isType '"String",
+                  label_file =
+                    _js2n__-refsenv."_js2n__-:definitions/label_file!predicate",
                   labels =
                     _js2n__-refsenv."_js2n__-:definitions/list_or_dict!predicate",
                   links =
@@ -2190,6 +2258,20 @@ let rec _js2n__-refsenv
                               ]),
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
+                  post_start =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/service_hook!predicate"
+                        ],
+                  pre_stop =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/service_hook!predicate"
+                        ],
                   privileged =
                     _js2n__-prdslib.anyOf
                         [
@@ -2296,6 +2378,19 @@ let rec _js2n__-refsenv
                                                     propagation =
                                                       _js2n__-prdslib.isType
                                                           '"String",
+                                                    recursive =
+                                                      _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [
+                                                                "enabled",
+                                                                "disabled",
+                                                                "writable",
+                                                                "readonly"
+                                                              ]
+                                                          ],
                                                     selinux =
                                                       _js2n__-prdslib.allOf
                                                           [
@@ -2424,6 +2519,27 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.never
                       ]
                   ])
+            ],
+      "_js2n__-:definitions/service_hook!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  command =
+                    _js2n__-refsenv."_js2n__-:definitions/command!predicate",
+                  environment =
+                    _js2n__-refsenv."_js2n__-:definitions/list_or_dict!predicate",
+                  privileged =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  user = _js2n__-prdslib.isType '"String",
+                  working_dir = _js2n__-prdslib.isType '"String",
+                } { "^x-" = _js2n__-prdslib.always, } false
+                _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/string_or_list!predicate" =
         _js2n__-prdslib.oneOf

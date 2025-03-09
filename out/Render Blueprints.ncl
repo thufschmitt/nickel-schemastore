@@ -967,6 +967,9 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/database!contract" =
         {
             databaseName | String | optional,
+            diskSizeGB
+              | _js2n__-refsenv."_js2n__-:definitions/diskSizeGB!contract"
+              | optional,
             highAvailability | { enabled | Bool, } | optional,
             ipAllowList
               | _js2n__-refsenv."_js2n__-:definitions/ipAllowList!contract"
@@ -978,7 +981,11 @@ let rec _js2n__-refsenv
             postgresMajorVersion
               | std.enum.TagOrString
               | [| '"16", '"15", '"14", '"13", '"12", '"11", '"10" |]
-              | doc "What major version of PostgreSQL the database will use. Please refer to https://docs.render.com/databases for which versions may be valid for this owner."
+              | doc "What major version of PostgreSQL the database will use. Please refer to https://docs.render.com/postgresql-upgrading#version-support for which versions may be valid for this owner."
+              | optional,
+            previewDiskSizeGB
+              | _js2n__-refsenv."_js2n__-:definitions/diskSizeGB!contract"
+              | doc "The disk size to use for this database in preview environments. If omitted, preview instances use the same disk size as the primary database (specified by `diskSizeGB`)."
               | optional,
             previewPlan
               | _js2n__-refsenv."_js2n__-:definitions/plan!contract"
@@ -1009,6 +1016,13 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/diskSizeGB!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Integer,
+                _js2n__-prdslib.numbers.minimum 1
+              ]),
       "_js2n__-:definitions/envVar!predicate" =
         _js2n__-prdslib.anyOf
             [
@@ -1160,6 +1174,28 @@ let rec _js2n__-refsenv
             [
               std.enum.TagOrString,
               [|
+                'accelerated-1024gb,
+                'accelerated-768gb,
+                'accelerated-512gb,
+                'accelerated-384gb,
+                'accelerated-256gb,
+                'accelerated-128gb,
+                'accelerated-64gb,
+                'accelerated-32gb,
+                'accelerated-16gb,
+                'pro-512gb,
+                'pro-384gb,
+                'pro-256gb,
+                'pro-192gb,
+                'pro-128gb,
+                'pro-64gb,
+                'pro-32gb,
+                'pro-16gb,
+                'pro-8gb,
+                'pro-4gb,
+                'basic-4gb,
+                'basic-1gb,
+                'basic-256mb,
                 '"pro ultra",
                 '"pro max",
                 '"pro plus",
@@ -1181,7 +1217,29 @@ let rec _js2n__-refsenv
                   "pro",
                   "pro plus",
                   "pro max",
-                  "pro ultra"
+                  "pro ultra",
+                  "basic-256mb",
+                  "basic-1gb",
+                  "basic-4gb",
+                  "pro-4gb",
+                  "pro-8gb",
+                  "pro-16gb",
+                  "pro-32gb",
+                  "pro-64gb",
+                  "pro-128gb",
+                  "pro-192gb",
+                  "pro-256gb",
+                  "pro-384gb",
+                  "pro-512gb",
+                  "accelerated-16gb",
+                  "accelerated-32gb",
+                  "accelerated-64gb",
+                  "accelerated-128gb",
+                  "accelerated-256gb",
+                  "accelerated-384gb",
+                  "accelerated-512gb",
+                  "accelerated-768gb",
+                  "accelerated-1024gb"
                 ]
             ],
       "_js2n__-:definitions/previewsGeneration!contract" =

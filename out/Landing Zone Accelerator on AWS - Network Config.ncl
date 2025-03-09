@@ -2318,7 +2318,7 @@ let rec _js2n__-refsenv
               | optional,
             firewallPolicy
               | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
-              | doc "The friendly name of the Network Firewall policy.",
+              | doc "The friendly name of the Network Firewall policy or ARN for an existing network firewall policy.",
             firewallPolicyChangeProtection
               | Bool
               | doc "(OPTIONAL) Enable to disallow firewall policy changes."
@@ -4770,6 +4770,8 @@ let rec _js2n__-refsenv
               [|
                 'us-west-2,
                 'us-west-1,
+                'us-isof-east-1,
+                'us-isof-south-1,
                 'us-iso-west-1,
                 'us-isob-east-1,
                 'us-iso-east-1,
@@ -4781,6 +4783,7 @@ let rec _js2n__-refsenv
                 'me-south-1,
                 'me-central-1,
                 'il-central-1,
+                'eu-isoe-west-1,
                 'eu-west-3,
                 'eu-west-2,
                 'eu-west-1,
@@ -4793,6 +4796,7 @@ let rec _js2n__-refsenv
                 'cn-north-1,
                 'ca-west-1,
                 'ca-central-1,
+                'ap-southeast-5,
                 'ap-southeast-4,
                 'ap-southeast-3,
                 'ap-southeast-2,
@@ -4824,6 +4828,7 @@ let rec _js2n__-refsenv
                   "ap-southeast-2",
                   "ap-southeast-3",
                   "ap-southeast-4",
+                  "ap-southeast-5",
                   "ca-central-1",
                   "ca-west-1",
                   "cn-north-1",
@@ -4836,6 +4841,7 @@ let rec _js2n__-refsenv
                   "eu-west-1",
                   "eu-west-2",
                   "eu-west-3",
+                  "eu-isoe-west-1",
                   "il-central-1",
                   "me-central-1",
                   "me-south-1",
@@ -4847,6 +4853,8 @@ let rec _js2n__-refsenv
                   "us-iso-east-1",
                   "us-isob-east-1",
                   "us-iso-west-1",
+                  "us-isof-south-1",
+                  "us-isof-east-1",
                   "us-west-1",
                   "us-west-2"
                 ]
@@ -4914,7 +4922,22 @@ let rec _js2n__-refsenv
                 'ELBSecurityPolicy-TLS-1-2-Ext-2018-06,
                 'ELBSecurityPolicy-TLS-1-2-2017-01,
                 'ELBSecurityPolicy-TLS-1-1-2017-01,
-                'ELBSecurityPolicy-TLS-1-0-2015-04
+                'ELBSecurityPolicy-TLS-1-0-2015-04,
+                'ELBSecurityPolicy-TLS13-1-3-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-0-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-1-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-2-Ext2-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-2-Ext1-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-2-Ext0-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-2-Res-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-2-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-3-2021-06,
+                'ELBSecurityPolicy-TLS13-1-0-2021-06,
+                'ELBSecurityPolicy-TLS13-1-1-2021-06,
+                'ELBSecurityPolicy-TLS13-1-2-Ext2-2021-06,
+                'ELBSecurityPolicy-TLS13-1-2-Ext1-2021-06,
+                'ELBSecurityPolicy-TLS13-1-2-Res-2021-06,
+                'ELBSecurityPolicy-TLS13-1-2-2021-06
               |]
             ],
       "_js2n__-:definitions/SslPolicyNlbEnum!contract" =
@@ -4923,13 +4946,6 @@ let rec _js2n__-refsenv
               std.enum.TagOrString,
               [|
                 'ELBSecurityPolicy-2016-08,
-                'ELBSecurityPolicy-TLS13-1-3-2021-06,
-                'ELBSecurityPolicy-TLS13-1-0-2021-06,
-                'ELBSecurityPolicy-TLS13-1-1-2021-06,
-                'ELBSecurityPolicy-TLS13-1-2-Ext2-2021-06,
-                'ELBSecurityPolicy-TLS13-1-2-Ext1-2021-06,
-                'ELBSecurityPolicy-TLS13-1-2-Res-2021-06,
-                'ELBSecurityPolicy-TLS13-1-2-2021-06,
                 'ELBSecurityPolicy-FS-1-2-Res-2020-10,
                 'ELBSecurityPolicy-2015-05,
                 'ELBSecurityPolicy-FS-1-2-Res-2019-08,
@@ -4939,7 +4955,22 @@ let rec _js2n__-refsenv
                 'ELBSecurityPolicy-TLS-1-2-Ext-2018-06,
                 'ELBSecurityPolicy-TLS-1-2-2017-01,
                 'ELBSecurityPolicy-TLS-1-1-2017-01,
-                'ELBSecurityPolicy-TLS-1-0-2015-04
+                'ELBSecurityPolicy-TLS-1-0-2015-04,
+                'ELBSecurityPolicy-TLS13-1-3-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-0-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-1-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-2-Ext2-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-2-Ext1-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-2-Ext0-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-2-Res-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-2-FIPS-2023-04,
+                'ELBSecurityPolicy-TLS13-1-3-2021-06,
+                'ELBSecurityPolicy-TLS13-1-0-2021-06,
+                'ELBSecurityPolicy-TLS13-1-1-2021-06,
+                'ELBSecurityPolicy-TLS13-1-2-Ext2-2021-06,
+                'ELBSecurityPolicy-TLS13-1-2-Ext1-2021-06,
+                'ELBSecurityPolicy-TLS13-1-2-Res-2021-06,
+                'ELBSecurityPolicy-TLS13-1-2-2021-06
               |]
             ],
       "_js2n__-:definitions/StartupActionType!contract" =

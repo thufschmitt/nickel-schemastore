@@ -898,10 +898,7 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {
       "_js2n__-:definitions/BuildSystem!predicate"
-        | doc m%"
-          Build-related data.
-          
-        "%
+        | doc "Declares any Python level dependencies that must be installed in order to run the project’s build system successfully."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -1196,7 +1193,8 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.records.record
                                                 {
                                                   content-type =
-                                                    _js2n__-prdslib.always,
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   file =
                                                     _js2n__-prdslib.isType
                                                         '"String",
@@ -1209,7 +1207,8 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.records.record
                                                 {
                                                   content-type =
-                                                    _js2n__-prdslib.always,
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   text =
                                                     _js2n__-prdslib.isType
                                                         '"String",
@@ -1548,35 +1547,6 @@ let rec _js2n__-refsenv
                                   ]),
                         }
                     ],
-              tool =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record
-                        {
-                          black = _js2n__-prdslib.always,
-                          cibuildwheel = _js2n__-prdslib.always,
-                          hatch = _js2n__-prdslib.always,
-                          mypy = _js2n__-prdslib.always,
-                          pdm = _js2n__-prdslib.always,
-                          poetry = _js2n__-prdslib.always,
-                          pyright = _js2n__-prdslib.always,
-                          ruff = _js2n__-prdslib.always,
-                          scikit-build = _js2n__-prdslib.always,
-                          setuptools = _js2n__-prdslib.always,
-                          setuptools_scm = _js2n__-prdslib.always,
-                          tox =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      legacy_tox_ini =
-                                        _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          uv = _js2n__-prdslib.always,
-                        } {} true (_js2n__-prdslib.isType 'Record)
-                    ],
+              tool = _js2n__-prdslib.always,
             } {} false _js2n__-prdslib.never
         ])

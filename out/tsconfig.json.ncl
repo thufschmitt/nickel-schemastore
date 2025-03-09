@@ -1130,6 +1130,12 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType '"Bool",
                                   _js2n__-prdslib.isType 'Null
                                 ],
+                          erasableSyntaxOnly =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"Bool",
+                                  _js2n__-prdslib.isType 'Null
+                                ],
                           esModuleInterop =
                             _js2n__-prdslib.anyOf
                                 [
@@ -1289,6 +1295,7 @@ let rec _js2n__-refsenv
                                                 "ES2017.SharedMemory",
                                                 "ES2017.String",
                                                 "ES2017.TypedArrays",
+                                                "ES2017.ArrayBuffer",
                                                 "ES2018",
                                                 "ES2018.AsyncGenerator",
                                                 "ES2018.AsyncIterable",
@@ -1346,6 +1353,14 @@ let rec _js2n__-refsenv
                                                 "ES2022.RegExp",
                                                 "ES2023",
                                                 "ES2023.Array",
+                                                "ES2024",
+                                                "ES2024.ArrayBuffer",
+                                                "ES2024.Collection",
+                                                "ES2024.Object",
+                                                "ES2024.Promise",
+                                                "ES2024.Regexp",
+                                                "ES2024.SharedMemory",
+                                                "ES2024.String",
                                                 "Decorators",
                                                 "Decorators.Legacy",
                                                 "ES2017.Date",
@@ -1360,7 +1375,7 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.strings.pattern
                                               "^[Ee][Ss]2016(\\.[Aa][Rr][Rr][Aa][Yy]\\.[Ii][Nn][Cc][Ll][Uu][Dd][Ee])?$",
                                             _js2n__-prdslib.strings.pattern
-                                              "^[Ee][Ss]2017(\\.([Ii][Nn][Tt][Ll]|[Oo][Bb][Jj][Ee][Cc][Tt]|[Ss][Hh][Aa][Rr][Ee][Dd][Mm][Ee][Mm][Oo][Rr][Yy]|[Ss][Tt][Rr][Ii][Nn][Gg]|[Tt][Yy][Pp][Ee][Dd][Aa][Rr][Rr][Aa][Yy][Ss]|[Dd][Aa][Tt][Ee]))?$",
+                                              "^[Ee][Ss]2017(\\.([Ii][Nn][Tt][Ll]|[Oo][Bb][Jj][Ee][Cc][Tt]|[Ss][Hh][Aa][Rr][Ee][Dd][Mm][Ee][Mm][Oo][Rr][Yy]|[Ss][Tt][Rr][Ii][Nn][Gg]|[Tt][Yy][Pp][Ee][Dd][Aa][Rr][Rr][Aa][Yy][Ss]|[Dd][Aa][Tt][Ee]|[Aa][Rr][Rr][Aa][Yy][Bb][Uu][Ff][Ff][Ee][Rr]))?$",
                                             _js2n__-prdslib.strings.pattern
                                               "^[Ee][Ss]2018(\\.([Aa][Ss][Yy][Nn][Cc][Gg][Ee][Nn][Ee][Rr][Aa][Tt][Oo][Rr]|[Aa][Ss][Yy][Nn][Cc][Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee]|[Ii][Nn][Tt][Ll]|[Pp][Rr][Oo][Mm][Ii][Ss][Ee]|[Rr][Ee][Gg][Ee][Xx][Pp]))?$",
                                             _js2n__-prdslib.strings.pattern
@@ -1374,6 +1389,8 @@ let rec _js2n__-refsenv
                                             _js2n__-prdslib.strings.pattern
                                               "^[Ee][Ss]2023(\\.([Aa][Rr][Rr][Aa][Yy]|[Cc][Oo][Ll][Ll][Ee][Cc][Tt][Ii][Oo][Nn]))?$",
                                             _js2n__-prdslib.strings.pattern
+                                              "^[Ee][Ss]2024(\\.([Aa][Rr][Rr][Aa][Yy][Bb][Uu][Ff][Ff][Ee][Rr]|[Cc][Oo][Ll][Ll][Ee][Cc][Tt][Ii][Oo][Nn]|[Oo][Bb][Jj][Ee][Cc][Tt]|[Pp][Rr][Oo][Mm][Ii][Ss][Ee]|[Rr][Ee][Gg][Ee][Xx][Pp]|[Ss][Hh][Aa][Rr][Ee][Dd][Mm][Ee][Mm][Oo][Rr][Yy]|[Ss][Tt][Rr][Ii][Nn][Gg]))?$",
+                                            _js2n__-prdslib.strings.pattern
                                               "^[Ee][Ss][Nn][Ee][Xx][Tt](\\.([Aa][Rr][Rr][Aa][Yy]|[Aa][Ss][Yy][Nn][Cc][Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee]|[Bb][Ii][Gg][Ii][Nn][Tt]|[Ii][Nn][Tt][Ll]|[Pp][Rr][Oo][Mm][Ii][Ss][Ee]|[Ss][Tt][Rr][Ii][Nn][Gg]|[Ss][Yy][Mm][Bb][Oo][Ll]|[Ww][Ee][Aa][Kk][Rr][Ee][Ff]|[Dd][Ee][Cc][Oo][Rr][Aa][Tt][Oo][Rr][Ss]|[Dd][Ii][Ss][Pp][Oo][Ss][Aa][Bb][Ll][Ee]))?$",
                                             _js2n__-prdslib.strings.pattern
                                               "^[Dd][Oo][Mm](\\.([Aa][Ss][Yy][Nn][Cc])?[Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee])?$",
@@ -1386,6 +1403,12 @@ let rec _js2n__-refsenv
                                           ]
                                       ]),
                                   _js2n__-prdslib.arrays.uniqueItems
+                                ],
+                          libReplacement =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"Bool",
+                                  _js2n__-prdslib.isType 'Null
                                 ],
                           listEmittedFiles =
                             _js2n__-prdslib.anyOf
@@ -1440,11 +1463,12 @@ let rec _js2n__-refsenv
                                           "None",
                                           "ES2022",
                                           "Node16",
+                                          "Node18",
                                           "NodeNext",
                                           "Preserve"
                                         ],
                                       _js2n__-prdslib.strings.pattern
-                                        "^([Cc][Oo][Mm][Mm][Oo][Nn][Jj][Ss]|[AaUu][Mm][Dd]|[Ss][Yy][Ss][Tt][Ee][Mm]|[Ee][Ss]([356]|20(1[567]|2[02])|[Nn][Ee][Xx][Tt])|[Nn][Oo][dD][Ee]16|[Nn][Oo][Dd][Ee][Nn][Ee][Xx][Tt]|[Nn][Oo][Nn][Ee]|[Pp][Rr][Ee][Ss][Ee][Rr][Vv][Ee])$"
+                                        "^([Cc][Oo][Mm][Mm][Oo][Nn][Jj][Ss]|[AaUu][Mm][Dd]|[Ss][Yy][Ss][Tt][Ee][Mm]|[Ee][Ss]([356]|20(1[567]|2[02])|[Nn][Ee][Xx][Tt])|[Nn][Oo][dD][Ee]1[68]|[Nn][Oo][Dd][Ee][Nn][Ee][Xx][Tt]|[Nn][Oo][Nn][Ee]|[Pp][Rr][Ee][Ss][Ee][Rr][Vv][Ee])$"
                                     ]
                                 ],
                           moduleDetection =
@@ -1461,12 +1485,12 @@ let rec _js2n__-refsenv
                                     [
                                       _js2n__-prdslib.enum
                                         [
-                                          "Classic",
-                                          "Node",
-                                          "Node10",
-                                          "Node16",
-                                          "NodeNext",
-                                          "Bundler"
+                                          "classic",
+                                          "node",
+                                          "node10",
+                                          "node16",
+                                          "nodenext",
+                                          "bundler"
                                         ],
                                       _js2n__-prdslib.strings.pattern
                                         "^(([Nn]ode)|([Nn]ode1[06])|([Nn]ode[Nn]ext)|([Cc]lassic)|([Bb]undler))$"
@@ -1726,6 +1750,12 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType '"Bool",
                                   _js2n__-prdslib.isType 'Null
                                 ],
+                          rewriteRelativeImportExtensions =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"Bool",
+                                  _js2n__-prdslib.isType 'Null
+                                ],
                           rootDir =
                             _js2n__-prdslib.anyOf
                                 [
@@ -1850,10 +1880,11 @@ let rec _js2n__-refsenv
                                           "ES2021",
                                           "ES2022",
                                           "ES2023",
+                                          "ES2024",
                                           "ESNext"
                                         ],
                                       _js2n__-prdslib.strings.pattern
-                                        "^([Ee][Ss]([356]|(20(1[56789]|2[0123]))|[Nn][Ee][Xx][Tt]))$"
+                                        "^([Ee][Ss]([356]|(20(1[56789]|2[01234]))|[Nn][Ee][Xx][Tt]))$"
                                     ]
                                 ],
                           traceResolution =
@@ -2122,6 +2153,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  erasableSyntaxOnly =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   esModuleInterop =
                     _js2n__-prdslib.anyOf
                         [
@@ -2280,6 +2317,7 @@ let rec _js2n__-refsenv
                                         "ES2017.SharedMemory",
                                         "ES2017.String",
                                         "ES2017.TypedArrays",
+                                        "ES2017.ArrayBuffer",
                                         "ES2018",
                                         "ES2018.AsyncGenerator",
                                         "ES2018.AsyncIterable",
@@ -2337,6 +2375,14 @@ let rec _js2n__-refsenv
                                         "ES2022.RegExp",
                                         "ES2023",
                                         "ES2023.Array",
+                                        "ES2024",
+                                        "ES2024.ArrayBuffer",
+                                        "ES2024.Collection",
+                                        "ES2024.Object",
+                                        "ES2024.Promise",
+                                        "ES2024.Regexp",
+                                        "ES2024.SharedMemory",
+                                        "ES2024.String",
                                         "Decorators",
                                         "Decorators.Legacy",
                                         "ES2017.Date",
@@ -2351,7 +2397,7 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.strings.pattern
                                       "^[Ee][Ss]2016(\\.[Aa][Rr][Rr][Aa][Yy]\\.[Ii][Nn][Cc][Ll][Uu][Dd][Ee])?$",
                                     _js2n__-prdslib.strings.pattern
-                                      "^[Ee][Ss]2017(\\.([Ii][Nn][Tt][Ll]|[Oo][Bb][Jj][Ee][Cc][Tt]|[Ss][Hh][Aa][Rr][Ee][Dd][Mm][Ee][Mm][Oo][Rr][Yy]|[Ss][Tt][Rr][Ii][Nn][Gg]|[Tt][Yy][Pp][Ee][Dd][Aa][Rr][Rr][Aa][Yy][Ss]|[Dd][Aa][Tt][Ee]))?$",
+                                      "^[Ee][Ss]2017(\\.([Ii][Nn][Tt][Ll]|[Oo][Bb][Jj][Ee][Cc][Tt]|[Ss][Hh][Aa][Rr][Ee][Dd][Mm][Ee][Mm][Oo][Rr][Yy]|[Ss][Tt][Rr][Ii][Nn][Gg]|[Tt][Yy][Pp][Ee][Dd][Aa][Rr][Rr][Aa][Yy][Ss]|[Dd][Aa][Tt][Ee]|[Aa][Rr][Rr][Aa][Yy][Bb][Uu][Ff][Ff][Ee][Rr]))?$",
                                     _js2n__-prdslib.strings.pattern
                                       "^[Ee][Ss]2018(\\.([Aa][Ss][Yy][Nn][Cc][Gg][Ee][Nn][Ee][Rr][Aa][Tt][Oo][Rr]|[Aa][Ss][Yy][Nn][Cc][Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee]|[Ii][Nn][Tt][Ll]|[Pp][Rr][Oo][Mm][Ii][Ss][Ee]|[Rr][Ee][Gg][Ee][Xx][Pp]))?$",
                                     _js2n__-prdslib.strings.pattern
@@ -2365,6 +2411,8 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.strings.pattern
                                       "^[Ee][Ss]2023(\\.([Aa][Rr][Rr][Aa][Yy]|[Cc][Oo][Ll][Ll][Ee][Cc][Tt][Ii][Oo][Nn]))?$",
                                     _js2n__-prdslib.strings.pattern
+                                      "^[Ee][Ss]2024(\\.([Aa][Rr][Rr][Aa][Yy][Bb][Uu][Ff][Ff][Ee][Rr]|[Cc][Oo][Ll][Ll][Ee][Cc][Tt][Ii][Oo][Nn]|[Oo][Bb][Jj][Ee][Cc][Tt]|[Pp][Rr][Oo][Mm][Ii][Ss][Ee]|[Rr][Ee][Gg][Ee][Xx][Pp]|[Ss][Hh][Aa][Rr][Ee][Dd][Mm][Ee][Mm][Oo][Rr][Yy]|[Ss][Tt][Rr][Ii][Nn][Gg]))?$",
+                                    _js2n__-prdslib.strings.pattern
                                       "^[Ee][Ss][Nn][Ee][Xx][Tt](\\.([Aa][Rr][Rr][Aa][Yy]|[Aa][Ss][Yy][Nn][Cc][Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee]|[Bb][Ii][Gg][Ii][Nn][Tt]|[Ii][Nn][Tt][Ll]|[Pp][Rr][Oo][Mm][Ii][Ss][Ee]|[Ss][Tt][Rr][Ii][Nn][Gg]|[Ss][Yy][Mm][Bb][Oo][Ll]|[Ww][Ee][Aa][Kk][Rr][Ee][Ff]|[Dd][Ee][Cc][Oo][Rr][Aa][Tt][Oo][Rr][Ss]|[Dd][Ii][Ss][Pp][Oo][Ss][Aa][Bb][Ll][Ee]))?$",
                                     _js2n__-prdslib.strings.pattern
                                       "^[Dd][Oo][Mm](\\.([Aa][Ss][Yy][Nn][Cc])?[Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee])?$",
@@ -2377,6 +2425,12 @@ let rec _js2n__-refsenv
                                   ]
                               ]),
                           _js2n__-prdslib.arrays.uniqueItems
+                        ],
+                  libReplacement =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
                         ],
                   listEmittedFiles =
                     _js2n__-prdslib.anyOf
@@ -2431,11 +2485,12 @@ let rec _js2n__-refsenv
                                   "None",
                                   "ES2022",
                                   "Node16",
+                                  "Node18",
                                   "NodeNext",
                                   "Preserve"
                                 ],
                               _js2n__-prdslib.strings.pattern
-                                "^([Cc][Oo][Mm][Mm][Oo][Nn][Jj][Ss]|[AaUu][Mm][Dd]|[Ss][Yy][Ss][Tt][Ee][Mm]|[Ee][Ss]([356]|20(1[567]|2[02])|[Nn][Ee][Xx][Tt])|[Nn][Oo][dD][Ee]16|[Nn][Oo][Dd][Ee][Nn][Ee][Xx][Tt]|[Nn][Oo][Nn][Ee]|[Pp][Rr][Ee][Ss][Ee][Rr][Vv][Ee])$"
+                                "^([Cc][Oo][Mm][Mm][Oo][Nn][Jj][Ss]|[AaUu][Mm][Dd]|[Ss][Yy][Ss][Tt][Ee][Mm]|[Ee][Ss]([356]|20(1[567]|2[02])|[Nn][Ee][Xx][Tt])|[Nn][Oo][dD][Ee]1[68]|[Nn][Oo][Dd][Ee][Nn][Ee][Xx][Tt]|[Nn][Oo][Nn][Ee]|[Pp][Rr][Ee][Ss][Ee][Rr][Vv][Ee])$"
                             ]
                         ],
                   moduleDetection =
@@ -2452,12 +2507,12 @@ let rec _js2n__-refsenv
                             [
                               _js2n__-prdslib.enum
                                 [
-                                  "Classic",
-                                  "Node",
-                                  "Node10",
-                                  "Node16",
-                                  "NodeNext",
-                                  "Bundler"
+                                  "classic",
+                                  "node",
+                                  "node10",
+                                  "node16",
+                                  "nodenext",
+                                  "bundler"
                                 ],
                               _js2n__-prdslib.strings.pattern
                                 "^(([Nn]ode)|([Nn]ode1[06])|([Nn]ode[Nn]ext)|([Cc]lassic)|([Bb]undler))$"
@@ -2716,6 +2771,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  rewriteRelativeImportExtensions =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   rootDir =
                     _js2n__-prdslib.anyOf
                         [
@@ -2840,10 +2901,11 @@ let rec _js2n__-refsenv
                                   "ES2021",
                                   "ES2022",
                                   "ES2023",
+                                  "ES2024",
                                   "ESNext"
                                 ],
                               _js2n__-prdslib.strings.pattern
-                                "^([Ee][Ss]([356]|(20(1[56789]|2[0123]))|[Nn][Ee][Xx][Tt]))$"
+                                "^([Ee][Ss]([356]|(20(1[56789]|2[01234]))|[Nn][Ee][Xx][Tt]))$"
                             ]
                         ],
                   traceResolution =

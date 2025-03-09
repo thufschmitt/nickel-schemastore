@@ -1065,11 +1065,11 @@ let rec _js2n__-refsenv
                     },
                   given
                     | {
-                      sourceLocation
+                      source_location
                         | {
-                          lineEnd | std.number.Integer,
-                          lineStart | std.number.Integer,
+                          end_line | std.number.Integer,
                           path | String,
+                          start_line | std.number.Integer,
                           ..
                         }
                         | optional,
