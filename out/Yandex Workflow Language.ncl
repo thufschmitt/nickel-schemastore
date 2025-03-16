@@ -1034,6 +1034,86 @@ let rec _js2n__-refsenv
                 { next = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/yawl.Disk!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "upload" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "download" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.required [ "oauthToken", "path" ],
+              _js2n__-prdslib.records.record
+                {
+                  download =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.DiskDownload!predicate"
+                        ],
+                  input = _js2n__-prdslib.isType '"String",
+                  next = _js2n__-prdslib.isType '"String",
+                  oauthToken = _js2n__-prdslib.isType '"String",
+                  output = _js2n__-prdslib.isType '"String",
+                  path = _js2n__-prdslib.isType '"String",
+                  retryPolicy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.RetryPolicy!predicate"
+                        ],
+                  timeout =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$"
+                        ],
+                  upload =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.DiskUpload!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.DiskDownload!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  contentType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "BINARY", "JSON", "TEXT" ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.DiskUpload!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "content" ],
+              _js2n__-prdslib.records.record
+                { content = _js2n__-prdslib.isType '"String", } {} false
+                _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/yawl.Fail!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1151,7 +1231,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   json = _js2n__-prdslib.isType '"String",
-                  maxTokens = _js2n__-prdslib.isType '"Number",
+                  maxTokens = _js2n__-prdslib.isType 'Integer,
                   messages =
                     _js2n__-prdslib.allOf
                         [
@@ -1210,6 +1290,7 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/yawl.RetryPolicy!predicate"
                         ],
+                  tag = _js2n__-prdslib.isType '"String",
                   timeout =
                     _js2n__-prdslib.allOf
                         [
@@ -1313,6 +1394,53 @@ let rec _js2n__-refsenv
                             "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$"
                         ],
                   url = _js2n__-prdslib.isType '"String",
+                  useServiceAccount = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.InterpolatableMap!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "json" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "plainValue" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  json = _js2n__-prdslib.isType '"String",
+                  plainValue =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.MapValue!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.MapValue!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  pairs =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/yawl.NoOp!predicate" =
@@ -1387,7 +1515,15 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
+              _js2n__-prdslib.records.record
+                {
+                  contentType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "BINARY", "JSON", "TEXT" ]
+                        ],
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/yawl.ObjectStoragePut!predicate" =
         _js2n__-prdslib.allOf
@@ -1397,6 +1533,33 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 { content = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.Organization!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required
+                        [ "yandexOrganizationId" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required
+                        [ "cloudOrganizationId" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  cloudOrganizationId = _js2n__-prdslib.isType '"String",
+                  yandexOrganizationId = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/yawl.Parallel!predicate" =
         _js2n__-prdslib.allOf
@@ -1423,6 +1586,157 @@ let rec _js2n__-refsenv
                   output = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/yawl.Postbox!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "simple" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "raw" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.required [ "destination", "fromAddress" ],
+              _js2n__-prdslib.records.record
+                {
+                  destination =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.PostboxDestination!predicate"
+                        ],
+                  fromAddress = _js2n__-prdslib.isType '"String",
+                  input = _js2n__-prdslib.isType '"String",
+                  next = _js2n__-prdslib.isType '"String",
+                  output = _js2n__-prdslib.isType '"String",
+                  raw =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.PostboxRawMessage!predicate"
+                        ],
+                  retryPolicy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.RetryPolicy!predicate"
+                        ],
+                  simple =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.PostboxSimpleMessage!predicate"
+                        ],
+                  timeout =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.PostboxBody!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "html", "text" ],
+              _js2n__-prdslib.records.record
+                {
+                  html =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.PostboxMessageData!predicate"
+                        ],
+                  text =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.PostboxMessageData!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.PostboxDestination!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "toAddresses" ],
+              _js2n__-prdslib.records.record
+                {
+                  ccAddresses = _js2n__-prdslib.isType '"String",
+                  toAddresses = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.PostboxMessageData!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "charset", "data" ],
+              _js2n__-prdslib.records.record
+                {
+                  charset =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "CHARSET_UNSPECIFIED",
+                              "UTF_8",
+                              "ISO_8859_1",
+                              "SHIFT_JIS"
+                            ]
+                        ],
+                  data = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.PostboxRawMessage!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "data" ],
+              _js2n__-prdslib.records.record
+                { data = _js2n__-prdslib.isType '"String", } {} false
+                _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.PostboxSimpleMessage!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "body", "subject" ],
+              _js2n__-prdslib.records.record
+                {
+                  body =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.PostboxBody!predicate"
+                        ],
+                  subject =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.PostboxMessageData!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/yawl.RetryPolicy!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1439,6 +1753,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.enum
                               [
                                 "ALL",
+                                "INVALID_INPUT",
                                 "STEP_DATA_LIMIT_EXCEEDED",
                                 "STEP_NO_CHOICE_MATCHED",
                                 "STEP_PERMISSION_DENIED",
@@ -1449,6 +1764,7 @@ let rec _js2n__-refsenv
                                 "STEP_FAIL",
                                 "STEP_INVALID_ARGUMENT",
                                 "STEP_QUOTA_EXCEEDED",
+                                "STEP_FAILED_PRECONDITION",
                                 "HTTP_CALL_400",
                                 "HTTP_CALL_401",
                                 "HTTP_CALL_402",
@@ -1688,6 +2004,30 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.records.required [ "objectStorage" ],
                       _js2n__-prdslib.records.record {} {} true
                         _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "tracker" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "postbox" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "wait" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "disk" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
                     ]
                 ],
               _js2n__-prdslib.records.record
@@ -1700,6 +2040,13 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/yawl.ContainerCall!predicate"
                         ],
                   description = _js2n__-prdslib.isType '"String",
+                  disk =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.Disk!predicate"
+                        ],
                   fail =
                     _js2n__-prdslib.allOf
                         [
@@ -1763,6 +2110,13 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/yawl.Parallel!predicate"
                         ],
+                  postbox =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.Postbox!predicate"
+                        ],
                   success =
                     _js2n__-prdslib.allOf
                         [
@@ -1778,6 +2132,20 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/yawl.Switch!predicate"
                         ],
                   title = _js2n__-prdslib.isType '"String",
+                  tracker =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.Tracker!predicate"
+                        ],
+                  wait =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.Wait!predicate"
+                        ],
                   ydbDocument =
                     _js2n__-prdslib.allOf
                         [
@@ -1833,6 +2201,453 @@ let rec _js2n__-refsenv
                   input = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/yawl.Tracker!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "getIssue" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "createIssue" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "updateIssue" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "listIssues" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "linkIssues" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "updateIssueStatus" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "createComment" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "updateComment" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "listComments" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.required [ "oauthToken" ],
+              _js2n__-prdslib.records.record
+                {
+                  createComment =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerCreateComment!predicate"
+                        ],
+                  createIssue =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerCreateIssue!predicate"
+                        ],
+                  endpoint = _js2n__-prdslib.isType '"String",
+                  getIssue =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerGetIssue!predicate"
+                        ],
+                  input = _js2n__-prdslib.isType '"String",
+                  linkIssues =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerLinkIssues!predicate"
+                        ],
+                  listComments =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerListComments!predicate"
+                        ],
+                  listIssues =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerListIssues!predicate"
+                        ],
+                  next = _js2n__-prdslib.isType '"String",
+                  oauthToken = _js2n__-prdslib.isType '"String",
+                  organization =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.Organization!predicate"
+                        ],
+                  output = _js2n__-prdslib.isType '"String",
+                  retryPolicy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.RetryPolicy!predicate"
+                        ],
+                  timeout =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$"
+                        ],
+                  updateComment =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerUpdateComment!predicate"
+                        ],
+                  updateIssue =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerUpdateIssue!predicate"
+                        ],
+                  updateIssueStatus =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerUpdateIssueStatus!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerCreateComment!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "key", "text" ],
+              _js2n__-prdslib.records.record
+                {
+                  key = _js2n__-prdslib.isType '"String",
+                  mentions = _js2n__-prdslib.isType '"String",
+                  text = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerCreateIssue!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "queue", "title" ],
+              _js2n__-prdslib.records.record
+                {
+                  additionalProperties =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  assignee = _js2n__-prdslib.isType '"String",
+                  author = _js2n__-prdslib.isType '"String",
+                  description = _js2n__-prdslib.isType '"String",
+                  followers = _js2n__-prdslib.isType '"String",
+                  parent = _js2n__-prdslib.isType '"String",
+                  "priority" = _js2n__-prdslib.isType '"String",
+                  queue = _js2n__-prdslib.isType '"String",
+                  sprints = _js2n__-prdslib.isType '"String",
+                  title = _js2n__-prdslib.isType '"String",
+                  type = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerGetIssue!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "key" ],
+              _js2n__-prdslib.records.record
+                { key = _js2n__-prdslib.isType '"String", } {} false
+                _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerLinkIssues!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required
+                [ "key", "linkKey", "relationship" ],
+              _js2n__-prdslib.records.record
+                {
+                  key = _js2n__-prdslib.isType '"String",
+                  linkKey = _js2n__-prdslib.isType '"String",
+                  relationship = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerListComments!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "key" ],
+              _js2n__-prdslib.records.record
+                {
+                  key = _js2n__-prdslib.isType '"String",
+                  lastCommentId = _js2n__-prdslib.isType '"String",
+                  pageSize = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerListIssues!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "queue" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "keys" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "filter" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "query" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  filter =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerListIssues.SearchOptionsFilter!predicate"
+                        ],
+                  keys = _js2n__-prdslib.isType '"String",
+                  pageNumber = _js2n__-prdslib.isType '"String",
+                  pageSize = _js2n__-prdslib.isType '"String",
+                  query = _js2n__-prdslib.isType '"String",
+                  queue = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerListIssues.SearchOptionsFilter!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  issueProperties =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  order = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerUpdateComment!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "id", "issueKey", "text" ],
+              _js2n__-prdslib.records.record
+                {
+                  id = _js2n__-prdslib.isType '"String",
+                  issueKey = _js2n__-prdslib.isType '"String",
+                  text = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerUpdateIssue!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "key" ],
+              _js2n__-prdslib.records.record
+                {
+                  additionalProperties =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerUpdateIssue.AdditionalProperties!predicate"
+                        ],
+                  description = _js2n__-prdslib.isType '"String",
+                  followers =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerUpdateIssue.Action!predicate"
+                        ],
+                  key = _js2n__-prdslib.isType '"String",
+                  parent = _js2n__-prdslib.isType '"String",
+                  "priority" = _js2n__-prdslib.isType '"String",
+                  sprints =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerUpdateIssue.Action!predicate"
+                        ],
+                  title = _js2n__-prdslib.isType '"String",
+                  type = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerUpdateIssue.Action!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "setValue" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "addValuesList" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "removeValuesList" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "replaceValuesMap" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  addValuesList = _js2n__-prdslib.isType '"String",
+                  removeValuesList = _js2n__-prdslib.isType '"String",
+                  replaceValuesMap =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.InterpolatableMap!predicate"
+                        ],
+                  setValue = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerUpdateIssue.AdditionalProperties!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  pairs =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.records.record {} {} false
+                                  _js2n__-prdslib.never,
+                                _js2n__-refsenv."_js2n__-:definitions/yawl.TrackerUpdateIssue.Action!predicate"
+                              ])
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.TrackerUpdateIssueStatus!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "key", "transition" ],
+              _js2n__-prdslib.records.record
+                {
+                  additionalProperties =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.MapValue!predicate"
+                        ],
+                  key = _js2n__-prdslib.isType '"String",
+                  transition = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.Wait!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "duration" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "until" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  duration = _js2n__-prdslib.isType '"String",
+                  next = _js2n__-prdslib.isType '"String",
+                  until = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/yawl.YDBDocument!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1854,6 +2669,12 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.records.required [ "update" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "scan" ],
                       _js2n__-prdslib.records.record {} {} true
                         _js2n__-prdslib.always
                     ]
@@ -1885,6 +2706,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} false
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/yawl.RetryPolicy!predicate"
+                        ],
+                  scan =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.YDBDocumentScan!predicate"
                         ],
                   tableName = _js2n__-prdslib.isType '"String",
                   timeout =
@@ -1920,6 +2748,17 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 { item = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/yawl.YDBDocumentScan!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "exclusiveStartKey", "limit" ],
+              _js2n__-prdslib.records.record
+                {
+                  exclusiveStartKey = _js2n__-prdslib.isType '"String",
+                  limit = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/yawl.YDBDocumentUpdate!predicate" =
         _js2n__-prdslib.allOf

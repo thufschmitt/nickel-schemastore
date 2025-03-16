@@ -909,14 +909,13 @@ let rec _js2n__-refsenv
                 | doc "MD step from the 'mds' section that is used for relaxation MDs"
                 | optional,
               slow_growth
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.isType '"Bool")
-                | doc "Whether the chosen MD step is a slow growth/free-energy simulation"
+                | std.enum.TagOrString
+                | [| '"", 'morse_only, 'full, '"true", 'yes |]
+                | doc "Whether the chosen MD step is a slow growth/free-energy simulation to relax after applying a reaction recipe. `true` and `yes` are equivalent to `full` for backwards compatibility. `morse_only` disables using pairs to transition non-bonded interactions as well and only uses morse bonds to emulate simple non-bonded interactions. The empty string means no slow growth."
                 | optional,
               slow_growth_pairs
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.isType '"Bool")
-                | doc "Whether to properly treat pairs during slow growth. Does not work with gromacs < 2023.2"
+                | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
+                | doc "This is deprecated. Specify in `config.changer.coordinates.slow_growth` instead."
                 | optional,
               ..
             }
@@ -947,6 +946,11 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.isType '"Bool")
         | doc "Don't run the actual simulations, just print the tasks"
         | optional,
+      edr
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"String")
+        | doc ".edr file of a finished simulation for starting directly with a reaction"
+        | optional,
       ff
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"String")
@@ -967,9 +971,22 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.isType '"String")
         | doc "Gromacs alias. e.g. `gmx` or `mpirun gmx_mpi`"
         | optional,
+      grompp_prefix
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"String")
+        | doc "Prefix command for grompp execution on non MPI compiled clusters, e.g., 'srun --ntasks=1'."
+        | optional,
       kmc
         | std.enum.TagOrString
-        | [| 'multi_rfkmc, 'extrande_mod, 'extrande, 'frm, 'rfkmc, '"" |]
+        | [|
+          'dummy_first,
+          'multi_rfkmc,
+          'extrande_mod,
+          'extrande,
+          'frm,
+          'rfkmc,
+          '""
+        |]
         | doc "KMC algorithm overwrite. Should be set by the reactions, but can be changed here. Not all reactions may support all algorithms."
         | optional,
       log
@@ -996,6 +1013,11 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType 'Integer)
         | doc "Maximum number of tasks to run. This is useful when a task in the sequence can dymanically add more tasks. 0 means no limit."
+        | optional,
+      mdrun_prefix
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"String")
+        | doc "Prefix command for mdrun execution on non MPI compiled clusters, e.g., 'srun --ntasks=1'."
         | optional,
       mds
         | _js2n__-prdslib.contract_from_predicate
@@ -1044,11 +1066,6 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.isType '"Bool")
         | doc "parameterize the topology during the setup task"
         | optional,
-      plot_rates
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.isType '"Bool")
-        | doc "Plot the reaction rates during the reactions step"
-        | optional,
       plumed
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"String")
@@ -1074,14 +1091,9 @@ let rec _js2n__-refsenv
         | doc "GROMACS rtp file that contains residuetypes. Looks for `aminoacids.rtp` it not set. KIMMDY will first look in the current working directory and then relative to the forecfield directory."
         | optional,
       restart
-        | {
-          run_directory
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.isType '"String")
-            | doc "KIMMDY run directory to restart from",
-          ..
-        }
-        | doc "Restart from a previous run."
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"Bool")
+        | doc "Restart or continue from a previous run (in config.out) instead of starting from scratch"
         | optional,
       save_recipes
         | _js2n__-prdslib.contract_from_predicate
@@ -1147,6 +1159,11 @@ let rec _js2n__-refsenv
               ])
         )
         | doc "List of tasks. Each task can be a string (the name of the task) or an object with the task name and a multiplicity `mult: <int>`",
+      skip_truncation
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"Bool")
+        | doc "Don't truncate trajectories to the time at which a reaction occurs. This is useful when only the reaction rates are interesting and it is not required to continue the simulation after a reaction."
+        | optional,
       slurm
         | {
           N
@@ -1173,6 +1190,11 @@ let rec _js2n__-refsenv
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.isType 'Integer)
             | doc "n tasks per node"
+            | optional,
+          runcmd
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.isType '"String")
+            | doc "Command to (re)submit the jobscript. Default is `sbatch`. For local testing replace with an empty string do run the jobscript directly."
             | optional,
         }
         | doc "SLURM HPC options"

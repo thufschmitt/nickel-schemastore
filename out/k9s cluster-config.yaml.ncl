@@ -929,7 +929,18 @@ let rec _js2n__-refsenv
                           lockFavorites = _js2n__-prdslib.isType '"Bool",
                         } {} false _js2n__-prdslib.never
                     ],
-              portForwardAddress = _js2n__-prdslib.isType '"String",
+              proxy =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.isType 'Null,
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            { address = _js2n__-prdslib.isType '"String", } {}
+                            false _js2n__-prdslib.never
+                        ]
+                    ],
               readOnly = _js2n__-prdslib.isType '"Bool",
               skin = _js2n__-prdslib.isType '"String",
               view =

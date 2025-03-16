@@ -917,6 +917,10 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/Artifacts!contract"
         | doc "Artifacts produced by a build that should be uploaded upon successful completion of all build steps."
         = {
+            goModules
+              | Array _js2n__-refsenv."_js2n__-:definitions/GoModules!contract"
+              | doc "Allows you to upload non-container Go modules to Go repositories in Artifact Registry."
+              | optional,
             mavenArtifacts
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/MavenArtifacts!contract"
@@ -942,6 +946,9 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/BuildOptions!contract"
         | doc "Optional arguments to enable specific features of builds."
         = {
+            automapSubstitutions
+              | _js2n__-refsenv."_js2n__-:definitions/automapSubstitutions!contract"
+              | optional,
             defaultLogsBucketBehavior
               | std.enum.TagOrString
               | [|
@@ -1080,6 +1087,9 @@ let rec _js2n__-refsenv
                 If the image used to run the step's container has an entrypoint, the args are used as arguments to that entrypoint. If the image does not define an entrypoint, the first element in args is used as the entrypoint, and the remainder will be used as arguments.
               "%
               | optional,
+            automapSubstitutions
+              | _js2n__-refsenv."_js2n__-:definitions/automapSubstitutions!contract"
+              | optional,
             dir
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.isType '"String")
@@ -1135,6 +1145,26 @@ let rec _js2n__-refsenv
               | Array (String)
               | doc "The ID(s) of the step(s) that this build step depends on. This build step will not start until all the build steps in waitFor have completed successfully. If waitFor is empty, this build step will start when all previous build steps in the list have completed successfully. If waitFor is set to '-', the step runs immediately when the build starts."
               | optional,
+          },
+      "_js2n__-:definitions/GoModules!contract"
+        | doc "Allows you to upload non-container Go modules to Go repositories in Artifact Registry."
+        = {
+            modulePath
+              | String
+              | doc "The local directory that contains the Go module to upload. It is recommended to use an absolute path for the value.",
+            moduleVersion | String | doc "The version of the Go module.",
+            repositoryLocation
+              | String
+              | doc "The location for your repository in Artifact Registry.",
+            repositoryName
+              | String
+              | doc "The name of your Go repository in Artifact Registry.",
+            repositoryProject_id
+              | String
+              | doc "The ID of the Google Cloud project that contains your Artifact Registry Go repository.",
+            sourcePath
+              | String
+              | doc "The path to the go.mod file in the build's workspace.",
           },
       "_js2n__-:definitions/MavenArtifacts!contract"
         | doc "Allows you to upload non-container Java artifacts to Maven repositories in Artifact Registry."
@@ -1220,6 +1250,10 @@ let rec _js2n__-refsenv
               | optional,
             ..
           },
+      "_js2n__-:definitions/automapSubstitutions!contract"
+        | doc "If set to true, automatically map all subsistutions and make them available as environment variables in a single step. If set to false, ignore substitutions for that step. Can be used for a build step or for an entire build."
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.isType '"Bool"),
     }
     in
   {

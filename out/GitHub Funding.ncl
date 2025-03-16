@@ -1021,7 +1021,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.strings.minLength 1,
               _js2n__-refsenv."_js2n__-:definitions/nullable_string!predicate"
             ])
-        | doc "Username on Pateron."
+        | doc "Username on Patreon."
         | optional,
       polar
         | _js2n__-prdslib.contract_from_predicate
@@ -1031,6 +1031,15 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/github_username!predicate"
             ])
         | doc "Username on Polar."
+        | optional,
+      thanks_dev
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.strings.pattern "^u/gh/.+$",
+              _js2n__-refsenv."_js2n__-:definitions/nullable_string!predicate"
+            ])
+        | doc "Maintainer profile on thanks.dev"
         | optional,
       tidelift
         | _js2n__-prdslib.contract_from_predicate

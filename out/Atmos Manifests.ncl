@@ -959,6 +959,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} true
                             _js2n__-prdslib.always
                         ],
+                  local =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
+                        ],
                   remote =
                     _js2n__-prdslib.allOf
                         [
@@ -970,113 +977,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record
-                            {
-                              acl = _js2n__-prdslib.isType '"String",
-                              assume_role =
-                                _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.record
-                                        {
-                                          duration =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType 'Null
-                                                ],
-                                          external_id =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType 'Null
-                                                ],
-                                          policy =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType 'Null
-                                                ],
-                                          policy_arns =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"Array",
-                                                  _js2n__-prdslib.arrays.arrayOf
-                                                    (_js2n__-prdslib.isType
-                                                      '"String"),
-                                                  _js2n__-prdslib.arrays.uniqueItems
-                                                ],
-                                          role_arn =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType 'Null
-                                                ],
-                                          session_name =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType 'Null
-                                                ],
-                                          source_identity =
-                                            _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.isType 'Null
-                                                ],
-                                          tags =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.anyOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        'Record,
-                                                      _js2n__-prdslib.isType
-                                                        'Null
-                                                    ],
-                                                  _js2n__-prdslib.records.record
-                                                    {} {} true
-                                                    _js2n__-prdslib.always
-                                                ],
-                                          transitive_tag_keys =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"Array",
-                                                  _js2n__-prdslib.arrays.arrayOf
-                                                    (_js2n__-prdslib.isType
-                                                      '"String"),
-                                                  _js2n__-prdslib.arrays.uniqueItems
-                                                ],
-                                        } {} false _js2n__-prdslib.never
-                                    ],
-                              bucket = _js2n__-prdslib.isType '"String",
-                              dynamodb_table = _js2n__-prdslib.isType '"String",
-                              encrypt = _js2n__-prdslib.isType '"Bool",
-                              key = _js2n__-prdslib.isType '"String",
-                              profile =
-                                _js2n__-prdslib.anyOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.isType 'Null
-                                    ],
-                              region = _js2n__-prdslib.isType '"String",
-                              role_arn =
-                                _js2n__-prdslib.anyOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.isType 'Null
-                                    ],
-                              workspace_key_prefix =
-                                _js2n__-prdslib.isType '"String",
-                            } {} false _js2n__-prdslib.never
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
                         ],
                   static =
                     _js2n__-prdslib.allOf
@@ -1232,6 +1134,13 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/helmfile_component_manifest!predicate",
                 } false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/hooks!predicate"
+        | doc "Hooks section"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/import!predicate"
         | doc "Import section"
         = _js2n__-prdslib.allOf
@@ -1279,6 +1188,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} true
                             _js2n__-prdslib.always
                         ],
+                  enabled = _js2n__-prdslib.isType '"Bool",
                   inherits =
                     _js2n__-prdslib.allOf
                         [
@@ -1287,6 +1197,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String"),
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
+                  locked = _js2n__-prdslib.isType '"Bool",
                   terraform_workspace = _js2n__-prdslib.isType '"String",
                   terraform_workspace_pattern =
                     _js2n__-prdslib.isType '"String",
@@ -1429,6 +1340,8 @@ let rec _js2n__-refsenv
                   component =
                     _js2n__-refsenv."_js2n__-:definitions/component!predicate",
                   env = _js2n__-refsenv."_js2n__-:definitions/env!predicate",
+                  hooks =
+                    _js2n__-refsenv."_js2n__-:definitions/hooks!predicate",
                   metadata =
                     _js2n__-refsenv."_js2n__-:definitions/metadata!predicate",
                   providers =

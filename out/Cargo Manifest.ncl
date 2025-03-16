@@ -957,23 +957,58 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
             ],
+      "_js2n__-:definitions/CodegenUnits!predicate"
+        | doc m%"
+          The `codegen-units` setting controls the [`-C codegen-units` flag](https://doc.rust-lang.org/rustc/codegen-options/index.html#codegen-units) which
+          controls how many "code generation units" a crate will be split into. More
+          code generation units allows more of a crate to be processed in parallel
+          possibly reducing compile time, but may produce slower code.
+          
+          This option takes an integer greater than 0.
+          
+          The default is 256 for [incremental](https://doc.rust-lang.org/cargo/reference/profiles.html#incremental) builds, and 16 for
+          non-incremental builds.
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Integer,
+              _js2n__-prdslib.numbers.minimum 0
+            ],
+      "_js2n__-:definitions/DebugAssertions!predicate"
+        | doc m%"
+          The `debug-assertions` setting controls the [`-C debug-assertions` flag](https://doc.rust-lang.org/rustc/codegen-options/index.html#debug-assertions) which
+          turns `cfg(debug_assertions)` [conditional compilation](https://doc.rust-lang.org/reference/conditional-compilation.html#debug_assertions) on or off. Debug
+          assertions are intended to include runtime validation which is only available
+          in debug/development builds. These may be things that are too expensive or
+          otherwise undesirable in a release build. Debug assertions enables the
+          [`debug_assert!` macro](https://doc.rust-lang.org/std/macro.debug_assert.html) in the standard library.
+        "%
+        = _js2n__-prdslib.isType '"Bool",
       "_js2n__-:definitions/DebugLevel!predicate"
         | doc m%"
           The `debug` setting controls the [`-C debuginfo` flag](https://doc.rust-lang.org/rustc/codegen-options/index.html#debuginfo) which controls the
           amount of debug information included in the compiled binary.
         "%
-        = _js2n__-prdslib.enum
+        = _js2n__-prdslib.oneOf
             [
-              0,
-              1,
-              2,
-              true,
-              false,
-              "none",
-              "line-directives-only",
-              "line-tables-only",
-              "limited",
-              "full"
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum
+                    [
+                      "none",
+                      "line-directives-only",
+                      "line-tables-only",
+                      "limited",
+                      "full"
+                    ]
+                ],
+              _js2n__-prdslib.isType '"Bool",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Integer,
+                  _js2n__-prdslib.enum [ 0, 1, 2 ]
+                ]
             ],
       "_js2n__-:definitions/Dependency!predicate" =
         _js2n__-prdslib.anyOf
@@ -999,6 +1034,7 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.minProperties 1,
               _js2n__-prdslib.records.record
                 {
                   branch = _js2n__-prdslib.isType '"String",
@@ -1023,6 +1059,17 @@ let rec _js2n__-refsenv
                   version =
                     _js2n__-refsenv."_js2n__-:definitions/SemVerRequirement!predicate",
                   workspace = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DetailedLint!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  level =
+                    _js2n__-refsenv."_js2n__-:definitions/LintLevel!predicate",
+                  "priority" = _js2n__-prdslib.isType 'Integer,
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/Documentation!predicate"
@@ -1195,6 +1242,26 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
             ],
+      "_js2n__-:definitions/Incremental!predicate"
+        | doc m%"
+          The `incremental` setting controls the [`-C incremental` flag](https://doc.rust-lang.org/rustc/codegen-options/index.html#incremental) which controls
+          whether or not incremental compilation is enabled. Incremental compilation
+          causes `rustc` to to save additional information to disk which will be reused
+          when recompiling the crate, improving re-compile times. The additional
+          information is stored in the `target` directory.
+          
+          The valid options are:
+          
+          * `true`: enabled
+          * `false`: disabled
+          
+          Incremental compilation is only used for workspace members and "path"
+          dependencies.
+          
+          The incremental value can be overridden globally with the `CARGO_INCREMENTAL`
+          [environment variable](https://doc.rust-lang.org/cargo/reference/environment-variables.html) or the [`build.incremental`](https://doc.rust-lang.org/cargo/reference/config.html#buildincremental) config variable.
+        "%
+        = _js2n__-prdslib.isType '"Bool",
       "_js2n__-:definitions/Keywords!predicate"
         | doc m%"
           The `keywords` field is an array of strings that describe this package. This
@@ -1261,6 +1328,48 @@ let rec _js2n__-refsenv
           > **Note**: [crates.io](https://crates.io) requires either `license` or `license-file` to be set.
         "%
         = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/Lint!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/LintLevel!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/DetailedLint!predicate"
+            ],
+      "_js2n__-:definitions/LintLevel!predicate"
+        | doc "Specify the [lint level](https://doc.rust-lang.org/rustc/lints/levels.html) for a lint or lint group."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "forbid", "deny", "warn", "allow" ]
+            ],
+      "_js2n__-:definitions/Lints!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  clippy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/Lint!predicate"
+                        ],
+                  rust =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/Lint!predicate"
+                        ],
+                  rustdoc =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/Lint!predicate"
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/Lto!predicate"
         | doc m%"
           The `lto` setting controls the [`-C lto` flag](https://doc.rust-lang.org/rustc/codegen-options/index.html#lto) which controls LLVM's [link time optimizations](https://llvm.org/docs/LinkTimeOptimization.html). LTO can produce better optimized code, using
@@ -1268,7 +1377,15 @@ let rec _js2n__-refsenv
                               
           See also the [`-C linker-plugin-lto`](https://doc.rust-lang.org/rustc/codegen-options/index.html#linker-plugin-lto) `rustc` flag for cross-language LTO.
         "%
-        = _js2n__-prdslib.enum [ "fat", "thin", "off", true, false ],
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "fat", "thin", "off" ]
+                ],
+              _js2n__-prdslib.isType '"Bool"
+            ],
       "_js2n__-:definitions/MetaBuild!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1291,7 +1408,26 @@ let rec _js2n__-refsenv
           See also [Profile Guided Optimization](https://doc.rust-lang.org/rustc/profile-guided-optimization.html) for more advanced optimization
           techniques.
         "%
-        = _js2n__-prdslib.enum [ 0, 1, 2, 3, "s", "z" ],
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "s", "z" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Integer,
+                  _js2n__-prdslib.enum [ 0, 1, 2, 3 ]
+                ]
+            ],
+      "_js2n__-:definitions/OverflowChecks!predicate"
+        | doc m%"
+          The `overflow-checks` setting controls the [`-C overflow-checks` flag](https://doc.rust-lang.org/rustc/codegen-options/index.html#overflow-checks) which
+          controls the behavior of [runtime integer overflow](https://doc.rust-lang.org/reference/expressions/operator-expr.html#overflow). When overflow-checks are
+          enabled, a panic will occur on overflow.
+        "%
+        = _js2n__-prdslib.isType '"Bool",
       "_js2n__-:definitions/Package!predicate"
         | doc m%"
           The only field required by Cargo is [`name`](https://doc.rust-lang.org/cargo/reference/manifest.html#the-name-field).
@@ -1427,7 +1563,7 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/WorkspaceInheritance!predicate"
                         ],
                   workspace = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Panic!predicate"
         | doc m%"
@@ -1599,46 +1735,77 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   codegen-units =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Integer,
-                          _js2n__-prdslib.numbers.minimum 0
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/CodegenUnits!predicate",
                   debug =
                     _js2n__-refsenv."_js2n__-:definitions/DebugLevel!predicate",
-                  debug-assertions = _js2n__-prdslib.isType '"Bool",
+                  debug-assertions =
+                    _js2n__-refsenv."_js2n__-:definitions/DebugAssertions!predicate",
                   dir-name = _js2n__-prdslib.isType '"String",
-                  incremental = _js2n__-prdslib.isType '"Bool",
+                  incremental =
+                    _js2n__-refsenv."_js2n__-:definitions/Incremental!predicate",
                   inherits = _js2n__-prdslib.isType '"String",
                   lto = _js2n__-refsenv."_js2n__-:definitions/Lto!predicate",
                   opt-level =
                     _js2n__-refsenv."_js2n__-:definitions/OptLevel!predicate",
-                  overflow-checks = _js2n__-prdslib.isType '"Bool",
+                  overflow-checks =
+                    _js2n__-refsenv."_js2n__-:definitions/OverflowChecks!predicate",
                   package =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {} {} true
-                            _js2n__-refsenv."_js2n__-:definitions/Profile!predicate"
-                        ],
+                    _js2n__-refsenv."_js2n__-:definitions/ProfilePackageOverrides!predicate",
                   panic =
                     _js2n__-refsenv."_js2n__-:definitions/Panic!predicate",
-                  rpath = _js2n__-prdslib.isType '"Bool",
+                  rpath =
+                    _js2n__-refsenv."_js2n__-:definitions/Rpath!predicate",
+                  split-debuginfo =
+                    _js2n__-refsenv."_js2n__-:definitions/SplitDebuginfo!predicate",
+                  strip =
+                    _js2n__-refsenv."_js2n__-:definitions/Strip!predicate",
                 } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/ProfilePackageOverrides!predicate"
+        | doc m%"
+          Package-specific overrides.
+          
+          The package name is a [Package ID Spec](https://doc.rust-lang.org/cargo/reference/pkgid-spec.html), so you can
+          target individual versions of a package with syntax such as `[profile.dev.package."foo:2.1.0"]`.
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                _js2n__-refsenv."_js2n__-:definitions/Profile!predicate"
             ],
       "_js2n__-:definitions/ProfileWithBuildOverride!predicate" =
         _js2n__-prdslib.allOf
             [
-              _js2n__-refsenv."_js2n__-:definitions/Profile!predicate",
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.record
-                    {
-                      build-override =
-                        _js2n__-refsenv."_js2n__-:definitions/Profile!predicate",
-                    } {} true _js2n__-prdslib.always
-                ]
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  build-override =
+                    _js2n__-refsenv."_js2n__-:definitions/Profile!predicate",
+                  codegen-units =
+                    _js2n__-refsenv."_js2n__-:definitions/CodegenUnits!predicate",
+                  debug =
+                    _js2n__-refsenv."_js2n__-:definitions/DebugLevel!predicate",
+                  debug-assertions =
+                    _js2n__-refsenv."_js2n__-:definitions/DebugAssertions!predicate",
+                  incremental =
+                    _js2n__-refsenv."_js2n__-:definitions/Incremental!predicate",
+                  lto = _js2n__-refsenv."_js2n__-:definitions/Lto!predicate",
+                  opt-level =
+                    _js2n__-refsenv."_js2n__-:definitions/OptLevel!predicate",
+                  overflow-checks =
+                    _js2n__-refsenv."_js2n__-:definitions/OverflowChecks!predicate",
+                  package =
+                    _js2n__-refsenv."_js2n__-:definitions/ProfilePackageOverrides!predicate",
+                  panic =
+                    _js2n__-refsenv."_js2n__-:definitions/Panic!predicate",
+                  rpath =
+                    _js2n__-refsenv."_js2n__-:definitions/Rpath!predicate",
+                  split-debuginfo =
+                    _js2n__-refsenv."_js2n__-:definitions/SplitDebuginfo!predicate",
+                  strip =
+                    _js2n__-refsenv."_js2n__-:definitions/Strip!predicate",
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/Profiles!predicate"
         | doc m%"
@@ -1759,8 +1926,14 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "1", "2" ]
+              _js2n__-prdslib.enum [ "1", "2", "3" ]
             ],
+      "_js2n__-:definitions/Rpath!predicate"
+        | doc m%"
+          The `rpath` setting controls the [`-C rpath` flag](https://doc.rust-lang.org/rustc/codegen-options/index.html#rpath) which controls
+          whether or not [`rpath`](https://en.wikipedia.org/wiki/Rpath) is enabled.
+        "%
+        = _js2n__-prdslib.isType '"Bool",
       "_js2n__-:definitions/RustVersion!predicate"
         | doc m%"
           The `rust-version` field is an optional key that tells cargo what version of the
@@ -1807,6 +1980,45 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/SemVerRequirement!predicate"
         | doc "The [version requirement](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html) of the target dependency."
         = _js2n__-prdslib.isType '"String",
+      "_js2n__-:definitions/SplitDebuginfo!predicate"
+        | doc "The split-debuginfo setting controls the -C split-debuginfo flag which controls whether debug information, if generated, is either placed in the executable itself or adjacent to it. This can be useful for reducing the size of the executable, but may make it harder to debug the executable."
+        = _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "off" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "packed" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "unpacked" ]
+                ]
+            ],
+      "_js2n__-:definitions/Strip!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "none", "debuginfo", "symbols" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Bool",
+                  _js2n__-prdslib.enum [ true ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Bool",
+                  _js2n__-prdslib.enum [ false ]
+                ]
+            ],
       "_js2n__-:definitions/Target!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1903,6 +2115,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  lints =
+                    _js2n__-refsenv."_js2n__-:definitions/Lints!predicate",
                   members =
                     _js2n__-prdslib.allOf
                         [
@@ -1961,11 +2175,11 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/Resolver!predicate",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/WorkspaceInheritance!predicate"
-        | doc "The `workspace` field allow keys to be inherited by defining them in the member package with `{key}.workspace = true`"
-        = _js2n__-prdslib.allOf
+      "_js2n__-:definitions/WorkspaceInheritance!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "workspace" ],
               _js2n__-prdslib.records.record
                 {
                   workspace =
@@ -1974,7 +2188,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.enum [ true ]
                         ],
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
     }
     in
@@ -2072,6 +2286,19 @@ let rec _js2n__-refsenv
                           ])
                     ],
               lib = _js2n__-refsenv."_js2n__-:definitions/Target!predicate",
+              lints =
+                _js2n__-prdslib.anyOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/Lints!predicate",
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "workspace" ],
+                          _js2n__-prdslib.records.record
+                            { workspace = _js2n__-prdslib.isType '"Bool", } {}
+                            false _js2n__-prdslib.never
+                        ]
+                    ],
               package =
                 _js2n__-refsenv."_js2n__-:definitions/Package!predicate",
               patch =
@@ -2113,5 +2340,5 @@ let rec _js2n__-refsenv
                     ],
               workspace =
                 _js2n__-refsenv."_js2n__-:definitions/Workspace!predicate",
-            } {} true _js2n__-prdslib.always
+            } {} false _js2n__-prdslib.never
         ])

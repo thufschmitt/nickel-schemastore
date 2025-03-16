@@ -898,218 +898,17 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {}
     in
-  {
-      "$schema" | String | optional,
-      allowed_redirect_uris
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.anyOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.isType 'Null
-                ],
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.strings.pattern "^https?://.*/.+"
-                  ])
-            ])
-        | doc "A list of allowed urls to which the user can be redirected upon successful install of this app. Read about using allowed redirect urls: https://stripe.com/docs/stripe-apps/reference/app-manifest#allowed-redirect-urls"
-        | optional,
-      constants
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.isType 'Null ])
-        | doc "Custom values that are passed through to your views via context props. Read about context props: https://stripe.com/docs/stripe-apps/reference/extensions-sdk-api#props"
-        | optional,
-      distribution_type
-        | std.enum.TagOrString
-        | [| 'private, 'public |]
-        | doc "Stripe Apps gives you two ways to distribute your apps. You can make them publicly available or privately share them only with your team members. Read about Distribution Type: https://stripe.com/docs/stripe-apps/reference/app-manifest#distribution-type"
-        | optional,
-      icon
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.strings.pattern
-                "^$|^\\./((\\.\\./|[a-zA-Z0-9_/\\-\\\\])[^\\.\\.]*\\.png)$"
-            ])
-        | doc "The relative path to a 300x300 pixel PNG image, for example \"./icon.png\".",
-      id
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.strings.pattern "^[a-zA-Z0-9_\\-\\.]+$"
-            ])
-        | doc "The unique identifier for an app, for example \"com.invoicing.myapp\".",
-      name
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.strings.minLength 1
-            ])
-        | doc "The name shown in the UI when referring to your app.",
-      permissions
-        | Array
-          {
-            permission
-              | std.enum.TagOrString
-              | [|
-                'webhook_write,
-                'webhook_read,
-                'user_email_read,
-                'usage_record_write,
-                'usage_record_read,
-                'transfer_write,
-                'transfer_read,
-                'top_up_write,
-                'top_up_read,
-                'token_write,
-                'token_read,
-                'tax_rate_write,
-                'tax_rate_read,
-                'subscription_write,
-                'subscription_read,
-                'stripecli_session_write,
-                'source_write,
-                'source_read,
-                'sku_write,
-                'sku_read,
-                'setup_intent_write,
-                'setup_intent_read,
-                'secret_write,
-                'report_runs_and_report_types_read,
-                'quote_write,
-                'quote_read,
-                'product_write,
-                'product_read,
-                'plan_write,
-                'plan_read,
-                'payout_write,
-                'payout_read,
-                'payment_method_write,
-                'payment_method_read,
-                'payment_links_write,
-                'payment_links_read,
-                'payment_intent_write,
-                'payment_intent_read,
-                'order_write,
-                'order_read,
-                'mandate_write,
-                'mandate_read,
-                'issuing_transaction_write,
-                'issuing_transaction_read,
-                'issuing_dispute_write,
-                'issuing_dispute_read,
-                'issuing_cardholder_write,
-                'issuing_cardholder_read,
-                'issuing_card_write,
-                'issuing_card_read,
-                'issuing_authorization_write,
-                'issuing_authorization_read,
-                'invoice_write,
-                'invoice_read,
-                'file_write,
-                'file_read,
-                'event_read,
-                'elements_write,
-                'edit_link_write,
-                'dispute_write,
-                'dispute_read,
-                'customer_write,
-                'customer_read,
-                'customer_portal_write,
-                'customer_portal_read,
-                'credit_note_write,
-                'credit_note_read,
-                'coupon_write,
-                'coupon_read,
-                'connected_account_read,
-                'checkout_session_write,
-                'checkout_session_read,
-                'charge_write,
-                'charge_read,
-                'capital_for_platforms_financing_offer_read,
-                'billing_clock_write,
-                'billing_clock_read,
-                'balance_transaction_source_read,
-                'balance_read,
-                'apply_pay_domain_write,
-                'apply_pay_domain_read,
-                'application_fee_write,
-                'application_fee_read,
-                'account_link_write
-              |]
-              | doc "The ID of the permission. Read more about permissions: https://stripe.com/docs/stripe-apps/reference/permissions",
-            purpose
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.strings.minLength 1
-                  ])
-              | doc "The reason for requesting the permission.",
-          }
-        | doc "The permissions available to the app. Read more about permissions: https://stripe.com/docs/stripe-apps/reference/permissions",
-      post_install_action
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.oneOf
-            [
-              _js2n__-prdslib.isType 'Null,
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.required [ "type" ],
-                  _js2n__-prdslib.records.record
-                    {
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.always,
-                              _js2n__-prdslib.const "settings"
-                            ],
-                    } {} false _js2n__-prdslib.never
-                ],
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.required [ "type", "url" ],
-                  _js2n__-prdslib.records.record
-                    {
-                      type =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.always,
-                              _js2n__-prdslib.const "external"
-                            ],
-                      url =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.strings.pattern "^https?://"
-                            ],
-                    } {} false _js2n__-prdslib.never
-                ]
-            ])
-        | doc "Specify a recommended action for users to take after installing your app. Read more about post-install actions: https://stripe.com/docs/stripe-apps/post-install-actions"
-        | optional,
-      stripe_api_access_type
-        | std.enum.TagOrString
-        | [| 'platform, 'oauth, 'restricted_api_key |]
-        | doc "A property that describes how your application calls Stripe API. Read about using stripe api access type: https://stripe.com/docs/stripe-apps/reference/app-manifest#stripe-api-access-type"
-        | optional,
-      ui_extension
-        | {
-          content_security_policy
-            | {
-              connect-src
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.allOf
+        [
+          _js2n__-prdslib.isType 'Record,
+          _js2n__-prdslib.records.required
+            [ "icon", "id", "name", "permissions", "ui_extension", "version" ],
+          _js2n__-prdslib.records.record
+            {
+              "$schema" = _js2n__-prdslib.isType '"String",
+              allowed_redirect_uris =
+                _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.anyOf
                         [
@@ -1122,83 +921,313 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.isType '"String",
                             _js2n__-prdslib.strings.pattern "^https?://.*/.+"
                           ])
-                    ])
-                | doc "URLs of permitted third-party APIs. If the URL ends in a slash, all of its children also receive permission. Read about using third-party APIs: https://stripe.com/docs/stripe-apps/build-ui#use-third-party-apis"
-                | optional,
-              image-src
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
+                    ],
+              constants =
+                _js2n__-prdslib.anyOf
                     [
-                      _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.isType 'Null
-                        ],
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.isType 'Null
+                    ],
+              distribution_type =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.enum [ "public", "private" ]
+                    ],
+              icon =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.pattern
+                        "^$|^\\./((\\.\\./|[a-zA-Z0-9_/\\-\\\\])[^\\.\\.]*\\.png)$"
+                    ],
+              id =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.pattern "^[a-zA-Z0-9_\\-\\.]+$"
+                    ],
+              name =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+              permissions =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
                       _js2n__-prdslib.arrays.arrayOf
                         (_js2n__-prdslib.allOf
                           [
-                            _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.strings.pattern "^https?://.+"
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.required
+                              [ "permission", "purpose" ],
+                            _js2n__-prdslib.records.record
+                              {
+                                permission =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "account_link_write",
+                                            "application_fee_read",
+                                            "application_fee_write",
+                                            "apply_pay_domain_read",
+                                            "apply_pay_domain_write",
+                                            "balance_read",
+                                            "balance_transaction_source_read",
+                                            "billing_clock_read",
+                                            "billing_clock_write",
+                                            "capital_for_platforms_financing_offer_read",
+                                            "charge_read",
+                                            "charge_write",
+                                            "checkout_session_read",
+                                            "checkout_session_write",
+                                            "connected_account_read",
+                                            "coupon_read",
+                                            "coupon_write",
+                                            "credit_note_read",
+                                            "credit_note_write",
+                                            "customer_portal_read",
+                                            "customer_portal_write",
+                                            "customer_read",
+                                            "customer_write",
+                                            "dispute_read",
+                                            "dispute_write",
+                                            "edit_link_write",
+                                            "elements_write",
+                                            "event_read",
+                                            "file_read",
+                                            "file_write",
+                                            "invoice_read",
+                                            "invoice_write",
+                                            "issuing_authorization_read",
+                                            "issuing_authorization_write",
+                                            "issuing_card_read",
+                                            "issuing_card_write",
+                                            "issuing_cardholder_read",
+                                            "issuing_cardholder_write",
+                                            "issuing_dispute_read",
+                                            "issuing_dispute_write",
+                                            "issuing_transaction_read",
+                                            "issuing_transaction_write",
+                                            "mandate_read",
+                                            "mandate_write",
+                                            "order_read",
+                                            "order_write",
+                                            "payment_intent_read",
+                                            "payment_intent_write",
+                                            "payment_links_read",
+                                            "payment_links_write",
+                                            "payment_method_read",
+                                            "payment_method_write",
+                                            "payout_read",
+                                            "payout_write",
+                                            "plan_read",
+                                            "plan_write",
+                                            "product_read",
+                                            "product_write",
+                                            "quote_read",
+                                            "quote_write",
+                                            "report_runs_and_report_types_read",
+                                            "secret_write",
+                                            "setup_intent_read",
+                                            "setup_intent_write",
+                                            "shipping_rate_read",
+                                            "shpping_rate_write",
+                                            "sku_read",
+                                            "sku_write",
+                                            "source_read",
+                                            "source_write",
+                                            "stripecli_session_write",
+                                            "subscription_read",
+                                            "subscription_write",
+                                            "tax_rate_read",
+                                            "tax_rate_write",
+                                            "token_read",
+                                            "token_write",
+                                            "top_up_read",
+                                            "top_up_write",
+                                            "transfer_read",
+                                            "transfer_write",
+                                            "usage_record_read",
+                                            "usage_record_write",
+                                            "user_email_read",
+                                            "webhook_read",
+                                            "webhook_write"
+                                          ]
+                                      ],
+                                purpose =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.minLength 1
+                                      ],
+                              } {} false _js2n__-prdslib.never
                           ])
-                    ])
-                | doc "URLs the Img component (https://stripe.com/stripe-apps/ui-toolkit/components/img) can load from. If the URL ends in a slash, all trailing paths are also permitted."
-                | optional,
-              purpose
-                | String
-                | doc "A message to show users when the app is installed that explains why the app needs to communicate with external URLs.",
-              ..
-            }
-            | doc "Configure the content security policy for your app."
-            | optional,
-          views
-            | Array
-              {
-                component
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.strings.pattern "^[a-zA-Z0-9_]{1,}$"
-                      ])
-                  | doc "The name of the React component in the \"src/views\" directory to render.",
-                viewport
-                  | std.enum.TagOrString
-                  | [|
-                    '"stripe.dashboard.tax-report.overview",
-                    '"stripe.dashboard.subscription.list",
-                    '"stripe.dashboard.subscription.detail",
-                    '"stripe.dashboard.revenue-recognition.overview",
-                    '"stripe.dashboard.report.overview",
-                    '"stripe.dashboard.product.list",
-                    '"stripe.dashboard.product.detail",
-                    '"stripe.dashboard.payment.list",
-                    '"stripe.dashboard.payment.detail",
-                    '"stripe.dashboard.payment-link.list",
-                    '"stripe.dashboard.payment-link.detail",
-                    '"stripe.dashboard.invoice.list",
-                    '"stripe.dashboard.invoice.detail",
-                    '"stripe.dashboard.home.overview",
-                    '"stripe.dashboard.drawer.default",
-                    '"stripe.dashboard.customer.list",
-                    '"stripe.dashboard.customer.detail",
-                    '"stripe.dashboard.billing.overview",
-                    '"stripe.dashboard.balance.overview",
-                    'settings
-                  |]
-                  | doc "An identifier that indicates where a UI extension appears in the Dashboard. Read more about viewports: https://stripe.com/docs/stripe-apps/reference/viewports",
-                ..
-              }
-            | doc "Configure where the app appears in the Dashboard."
-            | optional,
-          ..
-        }
-        | doc "Configuration options for how to display the app in the Dashboard.",
-      version
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.strings.minLength 1
-            ])
-        | doc "An app version that you define. You can use any format you want for version identifiers.",
-    }
+                    ],
+              post_install_action =
+                _js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.isType 'Null,
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "type" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              type =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.always,
+                                      _js2n__-prdslib.const "settings"
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.required [ "type", "url" ],
+                          _js2n__-prdslib.records.record
+                            {
+                              type =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.always,
+                                      _js2n__-prdslib.const "external"
+                                    ],
+                              url =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^https?://"
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ]
+                    ],
+              stripe_api_access_type =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.enum
+                        [ "restricted_api_key", "oauth", "platform" ]
+                    ],
+              ui_extension =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          content_security_policy =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.required
+                                    [ "purpose" ],
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      connect-src =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.isType 'Null
+                                                ],
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^https?://.*/.+"
+                                                  ])
+                                            ],
+                                      image-src =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.isType 'Null
+                                                ],
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^https?://.+"
+                                                  ])
+                                            ],
+                                      purpose =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          views =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Record,
+                                        _js2n__-prdslib.records.required
+                                          [ "component", "viewport" ],
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            component =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^[a-zA-Z0-9_]{1,}$"
+                                                  ],
+                                            viewport =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [
+                                                        "settings",
+                                                        "stripe.dashboard.balance.overview",
+                                                        "stripe.dashboard.billing.overview",
+                                                        "stripe.dashboard.customer.detail",
+                                                        "stripe.dashboard.customer.list",
+                                                        "stripe.dashboard.drawer.default",
+                                                        "stripe.dashboard.home.overview",
+                                                        "stripe.dashboard.invoice.detail",
+                                                        "stripe.dashboard.invoice.list",
+                                                        "stripe.dashboard.payment-link.detail",
+                                                        "stripe.dashboard.payment-link.list",
+                                                        "stripe.dashboard.payment.detail",
+                                                        "stripe.dashboard.payment.list",
+                                                        "stripe.dashboard.product.detail",
+                                                        "stripe.dashboard.product.list",
+                                                        "stripe.dashboard.report.overview",
+                                                        "stripe.dashboard.revenue-recognition.overview",
+                                                        "stripe.dashboard.subscription.detail",
+                                                        "stripe.dashboard.subscription.list",
+                                                        "stripe.dashboard.tax-report.overview"
+                                                      ]
+                                                  ],
+                                          } {} true _js2n__-prdslib.always
+                                      ])
+                                ],
+                        } {} true _js2n__-prdslib.always
+                    ],
+              version =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+            } {} false _js2n__-prdslib.never
+        ])

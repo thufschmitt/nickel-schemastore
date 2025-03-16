@@ -902,7 +902,7 @@ let rec _js2n__-refsenv
       analysis-paths | Dyn | optional,
       asset-paths | Dyn | optional,
       clean-targets | Dyn | optional,
-      config-version | Number | optional,
+      config-version | std.number.Integer | optional,
       data_tests | Dyn | optional,
       dbt-cloud | { project-id | Number | optional, .. } | optional,
       dispatch

@@ -954,6 +954,7 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.records.record
                         {
                           buffer = _js2n__-prdslib.isType 'Integer,
+                          disableAutoscroll = _js2n__-prdslib.isType '"Bool",
                           showTime = _js2n__-prdslib.isType '"Bool",
                           sinceSeconds = _js2n__-prdslib.isType 'Integer,
                           tail = _js2n__-prdslib.isType 'Integer,
@@ -962,6 +963,7 @@ let rec _js2n__-refsenv
                     ],
               maxConnRetry = _js2n__-prdslib.isType 'Integer,
               noExitOnCtrlC = _js2n__-prdslib.isType '"Bool",
+              portForwardAddress = _js2n__-prdslib.isType '"String",
               readOnly = _js2n__-prdslib.isType '"Bool",
               refreshRate = _js2n__-prdslib.isType 'Integer,
               screenDumpDir = _js2n__-prdslib.isType '"String",

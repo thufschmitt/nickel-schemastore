@@ -2528,6 +2528,8 @@ let rec _js2n__-refsenv
                   accessSecret =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
                   streamConfig = _js2n__-prdslib.isType '"String",
+                  tls =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
                   url = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
@@ -2629,6 +2631,13 @@ let rec _js2n__-refsenv
                 {
                   compress = _js2n__-prdslib.isType '"Bool",
                   flushFrequency = _js2n__-prdslib.isType 'Integer,
+                  headers =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   parameters =
                     _js2n__-prdslib.allOf
                         [
@@ -2650,6 +2659,13 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SASLConfig!predicate",
                   schemaRegistry =
                     _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SchemaRegistryConfig!predicate",
+                  secureHeaders =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SecureHeader!predicate"
+                        ],
                   tls =
                     _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
                   topic = _js2n__-prdslib.isType '"String",
@@ -2798,6 +2814,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "payload", "subject", "url" ],
               _js2n__-prdslib.records.record
                 {
+                  auth =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.NATSAuth!predicate",
                   parameters =
                     _js2n__-prdslib.allOf
                         [

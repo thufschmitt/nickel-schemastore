@@ -971,6 +971,13 @@ let rec _js2n__-refsenv
                   path = _js2n__-prdslib.isType '"String",
                   refreshIntervalMs = _js2n__-prdslib.isType '"Number",
                   requirePartitionFilter = _js2n__-prdslib.isType '"Bool",
+                  sharding =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/AppConfigV1!predicate" =
@@ -1014,7 +1021,10 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   dsvOptions =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
+                  duckDbEnableExternalAccess = _js2n__-prdslib.isType '"Bool",
                   duckdbMode = _js2n__-prdslib.isType '"Bool",
+                  duckdbPath =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   emptyIsNull = _js2n__-prdslib.isType '"Bool",
                   env =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
@@ -1056,13 +1066,17 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   kafka =
                     _js2n__-refsenv."_js2n__-:definitions/KafkaConfigV1!predicate",
+                  loadConnectionRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   loadStrategyClass =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.enum
+                          _js2n__-prdslib.anyOf
                             [
-                              "ai.starlake.job.load.IngestionNameStrategy",
-                              "ai.starlake.job.load.IngestionTimeStrategy"
+                              _js2n__-prdslib.const
+                                "ai.starlake.job.load.IngestionNameStrategy",
+                              _js2n__-prdslib.const
+                                "ai.starlake.job.load.IngestionTimeStrategy"
                             ],
                           _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
                         ],
@@ -1124,6 +1138,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   timezone =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  transformConnectionRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   treeValidatorClass =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   udfs =
@@ -1147,6 +1163,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   hiveDatabase =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  incoming =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   ingesting =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   replay =
@@ -1169,6 +1187,8 @@ let rec _js2n__-refsenv
                   comment =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  type =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
@@ -1283,7 +1303,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             _js2n__-refsenv."_js2n__-:definitions/AccessControlEntryV1!predicate"
                         ],
-                  attributesDesc =
+                  attributes =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",
@@ -1304,7 +1324,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/ExpectationItemV1!predicate"
                         ],
                   freshness =
                     _js2n__-refsenv."_js2n__-:definitions/FreshnessV1!predicate",
@@ -1369,6 +1389,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "type" ],
               _js2n__-prdslib.records.record
                 {
+                  loader =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   options =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
                   quote =
@@ -1448,32 +1470,16 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/Duration!predicate" =
+      "_js2n__-:definitions/ExpectationItemV1!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  finite = _js2n__-prdslib.isType '"Bool",
-                  length = _js2n__-prdslib.isType 'Integer,
-                  unit =
-                    _js2n__-refsenv."_js2n__-:definitions/DurationUnit!predicate",
+                  expect =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  failOnError = _js2n__-prdslib.isType '"Bool",
                 } {} true _js2n__-prdslib.always
-            ],
-      "_js2n__-:definitions/DurationUnit!predicate" =
-        _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-prdslib.const "NANOSECONDS",
-                  _js2n__-prdslib.const "MICROSECONDS",
-                  _js2n__-prdslib.const "MILLISECONDS",
-                  _js2n__-prdslib.const "SECONDS",
-                  _js2n__-prdslib.const "MINUTES",
-                  _js2n__-prdslib.const "HOURS",
-                  _js2n__-prdslib.const "DAYS"
-                ],
-              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
             ],
       "_js2n__-:definitions/ExpectationsConfigV1!predicate" =
         _js2n__-prdslib.allOf
@@ -1487,12 +1493,33 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/ExtractV1Base!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  connectionRef =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  sanitizeAttributeName =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.const "ON_EXTRACT",
+                              _js2n__-prdslib.const "ON_LOAD"
+                            ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/FormatV1!predicate"
         | doc "DSV by default. Supported file formats are :\\n- DSV : Delimiter-separated values file. Delimiter value is specified in the \"separator\" field.\\n- POSITION : FIXED format file where values are located at an exact position in each line.\\n- JSON_FLAT : For optimisation purpose, we differentiate JSON with top level values from JSON\\n  with deep level fields. JSON_FLAT are JSON files with top level fields only.\\n- JSON :  Deep JSON file. Use only when your json documents contain sub-documents, otherwise prefer to\\n  use JSON_FLAT since it is much faster.\\n- XML : XML files"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.oneOf
                 [
+                  _js2n__-prdslib.const "DATAFRAME",
                   _js2n__-prdslib.const "DSV",
                   _js2n__-prdslib.const "POSITION",
                   _js2n__-prdslib.const "JSON",
@@ -1632,24 +1659,36 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  auditConnectionRef =
-                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
-                  connectionRef =
-                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
-                  "default" =
-                    _js2n__-refsenv."_js2n__-:definitions/DefaultJDBCSchemaV1!predicate",
-                  jdbcSchemas =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Array",
-                          _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/JDBCSchemaV1!predicate"
-                        ],
-                  output =
-                    _js2n__-refsenv."_js2n__-:definitions/OutputV1!predicate",
-                } {} true _js2n__-prdslib.always
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/ExtractV1Base!predicate",
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.not
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.records.required [ "openAPI" ],
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-prdslib.always
+                          ]),
+                      _js2n__-prdslib.records.record
+                        {
+                          auditConnectionRef =
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                          "default" =
+                            _js2n__-refsenv."_js2n__-:definitions/DefaultJDBCSchemaV1!predicate",
+                          jdbcSchemas =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    _js2n__-refsenv."_js2n__-:definitions/JDBCSchemaV1!predicate"
+                                ],
+                          output =
+                            _js2n__-refsenv."_js2n__-:definitions/OutputV1!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ]
+                ]
             ],
       "_js2n__-:definitions/JDBCTableV1!predicate" =
         _js2n__-prdslib.allOf
@@ -1706,7 +1745,9 @@ let rec _js2n__-refsenv
                 [ "quote", "strategyBuilder", "tables" ],
               _js2n__-prdslib.records.record
                 {
+                  clusterBy = _js2n__-prdslib.isType '"String",
                   columnRemarks = _js2n__-prdslib.isType '"String",
+                  partitionBy = _js2n__-prdslib.isType '"String",
                   preActions = _js2n__-prdslib.isType '"String",
                   quote = _js2n__-prdslib.isType '"String",
                   strategyBuilder = _js2n__-prdslib.isType '"String",
@@ -1772,10 +1813,8 @@ let rec _js2n__-refsenv
                 {
                   path =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
-                  pollTime =
-                    _js2n__-refsenv."_js2n__-:definitions/Duration!predicate",
-                  refreshTime =
-                    _js2n__-refsenv."_js2n__-:definitions/Duration!predicate",
+                  pollTime = _js2n__-prdslib.isType 'Integer,
+                  refreshTime = _js2n__-prdslib.isType 'Integer,
                   timeout = _js2n__-prdslib.isType 'Integer,
                 } {} true _js2n__-prdslib.always
             ],
@@ -1904,6 +1943,171 @@ let rec _js2n__-refsenv
                   path =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                 } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/OpenAPIDomainV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  basePath =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  routes =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/OpenAPIRoutesV1!predicate",
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                  schemas =
+                    _js2n__-refsenv."_js2n__-:definitions/OpenAPIObjectSchemasV1!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/OpenAPIObjectSchemasV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  exclude =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
+                  include =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/OpenAPIRouteObjectExplosionV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  exclude =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
+                  on =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.const "ALL",
+                              _js2n__-prdslib.const "OBJECT",
+                              _js2n__-prdslib.const "ARRAY"
+                            ]
+                        ],
+                  rename =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/OpenAPIRoutesV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  as =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  exclude =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                  excludeFields =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                  explode =
+                    _js2n__-refsenv."_js2n__-:definitions/OpenAPIRouteObjectExplosionV1!predicate",
+                  operations =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.const "GET",
+                                _js2n__-prdslib.const "POST"
+                              ]),
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                  paths =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/OpenAPIV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  basePath =
+                    _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
+                  domains =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/OpenAPIDomainV1!predicate",
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                  formatTypeMapping =
+                    _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/OpenAPIsV1!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-refsenv."_js2n__-:definitions/ExtractV1Base!predicate",
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "openAPI" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          openAPI =
+                            _js2n__-refsenv."_js2n__-:definitions/OpenAPIV1!predicate",
+                        } {} true _js2n__-prdslib.always
+                    ]
+                ]
             ],
       "_js2n__-:definitions/OpenWriteStrategyTypeV1!predicate"
         | doc "Table types supported by the Extract module"
@@ -2138,7 +2342,11 @@ let rec _js2n__-refsenv
                   env =
                     _js2n__-refsenv."_js2n__-:definitions/MapString!predicate",
                   extract =
-                    _js2n__-refsenv."_js2n__-:definitions/JDBCSchemasV1!predicate",
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/JDBCSchemasV1!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/OpenAPIsV1!predicate"
+                        ],
                   load =
                     _js2n__-refsenv."_js2n__-:definitions/DomainV1!predicate",
                   refs =
@@ -2241,7 +2449,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
+                            _js2n__-refsenv."_js2n__-:definitions/ExpectationItemV1!predicate"
                         ],
                   filter =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
@@ -2347,16 +2555,6 @@ let rec _js2n__-refsenv
                 ],
               _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
             ],
-      "_js2n__-:definitions/WriteStrategyTypeV1!predicate"
-        | doc "Table types supported by the Extract module"
-        = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.oneOf
-                [
-                  _js2n__-refsenv."_js2n__-:definitions/WriteStrategyTypeBase!predicate"
-                ],
-              _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate"
-            ],
       "_js2n__-:definitions/WriteStrategyV1!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2381,7 +2579,7 @@ let rec _js2n__-refsenv
                   timestamp =
                     _js2n__-refsenv."_js2n__-:definitions/ConvertibleToString!predicate",
                   type =
-                    _js2n__-refsenv."_js2n__-:definitions/WriteStrategyTypeV1!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/OpenWriteStrategyTypeV1!predicate",
                   types =
                     _js2n__-prdslib.allOf
                         [

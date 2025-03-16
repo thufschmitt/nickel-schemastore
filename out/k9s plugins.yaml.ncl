@@ -907,38 +907,9 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.allOf
                   [
-                    _js2n__-prdslib.isType 'Record,
-                    _js2n__-prdslib.records.required
-                      [ "command", "description", "scopes", "shortCut" ],
-                    _js2n__-prdslib.records.record
-                      {
-                        args =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.anyOf
-                                    [
-                                      _js2n__-prdslib.isType '"String",
-                                      _js2n__-prdslib.isType '"Number"
-                                    ])
-                              ],
-                        background = _js2n__-prdslib.isType '"Bool",
-                        command = _js2n__-prdslib.isType '"String",
-                        confirm = _js2n__-prdslib.isType '"Bool",
-                        dangerous = _js2n__-prdslib.isType '"Bool",
-                        description = _js2n__-prdslib.isType '"String",
-                        override = _js2n__-prdslib.isType '"Bool",
-                        overwriteOutput = _js2n__-prdslib.isType '"Bool",
-                        scopes =
-                          _js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"Array",
-                                _js2n__-prdslib.arrays.arrayOf
-                                  (_js2n__-prdslib.isType '"String")
-                              ],
-                        shortCut = _js2n__-prdslib.isType '"String",
-                      } {} false _js2n__-prdslib.never
+                    _js2n__-prdslib.records.record {} {} false
+                      _js2n__-prdslib.never,
+                    _js2n__-prdslib.always
                   ])
             ]),
     }

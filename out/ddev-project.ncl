@@ -979,7 +979,8 @@ let rec _js2n__-refsenv
                   (_js2n__-prdslib.records.record
                     {
                       version =
-                        _js2n__-prdslib.enum [ "5.5", "5.6", "5.7", "8.0" ],
+                        _js2n__-prdslib.enum
+                            [ "5.5", "5.6", "5.7", "8.0", "8.4" ],
                     } {} true _js2n__-prdslib.always)
                   (_js2n__-prdslib.ifThenElse
                     (_js2n__-prdslib.records.record
@@ -1247,21 +1248,23 @@ let rec _js2n__-refsenv
         | [|
           'wordpress,
           'typo3,
+          'symfony,
           'silverstripe,
           'shopware6,
-          'python,
           'php,
           'magento2,
           'magento,
           'laravel,
+          'generic,
+          'drupal11,
           'drupal10,
           'drupal9,
           'drupal8,
           'drupal7,
           'drupal6,
           'drupal,
-          'django4,
           'craftcms,
+          'cakephp,
           'backdrop
         |]
         | doc "Provide the project type."
@@ -1304,7 +1307,7 @@ let rec _js2n__-refsenv
         | optional,
       webserver_type
         | std.enum.TagOrString
-        | [| 'nginx-gunicorn, 'apache-fpm, 'nginx-fpm |]
+        | [| 'generic, 'apache-fpm, 'nginx-fpm |]
         | doc "Sets the project's desired webserver type."
         | optional,
       working_dir

@@ -1080,6 +1080,7 @@ let rec _js2n__-refsenv
                   "nextjs",
                   "gatsby",
                   "remix",
+                  "react-router",
                   "astro",
                   "hexo",
                   "eleventy",
@@ -1180,7 +1181,7 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType '"Number",
-                                      _js2n__-prdslib.numbers.maximum 3009,
+                                      _js2n__-prdslib.numbers.maximum 10240,
                                       _js2n__-prdslib.numbers.minimum 128
                                     ],
                               runtime =
@@ -1444,7 +1445,7 @@ let rec _js2n__-refsenv
                               ],
                       } {} false _js2n__-prdslib.never
                   ]),
-              _js2n__-prdslib.arrays.maxItems 1024
+              _js2n__-prdslib.arrays.maxItems 2048
             ])
         | doc "A list of header definitions."
         | optional,
@@ -1547,6 +1548,22 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType 'Integer,
                   _js2n__-prdslib.numbers.maximum 315360000,
                   _js2n__-prdslib.numbers.minimum 1
+                ])
+            | optional,
+          qualities
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Integer,
+                        _js2n__-prdslib.numbers.maximum 100,
+                        _js2n__-prdslib.numbers.minimum 1
+                      ]),
+                  _js2n__-prdslib.arrays.maxItems 20,
+                  _js2n__-prdslib.arrays.minItems 1
                 ])
             | optional,
           remotePatterns
@@ -1834,7 +1851,7 @@ let rec _js2n__-refsenv
                               ],
                       } {} false _js2n__-prdslib.never
                   ]),
-              _js2n__-prdslib.arrays.maxItems 1024
+              _js2n__-prdslib.arrays.maxItems 2048
             ])
         | doc "A list of redirect definitions."
         | optional,
@@ -1853,6 +1870,21 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.minItems 1
             ])
         | doc "An array of the regions the deployment's Serverless Functions should be deployed to"
+        | optional,
+      relatedProjects
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.arrays.maxItems 3
+                  ]),
+              _js2n__-prdslib.arrays.maxItems 10
+            ])
+        | doc "An array of projectIds to associate with the current project."
         | optional,
       rewrites
         | _js2n__-prdslib.contract_from_predicate
@@ -2032,7 +2064,7 @@ let rec _js2n__-refsenv
                               ],
                       } {} false _js2n__-prdslib.never
                   ]),
-              _js2n__-prdslib.arrays.maxItems 1024
+              _js2n__-prdslib.arrays.maxItems 2048
             ])
         | doc "A list of rewrite definitions."
         | optional,
@@ -2347,7 +2379,7 @@ let rec _js2n__-refsenv
                           } {} false _js2n__-prdslib.never
                       ]
                   ]),
-              _js2n__-prdslib.arrays.maxItems 1024
+              _js2n__-prdslib.arrays.maxItems 2048
             ])
         | doc "A list of routes objects used to rewrite paths to point towards other internal or external paths"
         | optional,
