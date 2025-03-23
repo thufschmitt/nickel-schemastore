@@ -897,6 +897,38 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/BoundariesConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  implicitDependencies =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/BoundariesRulesMap!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      {
+                        dependencies =
+                          _js2n__-refsenv."_js2n__-:definitions/Permissions!predicate",
+                        dependents =
+                          _js2n__-refsenv."_js2n__-:definitions/Permissions!predicate",
+                      } {} false _js2n__-prdslib.never
+                  ])
+            ],
       "_js2n__-:definitions/EnvMode!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -911,6 +943,28 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
                 [ "full", "hash-only", "new-only", "errors-only", "none" ]
+            ],
+      "_js2n__-:definitions/Permissions!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  allow =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  deny =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Pipeline!predicate" =
         _js2n__-prdslib.allOf
@@ -941,6 +995,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   interactive = _js2n__-prdslib.isType '"Bool",
+                  interruptible = _js2n__-prdslib.isType '"Bool",
                   outputLogs =
                     _js2n__-refsenv."_js2n__-:definitions/OutputLogs!predicate",
                   outputs =
@@ -962,6 +1017,13 @@ let rec _js2n__-refsenv
                             ]
                         ],
                   persistent = _js2n__-prdslib.isType '"Bool",
+                  with =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/RelativeUnixPath!predicate"
@@ -978,7 +1040,27 @@ let rec _js2n__-refsenv
                   loginUrl = _js2n__-prdslib.isType '"String",
                   preflight = _js2n__-prdslib.isType '"Bool",
                   signature = _js2n__-prdslib.isType '"Bool",
+                  teamId = _js2n__-prdslib.isType '"String",
+                  teamSlug = _js2n__-prdslib.isType '"String",
                   timeout = _js2n__-prdslib.isType '"Number",
+                  uploadTimeout = _js2n__-prdslib.isType '"Number",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/RootBoundariesConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  implicitDependencies =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  tags =
+                    _js2n__-refsenv."_js2n__-:definitions/BoundariesRulesMap!predicate",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/RootSchema!predicate" =
@@ -989,6 +1071,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   "$schema" = _js2n__-prdslib.isType '"String",
+                  boundaries =
+                    _js2n__-refsenv."_js2n__-:definitions/RootBoundariesConfig!predicate",
                   cacheDir =
                     _js2n__-refsenv."_js2n__-:definitions/RelativeUnixPath!predicate",
                   daemon = _js2n__-prdslib.isType '"Bool",
@@ -1055,7 +1139,16 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   "$schema" = _js2n__-prdslib.isType '"String",
+                  boundaries =
+                    _js2n__-refsenv."_js2n__-:definitions/BoundariesConfig!predicate",
                   extends =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  tags =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"Array",

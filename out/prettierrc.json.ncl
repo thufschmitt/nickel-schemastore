@@ -926,6 +926,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "cr" ],
                           _js2n__-prdslib.enum [ "auto" ]
                         ],
+                  experimentalOperatorPosition =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.enum [ "start" ],
+                          _js2n__-prdslib.enum [ "end" ]
+                        ],
                   experimentalTernaries = _js2n__-prdslib.isType '"Bool",
                   filepath = _js2n__-prdslib.isType '"String",
                   htmlWhitespaceSensitivity =
@@ -937,6 +943,12 @@ let rec _js2n__-refsenv
                         ],
                   insertPragma = _js2n__-prdslib.isType '"Bool",
                   jsxSingleQuote = _js2n__-prdslib.isType '"Bool",
+                  objectWrap =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.enum [ "preserve" ],
+                          _js2n__-prdslib.enum [ "collapse" ]
+                        ],
                   parser =
                     _js2n__-prdslib.anyOf
                         [

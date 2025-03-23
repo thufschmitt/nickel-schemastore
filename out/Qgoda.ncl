@@ -900,8 +900,17 @@ let rec _js2n__-refsenv
     in
   {
       analyzers
-        | Array (_js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always)
+        | Array (String)
         | doc "Additional analyzers to run after the Qgoda standard analyzer."
+        | optional,
+      build-task-timeout
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Number",
+              _js2n__-prdslib.numbers.minimum 1
+            ])
+        | doc "Number of seconds to wait before forcibly terminating pre-build or post-build tasks; defaults to 300 seconds."
         | optional,
       case-sensitive
         | Bool
@@ -1081,6 +1090,9 @@ let rec _js2n__-refsenv
         }
         | doc "Variables for internationalization (i18n) and the translation workflow."
         | optional,
+      post-build
+        | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
+        | optional,
       post-processors
         | {
           modules
@@ -1106,6 +1118,9 @@ let rec _js2n__-refsenv
             | doc "Additional options for the post-processor plug-ins",
         }
         | doc "Modules to run after each build."
+        | optional,
+      pre-build
+        | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
         | optional,
       precious
         | Array (String)

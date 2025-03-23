@@ -897,17 +897,23 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/command_info!contract"
+      "_js2n__-:definitions/command_info!predicate"
         | doc "Command information"
-        = {
-            command | String | optional,
-            continue_if_failed
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.isType '"Bool")
-              | optional,
-            cwd | std.enum.TagOrString | [| 'workspace, 'root |] | optional,
-            ..
-          },
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  command = _js2n__-prdslib.isType '"String",
+                  continue_if_failed = _js2n__-prdslib.isType '"Bool",
+                  cwd =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "root", "workspace" ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/enum_flavors!contract" =
         std.contract.Sequence
             [
@@ -935,6 +941,19 @@ let rec _js2n__-refsenv
                 'all_flavors
               |]
             ],
+      "_js2n__-:definitions/linter_command_info!contract"
+        | doc "Command information"
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.record
+                  {
+                    run_after_linters = _js2n__-prdslib.isType '"Bool",
+                    run_before_linters = _js2n__-prdslib.isType '"Bool",
+                  } {} true _js2n__-prdslib.always,
+                _js2n__-refsenv."_js2n__-:definitions/command_info!predicate"
+              ]),
     }
     in
   {
@@ -1114,6 +1133,15 @@ let rec _js2n__-refsenv
               | std.enum.TagOrString
               | [| 'list_of_files, 'project, 'file |]
               | doc "Defines how the linter is called: file,  list_of_files, project"
+              | optional,
+            cli_lint_warnings_count
+              | std.enum.TagOrString
+              | [| 'total_lines, 'regex_sum, 'regex_count, 'regex_number |]
+              | doc "Defines how to count warnings from log file. regex_number, regex_count, regex_sum, or total_lines"
+              | optional,
+            cli_lint_warnings_regex
+              | String
+              | doc "Regex allowing to extract the number of warnings from linter output logs"
               | optional,
             cli_sarif_args
               | Array (String)
@@ -1305,12 +1333,12 @@ let rec _js2n__-refsenv
               | optional,
             post_commands
               | Array
-                _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+                _js2n__-refsenv."_js2n__-:definitions/linter_command_info!contract"
               | doc "Custom bash commands to run after linter"
               | optional,
             pre_commands
               | Array
-                _js2n__-refsenv."_js2n__-:definitions/command_info!contract"
+                _js2n__-refsenv."_js2n__-:definitions/linter_command_info!contract"
               | doc "Custom bash commands to run before linter"
               | optional,
             sarif_default_output_file

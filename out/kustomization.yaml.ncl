@@ -1017,6 +1017,7 @@ let rec _js2n__-refsenv
                   namespace = _js2n__-prdslib.isType '"String",
                   releaseName = _js2n__-prdslib.isType '"String",
                   repo = _js2n__-prdslib.isType '"String",
+                  skipHooks = _js2n__-prdslib.isType '"Bool",
                   skipTests = _js2n__-prdslib.isType '"Bool",
                   valuesFile = _js2n__-prdslib.isType '"String",
                   valuesInline =
@@ -1050,6 +1051,7 @@ let rec _js2n__-refsenv
                   name = _js2n__-prdslib.isType '"String",
                   newName = _js2n__-prdslib.isType '"String",
                   newTag = _js2n__-prdslib.isType '"String",
+                  tagSuffix = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/Inventory!predicate"
@@ -1699,6 +1701,7 @@ let rec _js2n__-refsenv
                   group = _js2n__-prdslib.isType '"String",
                   kind = _js2n__-prdslib.isType '"String",
                   name = _js2n__-prdslib.isType '"String",
+                  namespace = _js2n__-prdslib.isType '"String",
                   version = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],

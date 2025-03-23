@@ -921,6 +921,7 @@ let rec _js2n__-refsenv
                         bitbucket = _js2n__-prdslib.isType '"String",
                         bookmark = _js2n__-prdslib.isType '"String",
                         branch = _js2n__-prdslib.isType '"String",
+                        codeberg = _js2n__-prdslib.isType '"String",
                         commit = _js2n__-prdslib.isType '"String",
                         fossil = _js2n__-prdslib.isType '"String",
                         git = _js2n__-prdslib.isType '"String",
@@ -956,6 +957,7 @@ let rec _js2n__-refsenv
                         bitbucket = _js2n__-prdslib.isType '"String",
                         bookmark = _js2n__-prdslib.isType '"String",
                         branch = _js2n__-prdslib.isType '"String",
+                        codeberg = _js2n__-prdslib.isType '"String",
                         commit = _js2n__-prdslib.isType '"String",
                         fossil = _js2n__-prdslib.isType '"String",
                         git = _js2n__-prdslib.isType '"String",
@@ -994,7 +996,7 @@ let rec _js2n__-refsenv
         | optional,
       license
         | String
-        | doc "An OSI license name or an URL to a license file"
+        | doc "An SPDX license expression or an URL to a license file."
         | optional,
       name
         | _js2n__-prdslib.contract_from_predicate

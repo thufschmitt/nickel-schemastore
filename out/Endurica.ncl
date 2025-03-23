@@ -1449,6 +1449,78 @@ let rec _js2n__-refsenv
             }
             | doc "Haigh diagram output."
             | optional,
+          hysteresis_frequency_sweep
+            | {
+              deformation_mode
+                | std.enum.TagOrString
+                | [| 'simple_shear, 'planar_tension, 'simple_tension |]
+                | optional,
+              frequency_max
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Number",
+                      _js2n__-prdslib.numbers.exclusiveMinimum 0
+                    ])
+                | optional,
+              frequency_min
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Number",
+                      _js2n__-prdslib.numbers.exclusiveMinimum 0
+                    ])
+                | optional,
+              n_points
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Number",
+                      _js2n__-prdslib.numbers.multipleOf 1,
+                      _js2n__-prdslib.numbers.minimum 2
+                    ])
+                | optional,
+              strain_amplitude | Number | optional,
+              temperature | Number | optional,
+            }
+            | doc "Hysteresis frequency sweep."
+            | optional,
+          hysteresis_strain_sweep
+            | {
+              deformation_mode
+                | std.enum.TagOrString
+                | [| 'simple_shear, 'planar_tension, 'simple_tension |]
+                | optional,
+              frequency | Number | optional,
+              n_points
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Number",
+                      _js2n__-prdslib.numbers.multipleOf 1,
+                      _js2n__-prdslib.numbers.minimum 2
+                    ])
+                | optional,
+              strain_amplitude_max
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Number",
+                      _js2n__-prdslib.numbers.exclusiveMinimum 0
+                    ])
+                | optional,
+              strain_amplitude_min
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Number",
+                      _js2n__-prdslib.numbers.exclusiveMinimum 0
+                    ])
+                | optional,
+              temperature | Number | optional,
+            }
+            | doc "Hysteresis strain sweep."
+            | optional,
           stress_strain
             | {
               n_points
@@ -1856,10 +1928,21 @@ let rec _js2n__-refsenv
                                         WLF_frequencies =
                                           _js2n__-prdslib.always,
                                         chi = _js2n__-prdslib.always,
+                                        deformation_mode =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.enum
+                                                  [
+                                                    "simple_tension",
+                                                    "planar_tension",
+                                                    "simple_shear"
+                                                  ]
+                                              ],
                                         frequency_ref = _js2n__-prdslib.always,
                                         gamma = _js2n__-prdslib.always,
                                         hys_ref = _js2n__-prdslib.always,
-                                        scaling_factor = _js2n__-prdslib.always,
                                         strain_amplitude_ref =
                                           _js2n__-prdslib.always,
                                         temp_coef = _js2n__-prdslib.always,
@@ -1884,10 +1967,21 @@ let rec _js2n__-refsenv
                                         WLF_frequencies =
                                           _js2n__-prdslib.always,
                                         chi = _js2n__-prdslib.always,
+                                        deformation_mode =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.enum
+                                                  [
+                                                    "simple_tension",
+                                                    "planar_tension",
+                                                    "simple_shear"
+                                                  ]
+                                              ],
                                         delta_Gpp_U = _js2n__-prdslib.always,
                                         frequency_ref = _js2n__-prdslib.always,
                                         m = _js2n__-prdslib.always,
-                                        scaling_factor = _js2n__-prdslib.always,
                                         strain_amplitude_c =
                                           _js2n__-prdslib.always,
                                         strain_amplitude_ref =
@@ -2011,6 +2105,23 @@ let rec _js2n__-refsenv
                                       } {} false _js2n__-prdslib.never
                                   ]
                               ],
+                        thermal_runaway =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.oneOf
+                                  [
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        density = _js2n__-prdslib.always,
+                                        heat_rate = _js2n__-prdslib.always,
+                                        specific_heat = _js2n__-prdslib.always,
+                                        temperature_limit =
+                                          _js2n__-prdslib.always,
+                                        type = _js2n__-prdslib.enum [ "limit" ],
+                                      } {} false _js2n__-prdslib.never
+                                  ]
+                              ],
                         viscoelastic_rupture =
                           _js2n__-prdslib.allOf
                               [
@@ -2090,6 +2201,7 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.isType '"String",
                         _js2n__-prdslib.enum
                           [
+                            "adiabatic_time_limit",
                             "age",
                             "block_cycle",
                             "cauchy_stress",
@@ -2118,6 +2230,7 @@ let rec _js2n__-refsenv
                             "stiffness_ratio",
                             "stiffness_ratio_ageing",
                             "stiffness_ratio_cyclic",
+                            "thermal_runaway",
                             "volume_adjustment",
                             "wrinkling"
                           ]
@@ -2127,6 +2240,12 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.isType 'Record,
                         _js2n__-prdslib.oneOf
                           [
+                            _js2n__-prdslib.records.record
+                              {
+                                name =
+                                  _js2n__-prdslib.enum
+                                      [ "adiabatic_time_limit" ],
+                              } {} false _js2n__-prdslib.never,
                             _js2n__-prdslib.records.record
                               { name = _js2n__-prdslib.enum [ "age" ], } {}
                               false _js2n__-prdslib.never,
@@ -2301,6 +2420,11 @@ let rec _js2n__-refsenv
                                 name =
                                   _js2n__-prdslib.enum
                                       [ "stiffness_ratio_cyclic" ],
+                              } {} false _js2n__-prdslib.never,
+                            _js2n__-prdslib.records.record
+                              {
+                                name =
+                                  _js2n__-prdslib.enum [ "thermal_runaway" ],
                               } {} false _js2n__-prdslib.never,
                             _js2n__-prdslib.records.record
                               {

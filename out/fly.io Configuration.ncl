@@ -1316,6 +1316,51 @@ let rec _js2n__-refsenv
                         {
                           max_unavailable = _js2n__-prdslib.isType '"Number",
                           release_command = _js2n__-prdslib.isType '"String",
+                          release_command_vm =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      cpu_kind =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "shared", "performance" ]
+                                            ],
+                                      cpus =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.enum
+                                                [ 1, 2, 4, 8, 16 ]
+                                            ],
+                                      memory =
+                                        _js2n__-prdslib.oneOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.isType 'Integer
+                                            ],
+                                      size =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [
+                                                  "shared-cpu-1x",
+                                                  "shared-cpu-2x",
+                                                  "shared-cpu-4x",
+                                                  "shared-cpu-8x",
+                                                  "performance-1x",
+                                                  "performance-2x",
+                                                  "performance-4x",
+                                                  "performance-8x",
+                                                  "performance-16x"
+                                                ]
+                                            ],
+                                    } {} true _js2n__-prdslib.always
+                                ],
                           strategy =
                             _js2n__-prdslib.allOf
                                 [

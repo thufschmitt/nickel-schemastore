@@ -1123,7 +1123,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType '"Bool",
                     _js2n__-prdslib.isType 'Null
                   ])
-              | doc "Publish the GitHub/Gitea release for the created git tag. Enabled by default."
+              | doc "Publish the GitHub/Gitea/GitLab release for the created git tag. Enabled by default."
               | optional,
             git_release_latest
               | _js2n__-prdslib.contract_from_predicate
@@ -1179,6 +1179,15 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType 'Null
                   ])
               | doc "If `false`, don't run `cargo publish`."
+              | optional,
+            publish_all_features
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"Bool",
+                    _js2n__-prdslib.isType 'Null
+                  ])
+              | doc "If `true`, add the `--all-features` flag to the `cargo publish` command."
               | optional,
             publish_allow_dirty
               | _js2n__-prdslib.contract_from_predicate
@@ -1380,6 +1389,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  pr_body =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   pr_branch_prefix =
                     _js2n__-prdslib.anyOf
                         [
@@ -1394,7 +1409,19 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  pr_name =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   publish =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  publish_all_features =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",

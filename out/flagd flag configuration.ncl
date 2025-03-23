@@ -927,6 +927,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   defaultVariant = _js2n__-prdslib.isType '"String",
+                  metadata =
+                    _js2n__-refsenv."_js2n__-:definitions/metadata!predicate",
                   state =
                     _js2n__-prdslib.allOf
                         [
@@ -935,6 +937,18 @@ let rec _js2n__-refsenv
                         ],
                   targeting = _js2n__-prdslib.always,
                 } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/metadata!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType '"Number",
+                    _js2n__-prdslib.isType '"Bool"
+                  ])
             ],
       "_js2n__-:definitions/numberFlag!predicate" =
         _js2n__-prdslib.allOf
@@ -1034,6 +1048,19 @@ let rec _js2n__-refsenv
                 } false _js2n__-prdslib.never
             ])
         | doc "Top-level flags object. All flags are defined here."
+        | optional,
+      metadata
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.records.record
+                {
+                  flagSetId = _js2n__-prdslib.isType '"String",
+                  version = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always,
+              _js2n__-refsenv."_js2n__-:definitions/metadata!predicate"
+            ])
+        | doc "Metadata about the flag set, with keys of type string, and values of type boolean, string, or number."
         | optional,
       ..
     }

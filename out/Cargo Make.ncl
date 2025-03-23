@@ -1040,6 +1040,14 @@ let rec _js2n__-refsenv
                 {
                   "optional" = _js2n__-prdslib.isType '"Bool",
                   path = _js2n__-prdslib.isType '"String",
+                  relative =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.const "git",
+                          _js2n__-prdslib.const "crate",
+                          _js2n__-prdslib.const "workspace",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/script!predicate" =
@@ -1358,6 +1366,12 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.enum
                                   [ "stable", "beta", "nightly" ]
                               ])
+                        ],
+                  condition_type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "And", "Or", "GroupOr" ]
                         ],
                   env =
                     _js2n__-prdslib.allOf

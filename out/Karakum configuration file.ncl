@@ -922,13 +922,13 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
+              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.isType '"String"
+                ]
             ])
         | optional,
       compilerOptions
@@ -963,26 +963,26 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
+              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.isType '"String"
+                ]
             ])
         | optional,
       ignoreOutput
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
+              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.isType '"String"
+                ]
             ])
         | optional,
       importInjector
@@ -1021,52 +1021,52 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
+              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.isType '"String"
+                ]
             ])
         | optional,
       injections
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
+              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.isType '"String"
+                ]
             ])
         | optional,
       input
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
+              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.isType '"String"
+                ]
             ])
         | optional,
       inputRoots
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
+              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.isType '"String"
+                ]
             ])
         | optional,
       libraryName | String | optional,
@@ -1084,13 +1084,13 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
+              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.isType '"String"
+                ]
             ])
         | optional,
       namespaceStrategy
@@ -1116,26 +1116,26 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
+              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.isType '"String"
+                ]
             ])
         | optional,
       varianceModifiers
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
             [
+              _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"Array",
                   _js2n__-prdslib.arrays.arrayOf
                     (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.isType '"String"
+                ]
             ])
         | optional,
       verbose | Bool | optional,

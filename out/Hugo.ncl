@@ -1051,6 +1051,87 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "none", "shallow", "deep" ]
             ],
+      "_js2n__-:definitions/mounts!contract" =
+        Array
+            {
+              disableWatch
+                | Bool
+                | doc m%"
+                  Whether to disable watching
+                  https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
+                "%
+                | optional,
+              excludeFiles
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
+                        ]
+                    ])
+                | doc m%"
+                  The excluded files
+                  https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
+                "%
+                | optional,
+              includeFiles
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.oneOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.uniqueItems
+                        ]
+                    ])
+                | doc m%"
+                  The included files
+                  https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
+                "%
+                | optional,
+              lang
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ])
+                | doc m%"
+                  The language code
+                  https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
+                "%
+                | optional,
+              source
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ])
+                | doc m%"
+                  The source path
+                  https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
+                "%,
+              target
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ])
+                | doc m%"
+                  The target path
+                  https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
+                "%,
+            },
       "_js2n__-:definitions/outputFormats!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.allOf
@@ -3838,6 +3919,13 @@ let rec _js2n__-refsenv
                     https://gohugo.io/hugo-modules/configuration/#module-configuration-imports
                   "%
                   | optional,
+                mounts
+                  | _js2n__-refsenv."_js2n__-:definitions/mounts!contract"
+                  | doc m%"
+                    The mount options
+                    https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
+                  "%
+                  | optional,
                 noMounts
                   | Bool
                   | doc m%"
@@ -3870,79 +3958,7 @@ let rec _js2n__-refsenv
             "%
             | optional,
           mounts
-            | Array
-              {
-                excludeFiles
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.oneOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"Array",
-                            _js2n__-prdslib.arrays.arrayOf
-                              (_js2n__-prdslib.isType '"String"),
-                            _js2n__-prdslib.arrays.uniqueItems
-                          ]
-                      ])
-                  | doc m%"
-                    The excluded files
-                    https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
-                  "%
-                  | optional,
-                includeFiles
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.oneOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType '"Array",
-                            _js2n__-prdslib.arrays.arrayOf
-                              (_js2n__-prdslib.isType '"String"),
-                            _js2n__-prdslib.arrays.uniqueItems
-                          ]
-                      ])
-                  | doc m%"
-                    The included files
-                    https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
-                  "%
-                  | optional,
-                lang
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.strings.minLength 1
-                      ])
-                  | doc m%"
-                    The language code
-                    https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
-                  "%
-                  | optional,
-                source
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.strings.minLength 1
-                      ])
-                  | doc m%"
-                    The source path
-                    https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
-                  "%,
-                target
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.strings.minLength 1
-                      ])
-                  | doc m%"
-                    The target path
-                    https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts
-                  "%,
-              }
+            | _js2n__-refsenv."_js2n__-:definitions/mounts!contract"
             | doc m%"
               The mount options
               https://gohugo.io/hugo-modules/configuration/#module-configuration-mounts

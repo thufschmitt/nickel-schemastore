@@ -902,7 +902,6 @@ let rec _js2n__-refsenv
       (_js2n__-prdslib.allOf
         [
           _js2n__-prdslib.isType 'Record,
-          _js2n__-prdslib.records.required [ "blockchains" ],
           _js2n__-prdslib.records.record
             {
               blockchains =
@@ -923,7 +922,13 @@ let rec _js2n__-refsenv
                         {
                           deprecatedError = _js2n__-prdslib.isType '"Bool",
                           quiet = _js2n__-prdslib.isType '"Bool",
-                          rellVersion = _js2n__-prdslib.isType '"String",
+                          rellVersion =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.strings.pattern
+                                    "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+                                ],
                           source = _js2n__-prdslib.isType '"String",
                           strictGtvConversion = _js2n__-prdslib.isType '"Bool",
                           target = _js2n__-prdslib.isType '"String",

@@ -1126,13 +1126,7 @@ let rec _js2n__-refsenv
               Description = _js2n__-prdslib.isType '"String",
               DocsURL = _js2n__-prdslib.isType '"String",
               EditorCustomVirtualPath = _js2n__-prdslib.isType '"String",
-              EnabledByDefault =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.enum
-                        [ "Unspecified", "Enabled", "Disabled" ]
-                    ],
+              EnabledByDefault = _js2n__-prdslib.isType '"Bool",
               EngineVersion = _js2n__-prdslib.isType '"String",
               ExplicitlyLoaded = _js2n__-prdslib.isType '"Bool",
               FileVersion = _js2n__-prdslib.isType '"Number",

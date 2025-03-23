@@ -1012,6 +1012,11 @@ let rec _js2n__-refsenv
           Refer to https://help.codux.com/kb/en/article/kb96140 for more information.
         "%
         | optional,
+      defaultImportedStylesFilePath
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"String")
+        | doc "Configures the default file path to add new fonts to."
+        | optional,
       defaultJSONSchemas
         | Array (Dyn)
         | doc m%"
@@ -1028,7 +1033,10 @@ let rec _js2n__-refsenv
         "%
         | optional,
       externalProviders
-        | { wix | { projectId | String, .. } | optional, .. }
+        | {
+          wix | { metaSiteId | String, projectId | String, .. } | optional,
+          ..
+        }
         | optional,
       fileNamingConvention
         | _js2n__-prdslib.contract_from_predicate
@@ -1220,6 +1228,31 @@ let rec _js2n__-refsenv
           Adds Sass support to compilations.
           Refer to https://help.codux.com/kb/en/article/kb19315 for more information.
         "%
+        | optional,
+      schemaMemoryUsageView
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  enabled =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Bool",
+                              _js2n__-prdslib.enum [ false ]
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Bool",
+                              _js2n__-prdslib.enum [ true ]
+                            ]
+                        ],
+                } {} true _js2n__-prdslib.always
+            ])
+        | doc "Configures the schema memory usage panel"
         | optional,
       scripts
         | _js2n__-prdslib.contract_from_predicate

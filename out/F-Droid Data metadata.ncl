@@ -1303,7 +1303,12 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.strings.maxLength 4000
                     ],
               Disabled = _js2n__-prdslib.isType '"String",
-              Donate = _js2n__-refsenv."_js2n__-:definitions/url!predicate",
+              Donate =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.pattern "^https://.*$"
+                    ],
               IssueTracker =
                 _js2n__-refsenv."_js2n__-:definitions/url!predicate",
               Liberapay = _js2n__-prdslib.isType '"String",

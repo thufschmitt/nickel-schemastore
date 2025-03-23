@@ -910,6 +910,8 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.record
                         {
+                          allow_deprecated_macos_versions =
+                            _js2n__-prdslib.isType '"Array",
                           backend_packages = _js2n__-prdslib.isType '"Array",
                           build_file_prelude_globs =
                             _js2n__-prdslib.isType '"Array",
@@ -926,7 +928,13 @@ let rec _js2n__-refsenv
                           dynamic_ui_renderer =
                             _js2n__-prdslib.enum
                                 [ "indicatif-spinner", "experimental-prodash" ],
+                          enable_target_origin_sources_blocks =
+                            _js2n__-prdslib.isType '"Bool",
                           engine_visualize_to = _js2n__-prdslib.always,
+                          file_downloads_max_attempts =
+                            _js2n__-prdslib.isType '"Number",
+                          file_downloads_retry_delay =
+                            _js2n__-prdslib.isType '"Number",
                           ignore_warnings = _js2n__-prdslib.isType '"Array",
                           keep_sandboxes =
                             _js2n__-prdslib.enum
@@ -953,6 +961,9 @@ let rec _js2n__-refsenv
                           loop = _js2n__-prdslib.isType '"Bool",
                           loop_max = _js2n__-prdslib.isType '"Number",
                           named_caches_dir = _js2n__-prdslib.isType '"String",
+                          native_options_validation =
+                            _js2n__-prdslib.enum
+                                [ "ignore", "warning", "error" ],
                           pants_bin_name = _js2n__-prdslib.isType '"String",
                           pants_config_files = _js2n__-prdslib.isType '"Array",
                           pants_distdir = _js2n__-prdslib.isType '"String",
@@ -1125,6 +1136,22 @@ let rec _js2n__-refsenv
                         { skip = _js2n__-prdslib.isType '"Bool", } {} true
                         _js2n__-prdslib.always
                     ],
+              buildifier =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          args = _js2n__-prdslib.isType '"Array",
+                          known_versions = _js2n__-prdslib.isType '"Array",
+                          skip = _js2n__-prdslib.isType '"Bool",
+                          url_platform_mapping = _js2n__-prdslib.isType 'Record,
+                          url_template = _js2n__-prdslib.isType '"String",
+                          use_unsupported_version =
+                            _js2n__-prdslib.enum [ "error", "warning" ],
+                          version = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
+                    ],
               changed =
                 _js2n__-prdslib.allOf
                     [
@@ -1237,19 +1264,6 @@ let rec _js2n__-refsenv
                           requirements = _js2n__-prdslib.isType '"Array",
                         } {} true _js2n__-prdslib.always
                     ],
-              dependees =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record
-                        {
-                          closed = _js2n__-prdslib.isType '"Bool",
-                          format = _js2n__-prdslib.enum [ "text", "json" ],
-                          output_file = _js2n__-prdslib.isType '"String",
-                          sep = _js2n__-prdslib.isType '"String",
-                          transitive = _js2n__-prdslib.isType '"Bool",
-                        } {} true _js2n__-prdslib.always
-                    ],
               dependencies =
                 _js2n__-prdslib.allOf
                     [
@@ -1309,6 +1323,7 @@ let rec _js2n__-refsenv
                           env_vars = _js2n__-prdslib.isType '"Array",
                           executable_search_paths =
                             _js2n__-prdslib.isType '"Array",
+                          optional_tools = _js2n__-prdslib.isType '"Array",
                           registries =
                             _js2n__-prdslib.oneOf
                                 [
@@ -1332,6 +1347,7 @@ let rec _js2n__-refsenv
                           interpreter_constraints =
                             _js2n__-prdslib.isType '"Array",
                           requirements = _js2n__-prdslib.isType '"Array",
+                          use_rust_parser = _js2n__-prdslib.isType '"Bool",
                         } {} true _js2n__-prdslib.always
                     ],
               environments-preview =
@@ -1342,24 +1358,15 @@ let rec _js2n__-refsenv
                         { names = _js2n__-prdslib.isType 'Record, } {} true
                         _js2n__-prdslib.always
                     ],
-              experimental-bsp =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record
-                        {
-                          groups_config_files = _js2n__-prdslib.isType '"Array",
-                          runner_env_vars = _js2n__-prdslib.isType '"Array",
-                          server = _js2n__-prdslib.isType '"Bool",
-                        } {} true _js2n__-prdslib.always
-                    ],
               experimental-deploy =
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.record
-                        { dry_run = _js2n__-prdslib.isType '"Bool", } {} true
-                        _js2n__-prdslib.always
+                        {
+                          dry_run = _js2n__-prdslib.isType '"Bool",
+                          publish_dependencies = _js2n__-prdslib.isType '"Bool",
+                        } {} true _js2n__-prdslib.always
                     ],
               experimental-explorer =
                 _js2n__-prdslib.allOf
@@ -1377,9 +1384,13 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.record
                         {
+                          bin = _js2n__-prdslib.isType '"Array",
                           py_editable_in_resolve =
                             _js2n__-prdslib.isType '"Array",
-                          py_hermetic_scripts = _js2n__-prdslib.isType '"Bool",
+                          py_generated_sources_in_resolve =
+                            _js2n__-prdslib.isType '"Array",
+                          py_non_hermetic_scripts_in_resolve =
+                            _js2n__-prdslib.isType '"Array",
                           py_resolve_format =
                             _js2n__-prdslib.enum
                                 [
@@ -1538,6 +1549,7 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.isType '"Array",
                           external_linker_binary_name =
                             _js2n__-prdslib.isType '"String",
+                          extra_tools = _js2n__-prdslib.isType '"Array",
                           go_search_paths = _js2n__-prdslib.isType '"Array",
                           minimum_expected_version =
                             _js2n__-prdslib.isType '"String",
@@ -1628,6 +1640,18 @@ let rec _js2n__-refsenv
                           skip = _js2n__-prdslib.isType '"Bool",
                         } {} true _js2n__-prdslib.always
                     ],
+              jar_tool =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          artifacts = _js2n__-prdslib.isType '"Array",
+                          jvm_options = _js2n__-prdslib.isType '"Array",
+                          lockfile = _js2n__-prdslib.isType '"String",
+                          version = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
+                    ],
               jarjar =
                 _js2n__-prdslib.allOf
                     [
@@ -1655,6 +1679,18 @@ let rec _js2n__-refsenv
                           imports = _js2n__-prdslib.isType '"Bool",
                           third_party_import_mapping =
                             _js2n__-prdslib.isType 'Record,
+                        } {} true _js2n__-prdslib.always
+                    ],
+              java-parser =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          artifacts = _js2n__-prdslib.isType '"Array",
+                          jvm_options = _js2n__-prdslib.isType '"Array",
+                          lockfile = _js2n__-prdslib.isType '"String",
+                          version = _js2n__-prdslib.isType '"String",
                         } {} true _js2n__-prdslib.always
                     ],
               javac =
@@ -1690,6 +1726,8 @@ let rec _js2n__-refsenv
                         {
                           debug_args = _js2n__-prdslib.isType '"Array",
                           default_resolve = _js2n__-prdslib.isType '"String",
+                          deploy_jar_exclude_files =
+                            _js2n__-prdslib.isType '"Array",
                           global_options = _js2n__-prdslib.isType '"Array",
                           jdk = _js2n__-prdslib.isType '"String",
                           nailgun_remote_cache_speculation_delay =
@@ -1779,6 +1817,9 @@ let rec _js2n__-refsenv
                           imports = _js2n__-prdslib.isType '"Bool",
                           package_json_entry_points =
                             _js2n__-prdslib.isType '"Bool",
+                          unowned_dependency_behavior =
+                            _js2n__-prdslib.enum
+                                [ "error", "warning", "ignore" ],
                         } {} true _js2n__-prdslib.always
                     ],
               nodejs-test =
@@ -1835,11 +1876,8 @@ let rec _js2n__-refsenv
                     [
                       _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.record
-                        {
-                          emit_warnings = _js2n__-prdslib.isType '"Bool",
-                          resolve_local_platforms =
-                            _js2n__-prdslib.isType '"Bool",
-                        } {} true _js2n__-prdslib.always
+                        { emit_warnings = _js2n__-prdslib.isType '"Bool", } {}
+                        true _js2n__-prdslib.always
                     ],
               pex-cli =
                 _js2n__-prdslib.allOf
@@ -1847,6 +1885,7 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.record
                         {
+                          global_args = _js2n__-prdslib.isType '"Array",
                           known_versions = _js2n__-prdslib.isType '"Array",
                           url_platform_mapping = _js2n__-prdslib.isType 'Record,
                           url_template = _js2n__-prdslib.isType '"String",
@@ -1982,6 +2021,8 @@ let rec _js2n__-refsenv
                           tailor_requirements_targets =
                             _js2n__-prdslib.isType '"Bool",
                           tailor_source_targets =
+                            _js2n__-prdslib.isType '"Bool",
+                          warn_on_python2_usage =
                             _js2n__-prdslib.isType '"Bool",
                         } {} true _js2n__-prdslib.always
                     ],
@@ -2130,14 +2171,13 @@ let rec _js2n__-refsenv
                           args = _js2n__-prdslib.isType '"Array",
                           config = _js2n__-prdslib.always,
                           config_discovery = _js2n__-prdslib.isType '"Bool",
-                          console_script = _js2n__-prdslib.isType '"String",
-                          entry_point = _js2n__-prdslib.isType '"String",
-                          install_from_resolve =
-                            _js2n__-prdslib.isType '"String",
-                          interpreter_constraints =
-                            _js2n__-prdslib.isType '"Array",
-                          requirements = _js2n__-prdslib.isType '"Array",
+                          known_versions = _js2n__-prdslib.isType '"Array",
                           skip = _js2n__-prdslib.isType '"Bool",
+                          url_platform_mapping = _js2n__-prdslib.isType 'Record,
+                          url_template = _js2n__-prdslib.isType '"String",
+                          use_unsupported_version =
+                            _js2n__-prdslib.enum [ "error", "warning" ],
+                          version = _js2n__-prdslib.isType '"String",
                         } {} true _js2n__-prdslib.always
                     ],
               run =
@@ -2173,6 +2213,18 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.isType '"Bool",
                           imports = _js2n__-prdslib.isType '"Bool",
                           package_objects = _js2n__-prdslib.isType '"Bool",
+                        } {} true _js2n__-prdslib.always
+                    ],
+              scala-parser =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          artifacts = _js2n__-prdslib.isType '"Array",
+                          jvm_options = _js2n__-prdslib.isType '"Array",
+                          lockfile = _js2n__-prdslib.isType '"String",
+                          version = _js2n__-prdslib.isType '"String",
                         } {} true _js2n__-prdslib.always
                     ],
               scalac =
@@ -2296,7 +2348,8 @@ let rec _js2n__-refsenv
                           dependency_inference = _js2n__-prdslib.isType '"Bool",
                           executable_search_paths =
                             _js2n__-prdslib.isType '"Array",
-                          tailor = _js2n__-prdslib.isType '"Bool",
+                          tailor_shunit2_tests = _js2n__-prdslib.isType '"Bool",
+                          tailor_sources = _js2n__-prdslib.isType '"Bool",
                         } {} true _js2n__-prdslib.always
                     ],
               shell-test =
@@ -2378,6 +2431,18 @@ let rec _js2n__-refsenv
                           output_file = _js2n__-prdslib.isType '"String",
                         } {} true _js2n__-prdslib.always
                     ],
+              strip-jar =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          artifacts = _js2n__-prdslib.isType '"Array",
+                          jvm_options = _js2n__-prdslib.isType '"Array",
+                          lockfile = _js2n__-prdslib.isType '"String",
+                          version = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
+                    ],
               subprocess-environment =
                 _js2n__-prdslib.allOf
                     [
@@ -2439,6 +2504,8 @@ let rec _js2n__-refsenv
                           batch_size = _js2n__-prdslib.isType '"Number",
                           debug = _js2n__-prdslib.isType '"Bool",
                           debug_adapter = _js2n__-prdslib.isType '"Bool",
+                          experimental_report_test_result_info =
+                            _js2n__-prdslib.isType '"Bool",
                           extra_env_vars = _js2n__-prdslib.isType '"Array",
                           "force" = _js2n__-prdslib.isType '"Bool",
                           open_coverage = _js2n__-prdslib.isType '"Bool",
@@ -2485,7 +2552,8 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.isType '"Bool",
                           fmt = _js2n__-prdslib.isType '"Bool",
                           formatter =
-                            _js2n__-prdslib.enum [ "yapf", "black", "ruff" ],
+                            _js2n__-prdslib.enum
+                                [ "yapf", "black", "ruff", "buildifier" ],
                         } {} true _js2n__-prdslib.always
                     ],
               version = _js2n__-prdslib.isType 'Record,

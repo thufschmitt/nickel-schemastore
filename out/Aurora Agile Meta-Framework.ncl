@@ -917,6 +917,30 @@ let rec _js2n__-refsenv
               | doc "Type of resolver, query or mutation",
             ..
           },
+      "_js2n__-:definitions/excludedOperationValues!contract" =
+        Array (
+            _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum
+                [
+                  "count",
+                  "create",
+                  "createBatch",
+                  "deleteById",
+                  "delete",
+                  "findById",
+                  "find",
+                  "get",
+                  "max",
+                  "min",
+                  "paginate",
+                  "rawSql",
+                  "sum",
+                  "updateAndIncrement",
+                  "updateById",
+                  "update",
+                  "upsert"
+                ])
+          ),
       "_js2n__-:definitions/front!contract"
         | doc "Appearance properties for front application"
         = {
@@ -981,6 +1005,10 @@ let rec _js2n__-refsenv
                   ])
               | doc "The name of the package, singular in kebab-case"
               | optional,
+            excludedFiles | Array (String) | optional,
+            excludedOperations
+              | _js2n__-refsenv."_js2n__-:definitions/excludedOperationValues!contract"
+              | optional,
             hasAuditing
               | Bool
               | doc "Enabled auditing for pivot table"
@@ -1010,15 +1038,6 @@ let rec _js2n__-refsenv
           },
       "_js2n__-:definitions/property!contract" =
         {
-            aggregateName
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.strings.minLength 2
-                  ])
-              | doc "The name of the aggregateName of pivot table property relationship, singular in PascalCase"
-              | optional,
             arrayOptions
               | {
                 enumOptions
@@ -1084,10 +1103,10 @@ let rec _js2n__-refsenv
               | optional,
             defaultValue
               | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.anyOf
+                (_js2n__-prdslib.oneOf
                   [
-                    _js2n__-prdslib.isType '"Number",
                     _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.isType '"Number",
                     _js2n__-prdslib.isType '"Bool"
                   ])
               | doc "Default value for property"
@@ -1118,6 +1137,17 @@ let rec _js2n__-refsenv
               | std.enum.TagOrString
               | [| 'unique, 'index |]
               | doc "To define property like a index"
+              | optional,
+            indexFields
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ])
+              )
+              | doc "Fields to do composite unique index"
               | optional,
             indexName
               | _js2n__-prdslib.contract_from_predicate
@@ -1150,15 +1180,6 @@ let rec _js2n__-refsenv
                   ])
               | doc "Set max length to property"
               | optional,
-            modulePath
-              | _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.strings.minLength 2
-                  ])
-              | doc "Path to the module that refers to this pivot table property relationship, example: library/author"
-              | optional,
             name
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.allOf
@@ -1182,6 +1203,7 @@ let rec _js2n__-refsenv
                 'relationship,
                 'password,
                 'manyToMany,
+                'jsonb,
                 'json,
                 'int,
                 'id,
@@ -1287,14 +1309,53 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/webComponent!contract"
         | doc "Web Component that wil be rendered for this property"
         = {
+            className
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.minLength 2
+                  ])
+              | doc "CSS class for web component"
+              | optional,
+            detailSort
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Number",
+                    _js2n__-prdslib.numbers.minimum 1
+                  ])
+              | doc "Web component order on detail view"
+              | optional,
+            isDetailHidden
+              | Bool
+              | doc "Set hidden web component on detail view"
+              | optional,
+            isListHidden
+              | Bool
+              | doc "Set hidden web component on list view"
+              | optional,
+            listSort
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Number",
+                    _js2n__-prdslib.numbers.minimum 1
+                  ])
+              | doc "Web component order on list view"
+              | optional,
             type
               | std.enum.TagOrString
               | [|
                 'select,
+                'search-select,
+                'search-multiple-select,
                 'multiple-select,
-                'grid-elements-manager,
                 'grid-select-multiple-elements,
-                'grid-select-element
+                'grid-select-element,
+                'grid-elements-manager,
+                'async-search-select,
+                'async-search-multiple-select
               |]
               | doc "The type of web component"
               | optional,
@@ -1324,7 +1385,10 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.strings.minLength 2
             ])
         | doc "The name of the package, singular in kebab-case",
-      excluded | Array (String) | optional,
+      excludedFiles | Array (String) | optional,
+      excludedOperations
+        | _js2n__-refsenv."_js2n__-:definitions/excludedOperationValues!contract"
+        | optional,
       front | _js2n__-refsenv."_js2n__-:definitions/front!contract" | optional,
       hasAuditing | Bool | doc "Enabled auditing for this module" | optional,
       hasOAuth | Bool | doc "Enabled authentication for this module" | optional,
