@@ -902,25 +902,128 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.ifThenElse
+                    (_js2n__-prdslib.records.record
+                      {
+                        timeDependentPlanningParameters =
+                          _js2n__-prdslib.const false,
+                      } {} true _js2n__-prdslib.always)
+                    (_js2n__-prdslib.records.record
+                      {
+                        minimumInventories =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.maxItems 1,
+                                _js2n__-prdslib.arrays.minItems 1
+                              ],
+                        planningFrequencies =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.maxItems 1,
+                                _js2n__-prdslib.arrays.minItems 1
+                              ],
+                        shelfLives =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.maxItems 1,
+                                _js2n__-prdslib.arrays.minItems 1
+                              ],
+                        stopshipBuffers =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.maxItems 1,
+                                _js2n__-prdslib.arrays.minItems 1
+                              ],
+                        targetMFCs =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.maxItems 1,
+                                _js2n__-prdslib.arrays.minItems 1
+                              ],
+                      } {} true _js2n__-prdslib.always) _js2n__-prdslib.always,
+                  _js2n__-prdslib.ifThenElse
+                    (_js2n__-prdslib.records.record
+                      {
+                        timeDependentPlanningParameters =
+                          _js2n__-prdslib.const true,
+                      } {} true _js2n__-prdslib.always)
+                    (_js2n__-prdslib.records.record
+                      {
+                        minimumInventories =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.minItems 1
+                              ],
+                        planningFrequencies =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.minItems 1
+                              ],
+                        shelfLives =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.minItems 1
+                              ],
+                        stopshipBuffers =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.minItems 1
+                              ],
+                        targetMFCs =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.minItems 1
+                              ],
+                      } {} true _js2n__-prdslib.always) _js2n__-prdslib.always
+                ],
               _js2n__-prdslib.records.required
                 [
                   "abcMaterialName",
+                  "actuals",
                   "currency",
                   "decimalPrecision",
+                  "demand",
                   "doExpiryCarryover",
+                  "expiryAdjustments",
+                  "expiryAnalysisType",
+                  "firmOrders",
                   "firmingPeriod",
+                  "initialInventories",
                   "inventoryMethod",
                   "inventorySystemLocationName",
                   "inventorySystemMaterialNumber",
                   "isCapacityConstraintNode",
                   "leadTime",
                   "lotSize",
+                  "manufacturingCost",
                   "materialColor",
                   "materialShape",
-                  "minimumInventory",
+                  "minimumInventories",
                   "ordering",
-                  "targetMFC",
-                  "unitCost",
+                  "otherDemand",
+                  "otherDemandAnnotation",
+                  "plannedOrders",
+                  "planningFrequencies",
+                  "salesPrice",
+                  "shelfLives",
+                  "showQuantitiesAs",
+                  "standardCost",
+                  "stopshipBuffers",
+                  "targetMFCs",
+                  "timeAggregateType",
+                  "timeDependentPlanningParameters",
                   "uom",
                   "x",
                   "y"
@@ -1009,6 +1112,12 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.numbers.minimum 1
+                        ],
+                  manufacturingCost =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
                           _js2n__-prdslib.numbers.minimum 0
                         ],
                   materialColor =
@@ -1030,12 +1139,8 @@ let rec _js2n__-refsenv
                               "hexagon"
                             ]
                         ],
-                  minimumInventory =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Integer,
-                          _js2n__-prdslib.numbers.minimum 0
-                        ],
+                  minimumInventories =
+                    _js2n__-refsenv."_js2n__-:definitions/NonNegativeIntegerTimeDependentValues!predicate",
                   ordering = _js2n__-prdslib.isType '"Number",
                   otherDemand =
                     _js2n__-refsenv."_js2n__-:definitions/PositiveDateMap!predicate",
@@ -1045,22 +1150,30 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/PositiveDateMap!predicate",
                   planningFrequencies =
                     _js2n__-refsenv."_js2n__-:definitions/PositiveIntegerTimeDependentValues!predicate",
+                  salesPrice =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
                   shelfLives =
                     _js2n__-refsenv."_js2n__-:definitions/NonNegativeIntegerTimeDependentValues!predicate",
                   showQuantitiesAs =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "Units", "Lots", "Cost" ]
+                          _js2n__-prdslib.enum [ "Units", "Lots", "Monetary" ]
+                        ],
+                  standardCost =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.numbers.minimum 0
                         ],
                   stopshipBuffers =
                     _js2n__-refsenv."_js2n__-:definitions/NonNegativeIntegerTimeDependentValues!predicate",
-                  targetMFC =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Integer,
-                          _js2n__-prdslib.numbers.minimum 0
-                        ],
+                  targetMFCs =
+                    _js2n__-refsenv."_js2n__-:definitions/NonNegativeIntegerTimeDependentValues!predicate",
                   timeAggregateType =
                     _js2n__-prdslib.allOf
                         [
@@ -1070,12 +1183,6 @@ let rec _js2n__-refsenv
                         ],
                   timeDependentPlanningParameters =
                     _js2n__-prdslib.isType '"Bool",
-                  unitCost =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"Number",
-                          _js2n__-prdslib.numbers.minimum 0
-                        ],
                   uom =
                     _js2n__-prdslib.allOf
                         [
@@ -1379,8 +1486,8 @@ let rec _js2n__-refsenv
   {
       "$schema"
         | std.enum.TagOrString
-        | [| '"https://json.schemastore.org/abc-supply-plan-5.0.0.json" |]
-        | doc "Link to https://json.schemastore.org/abc-supply-plan-5.0.0.json",
+        | [| '"https://json.schemastore.org/abc-supply-plan-8.0.0.json" |]
+        | doc "Link to https://json.schemastore.org/abc-supply-plan-8.0.0.json",
       abcMaterialsMap
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1393,10 +1500,553 @@ let rec _js2n__-refsenv
                 } false _js2n__-prdslib.never
             ])
         | doc "A mapping of material IDs to their respective states within the ABC system.",
-      organizationID
-        | String
-        | doc "The identifier for the organization to which the plan belongs."
-        | optional,
+      analytics
+        | {
+          items
+            | Array (
+              _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required
+                          [
+                            "excludeMonthsFromEnd",
+                            "id",
+                            "metrics",
+                            "name",
+                            "subtitle",
+                            "timeAggregateType",
+                            "type"
+                          ],
+                        _js2n__-prdslib.records.record
+                          {
+                            excludeMonthsFromEnd =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Number",
+                                    _js2n__-prdslib.numbers.minimum 0
+                                  ],
+                            id = _js2n__-prdslib.isType '"String",
+                            metrics =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.ifThenElse
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    metricType =
+                                                      _js2n__-prdslib.const
+                                                          "mfc",
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    showQuantitiesAs =
+                                                      _js2n__-prdslib.isType
+                                                          'Null,
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                _js2n__-prdslib.always,
+                                              _js2n__-prdslib.ifThenElse
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    metricType =
+                                                      _js2n__-prdslib.const
+                                                          "otherDemand",
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    showQuantitiesAs =
+                                                      _js2n__-prdslib.isType
+                                                          'Null,
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                _js2n__-prdslib.always,
+                                              _js2n__-prdslib.ifThenElse
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    metricType =
+                                                      _js2n__-prdslib.const
+                                                          "moh",
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    showQuantitiesAs =
+                                                      _js2n__-prdslib.isType
+                                                          'Null,
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                _js2n__-prdslib.always,
+                                              _js2n__-prdslib.ifThenElse
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    metricType =
+                                                      _js2n__-prdslib.const
+                                                          "capacityUtilization",
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    showQuantitiesAs =
+                                                      _js2n__-prdslib.isType
+                                                          'Null,
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                _js2n__-prdslib.always,
+                                              _js2n__-prdslib.ifThenElse
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    metricType =
+                                                      _js2n__-prdslib.const
+                                                          "demand",
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    showQuantitiesAs =
+                                                      _js2n__-prdslib.enum
+                                                          [
+                                                            "Units",
+                                                            "Monetary"
+                                                          ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                _js2n__-prdslib.always,
+                                              _js2n__-prdslib.ifThenElse
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    metricType =
+                                                      _js2n__-prdslib.const
+                                                          "actuals",
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    showQuantitiesAs =
+                                                      _js2n__-prdslib.enum
+                                                          [
+                                                            "Units",
+                                                            "Monetary"
+                                                          ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                _js2n__-prdslib.always,
+                                              _js2n__-prdslib.ifThenElse
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    metricType =
+                                                      _js2n__-prdslib.const
+                                                          "firmRelease",
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    showQuantitiesAs =
+                                                      _js2n__-prdslib.enum
+                                                          [ "Units", "Lots" ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                _js2n__-prdslib.always,
+                                              _js2n__-prdslib.ifThenElse
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    metricType =
+                                                      _js2n__-prdslib.const
+                                                          "plannedRelease",
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                (_js2n__-prdslib.records.record
+                                                  {
+                                                    showQuantitiesAs =
+                                                      _js2n__-prdslib.enum
+                                                          [ "Units", "Lots" ],
+                                                  } {} true
+                                                  _js2n__-prdslib.always)
+                                                _js2n__-prdslib.always
+                                            ],
+                                          _js2n__-prdslib.records.required
+                                            [
+                                              "abcMaterialIDs",
+                                              "color",
+                                              "label",
+                                              "metricType",
+                                              "showQuantitiesAs",
+                                              "visualization",
+                                              "yAxisIndex",
+                                              "zIndex"
+                                            ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              abcMaterialIDs =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"Array",
+                                                      _js2n__-prdslib.arrays.arrayOf
+                                                        (_js2n__-prdslib.isType
+                                                          '"String")
+                                                    ],
+                                              color =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              label =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              metricType =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "demand",
+                                                          "consumption",
+                                                          "actuals",
+                                                          "otherDemand",
+                                                          "firmOrders",
+                                                          "plannedOrders",
+                                                          "firmRelease",
+                                                          "plannedRelease",
+                                                          "expiryAdjustments",
+                                                          "inventory",
+                                                          "mfc"
+                                                        ]
+                                                    ],
+                                              showQuantitiesAs =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.anyOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.isType
+                                                            'Null
+                                                        ],
+                                                      _js2n__-prdslib.oneOf
+                                                        [
+                                                          _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"String",
+                                                              _js2n__-prdslib.enum
+                                                                [
+                                                                  "Units",
+                                                                  "Lots",
+                                                                  "Monetary"
+                                                                ]
+                                                            ],
+                                                          _js2n__-prdslib.isType
+                                                            'Null
+                                                        ]
+                                                    ],
+                                              visualization =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Record,
+                                                      _js2n__-prdslib.oneOf
+                                                        [
+                                                          _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.records.required
+                                                                [
+                                                                  "dotFill",
+                                                                  "dotSize",
+                                                                  "strokeDasharray",
+                                                                  "strokeWidth",
+                                                                  "type"
+                                                                ],
+                                                              _js2n__-prdslib.records.record
+                                                                {
+                                                                  dotFill =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"String",
+                                                                  dotSize =
+                                                                    _js2n__-prdslib.allOf
+                                                                        [
+                                                                          _js2n__-prdslib.isType
+                                                                            '"Number",
+                                                                          _js2n__-prdslib.numbers.minimum
+                                                                            0
+                                                                        ],
+                                                                  strokeDasharray =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"String",
+                                                                  strokeWidth =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Number",
+                                                                  type =
+                                                                    _js2n__-prdslib.allOf
+                                                                        [
+                                                                          _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                          _js2n__-prdslib.enum
+                                                                            [
+                                                                              "line"
+                                                                            ]
+                                                                        ],
+                                                                } {} false
+                                                                _js2n__-prdslib.never
+                                                            ],
+                                                          _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.records.required
+                                                                [
+                                                                  "barWidth",
+                                                                  "radius",
+                                                                  "showAsPercent",
+                                                                  "stackId",
+                                                                  "type"
+                                                                ],
+                                                              _js2n__-prdslib.records.record
+                                                                {
+                                                                  barWidth =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Number",
+                                                                  radius =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Number",
+                                                                  showAsPercent =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  stackId =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"String",
+                                                                  type =
+                                                                    _js2n__-prdslib.allOf
+                                                                        [
+                                                                          _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                          _js2n__-prdslib.enum
+                                                                            [
+                                                                              "bar"
+                                                                            ]
+                                                                        ],
+                                                                } {} false
+                                                                _js2n__-prdslib.never
+                                                            ],
+                                                          _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.records.required
+                                                                [
+                                                                  "fillOpacity",
+                                                                  "showAsPercent",
+                                                                  "stackId",
+                                                                  "strokeWidth",
+                                                                  "type"
+                                                                ],
+                                                              _js2n__-prdslib.records.record
+                                                                {
+                                                                  fillOpacity =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Number",
+                                                                  showAsPercent =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
+                                                                  stackId =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"String",
+                                                                  strokeWidth =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Number",
+                                                                  type =
+                                                                    _js2n__-prdslib.allOf
+                                                                        [
+                                                                          _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                          _js2n__-prdslib.enum
+                                                                            [
+                                                                              "area"
+                                                                            ]
+                                                                        ],
+                                                                } {} false
+                                                                _js2n__-prdslib.never
+                                                            ]
+                                                        ]
+                                                    ],
+                                              yAxisIndex =
+                                                _js2n__-prdslib.isType
+                                                    '"Number",
+                                              zIndex =
+                                                _js2n__-prdslib.isType
+                                                    '"Number",
+                                            } {} false _js2n__-prdslib.never
+                                        ])
+                                  ],
+                            name = _js2n__-prdslib.isType '"String",
+                            subtitle = _js2n__-prdslib.isType '"String",
+                            timeAggregateType =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.enum
+                                      [ "Annual", "Quarterly", "Monthly" ]
+                                  ],
+                            type =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.enum [ "TIME_SERIES" ]
+                                  ],
+                          } {} false _js2n__-prdslib.never
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required
+                          [ "id", "name", "subtitle", "text", "type" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            backgroundColor = _js2n__-prdslib.isType '"String",
+                            id = _js2n__-prdslib.isType '"String",
+                            imageUrl = _js2n__-prdslib.isType '"String",
+                            name = _js2n__-prdslib.isType '"String",
+                            subtitle = _js2n__-prdslib.isType '"String",
+                            text =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required
+                                      [
+                                        "color",
+                                        "content",
+                                        "fontFamily",
+                                        "fontSize",
+                                        "horizontalAlignment",
+                                        "verticalAlignment"
+                                      ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        color =
+                                          _js2n__-prdslib.isType '"String",
+                                        content =
+                                          _js2n__-prdslib.isType '"String",
+                                        fontFamily =
+                                          _js2n__-prdslib.isType '"String",
+                                        fontSize =
+                                          _js2n__-prdslib.isType '"Number",
+                                        horizontalAlignment =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.enum
+                                                  [ "left", "center", "right" ]
+                                              ],
+                                        verticalAlignment =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.enum
+                                                  [ "top", "center", "bottom" ]
+                                              ],
+                                      } {} false _js2n__-prdslib.never
+                                  ],
+                            type =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.enum [ "ANALYTICS_NOTE" ]
+                                  ],
+                          } {} false _js2n__-prdslib.never
+                      ]
+                  ])
+            ),
+          layouts
+            | Array
+              {
+                contentId | String,
+                h
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"Number",
+                        _js2n__-prdslib.numbers.minimum 1
+                      ])
+                  | doc "Height in grid units",
+                isDraggable
+                  | Bool
+                  | doc "Whether the item can be dragged"
+                  | optional,
+                isResizable
+                  | Bool
+                  | doc "Whether the item can be resized"
+                  | optional,
+                maxH
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"Number",
+                        _js2n__-prdslib.numbers.minimum 1
+                      ])
+                  | doc "Maximum height in grid units"
+                  | optional,
+                maxW
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"Number",
+                        _js2n__-prdslib.numbers.minimum 1
+                      ])
+                  | doc "Maximum width in grid units"
+                  | optional,
+                minH
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"Number",
+                        _js2n__-prdslib.numbers.minimum 1
+                      ])
+                  | doc "Minimum height in grid units"
+                  | optional,
+                minW
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"Number",
+                        _js2n__-prdslib.numbers.minimum 1
+                      ])
+                  | doc "Minimum width in grid units"
+                  | optional,
+                w
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"Number",
+                        _js2n__-prdslib.numbers.maximum 12,
+                        _js2n__-prdslib.numbers.minimum 1
+                      ])
+                  | doc "Width in grid units (1-12)",
+                x
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"Number",
+                        _js2n__-prdslib.numbers.maximum 11,
+                        _js2n__-prdslib.numbers.minimum 0
+                      ])
+                  | doc "Grid column position (0-11 for 12-column grid)",
+                y
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"Number",
+                        _js2n__-prdslib.numbers.minimum 0
+                      ])
+                  | doc "Grid row position",
+              },
+        },
       planDate
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"String")

@@ -1305,6 +1305,7 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.strings.pattern "^(#!.*\n?)+"
                     ],
               pnpUnpluggedFolder = _js2n__-prdslib.isType '"String",
+              pnpmStoreFolder = _js2n__-prdslib.isType '"String",
               preferDeferredVersions = _js2n__-prdslib.isType '"Bool",
               preferInteractive = _js2n__-prdslib.isType '"Bool",
               preferReuse = _js2n__-prdslib.isType '"Bool",

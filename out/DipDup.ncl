@@ -948,6 +948,11 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
+                    _js2n__-prdslib.always,
+                    _js2n__-prdslib.always,
+                    _js2n__-prdslib.always,
+                    _js2n__-prdslib.always,
+                    _js2n__-prdslib.always,
                     _js2n__-prdslib.always
                   ])
             ])
@@ -976,6 +981,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.anyOf
                   [
+                    _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
@@ -1019,6 +1025,12 @@ let rec _js2n__-refsenv
             ])
         | doc "Modify logging verbosity"
         | optional,
+      mcp
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.always, _js2n__-prdslib.isType 'Null ])
+        | doc "MCP server config"
+        | optional,
       package
         | String
         | doc "Name of indexer's Python package, existing or not"
@@ -1028,6 +1040,15 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.always, _js2n__-prdslib.isType 'Null ])
         | doc "Prometheus integration config"
+        | optional,
+      runtimes
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ])
+        | doc "Mapping of runtime aliases and runtime configs"
         | optional,
       sentry
         | _js2n__-prdslib.contract_from_predicate
@@ -1047,6 +1068,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.anyOf
                   [
+                    _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,
                     _js2n__-prdslib.always,

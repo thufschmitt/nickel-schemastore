@@ -959,6 +959,8 @@ let rec _js2n__-refsenv
                                               manifest =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              mount_symlinks =
+                                                _js2n__-prdslib.isType '"Bool",
                                               mount_with =
                                                 _js2n__-prdslib.allOf
                                                     [
@@ -1252,13 +1254,16 @@ let rec _js2n__-refsenv
                                                           "amazon/nodejs16.x-base",
                                                           "amazon/nodejs18.x-base",
                                                           "amazon/nodejs20.x-base",
+                                                          "amazon/nodejs22.x-base",
                                                           "amazon/python3.10-base",
                                                           "amazon/python3.11-base",
                                                           "amazon/python3.12-base",
+                                                          "amazon/python3.13-base",
                                                           "amazon/python3.8-base",
                                                           "amazon/python3.9-base",
                                                           "amazon/ruby3.2-base",
-                                                          "amazon/ruby3.3-base"
+                                                          "amazon/ruby3.3-base",
+                                                          "amazon/ruby3.4-base"
                                                         ]
                                                     ],
                                               beta_features =
@@ -1322,16 +1327,19 @@ let rec _js2n__-refsenv
                                                           "nodejs16.x",
                                                           "nodejs18.x",
                                                           "nodejs20.x",
+                                                          "nodejs22.x",
                                                           "provided",
                                                           "provided.al2",
                                                           "provided.al2023",
                                                           "python3.10",
                                                           "python3.11",
                                                           "python3.12",
+                                                          "python3.13",
                                                           "python3.8",
                                                           "python3.9",
                                                           "ruby3.2",
-                                                          "ruby3.3"
+                                                          "ruby3.3",
+                                                          "ruby3.4"
                                                         ]
                                                     ],
                                               save_params =
@@ -1571,7 +1579,11 @@ let rec _js2n__-refsenv
                                               log_file =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              mount_symlinks =
+                                                _js2n__-prdslib.isType '"Bool",
                                               no_event =
+                                                _js2n__-prdslib.isType '"Bool",
+                                              no_memory_limit =
                                                 _js2n__-prdslib.isType '"Bool",
                                               parameter_overrides =
                                                 _js2n__-prdslib.allOf
@@ -1593,6 +1605,38 @@ let rec _js2n__-refsenv
                                               region =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              runtime =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "dotnet6",
+                                                          "dotnet8",
+                                                          "go1.x",
+                                                          "java11",
+                                                          "java17",
+                                                          "java21",
+                                                          "java8.al2",
+                                                          "nodejs16.x",
+                                                          "nodejs18.x",
+                                                          "nodejs20.x",
+                                                          "nodejs22.x",
+                                                          "provided",
+                                                          "provided.al2",
+                                                          "provided.al2023",
+                                                          "python3.10",
+                                                          "python3.11",
+                                                          "python3.12",
+                                                          "python3.13",
+                                                          "python3.8",
+                                                          "python3.9",
+                                                          "ruby3.2",
+                                                          "ruby3.3",
+                                                          "ruby3.4"
+                                                        ]
+                                                    ],
                                               save_params =
                                                 _js2n__-prdslib.isType '"Bool",
                                               shutdown =
@@ -1684,6 +1728,8 @@ let rec _js2n__-refsenv
                                               log_file =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              no_memory_limit =
+                                                _js2n__-prdslib.isType '"Bool",
                                               parameter_overrides =
                                                 _js2n__-prdslib.allOf
                                                     [
@@ -1812,6 +1858,8 @@ let rec _js2n__-refsenv
                                               log_file =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              no_memory_limit =
+                                                _js2n__-prdslib.isType '"Bool",
                                               parameter_overrides =
                                                 _js2n__-prdslib.allOf
                                                     [

@@ -983,6 +983,8 @@ let rec _js2n__-refsenv
                                         outDir =
                                           _js2n__-prdslib.isType '"String",
                                         quiet = _js2n__-prdslib.isType '"Bool",
+                                        swcrcPath =
+                                          _js2n__-prdslib.isType '"String",
                                         sync = _js2n__-prdslib.isType '"Bool",
                                         watch = _js2n__-prdslib.isType '"Bool",
                                       } {} true _js2n__-prdslib.always
@@ -1091,6 +1093,9 @@ let rec _js2n__-refsenv
                                                     '"String",
                                               quiet =
                                                 _js2n__-prdslib.isType '"Bool",
+                                              swcrcPath =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
                                               sync =
                                                 _js2n__-prdslib.isType '"Bool",
                                               watch =

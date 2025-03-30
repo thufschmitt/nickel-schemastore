@@ -1294,7 +1294,7 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.allOf
                                       [
                                         _js2n__-prdslib.records.required
-                                          [ "kind" ],
+                                          [ "kind", "vrf_table" ],
                                         _js2n__-prdslib.records.record
                                           {
                                             address = _js2n__-prdslib.always,
@@ -1305,7 +1305,22 @@ let rec _js2n__-refsenv
                                             mtu = _js2n__-prdslib.always,
                                             state = _js2n__-prdslib.always,
                                             txqlen = _js2n__-prdslib.always,
-                                          } {} true _js2n__-prdslib.always
+                                            vrf_table =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Integer,
+                                                        _js2n__-prdslib.isType
+                                                          '"String"
+                                                      ],
+                                                    _js2n__-prdslib.numbers.maximum
+                                                      4294967295,
+                                                    _js2n__-prdslib.numbers.minimum
+                                                      1
+                                                  ],
+                                          } {} false _js2n__-prdslib.never
                                       ],
                                     _js2n__-prdslib.allOf
                                       [
@@ -1723,7 +1738,45 @@ let rec _js2n__-refsenv
                                                 _js2n__-prdslib.allOf
                                                   [
                                                     _js2n__-prdslib.records.required
+                                                      [ "vxlan_local" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {} {} true
+                                                      _js2n__-prdslib.always
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.records.required
+                                                      [
+                                                        "vxlan_group",
+                                                        "vxlan_local"
+                                                      ],
+                                                    _js2n__-prdslib.records.record
+                                                      {} {} true
+                                                      _js2n__-prdslib.always
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.records.required
                                                       [ "vxlan_group6" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {} {} true
+                                                      _js2n__-prdslib.always
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.records.required
+                                                      [ "vxlan_local6" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {} {} true
+                                                      _js2n__-prdslib.always
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.records.required
+                                                      [
+                                                        "vxlan_group6",
+                                                        "vxlan_local6"
+                                                      ],
                                                     _js2n__-prdslib.records.record
                                                       {} {} true
                                                       _js2n__-prdslib.always
@@ -1735,7 +1788,9 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.records.required
                                                     [
                                                       "vxlan_group",
-                                                      "vxlan_group6"
+                                                      "vxlan_group6",
+                                                      "vxlan_local",
+                                                      "vxlan_local6"
                                                     ],
                                                   _js2n__-prdslib.records.record
                                                     {} {} true
@@ -1842,15 +1897,48 @@ let rec _js2n__-refsenv
                                                   ],
                                             vxlan_link = _js2n__-prdslib.always,
                                             vxlan_local =
+                                              _js2n__-prdslib.isType '"String",
+                                            vxlan_local6 =
+                                              _js2n__-prdslib.isType '"String",
+                                            vxlan_port =
                                               _js2n__-prdslib.allOf
                                                   [
                                                     _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.oneOf
-                                                      [
-                                                        _js2n__-prdslib.always,
-                                                        _js2n__-prdslib.always
-                                                      ]
+                                                      'Integer,
+                                                    _js2n__-prdslib.numbers.maximum
+                                                      65535,
+                                                    _js2n__-prdslib.numbers.minimum
+                                                      0
+                                                  ],
+                                            vxlan_port_range =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.records.required
+                                                      [ "high", "low" ],
+                                                    _js2n__-prdslib.records.record
+                                                      {
+                                                        high =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  65535,
+                                                                _js2n__-prdslib.numbers.minimum
+                                                                  0
+                                                              ],
+                                                        low =
+                                                          _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  'Integer,
+                                                                _js2n__-prdslib.numbers.maximum
+                                                                  65535,
+                                                                _js2n__-prdslib.numbers.minimum
+                                                                  0
+                                                              ],
+                                                      } {} false
+                                                      _js2n__-prdslib.never
                                                   ],
                                             vxlan_proxy =
                                               _js2n__-prdslib.allOf
@@ -3325,7 +3413,8 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.allOf
                           [
-                            _js2n__-prdslib.records.required [ "kind" ],
+                            _js2n__-prdslib.records.required
+                              [ "kind", "vrf_table" ],
                             _js2n__-prdslib.records.record
                               {
                                 address = _js2n__-prdslib.always,
@@ -3336,7 +3425,19 @@ let rec _js2n__-refsenv
                                 mtu = _js2n__-prdslib.always,
                                 state = _js2n__-prdslib.always,
                                 txqlen = _js2n__-prdslib.always,
-                              } {} true _js2n__-prdslib.always
+                                vrf_table =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.anyOf
+                                          [
+                                            _js2n__-prdslib.isType 'Integer,
+                                            _js2n__-prdslib.isType '"String"
+                                          ],
+                                        _js2n__-prdslib.numbers.maximum
+                                          4294967295,
+                                        _js2n__-prdslib.numbers.minimum 1
+                                      ],
+                              } {} false _js2n__-prdslib.never
                           ],
                         _js2n__-prdslib.allOf
                           [
@@ -3689,7 +3790,35 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.allOf
                                       [
                                         _js2n__-prdslib.records.required
+                                          [ "vxlan_local" ],
+                                        _js2n__-prdslib.records.record {} {}
+                                          true _js2n__-prdslib.always
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "vxlan_group", "vxlan_local" ],
+                                        _js2n__-prdslib.records.record {} {}
+                                          true _js2n__-prdslib.always
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
                                           [ "vxlan_group6" ],
+                                        _js2n__-prdslib.records.record {} {}
+                                          true _js2n__-prdslib.always
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "vxlan_local6" ],
+                                        _js2n__-prdslib.records.record {} {}
+                                          true _js2n__-prdslib.always
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "vxlan_group6", "vxlan_local6" ],
                                         _js2n__-prdslib.records.record {} {}
                                           true _js2n__-prdslib.always
                                       ]
@@ -3698,7 +3827,12 @@ let rec _js2n__-refsenv
                                   (_js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.records.required
-                                        [ "vxlan_group", "vxlan_group6" ],
+                                        [
+                                          "vxlan_group",
+                                          "vxlan_group6",
+                                          "vxlan_local",
+                                          "vxlan_local6"
+                                        ],
                                       _js2n__-prdslib.records.record {} {} true
                                         _js2n__-prdslib.always
                                     ])
@@ -3774,15 +3908,43 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.numbers.minimum 0
                                       ],
                                 vxlan_link = _js2n__-prdslib.always,
-                                vxlan_local =
+                                vxlan_local = _js2n__-prdslib.isType '"String",
+                                vxlan_local6 = _js2n__-prdslib.isType '"String",
+                                vxlan_port =
                                   _js2n__-prdslib.allOf
                                       [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.oneOf
-                                          [
-                                            _js2n__-prdslib.always,
-                                            _js2n__-prdslib.always
-                                          ]
+                                        _js2n__-prdslib.isType 'Integer,
+                                        _js2n__-prdslib.numbers.maximum 65535,
+                                        _js2n__-prdslib.numbers.minimum 0
+                                      ],
+                                vxlan_port_range =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "high", "low" ],
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            high =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Integer,
+                                                    _js2n__-prdslib.numbers.maximum
+                                                      65535,
+                                                    _js2n__-prdslib.numbers.minimum
+                                                      0
+                                                  ],
+                                            low =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      'Integer,
+                                                    _js2n__-prdslib.numbers.maximum
+                                                      65535,
+                                                    _js2n__-prdslib.numbers.minimum
+                                                      0
+                                                  ],
+                                          } {} false _js2n__-prdslib.never
                                       ],
                                 vxlan_proxy =
                                   _js2n__-prdslib.allOf

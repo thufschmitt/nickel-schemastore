@@ -900,10 +900,6 @@ let rec _js2n__-refsenv
     in
   {
       developer_mode | Bool | doc "Not currently used." | optional,
-      disable_http2
-        | Bool
-        | doc "Whether to disable HTTP/2 listen in ddev-router."
-        | optional,
       fail_on_hook_fail
         | Bool
         | doc "Whether ddev start should be interrupted by a failing hook, on a single project or for all projects if used globally."
@@ -984,11 +980,6 @@ let rec _js2n__-refsenv
         | String
         | doc "Specific docker-compose version for download."
         | optional,
-      router
-        | std.enum.TagOrString
-        | [| 'nginx-proxy, 'traefik |]
-        | doc "The PHP version the project should use."
-        | optional,
       router_bind_all_interfaces
         | Bool
         | doc "Whether to bind ddev-router's ports on all network interfaces."
@@ -1037,5 +1028,10 @@ let rec _js2n__-refsenv
       xdebug_ide_location
         | String
         | doc "Adjust Xdebug listen location for WSL2 or in-container."
+        | optional,
+      xhprof_mode
+        | std.enum.TagOrString
+        | [| 'xhgui, 'prepend |]
+        | doc "Defines the xhprof usage mode used by the project."
         | optional,
     }

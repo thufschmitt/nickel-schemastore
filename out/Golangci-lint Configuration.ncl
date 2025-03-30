@@ -897,6 +897,18 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/formats-path!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.anyOf
+              [
+                _js2n__-prdslib.enum [ "stdout", "stderr" ],
+                _js2n__-prdslib.isType '"String"
+              ]),
+      "_js2n__-:definitions/formatter-names!contract"
+        | doc "Usable formatter names."
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.enum
+              [ "gci", "gofmt", "gofumpt", "goimports", "golines" ]),
       "_js2n__-:definitions/gocritic-checks!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.enum
@@ -910,18 +922,19 @@ let rec _js2n__-refsenv
                 "badLock",
                 "badRegexp",
                 "badSorting",
+                "badSyncOnceFunc",
                 "boolExprSimplify",
                 "builtinShadow",
                 "builtinShadowDecl",
                 "captLocal",
                 "caseOrder",
                 "codegenComment",
+                "commentFormatting",
                 "commentedOutCode",
                 "commentedOutImport",
-                "commentFormatting",
                 "defaultCaseOrder",
-                "deferUnlambda",
                 "deferInLoop",
+                "deferUnlambda",
                 "deprecatedComment",
                 "docStub",
                 "dupArg",
@@ -964,6 +977,7 @@ let rec _js2n__-refsenv
                 "preferStringWriter",
                 "preferWriteByte",
                 "ptrToRefParam",
+                "rangeAppendAll",
                 "rangeExprCopy",
                 "rangeValCopy",
                 "redundantSprint",
@@ -981,13 +995,12 @@ let rec _js2n__-refsenv
                 "sprintfQuotedString",
                 "sqlQuery",
                 "stringConcatSimplify",
-                "stringsCompare",
                 "stringXbytes",
-                "suspiciousSorting",
+                "stringsCompare",
                 "switchTrue",
                 "syncMapLoadAndDelete",
-                "timeCmpSimplify",
                 "timeExprSimplify",
+                "todoCommentWithoutDetail",
                 "tooManyResultsChecker",
                 "truncateCmp",
                 "typeAssertChain",
@@ -1099,15 +1112,18 @@ let rec _js2n__-refsenv
                 "slog",
                 "sortslice",
                 "stdmethods",
+                "stdversion",
                 "stringintconv",
                 "structtag",
                 "testinggoroutine",
                 "tests",
+                "timeformat",
                 "unmarshal",
                 "unreachable",
                 "unsafeptr",
                 "unusedresult",
-                "unusedwrite"
+                "unusedwrite",
+                "waitgroup"
               ]),
       "_js2n__-:definitions/govet-analyzers!predicate" =
         _js2n__-prdslib.enum
@@ -1143,18 +1159,24 @@ let rec _js2n__-refsenv
               "slog",
               "sortslice",
               "stdmethods",
+              "stdversion",
               "stringintconv",
               "structtag",
               "testinggoroutine",
               "tests",
+              "timeformat",
               "unmarshal",
               "unreachable",
               "unsafeptr",
               "unusedresult",
-              "unusedwrite"
+              "unusedwrite",
+              "waitgroup"
             ],
-      "_js2n__-:definitions/linters!contract"
-        | doc "Linters usable."
+      "_js2n__-:definitions/iface-analyzers!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.enum [ "identical", "unused", "opaque" ]),
+      "_js2n__-:definitions/linter-names!contract"
+        | doc "Usable linter names."
         = _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.anyOf
               [
@@ -1169,7 +1191,6 @@ let rec _js2n__-refsenv
                     "contextcheck",
                     "copyloopvar",
                     "cyclop",
-                    "deadcode",
                     "decorder",
                     "depguard",
                     "dogsled",
@@ -1180,16 +1201,13 @@ let rec _js2n__-refsenv
                     "errchkjson",
                     "errname",
                     "errorlint",
-                    "execinquery",
                     "exhaustive",
-                    "exhaustivestruct",
                     "exhaustruct",
-                    "exportloopref",
+                    "exptostd",
                     "fatcontext",
                     "forbidigo",
                     "forcetypeassert",
                     "funlen",
-                    "gci",
                     "ginkgolinter",
                     "gocheckcompilerdirectives",
                     "gochecknoglobals",
@@ -1202,11 +1220,7 @@ let rec _js2n__-refsenv
                     "godot",
                     "godox",
                     "err113",
-                    "gofmt",
-                    "gofumpt",
                     "goheader",
-                    "goimports",
-                    "golint",
                     "gomoddirectives",
                     "gomodguard",
                     "goprintffuncname",
@@ -1215,19 +1229,17 @@ let rec _js2n__-refsenv
                     "gosmopolitan",
                     "govet",
                     "grouper",
-                    "ifshort",
+                    "iface",
                     "importas",
                     "inamedparam",
                     "ineffassign",
                     "interfacebloat",
-                    "interfacer",
                     "intrange",
                     "ireturn",
                     "lll",
                     "loggercheck",
                     "maintidx",
                     "makezero",
-                    "maligned",
                     "mirror",
                     "misspell",
                     "mnd",
@@ -1235,12 +1247,12 @@ let rec _js2n__-refsenv
                     "nakedret",
                     "nestif",
                     "nilerr",
+                    "nilnesserr",
                     "nilnil",
                     "nlreturn",
                     "noctx",
                     "nolintlint",
                     "nonamedreturns",
-                    "nosnakecase",
                     "nosprintfhostport",
                     "paralleltest",
                     "perfsprint",
@@ -1249,13 +1261,12 @@ let rec _js2n__-refsenv
                     "promlinter",
                     "protogetter",
                     "reassign",
+                    "recvcheck",
                     "revive",
                     "rowserrcheck",
-                    "scopelint",
                     "sloglint",
                     "sqlclosecheck",
                     "staticcheck",
-                    "structcheck",
                     "stylecheck",
                     "tagalign",
                     "tagliatelle",
@@ -1269,7 +1280,7 @@ let rec _js2n__-refsenv
                     "unparam",
                     "unused",
                     "usestdlibvars",
-                    "varcheck",
+                    "usetesting",
                     "varnamelen",
                     "wastedassign",
                     "whitespace",
@@ -1279,8 +1290,8 @@ let rec _js2n__-refsenv
                   ],
                 _js2n__-prdslib.isType '"String"
               ]),
-      "_js2n__-:definitions/linters!predicate"
-        | doc "Linters usable."
+      "_js2n__-:definitions/linter-names!predicate"
+        | doc "Usable linter names."
         = _js2n__-prdslib.anyOf
             [
               _js2n__-prdslib.enum
@@ -1294,7 +1305,6 @@ let rec _js2n__-refsenv
                   "contextcheck",
                   "copyloopvar",
                   "cyclop",
-                  "deadcode",
                   "decorder",
                   "depguard",
                   "dogsled",
@@ -1305,16 +1315,13 @@ let rec _js2n__-refsenv
                   "errchkjson",
                   "errname",
                   "errorlint",
-                  "execinquery",
                   "exhaustive",
-                  "exhaustivestruct",
                   "exhaustruct",
-                  "exportloopref",
+                  "exptostd",
                   "fatcontext",
                   "forbidigo",
                   "forcetypeassert",
                   "funlen",
-                  "gci",
                   "ginkgolinter",
                   "gocheckcompilerdirectives",
                   "gochecknoglobals",
@@ -1327,11 +1334,7 @@ let rec _js2n__-refsenv
                   "godot",
                   "godox",
                   "err113",
-                  "gofmt",
-                  "gofumpt",
                   "goheader",
-                  "goimports",
-                  "golint",
                   "gomoddirectives",
                   "gomodguard",
                   "goprintffuncname",
@@ -1340,19 +1343,17 @@ let rec _js2n__-refsenv
                   "gosmopolitan",
                   "govet",
                   "grouper",
-                  "ifshort",
+                  "iface",
                   "importas",
                   "inamedparam",
                   "ineffassign",
                   "interfacebloat",
-                  "interfacer",
                   "intrange",
                   "ireturn",
                   "lll",
                   "loggercheck",
                   "maintidx",
                   "makezero",
-                  "maligned",
                   "mirror",
                   "misspell",
                   "mnd",
@@ -1360,12 +1361,12 @@ let rec _js2n__-refsenv
                   "nakedret",
                   "nestif",
                   "nilerr",
+                  "nilnesserr",
                   "nilnil",
                   "nlreturn",
                   "noctx",
                   "nolintlint",
                   "nonamedreturns",
-                  "nosnakecase",
                   "nosprintfhostport",
                   "paralleltest",
                   "perfsprint",
@@ -1374,13 +1375,12 @@ let rec _js2n__-refsenv
                   "promlinter",
                   "protogetter",
                   "reassign",
+                  "recvcheck",
                   "revive",
                   "rowserrcheck",
-                  "scopelint",
                   "sloglint",
                   "sqlclosecheck",
                   "staticcheck",
-                  "structcheck",
                   "stylecheck",
                   "tagalign",
                   "tagliatelle",
@@ -1394,7 +1394,7 @@ let rec _js2n__-refsenv
                   "unparam",
                   "unused",
                   "usestdlibvars",
-                  "varcheck",
+                  "usetesting",
                   "varnamelen",
                   "wastedassign",
                   "whitespace",
@@ -1404,6 +1404,8 @@ let rec _js2n__-refsenv
                 ],
               _js2n__-prdslib.isType '"String"
             ],
+      "_js2n__-:definitions/relative-path-modes!predicate" =
+        _js2n__-prdslib.enum [ "gomod", "gitroot", "cfg", "wd" ],
       "_js2n__-:definitions/revive-rules!contract" =
         _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.enum
@@ -1442,6 +1444,8 @@ let rec _js2n__-refsenv
                 "errorf",
                 "exported",
                 "file-header",
+                "file-length-limit",
+                "filename-format",
                 "flag-parameter",
                 "function-length",
                 "function-result-limit",
@@ -1461,11 +1465,12 @@ let rec _js2n__-refsenv
                 "nested-structs",
                 "optimize-operands-order",
                 "package-comments",
-                "range",
                 "range-val-address",
                 "range-val-in-closure",
+                "range",
                 "receiver-naming",
                 "redefines-builtin-id",
+                "redundant-build-tag",
                 "redundant-import-alias",
                 "string-format",
                 "string-of-int",
@@ -1483,69 +1488,2629 @@ let rec _js2n__-refsenv
                 "unused-parameter",
                 "unused-receiver",
                 "use-any",
+                "use-errors-new",
                 "useless-break",
                 "var-declaration",
                 "var-naming",
                 "waitgroup-by-value"
               ]),
+      "_js2n__-:definitions/settings/definitions/asasalintSettings!contract" =
+        {
+            exclude
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.isType '"String"),
+                    _js2n__-prdslib.arrays.uniqueItems
+                  ])
+              | doc "To specify a set of function names to exclude."
+              | optional,
+            use-builtin-exclusions
+              | Bool
+              | doc "To enable/disable the asasalint builtin exclusions of function names."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/bidichkSettings!contract" =
+        {
+            first-strong-isolate
+              | Bool
+              | doc "Disallow: FIRST-STRONG-ISOLATE"
+              | optional,
+            left-to-right-embedding
+              | Bool
+              | doc "Disallow: LEFT-TO-RIGHT-EMBEDDING"
+              | optional,
+            left-to-right-isolate
+              | Bool
+              | doc "Disallow: LEFT-TO-RIGHT-ISOLATE"
+              | optional,
+            left-to-right-override
+              | Bool
+              | doc "Disallow: LEFT-TO-RIGHT-OVERRIDE"
+              | optional,
+            pop-directional-formatting
+              | Bool
+              | doc "Disallow: POP-DIRECTIONAL-FORMATTING"
+              | optional,
+            pop-directional-isolate
+              | Bool
+              | doc "Disallow: POP-DIRECTIONAL-ISOLATE"
+              | optional,
+            right-to-left-embedding
+              | Bool
+              | doc "Disallow: RIGHT-TO-LEFT-EMBEDDING"
+              | optional,
+            right-to-left-isolate
+              | Bool
+              | doc "Disallow: RIGHT-TO-LEFT-ISOLATE"
+              | optional,
+            right-to-left-override
+              | Bool
+              | doc "Disallow: RIGHT-TO-LEFT-OVERRIDE"
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/copyloopvarSettings!contract" =
+        { check-alias | Bool | optional, },
+      "_js2n__-:definitions/settings/definitions/customSettings!contract"
+        | doc m%"
+          The custom section can be used to define linter plugins to be loaded at runtime. See README of golangci-lint for more information.
+          Each custom linter should have a unique name.
+        "%
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.record {}
+                  {
+                    "^.*$" =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.oneOf
+                              [
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.records.required [ "type" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        type =
+                                          _js2n__-prdslib.enum [ "module" ],
+                                      } {} true _js2n__-prdslib.always
+                                  ],
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.records.required [ "path" ],
+                                    _js2n__-prdslib.records.record {} {} true
+                                      _js2n__-prdslib.always
+                                  ]
+                              ],
+                            _js2n__-prdslib.records.record
+                              {
+                                description = _js2n__-prdslib.isType '"String",
+                                original-url = _js2n__-prdslib.isType '"String",
+                                path = _js2n__-prdslib.isType '"String",
+                                settings = _js2n__-prdslib.isType 'Record,
+                                type =
+                                  _js2n__-prdslib.enum [ "module", "goplugin" ],
+                              } {} false _js2n__-prdslib.never
+                          ],
+                  } true _js2n__-prdslib.always
+              ]),
+      "_js2n__-:definitions/settings/definitions/cyclopSettings!contract" =
+        {
+            max-complexity
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.numbers.minimum 0
+                  ])
+              | doc "Max complexity the function can have"
+              | optional,
+            package-average
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Number",
+                    _js2n__-prdslib.numbers.minimum 0
+                  ])
+              | doc "Max average complexity in package"
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/decorderSettings!contract" =
+        {
+            dec-order
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.enum [ "type", "const", "var", "func" ])
+              )
+              | optional,
+            disable-const-dec-num-check
+              | Bool
+              | doc "Const declarations will be ignored for dec num check"
+              | optional,
+            disable-dec-num-check
+              | Bool
+              | doc "Multiple global type, const and var declarations are allowed"
+              | optional,
+            disable-dec-order-check
+              | Bool
+              | doc "Order of declarations is not checked"
+              | optional,
+            disable-init-func-first-check
+              | Bool
+              | doc "Allow init func to be anywhere in file"
+              | optional,
+            disable-type-dec-num-check
+              | Bool
+              | doc "Type declarations will be ignored for dec num check"
+              | optional,
+            disable-var-dec-num-check
+              | Bool
+              | doc "Var declarations will be ignored for dec num check"
+              | optional,
+            ignore-underscore-vars
+              | Bool
+              | doc "Underscore vars (vars with \"_\" as the name) will be ignored at all checks"
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/depguardSettings!contract" =
+        {
+            rules
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record {}
+                      {
+                        "^[^.]+$" =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record
+                                  {
+                                    allow =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"Array",
+                                            _js2n__-prdslib.arrays.arrayOf
+                                              (_js2n__-prdslib.isType
+                                                '"String"),
+                                            _js2n__-prdslib.records.record {} {}
+                                              false _js2n__-prdslib.never
+                                          ],
+                                    deny =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"Array",
+                                            _js2n__-prdslib.arrays.arrayOf
+                                              (_js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      desc =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      pkg =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                    } {} false
+                                                    _js2n__-prdslib.never
+                                                ])
+                                          ],
+                                    files =
+                                      _js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType '"Array",
+                                            _js2n__-prdslib.arrays.arrayOf
+                                              (_js2n__-prdslib.isType
+                                                '"String"),
+                                            _js2n__-prdslib.records.record {} {}
+                                              false _js2n__-prdslib.never
+                                          ],
+                                    list-mode =
+                                      _js2n__-prdslib.enum
+                                          [ "original", "strict", "lax" ],
+                                  } {} false _js2n__-prdslib.never
+                              ],
+                      } false _js2n__-prdslib.never
+                  ])
+              | doc "Rules to apply."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/dogsledSettings!contract" =
+        {
+            max-blank-identifiers
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.numbers.minimum 0
+                  ])
+              | doc "Check assignments with too many blank identifiers."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/duplSettings!contract" =
+        {
+            threshold
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.numbers.minimum 0
+                  ])
+              | doc "Tokens count to trigger issue."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/dupwordSettings!contract" =
+        {
+            ignore
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.isType '"String"),
+                    _js2n__-prdslib.arrays.uniqueItems
+                  ])
+              | doc "Keywords used to ignore detection."
+              | optional,
+            keywords
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.isType '"String"),
+                    _js2n__-prdslib.arrays.uniqueItems
+                  ])
+              | doc "Keywords for detecting duplicate words. If this list is not empty, only the words defined in this list will be detected."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/errcheckSettings!contract" =
+        {
+            check-blank
+              | Bool
+              | doc "Report about assignment of errors to blank identifier"
+              | optional,
+            check-type-assertions
+              | Bool
+              | doc "Report about not checking errors in type assertions, i.e.: `a := b.(MyStruct)`"
+              | optional,
+            disable-default-exclusions
+              | Bool
+              | doc "To disable the errcheck built-in exclude list"
+              | optional,
+            exclude-functions
+              | Array (String)
+              | doc "List of functions to exclude from checking, where each entry is a single function to exclude"
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/errchkjsonSettings!contract" =
+        {
+            check-error-free-encoding | Bool | optional,
+            report-no-exported
+              | Bool
+              | doc "Issue on struct that doesn't have exported fields."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/errorlintSettings!contract" =
+        {
+            allowed-errors
+              | Array { err | String | optional, "fun" | String | optional, }
+              | optional,
+            allowed-errors-wildcard
+              | Array { err | String | optional, "fun" | String | optional, }
+              | optional,
+            asserts
+              | Bool
+              | doc "Check for plain type assertions and type switches."
+              | optional,
+            comparison
+              | Bool
+              | doc "Check for plain error comparisons"
+              | optional,
+            errorf
+              | Bool
+              | doc "Check whether fmt.Errorf uses the %w verb for formatting errors"
+              | optional,
+            errorf-multi
+              | Bool
+              | doc "Permit more than 1 %w verb, valid per Go 1.20"
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/exhaustiveSettings!contract" =
+        {
+            check
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.isType '"String"),
+                    _js2n__-prdslib.arrays.uniqueItems
+                  ])
+              | doc "Program elements to check for exhaustiveness."
+              | optional,
+            default-case-required
+              | Bool
+              | doc "Switch statement requires default case even if exhaustive."
+              | optional,
+            default-signifies-exhaustive
+              | Bool
+              | doc "Presence of `default` case in switch statements satisfies exhaustiveness, even if all enum members are not listed."
+              | optional,
+            explicit-exhaustive-map
+              | Bool
+              | doc "Only run exhaustive check on map literals with \"//exhaustive:enforce\" comment."
+              | optional,
+            explicit-exhaustive-switch
+              | Bool
+              | doc "Only run exhaustive check on switches with \"//exhaustive:enforce\" comment."
+              | optional,
+            ignore-enum-members
+              | String
+              | doc "Enum members matching `regex` do not have to be listed in switch statements to satisfy exhaustiveness"
+              | optional,
+            ignore-enum-types
+              | String
+              | doc "Enum types matching the supplied regex do not have to be listed in switch statements to satisfy exhaustiveness."
+              | optional,
+            package-scope-only
+              | Bool
+              | doc "Consider enums only in package scopes, not in inner scopes."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/exhaustructSettings!contract" =
+        {
+            exclude
+              | Array (String)
+              | doc "List of regular expressions to exclude struct packages and names from check."
+              | optional,
+            include
+              | Array (String)
+              | doc "List of regular expressions to match struct packages and names."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/fatcontextSettings!contract" =
+        {
+            check-struct-pointers
+              | Bool
+              | doc "Check for potential fat contexts in struct pointers."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/forbidigoSettings!contract" =
+        {
+            analyze-types
+              | Bool
+              | doc "Instead of matching the literal source code, use type information to replace expressions with strings that contain the package name and (for methods and fields) the type name."
+              | optional,
+            exclude-godoc-examples
+              | Bool
+              | doc "Exclude code in godoc examples."
+              | optional,
+            forbid
+              | Array
+                {
+                  msg | String | doc "Message" | optional,
+                  pattern | String | doc "Pattern" | optional,
+                  pkg | String | doc "Package" | optional,
+                }
+              | doc "List of identifiers to forbid (written using `regexp`)"
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/funlenSettings!contract" =
+        {
+            ignore-comments
+              | Bool
+              | doc "Ignore comments when counting lines."
+              | optional,
+            lines
+              | std.number.Integer
+              | doc "Limit lines number per function."
+              | optional,
+            statements
+              | std.number.Integer
+              | doc "Limit statements number per function."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/gciSettings!contract" =
+        {
+            custom-order
+              | Bool
+              | doc "Enable custom order of sections."
+              | optional,
+            no-inline-comments
+              | Bool
+              | doc "Checks that no inline Comments are present."
+              | optional,
+            no-lex-order
+              | Bool
+              | doc "Drops lexical ordering for custom sections."
+              | optional,
+            no-prefix-comments
+              | Bool
+              | doc "Checks that no prefix Comments(comment lines above an import) are present."
+              | optional,
+            sections
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.anyOf
+                    [
+                      _js2n__-prdslib.enum
+                        [
+                          "standard",
+                          "default",
+                          "blank",
+                          "dot",
+                          "alias",
+                          "localmodule"
+                        ],
+                      _js2n__-prdslib.isType '"String"
+                    ])
+              )
+              | doc "Section configuration to compare against."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/ginkgolinterSettings!contract" =
+        {
+            allow-havelen-zero
+              | Bool
+              | doc "Don't trigger warnings for HaveLen(0)."
+              | optional,
+            forbid-focus-container
+              | Bool
+              | doc "Trigger warning for ginkgo focus containers like FDescribe, FContext, FWhen or FIt."
+              | optional,
+            forbid-spec-pollution
+              | Bool
+              | doc "Trigger a warning for variable assignments in ginkgo containers like `Describe`, `Context` and `When`, instead of in `BeforeEach()`."
+              | optional,
+            force-expect-to
+              | Bool
+              | doc "Force using `Expect` with `To`, `ToNot` or `NotTo`"
+              | optional,
+            force-succeed
+              | Bool
+              | doc "Force using the Succeed matcher for error functions, and the HaveOccurred matcher for non-function error values."
+              | optional,
+            suppress-async-assertion
+              | Bool
+              | doc "Suppress the function all in async assertion warning."
+              | optional,
+            suppress-compare-assertion
+              | Bool
+              | doc "Suppress the wrong comparison assertion warning."
+              | optional,
+            suppress-err-assertion
+              | Bool
+              | doc "Suppress the wrong error assertion warning."
+              | optional,
+            suppress-len-assertion
+              | Bool
+              | doc "Suppress the wrong length assertion warning."
+              | optional,
+            suppress-nil-assertion
+              | Bool
+              | doc "Suppress the wrong nil assertion warning."
+              | optional,
+            suppress-type-compare-assertion
+              | Bool
+              | doc "Suppress warning for comparing values from different types, like int32 and uint32."
+              | optional,
+            validate-async-intervals
+              | Bool
+              | doc "Best effort validation of async intervals (timeout and polling)."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/gochecksumtypeSettings!contract" =
+        {
+            default-signifies-exhaustive
+              | Bool
+              | doc "Presence of `default` case in switch statements satisfies exhaustiveness, if all members are not listed."
+              | optional,
+            include-shared-interfaces
+              | Bool
+              | doc "Include shared interfaces in the exhaustiviness check."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/gocognitSettings!contract" =
+        {
+            min-complexity
+              | std.number.Integer
+              | doc "Minimal code complexity to report (we recommend 10-20)."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/goconstSettings!contract" =
+        {
+            ignore-calls
+              | Bool
+              | doc "Ignore when constant is not used as function argument"
+              | optional,
+            ignore-strings
+              | String
+              | doc "Exclude strings matching the given regular expression"
+              | optional,
+            match-constant
+              | Bool
+              | doc "Look for existing constants matching the values"
+              | optional,
+            max
+              | std.number.Integer
+              | doc "Maximum value, only works with `numbers`"
+              | optional,
+            min
+              | std.number.Integer
+              | doc "Minimum value, only works with `numbers`"
+              | optional,
+            min-len
+              | std.number.Integer
+              | doc "Minimum length of string constant."
+              | optional,
+            min-occurrences
+              | std.number.Integer
+              | doc "Minimum occurrences count to trigger."
+              | optional,
+            numbers
+              | Bool
+              | doc "Search also for duplicated numbers."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/gocriticSettings!contract" =
+        {
+            disable-all | Bool | optional,
+            disabled-checks
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/gocritic-checks!contract"
+              | doc "Which checks should be disabled."
+              | optional,
+            disabled-tags
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/gocritic-tags!contract"
+              | doc "Disable multiple checks by tags, run `GL_DEBUG=gocritic golangci-lint run` to see all tags and checks."
+              | optional,
+            enable-all | Bool | optional,
+            enabled-checks
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/gocritic-checks!contract"
+              | doc "Which checks should be enabled. By default, a list of stable checks is used. To see it, run `GL_DEBUG=gocritic golangci-lint run`."
+              | optional,
+            enabled-tags
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/gocritic-tags!contract"
+              | doc "Enable multiple checks by tags, run `GL_DEBUG=gocritic golangci-lint run` to see all tags and checks."
+              | optional,
+            settings
+              | {
+                captLocal | { paramsOnly | Bool | optional, } | optional,
+                commentedOutCode
+                  | { minLength | Number | optional, }
+                  | optional,
+                elseif | { skipBalanced | Bool | optional, } | optional,
+                hugeParam | { sizeThreshold | Number | optional, } | optional,
+                ifElseChain | { minThreshold | Number | optional, } | optional,
+                nestingReduce | { bodyWidth | Number | optional, } | optional,
+                rangeExprCopy
+                  | {
+                    sizeThreshold | Number | optional,
+                    skipTestFuncs | Bool | optional,
+                  }
+                  | optional,
+                rangeValCopy
+                  | {
+                    sizeThreshold | Number | optional,
+                    skipTestFuncs | Bool | optional,
+                  }
+                  | optional,
+                ruleguard
+                  | {
+                    debug | String | optional,
+                    disable | String | optional,
+                    enable | String | optional,
+                    failOn | String | optional,
+                    rules | String | optional,
+                  }
+                  | optional,
+                tooManyResultsChecker
+                  | { maxResults | Number | optional, }
+                  | optional,
+                truncateCmp
+                  | { skipArchDependent | Bool | optional, }
+                  | optional,
+                underef | { skipRecvDeref | Bool | optional, } | optional,
+                unnamedResult | { checkExported | Bool | optional, } | optional,
+              }
+              | doc "Settings passed to gocritic. Properties must be valid and enabled check names."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/gocycloSettings!contract" =
+        {
+            min-complexity
+              | std.number.Integer
+              | doc "Minimum code complexity to report (we recommend 10-20)."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/godotSettings!contract" =
+        {
+            capital
+              | Bool
+              | doc "Check that each sentence starts with a capital letter."
+              | optional,
+            check-all
+              | Bool
+              | doc "DEPRECATED: Check all top-level comments, not only declarations."
+              | optional,
+            exclude
+              | Array (String)
+              | doc "List of regexps for excluding particular comment lines from check."
+              | optional,
+            period
+              | Bool
+              | doc "Check that each sentence ends with a period."
+              | optional,
+            scope
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.enum [ "declarations", "toplevel", "all" ])
+              | doc "Comments to be checked."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/godoxSettings!contract" =
+        {
+            keywords
+              | Array (String)
+              | doc "Report any comments starting with one of these keywords. This is useful for TODO or FIXME comments that might be left in the code accidentally and should be resolved before merging."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/gofmtSettings!contract" =
+        {
+            rewrite-rules
+              | Array
+                {
+                  pattern | String | optional,
+                  replacement | String | optional,
+                }
+              | doc "Apply the rewrite rules to the source before reformatting."
+              | optional,
+            simplify | Bool | doc "Simplify code." | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/gofumptSettings!contract" =
+        {
+            extra-rules
+              | Bool
+              | doc "Choose whether or not to use the extra rules that are disabled by default."
+              | optional,
+            module-path
+              | String
+              | doc " Module path which contains the source code being formatted."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/goheaderSettings!contract" =
+        _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.oneOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "template" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "template-path" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]
+                  ],
+                _js2n__-prdslib.records.record
+                  {
+                    template = _js2n__-prdslib.isType '"String",
+                    template-path = _js2n__-prdslib.isType '"String",
+                    values =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record
+                              {
+                                const =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Record,
+                                        _js2n__-prdslib.records.record {}
+                                          {
+                                            "^.+$" =
+                                              _js2n__-prdslib.isType '"String",
+                                          } false _js2n__-prdslib.never
+                                      ],
+                                regexp =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Record,
+                                        _js2n__-prdslib.records.record {}
+                                          {
+                                            "^.+$" =
+                                              _js2n__-prdslib.isType '"String",
+                                          } false _js2n__-prdslib.never
+                                      ],
+                              } {} false _js2n__-prdslib.never
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ]),
+      "_js2n__-:definitions/settings/definitions/goimportsSettings!contract" =
+        {
+            local-prefixes
+              | Array (String)
+              | doc "Put imports beginning with prefix after 3rd-party packages. It is a list of prefixes."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/golinesSettings!contract" =
+        {
+            chain-split-dots | Bool | optional,
+            max-len | std.number.Integer | optional,
+            reformat-tags | Bool | optional,
+            shorten-comments | Bool | optional,
+            tab-len | std.number.Integer | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/gomoddirectivesSettings!contract" =
+        {
+            exclude-forbidden
+              | Bool
+              | doc "Forbid the use of the `exclude` directives."
+              | optional,
+            go-debug-forbidden
+              | Bool
+              | doc "Forbid the use of the `godebug` directive."
+              | optional,
+            go-version-pattern
+              | String
+              | doc "Defines a pattern to validate `go` minimum version directive."
+              | optional,
+            replace-allow-list
+              | Array (String)
+              | doc "List of allowed `replace` directives."
+              | optional,
+            replace-local
+              | Bool
+              | doc "Allow local `replace` directives."
+              | optional,
+            retract-allow-no-explanation
+              | Bool
+              | doc "Allow to not explain why the version has been retracted in the `retract` directives."
+              | optional,
+            tool-forbidden
+              | Bool
+              | doc "Forbid the use of the `tool` directives."
+              | optional,
+            toolchain-forbidden
+              | Bool
+              | doc "Forbid the use of the `toolchain` directive."
+              | optional,
+            toolchain-pattern
+              | String
+              | doc "Defines a pattern to validate `toolchain` directive."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/gomodguardSettings!contract" =
+        {
+            allowed
+              | {
+                domains
+                  | Array (String)
+                  | doc "List of allowed module domains."
+                  | optional,
+                modules
+                  | Array (String)
+                  | doc "List of allowed modules."
+                  | optional,
+              }
+              | optional,
+            blocked
+              | {
+                local-replace-directives
+                  | Bool
+                  | doc "Raise lint issues if loading local path with replace directive"
+                  | optional,
+                modules
+                  | Array (
+                    _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^.+$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          reason =
+                                            _js2n__-prdslib.isType '"String",
+                                          recommendations =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.arrays.arrayOf
+                                                    (_js2n__-prdslib.isType
+                                                      '"String")
+                                                ],
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                            } false _js2n__-prdslib.never
+                        ])
+                  )
+                  | doc "List of blocked modules."
+                  | optional,
+                versions
+                  | Array (
+                    _js2n__-prdslib.contract_from_predicate
+                      (_js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {}
+                            {
+                              "^.*$" =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.required
+                                        [ "reason" ],
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          reason =
+                                            _js2n__-prdslib.isType '"String",
+                                          version =
+                                            _js2n__-prdslib.isType '"String",
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                            } true _js2n__-prdslib.always
+                        ])
+                  )
+                  | doc "List of blocked module version constraints."
+                  | optional,
+              }
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/gosecSettings!contract" =
+        {
+            concurrency
+              | std.number.Integer
+              | doc "Concurrency value"
+              | optional,
+            confidence
+              | std.enum.TagOrString
+              | [| 'high, 'medium, 'low |]
+              | doc "Filter out the issues with a lower confidence than the given value"
+              | optional,
+            config
+              | {  .. }
+              | doc "To specify the configuration of rules"
+              | optional,
+            excludes
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/gosec-rules!contract"
+              | doc "To specify a set of rules to explicitly exclude"
+              | optional,
+            includes
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/gosec-rules!contract"
+              | doc "To select a subset of rules to run"
+              | optional,
+            severity
+              | std.enum.TagOrString
+              | [| 'high, 'medium, 'low |]
+              | doc "Filter out the issues with a lower severity than the given value"
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/gosmopolitanSettings!contract" =
+        {
+            allow-time-local
+              | Bool
+              | doc "Allow and ignore `time.Local` usages."
+              | optional,
+            escape-hatches
+              | Array (String)
+              | doc "List of fully qualified names in the `full/pkg/path.name` form, to act as \"i18n escape hatches\"."
+              | optional,
+            watch-for-scripts
+              | Array (String)
+              | doc "List of Unicode scripts to watch for any usage in string literals."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/govetSettings!contract" =
+        {
+            disable
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/govet-analyzers!contract"
+              | doc "Disable analyzers by name."
+              | optional,
+            disable-all | Bool | doc "Disable all analyzers." | optional,
+            enable
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/govet-analyzers!contract"
+              | doc "Enable analyzers by name."
+              | optional,
+            enable-all | Bool | doc "Enable all analyzers." | optional,
+            settings
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.propertyNames
+                      _js2n__-refsenv."_js2n__-:definitions/govet-analyzers!predicate",
+                    _js2n__-prdslib.records.record {}
+                      { "^.*$" = _js2n__-prdslib.isType 'Record, } true
+                      _js2n__-prdslib.always
+                  ])
+              | doc m%"
+                Settings per analyzer. Map of analyzer name to specific settings.
+                Run `go tool vet help` to find out more.
+              "%
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/grouperSettings!contract" =
+        {
+            const-require-grouping | Bool | optional,
+            const-require-single-const | Bool | optional,
+            import-require-grouping | Bool | optional,
+            import-require-single-import | Bool | optional,
+            type-require-grouping | Bool | optional,
+            type-require-single-type | Bool | optional,
+            var-require-grouping | Bool | optional,
+            var-require-single-var | Bool | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/ifaceSettings!contract" =
+        {
+            enable
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/iface-analyzers!contract"
+              | doc "Enable analyzers by name."
+              | optional,
+            settings
+              | {
+                unused | { exclude | Array (String) | optional, } | optional,
+              }
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/importasSettings!contract" =
+        {
+            alias
+              | Array
+                {
+                  alias | String | doc "Package alias e.g. autoscalingv1alpha1",
+                  pkg
+                    | String
+                    | doc "Package path e.g. knative.dev/serving/pkg/apis/autoscaling/v1alpha1",
+                }
+              | doc "List of aliases"
+              | optional,
+            no-extra-aliases
+              | Bool
+              | doc "Do not allow non-required aliases."
+              | optional,
+            no-unaliased
+              | Bool
+              | doc "Do not allow unaliased imports of aliased packages."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/inamedparamSettings!contract" =
+        {
+            skip-single-param
+              | Bool
+              | doc "Skips check for interface methods with only a single parameter."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/interfacebloatSettings!contract" =
+        {
+            max
+              | std.number.Integer
+              | doc "The maximum number of methods allowed for an interface."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/ireturnSettings!contract"
+        | doc "Use either `reject` or `allow` properties for interfaces matching."
+        = _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.anyOf
+                  [
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.not
+                          (_js2n__-prdslib.records.record
+                            { allow = _js2n__-prdslib.const "reject", } {} true
+                            _js2n__-prdslib.always),
+                        _js2n__-prdslib.records.required [ "allow" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ],
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "reject" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]
+                  ],
+                _js2n__-prdslib.records.record
+                  {
+                    allow =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum
+                                    [ "anon", "error", "empty", "stdlib" ]
+                                ])
+                          ],
+                    reject =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.enum
+                                    [ "anon", "error", "empty", "stdlib" ]
+                                ])
+                          ],
+                  } {} false _js2n__-prdslib.never
+              ]),
+      "_js2n__-:definitions/settings/definitions/lllSettings!contract" =
+        {
+            line-length
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.numbers.minimum 1
+                  ])
+              | doc "Maximum allowed line length, lines longer will be reported."
+              | optional,
+            tab-width
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.numbers.minimum 0
+                  ])
+              | doc "Width of \"\\t\" in spaces."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/loggercheckSettings!contract" =
+        {
+            kitlog
+              | Bool
+              | doc "Allow check for the github.com/go-kit/log library."
+              | optional,
+            klog
+              | Bool
+              | doc "Allow check for the k8s.io/klog/v2 library."
+              | optional,
+            logr
+              | Bool
+              | doc "Allow check for the github.com/go-logr/logr library."
+              | optional,
+            no-printf-like
+              | Bool
+              | doc "Require printf-like format specifier (%s, %d for example) not present."
+              | optional,
+            require-string-key
+              | Bool
+              | doc "Require all logging keys to be inlined constant strings."
+              | optional,
+            rules
+              | Array (String)
+              | doc "List of custom rules to check against, where each rule is a single logger pattern, useful for wrapped loggers."
+              | optional,
+            slog
+              | Bool
+              | doc "Allow check for the log/slog library."
+              | optional,
+            zap
+              | Bool
+              | doc "Allow check for the \"sugar logger\" from go.uber.org/zap library."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/maintidxSettings!contract"
+        | doc "Maintainability index https://docs.microsoft.com/en-us/visualstudio/code-quality/code-metrics-maintainability-index-range-and-meaning?view=vs-2022"
+        = {
+            under
+              | Number
+              | doc "Minimum accatpable maintainability index level (see https://docs.microsoft.com/en-us/visualstudio/code-quality/code-metrics-maintainability-index-range-and-meaning?view=vs-2022)"
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/makezeroSettings!contract" =
+        {
+            always
+              | Bool
+              | doc "Allow only slices initialized with a length of zero."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/misspellSettings!contract"
+        | doc "Correct spellings using locale preferences for US or UK. Default is to use a neutral variety of English."
+        = {
+            extra-words
+              | Array
+                { correction | String | optional, typo | String | optional, }
+              | doc "Extra word corrections."
+              | optional,
+            ignore-rules
+              | Array (String)
+              | doc "List of rules to ignore."
+              | optional,
+            locale
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.enum [ "US", "UK" ])
+              | optional,
+            mode
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.enum [ "restricted", "", "default" ])
+              | doc "Mode of the analysis."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/mndSettings!contract" =
+        {
+            checks
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.enum
+                    [
+                      "argument",
+                      "case",
+                      "condition",
+                      "operation",
+                      "return",
+                      "assign"
+                    ])
+              )
+              | doc "The list of enabled checks, see https://github.com/tommy-muehle/go-mnd/#checks for description."
+              | optional,
+            ignored-files
+              | Array (String)
+              | doc "List of file patterns to exclude from analysis."
+              | optional,
+            ignored-functions
+              | Array (String)
+              | doc "Comma-separated list of function patterns to exclude from the analysis."
+              | optional,
+            ignored-numbers
+              | Array (String)
+              | doc "List of numbers to exclude from analysis."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/musttagSettings!contract" =
+        {
+            functions
+              | Array
+                {
+                  arg-pos | std.number.Integer | optional,
+                  name | String | optional,
+                  tag | String | optional,
+                }
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/nakedretSettings!contract" =
+        {
+            max-func-lines
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.numbers.minimum 0
+                  ])
+              | doc "Report if a function has more lines of code than this value and it has naked returns."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/nestifSettings!contract" =
+        {
+            min-complexity
+              | std.number.Integer
+              | doc "Minimum complexity of \"if\" statements to report."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/nilnilSettings!contract" =
+        {
+            checked-types
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.enum
+                    [
+                      "chan",
+                      "func",
+                      "iface",
+                      "map",
+                      "ptr",
+                      "uintptr",
+                      "unsafeptr"
+                    ])
+              )
+              | doc "List of return types to check."
+              | optional,
+            detect-opposite
+              | Bool
+              | doc "In addition, detect opposite situation (simultaneous return of non-nil error and valid value)."
+              | optional,
+            only-two
+              | Bool
+              | doc "To check functions with only two return values."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/nlreturnSettings!contract" =
+        {
+            block-size
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Number",
+                    _js2n__-prdslib.numbers.minimum 0
+                  ])
+              | doc "set block size that is still ok"
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/nolintlintSettings!contract" =
+        {
+            allow-no-explanation
+              | Array
+                _js2n__-refsenv."_js2n__-:definitions/linter-names!contract"
+              | doc "Exclude these linters from requiring an explanation."
+              | optional,
+            allow-unused
+              | Bool
+              | doc "Enable to ensure that nolint directives are all used."
+              | optional,
+            require-explanation
+              | Bool
+              | doc "Enable to require an explanation of nonzero length after each nolint directive."
+              | optional,
+            require-specific
+              | Bool
+              | doc "Enable to require nolint directives to mention the specific linter being suppressed."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/nonamedreturnsSettings!contract" =
+        {
+            report-error-in-defer
+              | Bool
+              | doc "Report named error if it is assigned inside defer."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/paralleltestSettings!contract" =
+        {
+            ignore-missing
+              | Bool
+              | doc "Ignore missing calls to `t.Parallel()` and only report incorrect uses of it."
+              | optional,
+            ignore-missing-subtests
+              | Bool
+              | doc "Ignore missing calls to `t.Parallel()` in subtests. Top-level tests are still required to have `t.Parallel`, but subtests are allowed to skip it."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/perfsprintSettings!contract" =
+        {
+            bool-format
+              | Bool
+              | doc "Enable/disable optimization of bool formatting."
+              | optional,
+            err-error
+              | Bool
+              | doc "Optimizes into `err.Error()` even if it is only equivalent for non-nil errors."
+              | optional,
+            error-format
+              | Bool
+              | doc "Enable/disable optimization of error formatting."
+              | optional,
+            errorf | Bool | doc "Optimizes `fmt.Errorf`." | optional,
+            hex-format
+              | Bool
+              | doc "Enable/disable optimization of hex formatting."
+              | optional,
+            int-conversion
+              | Bool
+              | doc "Optimizes even if it requires an int or uint type cast."
+              | optional,
+            integer-format
+              | Bool
+              | doc "Enable/disable optimization of integer formatting."
+              | optional,
+            sprintf1
+              | Bool
+              | doc "Optimizes `fmt.Sprintf` with only one argument."
+              | optional,
+            strconcat
+              | Bool
+              | doc "Optimizes into strings concatenation."
+              | optional,
+            string-format
+              | Bool
+              | doc "Enable/disable optimization of string formatting."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/preallocSettings!contract"
+        | doc m%"
+          We do not recommend using this linter before doing performance profiling.
+          For most programs usage of `prealloc` will be premature optimization.
+        "%
+        = {
+            for-loops
+              | Bool
+              | doc "Report preallocation suggestions on for loops."
+              | optional,
+            range-loops
+              | Bool
+              | doc "Report preallocation suggestions on range loops."
+              | optional,
+            simple
+              | Bool
+              | doc "Report preallocation suggestions only on simple loops that have no returns/breaks/continues/gotos in them."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/predeclaredSettings!contract" =
+        {
+            ignore
+              | Array (String)
+              | doc "List of predeclared identifiers to not report on."
+              | optional,
+            qualified-name
+              | Bool
+              | doc "Include method names and field names in checks."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/promlinterSettings!contract" =
+        {
+            disabled-linters
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.enum
+                    [
+                      "Help",
+                      "MetricUnits",
+                      "Counter",
+                      "HistogramSummaryReserved",
+                      "MetricTypeInName",
+                      "ReservedChars",
+                      "CamelCase",
+                      "UnitAbbreviations"
+                    ])
+              )
+              | optional,
+            strict
+              | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/protogetterSettings!contract" =
+        {
+            replace-first-arg-in-append
+              | Bool
+              | doc "Skip first argument of append function."
+              | optional,
+            skip-any-generated
+              | Bool
+              | doc "Skip any generated files from the checking."
+              | optional,
+            skip-files | Array (String) | optional,
+            skip-generated-by | Array (String) | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/reassignSettings!contract" =
+        { patterns | Array (String) | optional, },
+      "_js2n__-:definitions/settings/definitions/recvcheckSettings!contract" =
+        {
+            disable-builtin
+              | Bool
+              | doc "Disables the built-in method exclusions."
+              | optional,
+            exclusions
+              | Array (String)
+              | doc "User-defined method exclusions."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/reviveSettings!contract" =
+        {
+            confidence | Number | optional,
+            directives
+              | Array
+                {
+                  arguments | Array Dyn | optional,
+                  exclude | Array (String) | optional,
+                  name
+                    | std.enum.TagOrString
+                    | [| 'specify-disable-reason |]
+                    | optional,
+                  severity
+                    | std.enum.TagOrString
+                    | [| 'error, 'warning |]
+                    | optional,
+                }
+              | optional,
+            enable-all-rules | Bool | optional,
+            max-open-files | std.number.Integer | optional,
+            rules
+              | Array
+                {
+                  arguments | Array Dyn | optional,
+                  disabled | Bool | optional,
+                  exclude | Array (String) | optional,
+                  name
+                    | _js2n__-refsenv."_js2n__-:definitions/revive-rules!contract",
+                  severity
+                    | std.enum.TagOrString
+                    | [| 'error, 'warning |]
+                    | optional,
+                }
+              | optional,
+            severity | std.enum.TagOrString | [| 'error, 'warning |] | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/rowserrcheckSettings!contract" =
+        { packages | Array (String) | optional, },
+      "_js2n__-:definitions/settings/definitions/sloglintSettings!contract" =
+        {
+            args-on-sep-lines
+              | Bool
+              | doc "Enforce putting arguments on separate lines."
+              | optional,
+            attr-only
+              | Bool
+              | doc "Enforce using attributes only (incompatible with kv-only)."
+              | optional,
+            context
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.enum [ "", "all", "scope" ])
+              | doc "Enforce using methods that accept a context."
+              | optional,
+            forbidden-keys
+              | Array (String)
+              | doc "Enforce not using specific keys."
+              | optional,
+            key-naming-case
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.enum [ "snake", "kebab", "camel", "pascal" ])
+              | doc "Enforce a single key naming convention."
+              | optional,
+            kv-only
+              | Bool
+              | doc "Enforce using key-value pairs only (incompatible with attr-only)."
+              | optional,
+            no-global
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.enum [ "", "all", "default" ])
+              | doc "Enforce not using global loggers."
+              | optional,
+            no-mixed-args
+              | Bool
+              | doc "Enforce not mixing key-value pairs and attributes."
+              | optional,
+            no-raw-keys
+              | Bool
+              | doc "Enforce using constants instead of raw keys."
+              | optional,
+            static-msg
+              | Bool
+              | doc "Enforce using static values for log messages."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/spancheckSettings!contract" =
+        {
+            checks
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.enum [ "end", "record-error", "set-status" ])
+              )
+              | doc "Checks to enable."
+              | optional,
+            extra-start-span-signatures
+              | Array (String)
+              | doc "A list of regexes for additional function signatures that create spans."
+              | optional,
+            ignore-check-signatures
+              | Array (String)
+              | doc "A list of regexes for function signatures that silence `record-error` and `set-status` reports if found in the call path to a returned error."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/staticcheckSettings!contract" =
+        {
+            checks
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.anyOf
+                    [
+                      _js2n__-refsenv."_js2n__-:definitions/staticcheck-checks!predicate",
+                      _js2n__-prdslib.isType '"String"
+                    ])
+              )
+              | optional,
+            dot-import-whitelist
+              | Array (String)
+              | doc "By default, ST1001 forbids all uses of dot imports in non-test packages. This setting allows setting a whitelist of import paths that can be dot-imported anywhere."
+              | optional,
+            http-status-code-whitelist
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.enum
+                    [
+                      "100",
+                      "101",
+                      "102",
+                      "103",
+                      "200",
+                      "201",
+                      "202",
+                      "203",
+                      "204",
+                      "205",
+                      "206",
+                      "207",
+                      "208",
+                      "226",
+                      "300",
+                      "301",
+                      "302",
+                      "303",
+                      "304",
+                      "305",
+                      "306",
+                      "307",
+                      "308",
+                      "400",
+                      "401",
+                      "402",
+                      "403",
+                      "404",
+                      "405",
+                      "406",
+                      "407",
+                      "408",
+                      "409",
+                      "410",
+                      "411",
+                      "412",
+                      "413",
+                      "414",
+                      "415",
+                      "416",
+                      "417",
+                      "418",
+                      "421",
+                      "422",
+                      "423",
+                      "424",
+                      "425",
+                      "426",
+                      "428",
+                      "429",
+                      "431",
+                      "451",
+                      "500",
+                      "501",
+                      "502",
+                      "503",
+                      "504",
+                      "505",
+                      "506",
+                      "507",
+                      "508",
+                      "510",
+                      "511"
+                    ])
+              )
+              | doc "ST1013 recommends using constants from the net/http package instead of hard-coding numeric HTTP status codes. This setting specifies a list of numeric status codes that this check does not complain about."
+              | optional,
+            initialisms
+              | Array (String)
+              | doc "ST1003 check, among other things, for the correct capitalization of initialisms. The set of known initialisms can be configured with this option."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/tagalignSettings!contract" =
+        {
+            align
+              | Bool
+              | doc "Align and sort can be used together or separately."
+              | optional,
+            order
+              | Array (String)
+              | doc "Specify the order of tags, the other tags will be sorted by name."
+              | optional,
+            sort | Bool | doc "Whether enable tags sort." | optional,
+            strict | Bool | doc "Whether enable strict style." | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/tagliatelleSettings!contract" =
+        {
+            case
+              | {
+                extended-rules
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record {}
+                          {
+                            "^.+$" =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.required [ "case" ],
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        case =
+                                          _js2n__-refsenv."_js2n__-:definitions/tagliatelle-cases!predicate",
+                                        extra-initialisms =
+                                          _js2n__-prdslib.isType '"Bool",
+                                        initialism-overrides =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.record
+                                                  {}
+                                                  {
+                                                    "^.+$" =
+                                                      _js2n__-prdslib.isType
+                                                          '"Bool",
+                                                  } true _js2n__-prdslib.always
+                                              ],
+                                      } {} false _js2n__-prdslib.never
+                                  ],
+                          } true _js2n__-prdslib.always
+                      ])
+                  | doc "Defines the association between tag name and case."
+                  | optional,
+                ignored-fields
+                  | Array (String)
+                  | doc "The field names to ignore."
+                  | optional,
+                overrides
+                  | Array
+                    {
+                      extended-rules
+                        | _js2n__-prdslib.contract_from_predicate
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record {}
+                                {
+                                  "^.+$" =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.required
+                                            [ "case" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              case =
+                                                _js2n__-refsenv."_js2n__-:definitions/tagliatelle-cases!predicate",
+                                              extra-initialisms =
+                                                _js2n__-prdslib.isType '"Bool",
+                                              initialism-overrides =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Record,
+                                                      _js2n__-prdslib.records.record
+                                                        {}
+                                                        {
+                                                          "^.+$" =
+                                                            _js2n__-prdslib.isType
+                                                                '"Bool",
+                                                        } true
+                                                        _js2n__-prdslib.always
+                                                    ],
+                                            } {} false _js2n__-prdslib.never
+                                        ],
+                                } true _js2n__-prdslib.always
+                            ])
+                        | doc "Defines the association between tag name and case."
+                        | optional,
+                      ignore
+                        | Bool
+                        | doc "Ignore the package (takes precedence over all other configurations)."
+                        | optional,
+                      ignored-fields
+                        | Array (String)
+                        | doc "The field names to ignore."
+                        | optional,
+                      pkg | String | doc "A package path.",
+                      rules
+                        | _js2n__-prdslib.contract_from_predicate
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record {}
+                                {
+                                  "^.+$" =
+                                    _js2n__-refsenv."_js2n__-:definitions/tagliatelle-cases!predicate",
+                                } true _js2n__-prdslib.always
+                            ])
+                        | optional,
+                      use-field-name
+                        | Bool
+                        | doc "Use the struct field name to check the name of the struct tag."
+                        | optional,
+                    }
+                  | doc "Overrides the default/root configuration."
+                  | optional,
+                rules
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record {}
+                          {
+                            "^.+$" =
+                              _js2n__-refsenv."_js2n__-:definitions/tagliatelle-cases!predicate",
+                          } true _js2n__-prdslib.always
+                      ])
+                  | optional,
+                use-field-name
+                  | Bool
+                  | doc "Use the struct field name to check the name of the struct tag."
+                  | optional,
+              }
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/tenvSettings!contract" =
+        {
+            all
+              | Bool
+              | doc "The option `all` will run against whole test files (`_test.go`) regardless of method/function signatures."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/testifylintSettings!contract" =
+        {
+            bool-compare
+              | {
+                ignore-custom-types
+                  | Bool
+                  | doc "To ignore user defined types (over builtin bool)."
+                  | optional,
+              }
+              | optional,
+            disable
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.enum
+                    [
+                      "blank-import",
+                      "bool-compare",
+                      "compares",
+                      "contains",
+                      "empty",
+                      "encoded-compare",
+                      "equal-values",
+                      "error-is-as",
+                      "error-nil",
+                      "expected-actual",
+                      "float-compare",
+                      "formatter",
+                      "go-require",
+                      "len",
+                      "negative-positive",
+                      "nil-compare",
+                      "regexp",
+                      "require-error",
+                      "suite-broken-parallel",
+                      "suite-dont-use-pkg",
+                      "suite-extra-assert-call",
+                      "suite-method-signature",
+                      "suite-subtest-run",
+                      "suite-thelper",
+                      "useless-assert"
+                    ])
+              )
+              | doc "Disable specific checkers."
+              | optional,
+            disable-all | Bool | doc "Disable all checkers." | optional,
+            enable
+              | Array (
+                _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.enum
+                    [
+                      "blank-import",
+                      "bool-compare",
+                      "compares",
+                      "contains",
+                      "empty",
+                      "encoded-compare",
+                      "equal-values",
+                      "error-is-as",
+                      "error-nil",
+                      "expected-actual",
+                      "float-compare",
+                      "formatter",
+                      "go-require",
+                      "len",
+                      "negative-positive",
+                      "nil-compare",
+                      "regexp",
+                      "require-error",
+                      "suite-broken-parallel",
+                      "suite-dont-use-pkg",
+                      "suite-extra-assert-call",
+                      "suite-method-signature",
+                      "suite-subtest-run",
+                      "suite-thelper",
+                      "useless-assert"
+                    ])
+              )
+              | doc "Enable specific checkers."
+              | optional,
+            enable-all | Bool | doc "Enable all checkers." | optional,
+            expected-actual
+              | {
+                pattern
+                  | String
+                  | doc "Regexp for expected variable name."
+                  | optional,
+              }
+              | optional,
+            formatter
+              | {
+                check-format-string
+                  | Bool
+                  | doc "To enable go vet's printf checks."
+                  | optional,
+                require-f-funcs
+                  | Bool
+                  | doc "To require f-assertions (e.g. assert.Equalf) if format string is used, even if there are no variable-length variables."
+                  | optional,
+                require-string-msg
+                  | Bool
+                  | doc "To require that the first element of msgAndArgs (msg) has a string type."
+                  | optional,
+              }
+              | optional,
+            go-require
+              | {
+                ignore-http-handlers
+                  | Bool
+                  | doc "To ignore HTTP handlers (like http.HandlerFunc)."
+                  | optional,
+              }
+              | optional,
+            require-error
+              | {
+                fn-pattern
+                  | String
+                  | doc "Regexp for assertions to analyze. If defined, then only matched error assertions will be reported."
+                  | optional,
+              }
+              | optional,
+            suite-extra-assert-call
+              | {
+                mode
+                  | std.enum.TagOrString
+                  | [| 'require, 'remove |]
+                  | doc "To require or remove extra Assert() call?"
+                  | optional,
+              }
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/testpackageSettings!contract" =
+        {
+            allow-packages
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"Array",
+                    _js2n__-prdslib.arrays.arrayOf
+                      (_js2n__-prdslib.isType '"String"),
+                    _js2n__-prdslib.arrays.uniqueItems
+                  ])
+              | doc "List of packages that don't end with _test that tests are allowed to be in."
+              | optional,
+            skip-regexp
+              | String
+              | doc "Files with names matching this regular expression are skipped."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/thelperSettings!contract" =
+        {
+            benchmark
+              | {
+                begin
+                  | Bool
+                  | doc "Check if `b.Helper()` begins helper function."
+                  | optional,
+                first
+                  | Bool
+                  | doc "Check if *testing.B is first param of helper function."
+                  | optional,
+                name
+                  | Bool
+                  | doc "Check if *testing.B param has b name."
+                  | optional,
+              }
+              | optional,
+            fuzz
+              | {
+                begin
+                  | Bool
+                  | doc "Check if `f.Helper()` begins helper function."
+                  | optional,
+                first
+                  | Bool
+                  | doc "Check if *testing.F is first param of helper function."
+                  | optional,
+                name
+                  | Bool
+                  | doc "Check if *testing.F param has f name."
+                  | optional,
+              }
+              | optional,
+            tb
+              | {
+                begin
+                  | Bool
+                  | doc "Check if `tb.Helper()` begins helper function."
+                  | optional,
+                first
+                  | Bool
+                  | doc "Check if *testing.TB is first param of helper function."
+                  | optional,
+                name
+                  | Bool
+                  | doc "Check if *testing.TB param has tb name."
+                  | optional,
+              }
+              | optional,
+            test
+              | {
+                begin
+                  | Bool
+                  | doc "Check if `t.Helper()` begins helper function."
+                  | optional,
+                first
+                  | Bool
+                  | doc "Check if *testing.T is first param of helper function."
+                  | optional,
+                name
+                  | Bool
+                  | doc "Check if *testing.T param has t name."
+                  | optional,
+              }
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/unconvertSettings!contract" =
+        { fast-math | Bool | optional, safe | Bool | optional, },
+      "_js2n__-:definitions/settings/definitions/unparamSettings!contract" =
+        {
+            check-exported
+              | Bool
+              | doc m%"
+                Inspect exported functions. Set to true if no external program/library imports your code.
+                
+                WARNING: if you enable this setting, unparam will report a lot of false-positives in text editors:
+                if it's called for subdir of a project it can't find external interfaces. All text editor integrations
+                with golangci-lint call it on a directory with the changed file.
+              "%
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/unusedSettings!contract" =
+        {
+            exported-fields-are-used | Bool | doc "" | optional,
+            field-writes-are-uses | Bool | doc "" | optional,
+            generated-is-used | Bool | doc "" | optional,
+            local-variables-are-used | Bool | doc "" | optional,
+            parameters-are-used | Bool | doc "" | optional,
+            post-statements-are-reads | Bool | doc "" | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/usestdlibvarsSettings!contract" =
+        {
+            constant-kind
+              | Bool
+              | doc "Suggest the use of constant.Kind.String()."
+              | optional,
+            crypto-hash
+              | Bool
+              | doc "Suggest the use of crypto.Hash.String()."
+              | optional,
+            default-rpc-path
+              | Bool
+              | doc "Suggest the use of rpc.DefaultXXPath."
+              | optional,
+            http-method
+              | Bool
+              | doc "Suggest the use of http.MethodXX."
+              | optional,
+            http-status-code
+              | Bool
+              | doc "Suggest the use of http.StatusXX."
+              | optional,
+            sql-isolation-level
+              | Bool
+              | doc "Suggest the use of sql.LevelXX.String()."
+              | optional,
+            time-layout
+              | Bool
+              | doc "Suggest the use of time.Layout."
+              | optional,
+            time-month
+              | Bool
+              | doc "Suggest the use of time.Month.String()."
+              | optional,
+            time-weekday
+              | Bool
+              | doc "Suggest the use of time.Weekday.String()."
+              | optional,
+            tls-signature-scheme
+              | Bool
+              | doc "Suggest the use of tls.SignatureScheme.String()."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/usetestingSettings!contract" =
+        {
+            context-background | Bool | optional,
+            context-todo | Bool | optional,
+            os-chdir | Bool | optional,
+            os-create-temp | Bool | optional,
+            os-mkdir-temp | Bool | optional,
+            os-setenv | Bool | optional,
+            os-temp-dir | Bool | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/varnamelenSettings!contract" =
+        {
+            check-receiver
+              | Bool
+              | doc "Check method receiver names."
+              | optional,
+            check-return | Bool | doc "Check named return values." | optional,
+            check-type-param | Bool | doc "Check type parameters." | optional,
+            ignore-chan-recv-ok
+              | Bool
+              | doc "Ignore `ok` variables that hold the bool return value of a channel receive."
+              | optional,
+            ignore-decls
+              | Array (String)
+              | doc "Optional list of variable declarations that should be ignored completely."
+              | optional,
+            ignore-map-index-ok
+              | Bool
+              | doc "Ignore `ok` variables that hold the bool return value of a map index."
+              | optional,
+            ignore-names
+              | Array (String)
+              | doc "Optional list of variable names that should be ignored completely."
+              | optional,
+            ignore-type-assert-ok
+              | Bool
+              | doc "Ignore `ok` variables that hold the bool return value of a type assertion"
+              | optional,
+            max-distance
+              | std.number.Integer
+              | doc "Variables used in at most this N-many lines will be ignored."
+              | optional,
+            min-name-length
+              | std.number.Integer
+              | doc "The minimum length of a variable's name that is considered `long`."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/whitespaceSettings!contract" =
+        {
+            multi-func
+              | Bool
+              | doc "Enforces newlines (or comments) after every multi-line function signature"
+              | optional,
+            multi-if
+              | Bool
+              | doc "Enforces newlines (or comments) after every multi-line if statement"
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/wrapcheckSettings!contract" =
+        {
+            extra-ignore-sigs
+              | Array (String)
+              | doc "An array of strings specifying additional substrings of signatures to ignore."
+              | optional,
+            ignore-interface-regexps
+              | Array (String)
+              | doc "An array of glob patterns which, if matched to an underlying interface name, will ignore unwrapped errors returned from a function whose call is defined on the given interface."
+              | optional,
+            ignore-package-globs
+              | Array (String)
+              | doc "An array of glob patterns which, if any match the package of the function returning the error, will skip wrapcheck analysis for this error."
+              | optional,
+            ignore-sig-regexps
+              | Array (String)
+              | doc "An array of strings which specify regular expressions of signatures to ignore."
+              | optional,
+            ignore-sigs
+              | Array (String)
+              | doc "An array of strings which specify substrings of signatures to ignore."
+              | optional,
+          },
+      "_js2n__-:definitions/settings/definitions/wslSettings!contract" =
+        {
+            allow-assign-and-anything
+              | Bool
+              | doc "Controls if you may cuddle assignments and anything without needing an empty line between them."
+              | optional,
+            allow-assign-and-call
+              | Bool
+              | doc "Allow calls and assignments to be cuddled as long as the lines have any matching variables, fields or types."
+              | optional,
+            allow-cuddle-declarations
+              | Bool
+              | doc "Allow declarations (var) to be cuddled."
+              | optional,
+            allow-cuddle-used-in-block
+              | Bool
+              | doc "Allow cuddling with any block as long as the variable is used somewhere in the block"
+              | optional,
+            allow-cuddle-with-calls
+              | Array (String)
+              | doc "A list of call idents that everything can be cuddled with."
+              | optional,
+            allow-cuddle-with-rhs
+              | Array (String)
+              | doc "AllowCuddleWithRHS is a list of right hand side variables that is allowed to be cuddled with anything."
+              | optional,
+            allow-multiline-assign
+              | Bool
+              | doc "Allow multiline assignments to be cuddled."
+              | optional,
+            allow-separated-leading-comment
+              | Bool
+              | doc "Allow leading comments to be separated with empty lines."
+              | optional,
+            allow-trailing-comment
+              | Bool
+              | doc "Allow trailing comments in ending of blocks."
+              | optional,
+            error-variable-names
+              | Array (String)
+              | doc "When force-err-cuddling is enabled this is a list of names used for error variables to check for in the conditional."
+              | optional,
+            force-case-trailing-whitespace
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Integer,
+                    _js2n__-prdslib.numbers.minimum 0
+                  ])
+              | doc "Force newlines in end of case at this limit (0 = never)."
+              | optional,
+            force-err-cuddling
+              | Bool
+              | doc "Causes an error when an If statement that checks an error variable doesn't cuddle with the assignment of that variable."
+              | optional,
+            force-short-decl-cuddling
+              | Bool
+              | doc "Causes an error if a short declaration (:=) cuddles with anything other than another short declaration."
+              | optional,
+            strict-append
+              | Bool
+              | doc "If true, append is only allowed to be cuddled if appending value is matching variables, fields or types on line above."
+              | optional,
+          },
+      "_js2n__-:definitions/simple-format!contract" =
+        {
+            path
+              | _js2n__-refsenv."_js2n__-:definitions/formats-path!contract"
+              | optional,
+          },
+      "_js2n__-:definitions/staticcheck-checks!predicate" =
+        _js2n__-prdslib.enum
+            [
+              "*",
+              "all",
+              "SA*",
+              "-SA*",
+              "SA1*",
+              "-SA1*",
+              "SA1000",
+              "-SA1000",
+              "SA1001",
+              "-SA1001",
+              "SA1002",
+              "-SA1002",
+              "SA1003",
+              "-SA1003",
+              "SA1004",
+              "-SA1004",
+              "SA1005",
+              "-SA1005",
+              "SA1006",
+              "-SA1006",
+              "SA1007",
+              "-SA1007",
+              "SA1008",
+              "-SA1008",
+              "SA1010",
+              "-SA1010",
+              "SA1011",
+              "-SA1011",
+              "SA1012",
+              "-SA1012",
+              "SA1013",
+              "-SA1013",
+              "SA1014",
+              "-SA1014",
+              "SA1015",
+              "-SA1015",
+              "SA1016",
+              "-SA1016",
+              "SA1017",
+              "-SA1017",
+              "SA1018",
+              "-SA1018",
+              "SA1019",
+              "-SA1019",
+              "SA1020",
+              "-SA1020",
+              "SA1021",
+              "-SA1021",
+              "SA1023",
+              "-SA1023",
+              "SA1024",
+              "-SA1024",
+              "SA1025",
+              "-SA1025",
+              "SA1026",
+              "-SA1026",
+              "SA1027",
+              "-SA1027",
+              "SA1028",
+              "-SA1028",
+              "SA1029",
+              "-SA1029",
+              "SA1030",
+              "-SA1030",
+              "SA1031",
+              "-SA1031",
+              "SA1032",
+              "-SA1032",
+              "SA2*",
+              "-SA2*",
+              "SA2000",
+              "-SA2000",
+              "SA2001",
+              "-SA2001",
+              "SA2002",
+              "-SA2002",
+              "SA2003",
+              "-SA2003",
+              "SA3*",
+              "-SA3*",
+              "SA3000",
+              "-SA3000",
+              "SA3001",
+              "-SA3001",
+              "SA4*",
+              "-SA4*",
+              "SA4000",
+              "-SA4000",
+              "SA4001",
+              "-SA4001",
+              "SA4003",
+              "-SA4003",
+              "SA4004",
+              "-SA4004",
+              "SA4005",
+              "-SA4005",
+              "SA4006",
+              "-SA4006",
+              "SA4008",
+              "-SA4008",
+              "SA4009",
+              "-SA4009",
+              "SA4010",
+              "-SA4010",
+              "SA4011",
+              "-SA4011",
+              "SA4012",
+              "-SA4012",
+              "SA4013",
+              "-SA4013",
+              "SA4014",
+              "-SA4014",
+              "SA4015",
+              "-SA4015",
+              "SA4016",
+              "-SA4016",
+              "SA4017",
+              "-SA4017",
+              "SA4018",
+              "-SA4018",
+              "SA4019",
+              "-SA4019",
+              "SA4020",
+              "-SA4020",
+              "SA4021",
+              "-SA4021",
+              "SA4022",
+              "-SA4022",
+              "SA4023",
+              "-SA4023",
+              "SA4024",
+              "-SA4024",
+              "SA4025",
+              "-SA4025",
+              "SA4026",
+              "-SA4026",
+              "SA4027",
+              "-SA4027",
+              "SA4028",
+              "-SA4028",
+              "SA4029",
+              "-SA4029",
+              "SA4030",
+              "-SA4030",
+              "SA4031",
+              "-SA4031",
+              "SA4032",
+              "-SA4032",
+              "SA5*",
+              "-SA5*",
+              "SA5000",
+              "-SA5000",
+              "SA5001",
+              "-SA5001",
+              "SA5002",
+              "-SA5002",
+              "SA5003",
+              "-SA5003",
+              "SA5004",
+              "-SA5004",
+              "SA5005",
+              "-SA5005",
+              "SA5007",
+              "-SA5007",
+              "SA5008",
+              "-SA5008",
+              "SA5009",
+              "-SA5009",
+              "SA5010",
+              "-SA5010",
+              "SA5011",
+              "-SA5011",
+              "SA5012",
+              "-SA5012",
+              "SA6*",
+              "-SA6*",
+              "SA6000",
+              "-SA6000",
+              "SA6001",
+              "-SA6001",
+              "SA6002",
+              "-SA6002",
+              "SA6003",
+              "-SA6003",
+              "SA6005",
+              "-SA6005",
+              "SA6006",
+              "-SA6006",
+              "SA9*",
+              "-SA9*",
+              "SA9001",
+              "-SA9001",
+              "SA9002",
+              "-SA9002",
+              "SA9003",
+              "-SA9003",
+              "SA9004",
+              "-SA9004",
+              "SA9005",
+              "-SA9005",
+              "SA9006",
+              "-SA9006",
+              "SA9007",
+              "-SA9007",
+              "SA9008",
+              "-SA9008",
+              "SA9009",
+              "-SA9009",
+              "ST*",
+              "-ST*",
+              "ST1*",
+              "-ST1*",
+              "ST1000",
+              "-ST1000",
+              "ST1001",
+              "-ST1001",
+              "ST1003",
+              "-ST1003",
+              "ST1005",
+              "-ST1005",
+              "ST1006",
+              "-ST1006",
+              "ST1008",
+              "-ST1008",
+              "ST1011",
+              "-ST1011",
+              "ST1012",
+              "-ST1012",
+              "ST1013",
+              "-ST1013",
+              "ST1015",
+              "-ST1015",
+              "ST1016",
+              "-ST1016",
+              "ST1017",
+              "-ST1017",
+              "ST1018",
+              "-ST1018",
+              "ST1019",
+              "-ST1019",
+              "ST1020",
+              "-ST1020",
+              "ST1021",
+              "-ST1021",
+              "ST1022",
+              "-ST1022",
+              "ST1023",
+              "-ST1023",
+              "S*",
+              "-S*",
+              "S1*",
+              "-S1*",
+              "S1000",
+              "-S1000",
+              "S1001",
+              "-S1001",
+              "S1002",
+              "-S1002",
+              "S1003",
+              "-S1003",
+              "S1004",
+              "-S1004",
+              "S1005",
+              "-S1005",
+              "S1006",
+              "-S1006",
+              "S1007",
+              "-S1007",
+              "S1008",
+              "-S1008",
+              "S1009",
+              "-S1009",
+              "S1010",
+              "-S1010",
+              "S1011",
+              "-S1011",
+              "S1012",
+              "-S1012",
+              "S1016",
+              "-S1016",
+              "S1017",
+              "-S1017",
+              "S1018",
+              "-S1018",
+              "S1019",
+              "-S1019",
+              "S1020",
+              "-S1020",
+              "S1021",
+              "-S1021",
+              "S1023",
+              "-S1023",
+              "S1024",
+              "-S1024",
+              "S1025",
+              "-S1025",
+              "S1028",
+              "-S1028",
+              "S1029",
+              "-S1029",
+              "S1030",
+              "-S1030",
+              "S1031",
+              "-S1031",
+              "S1032",
+              "-S1032",
+              "S1033",
+              "-S1033",
+              "S1034",
+              "-S1034",
+              "S1035",
+              "-S1035",
+              "S1036",
+              "-S1036",
+              "S1037",
+              "-S1037",
+              "S1038",
+              "-S1038",
+              "S1039",
+              "-S1039",
+              "S1040",
+              "-S1040",
+              "QF*",
+              "-QF*",
+              "QF1*",
+              "-QF1*",
+              "QF1001",
+              "-QF1001",
+              "QF1002",
+              "-QF1002",
+              "QF1003",
+              "-QF1003",
+              "QF1004",
+              "-QF1004",
+              "QF1005",
+              "-QF1005",
+              "QF1006",
+              "-QF1006",
+              "QF1007",
+              "-QF1007",
+              "QF1008",
+              "-QF1008",
+              "QF1009",
+              "-QF1009",
+              "QF1010",
+              "-QF1010",
+              "QF1011",
+              "-QF1011",
+              "QF1012",
+              "-QF1012"
+            ],
+      "_js2n__-:definitions/tagliatelle-cases!predicate" =
+        _js2n__-prdslib.enum
+            [
+              "camel",
+              "pascal",
+              "kebab",
+              "snake",
+              "goCamel",
+              "goPascal",
+              "goKebab",
+              "goSnake",
+              "upper",
+              "upperSnake",
+              "lower",
+              "header"
+            ],
     }
     in
   {
+      formatters
+        | {
+          enable
+            | Array
+              _js2n__-refsenv."_js2n__-:definitions/formatter-names!contract"
+            | doc "List of enabled formatters."
+            | optional,
+          exclusions
+            | {
+              generated
+                | _js2n__-prdslib.contract_from_predicate
+                  (_js2n__-prdslib.enum [ "strict", "lax", "disable" ])
+                | optional,
+              paths | Array (String) | optional,
+            }
+            | optional,
+          settings
+            | {
+              gci
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/gciSettings!contract"
+                | optional,
+              gofmt
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/gofmtSettings!contract"
+                | optional,
+              gofumpt
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/gofumptSettings!contract"
+                | optional,
+              goimports
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/goimportsSettings!contract"
+                | optional,
+              golines
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/golinesSettings!contract"
+                | optional,
+            }
+            | optional,
+        }
+        | optional,
       issues
         | {
-          exclude
-            | Array (String)
-            | doc m%"
-              List of regular expressions of issue texts to exclude.
-              But independently from this option we use default exclude patterns. Their usage can be controlled through `exclude-use-default`.
-            "%
-            | optional,
-          exclude-case-sensitive
-            | Bool
-            | doc "If set to true, exclude and exclude-rules regular expressions become case sensitive."
-            | optional,
-          exclude-dirs
-            | Array (String)
-            | doc "Which directories to exclude: issues from them won't be reported."
-            | optional,
-          exclude-dirs-use-default
-            | Bool
-            | doc "Enable exclusion of directories \"vendor\", \"third_party\", \"testdata\", \"examples\", \"Godeps\", and \"builtin\"."
-            | optional,
-          exclude-files
-            | Array (String)
-            | doc "Which files to exclude: they will be analyzed, but issues from them will not be reported."
-            | optional,
-          exclude-generated
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.enum [ "lax", "strict", "disable" ])
-            | doc "Mode of the generated files analysis."
-            | optional,
-          exclude-rules
-            | Array
-              {
-                linters
-                  | Array
-                    _js2n__-refsenv."_js2n__-:definitions/linters!contract"
-                  | optional,
-                path | String | optional,
-                path-except | String | optional,
-                source | String | optional,
-                text | String | optional,
-              }
-            | doc "Exclude configuration per-path, per-linter, per-text and per-source"
-            | optional,
-          exclude-use-default
-            | Bool
-            | doc "Independently from option `exclude` we use default exclude patterns. This behavior can be disabled by this option."
-            | optional,
           fix
             | Bool
             | doc "Fix found issues (if it's supported by the linter)."
-            | optional,
-          include
-            | Array (String)
-            | doc "The list of ids of default excludes to include or disable."
             | optional,
           max-issues-per-linter
             | _js2n__-prdslib.contract_from_predicate
@@ -1569,6 +4134,10 @@ let rec _js2n__-refsenv
             | Bool
             | doc "Show only new issues: if there are unstaged changes or untracked files, only those changes are analyzed, else only changes in HEAD~ are analyzed."
             | optional,
+          new-from-merge-base
+            | String
+            | doc "Show only new issues created after the best common ancestor (merge-base against HEAD)."
+            | optional,
           new-from-patch
             | String
             | doc "Show only new issues created in git patch with this file path."
@@ -1576,6 +4145,10 @@ let rec _js2n__-refsenv
           new-from-rev
             | String
             | doc "Show only new issues created after this git revision."
+            | optional,
+          uniq-by-line
+            | Bool
+            | doc "Make issues output unique by line."
             | optional,
           whole-files
             | Bool
@@ -1585,2174 +4158,397 @@ let rec _js2n__-refsenv
         | optional,
       linters
         | {
+          "default"
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum [ "standard", "all", "none", "fast" ])
+            | optional,
           disable
-            | Array _js2n__-refsenv."_js2n__-:definitions/linters!contract"
+            | Array _js2n__-refsenv."_js2n__-:definitions/linter-names!contract"
             | doc "List of disabled linters."
             | optional,
-          disable-all
-            | Bool
-            | doc "Whether to disable all linters. You can re-enable them with `enable` explicitly."
-            | optional,
           enable
-            | Array _js2n__-refsenv."_js2n__-:definitions/linters!contract"
+            | Array _js2n__-refsenv."_js2n__-:definitions/linter-names!contract"
             | doc "List of enabled linters."
             | optional,
-          enable-all
-            | Bool
-            | doc "Whether to enable all linters. You can re-disable them with `disable` explicitly."
-            | optional,
-          fast | Bool | doc "Enable run of fast linters." | optional,
-          presets
-            | Array (
-              _js2n__-prdslib.contract_from_predicate
-                (_js2n__-prdslib.enum
-                  [
-                    "bugs",
-                    "comment",
-                    "complexity",
-                    "error",
-                    "format",
-                    "import",
-                    "metalinter",
-                    "module",
-                    "performance",
-                    "sql",
-                    "style",
-                    "test",
-                    "unused"
-                  ])
-            )
-            | doc "Allow to use different presets of linters"
-            | optional,
-        }
-        | optional,
-      linters-settings
-        | {
-          asasalint
+          exclusions
             | {
-              exclude
+              generated
                 | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.uniqueItems
-                    ])
-                | doc "To specify a set of function names to exclude."
+                  (_js2n__-prdslib.enum [ "strict", "lax", "disable" ])
                 | optional,
-              ignore-test | Bool | doc "Ignore *_test.go files." | optional,
-              use-builtin-exclusions
-                | Bool
-                | doc "To enable/disable the asasalint builtin exclusions of function names."
-                | optional,
-            }
-            | optional,
-          bidichk
-            | {
-              first-strong-isolate
-                | Bool
-                | doc "Disallow: FIRST-STRONG-ISOLATE"
-                | optional,
-              left-to-right-embedding
-                | Bool
-                | doc "Disallow: LEFT-TO-RIGHT-EMBEDDING"
-                | optional,
-              left-to-right-isolate
-                | Bool
-                | doc "Disallow: LEFT-TO-RIGHT-ISOLATE"
-                | optional,
-              left-to-right-override
-                | Bool
-                | doc "Disallow: LEFT-TO-RIGHT-OVERRIDE"
-                | optional,
-              pop-directional-formatting
-                | Bool
-                | doc "Disallow: POP-DIRECTIONAL-FORMATTING"
-                | optional,
-              pop-directional-isolate
-                | Bool
-                | doc "Disallow: POP-DIRECTIONAL-ISOLATE"
-                | optional,
-              right-to-left-embedding
-                | Bool
-                | doc "Disallow: RIGHT-TO-LEFT-EMBEDDING"
-                | optional,
-              right-to-left-isolate
-                | Bool
-                | doc "Disallow: RIGHT-TO-LEFT-ISOLATE"
-                | optional,
-              right-to-left-override
-                | Bool
-                | doc "Disallow: RIGHT-TO-LEFT-OVERRIDE"
-                | optional,
-            }
-            | optional,
-          copyloopvar | { check-alias | Bool | optional, } | optional,
-          custom
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.records.record {}
-                    {
-                      "^.*$" =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.oneOf
-                                [
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      type = _js2n__-prdslib.enum [ "module" ],
-                                    } {} true _js2n__-prdslib.always,
-                                  _js2n__-prdslib.allOf
-                                    [
-                                      _js2n__-prdslib.records.required
-                                        [ "path" ],
-                                      _js2n__-prdslib.records.record {} {} true
-                                        _js2n__-prdslib.always
-                                    ]
-                                ],
-                              _js2n__-prdslib.records.record
-                                {
-                                  description =
-                                    _js2n__-prdslib.isType '"String",
-                                  original-url =
-                                    _js2n__-prdslib.isType '"String",
-                                  path = _js2n__-prdslib.isType '"String",
-                                  settings = _js2n__-prdslib.isType 'Record,
-                                  type =
-                                    _js2n__-prdslib.enum
-                                        [ "module", "goplugin" ],
-                                } {} false _js2n__-prdslib.never
-                            ],
-                    } true _js2n__-prdslib.always
-                ])
-            | doc m%"
-              The custom section can be used to define linter plugins to be loaded at runtime. See README of golangci-lint for more information.
-              Each custom linter should have a unique name.
-            "%
-            | optional,
-          cyclop
-            | {
-              max-complexity
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Integer,
-                      _js2n__-prdslib.numbers.minimum 0
-                    ])
-                | doc "Max complexity the function can have"
-                | optional,
-              package-average
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Number",
-                      _js2n__-prdslib.numbers.minimum 0
-                    ])
-                | doc "Max average complexity in package"
-                | optional,
-              skip-tests
-                | Bool
-                | doc "Should the linter execute on test files as well"
-                | optional,
-            }
-            | optional,
-          decorder
-            | {
-              dec-order
+              paths | Array (String) | optional,
+              paths-except | Array (String) | optional,
+              presets
                 | Array (
                   _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.enum [ "type", "const", "var", "func" ])
+                    (_js2n__-prdslib.enum
+                      [
+                        "comments",
+                        "std-error-handling",
+                        "common-false-positives",
+                        "legacy"
+                      ])
                 )
                 | optional,
-              disable-const-dec-num-check
-                | Bool
-                | doc "Const declarations will be ignored for dec num check"
-                | optional,
-              disable-dec-num-check
-                | Bool
-                | doc "Multiple global type, const and var declarations are allowed"
-                | optional,
-              disable-dec-order-check
-                | Bool
-                | doc "Order of declarations is not checked"
-                | optional,
-              disable-init-func-first-check
-                | Bool
-                | doc "Allow init func to be anywhere in file"
-                | optional,
-              disable-type-dec-num-check
-                | Bool
-                | doc "Type declarations will be ignored for dec num check"
-                | optional,
-              disable-var-dec-num-check
-                | Bool
-                | doc "Var declarations will be ignored for dec num check"
-                | optional,
-              ignore-underscore-vars
-                | Bool
-                | doc "Underscore vars (vars with \"_\" as the name) will be ignored at all checks"
-                | optional,
-            }
-            | optional,
-          depguard
-            | {
               rules
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record {}
-                        {
-                          "^[^.]+$" =
+                | Array (
+                  _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.anyOf
+                          [
                             _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      allow =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.arrays.arrayOf
-                                                (_js2n__-prdslib.isType
-                                                  '"String"),
-                                              _js2n__-prdslib.records.record {}
-                                                {} false _js2n__-prdslib.never
-                                            ],
-                                      deny =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.arrays.arrayOf
-                                                (_js2n__-prdslib.allOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      'Record,
-                                                    _js2n__-prdslib.records.record
-                                                      {
-                                                        desc =
-                                                          _js2n__-prdslib.isType
-                                                              '"String",
-                                                        pkg =
-                                                          _js2n__-prdslib.isType
-                                                              '"String",
-                                                      } {} false
-                                                      _js2n__-prdslib.never
-                                                  ])
-                                            ],
-                                      files =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.arrays.arrayOf
-                                                (_js2n__-prdslib.isType
-                                                  '"String"),
-                                              _js2n__-prdslib.records.record {}
-                                                {} false _js2n__-prdslib.never
-                                            ],
-                                      list-mode =
-                                        _js2n__-prdslib.enum
-                                            [ "original", "strict", "lax" ],
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                        } false _js2n__-prdslib.never
-                    ])
-                | doc "Rules to apply."
-                | optional,
-            }
-            | optional,
-          dogsled
-            | {
-              max-blank-identifiers
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Integer,
-                      _js2n__-prdslib.numbers.minimum 0
-                    ])
-                | doc "Check assignments with too many blank identifiers."
-                | optional,
-            }
-            | optional,
-          dupl
-            | {
-              threshold
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Integer,
-                      _js2n__-prdslib.numbers.minimum 0
-                    ])
-                | doc "Tokens count to trigger issue."
-                | optional,
-            }
-            | optional,
-          dupword
-            | {
-              ignore
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.uniqueItems
-                    ])
-                | doc "Keywords used to ignore detection."
-                | optional,
-              keywords
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.uniqueItems
-                    ])
-                | doc "Keywords for detecting duplicate words. If this list is not empty, only the words defined in this list will be detected."
-                | optional,
-            }
-            | optional,
-          errcheck
-            | {
-              check-blank
-                | Bool
-                | doc "Report about assignment of errors to blank identifier"
-                | optional,
-              check-type-assertions
-                | Bool
-                | doc "Report about not checking errors in type assertions, i.e.: `a := b.(MyStruct)`"
-                | optional,
-              disable-default-exclusions
-                | Bool
-                | doc "To disable the errcheck built-in exclude list"
-                | optional,
-              exclude-functions
-                | Array (String)
-                | doc "List of functions to exclude from checking, where each entry is a single function to exclude"
-                | optional,
-            }
-            | optional,
-          errchkjson
-            | {
-              check-error-free-encoding | Bool | optional,
-              report-no-exported
-                | Bool
-                | doc "Issue on struct that doesn't have exported fields."
-                | optional,
-            }
-            | optional,
-          errorlint
-            | {
-              allowed-errors
-                | Array { err | String | optional, "fun" | String | optional, }
-                | optional,
-              allowed-errors-wildcard
-                | Array { err | String | optional, "fun" | String | optional, }
-                | optional,
-              asserts
-                | Bool
-                | doc "Check for plain type assertions and type switches."
-                | optional,
-              comparison
-                | Bool
-                | doc "Check for plain error comparisons"
-                | optional,
-              errorf
-                | Bool
-                | doc "Check whether fmt.Errorf uses the %w verb for formatting errors"
-                | optional,
-              errorf-multi
-                | Bool
-                | doc "Permit more than 1 %w verb, valid per Go 1.20"
-                | optional,
-            }
-            | optional,
-          exhaustive
-            | {
-              check
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.uniqueItems
-                    ])
-                | doc "Program elements to check for exhaustiveness."
-                | optional,
-              check-generated
-                | Bool
-                | doc "Check switch statements in generated files"
-                | optional,
-              default-case-required
-                | Bool
-                | doc "Switch statement requires default case even if exhaustive."
-                | optional,
-              default-signifies-exhaustive
-                | Bool
-                | doc "Presence of `default` case in switch statements satisfies exhaustiveness, even if all enum members are not listed."
-                | optional,
-              explicit-exhaustive-map
-                | Bool
-                | doc "Only run exhaustive check on map literals with \"//exhaustive:enforce\" comment."
-                | optional,
-              explicit-exhaustive-switch
-                | Bool
-                | doc "Only run exhaustive check on switches with \"//exhaustive:enforce\" comment."
-                | optional,
-              ignore-enum-members
-                | String
-                | doc "Enum members matching `regex` do not have to be listed in switch statements to satisfy exhaustiveness"
-                | optional,
-              ignore-enum-types
-                | String
-                | doc "Enum types matching the supplied regex do not have to be listed in switch statements to satisfy exhaustiveness."
-                | optional,
-              package-scope-only
-                | Bool
-                | doc "Consider enums only in package scopes, not in inner scopes."
-                | optional,
-            }
-            | optional,
-          exhaustruct
-            | {
-              exclude
-                | Array (String)
-                | doc "List of regular expressions to exclude struct packages and names from check."
-                | optional,
-              include
-                | Array (String)
-                | doc "List of regular expressions to match struct packages and names."
-                | optional,
-            }
-            | optional,
-          forbidigo
-            | {
-              analyze-types
-                | Bool
-                | doc "Instead of matching the literal source code, use type information to replace expressions with strings that contain the package name and (for methods and fields) the type name."
-                | optional,
-              exclude-godoc-examples
-                | Bool
-                | doc "Exclude code in godoc examples."
-                | optional,
-              forbid
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.anyOf
-                      [
-                        _js2n__-prdslib.isType '"String",
-                        _js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.records.record
-                              {
-                                msg = _js2n__-prdslib.isType '"String",
-                                p = _js2n__-prdslib.isType '"String",
-                                pkg = _js2n__-prdslib.isType '"String",
-                              } {} false _js2n__-prdslib.never
-                          ]
-                      ])
-                )
-                | doc "List of identifiers to forbid (written using `regexp`)"
-                | optional,
-            }
-            | optional,
-          funlen
-            | {
-              ignore-comments
-                | Bool
-                | doc "Ignore comments when counting lines."
-                | optional,
-              lines
-                | std.number.Integer
-                | doc "Limit lines number per function."
-                | optional,
-              statements
-                | std.number.Integer
-                | doc "Limit statements number per function."
-                | optional,
-            }
-            | optional,
-          gci
-            | {
-              custom-order
-                | Bool
-                | doc "Enable custom order of sections."
-                | optional,
-              no-lex-order
-                | Bool
-                | doc "Drops lexical ordering for custom sections."
-                | optional,
-              sections
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.anyOf
-                      [
-                        _js2n__-prdslib.enum
-                          [
-                            "standard",
-                            "default",
-                            "blank",
-                            "dot",
-                            "alias",
-                            "localmodule"
+                              [
+                                _js2n__-prdslib.records.required [ "path" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ],
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.records.required
+                                  [ "path-except" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ],
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.records.required [ "linters" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ],
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.records.required [ "text" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ],
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.records.required [ "source" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ]
                           ],
-                        _js2n__-prdslib.isType '"String"
-                      ])
-                )
-                | doc "Section configuration to compare against."
-                | optional,
-              skip-generated | Bool | doc "Skip generated files." | optional,
-            }
-            | optional,
-          ginkgolinter
-            | {
-              allow-havelen-zero
-                | Bool
-                | doc "Don't trigger warnings for HaveLen(0)."
-                | optional,
-              forbid-focus-container
-                | Bool
-                | doc "Trigger warning for ginkgo focus containers like FDescribe, FContext, FWhen or FIt."
-                | optional,
-              forbid-spec-pollution
-                | Bool
-                | doc "Trigger a warning for variable assignments in ginkgo containers like `Describe`, `Context` and `When`, instead of in `BeforeEach()`."
-                | optional,
-              force-expect-to
-                | Bool
-                | doc "Force using `Expect` with `To`, `ToNot` or `NotTo`"
-                | optional,
-              suppress-async-assertion
-                | Bool
-                | doc "Suppress the function all in async assertion warning."
-                | optional,
-              suppress-compare-assertion
-                | Bool
-                | doc "Suppress the wrong comparison assertion warning."
-                | optional,
-              suppress-err-assertion
-                | Bool
-                | doc "Suppress the wrong error assertion warning."
-                | optional,
-              suppress-len-assertion
-                | Bool
-                | doc "Suppress the wrong length assertion warning."
-                | optional,
-              suppress-nil-assertion
-                | Bool
-                | doc "Suppress the wrong nil assertion warning."
-                | optional,
-              suppress-type-compare-assertion
-                | Bool
-                | doc "Suppress warning for comparing values from different types, like int32 and uint32."
-                | optional,
-              validate-async-intervals
-                | Bool
-                | doc "Best effort validation of async intervals (timeout and polling)."
-                | optional,
-            }
-            | optional,
-          gocognit
-            | {
-              min-complexity
-                | std.number.Integer
-                | doc "Minimal code complexity to report (we recommend 10-20)."
-                | optional,
-            }
-            | optional,
-          goconst
-            | {
-              ignore-calls
-                | Bool
-                | doc "Ignore when constant is not used as function argument"
-                | optional,
-              ignore-strings
-                | String
-                | doc "Exclude strings matching the given regular expression"
-                | optional,
-              ignore-tests | Bool | doc "Ignore test files." | optional,
-              match-constant
-                | Bool
-                | doc "Look for existing constants matching the values"
-                | optional,
-              max
-                | std.number.Integer
-                | doc "Maximum value, only works with `numbers`"
-                | optional,
-              min
-                | std.number.Integer
-                | doc "Minimum value, only works with `numbers`"
-                | optional,
-              min-len
-                | std.number.Integer
-                | doc "Minimum length of string constant."
-                | optional,
-              min-occurrences
-                | std.number.Integer
-                | doc "Minimum occurrences count to trigger."
-                | optional,
-              numbers
-                | Bool
-                | doc "Search also for duplicated numbers."
-                | optional,
-            }
-            | optional,
-          gocritic
-            | {
-              disable-all | Bool | optional,
-              disabled-checks
-                | Array
-                  _js2n__-refsenv."_js2n__-:definitions/gocritic-checks!contract"
-                | doc "Which checks should be disabled."
-                | optional,
-              disabled-tags
-                | Array
-                  _js2n__-refsenv."_js2n__-:definitions/gocritic-tags!contract"
-                | doc "Disable multiple checks by tags, run `GL_DEBUG=gocritic golangci-lint run` to see all tags and checks."
-                | optional,
-              enable-all | Bool | optional,
-              enabled-checks
-                | Array
-                  _js2n__-refsenv."_js2n__-:definitions/gocritic-checks!contract"
-                | doc "Which checks should be enabled. By default, a list of stable checks is used. To see it, run `GL_DEBUG=gocritic golangci-lint run`."
-                | optional,
-              enabled-tags
-                | Array
-                  _js2n__-refsenv."_js2n__-:definitions/gocritic-tags!contract"
-                | doc "Enable multiple checks by tags, run `GL_DEBUG=gocritic golangci-lint run` to see all tags and checks."
-                | optional,
-              settings
-                | {
-                  captLocal | { paramsOnly | Bool | optional, } | optional,
-                  commentedOutCode
-                    | { minLength | Number | optional, }
-                    | optional,
-                  elseif | { skipBalanced | Bool | optional, } | optional,
-                  hugeParam | { sizeThreshold | Number | optional, } | optional,
-                  ifElseChain
-                    | { minThreshold | Number | optional, }
-                    | optional,
-                  nestingReduce | { bodyWidth | Number | optional, } | optional,
-                  rangeExprCopy
-                    | {
-                      sizeThreshold | Number | optional,
-                      skipTestFuncs | Bool | optional,
-                    }
-                    | optional,
-                  rangeValCopy
-                    | {
-                      sizeThreshold | Number | optional,
-                      skipTestFuncs | Bool | optional,
-                    }
-                    | optional,
-                  ruleguard
-                    | {
-                      debug | String | optional,
-                      disable | String | optional,
-                      enable | String | optional,
-                      failOn | String | optional,
-                      rules | String | optional,
-                    }
-                    | optional,
-                  tooManyResultsChecker
-                    | { maxResults | Number | optional, }
-                    | optional,
-                  truncateCmp
-                    | { skipArchDependent | Bool | optional, }
-                    | optional,
-                  underef | { skipRecvDeref | Bool | optional, } | optional,
-                  unnamedResult
-                    | { checkExported | Bool | optional, }
-                    | optional,
-                }
-                | doc "Settings passed to gocritic. Properties must be valid and enabled check names."
-                | optional,
-            }
-            | optional,
-          gocyclo
-            | {
-              min-complexity
-                | std.number.Integer
-                | doc "Minimum code complexity to report (we recommend 10-20)."
-                | optional,
-            }
-            | optional,
-          godot
-            | {
-              capital
-                | Bool
-                | doc "Check that each sentence starts with a capital letter."
-                | optional,
-              check-all
-                | Bool
-                | doc "DEPRECATED: Check all top-level comments, not only declarations."
-                | optional,
-              exclude
-                | Array (String)
-                | doc "List of regexps for excluding particular comment lines from check."
-                | optional,
-              period
-                | Bool
-                | doc "Check that each sentence ends with a period."
-                | optional,
-              scope
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.enum [ "declarations", "toplevel", "all" ])
-                | doc "Comments to be checked."
-                | optional,
-            }
-            | optional,
-          godox
-            | {
-              keywords
-                | Array (String)
-                | doc "Report any comments starting with one of these keywords. This is useful for TODO or FIXME comments that might be left in the code accidentally and should be resolved before merging."
-                | optional,
-            }
-            | optional,
-          gofmt
-            | {
-              rewrite-rules
-                | Array
-                  {
-                    pattern | String | optional,
-                    replacement | String | optional,
-                  }
-                | doc "Apply the rewrite rules to the source before reformatting."
-                | optional,
-              simplify | Bool | doc "Simplify code." | optional,
-            }
-            | optional,
-          gofumpt
-            | {
-              extra-rules
-                | Bool
-                | doc "Choose whether or not to use the extra rules that are disabled by default."
-                | optional,
-              module-path
-                | String
-                | doc " Module path which contains the source code being formatted."
-                | optional,
-            }
-            | optional,
-          goheader
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.oneOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.records.required [ "template" ],
-                          _js2n__-prdslib.records.record {} {} true
-                            _js2n__-prdslib.always
-                        ],
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.records.required [ "template-path" ],
-                          _js2n__-prdslib.records.record {} {} true
-                            _js2n__-prdslib.always
-                        ]
-                    ],
-                  _js2n__-prdslib.records.record
-                    {
-                      template = _js2n__-prdslib.isType '"String",
-                      template-path = _js2n__-prdslib.isType '"String",
-                      values =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.record
-                                {
-                                  const =
-                                    _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.records.record {}
-                                            {
-                                              "^.+$" =
-                                                _js2n__-prdslib.isType
-                                                    '"String",
-                                            } false _js2n__-prdslib.never
-                                        ],
-                                  regexp =
-                                    _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.records.record {}
-                                            {
-                                              "^.+$" =
-                                                _js2n__-prdslib.isType
-                                                    '"String",
-                                            } false _js2n__-prdslib.never
-                                        ],
-                                } {} false _js2n__-prdslib.never
-                            ],
-                    } {} false _js2n__-prdslib.never
-                ])
-            | optional,
-          goimports
-            | {
-              local-prefixes
-                | String
-                | doc "Put imports beginning with prefix after 3rd-party packages. It is a comma-separated list of prefixes."
-                | optional,
-            }
-            | optional,
-          gomoddirectives
-            | {
-              exclude-forbidden
-                | Bool
-                | doc "Forbid the use of the `exclude` directives."
-                | optional,
-              replace-allow-list
-                | Array (String)
-                | doc "List of allowed `replace` directives."
-                | optional,
-              replace-local
-                | Bool
-                | doc "Allow local `replace` directives."
-                | optional,
-              retract-allow-no-explanation
-                | Bool
-                | doc "Allow to not explain why the version has been retracted in the `retract` directives."
-                | optional,
-            }
-            | optional,
-          gomodguard
-            | {
-              allowed
-                | {
-                  domains
-                    | Array (String)
-                    | doc "List of allowed module domains."
-                    | optional,
-                  modules
-                    | Array (String)
-                    | doc "List of allowed modules."
-                    | optional,
-                }
-                | optional,
-              blocked
-                | {
-                  local_replace_directives
-                    | Bool
-                    | doc "Raise lint issues if loading local path with replace directive"
-                    | optional,
-                  modules
-                    | Array (
-                      _js2n__-prdslib.contract_from_predicate
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.records.record {}
-                              {
-                                "^.+$" =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Record,
-                                        _js2n__-prdslib.records.record
-                                          {
-                                            reason =
-                                              _js2n__-prdslib.isType '"String",
-                                            recommendations =
-                                              _js2n__-prdslib.allOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"Array",
-                                                    _js2n__-prdslib.arrays.arrayOf
-                                                      (_js2n__-prdslib.isType
-                                                        '"String")
-                                                  ],
-                                          } {} false _js2n__-prdslib.never
-                                      ],
-                              } false _js2n__-prdslib.never
-                          ])
-                    )
-                    | doc "List of blocked modules."
-                    | optional,
-                  versions
-                    | Array (
-                      _js2n__-prdslib.contract_from_predicate
-                        (_js2n__-prdslib.allOf
-                          [
-                            _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.records.record {}
-                              {
-                                "^.*$" =
-                                  _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Record,
-                                        _js2n__-prdslib.records.required
-                                          [ "reason" ],
-                                        _js2n__-prdslib.records.record
-                                          {
-                                            reason =
-                                              _js2n__-prdslib.isType '"String",
-                                            version =
-                                              _js2n__-prdslib.isType '"String",
-                                          } {} false _js2n__-prdslib.never
-                                      ],
-                              } true _js2n__-prdslib.always
-                          ])
-                    )
-                    | doc "List of blocked module version constraints."
-                    | optional,
-                }
-                | optional,
-            }
-            | optional,
-          gosec
-            | {
-              concurrency
-                | std.number.Integer
-                | doc "Concurrency value"
-                | optional,
-              confidence
-                | std.enum.TagOrString
-                | [| 'high, 'medium, 'low |]
-                | doc "Filter out the issues with a lower confidence than the given value"
-                | optional,
-              config
-                | {  .. }
-                | doc "To specify the configuration of rules"
-                | optional,
-              exclude-generated
-                | Bool
-                | doc "Exclude generated files"
-                | optional,
-              excludes
-                | Array
-                  _js2n__-refsenv."_js2n__-:definitions/gosec-rules!contract"
-                | doc "To specify a set of rules to explicitly exclude"
-                | optional,
-              includes
-                | Array
-                  _js2n__-refsenv."_js2n__-:definitions/gosec-rules!contract"
-                | doc "To select a subset of rules to run"
-                | optional,
-              severity
-                | std.enum.TagOrString
-                | [| 'high, 'medium, 'low |]
-                | doc "Filter out the issues with a lower severity than the given value"
-                | optional,
-            }
-            | optional,
-          gosimple
-            | {
-              checks
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.anyOf
-                      [
-                        _js2n__-prdslib.enum [ "all" ],
-                        _js2n__-prdslib.isType '"String"
-                      ])
-                )
-                | optional,
-            }
-            | optional,
-          gosmopolitan
-            | {
-              allow-time-local
-                | Bool
-                | doc "Allow and ignore `time.Local` usages."
-                | optional,
-              escape-hatches
-                | Array (String)
-                | doc "List of fully qualified names in the `full/pkg/path.name` form, to act as \"i18n escape hatches\"."
-                | optional,
-              ignore-tests | Bool | doc "Ignore test files." | optional,
-              watch-for-scripts
-                | Array (String)
-                | doc "List of Unicode scripts to watch for any usage in string literals."
-                | optional,
-            }
-            | optional,
-          govet
-            | {
-              disable
-                | Array
-                  _js2n__-refsenv."_js2n__-:definitions/govet-analyzers!contract"
-                | doc "Disable analyzers by name."
-                | optional,
-              disable-all | Bool | doc "Disable all analyzers." | optional,
-              enable
-                | Array
-                  _js2n__-refsenv."_js2n__-:definitions/govet-analyzers!contract"
-                | doc "Enable analyzers by name."
-                | optional,
-              enable-all | Bool | doc "Enable all analyzers." | optional,
-              settings
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.propertyNames
-                        _js2n__-refsenv."_js2n__-:definitions/govet-analyzers!predicate",
-                      _js2n__-prdslib.records.record {}
-                        { "^.*$" = _js2n__-prdslib.isType 'Record, } true
-                        _js2n__-prdslib.always
-                    ])
-                | doc m%"
-                  Settings per analyzer. Map of analyzer name to specific settings.
-                  Run `go tool vet help` to find out more.
-                "%
-                | optional,
-            }
-            | optional,
-          grouper
-            | {
-              const-require-grouping | Bool | optional,
-              const-require-single-const | Bool | optional,
-              import-require-grouping | Bool | optional,
-              import-require-single-import | Bool | optional,
-              type-require-grouping | Bool | optional,
-              type-require-single-type | Bool | optional,
-              var-require-grouping | Bool | optional,
-              var-require-single-var | Bool | optional,
-            }
-            | optional,
-          importas
-            | {
-              alias
-                | Array
-                  {
-                    alias
-                      | String
-                      | doc "Package alias e.g. autoscalingv1alpha1",
-                    pkg
-                      | String
-                      | doc "Package path e.g. knative.dev/serving/pkg/apis/autoscaling/v1alpha1",
-                  }
-                | doc "List of aliases"
-                | optional,
-              no-extra-aliases
-                | Bool
-                | doc "Do not allow non-required aliases."
-                | optional,
-              no-unaliased
-                | Bool
-                | doc "Do not allow unaliased imports of aliased packages."
-                | optional,
-            }
-            | optional,
-          inamedparam
-            | {
-              skip-single-param
-                | Bool
-                | doc "Skips check for interface methods with only a single parameter."
-                | optional,
-            }
-            | optional,
-          interfacebloat
-            | {
-              max
-                | std.number.Integer
-                | doc "The maximum number of methods allowed for an interface."
-                | optional,
-            }
-            | optional,
-          ireturn
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType 'Record,
-                  _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.not
-                            (_js2n__-prdslib.records.record
-                              { allow = _js2n__-prdslib.const "reject", } {}
-                              true _js2n__-prdslib.always),
-                          _js2n__-prdslib.records.required [ "allow" ],
-                          _js2n__-prdslib.records.record {} {} true
-                            _js2n__-prdslib.always
-                        ],
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.records.required [ "reject" ],
-                          _js2n__-prdslib.records.record {} {} true
-                            _js2n__-prdslib.always
-                        ]
-                    ],
-                  _js2n__-prdslib.records.record
-                    {
-                      allow =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.anyOf
+                        _js2n__-prdslib.records.record
+                          {
+                            linters =
+                              _js2n__-prdslib.allOf
                                   [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
-                                      [ "anon", "error", "empty", "stdlib" ]
-                                  ])
-                            ],
-                      reject =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.anyOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
-                                      [ "anon", "error", "empty", "stdlib" ]
-                                  ])
-                            ],
-                    } {} false _js2n__-prdslib.never
-                ])
-            | doc "Use either `reject` or `allow` properties for interfaces matching."
-            | optional,
-          lll
-            | {
-              line-length
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Integer,
-                      _js2n__-prdslib.numbers.minimum 1
-                    ])
-                | doc "Maximum allowed line length, lines longer will be reported."
-                | optional,
-              tab-width
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Integer,
-                      _js2n__-prdslib.numbers.minimum 0
-                    ])
-                | doc "Width of \"\\t\" in spaces."
-                | optional,
-            }
-            | optional,
-          loggercheck
-            | {
-              kitlog
-                | Bool
-                | doc "Allow check for the github.com/go-kit/log library."
-                | optional,
-              klog
-                | Bool
-                | doc "Allow check for the k8s.io/klog/v2 library."
-                | optional,
-              logr
-                | Bool
-                | doc "Allow check for the github.com/go-logr/logr library."
-                | optional,
-              no-printf-like
-                | Bool
-                | doc "Require printf-like format specifier (%s, %d for example) not present."
-                | optional,
-              require-string-key
-                | Bool
-                | doc "Require all logging keys to be inlined constant strings."
-                | optional,
-              rules
-                | Array (String)
-                | doc "List of custom rules to check against, where each rule is a single logger pattern, useful for wrapped loggers."
-                | optional,
-              zap
-                | Bool
-                | doc "Allow check for the \"sugar logger\" from go.uber.org/zap library."
-                | optional,
-            }
-            | optional,
-          maintidx
-            | {
-              under
-                | Number
-                | doc "Minimum accatpable maintainability index level (see https://docs.microsoft.com/en-us/visualstudio/code-quality/code-metrics-maintainability-index-range-and-meaning?view=vs-2022)"
-                | optional,
-            }
-            | doc "Maintainability index https://docs.microsoft.com/en-us/visualstudio/code-quality/code-metrics-maintainability-index-range-and-meaning?view=vs-2022"
-            | optional,
-          makezero
-            | {
-              always
-                | Bool
-                | doc "Allow only slices initialized with a length of zero."
-                | optional,
-            }
-            | optional,
-          misspell
-            | {
-              extra-words
-                | Array
-                  { correction | String | optional, typo | String | optional, }
-                | doc "Extra word corrections."
-                | optional,
-              ignore-words
-                | Array (String)
-                | doc "List of words to ignore."
-                | optional,
-              locale
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.enum [ "US", "UK" ])
-                | optional,
-              mode
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.enum [ "restricted", "", "default" ])
-                | doc "Mode of the analysis."
-                | optional,
-            }
-            | doc "Correct spellings using locale preferences for US or UK. Default is to use a neutral variety of English."
-            | optional,
-          mnd
-            | {
-              checks
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.enum
-                      [
-                        "argument",
-                        "case",
-                        "condition",
-                        "operation",
-                        "return",
-                        "assign"
-                      ])
-                )
-                | doc "The list of enabled checks, see https://github.com/tommy-muehle/go-mnd/#checks for description."
-                | optional,
-              ignored-files
-                | Array (String)
-                | doc "List of file patterns to exclude from analysis."
-                | optional,
-              ignored-functions
-                | Array (String)
-                | doc "Comma-separated list of function patterns to exclude from the analysis."
-                | optional,
-              ignored-numbers
-                | Array (String)
-                | doc "List of numbers to exclude from analysis."
-                | optional,
-            }
-            | optional,
-          musttag
-            | {
-              functions
-                | Array
-                  {
-                    arg-pos | std.number.Integer | optional,
-                    name | String | optional,
-                    tag | String | optional,
-                  }
-                | optional,
-            }
-            | optional,
-          nakedret
-            | {
-              max-func-lines
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Integer,
-                      _js2n__-prdslib.numbers.minimum 0
-                    ])
-                | doc "Report if a function has more lines of code than this value and it has naked returns."
-                | optional,
-            }
-            | optional,
-          nestif
-            | {
-              min-complexity
-                | std.number.Integer
-                | doc "Minimum complexity of \"if\" statements to report."
-                | optional,
-            }
-            | optional,
-          nilnil
-            | {
-              checked-types
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.enum
-                      [
-                        "ptr",
-                        "func",
-                        "iface",
-                        "map",
-                        "chan",
-                        "uintptr",
-                        "unsafeptr"
-                      ])
-                )
-                | doc "List of return types to check."
-                | optional,
-            }
-            | optional,
-          nlreturn
-            | {
-              block-size
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Number",
-                      _js2n__-prdslib.numbers.minimum 0
-                    ])
-                | doc "set block size that is still ok"
-                | optional,
-            }
-            | optional,
-          nolintlint
-            | {
-              allow-no-explanation
-                | Array _js2n__-refsenv."_js2n__-:definitions/linters!contract"
-                | doc "Exclude these linters from requiring an explanation."
-                | optional,
-              allow-unused
-                | Bool
-                | doc "Enable to ensure that nolint directives are all used."
-                | optional,
-              require-explanation
-                | Bool
-                | doc "Enable to require an explanation of nonzero length after each nolint directive."
-                | optional,
-              require-specific
-                | Bool
-                | doc "Enable to require nolint directives to mention the specific linter being suppressed."
-                | optional,
-            }
-            | optional,
-          nonamedreturns
-            | {
-              report-error-in-defer
-                | Bool
-                | doc "Report named error if it is assigned inside defer."
-                | optional,
-            }
-            | optional,
-          paralleltest
-            | {
-              ignore-missing
-                | Bool
-                | doc "Ignore missing calls to `t.Parallel()` and only report incorrect uses of it."
-                | optional,
-              ignore-missing-subtests
-                | Bool
-                | doc "Ignore missing calls to `t.Parallel()` in subtests. Top-level tests are still required to have `t.Parallel`, but subtests are allowed to skip it."
-                | optional,
-            }
-            | optional,
-          perfsprint
-            | {
-              err-error
-                | Bool
-                | doc "Optimizes into `err.Error()` even if it is only equivalent for non-nil errors."
-                | optional,
-              errorf | Bool | doc "Optimizes `fmt.Errorf`." | optional,
-              int-conversion
-                | Bool
-                | doc "Optimizes even if it requires an int or uint type cast."
-                | optional,
-              sprintf1
-                | Bool
-                | doc "Optimizes `fmt.Sprintf` with only one argument."
-                | optional,
-              strconcat
-                | Bool
-                | doc "Optimizes into strings concatenation."
-                | optional,
-            }
-            | optional,
-          prealloc
-            | {
-              for-loops
-                | Bool
-                | doc "Report preallocation suggestions on for loops."
-                | optional,
-              range-loops
-                | Bool
-                | doc "Report preallocation suggestions on range loops."
-                | optional,
-              simple
-                | Bool
-                | doc "Report preallocation suggestions only on simple loops that have no returns/breaks/continues/gotos in them."
-                | optional,
-            }
-            | doc m%"
-              We do not recommend using this linter before doing performance profiling.
-              For most programs usage of `prealloc` will be premature optimization.
-            "%
-            | optional,
-          predeclared
-            | {
-              ignore
-                | String
-                | doc "Comma-separated list of predeclared identifiers to not report on."
-                | optional,
-              q
-                | Bool
-                | doc "Include method names and field names (i.e., qualified names) in checks."
-                | optional,
-            }
-            | optional,
-          promlinter
-            | {
-              disabled-linters
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.enum
-                      [
-                        "Help",
-                        "MetricUnits",
-                        "Counter",
-                        "HistogramSummaryReserved",
-                        "MetricTypeInName",
-                        "ReservedChars",
-                        "CamelCase",
-                        "UnitAbbreviations"
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      _js2n__-refsenv."_js2n__-:definitions/linter-names!predicate"
+                                  ],
+                            path = _js2n__-prdslib.isType '"String",
+                            path-except = _js2n__-prdslib.isType '"String",
+                            source = _js2n__-prdslib.isType '"String",
+                            text = _js2n__-prdslib.isType '"String",
+                          } {} true _js2n__-prdslib.always
                       ])
                 )
                 | optional,
-              strict
-                | _js2n__-prdslib.contract_from_predicate _js2n__-prdslib.always
-                | optional,
+              warn-unused | Bool | optional,
             }
             | optional,
-          protogetter
+          settings
             | {
-              replace-first-arg-in-append
-                | Bool
-                | doc "Skip first argument of append function."
+              asasalint
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/asasalintSettings!contract"
                 | optional,
-              skip-any-generated
-                | Bool
-                | doc "Skip any generated files from the checking."
+              bidichk
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/bidichkSettings!contract"
                 | optional,
-              skip-files | Array (String) | optional,
-              skip-generated-by | Array (String) | optional,
-            }
-            | optional,
-          reassign | { patterns | Array (String) | optional, } | optional,
-          revive
-            | {
-              confidence | Number | optional,
-              enable-all-rules | Bool | optional,
-              ignore-generated-header | Bool | optional,
-              max-open-files | std.number.Integer | optional,
-              rules
-                | Array
-                  {
-                    arguments | Array Dyn | optional,
-                    disabled | Bool | optional,
-                    exclude | Array (String) | optional,
-                    name
-                      | _js2n__-refsenv."_js2n__-:definitions/revive-rules!contract",
-                    severity
-                      | std.enum.TagOrString
-                      | [| 'error, 'warning |]
-                      | optional,
-                  }
+              copyloopvar
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/copyloopvarSettings!contract"
                 | optional,
-              severity
-                | std.enum.TagOrString
-                | [| 'error, 'warning |]
+              custom
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/customSettings!contract"
                 | optional,
-            }
-            | optional,
-          rowserrcheck | { packages | Array (String) | optional, } | optional,
-          sloglint
-            | {
-              args-on-sep-lines
-                | Bool
-                | doc "Enforce putting arguments on separate lines."
+              cyclop
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/cyclopSettings!contract"
                 | optional,
-              attr-only
-                | Bool
-                | doc "Enforce using attributes only (incompatible with kv-only)."
+              decorder
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/decorderSettings!contract"
                 | optional,
-              context
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.enum [ "", "all", "scope" ])
-                | doc "Enforce using methods that accept a context."
+              depguard
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/depguardSettings!contract"
                 | optional,
-              forbidden-keys
-                | Array (String)
-                | doc "Enforce not using specific keys."
+              dogsled
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/dogsledSettings!contract"
                 | optional,
-              key-naming-case
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.enum [ "snake", "kebab", "camel", "pascal" ])
-                | doc "Enforce a single key naming convention."
+              dupl
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/duplSettings!contract"
                 | optional,
-              kv-only
-                | Bool
-                | doc "Enforce using key-value pairs only (incompatible with attr-only)."
+              dupword
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/dupwordSettings!contract"
                 | optional,
-              no-global
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.enum [ "", "all", "default" ])
-                | doc "Enforce not using global loggers."
+              errcheck
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/errcheckSettings!contract"
                 | optional,
-              no-mixed-args
-                | Bool
-                | doc "Enforce not mixing key-value pairs and attributes."
+              errchkjson
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/errchkjsonSettings!contract"
                 | optional,
-              no-raw-keys
-                | Bool
-                | doc "Enforce using constants instead of raw keys."
+              errorlint
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/errorlintSettings!contract"
                 | optional,
-              static-msg
-                | Bool
-                | doc "Enforce using static values for log messages."
+              exhaustive
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/exhaustiveSettings!contract"
                 | optional,
-            }
-            | optional,
-          spancheck
-            | {
-              checks
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.enum
-                      [ "end", "record-error", "set-status" ])
-                )
-                | doc "Checks to enable."
+              exhaustruct
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/exhaustructSettings!contract"
                 | optional,
-              extra-start-span-signatures
-                | Array (String)
-                | doc "A list of regexes for additional function signatures that create spans."
+              fatcontext
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/fatcontextSettings!contract"
                 | optional,
-              ignore-check-signatures
-                | Array (String)
-                | doc "A list of regexes for function signatures that silence `record-error` and `set-status` reports if found in the call path to a returned error."
+              forbidigo
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/forbidigoSettings!contract"
                 | optional,
-            }
-            | optional,
-          staticcheck
-            | {
-              checks
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.anyOf
-                      [
-                        _js2n__-prdslib.enum [ "all" ],
-                        _js2n__-prdslib.isType '"String"
-                      ])
-                )
+              funlen
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/funlenSettings!contract"
                 | optional,
-            }
-            | optional,
-          stylecheck
-            | {
-              checks
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.anyOf
-                      [
-                        _js2n__-prdslib.enum [ "all" ],
-                        _js2n__-prdslib.isType '"String"
-                      ])
-                )
+              ginkgolinter
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/ginkgolinterSettings!contract"
                 | optional,
-              dot-import-whitelist
-                | Array (String)
-                | doc "By default, ST1001 forbids all uses of dot imports in non-test packages. This setting allows setting a whitelist of import paths that can be dot-imported anywhere."
+              gochecksumtype
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/gochecksumtypeSettings!contract"
                 | optional,
-              http-status-code-whitelist
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.enum
-                      [
-                        "100",
-                        "101",
-                        "102",
-                        "103",
-                        "200",
-                        "201",
-                        "202",
-                        "203",
-                        "204",
-                        "205",
-                        "206",
-                        "207",
-                        "208",
-                        "226",
-                        "300",
-                        "301",
-                        "302",
-                        "303",
-                        "304",
-                        "305",
-                        "306",
-                        "307",
-                        "308",
-                        "400",
-                        "401",
-                        "402",
-                        "403",
-                        "404",
-                        "405",
-                        "406",
-                        "407",
-                        "408",
-                        "409",
-                        "410",
-                        "411",
-                        "412",
-                        "413",
-                        "414",
-                        "415",
-                        "416",
-                        "417",
-                        "418",
-                        "421",
-                        "422",
-                        "423",
-                        "424",
-                        "425",
-                        "426",
-                        "428",
-                        "429",
-                        "431",
-                        "451",
-                        "500",
-                        "501",
-                        "502",
-                        "503",
-                        "504",
-                        "505",
-                        "506",
-                        "507",
-                        "508",
-                        "510",
-                        "511"
-                      ])
-                )
-                | doc "ST1013 recommends using constants from the net/http package instead of hard-coding numeric HTTP status codes. This setting specifies a list of numeric status codes that this check does not complain about."
+              gocognit
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/gocognitSettings!contract"
                 | optional,
-              initialisms
-                | Array (String)
-                | doc "ST1003 check, among other things, for the correct capitalization of initialisms. The set of known initialisms can be configured with this option."
+              goconst
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/goconstSettings!contract"
                 | optional,
-            }
-            | optional,
-          tagalign
-            | {
-              align
-                | Bool
-                | doc "Align and sort can be used together or separately."
+              gocritic
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/gocriticSettings!contract"
                 | optional,
-              order
-                | Array (String)
-                | doc "Specify the order of tags, the other tags will be sorted by name."
+              gocyclo
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/gocycloSettings!contract"
                 | optional,
-              sort | Bool | doc "Whether enable tags sort." | optional,
-              strict | Bool | doc "Whether enable strict style." | optional,
-            }
-            | optional,
-          tagliatelle
-            | {
-              case
-                | {
-                  rules
-                    | _js2n__-prdslib.contract_from_predicate
-                      (_js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.record {}
-                            {
-                              "^.+$" =
-                                _js2n__-prdslib.enum
-                                    [
-                                      "camel",
-                                      "pascal",
-                                      "kebab",
-                                      "snake",
-                                      "goCamel",
-                                      "goPascal",
-                                      "goKebab",
-                                      "goSnake",
-                                      "upper",
-                                      "upperSnake",
-                                      "lower",
-                                      "header"
-                                    ],
-                            } true _js2n__-prdslib.always
-                        ])
-                    | optional,
-                  use-field-name
-                    | Bool
-                    | doc "Use the struct field name to check the name of the struct tag."
-                    | optional,
-                }
+              godot
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/godotSettings!contract"
+                | optional,
+              godox
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/godoxSettings!contract"
+                | optional,
+              goheader
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/goheaderSettings!contract"
+                | optional,
+              gomoddirectives
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/gomoddirectivesSettings!contract"
+                | optional,
+              gomodguard
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/gomodguardSettings!contract"
+                | optional,
+              gosec
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/gosecSettings!contract"
+                | optional,
+              gosmopolitan
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/gosmopolitanSettings!contract"
+                | optional,
+              govet
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/govetSettings!contract"
+                | optional,
+              grouper
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/grouperSettings!contract"
+                | optional,
+              iface
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/ifaceSettings!contract"
+                | optional,
+              importas
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/importasSettings!contract"
+                | optional,
+              inamedparam
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/inamedparamSettings!contract"
+                | optional,
+              interfacebloat
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/interfacebloatSettings!contract"
+                | optional,
+              ireturn
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/ireturnSettings!contract"
+                | optional,
+              lll
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/lllSettings!contract"
+                | optional,
+              loggercheck
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/loggercheckSettings!contract"
+                | optional,
+              maintidx
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/maintidxSettings!contract"
+                | optional,
+              makezero
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/makezeroSettings!contract"
+                | optional,
+              misspell
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/misspellSettings!contract"
+                | optional,
+              mnd
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/mndSettings!contract"
+                | optional,
+              musttag
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/musttagSettings!contract"
+                | optional,
+              nakedret
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/nakedretSettings!contract"
+                | optional,
+              nestif
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/nestifSettings!contract"
+                | optional,
+              nilnil
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/nilnilSettings!contract"
+                | optional,
+              nlreturn
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/nlreturnSettings!contract"
+                | optional,
+              nolintlint
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/nolintlintSettings!contract"
+                | optional,
+              nonamedreturns
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/nonamedreturnsSettings!contract"
+                | optional,
+              paralleltest
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/paralleltestSettings!contract"
+                | optional,
+              perfsprint
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/perfsprintSettings!contract"
+                | optional,
+              prealloc
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/preallocSettings!contract"
+                | optional,
+              predeclared
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/predeclaredSettings!contract"
+                | optional,
+              promlinter
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/promlinterSettings!contract"
+                | optional,
+              protogetter
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/protogetterSettings!contract"
+                | optional,
+              reassign
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/reassignSettings!contract"
+                | optional,
+              recvcheck
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/recvcheckSettings!contract"
+                | optional,
+              revive
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/reviveSettings!contract"
+                | optional,
+              rowserrcheck
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/rowserrcheckSettings!contract"
+                | optional,
+              sloglint
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/sloglintSettings!contract"
+                | optional,
+              spancheck
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/spancheckSettings!contract"
+                | optional,
+              staticcheck
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/staticcheckSettings!contract"
+                | optional,
+              tagalign
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/tagalignSettings!contract"
+                | optional,
+              tagliatelle
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/tagliatelleSettings!contract"
+                | optional,
+              tenv
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/tenvSettings!contract"
+                | optional,
+              testifylint
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/testifylintSettings!contract"
+                | optional,
+              testpackage
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/testpackageSettings!contract"
+                | optional,
+              thelper
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/thelperSettings!contract"
+                | optional,
+              unconvert
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/unconvertSettings!contract"
+                | optional,
+              unparam
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/unparamSettings!contract"
+                | optional,
+              unused
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/unusedSettings!contract"
+                | optional,
+              usestdlibvars
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/usestdlibvarsSettings!contract"
+                | optional,
+              usetesting
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/usetestingSettings!contract"
+                | optional,
+              varnamelen
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/varnamelenSettings!contract"
+                | optional,
+              whitespace
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/whitespaceSettings!contract"
+                | optional,
+              wrapcheck
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/wrapcheckSettings!contract"
+                | optional,
+              wsl
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/wslSettings!contract"
                 | optional,
             }
-            | optional,
-          tenv
-            | {
-              all
-                | Bool
-                | doc "The option `all` will run against whole test files (`_test.go`) regardless of method/function signatures."
-                | optional,
-            }
-            | optional,
-          testifylint
-            | {
-              bool-compare
-                | {
-                  ignore-custom-types
-                    | Bool
-                    | doc "To ignore user defined types (over builtin bool)."
-                    | optional,
-                }
-                | optional,
-              disable
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.enum
-                      [
-                        "blank-import",
-                        "bool-compare",
-                        "compares",
-                        "empty",
-                        "error-is-as",
-                        "error-nil",
-                        "expected-actual",
-                        "float-compare",
-                        "formatter",
-                        "go-require",
-                        "len",
-                        "negative-positive",
-                        "nil-compare",
-                        "require-error",
-                        "suite-broken-parallel",
-                        "suite-dont-use-pkg",
-                        "suite-extra-assert-call",
-                        "suite-subtest-run",
-                        "suite-thelper",
-                        "useless-assert"
-                      ])
-                )
-                | doc "Disable specific checkers."
-                | optional,
-              disable-all | Bool | doc "Disable all checkers." | optional,
-              enable
-                | Array (
-                  _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.enum
-                      [
-                        "blank-import",
-                        "bool-compare",
-                        "compares",
-                        "empty",
-                        "error-is-as",
-                        "error-nil",
-                        "expected-actual",
-                        "float-compare",
-                        "formatter",
-                        "go-require",
-                        "len",
-                        "negative-positive",
-                        "nil-compare",
-                        "require-error",
-                        "suite-broken-parallel",
-                        "suite-dont-use-pkg",
-                        "suite-extra-assert-call",
-                        "suite-subtest-run",
-                        "suite-thelper",
-                        "useless-assert"
-                      ])
-                )
-                | doc "Enable specific checkers."
-                | optional,
-              enable-all | Bool | doc "Enable all checkers." | optional,
-              expected-actual
-                | {
-                  pattern
-                    | String
-                    | doc "Regexp for expected variable name."
-                    | optional,
-                }
-                | optional,
-              formatter
-                | {
-                  check-format-string
-                    | Bool
-                    | doc "To enable go vet's printf checks."
-                    | optional,
-                  require-f-funcs
-                    | Bool
-                    | doc "To require f-assertions if format string is used."
-                    | optional,
-                }
-                | optional,
-              go-require
-                | {
-                  ignore-http-handlers
-                    | Bool
-                    | doc "To ignore HTTP handlers (like http.HandlerFunc)."
-                    | optional,
-                }
-                | optional,
-              require-error
-                | {
-                  fn-pattern
-                    | String
-                    | doc "Regexp for assertions to analyze. If defined, then only matched error assertions will be reported."
-                    | optional,
-                }
-                | optional,
-              suite-extra-assert-call
-                | {
-                  mode
-                    | std.enum.TagOrString
-                    | [| 'require, 'remove |]
-                    | doc "To require or remove extra Assert() call?"
-                    | optional,
-                }
-                | optional,
-            }
-            | optional,
-          testpackage
-            | {
-              allow-packages
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"Array",
-                      _js2n__-prdslib.arrays.arrayOf
-                        (_js2n__-prdslib.isType '"String"),
-                      _js2n__-prdslib.arrays.uniqueItems
-                    ])
-                | doc "List of packages that don't end with _test that tests are allowed to be in."
-                | optional,
-              skip-regexp
-                | String
-                | doc "Files with names matching this regular expression are skipped."
-                | optional,
-            }
-            | optional,
-          thelper
-            | {
-              benchmark
-                | {
-                  begin
-                    | Bool
-                    | doc "Check if `b.Helper()` begins helper function."
-                    | optional,
-                  first
-                    | Bool
-                    | doc "Check if *testing.B is first param of helper function."
-                    | optional,
-                  name
-                    | Bool
-                    | doc "Check if *testing.B param has b name."
-                    | optional,
-                }
-                | optional,
-              fuzz
-                | {
-                  begin
-                    | Bool
-                    | doc "Check if `f.Helper()` begins helper function."
-                    | optional,
-                  first
-                    | Bool
-                    | doc "Check if *testing.F is first param of helper function."
-                    | optional,
-                  name
-                    | Bool
-                    | doc "Check if *testing.F param has f name."
-                    | optional,
-                }
-                | optional,
-              tb
-                | {
-                  begin
-                    | Bool
-                    | doc "Check if `tb.Helper()` begins helper function."
-                    | optional,
-                  first
-                    | Bool
-                    | doc "Check if *testing.TB is first param of helper function."
-                    | optional,
-                  name
-                    | Bool
-                    | doc "Check if *testing.TB param has tb name."
-                    | optional,
-                }
-                | optional,
-              test
-                | {
-                  begin
-                    | Bool
-                    | doc "Check if `t.Helper()` begins helper function."
-                    | optional,
-                  first
-                    | Bool
-                    | doc "Check if *testing.T is first param of helper function."
-                    | optional,
-                  name
-                    | Bool
-                    | doc "Check if *testing.T param has t name."
-                    | optional,
-                }
-                | optional,
-            }
-            | optional,
-          unconvert
-            | { fast-math | Bool | optional, safe | Bool | optional, }
-            | optional,
-          unparam
-            | {
-              check-exported
-                | Bool
-                | doc m%"
-                  Inspect exported functions. Set to true if no external program/library imports your code.
-                  
-                  WARNING: if you enable this setting, unparam will report a lot of false-positives in text editors:
-                  if it's called for subdir of a project it can't find external interfaces. All text editor integrations
-                  with golangci-lint call it on a directory with the changed file.
-                "%
-                | optional,
-            }
-            | optional,
-          unused
-            | {
-              exported-fields-are-used | Bool | doc "" | optional,
-              field-writes-are-uses | Bool | doc "" | optional,
-              generated-is-used | Bool | doc "" | optional,
-              local-variables-are-used | Bool | doc "" | optional,
-              parameters-are-used | Bool | doc "" | optional,
-              post-statements-are-reads | Bool | doc "" | optional,
-            }
-            | optional,
-          usestdlibvars
-            | {
-              constant-kind
-                | Bool
-                | doc "Suggest the use of constant.Kind.String()."
-                | optional,
-              crypto-hash
-                | Bool
-                | doc "Suggest the use of crypto.Hash.String()."
-                | optional,
-              default-rpc-path
-                | Bool
-                | doc "Suggest the use of rpc.DefaultXXPath."
-                | optional,
-              http-method
-                | Bool
-                | doc "Suggest the use of http.MethodXX."
-                | optional,
-              http-status-code
-                | Bool
-                | doc "Suggest the use of http.StatusXX."
-                | optional,
-              sql-isolation-level
-                | Bool
-                | doc "Suggest the use of sql.LevelXX.String()."
-                | optional,
-              time-layout
-                | Bool
-                | doc "Suggest the use of time.Layout."
-                | optional,
-              time-month
-                | Bool
-                | doc "Suggest the use of time.Month.String()."
-                | optional,
-              time-weekday
-                | Bool
-                | doc "Suggest the use of time.Weekday.String()."
-                | optional,
-              tls-signature-scheme
-                | Bool
-                | doc "Suggest the use of tls.SignatureScheme.String()."
-                | optional,
-            }
-            | optional,
-          varnamelen
-            | {
-              check-receiver
-                | Bool
-                | doc "Check method receiver names."
-                | optional,
-              check-return | Bool | doc "Check named return values." | optional,
-              check-type-param | Bool | doc "Check type parameters." | optional,
-              ignore-chan-recv-ok
-                | Bool
-                | doc "Ignore `ok` variables that hold the bool return value of a channel receive."
-                | optional,
-              ignore-decls
-                | Array (String)
-                | doc "Optional list of variable declarations that should be ignored completely."
-                | optional,
-              ignore-map-index-ok
-                | Bool
-                | doc "Ignore `ok` variables that hold the bool return value of a map index."
-                | optional,
-              ignore-names
-                | Array (String)
-                | doc "Optional list of variable names that should be ignored completely."
-                | optional,
-              ignore-type-assert-ok
-                | Bool
-                | doc "Ignore `ok` variables that hold the bool return value of a type assertion"
-                | optional,
-              max-distance
-                | std.number.Integer
-                | doc "Variables used in at most this N-many lines will be ignored."
-                | optional,
-              min-name-length
-                | std.number.Integer
-                | doc "The minimum length of a variable's name that is considered `long`."
-                | optional,
-            }
-            | optional,
-          whitespace
-            | {
-              multi-func
-                | Bool
-                | doc "Enforces newlines (or comments) after every multi-line function signature"
-                | optional,
-              multi-if
-                | Bool
-                | doc "Enforces newlines (or comments) after every multi-line if statement"
-                | optional,
-            }
-            | optional,
-          wrapcheck
-            | {
-              ignoreInterfaceRegexps
-                | Array (String)
-                | doc "An array of glob patterns which, if matched to an underlying interface name, will ignore unwrapped errors returned from a function whose call is defined on the given interface."
-                | optional,
-              ignorePackageGlobs
-                | Array (String)
-                | doc "An array of glob patterns which, if any match the package of the function returning the error, will skip wrapcheck analysis for this error."
-                | optional,
-              ignoreSigRegexps
-                | Array (String)
-                | doc "An array of strings which specify regular expressions of signatures to ignore."
-                | optional,
-              ignoreSigs
-                | Array (String)
-                | doc "An array of strings which specify substrings of signatures to ignore."
-                | optional,
-            }
-            | optional,
-          wsl
-            | {
-              allow-assign-and-anything
-                | Bool
-                | doc "Controls if you may cuddle assignments and anything without needing an empty line between them."
-                | optional,
-              allow-assign-and-call
-                | Bool
-                | doc "Allow calls and assignments to be cuddled as long as the lines have any matching variables, fields or types."
-                | optional,
-              allow-cuddle-declarations
-                | Bool
-                | doc "Allow declarations (var) to be cuddled."
-                | optional,
-              allow-cuddle-with-calls
-                | Array (String)
-                | doc "A list of call idents that everything can be cuddled with."
-                | optional,
-              allow-cuddle-with-rhs
-                | Array (String)
-                | doc "AllowCuddleWithRHS is a list of right hand side variables that is allowed to be cuddled with anything."
-                | optional,
-              allow-multiline-assign
-                | Bool
-                | doc "Allow multiline assignments to be cuddled."
-                | optional,
-              allow-separated-leading-comment
-                | Bool
-                | doc "Allow leading comments to be separated with empty lines."
-                | optional,
-              allow-trailing-comment
-                | Bool
-                | doc "Allow trailing comments in ending of blocks."
-                | optional,
-              error-variable-names
-                | Array (String)
-                | doc "When force-err-cuddling is enabled this is a list of names used for error variables to check for in the conditional."
-                | optional,
-              force-case-trailing-whitespace
-                | _js2n__-prdslib.contract_from_predicate
-                  (_js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Integer,
-                      _js2n__-prdslib.numbers.minimum 0
-                    ])
-                | doc "Force newlines in end of case at this limit (0 = never)."
-                | optional,
-              force-err-cuddling
-                | Bool
-                | doc "Causes an error when an If statement that checks an error variable doesn't cuddle with the assignment of that variable."
-                | optional,
-              force-short-decl-cuddling
-                | Bool
-                | doc "Causes an error if a short declaration (:=) cuddles with anything other than another short declaration."
-                | optional,
-              strict-append
-                | Bool
-                | doc "If true, append is only allowed to be cuddled if appending value is matching variables, fields or types on line above."
-                | optional,
-            }
+            | doc "All available settings of specific linters."
             | optional,
         }
-        | doc "All available settings of specific linters."
         | optional,
       output
         | {
           formats
-            | Array
-              {
-                format
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.enum
-                      [
-                        "colored-line-number",
-                        "line-number",
-                        "json",
-                        "colored-tab",
-                        "tab",
-                        "html",
-                        "checkstyle",
-                        "code-climate",
-                        "junit-xml",
-                        "junit-xml-extended",
-                        "github-actions",
-                        "teamcity",
-                        "sarif"
-                      ]),
-                path
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.anyOf
-                      [
-                        _js2n__-prdslib.enum [ "stdout", "stderr" ],
-                        _js2n__-prdslib.isType '"String"
-                      ])
-                  | optional,
-              }
+            | {
+              checkstyle
+                | _js2n__-refsenv."_js2n__-:definitions/simple-format!contract"
+                | optional,
+              code-climate
+                | _js2n__-refsenv."_js2n__-:definitions/simple-format!contract"
+                | optional,
+              html
+                | _js2n__-refsenv."_js2n__-:definitions/simple-format!contract"
+                | optional,
+              json
+                | _js2n__-refsenv."_js2n__-:definitions/simple-format!contract"
+                | optional,
+              junit-xml
+                | {
+                  extended | Bool | optional,
+                  path
+                    | _js2n__-refsenv."_js2n__-:definitions/formats-path!contract"
+                    | optional,
+                }
+                | optional,
+              sarif
+                | _js2n__-refsenv."_js2n__-:definitions/simple-format!contract"
+                | optional,
+              tab
+                | {
+                  colors | Bool | optional,
+                  path
+                    | _js2n__-refsenv."_js2n__-:definitions/formats-path!contract"
+                    | optional,
+                  print-linter-name | Bool | optional,
+                }
+                | optional,
+              teamcity
+                | _js2n__-refsenv."_js2n__-:definitions/simple-format!contract"
+                | optional,
+              text
+                | {
+                  colors | Bool | optional,
+                  path
+                    | _js2n__-refsenv."_js2n__-:definitions/formats-path!contract"
+                    | optional,
+                  print-issued-lines | Bool | optional,
+                  print-linter-name | Bool | optional,
+                }
+                | optional,
+            }
             | doc "Output formats to use."
             | optional,
           path-prefix
             | String
             | doc "Add a prefix to the output file references."
-            | optional,
-          print-issued-lines
-            | Bool
-            | doc "Print lines of code with issue."
-            | optional,
-          print-linter-name
-            | Bool
-            | doc "Print linter name in the end of issue text."
             | optional,
           show-stats | Bool | doc "Show statistics per linter." | optional,
           sort-order
@@ -3760,14 +4556,6 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.enum [ "linter", "severity", "file" ])
             )
-            | optional,
-          sort-results
-            | Bool
-            | doc "Sort results by: filepath, line and column."
-            | optional,
-          uniq-by-line
-            | Bool
-            | doc "Make issues output unique by line."
             | optional,
         }
         | doc "Output configuration options."
@@ -3808,13 +4596,23 @@ let rec _js2n__-refsenv
               See "go help modules" for more information.
             "%
             | optional,
+          relative-path-mode
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-refsenv."_js2n__-:definitions/relative-path-modes!predicate"
+                ])
+            | doc "The mode used to evaluate relative paths."
+            | optional,
           tests | Bool | doc "Enable inclusion of test files." | optional,
           timeout
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.strings.pattern "^\\d*[sm]$"
+                  _js2n__-prdslib.strings.pattern
+                    "^((\\d+h)?(\\d+m)?(\\d+(?:\\.\\d)?s)?|0)$"
                 ])
             | doc "Timeout for the analysis."
             | optional,
@@ -3823,11 +4621,7 @@ let rec _js2n__-refsenv
         | optional,
       severity
         | {
-          case-sensitive
-            | Bool
-            | doc "If set to true, severity-rules regular expressions become case sensitive."
-            | optional,
-          default-severity
+          "default"
             | String
             | doc "Set the default severity for issues. If severity rules are defined and the issues do not match or no severity is provided to the rule this will be the default severity applied. Severities should match the supported severity names of the selected out format.",
           rules
@@ -3877,7 +4671,7 @@ let rec _js2n__-refsenv
                               [
                                 _js2n__-prdslib.isType '"Array",
                                 _js2n__-prdslib.arrays.arrayOf
-                                  _js2n__-refsenv."_js2n__-:definitions/linters!predicate"
+                                  _js2n__-refsenv."_js2n__-:definitions/linter-names!predicate"
                               ],
                         path = _js2n__-prdslib.isType '"String",
                         path-except = _js2n__-prdslib.isType '"String",
@@ -3894,4 +4688,5 @@ let rec _js2n__-refsenv
             | optional,
         }
         | optional,
+      version | String,
     }

@@ -985,19 +985,10 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/rules!contract"
         | doc "🐊Putout comes with a large number of rules. You can modify which rules your project uses."
         = {
-            add-return-await
-              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
-              | optional,
             apply-at
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
-            apply-await-import
-              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
-              | optional,
             apply-destructuring
-              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
-              | optional,
-            apply-early-return
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
             apply-montag
@@ -1006,19 +997,25 @@ let rec _js2n__-refsenv
             apply-nullish-coalescing
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
-            apply-numeric-separators
-              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
-              | optional,
-            apply-optional-chaining
-              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
-              | optional,
             apply-shorthand-properties
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
-            apply-try-catch
+            assignment
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
-            apply-utility-types
+            "assignment/convert-to-arrow-function"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "assignment/convert-to-comparison"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "assignment/convert-to-declaration"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "assignment/simplify"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "assignment/split"
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
             browserlist
@@ -1069,12 +1066,6 @@ let rec _js2n__-refsenv
             convert-array-copy-to-slice
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
-            convert-assignment-to-arrow-function
-              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
-              | optional,
-            convert-assignment-to-comparison
-              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
-              | optional,
             convert-bitwise-to-logical
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
@@ -1117,6 +1108,33 @@ let rec _js2n__-refsenv
             eslint
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
+            esm
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "esm/convert-assert-to-with"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "esm/declare-imports-first"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "esm/group-imports-by-source"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "esm/merge-duplicate-imports"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "esm/remove-empty-export"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "esm/remove-empty-import"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "esm/remove-quotes-from-import-assertions"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "esm/sort-imports-by-specifier"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
             extract-object-properties
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
@@ -1153,16 +1171,43 @@ let rec _js2n__-refsenv
             jest
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
+            label
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "label/convert-to-object"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "label/remove-unused"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
             madrun
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            math
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "math/apply-exponentiation"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "math/apply-multiplication"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "math/apply-numeric-separators"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "math/convert-sqrt-to-hypot"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "math/declare"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "math/remove-unchanged-zero-declarations"
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
             maybe
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
             merge-destructuring-properties
-              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
-              | optional,
-            merge-duplicate-imports
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
             nodejs
@@ -1207,7 +1252,28 @@ let rec _js2n__-refsenv
             npmignore
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
+            optional-chaining
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "optional-chaining/convert-logical-assign-to-optional"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "optional-chaining/convert-logical-to-optional"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "optional-chaining/convert-optional-assign-to-logical"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "optional-chaining/convert-optional-to-logical"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
             package-json
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            parens
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "parens/add-missing"
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
             postcss
@@ -1217,6 +1283,9 @@ let rec _js2n__-refsenv
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
             "promises/add-missing-await"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "promises/apply-await-import"
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
             "promises/apply-top-level-await"
@@ -1411,12 +1480,6 @@ let rec _js2n__-refsenv
             "remove-empty/block"
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
-            "remove-empty/export"
-              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
-              | optional,
-            "remove-empty/import"
-              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
-              | optional,
             "remove-empty/pattern"
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
@@ -1477,9 +1540,6 @@ let rec _js2n__-refsenv
             remove-useless-operand
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
-            remove-useless-return
-              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
-              | optional,
             remove-useless-spread
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
@@ -1498,10 +1558,22 @@ let rec _js2n__-refsenv
             remove-useless-variables
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
-            reuse-duplicate-init
+            return
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
-            simplify-assignment
+            "return/apply-early"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "return/convert-from-break"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "return/remove-useless"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "return/simplify-boolean"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            reuse-duplicate-init
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
             simplify-logical-expressions
@@ -1526,6 +1598,27 @@ let rec _js2n__-refsenv
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
             travis
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            try-catch
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "try-catch/args"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "try-catch/async"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "try-catch/await"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "try-catch/declare"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "try-catch/expand-args"
+              | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
+              | optional,
+            "try-catch/sync"
               | _js2n__-refsenv."_js2n__-:definitions/rule!contract"
               | optional,
             types
@@ -1591,29 +1684,27 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  add-return-await =
-                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   apply-at =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  apply-await-import =
-                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   apply-destructuring =
-                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  apply-early-return =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   apply-montag =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   apply-nullish-coalescing =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  apply-numeric-separators =
-                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  apply-optional-chaining =
-                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   apply-shorthand-properties =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  apply-try-catch =
+                  assignment =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  apply-utility-types =
+                  "assignment/convert-to-arrow-function" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "assignment/convert-to-comparison" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "assignment/convert-to-declaration" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "assignment/simplify" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "assignment/split" =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   browserlist =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
@@ -1647,10 +1738,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   convert-array-copy-to-slice =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  convert-assignment-to-arrow-function =
-                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  convert-assignment-to-comparison =
-                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   convert-bitwise-to-logical =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   convert-concat-to-flat =
@@ -1679,6 +1766,23 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   eslint =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  esm = _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "esm/convert-assert-to-with" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "esm/declare-imports-first" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "esm/group-imports-by-source" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "esm/merge-duplicate-imports" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "esm/remove-empty-export" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "esm/remove-empty-import" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "esm/remove-quotes-from-import-assertions" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "esm/sort-imports-by-specifier" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   extract-object-properties =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   extract-sequence-expressions =
@@ -1702,12 +1806,28 @@ let rec _js2n__-refsenv
                   gitignore =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   jest = _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  label = _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "label/convert-to-object" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "label/remove-unused" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   madrun =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  math = _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "math/apply-exponentiation" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "math/apply-multiplication" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "math/apply-numeric-separators" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "math/convert-sqrt-to-hypot" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "math/declare" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "math/remove-unchanged-zero-declarations" =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   maybe = _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   merge-destructuring-properties =
-                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  merge-duplicate-imports =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   nodejs =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
@@ -1737,13 +1857,29 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   npmignore =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  optional-chaining =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "optional-chaining/convert-logical-assign-to-optional" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "optional-chaining/convert-logical-to-optional" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "optional-chaining/convert-optional-assign-to-logical" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "optional-chaining/convert-optional-to-logical" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   package-json =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  parens =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "parens/add-missing" =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   postcss =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   promises =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   "promises/add-missing-await" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "promises/apply-await-import" =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   "promises/apply-top-level-await" =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
@@ -1873,10 +2009,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   "remove-empty/block" =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  "remove-empty/export" =
-                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  "remove-empty/import" =
-                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   "remove-empty/pattern" =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   remove-iife =
@@ -1917,8 +2049,6 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   remove-useless-operand =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  remove-useless-return =
-                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   remove-useless-spread =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   remove-useless-template-expressions =
@@ -1931,9 +2061,17 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   remove-useless-variables =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  reuse-duplicate-init =
+                  return =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
-                  simplify-assignment =
+                  "return/apply-early" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "return/convert-from-break" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "return/remove-useless" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "return/simplify-boolean" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  reuse-duplicate-init =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   simplify-logical-expressions =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
@@ -1949,6 +2087,20 @@ let rec _js2n__-refsenv
                   "tape/remove-skip" =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   travis =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  try-catch =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "try-catch/args" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "try-catch/async" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "try-catch/await" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "try-catch/declare" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "try-catch/expand-args" =
+                    _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
+                  "try-catch/sync" =
                     _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   types = _js2n__-refsenv."_js2n__-:definitions/rule!predicate",
                   "types/apply-is-array" =

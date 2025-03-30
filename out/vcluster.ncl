@@ -980,6 +980,10 @@ let rec _js2n__-refsenv
         | String
         | doc "ServiceCIDR holds the service cidr for the virtual cluster. Do not use this option anymore."
         | optional,
+      sleepMode
+        | Dyn
+        | doc "SleepMode holds the native sleep mode configuration for Pro clusters"
+        | optional,
       sync
         | Dyn
         | doc "Sync describes how to sync resources from the virtual cluster to host cluster and back."

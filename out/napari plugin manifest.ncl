@@ -909,6 +909,7 @@ let rec _js2n__-refsenv
                 'Themes,
                 'Simulation,
                 'Segmentation,
+                'Registration,
                 'Measurement,
                 'IO,
                 '"Image Processing",
@@ -2131,7 +2132,7 @@ let rec _js2n__-refsenv
   {
       categories
         | Array _js2n__-refsenv."_js2n__-:definitions/Category!contract"
-        | doc "A list of categories that this plugin belongs to. This is used to help users discover your plugin. Allowed values: `[Acquisition, Annotation, Dataset, Image Processing, IO, Measurement, Segmentation, Simulation, Themes, Transformations, Utilities, Visualization]`"
+        | doc "A list of categories that this plugin belongs to. This is used to help users discover your plugin. Allowed values: `[Acquisition, Annotation, Dataset, Image Processing, IO, Measurement, Registration, Segmentation, Simulation, Themes, Transformations, Utilities, Visualization]`"
         | optional,
       contributions
         | _js2n__-prdslib.contract_from_predicate

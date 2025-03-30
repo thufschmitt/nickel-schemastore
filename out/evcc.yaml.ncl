@@ -1126,7 +1126,7 @@ let rec _js2n__-refsenv
                     VIN = _js2n__-prdslib.isType '"String",
                     cache =
                       _js2n__-refsenv."_js2n__-:definitions/duration!predicate",
-                    capacity = _js2n__-prdslib.isType 'Integer,
+                    capacity = _js2n__-prdslib.isType '"Number",
                     icon = _js2n__-prdslib.isType '"String",
                     identifiers = _js2n__-prdslib.isType '"Array",
                     onIdentify =

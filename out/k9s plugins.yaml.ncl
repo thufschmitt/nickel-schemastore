@@ -907,7 +907,6 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.allOf
                   [
-                    _js2n__-prdslib.isType 'Record,
                     _js2n__-prdslib.records.required
                       [ "command", "description", "scopes", "shortCut" ],
                     _js2n__-prdslib.records.record
@@ -938,7 +937,7 @@ let rec _js2n__-refsenv
                                   (_js2n__-prdslib.isType '"String")
                               ],
                         shortCut = _js2n__-prdslib.isType '"String",
-                      } {} false _js2n__-prdslib.never
+                      } {} true _js2n__-prdslib.always
                   ])
             ]),
     }

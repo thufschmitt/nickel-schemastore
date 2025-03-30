@@ -1659,7 +1659,7 @@ let rec _js2n__-refsenv
                             ],
                     }
                     {
-                      ".*" =
+                      "^(?!(CommandStartsOnOwnLine|CommandNameFinishesWithLineBreak)$).*" =
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
@@ -1727,7 +1727,7 @@ let rec _js2n__-refsenv
                             ],
                     }
                     {
-                      ".*" =
+                      "^(?!(BeginStartsOnOwnLine|BodyStartsOnOwnLine|EndStartsOnOwnLine|EndFinishesWithLineBreak)$).*" =
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
@@ -1824,7 +1824,7 @@ let rec _js2n__-refsenv
                             ],
                     }
                     {
-                      ".*" =
+                      "^(?!(IfStartsOnOwnLine|BodyStartsOnOwnLine|OrStartsOnOwnLine|OrFinishesWithLineBreak|ElseStartsOnOwnLine|ElseFinishesWithLineBreak|FiStartsOnOwnLine|FiFinishesWithLineBreak)$).*" =
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
@@ -1913,7 +1913,7 @@ let rec _js2n__-refsenv
                             ],
                     }
                     {
-                      ".*" =
+                      "^(?!(ItemStartsOnOwnLine|ItemFinishesWithLineBreak)$).*" =
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
@@ -1966,7 +1966,7 @@ let rec _js2n__-refsenv
                             ],
                     }
                     {
-                      ".*" =
+                      "^(?!(KeyStartsOnOwnLine|EqualsStartsOnOwnLine|EqualsFinishesWithLineBreak)$).*" =
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
@@ -2032,7 +2032,7 @@ let rec _js2n__-refsenv
                             ],
                     }
                     {
-                      ".*" =
+                      "^(?!(LCuBStartsOnOwnLine|MandArgBodyStartsOnOwnLine|RCuBStartsOnOwnLine|RCuBFinishesWithLineBreak)$).*" =
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
@@ -2093,7 +2093,7 @@ let rec _js2n__-refsenv
                             ],
                     }
                     {
-                      ".*" =
+                      "^(?!(NameStartsOnOwnLine|NameFinishesWithLineBreak)$).*" =
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
@@ -2301,7 +2301,7 @@ let rec _js2n__-refsenv
                             ],
                     }
                     {
-                      ".*" =
+                      "^(?!(LSqBStartsOnOwnLine|OptArgBodyStartsOnOwnLine|RSqBStartsOnOwnLine|RSqBFinishesWithLineBreak)$).*" =
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
@@ -2383,7 +2383,7 @@ let rec _js2n__-refsenv
                             ],
                     }
                     {
-                      ".*" =
+                      "^(?!(SpecialBeginStartsOnOwnLine|SpecialBodyStartsOnOwnLine|SpecialEndStartsOnOwnLine|SpecialEndFinishesWithLineBreak)$).*" =
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
@@ -2679,7 +2679,7 @@ let rec _js2n__-refsenv
                             ],
                     }
                     {
-                      ".*" =
+                      "^(?!(VerbatimBeginStartsOnOwnLine|VerbatimEndFinishesWithLineBreak)$).*" =
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
@@ -2944,7 +2944,7 @@ let rec _js2n__-refsenv
                         ],
                 }
                 {
-                  ".*" =
+                  "^(?!specialBeforeCommand$).*" =
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
@@ -2959,7 +2959,17 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.isType 'Integer,
                                       _js2n__-prdslib.enum [ 0, 1 ]
                                     ],
-                              middle = _js2n__-prdslib.isType '"String",
+                              middle =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.isType '"Array"
+                                        ],
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
                             } {} true _js2n__-prdslib.always
                         ],
                 } true _js2n__-prdslib.always

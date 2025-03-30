@@ -911,6 +911,23 @@ let rec _js2n__-refsenv
             | optional,
           jobs
             | {
+              build
+                | {
+                  epub | Array (String) | optional,
+                  html | Array (String) | optional,
+                  htmlzip | Array (String) | optional,
+                  pdf | Array (String) | optional,
+                }
+                | doc "Override the default build process."
+                | optional,
+              create_environment
+                | Array (String)
+                | doc "Override the default environment creation process."
+                | optional,
+              install
+                | Array (String)
+                | doc "Override the default installation process."
+                | optional,
               post_build | Array (String) | optional,
               post_checkout | Array (String) | optional,
               post_create_environment | Array (String) | optional,
@@ -950,11 +967,21 @@ let rec _js2n__-refsenv
                               "1.20",
                               "1.21",
                               "1.22",
+                              "1.23",
                               "latest"
                             ],
                       nodejs =
                         _js2n__-prdslib.enum
-                            [ "14", "16", "18", "19", "20", "latest" ],
+                            [
+                              "14",
+                              "16",
+                              "18",
+                              "19",
+                              "20",
+                              "22",
+                              "23",
+                              "latest"
+                            ],
                       python =
                         _js2n__-prdslib.enum
                             [
@@ -967,9 +994,11 @@ let rec _js2n__-refsenv
                               "3.10",
                               "3.11",
                               "3.12",
+                              "3.13",
                               "latest",
                               "miniconda3-4.7",
                               "miniconda3-3.12-24.1",
+                              "miniconda3-3.12-24.9",
                               "miniconda-latest",
                               "mambaforge-4.10",
                               "mambaforge-22.9",
@@ -986,6 +1015,7 @@ let rec _js2n__-refsenv
                               "1.70",
                               "1.75",
                               "1.78",
+                              "1.82",
                               "latest"
                             ],
                     } {} false _js2n__-prdslib.never
@@ -1019,10 +1049,7 @@ let rec _js2n__-refsenv
         | optional,
       mkdocs
         | {
-          configuration
-            | String
-            | doc "The path to the mkdocs.yml file."
-            | optional,
+          configuration | String | doc "The path to the mkdocs.yml file.",
           fail_on_warning
             | Bool
             | doc "Add the --strict option to mkdocs build."
@@ -1091,10 +1118,7 @@ let rec _js2n__-refsenv
               (_js2n__-prdslib.enum [ "html", "dirhtml", "singlehtml" ])
             | doc "The builder type for the sphinx documentation."
             | optional,
-          configuration
-            | String
-            | doc "The path to the conf.py file."
-            | optional,
+          configuration | String | doc "The path to the conf.py file.",
           fail_on_warning
             | Bool
             | doc "Add the -W option to sphinx-build."

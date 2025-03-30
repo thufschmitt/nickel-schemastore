@@ -977,37 +977,10 @@ let rec _js2n__-refsenv
                               } {} false _js2n__-prdslib.never
                           ])
                     ],
-              category-template =
-                _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "" ]
-                        ],
-                      _js2n__-prdslib.isType '"String"
-                    ],
+              category-template = _js2n__-prdslib.isType '"String",
               change-template = _js2n__-prdslib.isType '"String",
-              change-title-escapes =
-                _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "" ]
-                        ],
-                      _js2n__-prdslib.isType '"String"
-                    ],
-              commitish =
-                _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "" ]
-                        ],
-                      _js2n__-prdslib.isType '"String"
-                    ],
+              change-title-escapes = _js2n__-prdslib.isType '"String",
+              commitish = _js2n__-prdslib.isType '"String",
               exclude-contributors =
                 _js2n__-prdslib.allOf
                     [
@@ -1023,26 +996,8 @@ let rec _js2n__-refsenv
                         (_js2n__-prdslib.isType '"String")
                     ],
               filter-by-commitish = _js2n__-prdslib.isType '"Bool",
-              footer =
-                _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "" ]
-                        ],
-                      _js2n__-prdslib.isType '"String"
-                    ],
-              header =
-                _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "" ]
-                        ],
-                      _js2n__-prdslib.isType '"String"
-                    ],
+              footer = _js2n__-prdslib.isType '"String",
+              header = _js2n__-prdslib.isType '"String",
               include-labels =
                 _js2n__-prdslib.allOf
                     [
@@ -1058,39 +1013,12 @@ let rec _js2n__-refsenv
                         (_js2n__-prdslib.isType '"String")
                     ],
               include-pre-releases = _js2n__-prdslib.isType '"Bool",
-              latest =
-                _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "", "true", "false", "legacy" ]
-                        ],
-                      _js2n__-prdslib.isType '"String"
-                    ],
-              name-template =
-                _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "" ]
-                        ],
-                      _js2n__-prdslib.isType '"String"
-                    ],
+              latest = _js2n__-prdslib.isType '"String",
+              name-template = _js2n__-prdslib.isType '"String",
               no-changes-template = _js2n__-prdslib.isType '"String",
               no-contributors-template = _js2n__-prdslib.isType '"String",
               prerelease = _js2n__-prdslib.isType '"Bool",
-              prerelease-identifier =
-                _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "" ]
-                        ],
-                      _js2n__-prdslib.isType '"String"
-                    ],
+              prerelease-identifier = _js2n__-prdslib.isType '"String",
               references =
                 _js2n__-prdslib.allOf
                     [
@@ -1110,16 +1038,7 @@ let rec _js2n__-refsenv
                               [ "replace", "search" ],
                             _js2n__-prdslib.records.record
                               {
-                                replace =
-                                  _js2n__-prdslib.anyOf
-                                      [
-                                        _js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.isType '"String",
-                                            _js2n__-prdslib.enum [ "" ]
-                                          ],
-                                        _js2n__-prdslib.isType '"String"
-                                      ],
+                                replace = _js2n__-prdslib.isType '"String",
                                 search = _js2n__-prdslib.isType '"String",
                               } {} false _js2n__-prdslib.never
                           ])
@@ -1136,26 +1055,8 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType '"String",
                       _js2n__-prdslib.enum [ "ascending", "descending" ]
                     ],
-              tag-prefix =
-                _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "" ]
-                        ],
-                      _js2n__-prdslib.isType '"String"
-                    ],
-              tag-template =
-                _js2n__-prdslib.anyOf
-                    [
-                      _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "" ]
-                        ],
-                      _js2n__-prdslib.isType '"String"
-                    ],
+              tag-prefix = _js2n__-prdslib.isType '"String",
+              tag-template = _js2n__-prdslib.isType '"String",
               template = _js2n__-prdslib.isType '"String",
               version-resolver =
                 _js2n__-prdslib.allOf
