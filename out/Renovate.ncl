@@ -911,6 +911,10 @@ let rec _js2n__-refsenv
         | Array (String)
         | doc "Additional reviewers for Pull Requests (in contrast to `reviewers`, this option adds to the existing reviewer list, rather than replacing it)."
         | optional,
+      allowCommandTemplating
+        | Bool
+        | doc "Set this to `false` to disable template compilation for post-upgrade commands."
+        | optional,
       allowCustomCrateRegistries
         | Bool
         | doc "Set this to `true` to allow custom crate registries."
@@ -919,13 +923,13 @@ let rec _js2n__-refsenv
         | Bool
         | doc "Set this to `true` if repositories are allowed to run install plugins."
         | optional,
-      allowPostUpgradeCommandTemplating
-        | Bool
-        | doc "Set this to `false` to disable template compilation for post-upgrade commands."
-        | optional,
       allowScripts
         | Bool
         | doc "Set this to `true` if repositories are allowed to run install scripts."
+        | optional,
+      allowedCommands
+        | Array (String)
+        | doc "A list of regular expressions that decide which commands are allowed in post-upgrade tasks."
         | optional,
       allowedEnv
         | Array (String)
@@ -934,10 +938,6 @@ let rec _js2n__-refsenv
       allowedHeaders
         | Array (String)
         | doc "List of allowed patterns for header names in repository hostRules config."
-        | optional,
-      allowedPostUpgradeCommands
-        | Array (String)
-        | doc "A list of regular expressions that decide which post-upgrade tasks are allowed."
         | optional,
       ansible
         | _js2n__-prdslib.contract_from_predicate
@@ -976,7 +976,9 @@ let rec _js2n__-refsenv
         | doc "Determine assignees based on configured code owners and changes in PR."
         | optional,
       assigneesSampleSize
-        | std.number.Integer
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType 'Integer, _js2n__-prdslib.isType 'Null ])
         | doc "Take a random sample of given size from `assignees`."
         | optional,
       autoApprove
@@ -990,38 +992,90 @@ let rec _js2n__-refsenv
       autodiscover | Bool | doc "Autodiscover all repositories." | optional,
       autodiscoverFilter
         | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.oneOf
+          (_js2n__-prdslib.allOf
             [
-              _js2n__-prdslib.allOf
+              _js2n__-prdslib.anyOf
                 [
                   _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.arrays.arrayOf
-                    (_js2n__-prdslib.isType '"String")
+                  _js2n__-prdslib.isType 'Null
                 ],
-              _js2n__-prdslib.isType '"String"
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String")
+                    ],
+                  _js2n__-prdslib.isType '"String"
+                ]
             ])
         | doc "Filter the list of autodiscovered repositories."
         | optional,
       autodiscoverNamespaces
-        | Array (String)
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
         | doc "Filter the list of autodiscovered repositories by namespaces."
         | optional,
       autodiscoverProjects
-        | Array (String)
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
         | doc "Filter the list of autodiscovered repositories by project names."
         | optional,
       autodiscoverRepoOrder
-        | std.enum.TagOrString
-        | [| 'desc, 'asc |]
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.enum [ "asc", "desc" ]
+            ])
         | doc "The order method for autodiscover server side repository search."
         | optional,
       autodiscoverRepoSort
-        | std.enum.TagOrString
-        | [| 'id, 'size, 'updated, 'created, 'alpha |]
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.enum
+                [ "alpha", "created", "updated", "size", "id" ]
+            ])
         | doc "The sort method for autodiscover server side repository search."
         | optional,
       autodiscoverTopics
-        | Array (String)
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
         | doc "Filter the list of autodiscovered repositories by topics."
         | optional,
       automerge
@@ -1140,7 +1194,9 @@ let rec _js2n__-refsenv
         | doc "Configuration object for the bitrise manager"
         | optional,
       branchConcurrentLimit
-        | std.number.Integer
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType 'Integer, _js2n__-prdslib.isType 'Null ])
         | doc "Limit to a maximum of x concurrent branches. 0 means no limit, `null` (default) inherits value from `prConcurrentLimit`."
         | optional,
       branchName | String | doc "Branch name template." | optional,
@@ -1162,6 +1218,12 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.allOf
             [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
         | doc "Configuration object for the buildkite manager"
+        | optional,
+      buildpacks
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+        | doc "Configuration object for the buildpacks manager"
         | optional,
       bumpVersion
         | std.enum.TagOrString
@@ -1235,6 +1297,10 @@ let rec _js2n__-refsenv
       cloneSubmodules
         | Bool
         | doc "Set to `true` to initialize submodules during repository clone."
+        | optional,
+      cloneSubmodulesFilter
+        | Array (String)
+        | doc "List of submodules names or patterns to clone when cloneSubmodules=true."
         | optional,
       cloudbuild
         | _js2n__-prdslib.contract_from_predicate
@@ -1410,7 +1476,7 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.enum [ "regex" ]
+                            _js2n__-prdslib.enum [ "jsonata", "regex" ]
                           ],
                     datasourceTemplate = _js2n__-prdslib.isType '"String",
                     depNameTemplate = _js2n__-prdslib.isType '"String",
@@ -1427,6 +1493,12 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.isType '"String"
                           ],
                     extractVersionTemplate = _js2n__-prdslib.isType '"String",
+                    fileFormat =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.enum [ "json", "toml", "yaml" ]
+                          ],
                     matchStrings =
                       _js2n__-prdslib.allOf
                           [
@@ -1460,7 +1532,16 @@ let rec _js2n__-refsenv
         | doc "Customize sections in the Dependency Dashboard issue."
         | optional,
       defaultRegistryUrls
-        | Array (String)
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
         | doc "List of registry URLs to use as the default for a datasource."
         | optional,
       deleteConfigFile
@@ -1488,7 +1569,16 @@ let rec _js2n__-refsenv
         | doc "Any text added here will be placed first in the Dependency Dashboard issue body."
         | optional,
       dependencyDashboardLabels
-        | Array (String)
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
         | doc "These labels will always be applied on the Dependency Dashboard issue, even when they have been removed manually."
         | optional,
       dependencyDashboardOSVVulnerabilitySummary
@@ -1527,6 +1617,12 @@ let rec _js2n__-refsenv
       detectHostRulesFromEnv
         | Bool
         | doc "If `true`, Renovate tries to detect host rules from environment variables."
+        | optional,
+      devbox
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+        | doc "Configuration object for the devbox manager"
         | optional,
       devcontainer
         | _js2n__-prdslib.contract_from_predicate
@@ -1583,8 +1679,16 @@ let rec _js2n__-refsenv
         | doc "Configuration object for the droneci manager"
         | optional,
       dryRun
-        | std.enum.TagOrString
-        | [| 'full, 'lookup, 'extract |]
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.enum [ "extract", "lookup", "full" ]
+            ])
         | doc "If enabled, perform a dry run by logging messages instead of creating/updating/deleting branches and PRs."
         | optional,
       enabled | Bool | doc "Enable or disable Renovate bot." | optional,
@@ -1595,14 +1699,26 @@ let rec _js2n__-refsenv
       encrypted
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.always
+            ])
         | doc "An object containing configuration encrypted with project key."
         | optional,
       encryptedWarning
         | String
         | doc "Warning text to use if encrypted config is found."
         | optional,
-      endpoint | String | doc "Custom endpoint to use." | optional,
+      endpoint
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
+        | doc "Custom endpoint to use."
+        | optional,
       env
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1839,16 +1955,28 @@ let rec _js2n__-refsenv
         | doc "Config if `groupName` is enabled."
         | optional,
       groupName
-        | String
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | doc "Human understandable name for the dependency group."
         | optional,
       groupSlug
-        | String
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | doc "Slug to use for group (e.g. in branch name). Slug is calculated from `groupName` if `null`."
         | optional,
       hashedBranchLength
-        | std.number.Integer
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType 'Integer, _js2n__-prdslib.isType 'Null ])
         | doc "If enabled, branch names will use a hashing function to ensure each branch has that length."
+        | optional,
+      haskell-cabal
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+        | doc "Configuration object for the haskell-cabal manager"
         | optional,
       helm-requirements
         | _js2n__-prdslib.contract_from_predicate
@@ -1911,7 +2039,11 @@ let rec _js2n__-refsenv
                     artifactAuth =
                       _js2n__-prdslib.allOf
                           [
-                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.isType 'Null
+                              ],
                             _js2n__-prdslib.arrays.arrayOf
                               (_js2n__-prdslib.allOf
                                 [
@@ -1920,7 +2052,12 @@ let rec _js2n__-refsenv
                                 ])
                           ],
                     authType = _js2n__-prdslib.isType '"String",
-                    concurrentRequestLimit = _js2n__-prdslib.isType 'Integer,
+                    concurrentRequestLimit =
+                      _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType 'Integer,
+                            _js2n__-prdslib.isType 'Null
+                          ],
                     description =
                       _js2n__-prdslib.oneOf
                           [
@@ -1941,10 +2078,24 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.always
                           ],
                     hostType = _js2n__-prdslib.isType '"String",
-                    httpsCertificate = _js2n__-prdslib.isType '"String",
+                    httpsCertificate =
+                      _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.isType 'Null
+                          ],
                     httpsCertificateAuthority =
-                      _js2n__-prdslib.isType '"String",
-                    httpsPrivateKey = _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                    httpsPrivateKey =
+                      _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.isType 'Null
+                          ],
                     insecureRegistry = _js2n__-prdslib.isType '"Bool",
                     keepAlive = _js2n__-prdslib.isType '"Bool",
                     matchHost = _js2n__-prdslib.isType '"String",
@@ -2053,6 +2204,12 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
         | doc "Configuration object for the jenkins manager"
         | optional,
+      jsonata
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+        | doc "Configuration object for the jsonata manager"
+        | optional,
       jsonnet-bundler
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -2095,7 +2252,9 @@ let rec _js2n__-refsenv
         | doc "Configuration for lock file maintenance."
         | optional,
       logContext
-        | String
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | doc "Add a global or per-repo log context to each log entry."
         | optional,
       logLevelRemap
@@ -2200,11 +2359,15 @@ let rec _js2n__-refsenv
         | doc "Define presets here which have been removed or renamed and should be migrated automatically."
         | optional,
       milestone
-        | std.number.Integer
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType 'Integer, _js2n__-prdslib.isType 'Null ])
         | doc "The number of a milestone. If set, the milestone will be set when Renovate creates the PR."
         | optional,
       minimumReleaseAge
-        | String
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | doc "Time required before a new release is considered stable."
         | optional,
       minor
@@ -2290,7 +2453,9 @@ let rec _js2n__-refsenv
         | doc "Change this value to override the default onboarding branch name."
         | optional,
       onboardingCommitMessage
-        | String
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | doc "Change this value to override the default onboarding commit message."
         | optional,
       onboardingConfig
@@ -2614,6 +2779,12 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
         | doc "Configuration object for the pipenv manager"
         | optional,
+      pixi
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+        | doc "Configuration object for the pixi manager"
+        | optional,
       platform
         | std.enum.TagOrString
         | [|
@@ -2662,7 +2833,9 @@ let rec _js2n__-refsenv
                         "gomodTidyE",
                         "gomodUpdateImportPaths",
                         "gomodSkipVendor",
+                        "gomodVendor",
                         "helmUpdateSubChartArchives",
+                        "kustomizeInflateHelmArchives",
                         "npmDedupe",
                         "pnpmDedupe",
                         "yarnDedupeFewer",
@@ -2776,7 +2949,9 @@ let rec _js2n__-refsenv
         | doc "Timeout in hours for when `prCreation=not-pending`."
         | optional,
       prTitle
-        | String
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | doc "Pull Request title template. Inherits from `commitMessage` if null."
         | optional,
       prTitleStrict
@@ -2809,6 +2984,17 @@ let rec _js2n__-refsenv
       privateKeyPathOld
         | String
         | doc "Path to the Server-side old private key."
+        | optional,
+      processEnv
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.isType '"String"),
+              _js2n__-prdslib.always
+            ])
+        | doc "Environment variables to be used in global config only."
         | optional,
       productLinks
         | _js2n__-prdslib.contract_from_predicate
@@ -2866,7 +3052,7 @@ let rec _js2n__-refsenv
         | optional,
       rebaseWhen
         | std.enum.TagOrString
-        | [| 'behind-base-branch, 'conflicted, 'never, 'auto |]
+        | [| 'automerging, 'behind-base-branch, 'conflicted, 'never, 'auto |]
         | doc "Controls when Renovate rebases an existing branch."
         | optional,
       recreateWhen
@@ -2900,7 +3086,16 @@ let rec _js2n__-refsenv
         | doc "Aliases for registries."
         | optional,
       registryUrls
-        | Array (String)
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
+            ])
         | doc "List of URLs to try for dependency lookup. Package manager specific."
         | optional,
       replacement
@@ -2909,13 +3104,28 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
         | doc "Configuration to apply when replacing a dependency."
         | optional,
+      replacementApproach
+        | std.enum.TagOrString
+        | [| 'alias, 'replace |]
+        | doc "Select whether to perform a direct replacement or alias replacement."
+        | optional,
       reportPath
-        | String
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | doc "Path to where the file should be written. In case of `s3` this has to be a full S3 URI."
         | optional,
       reportType
-        | std.enum.TagOrString
-        | [| 's3, 'file, 'logging |]
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.enum [ "logging", "file", "s3" ]
+            ])
         | doc "Set how, or if, reports should be generated."
         | optional,
       repositories | Array (String) | doc "List of Repositories." | optional,
@@ -2946,7 +3156,9 @@ let rec _js2n__-refsenv
         | doc "Determine reviewers based on configured code owners and changes in PR."
         | optional,
       reviewersSampleSize
-        | std.number.Integer
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType 'Integer, _js2n__-prdslib.isType 'Null ])
         | doc "Take a random sample of given size from `reviewers`."
         | optional,
       rollback
@@ -3052,7 +3264,9 @@ let rec _js2n__-refsenv
         | doc "Configuration object for the setup-cfg manager"
         | optional,
       skipInstalls
-        | Bool
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
         | doc "Skip installing modules/dependencies if lock file updating is possible without a full install."
         | optional,
       statusCheckNames
@@ -3089,6 +3303,12 @@ let rec _js2n__-refsenv
                   ])
             ])
         | doc "Options to suppress various types of warnings and other notifications."
+        | optional,
+      sveltos
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+        | doc "Configuration object for the sveltos manager"
         | optional,
       swift
         | _js2n__-prdslib.contract_from_predicate
@@ -3170,7 +3390,9 @@ let rec _js2n__-refsenv
         | doc "If `false`, Renovate does not try to access cloud metadata services."
         | optional,
       userAgent
-        | String
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | doc "If set to any string, Renovate will use this as the `user-agent` it sends with HTTP requests."
         | optional,
       userStrings
@@ -3203,14 +3425,17 @@ let rec _js2n__-refsenv
                 [
                   _js2n__-prdslib.enum
                     [
+                      "aws-eks-addon",
                       "aws-machine-image",
                       "azure-rest-api",
                       "bazel-module",
                       "cargo",
                       "composer",
                       "conan",
+                      "conda",
                       "deb",
                       "debian",
+                      "devbox",
                       "docker",
                       "git",
                       "glasskube",
@@ -3231,6 +3456,7 @@ let rec _js2n__-refsenv
                       "pep440",
                       "perl",
                       "poetry",
+                      "pvp",
                       "python",
                       "redhat",
                       "regex",

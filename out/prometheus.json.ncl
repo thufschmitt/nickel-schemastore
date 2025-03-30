@@ -1032,6 +1032,56 @@ let rec _js2n__-refsenv
                 ],
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType 'Record)
             ],
+      "_js2n__-:definitions/azuread!predicate"
+        | doc "Optionally configure AzureAD."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  cloud =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.const
+                            [ "AzurePublic", "AzureChina", "AzureGovernment" ]
+                        ],
+                  managed_identity =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            { client_id = _js2n__-prdslib.isType '"String", } {}
+                            true _js2n__-prdslib.always
+                        ],
+                  oauth2 =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              client_id =
+                                _js2n__-prdslib.anyOf
+                                    [ _js2n__-prdslib.isType '"String" ],
+                              client_secret =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.isType 'Null
+                                    ],
+                              tenant_id = _js2n__-prdslib.isType '"String",
+                            } {} true _js2n__-prdslib.always
+                        ],
+                  sdk =
+                    _js2n__-prdslib.records.record
+                        { tenant_id = _js2n__-prdslib.isType '"String", } {}
+                        true _js2n__-prdslib.always,
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/basic_auth!predicate"
         | doc "Sets the `Authorization` header on every remote write request with the configured username and password. password and password_file are mutually exclusive."
         = _js2n__-prdslib.allOf
@@ -1241,6 +1291,14 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.isType 'Null
                 ],
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType 'Record)
+            ],
+      "_js2n__-:definitions/google_iam!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                { credentials_file = _js2n__-prdslib.isType '"String", } {} true
+                _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/hetzner_sd_configs!predicate"
         | doc "List of Hetzner service discovery configurations."
@@ -2089,6 +2147,8 @@ let rec _js2n__-refsenv
                               {
                                 authorization =
                                   _js2n__-refsenv."_js2n__-:definitions/authorization!predicate",
+                                azuread =
+                                  _js2n__-refsenv."_js2n__-:definitions/azuread!predicate",
                                 basic_auth =
                                   _js2n__-refsenv."_js2n__-:definitions/basic_auth!predicate",
                                 bearer_token =
@@ -2101,6 +2161,8 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType '"Bool",
                                         _js2n__-prdslib.isType 'Null
                                       ],
+                                google_iam =
+                                  _js2n__-refsenv."_js2n__-:definitions/google_iam!predicate",
                                 headers =
                                   _js2n__-prdslib.allOf
                                       [
@@ -2296,6 +2358,23 @@ let rec _js2n__-refsenv
                                   _js2n__-refsenv."_js2n__-:definitions/ec2_sd_configs!predicate",
                                 eureka_sd_configs =
                                   _js2n__-refsenv."_js2n__-:definitions/eureka_sd_configs!predicate",
+                                fallback_scrape_protocol =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.anyOf
+                                          [
+                                            _js2n__-prdslib.isType '"String",
+                                            _js2n__-prdslib.isType 'Null
+                                          ],
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "OpenMetricsText0.0.1",
+                                            "OpenMetricsText1.0.0",
+                                            "PrometheusProto",
+                                            "PrometheusText0.0.4",
+                                            "PrometheusText1.0.0"
+                                          ]
+                                      ],
                                 file_sd_configs =
                                   _js2n__-refsenv."_js2n__-:definitions/file_sd_configs!predicate",
                                 follow_redirects =

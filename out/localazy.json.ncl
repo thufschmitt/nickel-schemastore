@@ -1025,6 +1025,7 @@ let rec _js2n__-refsenv
                               "php",
                               "php-multilingual",
                               "po",
+                              "resx",
                               "tmx",
                               "toml",
                               "toml-multilingual",
@@ -1097,6 +1098,7 @@ let rec _js2n__-refsenv
                   "arb_locale_full",
                   "source_is_key",
                   "skip_empty",
+                  "arb_dont_export_metadata",
                   "add_bom",
                   "parse_array",
                   "parse_plurals",
@@ -1118,6 +1120,8 @@ let rec _js2n__-refsenv
                   "ignore_original",
                   "ignore_id",
                   "ignore_extras",
+                  "decode_tags",
+                  "encode_output",
                   "lang_root",
                   "output_mo",
                   "empty_untranslated",
@@ -1149,6 +1153,7 @@ let rec _js2n__-refsenv
                   "omit_extraction",
                   "keep_comments",
                   "dont_skip_placeholders",
+                  "dont_use_full_path",
                   "columns=",
                   "included_langs=",
                   "lang_format=ll-rr#scrp",
@@ -1366,7 +1371,8 @@ let rec _js2n__-refsenv
                               "xcstrings",
                               "copy",
                               "captivate",
-                              "ispring"
+                              "ispring",
+                              "framemaker"
                             ]
                         ],
                 }
@@ -1762,7 +1768,8 @@ let rec _js2n__-refsenv
                                       "xcstrings",
                                       "copy",
                                       "captivate",
-                                      "ispring"
+                                      "ispring",
+                                      "framemaker"
                                     ]
                                 ],
                         }

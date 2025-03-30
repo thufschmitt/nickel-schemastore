@@ -898,51 +898,66 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {}
     in
-  _js2n__-prdslib.contract_from_predicate
-      (_js2n__-prdslib.allOf
-        [
-          _js2n__-prdslib.isType 'Record,
-          _js2n__-prdslib.records.required [ "applinks" ],
-          _js2n__-prdslib.records.record
-            {
-              applinks =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.required [ "apps", "details" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          apps =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.enum [ [  ] ]
-                                ],
-                          details =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    (_js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Record,
-                                        _js2n__-prdslib.records.record
-                                          {
-                                            appID =
-                                              _js2n__-prdslib.isType '"String",
-                                            paths =
-                                              _js2n__-prdslib.allOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"Array",
-                                                    _js2n__-prdslib.arrays.arrayOf
-                                                      _js2n__-prdslib.always,
-                                                    _js2n__-prdslib.arrays.uniqueItems
-                                                  ],
-                                          } {} true _js2n__-prdslib.always
-                                      ])
-                                ],
-                        } {} true _js2n__-prdslib.always
-                    ],
-            } {} true _js2n__-prdslib.always
-        ])
+  {
+      appclips
+        | { apps | Dyn | optional, .. }
+        | doc "Apple AppClip Config Schema"
+        | optional,
+      applinks
+        | {
+          apps
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [ _js2n__-prdslib.isType '"Array", _js2n__-prdslib.const [  ] ])
+            | doc "Always empty [] for UniversaLink, can be omitted in later versions"
+            | optional,
+          details
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.record
+                          {
+                            appID = _js2n__-prdslib.always,
+                            appIDs =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      _js2n__-prdslib.always,
+                                    _js2n__-prdslib.arrays.minItems 1,
+                                    _js2n__-prdslib.arrays.uniqueItems
+                                  ],
+                            components =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      _js2n__-prdslib.always,
+                                    _js2n__-prdslib.arrays.minItems 1
+                                  ],
+                            paths =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.isType '"String"),
+                                    _js2n__-prdslib.arrays.minItems 1,
+                                    _js2n__-prdslib.arrays.uniqueItems
+                                  ],
+                          } {} false _js2n__-prdslib.never
+                      ]),
+                  _js2n__-prdslib.arrays.minItems 1
+                ])
+            | doc "AppIDs's Universalink URI Matching Configuration",
+        }
+        | doc "Universalink Configurations Schema",
+      webcredentials
+        | { apps | Dyn | optional, .. }
+        | doc "Apple Webcredentials Config Schema"
+        | optional,
+    }

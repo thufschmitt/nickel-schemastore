@@ -913,11 +913,14 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/package-ecosystem-values!predicate" =
         _js2n__-prdslib.enum
             [
+              "bun",
               "bundler",
               "cargo",
               "composer",
               "devcontainers",
               "docker",
+              "docker-compose",
+              "dotnet-sdk",
               "elm",
               "gitsubmodule",
               "github-actions",
@@ -930,7 +933,8 @@ let rec _js2n__-refsenv
               "pip",
               "pub",
               "swift",
-              "terraform"
+              "terraform",
+              "uv"
             ],
       "_js2n__-:definitions/registry!predicate"
         | doc "The top-level registries key is optional. It allows you to specify authentication details that Dependabot can use to access private package registries."
@@ -1741,6 +1745,13 @@ let rec _js2n__-refsenv
                                       [
                                         _js2n__-prdslib.records.required
                                           [ "patterns" ],
+                                        _js2n__-prdslib.records.record {} {}
+                                          true _js2n__-prdslib.always
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.records.required
+                                          [ "exclude-patterns" ],
                                         _js2n__-prdslib.records.record {} {}
                                           true _js2n__-prdslib.always
                                       ],

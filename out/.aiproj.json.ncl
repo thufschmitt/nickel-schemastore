@@ -1474,6 +1474,12 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType 'Null,
                                   _js2n__-prdslib.isType '"String"
                                 ],
+                          DependenciesPath =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Null,
+                                  _js2n__-prdslib.isType '"String"
+                                ],
                           DownloadDependencies =
                             _js2n__-prdslib.anyOf
                                 [
@@ -1503,7 +1509,7 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum [ "8", "11", "17" ]
+                                  _js2n__-prdslib.enum [ "8", "11", "17", "21" ]
                                 ],
                         } {} false _js2n__-prdslib.never
                     ],
@@ -1661,12 +1667,37 @@ let rec _js2n__-refsenv
                                 "Go",
                                 "Kotlin",
                                 "Sql",
-                                "Ruby"
+                                "Ruby",
+                                "Solidity"
                               ]
                           ]),
                       _js2n__-prdslib.arrays.uniqueItems
                     ],
               ProjectName = _js2n__-prdslib.isType '"String",
+              PygrepSettings =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.records.record
+                        {
+                          CustomParameters =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Null,
+                                  _js2n__-prdslib.isType '"String"
+                                ],
+                          RulesDirPath =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Null,
+                                  _js2n__-prdslib.isType '"String"
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
               PythonSettings =
                 _js2n__-prdslib.allOf
                     [
@@ -1678,6 +1709,12 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.records.record
                         {
                           CustomParameters =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Null,
+                                  _js2n__-prdslib.isType '"String"
+                                ],
+                          DependenciesPath =
                             _js2n__-prdslib.anyOf
                                 [
                                   _js2n__-prdslib.isType 'Null,
@@ -1721,6 +1758,30 @@ let rec _js2n__-refsenv
                                 ],
                         } {} false _js2n__-prdslib.never
                     ],
+              ScaSettings =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.records.record
+                        {
+                          BuildDependenciesGraph =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Null,
+                                  _js2n__-prdslib.isType '"Bool"
+                                ],
+                          CustomParameters =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Null,
+                                  _js2n__-prdslib.isType '"String"
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
               ScanModules =
                 _js2n__-prdslib.allOf
                     [
@@ -1735,12 +1796,39 @@ let rec _js2n__-refsenv
                                 "Components",
                                 "BlackBox",
                                 "PatternMatching",
-                                "StaticCodeAnalysis"
+                                "StaticCodeAnalysis",
+                                "SoftwareCompositionAnalysis"
                               ]
                           ]),
                       _js2n__-prdslib.arrays.uniqueItems
                     ],
               SkipGitIgnoreFiles = _js2n__-prdslib.isType '"Bool",
+              Tags =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record
+                              {
+                                Type =
+                                  _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [ "Repo", "Branch" ]
+                                      ],
+                                Value = _js2n__-prdslib.isType '"String",
+                              } {} false _js2n__-prdslib.never
+                          ]),
+                      _js2n__-prdslib.arrays.uniqueItems
+                    ],
               UseCustomPmRules = _js2n__-prdslib.isType '"Bool",
               UseSastRules = _js2n__-prdslib.isType '"Bool",
               UseSecurityPolicies = _js2n__-prdslib.isType '"Bool",
@@ -1748,7 +1836,8 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.enum [ "1.0", "1.1", "1.2", "1.3" ]
+                      _js2n__-prdslib.enum
+                        [ "1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6" ]
                     ],
               WindowsDotNetSettings =
                 _js2n__-prdslib.allOf

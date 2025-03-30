@@ -978,7 +978,7 @@ let rec _js2n__-refsenv
                                   "Markdown",
                                   "YAML",
                                   "R",
-                                  "Rubby",
+                                  "Ruby",
                                   "Rust",
                                   "Shell",
                                   "Groovy"
@@ -1014,7 +1014,7 @@ let rec _js2n__-refsenv
                                         "Markdown",
                                         "YAML",
                                         "R",
-                                        "Rubby",
+                                        "Ruby",
                                         "Rust",
                                         "Shell",
                                         "Groovy"

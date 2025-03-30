@@ -922,6 +922,7 @@ let rec _js2n__-refsenv
                               "locationID",
                               "lotID",
                               "lotNumber",
+                              "materialCategoryID",
                               "materialNumberID",
                               "newQuantity",
                               "notes",
@@ -933,6 +934,8 @@ let rec _js2n__-refsenv
                               locationID = _js2n__-prdslib.isType '"String",
                               lotID = _js2n__-prdslib.isType '"String",
                               lotNumber = _js2n__-prdslib.isType '"String",
+                              materialCategoryID =
+                                _js2n__-prdslib.isType '"String",
                               materialNumberID =
                                 _js2n__-prdslib.isType '"String",
                               newQuantity = _js2n__-prdslib.isType '"Number",
@@ -981,6 +984,7 @@ let rec _js2n__-refsenv
                               "dateOfManufacture",
                               "locationID",
                               "lotNumber",
+                              "materialCategoryID",
                               "materialNumberID",
                               "notes",
                               "poNumber",
@@ -990,6 +994,7 @@ let rec _js2n__-refsenv
                               "upstreamIDs",
                               "upstreamLocationIDs",
                               "upstreamLotNumbers",
+                              "upstreamMaterialCategoryIDs",
                               "upstreamMaterialNumberIDs",
                               "upstreamProductIDs",
                               "upstreamQuantities",
@@ -1002,6 +1007,8 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.isType '"String",
                               locationID = _js2n__-prdslib.isType '"String",
                               lotNumber = _js2n__-prdslib.isType '"String",
+                              materialCategoryID =
+                                _js2n__-prdslib.isType '"String",
                               materialNumberID =
                                 _js2n__-prdslib.isType '"String",
                               notes = _js2n__-prdslib.isType '"String",
@@ -1030,6 +1037,13 @@ let rec _js2n__-refsenv
                                         (_js2n__-prdslib.isType '"String")
                                     ],
                               upstreamLotNumbers =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
+                              upstreamMaterialCategoryIDs =
                                 _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType '"Array",
@@ -1111,6 +1125,7 @@ let rec _js2n__-refsenv
                               "locationID",
                               "lotID",
                               "lotNumber",
+                              "materialCategoryID",
                               "materialNumberID",
                               "newDateOfExpiry",
                               "notes",
@@ -1121,6 +1136,8 @@ let rec _js2n__-refsenv
                               locationID = _js2n__-prdslib.isType '"String",
                               lotID = _js2n__-prdslib.isType '"String",
                               lotNumber = _js2n__-prdslib.isType '"String",
+                              materialCategoryID =
+                                _js2n__-prdslib.isType '"String",
                               materialNumberID =
                                 _js2n__-prdslib.isType '"String",
                               newDateOfExpiry =
@@ -1161,6 +1178,7 @@ let rec _js2n__-refsenv
                               "locationID",
                               "lotID",
                               "lotNumber",
+                              "materialCategoryID",
                               "materialNumberID",
                               "notes",
                               "productID"
@@ -1170,6 +1188,8 @@ let rec _js2n__-refsenv
                               locationID = _js2n__-prdslib.isType '"String",
                               lotID = _js2n__-prdslib.isType '"String",
                               lotNumber = _js2n__-prdslib.isType '"String",
+                              materialCategoryID =
+                                _js2n__-prdslib.isType '"String",
                               materialNumberID =
                                 _js2n__-prdslib.isType '"String",
                               notes = _js2n__-prdslib.isType '"String",
@@ -1208,6 +1228,7 @@ let rec _js2n__-refsenv
                               "locationID",
                               "lotID",
                               "lotNumber",
+                              "materialCategoryID",
                               "materialNumberID",
                               "notes",
                               "productID",
@@ -1218,6 +1239,8 @@ let rec _js2n__-refsenv
                               locationID = _js2n__-prdslib.isType '"String",
                               lotID = _js2n__-prdslib.isType '"String",
                               lotNumber = _js2n__-prdslib.isType '"String",
+                              materialCategoryID =
+                                _js2n__-prdslib.isType '"String",
                               materialNumberID =
                                 _js2n__-prdslib.isType '"String",
                               notes = _js2n__-prdslib.isType '"String",
@@ -1257,6 +1280,7 @@ let rec _js2n__-refsenv
                   "locationID",
                   "lotNumber",
                   "lotNumberLowercase",
+                  "materialCategoryID",
                   "materialNumberID",
                   "poNumber",
                   "productID",
@@ -1280,6 +1304,7 @@ let rec _js2n__-refsenv
                   locationID = _js2n__-prdslib.isType '"String",
                   lotNumber = _js2n__-prdslib.isType '"String",
                   lotNumberLowercase = _js2n__-prdslib.isType '"String",
+                  materialCategoryID = _js2n__-prdslib.isType '"String",
                   materialNumberID = _js2n__-prdslib.isType '"String",
                   poNumber = _js2n__-prdslib.isType '"String",
                   productID =
@@ -1333,6 +1358,7 @@ let rec _js2n__-refsenv
                   "locationID",
                   "lotNumber",
                   "lotNumberLowercase",
+                  "materialCategoryID",
                   "materialNumberID",
                   "poNumber",
                   "productID",
@@ -1353,6 +1379,7 @@ let rec _js2n__-refsenv
                   locationID = _js2n__-prdslib.isType '"String",
                   lotNumber = _js2n__-prdslib.isType '"String",
                   lotNumberLowercase = _js2n__-prdslib.isType '"String",
+                  materialCategoryID = _js2n__-prdslib.isType '"String",
                   materialNumberID = _js2n__-prdslib.isType '"String",
                   poNumber = _js2n__-prdslib.isType '"String",
                   productID =
@@ -1399,6 +1426,7 @@ let rec _js2n__-refsenv
                               "dateOfManufacture",
                               "locationID",
                               "lotNumber",
+                              "materialCategoryID",
                               "materialNumberID",
                               "notes",
                               "poNumber",
@@ -1413,6 +1441,8 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.isType '"String",
                               locationID = _js2n__-prdslib.isType '"String",
                               lotNumber = _js2n__-prdslib.isType '"String",
+                              materialCategoryID =
+                                _js2n__-prdslib.isType '"String",
                               materialNumberID =
                                 _js2n__-prdslib.isType '"String",
                               notes = _js2n__-prdslib.isType '"String",
@@ -1455,6 +1485,7 @@ let rec _js2n__-refsenv
                               "locationID",
                               "lotID",
                               "lotNumber",
+                              "materialCategoryID",
                               "materialNumberID",
                               "notes",
                               "productID",
@@ -1465,6 +1496,8 @@ let rec _js2n__-refsenv
                               locationID = _js2n__-prdslib.isType '"String",
                               lotID = _js2n__-prdslib.isType '"String",
                               lotNumber = _js2n__-prdslib.isType '"String",
+                              materialCategoryID =
+                                _js2n__-prdslib.isType '"String",
                               materialNumberID =
                                 _js2n__-prdslib.isType '"String",
                               notes = _js2n__-prdslib.isType '"String",
@@ -1511,6 +1544,7 @@ let rec _js2n__-refsenv
                               "locationID",
                               "lotID",
                               "lotNumber",
+                              "materialCategoryID",
                               "materialNumberID",
                               "newStatusID",
                               "notes",
@@ -1522,6 +1556,8 @@ let rec _js2n__-refsenv
                               locationID = _js2n__-prdslib.isType '"String",
                               lotID = _js2n__-prdslib.isType '"String",
                               lotNumber = _js2n__-prdslib.isType '"String",
+                              materialCategoryID =
+                                _js2n__-prdslib.isType '"String",
                               materialNumberID =
                                 _js2n__-prdslib.isType '"String",
                               newStatusID =
@@ -1584,6 +1620,7 @@ let rec _js2n__-refsenv
                               "locationID",
                               "lotID",
                               "lotNumber",
+                              "materialCategoryID",
                               "materialNumberID",
                               "newLocationID",
                               "notes",
@@ -1595,6 +1632,8 @@ let rec _js2n__-refsenv
                               locationID = _js2n__-prdslib.isType '"String",
                               lotID = _js2n__-prdslib.isType '"String",
                               lotNumber = _js2n__-prdslib.isType '"String",
+                              materialCategoryID =
+                                _js2n__-prdslib.isType '"String",
                               materialNumberID =
                                 _js2n__-prdslib.isType '"String",
                               newLocationID = _js2n__-prdslib.isType '"String",
@@ -1626,6 +1665,7 @@ let rec _js2n__-refsenv
                   "RELEASED",
                   "CONDITIONAL_RELEASED",
                   "QUARANTINE",
+                  "IN_TRANSIT",
                   "ON_HOLD",
                   "EXPIRED",
                   "DAMAGED"
@@ -1637,9 +1677,9 @@ let rec _js2n__-refsenv
       "$schema"
         | std.enum.TagOrString
         | [|
-          '"https://json.schemastore.org/abc-inventory-module-data-3.0.0.json"
+          '"https://json.schemastore.org/abc-inventory-module-data-4.0.0.json"
         |]
-        | doc "Link to https://json.schemastore.org/abc-inventory-module-data-3.0.0.json",
+        | doc "Link to https://json.schemastore.org/abc-inventory-module-data-4.0.0.json",
       ABCInventoryEntries
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

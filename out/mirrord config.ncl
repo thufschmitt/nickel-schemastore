@@ -901,7 +901,7 @@ let rec _js2n__-refsenv
         | doc m%"
           Allows the user to specify the default behavior for file operations:
           
-          1. `"read"` - Read from the remote file system (default) 2. `"write"` - Read/Write from the remote file system. 3. `"local"` - Read from the local file system. 4. `"localwithoverrides"` - perform fs operation locally, unless the path matches a pre-defined or user-specified exception.
+          1. `"read"` or `true` - Read from the remote file system (default) 2. `"write"` - Read/Write from the remote file system. 3. `"local"` or `false` - Read from the local file system. 4. `"localwithoverrides"` - perform fs operation locally, unless the path matches a pre-defined or user-specified exception.
           
           > Note: by default, some paths are read locally or remotely, regardless of the selected FS mode. > This is described in further detail below.
           
@@ -971,11 +971,23 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/VecOrSingle_for_String!predicate",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  readonly_file_buffer =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/AgentFileConfig!predicate"
         | doc m%"
           Configuration for the mirrord-agent pod that is spawned in the Kubernetes cluster.
+          
+          **Note:** this configuration is ignored when using the mirrord Operator. Agent configuration is done by the cluster admin.
           
           We provide sane defaults for this option, so you don't have to set up anything here.
           
@@ -1088,6 +1100,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  metrics =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   namespace =
                     _js2n__-prdslib.anyOf
                         [
@@ -1106,6 +1124,17 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  node_selector =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   privileged =
                     _js2n__-prdslib.anyOf
                         [
@@ -1116,6 +1145,12 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ResourceRequirements!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  service_account =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
                   startup_timeout =
@@ -1248,6 +1283,12 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  cli_prevent_cleanup =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
                 } {} false _js2n__-prdslib.never
@@ -1393,17 +1434,27 @@ let rec _js2n__-refsenv
         | doc m%"
           Allows the user to set or override the local process' environment variables with the ones from the remote pod.
           
+          Can be set to one of the options:
+          
+          1. `false` - Disables the feature, won't have remote environment variables. 2. `true` - Enables the feature, will obtain remote environment variables. 3. object - see below (means `true` + additional configuration).
+          
           Which environment variables to load from the remote pod are controlled by setting either [`include`](#feature-env-include) or [`exclude`](#feature-env-exclude).
           
           See the environment variables [reference](https://mirrord.dev/docs/reference/env/) for more details.
           
-          ```json { "feature": { "env": { "include": "DATABASE_USER;PUBLIC_ENV;MY_APP_*", "exclude": "DATABASE_PASSWORD;SECRET_ENV", "override": { "DATABASE_CONNECTION": "db://localhost:7777/my-db", "LOCAL_BEAR": "panda" } } } } ```
+          ```json { "feature": { "env": { "include": "DATABASE_USER;PUBLIC_ENV;MY_APP_*", "exclude": "DATABASE_PASSWORD;SECRET_ENV", "override": { "DATABASE_CONNECTION": "db://localhost:7777/my-db", "LOCAL_BEAR": "panda" }, "mapping": { ".+_TIMEOUT": "1000" } } } } ```
         "%
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  env_file =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   exclude =
                     _js2n__-prdslib.anyOf
                         [
@@ -1421,6 +1472,17 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
+                        ],
+                  mapping =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.isType '"String")
                         ],
                   override =
                     _js2n__-prdslib.allOf
@@ -1448,17 +1510,49 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  disable_reuseaddr =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   enable_exec_hooks_linux =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  hide_ipv6_interfaces =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  idle_local_http_connection_timeout =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
                   readlink =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
+                        ],
+                  readonly_file_buffer =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType 'Integer,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.numbers.minimum 0
                         ],
                   tcp_ping4_mock =
                     _js2n__-prdslib.anyOf
@@ -1467,6 +1561,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Null
                         ],
                   trust_any_certificate =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  use_dev_null =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",
@@ -1497,6 +1597,12 @@ let rec _js2n__-refsenv
                             ],
                           _js2n__-prdslib.numbers.minimum 0
                         ],
+                  json_log =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   log_destination =
                     _js2n__-prdslib.anyOf
                         [
@@ -1519,22 +1625,10 @@ let rec _js2n__-refsenv
                             ],
                           _js2n__-prdslib.numbers.minimum 0
                         ],
-                  tls_certificate =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Null
-                        ],
                   tls_enable =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"Bool",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                  tls_key =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.isType 'Null
                         ],
                 } {} false _js2n__-prdslib.never
@@ -1687,6 +1781,12 @@ let rec _js2n__-refsenv
           This can be useful for filtering out Kubernetes liveness, readiness and startup probes. For example, for avoiding stealing any probe sent by kubernetes, you can set this filter: ```json { "header_filter": "^User-Agent: (?!kube-probe)" } ``` Setting this filter will make mirrord only steal requests that **do** have a user agent that **does not** begin with "kube-probe".
           
           Similarly, you can exclude certain paths using a negative look-ahead: ```json { "path_filter": "^(?!/health/)" } ``` Setting this filter will make mirrord only steal requests to URIs that do not start with "/health/".
+          
+          With `all_of` and `any_of`, you can use multiple HTTP filters at the same time.
+          
+          If you want to steal HTTP requests that match **every** pattern specified, use `all_of`. For example, this filter steals only HTTP requests to endpoint `/api/my-endpoint` that contain header `x-debug-session` with value `121212`. ```json { "all_of": [ { "header": "^x-debug-session: 121212$" }, { "path": "^/api/my-endpoint$" } ] } ```
+          
+          If you want to steal HTTP requests that match **any** of the patterns specified, use `any_of`. For example, this filter steals HTTP requests to endpoint `/api/my-endpoint` **and** HTTP requests that contain header `x-debug-session` with value `121212`. ```json { "any_of": [ { "path": "^/api/my-endpoint$"}, { "header": "^x-debug-session: 121212$" } ] } ```
         "%
         = _js2n__-prdslib.allOf
             [
@@ -1735,6 +1835,20 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/HttpsDeliveryProtocol!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "tcp" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "tls" ]
+                ]
+            ],
       "_js2n__-:definitions/IncomingAdvancedFileConfig!predicate"
         | doc "Advanced user configuration for network incoming traffic."
         = _js2n__-prdslib.allOf
@@ -1748,6 +1862,8 @@ let rec _js2n__-refsenv
                           _js2n__-refsenv."_js2n__-:definitions/ToggleableConfig_for_HttpFilterFileConfig!predicate",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  https_delivery =
+                    _js2n__-refsenv."_js2n__-:definitions/LocalHttpsDelivery!predicate",
                   ignore_localhost =
                     _js2n__-prdslib.anyOf
                         [
@@ -1874,7 +1990,7 @@ let rec _js2n__-refsenv
           
           ### Advanced `incoming` config
           
-          ```json { "feature": { "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000] "listen_ports": [[80, 8111]] } } } } ```
+          ```json { "feature": { "network": { "incoming": { "mode": "steal", "http_filter": { "header_filter": "host: api\\..+" }, "port_mapping": [[ 7777, 8888 ]], "ignore_localhost": false, "ignore_ports": [9999, 10000], "listen_ports": [[80, 8111]] } } } } ```
         "%
         = _js2n__-prdslib.anyOf
             [
@@ -1948,30 +2064,6 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
-                  client_tls_certificate =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                  client_tls_key =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                  connect_tcp =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType 'Null
-                        ],
-                  container_mode =
-                    _js2n__-prdslib.anyOf
-                        [
-                          _js2n__-prdslib.isType '"Bool",
-                          _js2n__-prdslib.isType 'Null
-                        ],
                   idle_timeout =
                     _js2n__-prdslib.allOf
                         [
@@ -1981,6 +2073,12 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType 'Null
                             ],
                           _js2n__-prdslib.numbers.minimum 0
+                        ],
+                  json_log =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Null
                         ],
                   log_destination =
                     _js2n__-prdslib.anyOf
@@ -2039,6 +2137,63 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.enum
                 [ "SYS_ADMIN", "SYS_PTRACE", "NET_RAW", "NET_ADMIN" ]
             ],
+      "_js2n__-:definitions/LocalHttpsDelivery!predicate"
+        | doc m%"
+          Stolen HTTPS requests can be delivered to the local application either as HTTPS or as plain HTTP requests. Note that stealing HTTPS requests requires mirrord Operator support.
+          
+          To have the stolen HTTPS requests delivered with plain HTTP, use:
+          
+          ```json { "protocol": "tcp" } ```
+          
+          To have the requests delivered with HTTPS, use: ```json { "protocol": "tls" } ```
+          
+          By default, the local mirrord TLS client will trust any certificate presented by the local application's HTTP server. To override this behavior, you can either:
+          
+          1. Specify a list of paths to trust roots. These paths can lead either to PEM files or PEM file directories. Each found certificate will be used as a trust anchor. 2. Specify a path to the cartificate chain used by the server.
+          
+          Example with trust roots: ```json { "protocol": "tls", "trust_roots": ["/path/to/cert.pem", "/path/to/cert/dir"] } ```
+          
+          Example with certificate chain: ```json { "protocol": "tls", "server_cert": "/path/to/cert.pem" } ```
+          
+          To make a TLS connection to the local application's HTTPS server, mirrord's TLS client needs a server name. You can supply it manually like this: ```json { "protocol": "tls", "server_name": "my.test.server.name" } ```
+          
+          If you don't supply the server name:
+          
+          1. If `server_cert` is given, and the found end-entity certificate contains a valid server name, this server name will be used; 2. Otherwise, if the original client supplied an SNI extension, the server name from that extension will be used; 3. Otherwise, if the stolen request's URL contains a valid server name, that server name will be used; 4. Otherwise, `localhost` will be used.
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "protocol" ],
+              _js2n__-prdslib.records.record
+                {
+                  protocol =
+                    _js2n__-refsenv."_js2n__-:definitions/HttpsDeliveryProtocol!predicate",
+                  server_cert =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  server_name =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  trust_roots =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/NetworkFileConfig!predicate"
         | doc m%"
           Controls mirrord network operations.
@@ -2062,6 +2217,12 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-refsenv."_js2n__-:definitions/ToggleableConfig_for_IncomingFileConfig!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  ipv6 =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
                   outgoing =
@@ -2239,6 +2400,22 @@ let rec _js2n__-refsenv
                     } {} true _js2n__-prdslib.always
                 ]
             ],
+      "_js2n__-:definitions/ReplicaSetTarget!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "replica_set" ],
+              _js2n__-prdslib.records.record
+                {
+                  container =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  replica_set = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/RolloutTarget!predicate"
         | doc "<!--${internal}--> Mirror the rollout specified by [`RolloutTarget::rollout`]."
         = _js2n__-prdslib.allOf
@@ -2254,6 +2431,22 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Null
                         ],
                   rollout = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ServiceTarget!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "service" ],
+              _js2n__-prdslib.records.record
+                {
+                  container =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  service = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/SplitQueuesConfig!predicate"
@@ -2286,7 +2479,7 @@ let rec _js2n__-refsenv
           
           Specifies the running pod (or deployment) to mirror.
           
-          Supports: - `pod/{sample-pod}`; - `deployment/{sample-deployment}`; - `container/{sample-container}`; - `containername/{sample-container}`. - `job/{sample-job}`; - `cronjob/{sample-cronjob}`; - `statefulset/{sample-statefulset}`;
+          Supports: - `targetless` - `pod/{pod-name}[/container/{container-name}]`; - `deployment/{deployment-name}[/container/{container-name}]`; - `rollout/{rollout-name}[/container/{container-name}]`; - `job/{job-name}[/container/{container-name}]`; - `cronjob/{cronjob-name}[/container/{container-name}]`; - `statefulset/{statefulset-name}[/container/{container-name}]`; - `service/{service-name}[/container/{container-name}]`; - `replicaset/{replicaset-name}[/container/{container-name}]`;
         "%
         = _js2n__-prdslib.anyOf
             [
@@ -2296,7 +2489,8 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/JobTarget!predicate",
               _js2n__-refsenv."_js2n__-:definitions/CronJobTarget!predicate",
               _js2n__-refsenv."_js2n__-:definitions/StatefulSetTarget!predicate",
-              _js2n__-prdslib.isType 'Null
+              _js2n__-refsenv."_js2n__-:definitions/ServiceTarget!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/ReplicaSetTarget!predicate"
             ],
       "_js2n__-:definitions/TargetFileConfig!predicate" =
         _js2n__-prdslib.anyOf
@@ -2504,7 +2698,7 @@ let rec _js2n__-refsenv
         | doc m%"
           Controls whether or not mirrord accepts invalid TLS certificates (e.g. self-signed certificates).
           
-          Defaults to `false`.
+          If not provided, mirrord will use value from the kubeconfig.
         "%
         | optional,
       agent
@@ -2514,16 +2708,6 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/AgentFileConfig!predicate",
               _js2n__-prdslib.isType 'Null
             ])
-        | optional,
-      connect_tcp
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
-        | doc m%"
-          IP:PORT to connect to instead of using k8s api, for testing purposes.
-          
-          ```json { "connect_tcp": "10.10.0.100:7777" } ```
-        "%
         | optional,
       container
         | _js2n__-prdslib.contract_from_predicate
@@ -2590,6 +2774,12 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
         | doc "Whether mirrord should use the operator. If not set, mirrord will first attempt to use the operator, but continue without it in case of failure."
+        | optional,
+      profile
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
+        | doc "Name of the mirrord profile to use."
         | optional,
       sip_binaries
         | _js2n__-prdslib.contract_from_predicate

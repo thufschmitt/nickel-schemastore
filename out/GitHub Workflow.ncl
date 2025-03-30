@@ -982,11 +982,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.strings.pattern "^[^:]+:[^:]+$"
-                              ]),
+                            (_js2n__-prdslib.isType '"String"),
                           _js2n__-prdslib.arrays.minItems 1
                         ],
                 } {} false _js2n__-prdslib.never
@@ -1285,6 +1281,8 @@ let rec _js2n__-refsenv
                                 [
                                   _js2n__-prdslib.arrays.items
                                     [ _js2n__-prdslib.isType '"String" ],
+                                  _js2n__-prdslib.arrays.additionalItems
+                                    (_js2n__-prdslib.isType '"String") 1,
                                   _js2n__-prdslib.arrays.minItems 1
                                 ]
                             ],
@@ -1323,92 +1321,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"Array",
                           _js2n__-prdslib.arrays.arrayOf
-                            (_js2n__-prdslib.allOf
-                              [
-                                _js2n__-prdslib.oneOf
-                                  [
-                                    _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Record,
-                                        _js2n__-prdslib.records.required
-                                          [ "uses" ],
-                                        _js2n__-prdslib.records.record
-                                          {
-                                            uses =
-                                              _js2n__-prdslib.isType '"String",
-                                          } {} true _js2n__-prdslib.always
-                                      ],
-                                    _js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType 'Record,
-                                        _js2n__-prdslib.records.required
-                                          [ "run" ],
-                                        _js2n__-prdslib.records.record
-                                          {
-                                            run =
-                                              _js2n__-prdslib.isType '"String",
-                                          } {} true _js2n__-prdslib.always
-                                      ]
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType 'Record,
-                                    _js2n__-prdslib.records.record
-                                      {
-                                        continue-on-error =
-                                          _js2n__-prdslib.oneOf
-                                              [
-                                                _js2n__-prdslib.isType '"Bool",
-                                                _js2n__-refsenv."_js2n__-:definitions/expressionSyntax!predicate"
-                                              ],
-                                        env =
-                                          _js2n__-refsenv."_js2n__-:definitions/env!predicate",
-                                        id = _js2n__-prdslib.isType '"String",
-                                        "if" =
-                                          _js2n__-prdslib.anyOf
-                                              [
-                                                _js2n__-prdslib.isType '"Bool",
-                                                _js2n__-prdslib.isType
-                                                  '"Number",
-                                                _js2n__-prdslib.isType '"String"
-                                              ],
-                                        name = _js2n__-prdslib.isType '"String",
-                                        run = _js2n__-prdslib.isType '"String",
-                                        shell =
-                                          _js2n__-refsenv."_js2n__-:definitions/shell!predicate",
-                                        timeout-minutes =
-                                          _js2n__-prdslib.oneOf
-                                              [
-                                                _js2n__-prdslib.isType
-                                                  '"Number",
-                                                _js2n__-refsenv."_js2n__-:definitions/expressionSyntax!predicate"
-                                              ],
-                                        uses = _js2n__-prdslib.isType '"String",
-                                        with =
-                                          _js2n__-prdslib.allOf
-                                              [
-                                                _js2n__-prdslib.records.record
-                                                  {
-                                                    args =
-                                                      _js2n__-prdslib.isType
-                                                          '"String",
-                                                    entrypoint =
-                                                      _js2n__-prdslib.isType
-                                                          '"String",
-                                                  } {} true
-                                                  _js2n__-prdslib.always,
-                                                _js2n__-refsenv."_js2n__-:definitions/env!predicate"
-                                              ],
-                                        working-directory =
-                                          _js2n__-refsenv."_js2n__-:definitions/working-directory!predicate",
-                                      } {} false _js2n__-prdslib.never,
-                                    _js2n__-prdslib.records.dependencies
-                                      {
-                                        shell = [ "run" ],
-                                        working-directory = [ "run" ],
-                                      }
-                                  ]
-                              ]),
+                            _js2n__-refsenv."_js2n__-:definitions/step!predicate",
                           _js2n__-prdslib.arrays.minItems 1
                         ],
                   strategy =
@@ -1650,6 +1563,69 @@ let rec _js2n__-refsenv
                     [ "bash", "pwsh", "python", "sh", "cmd", "powershell" ]
                 ]
             ],
+      "_js2n__-:definitions/step!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "uses" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "run" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record
+                {
+                  continue-on-error =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-refsenv."_js2n__-:definitions/expressionSyntax!predicate"
+                        ],
+                  env = _js2n__-refsenv."_js2n__-:definitions/env!predicate",
+                  id = _js2n__-prdslib.isType '"String",
+                  "if" =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.isType '"String"
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  run = _js2n__-prdslib.isType '"String",
+                  shell =
+                    _js2n__-refsenv."_js2n__-:definitions/shell!predicate",
+                  timeout-minutes =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-refsenv."_js2n__-:definitions/expressionSyntax!predicate"
+                        ],
+                  uses = _js2n__-prdslib.isType '"String",
+                  with =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record
+                            {
+                              args = _js2n__-prdslib.isType '"String",
+                              entrypoint = _js2n__-prdslib.isType '"String",
+                            } {} true _js2n__-prdslib.always,
+                          _js2n__-refsenv."_js2n__-:definitions/env!predicate"
+                        ],
+                  working-directory =
+                    _js2n__-refsenv."_js2n__-:definitions/working-directory!predicate",
+                } {} false _js2n__-prdslib.never,
+              _js2n__-prdslib.records.dependencies
+                { shell = [ "run" ], working-directory = [ "run" ], }
+            ],
       "_js2n__-:definitions/stringContainingExpressionSyntax!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1665,6 +1641,102 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.minItems 1
+            ],
+      "_js2n__-:definitions/workflowDispatchInput!predicate"
+        | doc "A string identifier to associate with the input. The value of <input_id> is a map of the input's metadata. The <input_id> must be a unique identifier within the inputs object. The <input_id> must start with a letter or _ and contain only alphanumeric characters, -, or _."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.ifThenElse
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "type" ],
+                        _js2n__-prdslib.records.record
+                          { type = _js2n__-prdslib.const "string", } {} true
+                          _js2n__-prdslib.always
+                      ])
+                    (_js2n__-prdslib.records.record
+                      { "default" = _js2n__-prdslib.isType '"String", } {} true
+                      _js2n__-prdslib.always) _js2n__-prdslib.always,
+                  _js2n__-prdslib.ifThenElse
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "type" ],
+                        _js2n__-prdslib.records.record
+                          { type = _js2n__-prdslib.const "boolean", } {} true
+                          _js2n__-prdslib.always
+                      ])
+                    (_js2n__-prdslib.records.record
+                      { "default" = _js2n__-prdslib.isType '"Bool", } {} true
+                      _js2n__-prdslib.always) _js2n__-prdslib.always,
+                  _js2n__-prdslib.ifThenElse
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "type" ],
+                        _js2n__-prdslib.records.record
+                          { type = _js2n__-prdslib.const "number", } {} true
+                          _js2n__-prdslib.always
+                      ])
+                    (_js2n__-prdslib.records.record
+                      { "default" = _js2n__-prdslib.isType '"Number", } {} true
+                      _js2n__-prdslib.always) _js2n__-prdslib.always,
+                  _js2n__-prdslib.ifThenElse
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "type" ],
+                        _js2n__-prdslib.records.record
+                          { type = _js2n__-prdslib.const "environment", } {}
+                          true _js2n__-prdslib.always
+                      ])
+                    (_js2n__-prdslib.records.record
+                      { "default" = _js2n__-prdslib.isType '"String", } {} true
+                      _js2n__-prdslib.always) _js2n__-prdslib.always,
+                  _js2n__-prdslib.ifThenElse
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "type" ],
+                        _js2n__-prdslib.records.record
+                          { type = _js2n__-prdslib.const "choice", } {} true
+                          _js2n__-prdslib.always
+                      ])
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.records.required [ "options" ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-prdslib.always
+                      ]) _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.records.required [ "description" ],
+              _js2n__-prdslib.records.record
+                {
+                  "default" = _js2n__-prdslib.always,
+                  deprecationMessage = _js2n__-prdslib.isType '"String",
+                  description = _js2n__-prdslib.isType '"String",
+                  options =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String"),
+                          _js2n__-prdslib.arrays.minItems 1
+                        ],
+                  required = _js2n__-prdslib.isType '"Bool",
+                  type =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [
+                              "string",
+                              "choice",
+                              "boolean",
+                              "number",
+                              "environment"
+                            ]
+                        ],
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/working-directory!predicate"
         | doc "Using the working-directory keyword, you can specify the working directory of where to run the command."
@@ -2316,9 +2388,14 @@ let rec _js2n__-refsenv
                             [
                               _js2n__-prdslib.isType '"Array",
                               _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.records.record
-                                  { cron = _js2n__-prdslib.isType '"String", }
-                                  {} false _js2n__-prdslib.never),
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        cron = _js2n__-prdslib.isType '"String",
+                                      } {} false _js2n__-prdslib.never
+                                  ]),
                               _js2n__-prdslib.arrays.minItems 1
                             ],
                       status =
@@ -2353,9 +2430,6 @@ let rec _js2n__-refsenv
                                                               _js2n__-prdslib.isType
                                                                 '"String"
                                                             ],
-                                                      deprecationMessage =
-                                                        _js2n__-prdslib.isType
-                                                            '"String",
                                                       description =
                                                         _js2n__-prdslib.isType
                                                             '"String",
@@ -2409,162 +2483,7 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.records.record {}
                                         {
                                           "^[_a-zA-Z][a-zA-Z0-9_-]*$" =
-                                            _js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.ifThenElse
-                                                        (_js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.records.required
-                                                              [ "type" ],
-                                                            _js2n__-prdslib.records.record
-                                                              {
-                                                                type =
-                                                                  _js2n__-prdslib.const
-                                                                      "string",
-                                                              } {} true
-                                                              _js2n__-prdslib.always
-                                                          ])
-                                                        (_js2n__-prdslib.records.record
-                                                          {
-                                                            "default" =
-                                                              _js2n__-prdslib.isType
-                                                                  '"String",
-                                                          } {} true
-                                                          _js2n__-prdslib.always)
-                                                        _js2n__-prdslib.always,
-                                                      _js2n__-prdslib.ifThenElse
-                                                        (_js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.records.required
-                                                              [ "type" ],
-                                                            _js2n__-prdslib.records.record
-                                                              {
-                                                                type =
-                                                                  _js2n__-prdslib.const
-                                                                      "boolean",
-                                                              } {} true
-                                                              _js2n__-prdslib.always
-                                                          ])
-                                                        (_js2n__-prdslib.records.record
-                                                          {
-                                                            "default" =
-                                                              _js2n__-prdslib.isType
-                                                                  '"Bool",
-                                                          } {} true
-                                                          _js2n__-prdslib.always)
-                                                        _js2n__-prdslib.always,
-                                                      _js2n__-prdslib.ifThenElse
-                                                        (_js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.records.required
-                                                              [ "type" ],
-                                                            _js2n__-prdslib.records.record
-                                                              {
-                                                                type =
-                                                                  _js2n__-prdslib.const
-                                                                      "number",
-                                                              } {} true
-                                                              _js2n__-prdslib.always
-                                                          ])
-                                                        (_js2n__-prdslib.records.record
-                                                          {
-                                                            "default" =
-                                                              _js2n__-prdslib.isType
-                                                                  '"Number",
-                                                          } {} true
-                                                          _js2n__-prdslib.always)
-                                                        _js2n__-prdslib.always,
-                                                      _js2n__-prdslib.ifThenElse
-                                                        (_js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.records.required
-                                                              [ "type" ],
-                                                            _js2n__-prdslib.records.record
-                                                              {
-                                                                type =
-                                                                  _js2n__-prdslib.const
-                                                                      "environment",
-                                                              } {} true
-                                                              _js2n__-prdslib.always
-                                                          ])
-                                                        (_js2n__-prdslib.records.record
-                                                          {
-                                                            "default" =
-                                                              _js2n__-prdslib.isType
-                                                                  '"String",
-                                                          } {} true
-                                                          _js2n__-prdslib.always)
-                                                        _js2n__-prdslib.always,
-                                                      _js2n__-prdslib.ifThenElse
-                                                        (_js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.records.required
-                                                              [ "type" ],
-                                                            _js2n__-prdslib.records.record
-                                                              {
-                                                                type =
-                                                                  _js2n__-prdslib.const
-                                                                      "choice",
-                                                              } {} true
-                                                              _js2n__-prdslib.always
-                                                          ])
-                                                        (_js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.records.required
-                                                              [ "options" ],
-                                                            _js2n__-prdslib.records.record
-                                                              {} {} true
-                                                              _js2n__-prdslib.always
-                                                          ])
-                                                        _js2n__-prdslib.always
-                                                    ],
-                                                  _js2n__-prdslib.records.required
-                                                    [ "description" ],
-                                                  _js2n__-prdslib.records.record
-                                                    {
-                                                      "default" =
-                                                        _js2n__-prdslib.always,
-                                                      deprecationMessage =
-                                                        _js2n__-prdslib.isType
-                                                            '"String",
-                                                      description =
-                                                        _js2n__-prdslib.isType
-                                                            '"String",
-                                                      options =
-                                                        _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"Array",
-                                                              _js2n__-prdslib.arrays.arrayOf
-                                                                (_js2n__-prdslib.isType
-                                                                  '"String"),
-                                                              _js2n__-prdslib.arrays.minItems
-                                                                1
-                                                            ],
-                                                      required =
-                                                        _js2n__-prdslib.isType
-                                                            '"Bool",
-                                                      type =
-                                                        _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [
-                                                                  "string",
-                                                                  "choice",
-                                                                  "boolean",
-                                                                  "number",
-                                                                  "environment"
-                                                                ]
-                                                            ],
-                                                    } {} false
-                                                    _js2n__-prdslib.never
-                                                ],
+                                            _js2n__-refsenv."_js2n__-:definitions/workflowDispatchInput!predicate",
                                         } false _js2n__-prdslib.never
                                     ],
                             } {} false _js2n__-prdslib.never,

@@ -1054,6 +1054,7 @@ let rec _js2n__-refsenv
                         ],
                   readSchema =
                     _js2n__-refsenv."_js2n__-:definitions/Schema!predicate",
+                  reset = _js2n__-prdslib.isType '"Bool",
                   schema =
                     _js2n__-refsenv."_js2n__-:definitions/Schema!predicate",
                   writeSchema =

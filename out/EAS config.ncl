@@ -956,6 +956,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/BuildCache!predicate",
                   channel = _js2n__-prdslib.isType '"String",
                   config = _js2n__-prdslib.isType '"String",
+                  corepack = _js2n__-prdslib.isType '"Bool",
                   credentialsSource =
                     _js2n__-prdslib.enum [ "remote", "local" ],
                   developmentClient = _js2n__-prdslib.isType '"Bool",
@@ -968,6 +969,9 @@ let rec _js2n__-refsenv
                             { ".*" = _js2n__-prdslib.isType '"String", } true
                             _js2n__-prdslib.always
                         ],
+                  environment =
+                    _js2n__-prdslib.enum
+                        [ "production", "preview", "development" ],
                   extends = _js2n__-prdslib.isType '"String",
                   ios =
                     _js2n__-refsenv."_js2n__-:definitions/BuildProfileIos!predicate",
@@ -1063,9 +1067,11 @@ let rec _js2n__-refsenv
                             [
                               "auto",
                               "latest",
+                              "sdk-52",
                               "sdk-51",
                               "sdk-50",
                               "sdk-49",
+                              "macos-sonoma-14.6-xcode-16.1",
                               "macos-sonoma-14.6-xcode-16.0",
                               "macos-sonoma-14.5-xcode-15.4",
                               "macos-sonoma-14.4-xcode-15.3",
@@ -1173,6 +1179,7 @@ let rec _js2n__-refsenv
           _js2n__-prdslib.isType 'Record,
           _js2n__-prdslib.records.record
             {
+              "$schema" = _js2n__-prdslib.isType '"String",
               build = _js2n__-refsenv."_js2n__-:definitions/Build!predicate",
               cli = _js2n__-refsenv."_js2n__-:definitions/Cli!predicate",
               submit = _js2n__-refsenv."_js2n__-:definitions/Submit!predicate",

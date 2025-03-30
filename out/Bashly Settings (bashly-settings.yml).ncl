@@ -920,14 +920,14 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The path to use for command files, relative to source_dir
-          https://bashly.dannyb.co/usage/settings/#commands_dir
+          https://bashly.dev/usage/settings/#commands_dir
         "%
         | optional,
       compact_short_flags
         | Bool
         | doc m%"
           Whether to expand -abc to -a -b -c in the input line
-          https://bashly.dannyb.co/usage/settings/#compact_short_flags
+          https://bashly.dev/usage/settings/#compact_short_flags
         "%
         | optional,
       config_path
@@ -939,14 +939,70 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The path to bashly.yml
-          https://bashly.dannyb.co/usage/settings/#config_path
+          https://bashly.dev/usage/settings/#config_path
         "%
         | optional,
       conjoined_flag_args
         | Bool
         | doc m%"
           Whether to expand --flag=value to --flag value in the input line
-          https://bashly.dannyb.co/usage/settings/#conjoined_flag_args
+          https://bashly.dev/usage/settings/#conjoined_flag_args
+        "%
+        | optional,
+      enable_bash3_bouncer
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the code snippet that aborts when an old version of bash is detected in the generated script
+          https://bashly.dev/usage/settings/#enable_bash3_bouncer
+        "%
+        | optional,
+      enable_deps_array
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the code for the dependencies array in the generated script
+          https://bashly.dev/usage/settings/#enable_deps_array
+        "%
+        | optional,
+      enable_env_var_names_array
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the code for the env_var_names array in the generated script
+          https://bashly.dev/usage/settings/#enable_env_var_names_array
+        "%
+        | optional,
+      enable_header_comment
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the header comment in the generated script
+          https://bashly.dev/usage/settings/#enable_header_comment
+        "%
+        | optional,
+      enable_inspect_args
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include the inspect_args function in the generated script
+          https://bashly.dev/usage/settings/#enable_inspect_args
+        "%
+        | optional,
+      enable_sourcing
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to wrap the script execution in a condition that checks if the script is sourced
+          https://bashly.dev/usage/settings/#enable_sourcing
+        "%
+        | optional,
+      enable_view_markers
+        | std.enum.TagOrString
+        | [| 'never, 'always, 'production, 'development |]
+        | doc m%"
+          Whether to include view marker comments in the generated script
+          https://bashly.dev/usage/settings/#enable_view_markers
         "%
         | optional,
       env
@@ -954,7 +1010,7 @@ let rec _js2n__-refsenv
         | [| 'production, 'development |]
         | doc m%"
           Whether to include development related comments in the generated script
-          https://bashly.dannyb.co/usage/settings/#env
+          https://bashly.dev/usage/settings/#env
         "%
         | optional,
       lib_dir
@@ -966,7 +1022,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The path to use for common library files, relative to source_dir
-          https://bashly.dannyb.co/usage/settings/#lib_dir
+          https://bashly.dev/usage/settings/#lib_dir
         "%
         | optional,
       partials_extension
@@ -978,7 +1034,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The extension to use when reading/writing partial script snippets
-          https://bashly.dannyb.co/usage/settings/#partials_extension
+          https://bashly.dev/usage/settings/#partials_extension
         "%
         | optional,
       private_reveal_key
@@ -994,14 +1050,14 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The name of the environment variable (case sensitive) that, if set, will reveal private commands, flags and environment variables
-          https://bashly.dannyb.co/usage/settings/#private_reveal_key
+          https://bashly.dev/usage/settings/#private_reveal_key
         "%
         | optional,
       show_examples_on_error
         | Bool
         | doc m%"
           Whether to show command examples when the input line is missing required arguments
-          https://bashly.dannyb.co/usage/settings/#show_examples_on_error
+          https://bashly.dev/usage/settings/#show_examples_on_error
         "%
         | optional,
       source_dir
@@ -1013,7 +1069,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The path containing the bashly source files
-          https://bashly.dannyb.co/usage/settings/#source_dir
+          https://bashly.dev/usage/settings/#source_dir
         "%
         | optional,
       strict
@@ -1025,14 +1081,14 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           Configure the bash options that will be added to the initialize function
-          https://bashly.dannyb.co/usage/settings/#strict
+          https://bashly.dev/usage/settings/#strict
         "%
         | optional,
       tab_indent
         | Bool
         | doc m%"
           Whether to use tabs or spaces in the generated script
-          https://bashly.dannyb.co/usage/settings/#tab_indent
+          https://bashly.dev/usage/settings/#tab_indent
         "%
         | optional,
       target_dir
@@ -1044,7 +1100,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The path to use for creating the bash script
-          https://bashly.dannyb.co/usage/settings/#target_dir
+          https://bashly.dev/usage/settings/#target_dir
         "%
         | optional,
       usage_colors
@@ -1053,41 +1109,113 @@ let rec _js2n__-refsenv
             | _js2n__-refsenv."_js2n__-:definitions/color!contract"
             | doc m%"
               Color for positional arguments
-              https://bashly.dannyb.co/usage/settings/#usage_colors
+              https://bashly.dev/usage/settings/#usage_colors
             "%
             | optional,
           caption
             | _js2n__-refsenv."_js2n__-:definitions/color!contract"
             | doc m%"
               Color for captions
-              https://bashly.dannyb.co/usage/settings/#usage_colors
+              https://bashly.dev/usage/settings/#usage_colors
             "%
             | optional,
           command
             | _js2n__-refsenv."_js2n__-:definitions/color!contract"
             | doc m%"
               Color for commands
-              https://bashly.dannyb.co/usage/settings/#usage_colors
+              https://bashly.dev/usage/settings/#usage_colors
             "%
             | optional,
           environment_variable
             | _js2n__-refsenv."_js2n__-:definitions/color!contract"
             | doc m%"
               Color for env environment variables
-              https://bashly.dannyb.co/usage/settings/#usage_colors
+              https://bashly.dev/usage/settings/#usage_colors
             "%
             | optional,
           flag
             | _js2n__-refsenv."_js2n__-:definitions/color!contract"
             | doc m%"
               Color for flags
-              https://bashly.dannyb.co/usage/settings/#usage_colors
+              https://bashly.dev/usage/settings/#usage_colors
             "%
             | optional,
         }
         | doc m%"
           Enable and configure colorful output for --help
-          https://bashly.dannyb.co/usage/settings/#usage_colors
+          https://bashly.dev/usage/settings/#usage_colors
+        "%
+        | optional,
+      var_aliases
+        | {
+          args
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc m%"
+              Alias name for the args array
+              https://bashly.dev/usage/settings/#var_aliases
+            "%
+            | optional,
+          deps
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc m%"
+              Alias name for the deps array
+              https://bashly.dev/usage/settings/#var_aliases
+            "%
+            | optional,
+          env_var_names
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc m%"
+              Alias name for the env_var_names array
+              https://bashly.dev/usage/settings/#var_aliases
+            "%
+            | optional,
+          other_args
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc m%"
+              Alias name for the other_args array (used when catch_all is enabled)
+              https://bashly.dev/usage/settings/#var_aliases
+            "%
+            | optional,
+        }
+        | doc m%"
+          Declare alias names for bashly's public global arrays
+          https://bashly.dev/usage/settings/#var_aliases
         "%
         | optional,
     }

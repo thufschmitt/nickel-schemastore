@@ -1183,6 +1183,12 @@ let rec _js2n__-refsenv
                         {
                           cacert = _js2n__-prdslib.isType '"String",
                           cert = _js2n__-prdslib.isType '"String",
+                          health_check_interval =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Number",
+                                  _js2n__-prdslib.numbers.minimum 0
+                                ],
                           host = _js2n__-prdslib.isType '"String",
                           key = _js2n__-prdslib.isType '"String",
                           key_password = _js2n__-prdslib.isType '"String",
@@ -1193,6 +1199,19 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType 'Integer,
                                   _js2n__-prdslib.numbers.maximum 65535,
                                   _js2n__-prdslib.numbers.minimum 1
+                                ],
+                          socket_connect_timeout =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Number",
+                                  _js2n__-prdslib.numbers.minimum 0
+                                ],
+                          socket_keepalive = _js2n__-prdslib.isType '"Bool",
+                          socket_timeout =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Number",
+                                  _js2n__-prdslib.numbers.minimum 0
                                 ],
                           type =
                             _js2n__-prdslib.allOf

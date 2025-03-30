@@ -908,7 +908,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The string template for the list of allowed values
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       arguments
@@ -920,7 +920,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The caption for the argument section
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       command_alias
@@ -932,7 +932,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The string template for a command alias
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       commands
@@ -944,7 +944,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The caption for the command section
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       conflicting_flags
@@ -956,7 +956,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for conflicting flags
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       conflicts
@@ -968,7 +968,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The string template for the list of conflicting flags
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       "default"
@@ -980,7 +980,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The string template for a default argument or flag
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       default_command_summary
@@ -992,7 +992,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The string template for the summary of a default command
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       disallowed_argument
@@ -1004,7 +1004,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for forbidden argument
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       disallowed_environment_variable
@@ -1016,7 +1016,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for forbidden environment variable
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       disallowed_flag
@@ -1028,7 +1028,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for forbidden flag
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       environment_variable_validation_error
@@ -1040,7 +1040,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for failed custom validation for environment variables
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       environment_variables
@@ -1052,7 +1052,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The caption for the environment variables section
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       examples
@@ -1064,7 +1064,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The caption for the examples section
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       examples_caption_on_error
@@ -1076,7 +1076,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The string to show before the examples when show_examples_on_error is enabled
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       flag_needs_another
@@ -1088,7 +1088,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for missing flag needs
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       flag_requires_an_argument
@@ -1100,7 +1100,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for missing flag argument
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       global_options
@@ -1112,7 +1112,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The caption for the options section, when a command has flags and sub-commands
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       group
@@ -1124,7 +1124,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The caption template for custom command groups
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       help_flag_text
@@ -1136,7 +1136,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The help message for --help
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       invalid_argument
@@ -1148,7 +1148,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for invalid argument
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       invalid_command
@@ -1160,7 +1160,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for invalid command
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       invalid_flag
@@ -1172,7 +1172,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for invalid flag
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       missing_dependency
@@ -1184,7 +1184,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for missing dependency
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       missing_required_argument
@@ -1196,7 +1196,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for missing required argument
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       missing_required_environment_variable
@@ -1208,7 +1208,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for missing required environment variable
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       missing_required_flag
@@ -1220,7 +1220,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for missing required flag
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       needs
@@ -1232,7 +1232,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The string template for the list of needed flags
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       options
@@ -1244,7 +1244,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The caption for the options section
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       repeatable
@@ -1256,7 +1256,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The string suffix for repeatable arguments, flags, or commands
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       required
@@ -1268,7 +1268,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The string suffix for required arguments, flags, or commands
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       unsupported_bash_version
@@ -1280,7 +1280,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message for unsupported Bash version
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       usage
@@ -1292,7 +1292,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The caption for the usage patterns
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       validation_error
@@ -1304,7 +1304,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The error message template for failed custom validation
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
       version_flag_text
@@ -1316,7 +1316,7 @@ let rec _js2n__-refsenv
             ])
         | doc m%"
           The help message for --version
-          https://bashly.dannyb.co/advanced/strings/#custom-strings
+          https://bashly.dev/advanced/strings/#custom-strings
         "%
         | optional,
     }

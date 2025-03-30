@@ -999,12 +999,7 @@ let rec _js2n__-refsenv
                           ]),
                       _js2n__-prdslib.arrays.uniqueItems
                     ],
-              rootNamespace =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType '"String",
-                      _js2n__-prdslib.strings.minLength 1
-                    ],
+              rootNamespace = _js2n__-prdslib.isType '"String",
               versionDefines =
                 _js2n__-prdslib.allOf
                     [

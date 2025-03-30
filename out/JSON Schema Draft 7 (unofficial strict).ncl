@@ -1008,7 +1008,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/type-property!predicate",
                   uniqueItems =
                     _js2n__-refsenv."_js2n__-:definitions/unique-items-property!predicate",
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/const-property!predicate"
         | doc m%"
@@ -1121,7 +1121,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/type-property!predicate",
                   uniqueItems =
                     _js2n__-refsenv."_js2n__-:definitions/unique-items-property!predicate",
-                } {} false _js2n__-prdslib.never,
+                } {} true _js2n__-prdslib.always,
               _js2n__-refsenv."_js2n__-:definitions/entity-requirements-and-dependencies!predicate"
             ],
       "_js2n__-:definitions/entity-dependencies!predicate" =
@@ -1267,9 +1267,9 @@ let rec _js2n__-refsenv
                             {
                               "." =
                                 _js2n__-refsenv."_js2n__-:definitions/condition-entity!predicate",
-                            } false _js2n__-prdslib.never
+                            } true _js2n__-prdslib.always
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/items-property!predicate"
         | doc m%"
@@ -1411,7 +1411,7 @@ let rec _js2n__-refsenv
                 }
                 {
                   "." = _js2n__-refsenv."_js2n__-:definitions/entity!predicate",
-                } false _js2n__-prdslib.never
+                } true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/pattern-property!predicate"
         | doc m%"
@@ -1430,7 +1430,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {}
                 {
                   "." = _js2n__-refsenv."_js2n__-:definitions/entity!predicate",
-                } false _js2n__-prdslib.never
+                } true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/ref-property!predicate"
         | doc m%"
@@ -1525,7 +1525,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/type-property!predicate",
                   uniqueItems =
                     _js2n__-refsenv."_js2n__-:definitions/unique-items-property!predicate",
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/requirements!predicate" =
         _js2n__-prdslib.allOf
@@ -1548,9 +1548,9 @@ let rec _js2n__-refsenv
                             {
                               "." =
                                 _js2n__-refsenv."_js2n__-:definitions/requirement-entity!predicate",
-                            } false _js2n__-prdslib.never
+                            } true _js2n__-prdslib.always
                         ],
-                } {} false _js2n__-prdslib.never
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/root-entity!contract" =
         _js2n__-prdslib.contract_from_predicate
@@ -1561,6 +1561,13 @@ let rec _js2n__-refsenv
                   {
                     "$comment" =
                       _js2n__-refsenv."_js2n__-:definitions/comment-property!predicate",
+                    "$defs" =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-refsenv."_js2n__-:definitions/sub-schema-entity!predicate"
+                          ],
                     "$id" =
                       _js2n__-prdslib.allOf
                           [
@@ -1591,11 +1598,8 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.records.record {}
-                              {
-                                "." =
-                                  _js2n__-refsenv."_js2n__-:definitions/sub-schema-entity!predicate",
-                              } false _js2n__-prdslib.never
+                            _js2n__-prdslib.records.record {} {} true
+                              _js2n__-refsenv."_js2n__-:definitions/sub-schema-entity!predicate"
                           ],
                     description =
                       _js2n__-refsenv."_js2n__-:definitions/description-property!predicate",
@@ -1653,7 +1657,7 @@ let rec _js2n__-refsenv
                       _js2n__-refsenv."_js2n__-:definitions/type-property!predicate",
                     uniqueItems =
                       _js2n__-refsenv."_js2n__-:definitions/unique-items-property!predicate",
-                  } {} false _js2n__-prdslib.never,
+                  } {} true _js2n__-prdslib.always,
                 _js2n__-refsenv."_js2n__-:definitions/entity-requirements-and-dependencies!predicate"
               ]),
       "_js2n__-:definitions/simple-type!predicate" =
@@ -1699,6 +1703,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/const-property!predicate",
                   "default" =
                     _js2n__-refsenv."_js2n__-:definitions/default-property!predicate",
+                  description = _js2n__-prdslib.isType '"String",
                   "else" =
                     _js2n__-refsenv."_js2n__-:definitions/else-property!predicate",
                   enum =
@@ -1709,6 +1714,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/exclusive-maximum-property!predicate",
                   exclusiveMinimum =
                     _js2n__-refsenv."_js2n__-:definitions/exclusive-minimum-property!predicate",
+                  id = _js2n__-prdslib.isType '"String",
                   "if" =
                     _js2n__-refsenv."_js2n__-:definitions/if-property!predicate",
                   items =
@@ -1749,7 +1755,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/type-property!predicate",
                   uniqueItems =
                     _js2n__-refsenv."_js2n__-:definitions/unique-items-property!predicate",
-                } {} false _js2n__-prdslib.never,
+                } {} true _js2n__-prdslib.always,
               _js2n__-refsenv."_js2n__-:definitions/entity-dependencies!predicate"
             ],
       "_js2n__-:definitions/then-property!predicate"

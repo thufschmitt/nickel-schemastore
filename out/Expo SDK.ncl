@@ -898,1128 +898,1303 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {}
     in
-  _js2n__-prdslib.contract_from_predicate
-      (_js2n__-prdslib.allOf
-        [
-          _js2n__-prdslib.isType 'Record,
-          _js2n__-prdslib.records.required [ "expo" ],
-          _js2n__-prdslib.records.record
-            {
-              expo =
-                _js2n__-prdslib.allOf
-                    [
-                      _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.required [ "name", "slug" ],
-                      _js2n__-prdslib.records.record
-                        {
-                          _internal =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      pluginHistory =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record {}
-                                                {} true _js2n__-prdslib.always
-                                            ],
-                                    } {} true _js2n__-prdslib.always
-                                ],
-                          android =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      adaptiveIcon =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record
-                                                {
-                                                  backgroundColor =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.strings.pattern
-                                                            "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                                        ],
-                                                  backgroundImage =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  foregroundImage =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                } {} false _js2n__-prdslib.never
-                                            ],
-                                      allowBackup =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      backgroundColor =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                            ],
-                                      config =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record
-                                                {
-                                                  branch =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Record,
-                                                          _js2n__-prdslib.records.record
-                                                            {
-                                                              apiKey =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                            } {} false
-                                                            _js2n__-prdslib.never
-                                                        ],
-                                                  googleMaps =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Record,
-                                                          _js2n__-prdslib.records.record
-                                                            {
-                                                              apiKey =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                            } {} false
-                                                            _js2n__-prdslib.never
-                                                        ],
-                                                  googleMobileAdsAppId =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  googleMobileAdsAutoInit =
-                                                    _js2n__-prdslib.isType
-                                                        '"Bool",
-                                                  googleSignIn =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Record,
-                                                          _js2n__-prdslib.records.record
-                                                            {
-                                                              apiKey =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                              certificateHash =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                            } {} false
-                                                            _js2n__-prdslib.never
-                                                        ],
-                                                } {} false _js2n__-prdslib.never
-                                            ],
-                                      googleServicesFile =
-                                        _js2n__-prdslib.isType '"String",
-                                      icon = _js2n__-prdslib.isType '"String",
-                                      intentFilters =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.arrays.arrayOf
-                                                (_js2n__-prdslib.allOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      'Record,
-                                                    _js2n__-prdslib.records.required
-                                                      [ "action" ],
-                                                    _js2n__-prdslib.records.record
-                                                      {
-                                                        action =
-                                                          _js2n__-prdslib.isType
-                                                              '"String",
-                                                        autoVerify =
-                                                          _js2n__-prdslib.isType
-                                                              '"Bool",
-                                                        category =
-                                                          _js2n__-prdslib.anyOf
-                                                              [
-                                                                _js2n__-prdslib.anyOf
-                                                                  [
-                                                                    _js2n__-prdslib.isType
-                                                                      '"String"
-                                                                  ],
-                                                                _js2n__-prdslib.allOf
-                                                                  [
-                                                                    _js2n__-prdslib.isType
-                                                                      '"Array",
-                                                                    _js2n__-prdslib.arrays.arrayOf
-                                                                      (_js2n__-prdslib.isType
-                                                                        '"String")
-                                                                  ]
-                                                              ],
-                                                        data =
-                                                          _js2n__-prdslib.anyOf
-                                                              [
-                                                                _js2n__-prdslib.allOf
-                                                                  [
-                                                                    _js2n__-prdslib.isType
-                                                                      'Record,
-                                                                    _js2n__-prdslib.records.record
-                                                                      {
-                                                                        host =
-                                                                          _js2n__-prdslib.isType
-                                                                              '"String",
-                                                                        mimeType =
-                                                                          _js2n__-prdslib.isType
-                                                                              '"String",
-                                                                        path =
-                                                                          _js2n__-prdslib.isType
-                                                                              '"String",
-                                                                        pathPattern =
-                                                                          _js2n__-prdslib.isType
-                                                                              '"String",
-                                                                        pathPrefix =
-                                                                          _js2n__-prdslib.isType
-                                                                              '"String",
-                                                                        port =
-                                                                          _js2n__-prdslib.isType
-                                                                              '"String",
-                                                                        scheme =
-                                                                          _js2n__-prdslib.isType
-                                                                              '"String",
-                                                                      } {} false
-                                                                      _js2n__-prdslib.never
-                                                                  ],
-                                                                _js2n__-prdslib.allOf
-                                                                  [
-                                                                    _js2n__-prdslib.anyOf
-                                                                      [
-                                                                        _js2n__-prdslib.isType
-                                                                          '"Array"
-                                                                      ],
-                                                                    _js2n__-prdslib.arrays.arrayOf
-                                                                      (_js2n__-prdslib.allOf
-                                                                        [
-                                                                          _js2n__-prdslib.isType
-                                                                            'Record,
-                                                                          _js2n__-prdslib.records.record
-                                                                            {
-                                                                              host =
-                                                                                _js2n__-prdslib.isType
-                                                                                    '"String",
-                                                                              mimeType =
-                                                                                _js2n__-prdslib.isType
-                                                                                    '"String",
-                                                                              path =
-                                                                                _js2n__-prdslib.isType
-                                                                                    '"String",
-                                                                              pathPattern =
-                                                                                _js2n__-prdslib.isType
-                                                                                    '"String",
-                                                                              pathPrefix =
-                                                                                _js2n__-prdslib.isType
-                                                                                    '"String",
-                                                                              port =
-                                                                                _js2n__-prdslib.isType
-                                                                                    '"String",
-                                                                              scheme =
-                                                                                _js2n__-prdslib.isType
-                                                                                    '"String",
-                                                                            } {}
-                                                                            false
-                                                                            _js2n__-prdslib.never
-                                                                        ])
-                                                                  ]
-                                                              ],
-                                                      } {} false
-                                                      _js2n__-prdslib.never
-                                                  ]),
-                                              _js2n__-prdslib.arrays.uniqueItems
-                                            ],
-                                      jsEngine =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [ "hermes", "jsc" ]
-                                            ],
-                                      package =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^[a-zA-Z][a-zA-Z0-9_]*(\\.[a-zA-Z][a-zA-Z0-9_]*)+$"
-                                            ],
-                                      permissions =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.arrays.arrayOf
-                                                (_js2n__-prdslib.isType
-                                                  '"String")
-                                            ],
-                                      playStoreUrl =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.anyOf
+  {
+      expo
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name", "slug" ],
+              _js2n__-prdslib.records.record
+                {
+                  _internal =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              pluginHistory =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {} {} true
+                                        _js2n__-prdslib.always
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ],
+                  android =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              adaptiveIcon =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          backgroundColor =
+                                            _js2n__-prdslib.allOf
                                                 [
                                                   _js2n__-prdslib.isType
-                                                    '"String"
+                                                    '"String",
+                                                  _js2n__-prdslib.strings.pattern
+                                                    "^#|(&#x23;)\\d{6}$"
                                                 ],
-                                              _js2n__-prdslib.strings.pattern
-                                                "^https://play\\.google\\.com/"
-                                            ],
-                                      publishBundlePath =
-                                        _js2n__-prdslib.isType '"String",
-                                      publishManifestPath =
-                                        _js2n__-prdslib.isType '"String",
-                                      softwareKeyboardLayoutMode =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [ "resize", "pan" ]
-                                            ],
-                                      splash =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record
-                                                {
-                                                  backgroundColor =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.strings.pattern
-                                                            "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                                        ],
-                                                  hdpi =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  image =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  mdpi =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  resizeMode =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.enum
-                                                            [
-                                                              "cover",
-                                                              "contain",
-                                                              "native"
-                                                            ]
-                                                        ],
-                                                  xhdpi =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  xxhdpi =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  xxxhdpi =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                } {} true _js2n__-prdslib.always
-                                            ],
-                                      useNextNotificationsApi =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      userInterfaceStyle =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [ "light", "dark", "automatic" ]
-                                            ],
-                                      versionCode =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Integer,
-                                              _js2n__-prdslib.numbers.maximum
-                                                2100000000,
-                                              _js2n__-prdslib.numbers.minimum 0
-                                            ],
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          androidNavigationBar =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      backgroundColor =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                            ],
-                                      barStyle =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [
-                                                  "light-content",
-                                                  "dark-content"
-                                                ]
-                                            ],
-                                      visible =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [
-                                                  "leanback",
-                                                  "immersive",
-                                                  "sticky-immersive"
-                                                ]
-                                            ],
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          androidStatusBar =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      backgroundColor =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                            ],
-                                      barStyle =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [
-                                                  "light-content",
-                                                  "dark-content"
-                                                ]
-                                            ],
-                                      hidden = _js2n__-prdslib.isType '"Bool",
-                                      translucent =
-                                        _js2n__-prdslib.isType '"Bool",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          appKey = _js2n__-prdslib.isType '"String",
-                          assetBundlePatterns =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    (_js2n__-prdslib.isType '"String")
-                                ],
-                          backgroundColor =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                ],
-                          currentFullName = _js2n__-prdslib.isType '"String",
-                          description = _js2n__-prdslib.isType '"String",
-                          detach =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    _js2n__-prdslib.always
-                                ],
-                          developmentClient =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      silentLaunch =
-                                        _js2n__-prdslib.isType '"Bool",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          entryPoint = _js2n__-prdslib.isType '"String",
-                          experiments =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      turboModules =
-                                        _js2n__-prdslib.isType '"Bool",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          extra =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    _js2n__-prdslib.always
-                                ],
-                          facebookAdvertiserIDCollectionEnabled =
-                            _js2n__-prdslib.isType '"Bool",
-                          facebookAppId =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern "^[0-9]+$"
-                                ],
-                          facebookAutoInitEnabled =
-                            _js2n__-prdslib.isType '"Bool",
-                          facebookAutoLogAppEventsEnabled =
-                            _js2n__-prdslib.isType '"Bool",
-                          facebookDisplayName =
-                            _js2n__-prdslib.isType '"String",
-                          facebookScheme =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^fb[0-9]+[A-Za-z]*$"
-                                ],
-                          githubUrl =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.anyOf
-                                    [ _js2n__-prdslib.isType '"String" ],
-                                  _js2n__-prdslib.strings.pattern
-                                    "^https://github\\.com/"
-                                ],
-                          hooks =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      postExport =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.arrays.arrayOf
-                                                (_js2n__-prdslib.allOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      'Record,
-                                                    _js2n__-prdslib.records.record
-                                                      {
-                                                        config =
-                                                          _js2n__-prdslib.allOf
-                                                              [
-                                                                _js2n__-prdslib.isType
-                                                                  'Record,
-                                                                _js2n__-prdslib.records.record
-                                                                  {} {} true
-                                                                  _js2n__-prdslib.always
-                                                              ],
-                                                        file =
-                                                          _js2n__-prdslib.isType
-                                                              '"String",
-                                                      } {} true
-                                                      _js2n__-prdslib.always
-                                                  ])
-                                            ],
-                                      postPublish =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.arrays.arrayOf
-                                                (_js2n__-prdslib.allOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      'Record,
-                                                    _js2n__-prdslib.records.record
-                                                      {
-                                                        config =
-                                                          _js2n__-prdslib.allOf
-                                                              [
-                                                                _js2n__-prdslib.isType
-                                                                  'Record,
-                                                                _js2n__-prdslib.records.record
-                                                                  {} {} true
-                                                                  _js2n__-prdslib.always
-                                                              ],
-                                                        file =
-                                                          _js2n__-prdslib.isType
-                                                              '"String",
-                                                      } {} true
-                                                      _js2n__-prdslib.always
-                                                  ])
-                                            ],
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          icon = _js2n__-prdslib.isType '"String",
-                          ios =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      accessesContactNotes =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      appStoreUrl =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String"
-                                                ],
-                                              _js2n__-prdslib.strings.pattern
-                                                "^https://(itunes|apps)\\.apple\\.com/.*?\\d+"
-                                            ],
-                                      associatedDomains =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Array",
-                                              _js2n__-prdslib.arrays.arrayOf
-                                                (_js2n__-prdslib.isType
-                                                  '"String"),
-                                              _js2n__-prdslib.arrays.uniqueItems
-                                            ],
-                                      backgroundColor =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                            ],
-                                      buildNumber =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^[A-Za-z0-9\\.]+$"
-                                            ],
-                                      bundleIdentifier =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^[a-zA-Z0-9.-]+$"
-                                            ],
-                                      config =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record
-                                                {
-                                                  branch =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Record,
-                                                          _js2n__-prdslib.records.record
-                                                            {
-                                                              apiKey =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                            } {} false
-                                                            _js2n__-prdslib.never
-                                                        ],
-                                                  googleMapsApiKey =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  googleMobileAdsAppId =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  googleMobileAdsAutoInit =
-                                                    _js2n__-prdslib.isType
-                                                        '"Bool",
-                                                  googleSignIn =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Record,
-                                                          _js2n__-prdslib.records.record
-                                                            {
-                                                              reservedClientId =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                            } {} false
-                                                            _js2n__-prdslib.never
-                                                        ],
-                                                  usesNonExemptEncryption =
-                                                    _js2n__-prdslib.isType
-                                                        '"Bool",
-                                                } {} false _js2n__-prdslib.never
-                                            ],
-                                      entitlements =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record {}
-                                                {} true _js2n__-prdslib.always
-                                            ],
-                                      googleServicesFile =
-                                        _js2n__-prdslib.isType '"String",
-                                      icon = _js2n__-prdslib.isType '"String",
-                                      infoPlist =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record {}
-                                                {} true _js2n__-prdslib.always
-                                            ],
-                                      isTabletOnly =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      merchantId =
-                                        _js2n__-prdslib.isType '"String",
-                                      publishBundlePath =
-                                        _js2n__-prdslib.isType '"String",
-                                      publishManifestPath =
-                                        _js2n__-prdslib.isType '"String",
-                                      requireFullScreen =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      splash =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record
-                                                {
-                                                  backgroundColor =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.strings.pattern
-                                                            "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                                        ],
-                                                  image =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  resizeMode =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.enum
-                                                            [
-                                                              "cover",
-                                                              "contain"
-                                                            ]
-                                                        ],
-                                                  tabletImage =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  xib =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                } {} true _js2n__-prdslib.always
-                                            ],
-                                      supportsTablet =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      userInterfaceStyle =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [ "light", "dark", "automatic" ]
-                                            ],
-                                      usesAppleSignIn =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      usesIcloudStorage =
-                                        _js2n__-prdslib.isType '"Bool",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          isDetached = _js2n__-prdslib.isType '"Bool",
-                          jsEngine =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum [ "hermes", "jsc" ]
-                                ],
-                          locales =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    (_js2n__-prdslib.anyOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.isType 'Record
-                                      ])
-                                ],
-                          name = _js2n__-prdslib.isType '"String",
-                          notification =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      androidCollapsedTitle =
-                                        _js2n__-prdslib.isType '"String",
-                                      androidMode =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [ "default", "collapse" ]
-                                            ],
-                                      color =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                            ],
-                                      icon = _js2n__-prdslib.isType '"String",
-                                      iosDisplayInForeground =
-                                        _js2n__-prdslib.isType '"Bool",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          orientation =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum
-                                    [ "default", "portrait", "landscape" ]
-                                ],
-                          originalFullName = _js2n__-prdslib.isType '"String",
-                          owner =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.minLength 1
-                                ],
-                          packagerOpts =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record {} {} true
-                                    _js2n__-prdslib.always
-                                ],
-                          platforms =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    (_js2n__-prdslib.allOf
-                                      [
-                                        _js2n__-prdslib.isType '"String",
-                                        _js2n__-prdslib.enum
-                                          [ "android", "ios", "web" ]
-                                      ]),
-                                  _js2n__-prdslib.arrays.uniqueItems
-                                ],
-                          plugins =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"Array",
-                                  _js2n__-prdslib.arrays.arrayOf
-                                    (_js2n__-prdslib.anyOf
-                                      [
-                                        _js2n__-prdslib.anyOf
-                                          [ _js2n__-prdslib.isType '"String" ],
-                                        _js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.isType '"Array",
-                                            _js2n__-prdslib.arrays.items
-                                              [
-                                                _js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String"
-                                                  ],
-                                                _js2n__-prdslib.always
-                                              ],
-                                            _js2n__-prdslib.arrays.additionalItems
-                                              _js2n__-prdslib.never 2
-                                          ]
-                                      ])
-                                ],
-                          primaryColor =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                ],
-                          privacy =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum
-                                    [ "public", "unlisted", "hidden" ]
-                                ],
-                          runtimeVersion =
-                            _js2n__-prdslib.anyOf
-                                [
-                                  _js2n__-prdslib.allOf
+                                          backgroundImage =
+                                            _js2n__-prdslib.isType '"String",
+                                          foregroundImage =
+                                            _js2n__-prdslib.isType '"String",
+                                          monochromeImage =
+                                            _js2n__-prdslib.isType '"String",
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                              allowBackup = _js2n__-prdslib.isType '"Bool",
+                              backgroundColor =
+                                _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType '"String",
                                       _js2n__-prdslib.strings.pattern
-                                        "^[0-9.]+$"
+                                        "^#|(&#x23;)\\d{6}$"
                                     ],
-                                  _js2n__-prdslib.allOf
+                              blockedPermissions =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
+                              config =
+                                _js2n__-prdslib.allOf
                                     [
                                       _js2n__-prdslib.isType 'Record,
-                                      _js2n__-prdslib.records.required
-                                        [ "policy" ],
                                       _js2n__-prdslib.records.record
                                         {
-                                          policy =
+                                          branch =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      apiKey =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                    } {} false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                          googleMaps =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      apiKey =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                    } {} false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                          googleMobileAdsAppId =
+                                            _js2n__-prdslib.isType '"String",
+                                          googleMobileAdsAutoInit =
+                                            _js2n__-prdslib.isType '"Bool",
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                              googleServicesFile =
+                                _js2n__-prdslib.isType '"String",
+                              icon = _js2n__-prdslib.isType '"String",
+                              intentFilters =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.allOf
+                                          [
+                                            _js2n__-prdslib.isType 'Record,
+                                            _js2n__-prdslib.records.required
+                                              [ "action" ],
+                                            _js2n__-prdslib.records.record
+                                              {
+                                                action =
+                                                  _js2n__-prdslib.isType
+                                                      '"String",
+                                                autoVerify =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
+                                                category =
+                                                  _js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.anyOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String"
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"Array",
+                                                            _js2n__-prdslib.arrays.arrayOf
+                                                              (_js2n__-prdslib.isType
+                                                                '"String")
+                                                          ]
+                                                      ],
+                                                data =
+                                                  _js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Record,
+                                                            _js2n__-prdslib.records.record
+                                                              {
+                                                                host =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                mimeType =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                path =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                pathPattern =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                pathPrefix =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                port =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                                scheme =
+                                                                  _js2n__-prdslib.isType
+                                                                      '"String",
+                                                              } {} false
+                                                              _js2n__-prdslib.never
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.anyOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  '"Array"
+                                                              ],
+                                                            _js2n__-prdslib.arrays.arrayOf
+                                                              (_js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    'Record,
+                                                                  _js2n__-prdslib.records.record
+                                                                    {
+                                                                      host =
+                                                                        _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                      mimeType =
+                                                                        _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                      path =
+                                                                        _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                      pathPattern =
+                                                                        _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                      pathPrefix =
+                                                                        _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                      port =
+                                                                        _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                      scheme =
+                                                                        _js2n__-prdslib.isType
+                                                                            '"String",
+                                                                    } {} false
+                                                                    _js2n__-prdslib.never
+                                                                ])
+                                                          ]
+                                                      ],
+                                              } {} false _js2n__-prdslib.never
+                                          ]),
+                                      _js2n__-prdslib.arrays.uniqueItems
+                                    ],
+                              jsEngine =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum [ "hermes", "jsc" ]
+                                    ],
+                              newArchEnabled = _js2n__-prdslib.isType '"Bool",
+                              package =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^(?!.*\\bnative\\b)[a-zA-Z][a-zA-Z0-9_]*(\\.[a-zA-Z][a-zA-Z0-9_]*)+$"
+                                    ],
+                              permissions =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
+                              playStoreUrl =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [ _js2n__-prdslib.isType '"String" ],
+                                      _js2n__-prdslib.strings.pattern
+                                        "^https://play\\.google\\.com/"
+                                    ],
+                              publishBundlePath =
+                                _js2n__-prdslib.isType '"String",
+                              publishManifestPath =
+                                _js2n__-prdslib.isType '"String",
+                              runtimeVersion =
+                                _js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^[a-zA-Z\\d][a-zA-Z\\d._+()-]{0,254}$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^exposdk:((\\d+\\.\\d+\\.\\d+)|(UNVERSIONED))$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.required
+                                            [ "policy" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              policy =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "nativeVersion",
+                                                          "sdkVersion",
+                                                          "appVersion",
+                                                          "fingerprint"
+                                                        ]
+                                                    ],
+                                            } {} false _js2n__-prdslib.never
+                                        ]
+                                    ],
+                              softwareKeyboardLayoutMode =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum [ "resize", "pan" ]
+                                    ],
+                              splash =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          backgroundColor =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.strings.pattern
+                                                    "^#|(&#x23;)\\d{6}$"
+                                                ],
+                                          dark =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      backgroundColor =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"String",
+                                                              _js2n__-prdslib.strings.pattern
+                                                                "^#|(&#x23;)\\d{6}$"
+                                                            ],
+                                                      hdpi =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      image =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      mdpi =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      resizeMode =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"String",
+                                                              _js2n__-prdslib.enum
+                                                                [
+                                                                  "cover",
+                                                                  "contain",
+                                                                  "native"
+                                                                ]
+                                                            ],
+                                                      xhdpi =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      xxhdpi =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      xxxhdpi =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                          hdpi =
+                                            _js2n__-prdslib.isType '"String",
+                                          image =
+                                            _js2n__-prdslib.isType '"String",
+                                          mdpi =
+                                            _js2n__-prdslib.isType '"String",
+                                          resizeMode =
                                             _js2n__-prdslib.allOf
                                                 [
                                                   _js2n__-prdslib.isType
                                                     '"String",
                                                   _js2n__-prdslib.enum
                                                     [
-                                                      "appVersion",
-                                                      "nativeVersion",
-                                                      "sdkVersion"
+                                                      "cover",
+                                                      "contain",
+                                                      "native"
                                                     ]
                                                 ],
-                                        } {} true _js2n__-prdslib.always
-                                    ]
-                                ],
-                          scheme =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^[a-z][a-z0-9+.-]*$"
-                                ],
-                          sdkVersion =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^(\\d+\\.\\d+\\.\\d+)|(UNVERSIONED)$"
-                                ],
-                          slug =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^[a-zA-Z0-9_\\-]+$"
-                                ],
-                          splash =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      backgroundColor =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                            ],
-                                      image = _js2n__-prdslib.isType '"String",
-                                      resizeMode =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [ "cover", "contain" ]
-                                            ],
-                                    } {} true _js2n__-prdslib.always
-                                ],
-                          updates =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      checkAutomatically =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
+                                          xhdpi =
+                                            _js2n__-prdslib.isType '"String",
+                                          xxhdpi =
+                                            _js2n__-prdslib.isType '"String",
+                                          xxxhdpi =
+                                            _js2n__-prdslib.isType '"String",
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                              userInterfaceStyle =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "light", "dark", "automatic" ]
+                                    ],
+                              versionCode =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum
+                                        2100000000,
+                                      _js2n__-prdslib.numbers.minimum 0
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  androidNavigationBar =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              backgroundColor =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^#|(&#x23;)\\d{6}$"
+                                    ],
+                              barStyle =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "light-content", "dark-content" ]
+                                    ],
+                              visible =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "leanback",
+                                          "immersive",
+                                          "sticky-immersive"
+                                        ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  androidStatusBar =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              backgroundColor =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^#|(&#x23;)\\d{6}$"
+                                    ],
+                              barStyle =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "light-content", "dark-content" ]
+                                    ],
+                              hidden = _js2n__-prdslib.isType '"Bool",
+                              translucent = _js2n__-prdslib.isType '"Bool",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  assetBundlePatterns =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  backgroundColor =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern "^#|(&#x23;)\\d{6}$"
+                        ],
+                  currentFullName = _js2n__-prdslib.isType '"String",
+                  description = _js2n__-prdslib.isType '"String",
+                  developmentClient =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            { silentLaunch = _js2n__-prdslib.isType '"Bool", }
+                            {} false _js2n__-prdslib.never
+                        ],
+                  experiments =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              baseUrl = _js2n__-prdslib.isType '"String",
+                              reactCanary = _js2n__-prdslib.isType '"Bool",
+                              reactCompiler = _js2n__-prdslib.isType '"Bool",
+                              reactServerActions =
+                                _js2n__-prdslib.isType '"Bool",
+                              reactServerComponents =
+                                _js2n__-prdslib.isType '"Bool",
+                              supportsTVOnly = _js2n__-prdslib.isType '"Bool",
+                              tsconfigPaths = _js2n__-prdslib.isType '"Bool",
+                              turboModules = _js2n__-prdslib.isType '"Bool",
+                              typedRoutes = _js2n__-prdslib.isType '"Bool",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  extra =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
+                        ],
+                  githubUrl =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [ _js2n__-prdslib.isType '"String" ],
+                          _js2n__-prdslib.strings.pattern
+                            "^https://github\\.com/"
+                        ],
+                  icon = _js2n__-prdslib.isType '"String",
+                  ios =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              accessesContactNotes =
+                                _js2n__-prdslib.isType '"Bool",
+                              appStoreUrl =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [ _js2n__-prdslib.isType '"String" ],
+                                      _js2n__-prdslib.strings.pattern
+                                        "^https://(itunes|apps)\\.apple\\.com/.*?\\d+"
+                                    ],
+                              appleTeamId = _js2n__-prdslib.isType '"String",
+                              associatedDomains =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String"),
+                                      _js2n__-prdslib.arrays.uniqueItems
+                                    ],
+                              backgroundColor =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^#|(&#x23;)\\d{6}$"
+                                    ],
+                              bitcode =
+                                _js2n__-prdslib.anyOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [ _js2n__-prdslib.isType '"Bool" ],
+                                      _js2n__-prdslib.anyOf
+                                        [ _js2n__-prdslib.isType '"String" ]
+                                    ],
+                              buildNumber =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[A-Za-z0-9.]+$"
+                                    ],
+                              bundleIdentifier =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^[a-zA-Z0-9.-]+$"
+                                    ],
+                              config =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          branch =
+                                            _js2n__-prdslib.allOf
                                                 [
-                                                  "ON_ERROR_RECOVERY",
-                                                  "ON_LOAD"
-                                                ]
-                                            ],
-                                      enabled = _js2n__-prdslib.isType '"Bool",
-                                      fallbackToCacheTimeout =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"Number",
-                                              _js2n__-prdslib.numbers.maximum
-                                                300000,
-                                              _js2n__-prdslib.numbers.minimum 0
-                                            ],
-                                      url = _js2n__-prdslib.isType '"String",
-                                    } {} false _js2n__-prdslib.never
-                                ],
-                          userInterfaceStyle =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum
-                                    [ "light", "dark", "automatic" ]
-                                ],
-                          version = _js2n__-prdslib.isType '"String",
-                          web =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Record,
-                                  _js2n__-prdslib.records.record
-                                    {
-                                      backgroundColor =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                            ],
-                                      barStyle =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [
-                                                  "default",
-                                                  "black",
-                                                  "black-translucent"
-                                                ]
-                                            ],
-                                      config =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record
-                                                {
-                                                  firebase =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Record,
-                                                          _js2n__-prdslib.records.record
-                                                            {
-                                                              apiKey =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                              appId =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                              authDomain =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                              databaseURL =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                              measurementId =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                              messagingSenderId =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                              projectId =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                              storageBucket =
-                                                                _js2n__-prdslib.isType
-                                                                    '"String",
-                                                            } {} true
-                                                            _js2n__-prdslib.always
-                                                        ],
-                                                } {} true _js2n__-prdslib.always
-                                            ],
-                                      dangerous =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record {}
-                                                {} true _js2n__-prdslib.always
-                                            ],
-                                      description =
-                                        _js2n__-prdslib.isType '"String",
-                                      dir =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [ "auto", "ltr", "rtl" ]
-                                            ],
-                                      display =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [
-                                                  "fullscreen",
-                                                  "standalone",
-                                                  "minimal-ui",
-                                                  "browser"
-                                                ]
-                                            ],
-                                      favicon =
-                                        _js2n__-prdslib.isType '"String",
-                                      lang = _js2n__-prdslib.isType '"String",
-                                      name = _js2n__-prdslib.isType '"String",
-                                      orientation =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.enum
-                                                [
-                                                  "any",
-                                                  "natural",
-                                                  "landscape",
-                                                  "landscape-primary",
-                                                  "landscape-secondary",
-                                                  "portrait",
-                                                  "portrait-primary",
-                                                  "portrait-secondary"
-                                                ]
-                                            ],
-                                      preferRelatedApplications =
-                                        _js2n__-prdslib.isType '"Bool",
-                                      scope = _js2n__-prdslib.isType '"String",
-                                      shortName =
-                                        _js2n__-prdslib.isType '"String",
-                                      splash =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.isType 'Record,
-                                              _js2n__-prdslib.records.record
-                                                {
-                                                  backgroundColor =
-                                                    _js2n__-prdslib.allOf
-                                                        [
-                                                          _js2n__-prdslib.isType
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      apiKey =
+                                                        _js2n__-prdslib.isType
                                                             '"String",
-                                                          _js2n__-prdslib.strings.pattern
-                                                            "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                                        ],
-                                                  image =
-                                                    _js2n__-prdslib.isType
+                                                    } {} false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                          googleMapsApiKey =
+                                            _js2n__-prdslib.isType '"String",
+                                          googleMobileAdsAppId =
+                                            _js2n__-prdslib.isType '"String",
+                                          googleMobileAdsAutoInit =
+                                            _js2n__-prdslib.isType '"Bool",
+                                          usesNonExemptEncryption =
+                                            _js2n__-prdslib.isType '"Bool",
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                              entitlements =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {} {} true
+                                        _js2n__-prdslib.always
+                                    ],
+                              googleServicesFile =
+                                _js2n__-prdslib.isType '"String",
+                              icon =
+                                _js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              dark =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              light =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              tinted =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                            } {} false _js2n__-prdslib.never
+                                        ]
+                                    ],
+                              infoPlist =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {} {} true
+                                        _js2n__-prdslib.always
+                                    ],
+                              isTabletOnly = _js2n__-prdslib.isType '"Bool",
+                              jsEngine =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum [ "hermes", "jsc" ]
+                                    ],
+                              newArchEnabled = _js2n__-prdslib.isType '"Bool",
+                              privacyManifests =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          NSPrivacyAccessedAPITypes =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.arrays.arrayOf
+                                                    (_js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.required
+                                                          [
+                                                            "NSPrivacyAccessedAPIType",
+                                                            "NSPrivacyAccessedAPITypeReasons"
+                                                          ],
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            NSPrivacyAccessedAPIType =
+                                                              _js2n__-prdslib.isType
+                                                                  '"String",
+                                                            NSPrivacyAccessedAPITypeReasons =
+                                                              _js2n__-prdslib.allOf
+                                                                  [
+                                                                    _js2n__-prdslib.isType
+                                                                      '"Array",
+                                                                    _js2n__-prdslib.arrays.arrayOf
+                                                                      (_js2n__-prdslib.isType
+                                                                        '"String"),
+                                                                    _js2n__-prdslib.arrays.uniqueItems
+                                                                  ],
+                                                          } {} false
+                                                          _js2n__-prdslib.never
+                                                      ])
+                                                ],
+                                          NSPrivacyCollectedDataTypes =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.arrays.arrayOf
+                                                    (_js2n__-prdslib.allOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Record,
+                                                        _js2n__-prdslib.records.required
+                                                          [
+                                                            "NSPrivacyCollectedDataType",
+                                                            "NSPrivacyCollectedDataTypeLinked",
+                                                            "NSPrivacyCollectedDataTypePurposes",
+                                                            "NSPrivacyCollectedDataTypeTracking"
+                                                          ],
+                                                        _js2n__-prdslib.records.record
+                                                          {
+                                                            NSPrivacyCollectedDataType =
+                                                              _js2n__-prdslib.isType
+                                                                  '"String",
+                                                            NSPrivacyCollectedDataTypeLinked =
+                                                              _js2n__-prdslib.isType
+                                                                  '"Bool",
+                                                            NSPrivacyCollectedDataTypePurposes =
+                                                              _js2n__-prdslib.allOf
+                                                                  [
+                                                                    _js2n__-prdslib.isType
+                                                                      '"Array",
+                                                                    _js2n__-prdslib.arrays.arrayOf
+                                                                      (_js2n__-prdslib.isType
+                                                                        '"String"),
+                                                                    _js2n__-prdslib.arrays.uniqueItems
+                                                                  ],
+                                                            NSPrivacyCollectedDataTypeTracking =
+                                                              _js2n__-prdslib.isType
+                                                                  '"Bool",
+                                                          } {} false
+                                                          _js2n__-prdslib.never
+                                                      ])
+                                                ],
+                                          NSPrivacyTracking =
+                                            _js2n__-prdslib.isType '"Bool",
+                                          NSPrivacyTrackingDomains =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"Array",
+                                                  _js2n__-prdslib.arrays.arrayOf
+                                                    (_js2n__-prdslib.isType
+                                                      '"String"),
+                                                  _js2n__-prdslib.arrays.uniqueItems
+                                                ],
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                              publishBundlePath =
+                                _js2n__-prdslib.isType '"String",
+                              publishManifestPath =
+                                _js2n__-prdslib.isType '"String",
+                              requireFullScreen =
+                                _js2n__-prdslib.isType '"Bool",
+                              runtimeVersion =
+                                _js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^[a-zA-Z\\d][a-zA-Z\\d._+()-]{0,254}$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.pattern
+                                            "^exposdk:((\\d+\\.\\d+\\.\\d+)|(UNVERSIONED))$"
+                                        ],
+                                      _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType 'Record,
+                                          _js2n__-prdslib.records.required
+                                            [ "policy" ],
+                                          _js2n__-prdslib.records.record
+                                            {
+                                              policy =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
                                                         '"String",
-                                                  resizeMode =
-                                                    _js2n__-prdslib.allOf
+                                                      _js2n__-prdslib.enum
                                                         [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.enum
+                                                          "nativeVersion",
+                                                          "sdkVersion",
+                                                          "appVersion",
+                                                          "fingerprint"
+                                                        ]
+                                                    ],
+                                            } {} false _js2n__-prdslib.never
+                                        ]
+                                    ],
+                              splash =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          backgroundColor =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.strings.pattern
+                                                    "^#|(&#x23;)\\d{6}$"
+                                                ],
+                                          dark =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      backgroundColor =
+                                                        _js2n__-prdslib.allOf
                                                             [
-                                                              "cover",
-                                                              "contain"
-                                                            ]
-                                                        ],
-                                                } {} true _js2n__-prdslib.always
-                                            ],
-                                      startUrl =
-                                        _js2n__-prdslib.isType '"String",
-                                      themeColor =
-                                        _js2n__-prdslib.allOf
+                                                              _js2n__-prdslib.isType
+                                                                '"String",
+                                                              _js2n__-prdslib.strings.pattern
+                                                                "^#|(&#x23;)\\d{6}$"
+                                                            ],
+                                                      image =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      resizeMode =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                '"String",
+                                                              _js2n__-prdslib.enum
+                                                                [
+                                                                  "cover",
+                                                                  "contain"
+                                                                ]
+                                                            ],
+                                                      tabletImage =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                          image =
+                                            _js2n__-prdslib.isType '"String",
+                                          resizeMode =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [ "cover", "contain" ]
+                                                ],
+                                          tabletImage =
+                                            _js2n__-prdslib.isType '"String",
+                                        } {} true _js2n__-prdslib.always
+                                    ],
+                              supportsTablet = _js2n__-prdslib.isType '"Bool",
+                              userInterfaceStyle =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "light", "dark", "automatic" ]
+                                    ],
+                              usesAppleSignIn = _js2n__-prdslib.isType '"Bool",
+                              usesBroadcastPushNotifications =
+                                _js2n__-prdslib.isType '"Bool",
+                              usesIcloudStorage =
+                                _js2n__-prdslib.isType '"Bool",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  jsEngine =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "hermes", "jsc" ]
+                        ],
+                  locales =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.isType 'Record
+                              ])
+                        ],
+                  name = _js2n__-prdslib.isType '"String",
+                  newArchEnabled = _js2n__-prdslib.isType '"Bool",
+                  notification =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              androidCollapsedTitle =
+                                _js2n__-prdslib.isType '"String",
+                              androidMode =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "default", "collapse" ]
+                                    ],
+                              color =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^#|(&#x23;)\\d{6}$"
+                                    ],
+                              icon = _js2n__-prdslib.isType '"String",
+                              iosDisplayInForeground =
+                                _js2n__-prdslib.isType '"Bool",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  orientation =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "default", "portrait", "landscape" ]
+                        ],
+                  originalFullName = _js2n__-prdslib.isType '"String",
+                  owner =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.minLength 1
+                        ],
+                  packagerOpts =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-prdslib.always
+                        ],
+                  platforms =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.enum [ "android", "ios", "web" ]
+                              ]),
+                          _js2n__-prdslib.arrays.uniqueItems
+                        ],
+                  plugins =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.anyOf
+                              [
+                                _js2n__-prdslib.anyOf
+                                  [ _js2n__-prdslib.isType '"String" ],
+                                _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.isType 'Record
+                                        ]),
+                                    _js2n__-prdslib.arrays.minItems 1
+                                  ]
+                              ])
+                        ],
+                  primaryColor =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern "^#|(&#x23;)\\d{6}$"
+                        ],
+                  runtimeVersion =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^[a-zA-Z\\d][a-zA-Z\\d._+()-]{0,254}$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^exposdk:((\\d+\\.\\d+\\.\\d+)|(UNVERSIONED))$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.required [ "policy" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  policy =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.enum
                                             [
-                                              _js2n__-prdslib.isType '"String",
-                                              _js2n__-prdslib.strings.pattern
-                                                "^(?:#|(&#x23;))[0-9a-fA-F]{6}$"
-                                            ],
-                                    } {} true _js2n__-prdslib.always
-                                ],
-                        } {} false _js2n__-prdslib.never
-                    ],
-            } {} false _js2n__-prdslib.never
-        ])
+                                              "nativeVersion",
+                                              "sdkVersion",
+                                              "appVersion",
+                                              "fingerprint"
+                                            ]
+                                        ],
+                                } {} false _js2n__-prdslib.never
+                            ]
+                        ],
+                  scheme =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^[a-z][a-z0-9+.-]*$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.strings.pattern
+                                      "^[a-z][a-z0-9+.-]*$"
+                                  ])
+                            ]
+                        ],
+                  sdkVersion =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^(\\d+\\.\\d+\\.\\d+)|(UNVERSIONED)$"
+                        ],
+                  slug =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern "^[a-zA-Z0-9_\\-]+$"
+                        ],
+                  splash =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              backgroundColor =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^#|(&#x23;)\\d{6}$"
+                                    ],
+                              image = _js2n__-prdslib.isType '"String",
+                              resizeMode =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "cover", "contain" ]
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ],
+                  updates =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              assetPatternsToBeBundled =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        (_js2n__-prdslib.isType '"String")
+                                    ],
+                              checkAutomatically =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "ON_ERROR_RECOVERY",
+                                          "ON_LOAD",
+                                          "WIFI_ONLY",
+                                          "NEVER"
+                                        ]
+                                    ],
+                              codeSigningCertificate =
+                                _js2n__-prdslib.isType '"String",
+                              codeSigningMetadata =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          alg =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [ "rsa-v1_5-sha256" ]
+                                                ],
+                                          keyid =
+                                            _js2n__-prdslib.isType '"String",
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                              defaultToCacheTimeout =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.numbers.maximum 300000,
+                                      _js2n__-prdslib.numbers.minimum 0
+                                    ],
+                              enabled = _js2n__-prdslib.isType '"Bool",
+                              requestHeaders =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {} {} true
+                                        _js2n__-prdslib.always
+                                    ],
+                              url = _js2n__-prdslib.isType '"String",
+                              useEmbeddedUpdate =
+                                _js2n__-prdslib.isType '"Bool",
+                            } {} false _js2n__-prdslib.never
+                        ],
+                  userInterfaceStyle =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "light", "dark", "automatic" ]
+                        ],
+                  version = _js2n__-prdslib.isType '"String",
+                  web =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              backgroundColor =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^#|(&#x23;)\\d{6}$"
+                                    ],
+                              barStyle =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "default",
+                                          "black",
+                                          "black-translucent"
+                                        ]
+                                    ],
+                              bundler =
+                                _js2n__-prdslib.enum [ "webpack", "metro" ],
+                              config =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          firebase =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      apiKey =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      appId =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      authDomain =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      databaseURL =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      measurementId =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      messagingSenderId =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      projectId =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                      storageBucket =
+                                                        _js2n__-prdslib.isType
+                                                            '"String",
+                                                    } {} false
+                                                    _js2n__-prdslib.never
+                                                ],
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                              dangerous =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {} {} true
+                                        _js2n__-prdslib.always
+                                    ],
+                              description = _js2n__-prdslib.isType '"String",
+                              dir =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "auto", "ltr", "rtl" ]
+                                    ],
+                              display =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "fullscreen",
+                                          "standalone",
+                                          "minimal-ui",
+                                          "browser"
+                                        ]
+                                    ],
+                              favicon = _js2n__-prdslib.isType '"String",
+                              lang = _js2n__-prdslib.isType '"String",
+                              name = _js2n__-prdslib.isType '"String",
+                              orientation =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "any",
+                                          "natural",
+                                          "landscape",
+                                          "landscape-primary",
+                                          "landscape-secondary",
+                                          "portrait",
+                                          "portrait-primary",
+                                          "portrait-secondary"
+                                        ]
+                                    ],
+                              output =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "single", "static", "server" ]
+                                    ],
+                              preferRelatedApplications =
+                                _js2n__-prdslib.isType '"Bool",
+                              scope = _js2n__-prdslib.isType '"String",
+                              shortName = _js2n__-prdslib.isType '"String",
+                              splash =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          backgroundColor =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.strings.pattern
+                                                    "^#|(&#x23;)\\d{6}$"
+                                                ],
+                                          image =
+                                            _js2n__-prdslib.isType '"String",
+                                          resizeMode =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [ "cover", "contain" ]
+                                                ],
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                              startUrl = _js2n__-prdslib.isType '"String",
+                              themeColor =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^#|(&#x23;)\\d{6}$"
+                                    ],
+                            } {} true _js2n__-prdslib.always
+                        ],
+                } {} false _js2n__-prdslib.never
+            ])
+        | optional,
+    }

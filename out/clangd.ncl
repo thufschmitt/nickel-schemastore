@@ -1358,6 +1358,14 @@ let rec _js2n__-refsenv
               https://clangd.llvm.org/config.html#allscopes
             "%
             | optional,
+          ArgumentLists
+            | std.enum.TagOrString
+            | [| 'FullPlaceholders, 'Delimiters, 'OpenDelimiter, 'None |]
+            | doc m%"
+              Determines what is inserted in argument list position when completing a call to a function
+              https://clangd.llvm.org/config#argumentlists
+            "%
+            | optional,
         }
         | doc m%"
           Completion options
@@ -1557,8 +1565,7 @@ let rec _js2n__-refsenv
             "%
             | optional,
           StandardLibrary
-            | _js2n__-prdslib.contract_from_predicate
-              (_js2n__-prdslib.enum [ "Yes", "No" ])
+            | Bool
             | doc m%"
               Whether to index a standard library
               https://clangd.llvm.org/config.html#standardlibrary
@@ -1581,6 +1588,13 @@ let rec _js2n__-refsenv
             | doc m%"
               Whether to enable inlay-hints for deduced types
               https://clangd.llvm.org/config.html#deducedtypes
+            "%
+            | optional,
+          DefaultArguments
+            | Bool
+            | doc m%"
+              A boolean that enables/disables inlay hints for default arguments
+              https://clangd.llvm.org/config#defaultarguments
             "%
             | optional,
           Designators
@@ -1660,11 +1674,25 @@ let rec _js2n__-refsenv
         | optional,
       Style
         | {
+          AngledHeaders
+            | Array (String)
+            | doc m%"
+              A list of regexes. Headers whose path matches one of these regexes are inserted using <> syntax.
+              https://clangd.llvm.org/config#angledheaders
+            "%
+            | optional,
           FullyQualifiedNamespaces
             | Array (String)
             | doc m%"
               List of fully qualified namespaces
               https://clangd.llvm.org/config.html#fullyqualifiednamespaces
+            "%
+            | optional,
+          QuotedHeaders
+            | Array (String)
+            | doc m%"
+              A list of regexes. Headers whose path matches one of these regexes are inserted using "" syntax
+              https://clangd.llvm.org/config#quotedheaders
             "%
             | optional,
           ..

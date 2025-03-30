@@ -905,6 +905,33 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record {} {} true
                 (_js2n__-prdslib.isType '"String")
             ],
+      "_js2n__-:definitions/devDependency!predicate"
+        | doc "Specifies dependencies that are required for the development and testing of the project. These dependencies are not needed in the production environment."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.isType '"String")
+            ],
+      "_js2n__-:definitions/devEngineDependency!predicate"
+        | doc "Specifies requirements for development environment components such as operating systems, runtimes, or package managers. Used to ensure consistent development environments across the team."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  name = _js2n__-prdslib.isType '"String",
+                  onFail =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "ignore", "warn", "error", "download" ]
+                        ],
+                  version = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
       "_js2n__-:definitions/fundingUrl!predicate"
         | doc "URL to a website with details about how to fund the package."
         = _js2n__-prdslib.isType '"String",
@@ -951,6 +978,14 @@ let rec _js2n__-refsenv
                   "UNLICENSED"
                 ]
             ],
+      "_js2n__-:definitions/optionalDependency!predicate"
+        | doc "Specifies dependencies that are optional for your project. These dependencies are attempted to be installed during the npm install process, but if they fail to install, the installation process will not fail."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.isType '"String")
+            ],
       "_js2n__-:definitions/packageExportsEntry!predicate" =
         _js2n__-prdslib.oneOf
             [
@@ -976,7 +1011,9 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/packageExportsEntryOrFallback!predicate",
                 }
                 {
-                  "^(?![\\.0-9])." =
+                  "^[^.0-9]+$" =
+                    _js2n__-refsenv."_js2n__-:definitions/packageExportsEntryOrFallback!predicate",
+                  "^types@.+$" =
                     _js2n__-refsenv."_js2n__-:definitions/packageExportsEntryOrFallback!predicate",
                 } false _js2n__-prdslib.never
             ],
@@ -1004,6 +1041,77 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
                 _js2n__-refsenv."_js2n__-:definitions/packageExportsEntry!predicate"
+            ],
+      "_js2n__-:definitions/packageImportsEntry!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/packageImportsEntryPath!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/packageImportsEntryObject!predicate"
+            ],
+      "_js2n__-:definitions/packageImportsEntryObject!predicate"
+        | doc "Used to specify conditional exports, note that Conditional exports are unsupported in older environments, so it's recommended to use the fallback array option if support for those environments is a concern."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  "default" =
+                    _js2n__-refsenv."_js2n__-:definitions/packageImportsEntryOrFallback!predicate",
+                  "import" =
+                    _js2n__-refsenv."_js2n__-:definitions/packageImportsEntryOrFallback!predicate",
+                  node =
+                    _js2n__-refsenv."_js2n__-:definitions/packageImportsEntryOrFallback!predicate",
+                  require =
+                    _js2n__-refsenv."_js2n__-:definitions/packageImportsEntryOrFallback!predicate",
+                  types =
+                    _js2n__-refsenv."_js2n__-:definitions/packageImportsEntryOrFallback!predicate",
+                }
+                {
+                  "^[^.0-9]+$" =
+                    _js2n__-refsenv."_js2n__-:definitions/packageImportsEntryOrFallback!predicate",
+                  "^types@.+$" =
+                    _js2n__-refsenv."_js2n__-:definitions/packageImportsEntryOrFallback!predicate",
+                } false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/packageImportsEntryOrFallback!predicate" =
+        _js2n__-prdslib.oneOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/packageImportsEntry!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/packageImportsFallback!predicate"
+            ],
+      "_js2n__-:definitions/packageImportsEntryPath!predicate"
+        | doc "The module path that is resolved when this specifier is imported. Set to `null` to disallow importing this module."
+        = _js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ],
+      "_js2n__-:definitions/packageImportsFallback!predicate"
+        | doc "Used to allow fallbacks in case this environment doesn't support the preceding entries."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf
+                _js2n__-refsenv."_js2n__-:definitions/packageImportsEntry!predicate"
+            ],
+      "_js2n__-:definitions/peerDependency!predicate"
+        | doc "Specifies dependencies that are required by the package but are expected to be provided by the consumer of the package."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.isType '"String")
+            ],
+      "_js2n__-:definitions/peerDependencyMeta!predicate"
+        | doc "When a user installs your package, warnings are emitted if packages specified in \"peerDependencies\" are not already installed. The \"peerDependenciesMeta\" field serves to provide more information on how your peer dependencies are utilized. Most commonly, it allows peer dependencies to be marked as optional. Metadata for this field is specified with a simple hash of the package name to a metadata object."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record
+                      { "optional" = _js2n__-prdslib.isType '"Bool", } {} true
+                      _js2n__-prdslib.always
+                  ])
             ],
       "_js2n__-:definitions/person!predicate"
         | doc "A person who has been involved in creating or maintaining this package."
@@ -1173,7 +1281,70 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/dependency!predicate",
               description = _js2n__-prdslib.isType '"String",
               devDependencies =
-                _js2n__-refsenv."_js2n__-:definitions/dependency!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/devDependency!predicate",
+              devEngines =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          cpu =
+                            _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-refsenv."_js2n__-:definitions/devEngineDependency!predicate",
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        _js2n__-refsenv."_js2n__-:definitions/devEngineDependency!predicate"
+                                    ]
+                                ],
+                          libc =
+                            _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-refsenv."_js2n__-:definitions/devEngineDependency!predicate",
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        _js2n__-refsenv."_js2n__-:definitions/devEngineDependency!predicate"
+                                    ]
+                                ],
+                          os =
+                            _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-refsenv."_js2n__-:definitions/devEngineDependency!predicate",
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        _js2n__-refsenv."_js2n__-:definitions/devEngineDependency!predicate"
+                                    ]
+                                ],
+                          packageManager =
+                            _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-refsenv."_js2n__-:definitions/devEngineDependency!predicate",
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        _js2n__-refsenv."_js2n__-:definitions/devEngineDependency!predicate"
+                                    ]
+                                ],
+                          runtime =
+                            _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-refsenv."_js2n__-:definitions/devEngineDependency!predicate",
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        _js2n__-refsenv."_js2n__-:definitions/devEngineDependency!predicate"
+                                    ]
+                                ],
+                        } {} true _js2n__-prdslib.always
+                    ],
               directories =
                 _js2n__-prdslib.allOf
                     [
@@ -1268,6 +1439,16 @@ let rec _js2n__-refsenv
                         ]
                     ],
               homepage = _js2n__-prdslib.isType '"String",
+              imports =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {}
+                        {
+                          "^#.+$" =
+                            _js2n__-refsenv."_js2n__-:definitions/packageImportsEntryOrFallback!predicate",
+                        } false _js2n__-prdslib.never
+                    ],
               jscpd = _js2n__-prdslib.always,
               jspm = _js2n__-prdslib.always,
               keywords =
@@ -1325,7 +1506,7 @@ let rec _js2n__-refsenv
                         "^(?:(?:@(?:[a-z0-9-*~][a-z0-9-*._~]*)?/[a-z0-9-._~])|[a-z0-9-~])[a-z0-9-._~]*$"
                     ],
               optionalDependencies =
-                _js2n__-refsenv."_js2n__-:definitions/dependency!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/optionalDependency!predicate",
               os =
                 _js2n__-prdslib.allOf
                     [
@@ -1342,19 +1523,202 @@ let rec _js2n__-refsenv
                         "(npm|pnpm|yarn|bun)@\\d+\\.\\d+\\.\\d+(-.+)?"
                     ],
               peerDependencies =
-                _js2n__-refsenv."_js2n__-:definitions/dependency!predicate",
+                _js2n__-refsenv."_js2n__-:definitions/peerDependency!predicate",
               peerDependenciesMeta =
+                _js2n__-refsenv."_js2n__-:definitions/peerDependencyMeta!predicate",
+              pnpm =
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
-                      _js2n__-prdslib.records.record {} {} true
-                        (_js2n__-prdslib.allOf
-                          [
+                      _js2n__-prdslib.records.record
+                        {
+                          allowNonAppliedPatches =
+                            _js2n__-prdslib.isType '"Bool",
+                          allowedDeprecatedVersions =
                             _js2n__-prdslib.isType 'Record,
-                            _js2n__-prdslib.records.record
-                              { "optional" = _js2n__-prdslib.isType '"Bool", }
-                              {} true _js2n__-prdslib.always
-                          ])
+                          auditConfig =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      ignoreCves =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^CVE-\\d{4}-\\d{4,7}$"
+                                                  ])
+                                            ],
+                                      ignoreGhsas =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^GHSA(-[23456789cfghjmpqrvwx]{4}){3}$"
+                                                  ])
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          configDependencies = _js2n__-prdslib.isType 'Record,
+                          executionEnv =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      nodeVersion =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          ignoredBuiltDependencies =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          ignoredOptionalDependencies =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          neverBuiltDependencies =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          onlyBuiltDependencies =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          onlyBuiltDependenciesFile =
+                            _js2n__-prdslib.isType '"String",
+                          overrides = _js2n__-prdslib.isType 'Record,
+                          packageExtensions =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {}
+                                    {
+                                      "^.+$" =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Record,
+                                              _js2n__-prdslib.records.record
+                                                {
+                                                  dependencies =
+                                                    _js2n__-refsenv."_js2n__-:definitions/dependency!predicate",
+                                                  optionalDependencies =
+                                                    _js2n__-refsenv."_js2n__-:definitions/optionalDependency!predicate",
+                                                  peerDependencies =
+                                                    _js2n__-refsenv."_js2n__-:definitions/peerDependency!predicate",
+                                                  peerDependenciesMeta =
+                                                    _js2n__-refsenv."_js2n__-:definitions/peerDependencyMeta!predicate",
+                                                } {} false _js2n__-prdslib.never
+                                            ],
+                                    } false _js2n__-prdslib.never
+                                ],
+                          patchedDependencies = _js2n__-prdslib.isType 'Record,
+                          peerDependencyRules =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      allowAny =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      allowedVersions =
+                                        _js2n__-prdslib.isType 'Record,
+                                      ignoreMissing =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          requiredScripts =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          supportedArchitectures =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      cpu =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      libc =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                      os =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                          updateConfig =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      ignoreDependencies =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                        } {} false _js2n__-prdslib.never
                     ],
               preferGlobal = _js2n__-prdslib.isType '"Bool",
               prettier = _js2n__-prdslib.always,
@@ -1377,6 +1741,7 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.enum
                                     [ "public", "restricted" ]
                                 ],
+                          provenance = _js2n__-prdslib.isType '"Bool",
                           registry = _js2n__-prdslib.isType '"String",
                           tag = _js2n__-prdslib.isType '"String",
                         } {} true _js2n__-prdslib.always

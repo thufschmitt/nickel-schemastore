@@ -900,6 +900,15 @@ let rec _js2n__-refsenv
     in
   {
       "$schema" | String | optional,
+      deprecated
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ])
+        | doc "The reason this module is deprecated. If set, the latest version can be yanked."
+        | optional,
       homepage | String,
       maintainers
         | _js2n__-prdslib.contract_from_predicate
@@ -927,7 +936,14 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.minItems 1
             ])
         | doc "Individuals who can be notified when the module requires human attention",
-      repository | Array (String) | optional,
+      repository
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String"),
+              _js2n__-prdslib.arrays.minItems 1
+            ]),
       versions | Array (String),
       yanked_versions | {  .. } | optional,
     }

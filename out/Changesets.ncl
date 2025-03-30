@@ -972,6 +972,10 @@ let rec _js2n__-refsenv
         | Array (Array (String))
         | doc "Packages that should be linked together so when they are being released, they will be released at the same version."
         | optional,
+      prettier
+        | Bool
+        | doc "When false, Changesets won't format with Prettier"
+        | optional,
       privatePackages
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf

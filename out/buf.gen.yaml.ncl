@@ -1218,6 +1218,7 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "out" ],
                                   _js2n__-prdslib.records.record
                                     {
+                                      exclude_types = _js2n__-prdslib.always,
                                       name = _js2n__-prdslib.isType '"String",
                                       opt =
                                         _js2n__-prdslib.oneOf
@@ -1274,6 +1275,7 @@ let rec _js2n__-refsenv
                                               _js2n__-prdslib.enum
                                                 [ "directory", "all" ]
                                             ],
+                                      types = _js2n__-prdslib.always,
                                     } {} false _js2n__-prdslib.never
                                 ])
                           ],
@@ -1287,64 +1289,234 @@ let rec _js2n__-refsenv
                       [
                         _js2n__-prdslib.isType '"Array",
                         _js2n__-prdslib.arrays.arrayOf
-                          (_js2n__-prdslib.allOf
+                          (_js2n__-prdslib.anyOf
                             [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.minProperties 1,
-                              _js2n__-prdslib.records.record
-                                {
-                                  binary_image =
-                                    _js2n__-prdslib.isType '"String",
-                                  branch = _js2n__-prdslib.isType '"String",
-                                  compression =
-                                    _js2n__-prdslib.isType '"String",
-                                  depth =
-                                    _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType 'Integer,
-                                          _js2n__-prdslib.numbers.minimum 1
-                                        ],
-                                  directory = _js2n__-prdslib.isType '"String",
-                                  exclude_paths =
-                                    _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"Array",
-                                          _js2n__-prdslib.arrays.arrayOf
-                                            (_js2n__-prdslib.isType '"String"),
-                                          _js2n__-prdslib.arrays.minItems 1
-                                        ],
-                                  format = _js2n__-prdslib.isType '"String",
-                                  git_repo = _js2n__-prdslib.isType '"String",
-                                  include_package_files =
-                                    _js2n__-prdslib.isType '"Bool",
-                                  json_image = _js2n__-prdslib.isType '"String",
-                                  module = _js2n__-prdslib.isType '"String",
-                                  paths =
-                                    _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"Array",
-                                          _js2n__-prdslib.arrays.arrayOf
-                                            (_js2n__-prdslib.isType '"String"),
-                                          _js2n__-prdslib.arrays.minItems 1
-                                        ],
-                                  proto_file = _js2n__-prdslib.isType '"String",
-                                  strip_components =
-                                    _js2n__-prdslib.isType 'Integer,
-                                  subdir = _js2n__-prdslib.isType '"String",
-                                  tarball = _js2n__-prdslib.isType '"String",
-                                  txt_image = _js2n__-prdslib.isType '"String",
-                                  types =
-                                    _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"Array",
-                                          _js2n__-prdslib.arrays.arrayOf
-                                            (_js2n__-prdslib.isType '"String"),
-                                          _js2n__-prdslib.arrays.minItems 1
-                                        ],
-                                  yaml_image = _js2n__-prdslib.isType '"String",
-                                  zip_archive =
-                                    _js2n__-prdslib.isType '"String",
-                                } {} false _js2n__-prdslib.never
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      directory =
+                                        _js2n__-prdslib.isType '"String",
+                                      exclude_paths = _js2n__-prdslib.always,
+                                      exclude_types = _js2n__-prdslib.always,
+                                      paths = _js2n__-prdslib.always,
+                                      types = _js2n__-prdslib.always,
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      exclude_paths = _js2n__-prdslib.always,
+                                      exclude_types = _js2n__-prdslib.always,
+                                      module = _js2n__-prdslib.isType '"String",
+                                      paths = _js2n__-prdslib.always,
+                                      types = _js2n__-prdslib.always,
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      branch = _js2n__-prdslib.isType '"String",
+                                      depth =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType 'Integer,
+                                              _js2n__-prdslib.numbers.minimum 1
+                                            ],
+                                      exclude_paths = _js2n__-prdslib.always,
+                                      exclude_types = _js2n__-prdslib.always,
+                                      git_repo =
+                                        _js2n__-prdslib.isType '"String",
+                                      paths = _js2n__-prdslib.always,
+                                      recurse_subdirectories =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      ref = _js2n__-prdslib.isType '"String",
+                                      subdir = _js2n__-prdslib.isType '"String",
+                                      tag = _js2n__-prdslib.isType '"String",
+                                      types = _js2n__-prdslib.always,
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      compression =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "gzip", "zstd" ]
+                                            ],
+                                      exclude_paths = _js2n__-prdslib.always,
+                                      exclude_types = _js2n__-prdslib.always,
+                                      paths = _js2n__-prdslib.always,
+                                      strip_components =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      subdir = _js2n__-prdslib.isType '"String",
+                                      tarball =
+                                        _js2n__-prdslib.isType '"String",
+                                      types = _js2n__-prdslib.always,
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      exclude_paths = _js2n__-prdslib.always,
+                                      exclude_types = _js2n__-prdslib.always,
+                                      paths = _js2n__-prdslib.always,
+                                      strip_components =
+                                        _js2n__-prdslib.isType 'Integer,
+                                      subdir = _js2n__-prdslib.isType '"String",
+                                      types = _js2n__-prdslib.always,
+                                      zip_archive =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      exclude_paths =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String"),
+                                              _js2n__-prdslib.arrays.minItems 1
+                                            ],
+                                      exclude_types =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String"),
+                                              _js2n__-prdslib.arrays.minItems 1
+                                            ],
+                                      include_package_files =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      paths =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String"),
+                                              _js2n__-prdslib.arrays.minItems 1
+                                            ],
+                                      proto_file =
+                                        _js2n__-prdslib.isType '"String",
+                                      types =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String"),
+                                              _js2n__-prdslib.arrays.minItems 1
+                                            ],
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      binary_image =
+                                        _js2n__-prdslib.isType '"String",
+                                      compression =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "gzip", "zstd" ]
+                                            ],
+                                      exclude_paths = _js2n__-prdslib.always,
+                                      exclude_types = _js2n__-prdslib.always,
+                                      paths = _js2n__-prdslib.always,
+                                      types = _js2n__-prdslib.always,
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      compression =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "gzip", "zstd" ]
+                                            ],
+                                      exclude_paths = _js2n__-prdslib.always,
+                                      exclude_types = _js2n__-prdslib.always,
+                                      json_image =
+                                        _js2n__-prdslib.isType '"String",
+                                      paths = _js2n__-prdslib.always,
+                                      types = _js2n__-prdslib.always,
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      compression =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "gzip", "zstd" ]
+                                            ],
+                                      exclude_paths = _js2n__-prdslib.always,
+                                      exclude_types = _js2n__-prdslib.always,
+                                      paths = _js2n__-prdslib.always,
+                                      types = _js2n__-prdslib.always,
+                                      yaml_image =
+                                        _js2n__-prdslib.isType '"String",
+                                    } {} false _js2n__-prdslib.never
+                                ],
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.minProperties 1,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      compression =
+                                        _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-prdslib.enum
+                                                [ "gzip", "zstd" ]
+                                            ],
+                                      exclude_paths = _js2n__-prdslib.always,
+                                      exclude_types = _js2n__-prdslib.always,
+                                      paths = _js2n__-prdslib.always,
+                                      txt_image =
+                                        _js2n__-prdslib.isType '"String",
+                                      types = _js2n__-prdslib.always,
+                                    } {} false _js2n__-prdslib.never
+                                ]
                             ])
                       ],
                 managed =
@@ -1432,6 +1604,7 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.records.required [ "out" ],
                               _js2n__-prdslib.records.record
                                 {
+                                  exclude_types = _js2n__-prdslib.always,
                                   include_imports =
                                     _js2n__-prdslib.isType '"Bool",
                                   include_wkt = _js2n__-prdslib.isType '"Bool",
@@ -1490,6 +1663,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.enum
                                             [ "directory", "all" ]
                                         ],
+                                  types = _js2n__-prdslib.always,
                                 } {} false _js2n__-prdslib.never
                             ])
                       ],

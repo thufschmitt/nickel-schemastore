@@ -993,14 +993,8 @@ let rec _js2n__-refsenv
                     [
                       _js2n__-refsenv."_js2n__-:definitions/base!predicate",
                       _js2n__-prdslib.records.record
-                        {
-                          value =
-                            _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType 'Integer,
-                                  _js2n__-prdslib.enum [ 2, 4 ]
-                                ],
-                        } {} true _js2n__-prdslib.always
+                        { value = _js2n__-prdslib.isType 'Integer, } {} true
+                        _js2n__-prdslib.always
                     ],
               line_endings =
                 _js2n__-prdslib.allOf
