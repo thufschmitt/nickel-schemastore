@@ -927,6 +927,7 @@ let rec _js2n__-refsenv
               DATACRUNCH (BackendType): DataCrunch
               KUBERNETES (BackendType): Kubernetes
               LAMBDA (BackendType): Lambda Cloud
+              NEBIUS (BackendType): Nebius AI Cloud
               OCI (BackendType): Oracle Cloud Infrastructure
               RUNPOD (BackendType): Runpod Cloud
               TENSORDOCK (BackendType): TensorDock Marketplace
@@ -948,6 +949,7 @@ let rec _js2n__-refsenv
                   "lambda",
                   "local",
                   "remote",
+                  "nebius",
                   "oci",
                   "runpod",
                   "tensordock",

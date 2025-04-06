@@ -1278,6 +1278,7 @@ let rec _js2n__-refsenv
                   runner-namespace = _js2n__-prdslib.isType '"String",
                   service-account = _js2n__-prdslib.isType '"String",
                   storage-size = _js2n__-prdslib.isType 'Integer,
+                  use-storage = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/GrainSpecObject!predicate" =
@@ -1854,6 +1855,7 @@ let rec _js2n__-refsenv
                               "Environment Extended",
                               "Collaborator Added",
                               "Environment Idle",
+                              "Parameters Modified",
                               "drift detected",
                               "updates detected",
                               "approval request approved",
@@ -1866,7 +1868,8 @@ let rec _js2n__-refsenv
                               "environment force ended",
                               "environment extended",
                               "collaborator added",
-                              "environment idle"
+                              "environment idle",
+                              "parameters modified"
                             ]
                         ]),
                     _js2n__-prdslib.arrays.uniqueItems,

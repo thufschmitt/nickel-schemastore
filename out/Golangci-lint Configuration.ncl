@@ -1270,7 +1270,6 @@ let rec _js2n__-refsenv
                     "stylecheck",
                     "tagalign",
                     "tagliatelle",
-                    "tenv",
                     "testableexamples",
                     "testifylint",
                     "testpackage",
@@ -1384,7 +1383,6 @@ let rec _js2n__-refsenv
                   "stylecheck",
                   "tagalign",
                   "tagliatelle",
-                  "tenv",
                   "testableexamples",
                   "testifylint",
                   "testpackage",
@@ -1472,6 +1470,7 @@ let rec _js2n__-refsenv
                 "redefines-builtin-id",
                 "redundant-build-tag",
                 "redundant-import-alias",
+                "redundant-test-main-exit",
                 "string-format",
                 "string-of-int",
                 "struct-tag",
@@ -3256,13 +3255,6 @@ let rec _js2n__-refsenv
               }
               | optional,
           },
-      "_js2n__-:definitions/settings/definitions/tenvSettings!contract" =
-        {
-            all
-              | Bool
-              | doc "The option `all` will run against whole test files (`_test.go`) regardless of method/function signatures."
-              | optional,
-          },
       "_js2n__-:definitions/settings/definitions/testifylintSettings!contract" =
         {
             bool-compare
@@ -4449,9 +4441,6 @@ let rec _js2n__-refsenv
                 | optional,
               tagliatelle
                 | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/tagliatelleSettings!contract"
-                | optional,
-              tenv
-                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/tenvSettings!contract"
                 | optional,
               testifylint
                 | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/testifylintSettings!contract"

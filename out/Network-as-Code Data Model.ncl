@@ -1593,6 +1593,17 @@ let rec _js2n__-refsenv
                             - Allowed values: inherit, cl91-rs-fec, cl74-fc-fec, auto-fec, ieee-rs-fec, cons16-rs-fec, disable-fec
                           "%
                           | optional,
+                        link_debounce_ms
+                          | std.number.Integer
+                          | doc m%"
+                            Link Debounce MS (Integer)
+                            - Default value: 100
+                          "%
+                          | optional,
+                        link_delay_ms
+                          | std.number.Integer
+                          | doc "Link Delay MS (Integer)"
+                          | optional,
                         name
                           | _js2n__-prdslib.contract_from_predicate
                             (_js2n__-prdslib.allOf
@@ -1636,6 +1647,8 @@ let rec _js2n__-refsenv
                       Elements:
                       - name (required)
                       - speed
+                      - link_delay_ms
+                      - link_debounce_ms
                       - auto
                       - fec_mode
                       - physical_media_type
@@ -32780,8 +32793,12 @@ let rec _js2n__-refsenv
                                     ]
                                 ])
                           ])
-                      | doc "Fabric Roles (List - String)",
-                    fabric_site | String | doc "Fabric Site (String)",
+                      | doc "Fabric Roles (List - String)"
+                      | optional,
+                    fabric_site
+                      | String
+                      | doc "Fabric Site (String)"
+                      | optional,
                     hostname | String | doc "Hostname (String)" | optional,
                     managed_ap_locations
                       | Array (String)
@@ -32911,8 +32928,8 @@ let rec _js2n__-refsenv
                   - state (required)
                   - device_role (required)
                   - site (required)
-                  - fabric_site (required)
-                  - fabric_roles (required)
+                  - fabric_site
+                  - fabric_roles
                   - onboarding_template
                   - dayn_templates
                   - managed_ap_locations
@@ -33328,6 +33345,7 @@ let rec _js2n__-refsenv
                               ])
                           | doc m%"
                             Port (Integer)
+                            - Default value: 443
                             - Minimum value: 1
                             - Maximum value: 65535
                           "%
@@ -33359,6 +33377,7 @@ let rec _js2n__-refsenv
                               ])
                           | doc m%"
                             Port (Integer)
+                            - Default value: 443
                             - Minimum value: 1
                             - Maximum value: 65535
                           "%
@@ -33424,6 +33443,7 @@ let rec _js2n__-refsenv
                           | [| 'MD5, 'SHA |]
                           | doc m%"
                             Auth Type (String)
+                            - Default value: SHA
                             - Allowed values: SHA, MD5
                           "%
                           | optional,
@@ -33436,6 +33456,7 @@ let rec _js2n__-refsenv
                           | [| 'AES128, 'AES192, 'AES256 |]
                           | doc m%"
                             Privacy Type (String)
+                            - Default value: AES128
                             - Allowed values: AES256, AES192, AES128
                           "%
                           | optional,
@@ -41471,8 +41492,7 @@ let rec _js2n__-refsenv
                                   | doc m%"
                                     Section (String)
                                     - Allowed values: after_auto, before_auto, AFTER_AUTO, BEFORE_AUTO
-                                  "%
-                                  | optional,
+                                  "%,
                                 source_interface
                                   | String
                                   | doc "Source Interface (String)"
@@ -41513,7 +41533,7 @@ let rec _js2n__-refsenv
                               
                               Elements:
                               - nat_type (required)
-                              - section
+                              - section (required)
                               - description
                               - destination_interface
                               - enabled
@@ -45148,337 +45168,361 @@ let rec _js2n__-refsenv
                           | Bool
                           | doc "Calendar Valid (Boolean)"
                           | optional,
-                        summer_time_date
-                          | Bool
-                          | doc "Summer Time Date (Boolean)"
-                          | optional,
-                        summer_time_date_end_day
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
+                        summer_time
+                          | {
+                            date | Bool | doc "Date (Boolean)" | optional,
+                            date_end_day
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Integer,
+                                        _js2n__-prdslib.numbers.maximum 31,
+                                        _js2n__-prdslib.numbers.minimum 1
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Date End Day (Integer, String)"
+                              | optional,
+                            date_end_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Date End Month (String, String)"
+                              | optional,
+                            date_end_time
+                              | String
+                              | doc "Date End Time (String)"
+                              | optional,
+                            date_end_year
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
                                     _js2n__-prdslib.isType 'Integer,
-                                    _js2n__-prdslib.numbers.maximum 31,
-                                    _js2n__-prdslib.numbers.minimum 1
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date End Day (Integer, String)"
-                          | optional,
-                        summer_time_date_end_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date End Month (String, String)"
-                          | optional,
-                        summer_time_date_end_time
-                          | String
-                          | doc "Summer Time Date End Time (String)"
-                          | optional,
-                        summer_time_date_end_year
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date End Year (Integer, String)"
-                          | optional,
-                        summer_time_date_offset
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Offset (Integer, String)"
-                          | optional,
-                        summer_time_date_start_day
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date End Year (Integer, String)"
+                              | optional,
+                            date_offset
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
                                     _js2n__-prdslib.isType 'Integer,
-                                    _js2n__-prdslib.numbers.maximum 31,
-                                    _js2n__-prdslib.numbers.minimum 1
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Start Day (Integer, String)"
-                          | optional,
-                        summer_time_date_start_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date Offset (Integer, String)"
+                              | optional,
+                            date_start_day
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Start Month (String, String)"
-                          | optional,
-                        summer_time_date_start_time
-                          | String
-                          | doc "Summer Time Date Start Time (String)"
-                          | optional,
-                        summer_time_date_start_year
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Start Year (Integer, String)"
-                          | optional,
-                        summer_time_recurring
-                          | Bool
-                          | doc "Summer Time Recurring (Boolean)"
-                          | optional,
-                        summer_time_recurring_end_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
-                                      ]
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring End Month (String, String)"
-                          | optional,
-                        summer_time_recurring_end_time
-                          | String
-                          | doc "Summer Time Recurring End Time (String)"
-                          | optional,
-                        summer_time_recurring_end_week
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring End Week (Integer, String)"
-                          | optional,
-                        summer_time_recurring_end_weekday
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                        _js2n__-prdslib.isType 'Integer,
+                                        _js2n__-prdslib.numbers.maximum 31,
+                                        _js2n__-prdslib.numbers.minimum 1
+                                      ],
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Sun",
-                                        "Mon",
-                                        "Tue",
-                                        "Wed",
-                                        "Thu",
-                                        "Fri",
-                                        "Sat"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date Start Day (Integer, String)"
+                              | optional,
+                            date_start_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring End Weekday (String, String)"
-                          | optional,
-                        summer_time_recurring_offset
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Offset (Integer, String)"
-                          | optional,
-                        summer_time_recurring_start_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
-                                      ]
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Start Month (String, String)"
-                          | optional,
-                        summer_time_recurring_start_time
-                          | String
-                          | doc "Summer Time Recurring Start Time (String)"
-                          | optional,
-                        summer_time_recurring_start_week
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Start Week (Integer, String)"
-                          | optional,
-                        summer_time_recurring_start_weekday
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Sun",
-                                        "Mon",
-                                        "Tue",
-                                        "Wed",
-                                        "Thu",
-                                        "Fri",
-                                        "Sat"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date Start Month (String, String)"
+                              | optional,
+                            date_start_time
+                              | String
+                              | doc "Date Start Time (String)"
+                              | optional,
+                            date_start_year
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Start Weekday (String, String)"
-                          | optional,
-                        summer_time_zone
-                          | String
-                          | doc "Summer Time Zone (String)"
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Date Start Year (Integer, String)"
+                              | optional,
+                            recurring
+                              | Bool
+                              | doc "Recurring (Boolean)"
+                              | optional,
+                            recurring_end_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring End Month (String, String)"
+                              | optional,
+                            recurring_end_time
+                              | String
+                              | doc "Recurring End Time (String)"
+                              | optional,
+                            recurring_end_week
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring End Week (Integer, String)"
+                              | optional,
+                            recurring_end_weekday
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Sun",
+                                            "Mon",
+                                            "Tue",
+                                            "Wed",
+                                            "Thu",
+                                            "Fri",
+                                            "Sat"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring End Weekday (String, String)"
+                              | optional,
+                            recurring_offset
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Offset (Integer, String)"
+                              | optional,
+                            recurring_start_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Start Month (String, String)"
+                              | optional,
+                            recurring_start_time
+                              | String
+                              | doc "Recurring Start Time (String)"
+                              | optional,
+                            recurring_start_week
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Start Week (Integer, String)"
+                              | optional,
+                            recurring_start_weekday
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Sun",
+                                            "Mon",
+                                            "Tue",
+                                            "Wed",
+                                            "Thu",
+                                            "Fri",
+                                            "Sat"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Start Weekday (String, String)"
+                              | optional,
+                            zone | String | doc "Zone (String)" | optional,
+                          }
+                          | doc m%"
+                            Summer Time (Object)
+                            
+                            Elements:
+                            - zone
+                            - date
+                            - date_start_day
+                            - date_start_month
+                            - date_start_year
+                            - date_start_time
+                            - date_end_day
+                            - date_end_month
+                            - date_end_year
+                            - date_end_time
+                            - date_offset
+                            - recurring
+                            - recurring_start_week
+                            - recurring_start_weekday
+                            - recurring_start_month
+                            - recurring_start_time
+                            - recurring_end_week
+                            - recurring_end_weekday
+                            - recurring_end_month
+                            - recurring_end_time
+                            - recurring_offset
+                          "%
                           | optional,
                       }
                       | doc m%"
@@ -45486,27 +45530,7 @@ let rec _js2n__-refsenv
                         
                         Elements:
                         - calendar_valid
-                        - summer_time_zone
-                        - summer_time_date
-                        - summer_time_date_start_day
-                        - summer_time_date_start_month
-                        - summer_time_date_start_year
-                        - summer_time_date_start_time
-                        - summer_time_date_end_day
-                        - summer_time_date_end_month
-                        - summer_time_date_end_year
-                        - summer_time_date_end_time
-                        - summer_time_date_offset
-                        - summer_time_recurring
-                        - summer_time_recurring_start_week
-                        - summer_time_recurring_start_weekday
-                        - summer_time_recurring_start_month
-                        - summer_time_recurring_start_time
-                        - summer_time_recurring_end_week
-                        - summer_time_recurring_end_weekday
-                        - summer_time_recurring_end_month
-                        - summer_time_recurring_end_time
-                        - summer_time_recurring_offset
+                        - summer_time
                       "%
                       | optional,
                     community_lists
@@ -52712,6 +52736,10 @@ let rec _js2n__-refsenv
                                     ])
                                 | doc "Prematch (String, String)"
                                 | optional,
+                              subscriber
+                                | Bool
+                                | doc "Subscriber (Boolean)"
+                                | optional,
                               type
                                 | _js2n__-prdslib.contract_from_predicate
                                   (_js2n__-prdslib.anyOf
@@ -52738,6 +52766,7 @@ let rec _js2n__-refsenv
                             Elements:
                             - name (required)
                             - type
+                            - subscriber
                             - prematch
                             - match_authorization_status_authorized
                             - match_result_type_aaa_timeout
@@ -55317,1168 +55346,1172 @@ let rec _js2n__-refsenv
                       | {
                         bgp
                           | {
-                            address_families
-                              | Array
-                                {
-                                  ipv4_unicast
-                                    | {
-                                      aggregate_addresses
-                                        | Array
-                                          {
-                                            address
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
+                            address_family
+                              | {
+                                ipv4_unicast
+                                  | {
+                                    aggregate_addresses
+                                      | Array
+                                        {
+                                          address
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Address (String, String)",
+                                          mask
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Mask (String, String)",
+                                        }
+                                      | doc m%"
+                                        Aggregate Addresses (List - Object)
+                                        
+                                        Elements:
+                                        - address (required)
+                                        - mask (required)
+                                      "%
+                                      | optional,
+                                    neighbors
+                                      | Array
+                                        {
+                                          activate
+                                            | Bool
+                                            | doc "Activate (Boolean)"
+                                            | optional,
+                                          default_originate
+                                            | Bool
+                                            | doc "Default Originate (Boolean)"
+                                            | optional,
+                                          default_originate_route_map
+                                            | String
+                                            | doc "Default Originate Route Map (String)"
+                                            | optional,
+                                          ip
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "IP (String, String)",
+                                          route_maps
+                                            | Array
+                                              {
+                                                direction
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Address (String, String)",
-                                            mask
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Mask (String, String)",
-                                          }
-                                        | doc m%"
-                                          Aggregate Addresses (List - Object)
-                                          
-                                          Elements:
-                                          - address (required)
-                                          - mask (required)
-                                        "%
-                                        | optional,
-                                      neighbors
-                                        | Array
-                                          {
-                                            activate
-                                              | Bool
-                                              | doc "Activate (Boolean)"
-                                              | optional,
-                                            default_originate
-                                              | Bool
-                                              | doc "Default Originate (Boolean)"
-                                              | optional,
-                                            default_originate_route_map
-                                              | String
-                                              | doc "Default Originate Route Map (String)"
-                                              | optional,
-                                            ip
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "IP (String, String)",
-                                            route_maps
-                                              | Array
-                                                {
-                                                  direction
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [ "in", "out" ]
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Direction (String, String)",
-                                                  name
-                                                    | String
-                                                    | doc "Name (String)",
-                                                }
-                                              | doc m%"
-                                                Route Maps (List - Object)
-                                                
-                                                Elements:
-                                                - direction (required)
-                                                - name (required)
-                                              "%
-                                              | optional,
-                                            route_reflector_client
-                                              | Bool
-                                              | doc "Route Reflector Client (Boolean)"
-                                              | optional,
-                                            send_community
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
+                                                        _js2n__-prdslib.allOf
                                                           [
-                                                            "both",
-                                                            "extended",
-                                                            "standard"
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [ "in", "out" ]
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
                                                           ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                      ])
+                                                  | doc "Direction (String, String)",
+                                                name
+                                                  | String
+                                                  | doc "Name (String)",
+                                              }
+                                            | doc m%"
+                                              Route Maps (List - Object)
+                                              
+                                              Elements:
+                                              - direction (required)
+                                              - name (required)
+                                            "%
+                                            | optional,
+                                          route_reflector_client
+                                            | Bool
+                                            | doc "Route Reflector Client (Boolean)"
+                                            | optional,
+                                          send_community
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "both",
+                                                          "extended",
+                                                          "standard"
+                                                        ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Send Community (String, String)"
+                                            | optional,
+                                          soft_reconfiguration
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "inbound" ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Soft Reconfiguration (String, String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Neighbors (List - Object)
+                                        
+                                        Elements:
+                                        - ip (required)
+                                        - activate
+                                        - send_community
+                                        - route_reflector_client
+                                        - soft_reconfiguration
+                                        - default_originate
+                                        - default_originate_route_map
+                                        - route_maps
+                                      "%
+                                      | optional,
+                                    networks
+                                      | Array
+                                        {
+                                          backdoor
+                                            | Bool
+                                            | doc "Backdoor (Boolean)"
+                                            | optional,
+                                          mask
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Mask (String, String)"
+                                            | optional,
+                                          network
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Network (String, String)",
+                                          route_map
+                                            | String
+                                            | doc "Route Map (String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Networks (List - Object)
+                                        
+                                        Elements:
+                                        - network (required)
+                                        - mask
+                                        - route_map
+                                        - backdoor
+                                      "%
+                                      | optional,
+                                    redistribute_connected
+                                      | Bool
+                                      | doc "Redistribute Connected (Boolean)"
+                                      | optional,
+                                    redistribute_static
+                                      | Bool
+                                      | doc "Redistribute Static (Boolean)"
+                                      | optional,
+                                    vrfs
+                                      | Array
+                                        {
+                                          advertise_l2vpn_evpn
+                                            | Bool
+                                            | doc "Advertise L2Vpn Evpn (Boolean)"
+                                            | optional,
+                                          aggregate_addresses
+                                            | Array
+                                              {
+                                                address
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Send Community (String, String)"
-                                              | optional,
-                                            soft_reconfiguration
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Address (String, String)",
+                                                mask
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [ "inbound" ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Mask (String, String)",
+                                              }
+                                            | doc m%"
+                                              Aggregate Addresses (List - Object)
+                                              
+                                              Elements:
+                                              - address (required)
+                                              - mask (required)
+                                            "%
+                                            | optional,
+                                          neighbors
+                                            | Array
+                                              {
+                                                activate
+                                                  | Bool
+                                                  | doc "Activate (Boolean)"
+                                                  | optional,
+                                                advertisement_interval
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Advertisement Interval (Integer, String)"
+                                                  | optional,
+                                                cluster_id
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Soft Reconfiguration (String, String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Neighbors (List - Object)
-                                          
-                                          Elements:
-                                          - ip (required)
-                                          - activate
-                                          - send_community
-                                          - route_reflector_client
-                                          - soft_reconfiguration
-                                          - default_originate
-                                          - default_originate_route_map
-                                          - route_maps
-                                        "%
-                                        | optional,
-                                      networks
-                                        | Array
-                                          {
-                                            backdoor
-                                              | Bool
-                                              | doc "Backdoor (Boolean)"
-                                              | optional,
-                                            mask
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Cluster ID (String, String)"
+                                                  | optional,
+                                                default_originate
+                                                  | Bool
+                                                  | doc "Default Originate (Boolean)"
+                                                  | optional,
+                                                default_originate_route_map
+                                                  | String
+                                                  | doc "Default Originate Route Map (String)"
+                                                  | optional,
+                                                description
+                                                  | String
+                                                  | doc "Description (String)"
+                                                  | optional,
+                                                disable_connected_check
+                                                  | Bool
+                                                  | doc "Disable Connected Check (Boolean)"
+                                                  | optional,
+                                                ebgp_multihop
+                                                  | Bool
+                                                  | doc "Ebgp Multihop (Boolean)"
+                                                  | optional,
+                                                ebgp_multihop_max_hop
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              255,
+                                                            _js2n__-prdslib.numbers.minimum
+                                                              1
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Ebgp Multihop Max Hop (Integer, String)"
+                                                  | optional,
+                                                fall_over_bfd
+                                                  | Bool
+                                                  | doc "Fall Over BFD (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_check_control_plane_failure
+                                                  | Bool
+                                                  | doc "Fall Over BFD Check Control Plane Failure (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_multi_hop
+                                                  | Bool
+                                                  | doc "Fall Over BFD Multi Hop (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_single_hop
+                                                  | Bool
+                                                  | doc "Fall Over BFD Single Hop (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_strict_mode
+                                                  | Bool
+                                                  | doc "Fall Over BFD Strict Mode (Boolean)"
+                                                  | optional,
+                                                fall_over_default_route_map
+                                                  | String
+                                                  | doc "Fall Over Default Route Map (String)"
+                                                  | optional,
+                                                fall_over_maximum_metric_route_map
+                                                  | String
+                                                  | doc "Fall Over Maximum Metric Route Map (String)"
+                                                  | optional,
+                                                ha_mode_graceful_restart
+                                                  | Bool
+                                                  | doc "Ha Mode Graceful Restart (Boolean)"
+                                                  | optional,
+                                                ip
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Mask (String, String)"
-                                              | optional,
-                                            network
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "IP (String, String)",
+                                                local_as
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Network (String, String)",
-                                            route_map
-                                              | String
-                                              | doc "Route Map (String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Networks (List - Object)
-                                          
-                                          Elements:
-                                          - network (required)
-                                          - mask
-                                          - route_map
-                                          - backdoor
-                                        "%
-                                        | optional,
-                                      redistribute_connected
-                                        | Bool
-                                        | doc "Redistribute Connected (Boolean)"
-                                        | optional,
-                                      redistribute_static
-                                        | Bool
-                                        | doc "Redistribute Static (Boolean)"
-                                        | optional,
-                                      vrfs
-                                        | Array
-                                          {
-                                            advertise_l2vpn_evpn
-                                              | Bool
-                                              | doc "Advertise L2Vpn Evpn (Boolean)"
-                                              | optional,
-                                            aggregate_addresses
-                                              | Array
-                                                {
-                                                  address
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
+                                                          'Integer,
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Local AS (Integer, String)"
+                                                  | optional,
+                                                local_as_dual_as
+                                                  | Bool
+                                                  | doc "Local AS Dual AS (Boolean)"
+                                                  | optional,
+                                                local_as_no_prepend
+                                                  | Bool
+                                                  | doc "Local AS No Prepend (Boolean)"
+                                                  | optional,
+                                                local_as_replace_as
+                                                  | Bool
+                                                  | doc "Local AS Replace AS (Boolean)"
+                                                  | optional,
+                                                log_neighbor_changes
+                                                  | Bool
+                                                  | doc "Log Neighbor Changes (Boolean)"
+                                                  | optional,
+                                                next_hop_self
+                                                  | Bool
+                                                  | doc "Next Hop Self (Boolean)"
+                                                  | optional,
+                                                next_hop_self_all
+                                                  | Bool
+                                                  | doc "Next Hop Self All (Boolean)"
+                                                  | optional,
+                                                password
+                                                  | String
+                                                  | doc "Password (String)"
+                                                  | optional,
+                                                password_type
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              7
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Password Type (Integer, String)"
+                                                  | optional,
+                                                remote_as
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Integer,
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Remote AS (Integer, String)",
+                                                route_maps
+                                                  | Array
+                                                    {
+                                                      direction
+                                                        | _js2n__-prdslib.contract_from_predicate
+                                                          (_js2n__-prdslib.anyOf
                                                             [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Address (String, String)",
-                                                  mask
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Mask (String, String)",
-                                                }
-                                              | doc m%"
-                                                Aggregate Addresses (List - Object)
-                                                
-                                                Elements:
-                                                - address (required)
-                                                - mask (required)
-                                              "%
-                                              | optional,
-                                            neighbors
-                                              | Array
-                                                {
-                                                  activate
-                                                    | Bool
-                                                    | doc "Activate (Boolean)"
-                                                    | optional,
-                                                  advertisement_interval
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Advertisement Interval (Integer, String)"
-                                                    | optional,
-                                                  cluster_id
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Cluster ID (String, String)"
-                                                    | optional,
-                                                  default_originate
-                                                    | Bool
-                                                    | doc "Default Originate (Boolean)"
-                                                    | optional,
-                                                  default_originate_route_map
-                                                    | String
-                                                    | doc "Default Originate Route Map (String)"
-                                                    | optional,
-                                                  description
-                                                    | String
-                                                    | doc "Description (String)"
-                                                    | optional,
-                                                  disable_connected_check
-                                                    | Bool
-                                                    | doc "Disable Connected Check (Boolean)"
-                                                    | optional,
-                                                  ebgp_multihop
-                                                    | Bool
-                                                    | doc "Ebgp Multihop (Boolean)"
-                                                    | optional,
-                                                  ebgp_multihop_max_hop
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                255,
-                                                              _js2n__-prdslib.numbers.minimum
-                                                                1
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Ebgp Multihop Max Hop (Integer, String)"
-                                                    | optional,
-                                                  fall_over_bfd_check_control_plane_failure
-                                                    | Bool
-                                                    | doc "Fall Over BFD Check Control Plane Failure (Boolean)"
-                                                    | optional,
-                                                  fall_over_bfd_multi_hop
-                                                    | Bool
-                                                    | doc "Fall Over BFD Multi Hop (Boolean)"
-                                                    | optional,
-                                                  fall_over_bfd_single_hop
-                                                    | Bool
-                                                    | doc "Fall Over BFD Single Hop (Boolean)"
-                                                    | optional,
-                                                  fall_over_bfd_strict_mode
-                                                    | Bool
-                                                    | doc "Fall Over BFD Strict Mode (Boolean)"
-                                                    | optional,
-                                                  fall_over_default_route_map
-                                                    | String
-                                                    | doc "Fall Over Default Route Map (String)"
-                                                    | optional,
-                                                  fall_over_maximum_metric_route_map
-                                                    | String
-                                                    | doc "Fall Over Maximum Metric Route Map (String)"
-                                                    | optional,
-                                                  ha_mode_graceful_restart
-                                                    | Bool
-                                                    | doc "Ha Mode Graceful Restart (Boolean)"
-                                                    | optional,
-                                                  ip
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "IP (String, String)",
-                                                  local_as
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Integer,
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Local AS (Integer, String)"
-                                                    | optional,
-                                                  local_as_dual_as
-                                                    | Bool
-                                                    | doc "Local AS Dual AS (Boolean)"
-                                                    | optional,
-                                                  local_as_no_prepend
-                                                    | Bool
-                                                    | doc "Local AS No Prepend (Boolean)"
-                                                    | optional,
-                                                  local_as_replace_as
-                                                    | Bool
-                                                    | doc "Local AS Replace AS (Boolean)"
-                                                    | optional,
-                                                  log_neighbor_changes
-                                                    | Bool
-                                                    | doc "Log Neighbor Changes (Boolean)"
-                                                    | optional,
-                                                  next_hop_self
-                                                    | Bool
-                                                    | doc "Next Hop Self (Boolean)"
-                                                    | optional,
-                                                  next_hop_self_all
-                                                    | Bool
-                                                    | doc "Next Hop Self All (Boolean)"
-                                                    | optional,
-                                                  password
-                                                    | String
-                                                    | doc "Password (String)"
-                                                    | optional,
-                                                  password_type
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                7
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Password Type (Integer, String)"
-                                                    | optional,
-                                                  remote_as
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Integer,
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Remote AS (Integer, String)",
-                                                  route_maps
-                                                    | Array
-                                                      {
-                                                        direction
-                                                          | _js2n__-prdslib.contract_from_predicate
-                                                            (_js2n__-prdslib.anyOf
-                                                              [
-                                                                _js2n__-prdslib.allOf
-                                                                  [
-                                                                    _js2n__-prdslib.isType
-                                                                      '"String",
-                                                                    _js2n__-prdslib.enum
-                                                                      [
-                                                                        "in",
-                                                                        "out"
-                                                                      ]
-                                                                  ],
-                                                                _js2n__-prdslib.allOf
-                                                                  [
-                                                                    _js2n__-prdslib.isType
-                                                                      '"String",
-                                                                    _js2n__-prdslib.strings.pattern
-                                                                      "^.*[\\$\\%]\\{.*$"
-                                                                  ]
-                                                              ])
-                                                          | doc "Direction (String, String)",
-                                                        name
-                                                          | String
-                                                          | doc "Name (String)",
-                                                      }
-                                                    | doc m%"
-                                                      Route Maps (List - Object)
-                                                      
-                                                      Elements:
-                                                      - direction (required)
-                                                      - name (required)
-                                                    "%
-                                                    | optional,
-                                                  route_reflector_client
-                                                    | Bool
-                                                    | doc "Route Reflector Client (Boolean)"
-                                                    | optional,
-                                                  send_community
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
+                                                              _js2n__-prdslib.allOf
                                                                 [
-                                                                  "both",
-                                                                  "extended",
-                                                                  "standard"
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.enum
+                                                                    [
+                                                                      "in",
+                                                                      "out"
+                                                                    ]
+                                                                ],
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "^.*[\\$\\%]\\{.*$"
                                                                 ]
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Send Community (String, String)"
-                                                    | optional,
-                                                  shutdown
-                                                    | Bool
-                                                    | doc "Shutdown (Boolean)"
-                                                    | optional,
-                                                  soft_reconfiguration
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [ "inbound" ]
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Soft Reconfiguration (String, String)"
-                                                    | optional,
-                                                  timers_holdtime
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                3600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Timers Holdtime (Integer, String)"
-                                                    | optional,
-                                                  timers_keepalive
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                3600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Timers Keepalive (Integer, String)"
-                                                    | optional,
-                                                  timers_minimum_holdtime
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                3600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Timers Minimum Holdtime (Integer, String)"
-                                                    | optional,
-                                                  ttl_security_hops
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                254
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "TTL Security Hops (Integer, String)"
-                                                    | optional,
-                                                  update_source_loopback
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Integer,
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Update Source Loopback (Integer, String)"
-                                                    | optional,
-                                                }
-                                              | doc m%"
-                                                Neighbors (List - Object)
-                                                
-                                                Elements:
-                                                - ip (required)
-                                                - remote_as (required)
-                                                - description
-                                                - shutdown
-                                                - cluster_id
-                                                - log_neighbor_changes
-                                                - password_type
-                                                - password
-                                                - timers_keepalive
-                                                - timers_holdtime
-                                                - timers_minimum_holdtime
-                                                - fall_over_default_route_map
-                                                - fall_over_bfd_multi_hop
-                                                - fall_over_bfd_single_hop
-                                                - fall_over_bfd_check_control_plane_failure
-                                                - fall_over_bfd_strict_mode
-                                                - fall_over_maximum_metric_route_map
-                                                - disable_connected_check
-                                                - ttl_security_hops
-                                                - local_as
-                                                - local_as_no_prepend
-                                                - local_as_replace_as
-                                                - local_as_dual_as
-                                                - update_source_loopback
-                                                - activate
-                                                - send_community
-                                                - route_reflector_client
-                                                - soft_reconfiguration
-                                                - default_originate
-                                                - default_originate_route_map
-                                                - route_maps
-                                                - ebgp_multihop
-                                                - ebgp_multihop_max_hop
-                                                - ha_mode_graceful_restart
-                                                - next_hop_self
-                                                - next_hop_self_all
-                                                - advertisement_interval
-                                              "%
-                                              | optional,
-                                            networks
-                                              | Array
-                                                {
-                                                  backdoor
-                                                    | Bool
-                                                    | doc "Backdoor (Boolean)"
-                                                    | optional,
-                                                  evpn
-                                                    | Bool
-                                                    | doc "Evpn (Boolean)"
-                                                    | optional,
-                                                  mask
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Mask (String, String)"
-                                                    | optional,
-                                                  network
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Network (String, String)",
-                                                  route_map
-                                                    | String
-                                                    | doc "Route Map (String)"
-                                                    | optional,
-                                                }
-                                              | doc m%"
-                                                Networks (List - Object)
-                                                
-                                                Elements:
-                                                - network (required)
-                                                - mask
-                                                - route_map
-                                                - backdoor
-                                                - evpn
-                                              "%
-                                              | optional,
-                                            redistribute_connected
-                                              | Bool
-                                              | doc "Redistribute Connected (Boolean)"
-                                              | optional,
-                                            redistribute_static
-                                              | Bool
-                                              | doc "Redistribute Static (Boolean)"
-                                              | optional,
-                                            router_id_loopback
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      'Integer,
-                                                    _js2n__-prdslib.allOf
+                                                            ])
+                                                        | doc "Direction (String, String)",
+                                                      name
+                                                        | String
+                                                        | doc "Name (String)",
+                                                    }
+                                                  | doc m%"
+                                                    Route Maps (List - Object)
+                                                    
+                                                    Elements:
+                                                    - direction (required)
+                                                    - name (required)
+                                                  "%
+                                                  | optional,
+                                                route_reflector_client
+                                                  | Bool
+                                                  | doc "Route Reflector Client (Boolean)"
+                                                  | optional,
+                                                send_community
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Router ID Loopback (Integer, String)"
-                                              | optional,
-                                            vrf | String | doc "VRF (String)",
-                                          }
-                                        | doc m%"
-                                          VRFs (List - Object)
-                                          
-                                          Elements:
-                                          - vrf (required)
-                                          - advertise_l2vpn_evpn
-                                          - redistribute_connected
-                                          - router_id_loopback
-                                          - aggregate_addresses
-                                          - redistribute_static
-                                          - networks
-                                          - neighbors
-                                        "%
-                                        | optional,
-                                    }
-                                    | doc m%"
-                                      Ipv4 Unicast (Object)
-                                      
-                                      Elements:
-                                      - redistribute_connected
-                                      - redistribute_static
-                                      - aggregate_addresses
-                                      - networks
-                                      - neighbors
-                                      - vrfs
-                                    "%
-                                    | optional,
-                                  ipv6_unicast
-                                    | {
-                                      neighbors
-                                        | Array
-                                          {
-                                            activate
-                                              | Bool
-                                              | doc "Activate (Boolean)"
-                                              | optional,
-                                            default_originate
-                                              | Bool
-                                              | doc "Default Originate (Boolean)"
-                                              | optional,
-                                            default_originate_route_map
-                                              | String
-                                              | doc "Default Originate Route Map (String)"
-                                              | optional,
-                                            ip
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "IP (String, String)",
-                                            route_reflector_client
-                                              | Bool
-                                              | doc "Route Reflector Client (Boolean)"
-                                              | optional,
-                                            send_community
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
+                                                        _js2n__-prdslib.allOf
                                                           [
-                                                            "both",
-                                                            "extended",
-                                                            "standard"
-                                                          ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Send Community (String, String)"
-                                              | optional,
-                                            soft_reconfiguration
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [ "inbound" ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Soft Reconfiguration (String, String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Neighbors (List - Object)
-                                          
-                                          Elements:
-                                          - ip (required)
-                                          - activate
-                                          - send_community
-                                          - route_reflector_client
-                                          - soft_reconfiguration
-                                          - default_originate
-                                          - default_originate_route_map
-                                        "%
-                                        | optional,
-                                      networks
-                                        | Array
-                                          {
-                                            backdoor
-                                              | Bool
-                                              | doc "Backdoor (Boolean)"
-                                              | optional,
-                                            prefix
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Prefix (String, String)",
-                                            route_map
-                                              | String
-                                              | doc "Route Map (String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Networks (List - Object)
-                                          
-                                          Elements:
-                                          - prefix (required)
-                                          - route_map
-                                          - backdoor
-                                        "%
-                                        | optional,
-                                      redistribute_connected
-                                        | Bool
-                                        | doc "Redistribute Connected (Boolean)"
-                                        | optional,
-                                      redistribute_static
-                                        | Bool
-                                        | doc "Redistribute Static (Boolean)"
-                                        | optional,
-                                      vrfs
-                                        | Array
-                                          {
-                                            advertise_l2vpn_evpn
-                                              | Bool
-                                              | doc "Advertise L2Vpn Evpn (Boolean)"
-                                              | optional,
-                                            networks
-                                              | Array
-                                                {
-                                                  backdoor
-                                                    | Bool
-                                                    | doc "Backdoor (Boolean)"
-                                                    | optional,
-                                                  evpn
-                                                    | Bool
-                                                    | doc "Evpn (Boolean)"
-                                                    | optional,
-                                                  prefix
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Prefix (String, String)",
-                                                  route_map
-                                                    | String
-                                                    | doc "Route Map (String)"
-                                                    | optional,
-                                                }
-                                              | doc m%"
-                                                Networks (List - Object)
-                                                
-                                                Elements:
-                                                - prefix (required)
-                                                - route_map
-                                                - backdoor
-                                                - evpn
-                                              "%
-                                              | optional,
-                                            redistribute_connected
-                                              | Bool
-                                              | doc "Redistribute Connected (Boolean)"
-                                              | optional,
-                                            redistribute_static
-                                              | Bool
-                                              | doc "Redistribute Static (Boolean)"
-                                              | optional,
-                                            vrf | String | doc "VRF (String)",
-                                          }
-                                        | doc m%"
-                                          VRFs (List - Object)
-                                          
-                                          Elements:
-                                          - vrf (required)
-                                          - advertise_l2vpn_evpn
-                                          - redistribute_connected
-                                          - redistribute_static
-                                          - networks
-                                        "%
-                                        | optional,
-                                    }
-                                    | doc m%"
-                                      IPv6 Unicast (Object)
-                                      
-                                      Elements:
-                                      - redistribute_connected
-                                      - redistribute_static
-                                      - networks
-                                      - vrfs
-                                      - neighbors
-                                    "%
-                                    | optional,
-                                  l2vpn_evpn
-                                    | {
-                                      neighbors
-                                        | Array
-                                          {
-                                            activate
-                                              | Bool
-                                              | doc "Activate (Boolean)"
-                                              | optional,
-                                            ip
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "IP (String, String)",
-                                            route_reflector_client
-                                              | Bool
-                                              | doc "Route Reflector Client (Boolean)"
-                                              | optional,
-                                            send_community
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [
+                                                                "both",
+                                                                "extended",
+                                                                "standard"
+                                                              ]
+                                                          ],
+                                                        _js2n__-prdslib.allOf
                                                           [
-                                                            "both",
-                                                            "extended",
-                                                            "standard"
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
                                                           ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                      ])
+                                                  | doc "Send Community (String, String)"
+                                                  | optional,
+                                                shutdown
+                                                  | Bool
+                                                  | doc "Shutdown (Boolean)"
+                                                  | optional,
+                                                soft_reconfiguration
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [ "inbound" ]
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Soft Reconfiguration (String, String)"
+                                                  | optional,
+                                                timers_holdtime
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              3600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Timers Holdtime (Integer, String)"
+                                                  | optional,
+                                                timers_keepalive
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              3600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Timers Keepalive (Integer, String)"
+                                                  | optional,
+                                                timers_minimum_holdtime
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              3600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Timers Minimum Holdtime (Integer, String)"
+                                                  | optional,
+                                                ttl_security_hops
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              254
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "TTL Security Hops (Integer, String)"
+                                                  | optional,
+                                                update_source_loopback
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Integer,
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Update Source Loopback (Integer, String)"
+                                                  | optional,
+                                              }
+                                            | doc m%"
+                                              Neighbors (List - Object)
+                                              
+                                              Elements:
+                                              - ip (required)
+                                              - remote_as (required)
+                                              - description
+                                              - shutdown
+                                              - cluster_id
+                                              - log_neighbor_changes
+                                              - password_type
+                                              - password
+                                              - timers_keepalive
+                                              - timers_holdtime
+                                              - timers_minimum_holdtime
+                                              - fall_over_default_route_map
+                                              - fall_over_bfd
+                                              - fall_over_bfd_multi_hop
+                                              - fall_over_bfd_single_hop
+                                              - fall_over_bfd_check_control_plane_failure
+                                              - fall_over_bfd_strict_mode
+                                              - fall_over_maximum_metric_route_map
+                                              - disable_connected_check
+                                              - ttl_security_hops
+                                              - local_as
+                                              - local_as_no_prepend
+                                              - local_as_replace_as
+                                              - local_as_dual_as
+                                              - update_source_loopback
+                                              - activate
+                                              - send_community
+                                              - route_reflector_client
+                                              - soft_reconfiguration
+                                              - default_originate
+                                              - default_originate_route_map
+                                              - route_maps
+                                              - ebgp_multihop
+                                              - ebgp_multihop_max_hop
+                                              - ha_mode_graceful_restart
+                                              - next_hop_self
+                                              - next_hop_self_all
+                                              - advertisement_interval
+                                            "%
+                                            | optional,
+                                          networks
+                                            | Array
+                                              {
+                                                backdoor
+                                                  | Bool
+                                                  | doc "Backdoor (Boolean)"
+                                                  | optional,
+                                                evpn
+                                                  | Bool
+                                                  | doc "Evpn (Boolean)"
+                                                  | optional,
+                                                mask
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Send Community (String, String)"
-                                              | optional,
-                                            soft_reconfiguration
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Mask (String, String)"
+                                                  | optional,
+                                                network
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [ "inbound" ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Network (String, String)",
+                                                route_map
+                                                  | String
+                                                  | doc "Route Map (String)"
+                                                  | optional,
+                                              }
+                                            | doc m%"
+                                              Networks (List - Object)
+                                              
+                                              Elements:
+                                              - network (required)
+                                              - mask
+                                              - route_map
+                                              - backdoor
+                                              - evpn
+                                            "%
+                                            | optional,
+                                          redistribute_connected
+                                            | Bool
+                                            | doc "Redistribute Connected (Boolean)"
+                                            | optional,
+                                          redistribute_static
+                                            | Bool
+                                            | doc "Redistribute Static (Boolean)"
+                                            | optional,
+                                          router_id_loopback
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Integer,
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Router ID Loopback (Integer, String)"
+                                            | optional,
+                                          vrf | String | doc "VRF (String)",
+                                        }
+                                      | doc m%"
+                                        VRFs (List - Object)
+                                        
+                                        Elements:
+                                        - vrf (required)
+                                        - advertise_l2vpn_evpn
+                                        - redistribute_connected
+                                        - router_id_loopback
+                                        - aggregate_addresses
+                                        - redistribute_static
+                                        - networks
+                                        - neighbors
+                                      "%
+                                      | optional,
+                                  }
+                                  | doc m%"
+                                    Ipv4 Unicast (Object)
+                                    
+                                    Elements:
+                                    - redistribute_connected
+                                    - redistribute_static
+                                    - aggregate_addresses
+                                    - networks
+                                    - neighbors
+                                    - vrfs
+                                  "%
+                                  | optional,
+                                ipv6_unicast
+                                  | {
+                                    neighbors
+                                      | Array
+                                        {
+                                          activate
+                                            | Bool
+                                            | doc "Activate (Boolean)"
+                                            | optional,
+                                          default_originate
+                                            | Bool
+                                            | doc "Default Originate (Boolean)"
+                                            | optional,
+                                          default_originate_route_map
+                                            | String
+                                            | doc "Default Originate Route Map (String)"
+                                            | optional,
+                                          ip
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "IP (String, String)",
+                                          route_reflector_client
+                                            | Bool
+                                            | doc "Route Reflector Client (Boolean)"
+                                            | optional,
+                                          send_community
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "both",
+                                                          "extended",
+                                                          "standard"
+                                                        ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Send Community (String, String)"
+                                            | optional,
+                                          soft_reconfiguration
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "inbound" ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Soft Reconfiguration (String, String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Neighbors (List - Object)
+                                        
+                                        Elements:
+                                        - ip (required)
+                                        - activate
+                                        - send_community
+                                        - route_reflector_client
+                                        - soft_reconfiguration
+                                        - default_originate
+                                        - default_originate_route_map
+                                      "%
+                                      | optional,
+                                    networks
+                                      | Array
+                                        {
+                                          backdoor
+                                            | Bool
+                                            | doc "Backdoor (Boolean)"
+                                            | optional,
+                                          prefix
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Prefix (String, String)",
+                                          route_map
+                                            | String
+                                            | doc "Route Map (String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Networks (List - Object)
+                                        
+                                        Elements:
+                                        - prefix (required)
+                                        - route_map
+                                        - backdoor
+                                      "%
+                                      | optional,
+                                    redistribute_connected
+                                      | Bool
+                                      | doc "Redistribute Connected (Boolean)"
+                                      | optional,
+                                    redistribute_static
+                                      | Bool
+                                      | doc "Redistribute Static (Boolean)"
+                                      | optional,
+                                    vrfs
+                                      | Array
+                                        {
+                                          advertise_l2vpn_evpn
+                                            | Bool
+                                            | doc "Advertise L2Vpn Evpn (Boolean)"
+                                            | optional,
+                                          networks
+                                            | Array
+                                              {
+                                                backdoor
+                                                  | Bool
+                                                  | doc "Backdoor (Boolean)"
+                                                  | optional,
+                                                evpn
+                                                  | Bool
+                                                  | doc "Evpn (Boolean)"
+                                                  | optional,
+                                                prefix
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Soft Reconfiguration (String, String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Neighbors (List - Object)
-                                          
-                                          Elements:
-                                          - ip (required)
-                                          - activate
-                                          - send_community
-                                          - route_reflector_client
-                                          - soft_reconfiguration
-                                        "%
-                                        | optional,
-                                    }
-                                    | doc m%"
-                                      L2Vpn Evpn (Object)
-                                      
-                                      Elements:
-                                      - neighbors
-                                    "%
-                                    | optional,
-                                }
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Prefix (String, String)",
+                                                route_map
+                                                  | String
+                                                  | doc "Route Map (String)"
+                                                  | optional,
+                                              }
+                                            | doc m%"
+                                              Networks (List - Object)
+                                              
+                                              Elements:
+                                              - prefix (required)
+                                              - route_map
+                                              - backdoor
+                                              - evpn
+                                            "%
+                                            | optional,
+                                          redistribute_connected
+                                            | Bool
+                                            | doc "Redistribute Connected (Boolean)"
+                                            | optional,
+                                          redistribute_static
+                                            | Bool
+                                            | doc "Redistribute Static (Boolean)"
+                                            | optional,
+                                          vrf | String | doc "VRF (String)",
+                                        }
+                                      | doc m%"
+                                        VRFs (List - Object)
+                                        
+                                        Elements:
+                                        - vrf (required)
+                                        - advertise_l2vpn_evpn
+                                        - redistribute_connected
+                                        - redistribute_static
+                                        - networks
+                                      "%
+                                      | optional,
+                                  }
+                                  | doc m%"
+                                    IPv6 Unicast (Object)
+                                    
+                                    Elements:
+                                    - redistribute_connected
+                                    - redistribute_static
+                                    - networks
+                                    - vrfs
+                                    - neighbors
+                                  "%
+                                  | optional,
+                                l2vpn_evpn
+                                  | {
+                                    neighbors
+                                      | Array
+                                        {
+                                          activate
+                                            | Bool
+                                            | doc "Activate (Boolean)"
+                                            | optional,
+                                          ip
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "IP (String, String)",
+                                          route_reflector_client
+                                            | Bool
+                                            | doc "Route Reflector Client (Boolean)"
+                                            | optional,
+                                          send_community
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "both",
+                                                          "extended",
+                                                          "standard"
+                                                        ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Send Community (String, String)"
+                                            | optional,
+                                          soft_reconfiguration
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "inbound" ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Soft Reconfiguration (String, String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Neighbors (List - Object)
+                                        
+                                        Elements:
+                                        - ip (required)
+                                        - activate
+                                        - send_community
+                                        - route_reflector_client
+                                        - soft_reconfiguration
+                                      "%
+                                      | optional,
+                                  }
+                                  | doc m%"
+                                    L2Vpn Evpn (Object)
+                                    
+                                    Elements:
+                                    - neighbors
+                                  "%
+                                  | optional,
+                              }
                               | doc m%"
-                                Address Families (List - Object)
+                                Address Family (Object)
                                 
                                 Elements:
                                 - ipv4_unicast
@@ -56847,7 +56880,7 @@ let rec _js2n__-refsenv
                             - default_ipv4_unicast
                             - log_neighbor_changes
                             - router_id_loopback
-                            - address_families
+                            - address_family
                             - neighbors
                           "%
                           | optional,
@@ -63115,337 +63148,361 @@ let rec _js2n__-refsenv
                           | Bool
                           | doc "Calendar Valid (Boolean)"
                           | optional,
-                        summer_time_date
-                          | Bool
-                          | doc "Summer Time Date (Boolean)"
-                          | optional,
-                        summer_time_date_end_day
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
+                        summer_time
+                          | {
+                            date | Bool | doc "Date (Boolean)" | optional,
+                            date_end_day
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Integer,
+                                        _js2n__-prdslib.numbers.maximum 31,
+                                        _js2n__-prdslib.numbers.minimum 1
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Date End Day (Integer, String)"
+                              | optional,
+                            date_end_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Date End Month (String, String)"
+                              | optional,
+                            date_end_time
+                              | String
+                              | doc "Date End Time (String)"
+                              | optional,
+                            date_end_year
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
                                     _js2n__-prdslib.isType 'Integer,
-                                    _js2n__-prdslib.numbers.maximum 31,
-                                    _js2n__-prdslib.numbers.minimum 1
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date End Day (Integer, String)"
-                          | optional,
-                        summer_time_date_end_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date End Month (String, String)"
-                          | optional,
-                        summer_time_date_end_time
-                          | String
-                          | doc "Summer Time Date End Time (String)"
-                          | optional,
-                        summer_time_date_end_year
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date End Year (Integer, String)"
-                          | optional,
-                        summer_time_date_offset
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Offset (Integer, String)"
-                          | optional,
-                        summer_time_date_start_day
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date End Year (Integer, String)"
+                              | optional,
+                            date_offset
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
                                     _js2n__-prdslib.isType 'Integer,
-                                    _js2n__-prdslib.numbers.maximum 31,
-                                    _js2n__-prdslib.numbers.minimum 1
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Start Day (Integer, String)"
-                          | optional,
-                        summer_time_date_start_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date Offset (Integer, String)"
+                              | optional,
+                            date_start_day
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Start Month (String, String)"
-                          | optional,
-                        summer_time_date_start_time
-                          | String
-                          | doc "Summer Time Date Start Time (String)"
-                          | optional,
-                        summer_time_date_start_year
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Start Year (Integer, String)"
-                          | optional,
-                        summer_time_recurring
-                          | Bool
-                          | doc "Summer Time Recurring (Boolean)"
-                          | optional,
-                        summer_time_recurring_end_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
-                                      ]
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring End Month (String, String)"
-                          | optional,
-                        summer_time_recurring_end_time
-                          | String
-                          | doc "Summer Time Recurring End Time (String)"
-                          | optional,
-                        summer_time_recurring_end_week
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring End Week (Integer, String)"
-                          | optional,
-                        summer_time_recurring_end_weekday
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                        _js2n__-prdslib.isType 'Integer,
+                                        _js2n__-prdslib.numbers.maximum 31,
+                                        _js2n__-prdslib.numbers.minimum 1
+                                      ],
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Sun",
-                                        "Mon",
-                                        "Tue",
-                                        "Wed",
-                                        "Thu",
-                                        "Fri",
-                                        "Sat"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date Start Day (Integer, String)"
+                              | optional,
+                            date_start_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring End Weekday (String, String)"
-                          | optional,
-                        summer_time_recurring_offset
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Offset (Integer, String)"
-                          | optional,
-                        summer_time_recurring_start_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
-                                      ]
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Start Month (String, String)"
-                          | optional,
-                        summer_time_recurring_start_time
-                          | String
-                          | doc "Summer Time Recurring Start Time (String)"
-                          | optional,
-                        summer_time_recurring_start_week
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Start Week (Integer, String)"
-                          | optional,
-                        summer_time_recurring_start_weekday
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Sun",
-                                        "Mon",
-                                        "Tue",
-                                        "Wed",
-                                        "Thu",
-                                        "Fri",
-                                        "Sat"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date Start Month (String, String)"
+                              | optional,
+                            date_start_time
+                              | String
+                              | doc "Date Start Time (String)"
+                              | optional,
+                            date_start_year
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Start Weekday (String, String)"
-                          | optional,
-                        summer_time_zone
-                          | String
-                          | doc "Summer Time Zone (String)"
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Date Start Year (Integer, String)"
+                              | optional,
+                            recurring
+                              | Bool
+                              | doc "Recurring (Boolean)"
+                              | optional,
+                            recurring_end_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring End Month (String, String)"
+                              | optional,
+                            recurring_end_time
+                              | String
+                              | doc "Recurring End Time (String)"
+                              | optional,
+                            recurring_end_week
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring End Week (Integer, String)"
+                              | optional,
+                            recurring_end_weekday
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Sun",
+                                            "Mon",
+                                            "Tue",
+                                            "Wed",
+                                            "Thu",
+                                            "Fri",
+                                            "Sat"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring End Weekday (String, String)"
+                              | optional,
+                            recurring_offset
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Offset (Integer, String)"
+                              | optional,
+                            recurring_start_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Start Month (String, String)"
+                              | optional,
+                            recurring_start_time
+                              | String
+                              | doc "Recurring Start Time (String)"
+                              | optional,
+                            recurring_start_week
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Start Week (Integer, String)"
+                              | optional,
+                            recurring_start_weekday
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Sun",
+                                            "Mon",
+                                            "Tue",
+                                            "Wed",
+                                            "Thu",
+                                            "Fri",
+                                            "Sat"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Start Weekday (String, String)"
+                              | optional,
+                            zone | String | doc "Zone (String)" | optional,
+                          }
+                          | doc m%"
+                            Summer Time (Object)
+                            
+                            Elements:
+                            - zone
+                            - date
+                            - date_start_day
+                            - date_start_month
+                            - date_start_year
+                            - date_start_time
+                            - date_end_day
+                            - date_end_month
+                            - date_end_year
+                            - date_end_time
+                            - date_offset
+                            - recurring
+                            - recurring_start_week
+                            - recurring_start_weekday
+                            - recurring_start_month
+                            - recurring_start_time
+                            - recurring_end_week
+                            - recurring_end_weekday
+                            - recurring_end_month
+                            - recurring_end_time
+                            - recurring_offset
+                          "%
                           | optional,
                       }
                       | doc m%"
@@ -63453,27 +63510,7 @@ let rec _js2n__-refsenv
                         
                         Elements:
                         - calendar_valid
-                        - summer_time_zone
-                        - summer_time_date
-                        - summer_time_date_start_day
-                        - summer_time_date_start_month
-                        - summer_time_date_start_year
-                        - summer_time_date_start_time
-                        - summer_time_date_end_day
-                        - summer_time_date_end_month
-                        - summer_time_date_end_year
-                        - summer_time_date_end_time
-                        - summer_time_date_offset
-                        - summer_time_recurring
-                        - summer_time_recurring_start_week
-                        - summer_time_recurring_start_weekday
-                        - summer_time_recurring_start_month
-                        - summer_time_recurring_start_time
-                        - summer_time_recurring_end_week
-                        - summer_time_recurring_end_weekday
-                        - summer_time_recurring_end_month
-                        - summer_time_recurring_end_time
-                        - summer_time_recurring_offset
+                        - summer_time
                       "%
                       | optional,
                     community_lists
@@ -70679,6 +70716,10 @@ let rec _js2n__-refsenv
                                     ])
                                 | doc "Prematch (String, String)"
                                 | optional,
+                              subscriber
+                                | Bool
+                                | doc "Subscriber (Boolean)"
+                                | optional,
                               type
                                 | _js2n__-prdslib.contract_from_predicate
                                   (_js2n__-prdslib.anyOf
@@ -70705,6 +70746,7 @@ let rec _js2n__-refsenv
                             Elements:
                             - name (required)
                             - type
+                            - subscriber
                             - prematch
                             - match_authorization_status_authorized
                             - match_result_type_aaa_timeout
@@ -73284,1168 +73326,1172 @@ let rec _js2n__-refsenv
                       | {
                         bgp
                           | {
-                            address_families
-                              | Array
-                                {
-                                  ipv4_unicast
-                                    | {
-                                      aggregate_addresses
-                                        | Array
-                                          {
-                                            address
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
+                            address_family
+                              | {
+                                ipv4_unicast
+                                  | {
+                                    aggregate_addresses
+                                      | Array
+                                        {
+                                          address
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Address (String, String)",
+                                          mask
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Mask (String, String)",
+                                        }
+                                      | doc m%"
+                                        Aggregate Addresses (List - Object)
+                                        
+                                        Elements:
+                                        - address (required)
+                                        - mask (required)
+                                      "%
+                                      | optional,
+                                    neighbors
+                                      | Array
+                                        {
+                                          activate
+                                            | Bool
+                                            | doc "Activate (Boolean)"
+                                            | optional,
+                                          default_originate
+                                            | Bool
+                                            | doc "Default Originate (Boolean)"
+                                            | optional,
+                                          default_originate_route_map
+                                            | String
+                                            | doc "Default Originate Route Map (String)"
+                                            | optional,
+                                          ip
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "IP (String, String)",
+                                          route_maps
+                                            | Array
+                                              {
+                                                direction
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Address (String, String)",
-                                            mask
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Mask (String, String)",
-                                          }
-                                        | doc m%"
-                                          Aggregate Addresses (List - Object)
-                                          
-                                          Elements:
-                                          - address (required)
-                                          - mask (required)
-                                        "%
-                                        | optional,
-                                      neighbors
-                                        | Array
-                                          {
-                                            activate
-                                              | Bool
-                                              | doc "Activate (Boolean)"
-                                              | optional,
-                                            default_originate
-                                              | Bool
-                                              | doc "Default Originate (Boolean)"
-                                              | optional,
-                                            default_originate_route_map
-                                              | String
-                                              | doc "Default Originate Route Map (String)"
-                                              | optional,
-                                            ip
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "IP (String, String)",
-                                            route_maps
-                                              | Array
-                                                {
-                                                  direction
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [ "in", "out" ]
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Direction (String, String)",
-                                                  name
-                                                    | String
-                                                    | doc "Name (String)",
-                                                }
-                                              | doc m%"
-                                                Route Maps (List - Object)
-                                                
-                                                Elements:
-                                                - direction (required)
-                                                - name (required)
-                                              "%
-                                              | optional,
-                                            route_reflector_client
-                                              | Bool
-                                              | doc "Route Reflector Client (Boolean)"
-                                              | optional,
-                                            send_community
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
+                                                        _js2n__-prdslib.allOf
                                                           [
-                                                            "both",
-                                                            "extended",
-                                                            "standard"
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [ "in", "out" ]
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
                                                           ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                      ])
+                                                  | doc "Direction (String, String)",
+                                                name
+                                                  | String
+                                                  | doc "Name (String)",
+                                              }
+                                            | doc m%"
+                                              Route Maps (List - Object)
+                                              
+                                              Elements:
+                                              - direction (required)
+                                              - name (required)
+                                            "%
+                                            | optional,
+                                          route_reflector_client
+                                            | Bool
+                                            | doc "Route Reflector Client (Boolean)"
+                                            | optional,
+                                          send_community
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "both",
+                                                          "extended",
+                                                          "standard"
+                                                        ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Send Community (String, String)"
+                                            | optional,
+                                          soft_reconfiguration
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "inbound" ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Soft Reconfiguration (String, String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Neighbors (List - Object)
+                                        
+                                        Elements:
+                                        - ip (required)
+                                        - activate
+                                        - send_community
+                                        - route_reflector_client
+                                        - soft_reconfiguration
+                                        - default_originate
+                                        - default_originate_route_map
+                                        - route_maps
+                                      "%
+                                      | optional,
+                                    networks
+                                      | Array
+                                        {
+                                          backdoor
+                                            | Bool
+                                            | doc "Backdoor (Boolean)"
+                                            | optional,
+                                          mask
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Mask (String, String)"
+                                            | optional,
+                                          network
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Network (String, String)",
+                                          route_map
+                                            | String
+                                            | doc "Route Map (String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Networks (List - Object)
+                                        
+                                        Elements:
+                                        - network (required)
+                                        - mask
+                                        - route_map
+                                        - backdoor
+                                      "%
+                                      | optional,
+                                    redistribute_connected
+                                      | Bool
+                                      | doc "Redistribute Connected (Boolean)"
+                                      | optional,
+                                    redistribute_static
+                                      | Bool
+                                      | doc "Redistribute Static (Boolean)"
+                                      | optional,
+                                    vrfs
+                                      | Array
+                                        {
+                                          advertise_l2vpn_evpn
+                                            | Bool
+                                            | doc "Advertise L2Vpn Evpn (Boolean)"
+                                            | optional,
+                                          aggregate_addresses
+                                            | Array
+                                              {
+                                                address
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Send Community (String, String)"
-                                              | optional,
-                                            soft_reconfiguration
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Address (String, String)",
+                                                mask
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [ "inbound" ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Mask (String, String)",
+                                              }
+                                            | doc m%"
+                                              Aggregate Addresses (List - Object)
+                                              
+                                              Elements:
+                                              - address (required)
+                                              - mask (required)
+                                            "%
+                                            | optional,
+                                          neighbors
+                                            | Array
+                                              {
+                                                activate
+                                                  | Bool
+                                                  | doc "Activate (Boolean)"
+                                                  | optional,
+                                                advertisement_interval
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Advertisement Interval (Integer, String)"
+                                                  | optional,
+                                                cluster_id
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Soft Reconfiguration (String, String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Neighbors (List - Object)
-                                          
-                                          Elements:
-                                          - ip (required)
-                                          - activate
-                                          - send_community
-                                          - route_reflector_client
-                                          - soft_reconfiguration
-                                          - default_originate
-                                          - default_originate_route_map
-                                          - route_maps
-                                        "%
-                                        | optional,
-                                      networks
-                                        | Array
-                                          {
-                                            backdoor
-                                              | Bool
-                                              | doc "Backdoor (Boolean)"
-                                              | optional,
-                                            mask
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Cluster ID (String, String)"
+                                                  | optional,
+                                                default_originate
+                                                  | Bool
+                                                  | doc "Default Originate (Boolean)"
+                                                  | optional,
+                                                default_originate_route_map
+                                                  | String
+                                                  | doc "Default Originate Route Map (String)"
+                                                  | optional,
+                                                description
+                                                  | String
+                                                  | doc "Description (String)"
+                                                  | optional,
+                                                disable_connected_check
+                                                  | Bool
+                                                  | doc "Disable Connected Check (Boolean)"
+                                                  | optional,
+                                                ebgp_multihop
+                                                  | Bool
+                                                  | doc "Ebgp Multihop (Boolean)"
+                                                  | optional,
+                                                ebgp_multihop_max_hop
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              255,
+                                                            _js2n__-prdslib.numbers.minimum
+                                                              1
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Ebgp Multihop Max Hop (Integer, String)"
+                                                  | optional,
+                                                fall_over_bfd
+                                                  | Bool
+                                                  | doc "Fall Over BFD (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_check_control_plane_failure
+                                                  | Bool
+                                                  | doc "Fall Over BFD Check Control Plane Failure (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_multi_hop
+                                                  | Bool
+                                                  | doc "Fall Over BFD Multi Hop (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_single_hop
+                                                  | Bool
+                                                  | doc "Fall Over BFD Single Hop (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_strict_mode
+                                                  | Bool
+                                                  | doc "Fall Over BFD Strict Mode (Boolean)"
+                                                  | optional,
+                                                fall_over_default_route_map
+                                                  | String
+                                                  | doc "Fall Over Default Route Map (String)"
+                                                  | optional,
+                                                fall_over_maximum_metric_route_map
+                                                  | String
+                                                  | doc "Fall Over Maximum Metric Route Map (String)"
+                                                  | optional,
+                                                ha_mode_graceful_restart
+                                                  | Bool
+                                                  | doc "Ha Mode Graceful Restart (Boolean)"
+                                                  | optional,
+                                                ip
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Mask (String, String)"
-                                              | optional,
-                                            network
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "IP (String, String)",
+                                                local_as
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Network (String, String)",
-                                            route_map
-                                              | String
-                                              | doc "Route Map (String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Networks (List - Object)
-                                          
-                                          Elements:
-                                          - network (required)
-                                          - mask
-                                          - route_map
-                                          - backdoor
-                                        "%
-                                        | optional,
-                                      redistribute_connected
-                                        | Bool
-                                        | doc "Redistribute Connected (Boolean)"
-                                        | optional,
-                                      redistribute_static
-                                        | Bool
-                                        | doc "Redistribute Static (Boolean)"
-                                        | optional,
-                                      vrfs
-                                        | Array
-                                          {
-                                            advertise_l2vpn_evpn
-                                              | Bool
-                                              | doc "Advertise L2Vpn Evpn (Boolean)"
-                                              | optional,
-                                            aggregate_addresses
-                                              | Array
-                                                {
-                                                  address
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
+                                                          'Integer,
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Local AS (Integer, String)"
+                                                  | optional,
+                                                local_as_dual_as
+                                                  | Bool
+                                                  | doc "Local AS Dual AS (Boolean)"
+                                                  | optional,
+                                                local_as_no_prepend
+                                                  | Bool
+                                                  | doc "Local AS No Prepend (Boolean)"
+                                                  | optional,
+                                                local_as_replace_as
+                                                  | Bool
+                                                  | doc "Local AS Replace AS (Boolean)"
+                                                  | optional,
+                                                log_neighbor_changes
+                                                  | Bool
+                                                  | doc "Log Neighbor Changes (Boolean)"
+                                                  | optional,
+                                                next_hop_self
+                                                  | Bool
+                                                  | doc "Next Hop Self (Boolean)"
+                                                  | optional,
+                                                next_hop_self_all
+                                                  | Bool
+                                                  | doc "Next Hop Self All (Boolean)"
+                                                  | optional,
+                                                password
+                                                  | String
+                                                  | doc "Password (String)"
+                                                  | optional,
+                                                password_type
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              7
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Password Type (Integer, String)"
+                                                  | optional,
+                                                remote_as
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Integer,
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Remote AS (Integer, String)",
+                                                route_maps
+                                                  | Array
+                                                    {
+                                                      direction
+                                                        | _js2n__-prdslib.contract_from_predicate
+                                                          (_js2n__-prdslib.anyOf
                                                             [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Address (String, String)",
-                                                  mask
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Mask (String, String)",
-                                                }
-                                              | doc m%"
-                                                Aggregate Addresses (List - Object)
-                                                
-                                                Elements:
-                                                - address (required)
-                                                - mask (required)
-                                              "%
-                                              | optional,
-                                            neighbors
-                                              | Array
-                                                {
-                                                  activate
-                                                    | Bool
-                                                    | doc "Activate (Boolean)"
-                                                    | optional,
-                                                  advertisement_interval
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Advertisement Interval (Integer, String)"
-                                                    | optional,
-                                                  cluster_id
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Cluster ID (String, String)"
-                                                    | optional,
-                                                  default_originate
-                                                    | Bool
-                                                    | doc "Default Originate (Boolean)"
-                                                    | optional,
-                                                  default_originate_route_map
-                                                    | String
-                                                    | doc "Default Originate Route Map (String)"
-                                                    | optional,
-                                                  description
-                                                    | String
-                                                    | doc "Description (String)"
-                                                    | optional,
-                                                  disable_connected_check
-                                                    | Bool
-                                                    | doc "Disable Connected Check (Boolean)"
-                                                    | optional,
-                                                  ebgp_multihop
-                                                    | Bool
-                                                    | doc "Ebgp Multihop (Boolean)"
-                                                    | optional,
-                                                  ebgp_multihop_max_hop
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                255,
-                                                              _js2n__-prdslib.numbers.minimum
-                                                                1
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Ebgp Multihop Max Hop (Integer, String)"
-                                                    | optional,
-                                                  fall_over_bfd_check_control_plane_failure
-                                                    | Bool
-                                                    | doc "Fall Over BFD Check Control Plane Failure (Boolean)"
-                                                    | optional,
-                                                  fall_over_bfd_multi_hop
-                                                    | Bool
-                                                    | doc "Fall Over BFD Multi Hop (Boolean)"
-                                                    | optional,
-                                                  fall_over_bfd_single_hop
-                                                    | Bool
-                                                    | doc "Fall Over BFD Single Hop (Boolean)"
-                                                    | optional,
-                                                  fall_over_bfd_strict_mode
-                                                    | Bool
-                                                    | doc "Fall Over BFD Strict Mode (Boolean)"
-                                                    | optional,
-                                                  fall_over_default_route_map
-                                                    | String
-                                                    | doc "Fall Over Default Route Map (String)"
-                                                    | optional,
-                                                  fall_over_maximum_metric_route_map
-                                                    | String
-                                                    | doc "Fall Over Maximum Metric Route Map (String)"
-                                                    | optional,
-                                                  ha_mode_graceful_restart
-                                                    | Bool
-                                                    | doc "Ha Mode Graceful Restart (Boolean)"
-                                                    | optional,
-                                                  ip
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "IP (String, String)",
-                                                  local_as
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Integer,
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Local AS (Integer, String)"
-                                                    | optional,
-                                                  local_as_dual_as
-                                                    | Bool
-                                                    | doc "Local AS Dual AS (Boolean)"
-                                                    | optional,
-                                                  local_as_no_prepend
-                                                    | Bool
-                                                    | doc "Local AS No Prepend (Boolean)"
-                                                    | optional,
-                                                  local_as_replace_as
-                                                    | Bool
-                                                    | doc "Local AS Replace AS (Boolean)"
-                                                    | optional,
-                                                  log_neighbor_changes
-                                                    | Bool
-                                                    | doc "Log Neighbor Changes (Boolean)"
-                                                    | optional,
-                                                  next_hop_self
-                                                    | Bool
-                                                    | doc "Next Hop Self (Boolean)"
-                                                    | optional,
-                                                  next_hop_self_all
-                                                    | Bool
-                                                    | doc "Next Hop Self All (Boolean)"
-                                                    | optional,
-                                                  password
-                                                    | String
-                                                    | doc "Password (String)"
-                                                    | optional,
-                                                  password_type
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                7
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Password Type (Integer, String)"
-                                                    | optional,
-                                                  remote_as
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Integer,
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Remote AS (Integer, String)",
-                                                  route_maps
-                                                    | Array
-                                                      {
-                                                        direction
-                                                          | _js2n__-prdslib.contract_from_predicate
-                                                            (_js2n__-prdslib.anyOf
-                                                              [
-                                                                _js2n__-prdslib.allOf
-                                                                  [
-                                                                    _js2n__-prdslib.isType
-                                                                      '"String",
-                                                                    _js2n__-prdslib.enum
-                                                                      [
-                                                                        "in",
-                                                                        "out"
-                                                                      ]
-                                                                  ],
-                                                                _js2n__-prdslib.allOf
-                                                                  [
-                                                                    _js2n__-prdslib.isType
-                                                                      '"String",
-                                                                    _js2n__-prdslib.strings.pattern
-                                                                      "^.*[\\$\\%]\\{.*$"
-                                                                  ]
-                                                              ])
-                                                          | doc "Direction (String, String)",
-                                                        name
-                                                          | String
-                                                          | doc "Name (String)",
-                                                      }
-                                                    | doc m%"
-                                                      Route Maps (List - Object)
-                                                      
-                                                      Elements:
-                                                      - direction (required)
-                                                      - name (required)
-                                                    "%
-                                                    | optional,
-                                                  route_reflector_client
-                                                    | Bool
-                                                    | doc "Route Reflector Client (Boolean)"
-                                                    | optional,
-                                                  send_community
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
+                                                              _js2n__-prdslib.allOf
                                                                 [
-                                                                  "both",
-                                                                  "extended",
-                                                                  "standard"
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.enum
+                                                                    [
+                                                                      "in",
+                                                                      "out"
+                                                                    ]
+                                                                ],
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "^.*[\\$\\%]\\{.*$"
                                                                 ]
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Send Community (String, String)"
-                                                    | optional,
-                                                  shutdown
-                                                    | Bool
-                                                    | doc "Shutdown (Boolean)"
-                                                    | optional,
-                                                  soft_reconfiguration
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [ "inbound" ]
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Soft Reconfiguration (String, String)"
-                                                    | optional,
-                                                  timers_holdtime
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                3600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Timers Holdtime (Integer, String)"
-                                                    | optional,
-                                                  timers_keepalive
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                3600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Timers Keepalive (Integer, String)"
-                                                    | optional,
-                                                  timers_minimum_holdtime
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                3600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Timers Minimum Holdtime (Integer, String)"
-                                                    | optional,
-                                                  ttl_security_hops
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                254
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "TTL Security Hops (Integer, String)"
-                                                    | optional,
-                                                  update_source_loopback
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Integer,
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Update Source Loopback (Integer, String)"
-                                                    | optional,
-                                                }
-                                              | doc m%"
-                                                Neighbors (List - Object)
-                                                
-                                                Elements:
-                                                - ip (required)
-                                                - remote_as (required)
-                                                - description
-                                                - shutdown
-                                                - cluster_id
-                                                - log_neighbor_changes
-                                                - password_type
-                                                - password
-                                                - timers_keepalive
-                                                - timers_holdtime
-                                                - timers_minimum_holdtime
-                                                - fall_over_default_route_map
-                                                - fall_over_bfd_multi_hop
-                                                - fall_over_bfd_single_hop
-                                                - fall_over_bfd_check_control_plane_failure
-                                                - fall_over_bfd_strict_mode
-                                                - fall_over_maximum_metric_route_map
-                                                - disable_connected_check
-                                                - ttl_security_hops
-                                                - local_as
-                                                - local_as_no_prepend
-                                                - local_as_replace_as
-                                                - local_as_dual_as
-                                                - update_source_loopback
-                                                - activate
-                                                - send_community
-                                                - route_reflector_client
-                                                - soft_reconfiguration
-                                                - default_originate
-                                                - default_originate_route_map
-                                                - route_maps
-                                                - ebgp_multihop
-                                                - ebgp_multihop_max_hop
-                                                - ha_mode_graceful_restart
-                                                - next_hop_self
-                                                - next_hop_self_all
-                                                - advertisement_interval
-                                              "%
-                                              | optional,
-                                            networks
-                                              | Array
-                                                {
-                                                  backdoor
-                                                    | Bool
-                                                    | doc "Backdoor (Boolean)"
-                                                    | optional,
-                                                  evpn
-                                                    | Bool
-                                                    | doc "Evpn (Boolean)"
-                                                    | optional,
-                                                  mask
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Mask (String, String)"
-                                                    | optional,
-                                                  network
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Network (String, String)",
-                                                  route_map
-                                                    | String
-                                                    | doc "Route Map (String)"
-                                                    | optional,
-                                                }
-                                              | doc m%"
-                                                Networks (List - Object)
-                                                
-                                                Elements:
-                                                - network (required)
-                                                - mask
-                                                - route_map
-                                                - backdoor
-                                                - evpn
-                                              "%
-                                              | optional,
-                                            redistribute_connected
-                                              | Bool
-                                              | doc "Redistribute Connected (Boolean)"
-                                              | optional,
-                                            redistribute_static
-                                              | Bool
-                                              | doc "Redistribute Static (Boolean)"
-                                              | optional,
-                                            router_id_loopback
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      'Integer,
-                                                    _js2n__-prdslib.allOf
+                                                            ])
+                                                        | doc "Direction (String, String)",
+                                                      name
+                                                        | String
+                                                        | doc "Name (String)",
+                                                    }
+                                                  | doc m%"
+                                                    Route Maps (List - Object)
+                                                    
+                                                    Elements:
+                                                    - direction (required)
+                                                    - name (required)
+                                                  "%
+                                                  | optional,
+                                                route_reflector_client
+                                                  | Bool
+                                                  | doc "Route Reflector Client (Boolean)"
+                                                  | optional,
+                                                send_community
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Router ID Loopback (Integer, String)"
-                                              | optional,
-                                            vrf | String | doc "VRF (String)",
-                                          }
-                                        | doc m%"
-                                          VRFs (List - Object)
-                                          
-                                          Elements:
-                                          - vrf (required)
-                                          - advertise_l2vpn_evpn
-                                          - redistribute_connected
-                                          - router_id_loopback
-                                          - aggregate_addresses
-                                          - redistribute_static
-                                          - networks
-                                          - neighbors
-                                        "%
-                                        | optional,
-                                    }
-                                    | doc m%"
-                                      Ipv4 Unicast (Object)
-                                      
-                                      Elements:
-                                      - redistribute_connected
-                                      - redistribute_static
-                                      - aggregate_addresses
-                                      - networks
-                                      - neighbors
-                                      - vrfs
-                                    "%
-                                    | optional,
-                                  ipv6_unicast
-                                    | {
-                                      neighbors
-                                        | Array
-                                          {
-                                            activate
-                                              | Bool
-                                              | doc "Activate (Boolean)"
-                                              | optional,
-                                            default_originate
-                                              | Bool
-                                              | doc "Default Originate (Boolean)"
-                                              | optional,
-                                            default_originate_route_map
-                                              | String
-                                              | doc "Default Originate Route Map (String)"
-                                              | optional,
-                                            ip
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "IP (String, String)",
-                                            route_reflector_client
-                                              | Bool
-                                              | doc "Route Reflector Client (Boolean)"
-                                              | optional,
-                                            send_community
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
+                                                        _js2n__-prdslib.allOf
                                                           [
-                                                            "both",
-                                                            "extended",
-                                                            "standard"
-                                                          ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Send Community (String, String)"
-                                              | optional,
-                                            soft_reconfiguration
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [ "inbound" ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Soft Reconfiguration (String, String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Neighbors (List - Object)
-                                          
-                                          Elements:
-                                          - ip (required)
-                                          - activate
-                                          - send_community
-                                          - route_reflector_client
-                                          - soft_reconfiguration
-                                          - default_originate
-                                          - default_originate_route_map
-                                        "%
-                                        | optional,
-                                      networks
-                                        | Array
-                                          {
-                                            backdoor
-                                              | Bool
-                                              | doc "Backdoor (Boolean)"
-                                              | optional,
-                                            prefix
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Prefix (String, String)",
-                                            route_map
-                                              | String
-                                              | doc "Route Map (String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Networks (List - Object)
-                                          
-                                          Elements:
-                                          - prefix (required)
-                                          - route_map
-                                          - backdoor
-                                        "%
-                                        | optional,
-                                      redistribute_connected
-                                        | Bool
-                                        | doc "Redistribute Connected (Boolean)"
-                                        | optional,
-                                      redistribute_static
-                                        | Bool
-                                        | doc "Redistribute Static (Boolean)"
-                                        | optional,
-                                      vrfs
-                                        | Array
-                                          {
-                                            advertise_l2vpn_evpn
-                                              | Bool
-                                              | doc "Advertise L2Vpn Evpn (Boolean)"
-                                              | optional,
-                                            networks
-                                              | Array
-                                                {
-                                                  backdoor
-                                                    | Bool
-                                                    | doc "Backdoor (Boolean)"
-                                                    | optional,
-                                                  evpn
-                                                    | Bool
-                                                    | doc "Evpn (Boolean)"
-                                                    | optional,
-                                                  prefix
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Prefix (String, String)",
-                                                  route_map
-                                                    | String
-                                                    | doc "Route Map (String)"
-                                                    | optional,
-                                                }
-                                              | doc m%"
-                                                Networks (List - Object)
-                                                
-                                                Elements:
-                                                - prefix (required)
-                                                - route_map
-                                                - backdoor
-                                                - evpn
-                                              "%
-                                              | optional,
-                                            redistribute_connected
-                                              | Bool
-                                              | doc "Redistribute Connected (Boolean)"
-                                              | optional,
-                                            redistribute_static
-                                              | Bool
-                                              | doc "Redistribute Static (Boolean)"
-                                              | optional,
-                                            vrf | String | doc "VRF (String)",
-                                          }
-                                        | doc m%"
-                                          VRFs (List - Object)
-                                          
-                                          Elements:
-                                          - vrf (required)
-                                          - advertise_l2vpn_evpn
-                                          - redistribute_connected
-                                          - redistribute_static
-                                          - networks
-                                        "%
-                                        | optional,
-                                    }
-                                    | doc m%"
-                                      IPv6 Unicast (Object)
-                                      
-                                      Elements:
-                                      - redistribute_connected
-                                      - redistribute_static
-                                      - networks
-                                      - vrfs
-                                      - neighbors
-                                    "%
-                                    | optional,
-                                  l2vpn_evpn
-                                    | {
-                                      neighbors
-                                        | Array
-                                          {
-                                            activate
-                                              | Bool
-                                              | doc "Activate (Boolean)"
-                                              | optional,
-                                            ip
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "IP (String, String)",
-                                            route_reflector_client
-                                              | Bool
-                                              | doc "Route Reflector Client (Boolean)"
-                                              | optional,
-                                            send_community
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [
+                                                                "both",
+                                                                "extended",
+                                                                "standard"
+                                                              ]
+                                                          ],
+                                                        _js2n__-prdslib.allOf
                                                           [
-                                                            "both",
-                                                            "extended",
-                                                            "standard"
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
                                                           ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                      ])
+                                                  | doc "Send Community (String, String)"
+                                                  | optional,
+                                                shutdown
+                                                  | Bool
+                                                  | doc "Shutdown (Boolean)"
+                                                  | optional,
+                                                soft_reconfiguration
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [ "inbound" ]
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Soft Reconfiguration (String, String)"
+                                                  | optional,
+                                                timers_holdtime
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              3600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Timers Holdtime (Integer, String)"
+                                                  | optional,
+                                                timers_keepalive
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              3600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Timers Keepalive (Integer, String)"
+                                                  | optional,
+                                                timers_minimum_holdtime
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              3600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Timers Minimum Holdtime (Integer, String)"
+                                                  | optional,
+                                                ttl_security_hops
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              254
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "TTL Security Hops (Integer, String)"
+                                                  | optional,
+                                                update_source_loopback
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Integer,
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Update Source Loopback (Integer, String)"
+                                                  | optional,
+                                              }
+                                            | doc m%"
+                                              Neighbors (List - Object)
+                                              
+                                              Elements:
+                                              - ip (required)
+                                              - remote_as (required)
+                                              - description
+                                              - shutdown
+                                              - cluster_id
+                                              - log_neighbor_changes
+                                              - password_type
+                                              - password
+                                              - timers_keepalive
+                                              - timers_holdtime
+                                              - timers_minimum_holdtime
+                                              - fall_over_default_route_map
+                                              - fall_over_bfd
+                                              - fall_over_bfd_multi_hop
+                                              - fall_over_bfd_single_hop
+                                              - fall_over_bfd_check_control_plane_failure
+                                              - fall_over_bfd_strict_mode
+                                              - fall_over_maximum_metric_route_map
+                                              - disable_connected_check
+                                              - ttl_security_hops
+                                              - local_as
+                                              - local_as_no_prepend
+                                              - local_as_replace_as
+                                              - local_as_dual_as
+                                              - update_source_loopback
+                                              - activate
+                                              - send_community
+                                              - route_reflector_client
+                                              - soft_reconfiguration
+                                              - default_originate
+                                              - default_originate_route_map
+                                              - route_maps
+                                              - ebgp_multihop
+                                              - ebgp_multihop_max_hop
+                                              - ha_mode_graceful_restart
+                                              - next_hop_self
+                                              - next_hop_self_all
+                                              - advertisement_interval
+                                            "%
+                                            | optional,
+                                          networks
+                                            | Array
+                                              {
+                                                backdoor
+                                                  | Bool
+                                                  | doc "Backdoor (Boolean)"
+                                                  | optional,
+                                                evpn
+                                                  | Bool
+                                                  | doc "Evpn (Boolean)"
+                                                  | optional,
+                                                mask
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Send Community (String, String)"
-                                              | optional,
-                                            soft_reconfiguration
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Mask (String, String)"
+                                                  | optional,
+                                                network
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [ "inbound" ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Network (String, String)",
+                                                route_map
+                                                  | String
+                                                  | doc "Route Map (String)"
+                                                  | optional,
+                                              }
+                                            | doc m%"
+                                              Networks (List - Object)
+                                              
+                                              Elements:
+                                              - network (required)
+                                              - mask
+                                              - route_map
+                                              - backdoor
+                                              - evpn
+                                            "%
+                                            | optional,
+                                          redistribute_connected
+                                            | Bool
+                                            | doc "Redistribute Connected (Boolean)"
+                                            | optional,
+                                          redistribute_static
+                                            | Bool
+                                            | doc "Redistribute Static (Boolean)"
+                                            | optional,
+                                          router_id_loopback
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Integer,
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Router ID Loopback (Integer, String)"
+                                            | optional,
+                                          vrf | String | doc "VRF (String)",
+                                        }
+                                      | doc m%"
+                                        VRFs (List - Object)
+                                        
+                                        Elements:
+                                        - vrf (required)
+                                        - advertise_l2vpn_evpn
+                                        - redistribute_connected
+                                        - router_id_loopback
+                                        - aggregate_addresses
+                                        - redistribute_static
+                                        - networks
+                                        - neighbors
+                                      "%
+                                      | optional,
+                                  }
+                                  | doc m%"
+                                    Ipv4 Unicast (Object)
+                                    
+                                    Elements:
+                                    - redistribute_connected
+                                    - redistribute_static
+                                    - aggregate_addresses
+                                    - networks
+                                    - neighbors
+                                    - vrfs
+                                  "%
+                                  | optional,
+                                ipv6_unicast
+                                  | {
+                                    neighbors
+                                      | Array
+                                        {
+                                          activate
+                                            | Bool
+                                            | doc "Activate (Boolean)"
+                                            | optional,
+                                          default_originate
+                                            | Bool
+                                            | doc "Default Originate (Boolean)"
+                                            | optional,
+                                          default_originate_route_map
+                                            | String
+                                            | doc "Default Originate Route Map (String)"
+                                            | optional,
+                                          ip
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "IP (String, String)",
+                                          route_reflector_client
+                                            | Bool
+                                            | doc "Route Reflector Client (Boolean)"
+                                            | optional,
+                                          send_community
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "both",
+                                                          "extended",
+                                                          "standard"
+                                                        ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Send Community (String, String)"
+                                            | optional,
+                                          soft_reconfiguration
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "inbound" ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Soft Reconfiguration (String, String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Neighbors (List - Object)
+                                        
+                                        Elements:
+                                        - ip (required)
+                                        - activate
+                                        - send_community
+                                        - route_reflector_client
+                                        - soft_reconfiguration
+                                        - default_originate
+                                        - default_originate_route_map
+                                      "%
+                                      | optional,
+                                    networks
+                                      | Array
+                                        {
+                                          backdoor
+                                            | Bool
+                                            | doc "Backdoor (Boolean)"
+                                            | optional,
+                                          prefix
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Prefix (String, String)",
+                                          route_map
+                                            | String
+                                            | doc "Route Map (String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Networks (List - Object)
+                                        
+                                        Elements:
+                                        - prefix (required)
+                                        - route_map
+                                        - backdoor
+                                      "%
+                                      | optional,
+                                    redistribute_connected
+                                      | Bool
+                                      | doc "Redistribute Connected (Boolean)"
+                                      | optional,
+                                    redistribute_static
+                                      | Bool
+                                      | doc "Redistribute Static (Boolean)"
+                                      | optional,
+                                    vrfs
+                                      | Array
+                                        {
+                                          advertise_l2vpn_evpn
+                                            | Bool
+                                            | doc "Advertise L2Vpn Evpn (Boolean)"
+                                            | optional,
+                                          networks
+                                            | Array
+                                              {
+                                                backdoor
+                                                  | Bool
+                                                  | doc "Backdoor (Boolean)"
+                                                  | optional,
+                                                evpn
+                                                  | Bool
+                                                  | doc "Evpn (Boolean)"
+                                                  | optional,
+                                                prefix
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Soft Reconfiguration (String, String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Neighbors (List - Object)
-                                          
-                                          Elements:
-                                          - ip (required)
-                                          - activate
-                                          - send_community
-                                          - route_reflector_client
-                                          - soft_reconfiguration
-                                        "%
-                                        | optional,
-                                    }
-                                    | doc m%"
-                                      L2Vpn Evpn (Object)
-                                      
-                                      Elements:
-                                      - neighbors
-                                    "%
-                                    | optional,
-                                }
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Prefix (String, String)",
+                                                route_map
+                                                  | String
+                                                  | doc "Route Map (String)"
+                                                  | optional,
+                                              }
+                                            | doc m%"
+                                              Networks (List - Object)
+                                              
+                                              Elements:
+                                              - prefix (required)
+                                              - route_map
+                                              - backdoor
+                                              - evpn
+                                            "%
+                                            | optional,
+                                          redistribute_connected
+                                            | Bool
+                                            | doc "Redistribute Connected (Boolean)"
+                                            | optional,
+                                          redistribute_static
+                                            | Bool
+                                            | doc "Redistribute Static (Boolean)"
+                                            | optional,
+                                          vrf | String | doc "VRF (String)",
+                                        }
+                                      | doc m%"
+                                        VRFs (List - Object)
+                                        
+                                        Elements:
+                                        - vrf (required)
+                                        - advertise_l2vpn_evpn
+                                        - redistribute_connected
+                                        - redistribute_static
+                                        - networks
+                                      "%
+                                      | optional,
+                                  }
+                                  | doc m%"
+                                    IPv6 Unicast (Object)
+                                    
+                                    Elements:
+                                    - redistribute_connected
+                                    - redistribute_static
+                                    - networks
+                                    - vrfs
+                                    - neighbors
+                                  "%
+                                  | optional,
+                                l2vpn_evpn
+                                  | {
+                                    neighbors
+                                      | Array
+                                        {
+                                          activate
+                                            | Bool
+                                            | doc "Activate (Boolean)"
+                                            | optional,
+                                          ip
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "IP (String, String)",
+                                          route_reflector_client
+                                            | Bool
+                                            | doc "Route Reflector Client (Boolean)"
+                                            | optional,
+                                          send_community
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "both",
+                                                          "extended",
+                                                          "standard"
+                                                        ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Send Community (String, String)"
+                                            | optional,
+                                          soft_reconfiguration
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "inbound" ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Soft Reconfiguration (String, String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Neighbors (List - Object)
+                                        
+                                        Elements:
+                                        - ip (required)
+                                        - activate
+                                        - send_community
+                                        - route_reflector_client
+                                        - soft_reconfiguration
+                                      "%
+                                      | optional,
+                                  }
+                                  | doc m%"
+                                    L2Vpn Evpn (Object)
+                                    
+                                    Elements:
+                                    - neighbors
+                                  "%
+                                  | optional,
+                              }
                               | doc m%"
-                                Address Families (List - Object)
+                                Address Family (Object)
                                 
                                 Elements:
                                 - ipv4_unicast
@@ -74814,7 +74860,7 @@ let rec _js2n__-refsenv
                             - default_ipv4_unicast
                             - log_neighbor_changes
                             - router_id_loopback
-                            - address_families
+                            - address_family
                             - neighbors
                           "%
                           | optional,
@@ -81100,337 +81146,361 @@ let rec _js2n__-refsenv
                           | Bool
                           | doc "Calendar Valid (Boolean)"
                           | optional,
-                        summer_time_date
-                          | Bool
-                          | doc "Summer Time Date (Boolean)"
-                          | optional,
-                        summer_time_date_end_day
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
+                        summer_time
+                          | {
+                            date | Bool | doc "Date (Boolean)" | optional,
+                            date_end_day
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Integer,
+                                        _js2n__-prdslib.numbers.maximum 31,
+                                        _js2n__-prdslib.numbers.minimum 1
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Date End Day (Integer, String)"
+                              | optional,
+                            date_end_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Date End Month (String, String)"
+                              | optional,
+                            date_end_time
+                              | String
+                              | doc "Date End Time (String)"
+                              | optional,
+                            date_end_year
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
                                     _js2n__-prdslib.isType 'Integer,
-                                    _js2n__-prdslib.numbers.maximum 31,
-                                    _js2n__-prdslib.numbers.minimum 1
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date End Day (Integer, String)"
-                          | optional,
-                        summer_time_date_end_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date End Month (String, String)"
-                          | optional,
-                        summer_time_date_end_time
-                          | String
-                          | doc "Summer Time Date End Time (String)"
-                          | optional,
-                        summer_time_date_end_year
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date End Year (Integer, String)"
-                          | optional,
-                        summer_time_date_offset
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Offset (Integer, String)"
-                          | optional,
-                        summer_time_date_start_day
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date End Year (Integer, String)"
+                              | optional,
+                            date_offset
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
                                     _js2n__-prdslib.isType 'Integer,
-                                    _js2n__-prdslib.numbers.maximum 31,
-                                    _js2n__-prdslib.numbers.minimum 1
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Start Day (Integer, String)"
-                          | optional,
-                        summer_time_date_start_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date Offset (Integer, String)"
+                              | optional,
+                            date_start_day
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Start Month (String, String)"
-                          | optional,
-                        summer_time_date_start_time
-                          | String
-                          | doc "Summer Time Date Start Time (String)"
-                          | optional,
-                        summer_time_date_start_year
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Date Start Year (Integer, String)"
-                          | optional,
-                        summer_time_recurring
-                          | Bool
-                          | doc "Summer Time Recurring (Boolean)"
-                          | optional,
-                        summer_time_recurring_end_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
-                                      ]
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring End Month (String, String)"
-                          | optional,
-                        summer_time_recurring_end_time
-                          | String
-                          | doc "Summer Time Recurring End Time (String)"
-                          | optional,
-                        summer_time_recurring_end_week
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring End Week (Integer, String)"
-                          | optional,
-                        summer_time_recurring_end_weekday
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                        _js2n__-prdslib.isType 'Integer,
+                                        _js2n__-prdslib.numbers.maximum 31,
+                                        _js2n__-prdslib.numbers.minimum 1
+                                      ],
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Sun",
-                                        "Mon",
-                                        "Tue",
-                                        "Wed",
-                                        "Thu",
-                                        "Fri",
-                                        "Sat"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date Start Day (Integer, String)"
+                              | optional,
+                            date_start_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring End Weekday (String, String)"
-                          | optional,
-                        summer_time_recurring_offset
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Offset (Integer, String)"
-                          | optional,
-                        summer_time_recurring_start_month
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
-                                      ]
-                                  ],
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Start Month (String, String)"
-                          | optional,
-                        summer_time_recurring_start_time
-                          | String
-                          | doc "Summer Time Recurring Start Time (String)"
-                          | optional,
-                        summer_time_recurring_start_week
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.isType 'Integer,
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Start Week (Integer, String)"
-                          | optional,
-                        summer_time_recurring_start_weekday
-                          | _js2n__-prdslib.contract_from_predicate
-                            (_js2n__-prdslib.anyOf
-                              [
-                                _js2n__-prdslib.allOf
-                                  [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.enum
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
                                       [
-                                        "Sun",
-                                        "Mon",
-                                        "Tue",
-                                        "Wed",
-                                        "Thu",
-                                        "Fri",
-                                        "Sat"
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
                                       ]
-                                  ],
-                                _js2n__-prdslib.allOf
+                                  ])
+                              | doc "Date Start Month (String, String)"
+                              | optional,
+                            date_start_time
+                              | String
+                              | doc "Date Start Time (String)"
+                              | optional,
+                            date_start_year
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern
-                                      "^.*[\\$\\%]\\{.*$"
-                                  ]
-                              ])
-                          | doc "Summer Time Recurring Start Weekday (String, String)"
-                          | optional,
-                        summer_time_zone
-                          | String
-                          | doc "Summer Time Zone (String)"
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Date Start Year (Integer, String)"
+                              | optional,
+                            recurring
+                              | Bool
+                              | doc "Recurring (Boolean)"
+                              | optional,
+                            recurring_end_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring End Month (String, String)"
+                              | optional,
+                            recurring_end_time
+                              | String
+                              | doc "Recurring End Time (String)"
+                              | optional,
+                            recurring_end_week
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring End Week (Integer, String)"
+                              | optional,
+                            recurring_end_weekday
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Sun",
+                                            "Mon",
+                                            "Tue",
+                                            "Wed",
+                                            "Thu",
+                                            "Fri",
+                                            "Sat"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring End Weekday (String, String)"
+                              | optional,
+                            recurring_offset
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Offset (Integer, String)"
+                              | optional,
+                            recurring_start_month
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Jan",
+                                            "Feb",
+                                            "Mar",
+                                            "Apr",
+                                            "May",
+                                            "Jun",
+                                            "Jul",
+                                            "Aug",
+                                            "Sep",
+                                            "Oct",
+                                            "Nov",
+                                            "Dec"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Start Month (String, String)"
+                              | optional,
+                            recurring_start_time
+                              | String
+                              | doc "Recurring Start Time (String)"
+                              | optional,
+                            recurring_start_week
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.isType 'Integer,
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Start Week (Integer, String)"
+                              | optional,
+                            recurring_start_weekday
+                              | _js2n__-prdslib.contract_from_predicate
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "Sun",
+                                            "Mon",
+                                            "Tue",
+                                            "Wed",
+                                            "Thu",
+                                            "Fri",
+                                            "Sat"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^.*[\\$\\%]\\{.*$"
+                                      ]
+                                  ])
+                              | doc "Recurring Start Weekday (String, String)"
+                              | optional,
+                            zone | String | doc "Zone (String)" | optional,
+                          }
+                          | doc m%"
+                            Summer Time (Object)
+                            
+                            Elements:
+                            - zone
+                            - date
+                            - date_start_day
+                            - date_start_month
+                            - date_start_year
+                            - date_start_time
+                            - date_end_day
+                            - date_end_month
+                            - date_end_year
+                            - date_end_time
+                            - date_offset
+                            - recurring
+                            - recurring_start_week
+                            - recurring_start_weekday
+                            - recurring_start_month
+                            - recurring_start_time
+                            - recurring_end_week
+                            - recurring_end_weekday
+                            - recurring_end_month
+                            - recurring_end_time
+                            - recurring_offset
+                          "%
                           | optional,
                       }
                       | doc m%"
@@ -81438,27 +81508,7 @@ let rec _js2n__-refsenv
                         
                         Elements:
                         - calendar_valid
-                        - summer_time_zone
-                        - summer_time_date
-                        - summer_time_date_start_day
-                        - summer_time_date_start_month
-                        - summer_time_date_start_year
-                        - summer_time_date_start_time
-                        - summer_time_date_end_day
-                        - summer_time_date_end_month
-                        - summer_time_date_end_year
-                        - summer_time_date_end_time
-                        - summer_time_date_offset
-                        - summer_time_recurring
-                        - summer_time_recurring_start_week
-                        - summer_time_recurring_start_weekday
-                        - summer_time_recurring_start_month
-                        - summer_time_recurring_start_time
-                        - summer_time_recurring_end_week
-                        - summer_time_recurring_end_weekday
-                        - summer_time_recurring_end_month
-                        - summer_time_recurring_end_time
-                        - summer_time_recurring_offset
+                        - summer_time
                       "%
                       | optional,
                     community_lists
@@ -88664,6 +88714,10 @@ let rec _js2n__-refsenv
                                     ])
                                 | doc "Prematch (String, String)"
                                 | optional,
+                              subscriber
+                                | Bool
+                                | doc "Subscriber (Boolean)"
+                                | optional,
                               type
                                 | _js2n__-prdslib.contract_from_predicate
                                   (_js2n__-prdslib.anyOf
@@ -88690,6 +88744,7 @@ let rec _js2n__-refsenv
                             Elements:
                             - name (required)
                             - type
+                            - subscriber
                             - prematch
                             - match_authorization_status_authorized
                             - match_result_type_aaa_timeout
@@ -91269,1168 +91324,1172 @@ let rec _js2n__-refsenv
                       | {
                         bgp
                           | {
-                            address_families
-                              | Array
-                                {
-                                  ipv4_unicast
-                                    | {
-                                      aggregate_addresses
-                                        | Array
-                                          {
-                                            address
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
+                            address_family
+                              | {
+                                ipv4_unicast
+                                  | {
+                                    aggregate_addresses
+                                      | Array
+                                        {
+                                          address
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Address (String, String)",
+                                          mask
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Mask (String, String)",
+                                        }
+                                      | doc m%"
+                                        Aggregate Addresses (List - Object)
+                                        
+                                        Elements:
+                                        - address (required)
+                                        - mask (required)
+                                      "%
+                                      | optional,
+                                    neighbors
+                                      | Array
+                                        {
+                                          activate
+                                            | Bool
+                                            | doc "Activate (Boolean)"
+                                            | optional,
+                                          default_originate
+                                            | Bool
+                                            | doc "Default Originate (Boolean)"
+                                            | optional,
+                                          default_originate_route_map
+                                            | String
+                                            | doc "Default Originate Route Map (String)"
+                                            | optional,
+                                          ip
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "IP (String, String)",
+                                          route_maps
+                                            | Array
+                                              {
+                                                direction
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Address (String, String)",
-                                            mask
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Mask (String, String)",
-                                          }
-                                        | doc m%"
-                                          Aggregate Addresses (List - Object)
-                                          
-                                          Elements:
-                                          - address (required)
-                                          - mask (required)
-                                        "%
-                                        | optional,
-                                      neighbors
-                                        | Array
-                                          {
-                                            activate
-                                              | Bool
-                                              | doc "Activate (Boolean)"
-                                              | optional,
-                                            default_originate
-                                              | Bool
-                                              | doc "Default Originate (Boolean)"
-                                              | optional,
-                                            default_originate_route_map
-                                              | String
-                                              | doc "Default Originate Route Map (String)"
-                                              | optional,
-                                            ip
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "IP (String, String)",
-                                            route_maps
-                                              | Array
-                                                {
-                                                  direction
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [ "in", "out" ]
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Direction (String, String)",
-                                                  name
-                                                    | String
-                                                    | doc "Name (String)",
-                                                }
-                                              | doc m%"
-                                                Route Maps (List - Object)
-                                                
-                                                Elements:
-                                                - direction (required)
-                                                - name (required)
-                                              "%
-                                              | optional,
-                                            route_reflector_client
-                                              | Bool
-                                              | doc "Route Reflector Client (Boolean)"
-                                              | optional,
-                                            send_community
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
+                                                        _js2n__-prdslib.allOf
                                                           [
-                                                            "both",
-                                                            "extended",
-                                                            "standard"
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [ "in", "out" ]
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
                                                           ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                      ])
+                                                  | doc "Direction (String, String)",
+                                                name
+                                                  | String
+                                                  | doc "Name (String)",
+                                              }
+                                            | doc m%"
+                                              Route Maps (List - Object)
+                                              
+                                              Elements:
+                                              - direction (required)
+                                              - name (required)
+                                            "%
+                                            | optional,
+                                          route_reflector_client
+                                            | Bool
+                                            | doc "Route Reflector Client (Boolean)"
+                                            | optional,
+                                          send_community
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "both",
+                                                          "extended",
+                                                          "standard"
+                                                        ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Send Community (String, String)"
+                                            | optional,
+                                          soft_reconfiguration
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "inbound" ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Soft Reconfiguration (String, String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Neighbors (List - Object)
+                                        
+                                        Elements:
+                                        - ip (required)
+                                        - activate
+                                        - send_community
+                                        - route_reflector_client
+                                        - soft_reconfiguration
+                                        - default_originate
+                                        - default_originate_route_map
+                                        - route_maps
+                                      "%
+                                      | optional,
+                                    networks
+                                      | Array
+                                        {
+                                          backdoor
+                                            | Bool
+                                            | doc "Backdoor (Boolean)"
+                                            | optional,
+                                          mask
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Mask (String, String)"
+                                            | optional,
+                                          network
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Network (String, String)",
+                                          route_map
+                                            | String
+                                            | doc "Route Map (String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Networks (List - Object)
+                                        
+                                        Elements:
+                                        - network (required)
+                                        - mask
+                                        - route_map
+                                        - backdoor
+                                      "%
+                                      | optional,
+                                    redistribute_connected
+                                      | Bool
+                                      | doc "Redistribute Connected (Boolean)"
+                                      | optional,
+                                    redistribute_static
+                                      | Bool
+                                      | doc "Redistribute Static (Boolean)"
+                                      | optional,
+                                    vrfs
+                                      | Array
+                                        {
+                                          advertise_l2vpn_evpn
+                                            | Bool
+                                            | doc "Advertise L2Vpn Evpn (Boolean)"
+                                            | optional,
+                                          aggregate_addresses
+                                            | Array
+                                              {
+                                                address
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Send Community (String, String)"
-                                              | optional,
-                                            soft_reconfiguration
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Address (String, String)",
+                                                mask
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [ "inbound" ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Mask (String, String)",
+                                              }
+                                            | doc m%"
+                                              Aggregate Addresses (List - Object)
+                                              
+                                              Elements:
+                                              - address (required)
+                                              - mask (required)
+                                            "%
+                                            | optional,
+                                          neighbors
+                                            | Array
+                                              {
+                                                activate
+                                                  | Bool
+                                                  | doc "Activate (Boolean)"
+                                                  | optional,
+                                                advertisement_interval
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Advertisement Interval (Integer, String)"
+                                                  | optional,
+                                                cluster_id
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Soft Reconfiguration (String, String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Neighbors (List - Object)
-                                          
-                                          Elements:
-                                          - ip (required)
-                                          - activate
-                                          - send_community
-                                          - route_reflector_client
-                                          - soft_reconfiguration
-                                          - default_originate
-                                          - default_originate_route_map
-                                          - route_maps
-                                        "%
-                                        | optional,
-                                      networks
-                                        | Array
-                                          {
-                                            backdoor
-                                              | Bool
-                                              | doc "Backdoor (Boolean)"
-                                              | optional,
-                                            mask
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Cluster ID (String, String)"
+                                                  | optional,
+                                                default_originate
+                                                  | Bool
+                                                  | doc "Default Originate (Boolean)"
+                                                  | optional,
+                                                default_originate_route_map
+                                                  | String
+                                                  | doc "Default Originate Route Map (String)"
+                                                  | optional,
+                                                description
+                                                  | String
+                                                  | doc "Description (String)"
+                                                  | optional,
+                                                disable_connected_check
+                                                  | Bool
+                                                  | doc "Disable Connected Check (Boolean)"
+                                                  | optional,
+                                                ebgp_multihop
+                                                  | Bool
+                                                  | doc "Ebgp Multihop (Boolean)"
+                                                  | optional,
+                                                ebgp_multihop_max_hop
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              255,
+                                                            _js2n__-prdslib.numbers.minimum
+                                                              1
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Ebgp Multihop Max Hop (Integer, String)"
+                                                  | optional,
+                                                fall_over_bfd
+                                                  | Bool
+                                                  | doc "Fall Over BFD (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_check_control_plane_failure
+                                                  | Bool
+                                                  | doc "Fall Over BFD Check Control Plane Failure (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_multi_hop
+                                                  | Bool
+                                                  | doc "Fall Over BFD Multi Hop (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_single_hop
+                                                  | Bool
+                                                  | doc "Fall Over BFD Single Hop (Boolean)"
+                                                  | optional,
+                                                fall_over_bfd_strict_mode
+                                                  | Bool
+                                                  | doc "Fall Over BFD Strict Mode (Boolean)"
+                                                  | optional,
+                                                fall_over_default_route_map
+                                                  | String
+                                                  | doc "Fall Over Default Route Map (String)"
+                                                  | optional,
+                                                fall_over_maximum_metric_route_map
+                                                  | String
+                                                  | doc "Fall Over Maximum Metric Route Map (String)"
+                                                  | optional,
+                                                ha_mode_graceful_restart
+                                                  | Bool
+                                                  | doc "Ha Mode Graceful Restart (Boolean)"
+                                                  | optional,
+                                                ip
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Mask (String, String)"
-                                              | optional,
-                                            network
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "IP (String, String)",
+                                                local_as
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Network (String, String)",
-                                            route_map
-                                              | String
-                                              | doc "Route Map (String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Networks (List - Object)
-                                          
-                                          Elements:
-                                          - network (required)
-                                          - mask
-                                          - route_map
-                                          - backdoor
-                                        "%
-                                        | optional,
-                                      redistribute_connected
-                                        | Bool
-                                        | doc "Redistribute Connected (Boolean)"
-                                        | optional,
-                                      redistribute_static
-                                        | Bool
-                                        | doc "Redistribute Static (Boolean)"
-                                        | optional,
-                                      vrfs
-                                        | Array
-                                          {
-                                            advertise_l2vpn_evpn
-                                              | Bool
-                                              | doc "Advertise L2Vpn Evpn (Boolean)"
-                                              | optional,
-                                            aggregate_addresses
-                                              | Array
-                                                {
-                                                  address
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
+                                                          'Integer,
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Local AS (Integer, String)"
+                                                  | optional,
+                                                local_as_dual_as
+                                                  | Bool
+                                                  | doc "Local AS Dual AS (Boolean)"
+                                                  | optional,
+                                                local_as_no_prepend
+                                                  | Bool
+                                                  | doc "Local AS No Prepend (Boolean)"
+                                                  | optional,
+                                                local_as_replace_as
+                                                  | Bool
+                                                  | doc "Local AS Replace AS (Boolean)"
+                                                  | optional,
+                                                log_neighbor_changes
+                                                  | Bool
+                                                  | doc "Log Neighbor Changes (Boolean)"
+                                                  | optional,
+                                                next_hop_self
+                                                  | Bool
+                                                  | doc "Next Hop Self (Boolean)"
+                                                  | optional,
+                                                next_hop_self_all
+                                                  | Bool
+                                                  | doc "Next Hop Self All (Boolean)"
+                                                  | optional,
+                                                password
+                                                  | String
+                                                  | doc "Password (String)"
+                                                  | optional,
+                                                password_type
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              7
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Password Type (Integer, String)"
+                                                  | optional,
+                                                remote_as
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Integer,
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Remote AS (Integer, String)",
+                                                route_maps
+                                                  | Array
+                                                    {
+                                                      direction
+                                                        | _js2n__-prdslib.contract_from_predicate
+                                                          (_js2n__-prdslib.anyOf
                                                             [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Address (String, String)",
-                                                  mask
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Mask (String, String)",
-                                                }
-                                              | doc m%"
-                                                Aggregate Addresses (List - Object)
-                                                
-                                                Elements:
-                                                - address (required)
-                                                - mask (required)
-                                              "%
-                                              | optional,
-                                            neighbors
-                                              | Array
-                                                {
-                                                  activate
-                                                    | Bool
-                                                    | doc "Activate (Boolean)"
-                                                    | optional,
-                                                  advertisement_interval
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Advertisement Interval (Integer, String)"
-                                                    | optional,
-                                                  cluster_id
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Cluster ID (String, String)"
-                                                    | optional,
-                                                  default_originate
-                                                    | Bool
-                                                    | doc "Default Originate (Boolean)"
-                                                    | optional,
-                                                  default_originate_route_map
-                                                    | String
-                                                    | doc "Default Originate Route Map (String)"
-                                                    | optional,
-                                                  description
-                                                    | String
-                                                    | doc "Description (String)"
-                                                    | optional,
-                                                  disable_connected_check
-                                                    | Bool
-                                                    | doc "Disable Connected Check (Boolean)"
-                                                    | optional,
-                                                  ebgp_multihop
-                                                    | Bool
-                                                    | doc "Ebgp Multihop (Boolean)"
-                                                    | optional,
-                                                  ebgp_multihop_max_hop
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                255,
-                                                              _js2n__-prdslib.numbers.minimum
-                                                                1
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Ebgp Multihop Max Hop (Integer, String)"
-                                                    | optional,
-                                                  fall_over_bfd_check_control_plane_failure
-                                                    | Bool
-                                                    | doc "Fall Over BFD Check Control Plane Failure (Boolean)"
-                                                    | optional,
-                                                  fall_over_bfd_multi_hop
-                                                    | Bool
-                                                    | doc "Fall Over BFD Multi Hop (Boolean)"
-                                                    | optional,
-                                                  fall_over_bfd_single_hop
-                                                    | Bool
-                                                    | doc "Fall Over BFD Single Hop (Boolean)"
-                                                    | optional,
-                                                  fall_over_bfd_strict_mode
-                                                    | Bool
-                                                    | doc "Fall Over BFD Strict Mode (Boolean)"
-                                                    | optional,
-                                                  fall_over_default_route_map
-                                                    | String
-                                                    | doc "Fall Over Default Route Map (String)"
-                                                    | optional,
-                                                  fall_over_maximum_metric_route_map
-                                                    | String
-                                                    | doc "Fall Over Maximum Metric Route Map (String)"
-                                                    | optional,
-                                                  ha_mode_graceful_restart
-                                                    | Bool
-                                                    | doc "Ha Mode Graceful Restart (Boolean)"
-                                                    | optional,
-                                                  ip
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "IP (String, String)",
-                                                  local_as
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Integer,
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Local AS (Integer, String)"
-                                                    | optional,
-                                                  local_as_dual_as
-                                                    | Bool
-                                                    | doc "Local AS Dual AS (Boolean)"
-                                                    | optional,
-                                                  local_as_no_prepend
-                                                    | Bool
-                                                    | doc "Local AS No Prepend (Boolean)"
-                                                    | optional,
-                                                  local_as_replace_as
-                                                    | Bool
-                                                    | doc "Local AS Replace AS (Boolean)"
-                                                    | optional,
-                                                  log_neighbor_changes
-                                                    | Bool
-                                                    | doc "Log Neighbor Changes (Boolean)"
-                                                    | optional,
-                                                  next_hop_self
-                                                    | Bool
-                                                    | doc "Next Hop Self (Boolean)"
-                                                    | optional,
-                                                  next_hop_self_all
-                                                    | Bool
-                                                    | doc "Next Hop Self All (Boolean)"
-                                                    | optional,
-                                                  password
-                                                    | String
-                                                    | doc "Password (String)"
-                                                    | optional,
-                                                  password_type
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                7
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Password Type (Integer, String)"
-                                                    | optional,
-                                                  remote_as
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Integer,
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Remote AS (Integer, String)",
-                                                  route_maps
-                                                    | Array
-                                                      {
-                                                        direction
-                                                          | _js2n__-prdslib.contract_from_predicate
-                                                            (_js2n__-prdslib.anyOf
-                                                              [
-                                                                _js2n__-prdslib.allOf
-                                                                  [
-                                                                    _js2n__-prdslib.isType
-                                                                      '"String",
-                                                                    _js2n__-prdslib.enum
-                                                                      [
-                                                                        "in",
-                                                                        "out"
-                                                                      ]
-                                                                  ],
-                                                                _js2n__-prdslib.allOf
-                                                                  [
-                                                                    _js2n__-prdslib.isType
-                                                                      '"String",
-                                                                    _js2n__-prdslib.strings.pattern
-                                                                      "^.*[\\$\\%]\\{.*$"
-                                                                  ]
-                                                              ])
-                                                          | doc "Direction (String, String)",
-                                                        name
-                                                          | String
-                                                          | doc "Name (String)",
-                                                      }
-                                                    | doc m%"
-                                                      Route Maps (List - Object)
-                                                      
-                                                      Elements:
-                                                      - direction (required)
-                                                      - name (required)
-                                                    "%
-                                                    | optional,
-                                                  route_reflector_client
-                                                    | Bool
-                                                    | doc "Route Reflector Client (Boolean)"
-                                                    | optional,
-                                                  send_community
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
+                                                              _js2n__-prdslib.allOf
                                                                 [
-                                                                  "both",
-                                                                  "extended",
-                                                                  "standard"
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.enum
+                                                                    [
+                                                                      "in",
+                                                                      "out"
+                                                                    ]
+                                                                ],
+                                                              _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.strings.pattern
+                                                                    "^.*[\\$\\%]\\{.*$"
                                                                 ]
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Send Community (String, String)"
-                                                    | optional,
-                                                  shutdown
-                                                    | Bool
-                                                    | doc "Shutdown (Boolean)"
-                                                    | optional,
-                                                  soft_reconfiguration
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.enum
-                                                                [ "inbound" ]
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Soft Reconfiguration (String, String)"
-                                                    | optional,
-                                                  timers_holdtime
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                3600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Timers Holdtime (Integer, String)"
-                                                    | optional,
-                                                  timers_keepalive
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                3600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Timers Keepalive (Integer, String)"
-                                                    | optional,
-                                                  timers_minimum_holdtime
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                3600
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Timers Minimum Holdtime (Integer, String)"
-                                                    | optional,
-                                                  ttl_security_hops
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                'Integer,
-                                                              _js2n__-prdslib.numbers.maximum
-                                                                254
-                                                            ],
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "TTL Security Hops (Integer, String)"
-                                                    | optional,
-                                                  update_source_loopback
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            'Integer,
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Update Source Loopback (Integer, String)"
-                                                    | optional,
-                                                }
-                                              | doc m%"
-                                                Neighbors (List - Object)
-                                                
-                                                Elements:
-                                                - ip (required)
-                                                - remote_as (required)
-                                                - description
-                                                - shutdown
-                                                - cluster_id
-                                                - log_neighbor_changes
-                                                - password_type
-                                                - password
-                                                - timers_keepalive
-                                                - timers_holdtime
-                                                - timers_minimum_holdtime
-                                                - fall_over_default_route_map
-                                                - fall_over_bfd_multi_hop
-                                                - fall_over_bfd_single_hop
-                                                - fall_over_bfd_check_control_plane_failure
-                                                - fall_over_bfd_strict_mode
-                                                - fall_over_maximum_metric_route_map
-                                                - disable_connected_check
-                                                - ttl_security_hops
-                                                - local_as
-                                                - local_as_no_prepend
-                                                - local_as_replace_as
-                                                - local_as_dual_as
-                                                - update_source_loopback
-                                                - activate
-                                                - send_community
-                                                - route_reflector_client
-                                                - soft_reconfiguration
-                                                - default_originate
-                                                - default_originate_route_map
-                                                - route_maps
-                                                - ebgp_multihop
-                                                - ebgp_multihop_max_hop
-                                                - ha_mode_graceful_restart
-                                                - next_hop_self
-                                                - next_hop_self_all
-                                                - advertisement_interval
-                                              "%
-                                              | optional,
-                                            networks
-                                              | Array
-                                                {
-                                                  backdoor
-                                                    | Bool
-                                                    | doc "Backdoor (Boolean)"
-                                                    | optional,
-                                                  evpn
-                                                    | Bool
-                                                    | doc "Evpn (Boolean)"
-                                                    | optional,
-                                                  mask
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Mask (String, String)"
-                                                    | optional,
-                                                  network
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Network (String, String)",
-                                                  route_map
-                                                    | String
-                                                    | doc "Route Map (String)"
-                                                    | optional,
-                                                }
-                                              | doc m%"
-                                                Networks (List - Object)
-                                                
-                                                Elements:
-                                                - network (required)
-                                                - mask
-                                                - route_map
-                                                - backdoor
-                                                - evpn
-                                              "%
-                                              | optional,
-                                            redistribute_connected
-                                              | Bool
-                                              | doc "Redistribute Connected (Boolean)"
-                                              | optional,
-                                            redistribute_static
-                                              | Bool
-                                              | doc "Redistribute Static (Boolean)"
-                                              | optional,
-                                            router_id_loopback
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      'Integer,
-                                                    _js2n__-prdslib.allOf
+                                                            ])
+                                                        | doc "Direction (String, String)",
+                                                      name
+                                                        | String
+                                                        | doc "Name (String)",
+                                                    }
+                                                  | doc m%"
+                                                    Route Maps (List - Object)
+                                                    
+                                                    Elements:
+                                                    - direction (required)
+                                                    - name (required)
+                                                  "%
+                                                  | optional,
+                                                route_reflector_client
+                                                  | Bool
+                                                  | doc "Route Reflector Client (Boolean)"
+                                                  | optional,
+                                                send_community
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Router ID Loopback (Integer, String)"
-                                              | optional,
-                                            vrf | String | doc "VRF (String)",
-                                          }
-                                        | doc m%"
-                                          VRFs (List - Object)
-                                          
-                                          Elements:
-                                          - vrf (required)
-                                          - advertise_l2vpn_evpn
-                                          - redistribute_connected
-                                          - router_id_loopback
-                                          - aggregate_addresses
-                                          - redistribute_static
-                                          - networks
-                                          - neighbors
-                                        "%
-                                        | optional,
-                                    }
-                                    | doc m%"
-                                      Ipv4 Unicast (Object)
-                                      
-                                      Elements:
-                                      - redistribute_connected
-                                      - redistribute_static
-                                      - aggregate_addresses
-                                      - networks
-                                      - neighbors
-                                      - vrfs
-                                    "%
-                                    | optional,
-                                  ipv6_unicast
-                                    | {
-                                      neighbors
-                                        | Array
-                                          {
-                                            activate
-                                              | Bool
-                                              | doc "Activate (Boolean)"
-                                              | optional,
-                                            default_originate
-                                              | Bool
-                                              | doc "Default Originate (Boolean)"
-                                              | optional,
-                                            default_originate_route_map
-                                              | String
-                                              | doc "Default Originate Route Map (String)"
-                                              | optional,
-                                            ip
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "IP (String, String)",
-                                            route_reflector_client
-                                              | Bool
-                                              | doc "Route Reflector Client (Boolean)"
-                                              | optional,
-                                            send_community
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
+                                                        _js2n__-prdslib.allOf
                                                           [
-                                                            "both",
-                                                            "extended",
-                                                            "standard"
-                                                          ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Send Community (String, String)"
-                                              | optional,
-                                            soft_reconfiguration
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [ "inbound" ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Soft Reconfiguration (String, String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Neighbors (List - Object)
-                                          
-                                          Elements:
-                                          - ip (required)
-                                          - activate
-                                          - send_community
-                                          - route_reflector_client
-                                          - soft_reconfiguration
-                                          - default_originate
-                                          - default_originate_route_map
-                                        "%
-                                        | optional,
-                                      networks
-                                        | Array
-                                          {
-                                            backdoor
-                                              | Bool
-                                              | doc "Backdoor (Boolean)"
-                                              | optional,
-                                            prefix
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Prefix (String, String)",
-                                            route_map
-                                              | String
-                                              | doc "Route Map (String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Networks (List - Object)
-                                          
-                                          Elements:
-                                          - prefix (required)
-                                          - route_map
-                                          - backdoor
-                                        "%
-                                        | optional,
-                                      redistribute_connected
-                                        | Bool
-                                        | doc "Redistribute Connected (Boolean)"
-                                        | optional,
-                                      redistribute_static
-                                        | Bool
-                                        | doc "Redistribute Static (Boolean)"
-                                        | optional,
-                                      vrfs
-                                        | Array
-                                          {
-                                            advertise_l2vpn_evpn
-                                              | Bool
-                                              | doc "Advertise L2Vpn Evpn (Boolean)"
-                                              | optional,
-                                            networks
-                                              | Array
-                                                {
-                                                  backdoor
-                                                    | Bool
-                                                    | doc "Backdoor (Boolean)"
-                                                    | optional,
-                                                  evpn
-                                                    | Bool
-                                                    | doc "Evpn (Boolean)"
-                                                    | optional,
-                                                  prefix
-                                                    | _js2n__-prdslib.contract_from_predicate
-                                                      (_js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.allOf
-                                                            [
-                                                              _js2n__-prdslib.isType
-                                                                '"String",
-                                                              _js2n__-prdslib.strings.pattern
-                                                                "^.*[\\$\\%]\\{.*$"
-                                                            ]
-                                                        ])
-                                                    | doc "Prefix (String, String)",
-                                                  route_map
-                                                    | String
-                                                    | doc "Route Map (String)"
-                                                    | optional,
-                                                }
-                                              | doc m%"
-                                                Networks (List - Object)
-                                                
-                                                Elements:
-                                                - prefix (required)
-                                                - route_map
-                                                - backdoor
-                                                - evpn
-                                              "%
-                                              | optional,
-                                            redistribute_connected
-                                              | Bool
-                                              | doc "Redistribute Connected (Boolean)"
-                                              | optional,
-                                            redistribute_static
-                                              | Bool
-                                              | doc "Redistribute Static (Boolean)"
-                                              | optional,
-                                            vrf | String | doc "VRF (String)",
-                                          }
-                                        | doc m%"
-                                          VRFs (List - Object)
-                                          
-                                          Elements:
-                                          - vrf (required)
-                                          - advertise_l2vpn_evpn
-                                          - redistribute_connected
-                                          - redistribute_static
-                                          - networks
-                                        "%
-                                        | optional,
-                                    }
-                                    | doc m%"
-                                      IPv6 Unicast (Object)
-                                      
-                                      Elements:
-                                      - redistribute_connected
-                                      - redistribute_static
-                                      - networks
-                                      - vrfs
-                                      - neighbors
-                                    "%
-                                    | optional,
-                                  l2vpn_evpn
-                                    | {
-                                      neighbors
-                                        | Array
-                                          {
-                                            activate
-                                              | Bool
-                                              | doc "Activate (Boolean)"
-                                              | optional,
-                                            ip
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.isType
-                                                      '"String",
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "IP (String, String)",
-                                            route_reflector_client
-                                              | Bool
-                                              | doc "Route Reflector Client (Boolean)"
-                                              | optional,
-                                            send_community
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.enum
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [
+                                                                "both",
+                                                                "extended",
+                                                                "standard"
+                                                              ]
+                                                          ],
+                                                        _js2n__-prdslib.allOf
                                                           [
-                                                            "both",
-                                                            "extended",
-                                                            "standard"
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
                                                           ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                      ])
+                                                  | doc "Send Community (String, String)"
+                                                  | optional,
+                                                shutdown
+                                                  | Bool
+                                                  | doc "Shutdown (Boolean)"
+                                                  | optional,
+                                                soft_reconfiguration
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.enum
+                                                              [ "inbound" ]
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Soft Reconfiguration (String, String)"
+                                                  | optional,
+                                                timers_holdtime
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              3600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Timers Holdtime (Integer, String)"
+                                                  | optional,
+                                                timers_keepalive
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              3600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Timers Keepalive (Integer, String)"
+                                                  | optional,
+                                                timers_minimum_holdtime
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              3600
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Timers Minimum Holdtime (Integer, String)"
+                                                  | optional,
+                                                ttl_security_hops
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              'Integer,
+                                                            _js2n__-prdslib.numbers.maximum
+                                                              254
+                                                          ],
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "TTL Security Hops (Integer, String)"
+                                                  | optional,
+                                                update_source_loopback
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
+                                                      [
+                                                        _js2n__-prdslib.isType
+                                                          'Integer,
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Update Source Loopback (Integer, String)"
+                                                  | optional,
+                                              }
+                                            | doc m%"
+                                              Neighbors (List - Object)
+                                              
+                                              Elements:
+                                              - ip (required)
+                                              - remote_as (required)
+                                              - description
+                                              - shutdown
+                                              - cluster_id
+                                              - log_neighbor_changes
+                                              - password_type
+                                              - password
+                                              - timers_keepalive
+                                              - timers_holdtime
+                                              - timers_minimum_holdtime
+                                              - fall_over_default_route_map
+                                              - fall_over_bfd
+                                              - fall_over_bfd_multi_hop
+                                              - fall_over_bfd_single_hop
+                                              - fall_over_bfd_check_control_plane_failure
+                                              - fall_over_bfd_strict_mode
+                                              - fall_over_maximum_metric_route_map
+                                              - disable_connected_check
+                                              - ttl_security_hops
+                                              - local_as
+                                              - local_as_no_prepend
+                                              - local_as_replace_as
+                                              - local_as_dual_as
+                                              - update_source_loopback
+                                              - activate
+                                              - send_community
+                                              - route_reflector_client
+                                              - soft_reconfiguration
+                                              - default_originate
+                                              - default_originate_route_map
+                                              - route_maps
+                                              - ebgp_multihop
+                                              - ebgp_multihop_max_hop
+                                              - ha_mode_graceful_restart
+                                              - next_hop_self
+                                              - next_hop_self_all
+                                              - advertisement_interval
+                                            "%
+                                            | optional,
+                                          networks
+                                            | Array
+                                              {
+                                                backdoor
+                                                  | Bool
+                                                  | doc "Backdoor (Boolean)"
+                                                  | optional,
+                                                evpn
+                                                  | Bool
+                                                  | doc "Evpn (Boolean)"
+                                                  | optional,
+                                                mask
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Send Community (String, String)"
-                                              | optional,
-                                            soft_reconfiguration
-                                              | _js2n__-prdslib.contract_from_predicate
-                                                (_js2n__-prdslib.anyOf
-                                                  [
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Mask (String, String)"
+                                                  | optional,
+                                                network
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.enum
-                                                          [ "inbound" ]
-                                                      ],
-                                                    _js2n__-prdslib.allOf
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Network (String, String)",
+                                                route_map
+                                                  | String
+                                                  | doc "Route Map (String)"
+                                                  | optional,
+                                              }
+                                            | doc m%"
+                                              Networks (List - Object)
+                                              
+                                              Elements:
+                                              - network (required)
+                                              - mask
+                                              - route_map
+                                              - backdoor
+                                              - evpn
+                                            "%
+                                            | optional,
+                                          redistribute_connected
+                                            | Bool
+                                            | doc "Redistribute Connected (Boolean)"
+                                            | optional,
+                                          redistribute_static
+                                            | Bool
+                                            | doc "Redistribute Static (Boolean)"
+                                            | optional,
+                                          router_id_loopback
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Integer,
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Router ID Loopback (Integer, String)"
+                                            | optional,
+                                          vrf | String | doc "VRF (String)",
+                                        }
+                                      | doc m%"
+                                        VRFs (List - Object)
+                                        
+                                        Elements:
+                                        - vrf (required)
+                                        - advertise_l2vpn_evpn
+                                        - redistribute_connected
+                                        - router_id_loopback
+                                        - aggregate_addresses
+                                        - redistribute_static
+                                        - networks
+                                        - neighbors
+                                      "%
+                                      | optional,
+                                  }
+                                  | doc m%"
+                                    Ipv4 Unicast (Object)
+                                    
+                                    Elements:
+                                    - redistribute_connected
+                                    - redistribute_static
+                                    - aggregate_addresses
+                                    - networks
+                                    - neighbors
+                                    - vrfs
+                                  "%
+                                  | optional,
+                                ipv6_unicast
+                                  | {
+                                    neighbors
+                                      | Array
+                                        {
+                                          activate
+                                            | Bool
+                                            | doc "Activate (Boolean)"
+                                            | optional,
+                                          default_originate
+                                            | Bool
+                                            | doc "Default Originate (Boolean)"
+                                            | optional,
+                                          default_originate_route_map
+                                            | String
+                                            | doc "Default Originate Route Map (String)"
+                                            | optional,
+                                          ip
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "IP (String, String)",
+                                          route_reflector_client
+                                            | Bool
+                                            | doc "Route Reflector Client (Boolean)"
+                                            | optional,
+                                          send_community
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "both",
+                                                          "extended",
+                                                          "standard"
+                                                        ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Send Community (String, String)"
+                                            | optional,
+                                          soft_reconfiguration
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "inbound" ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Soft Reconfiguration (String, String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Neighbors (List - Object)
+                                        
+                                        Elements:
+                                        - ip (required)
+                                        - activate
+                                        - send_community
+                                        - route_reflector_client
+                                        - soft_reconfiguration
+                                        - default_originate
+                                        - default_originate_route_map
+                                      "%
+                                      | optional,
+                                    networks
+                                      | Array
+                                        {
+                                          backdoor
+                                            | Bool
+                                            | doc "Backdoor (Boolean)"
+                                            | optional,
+                                          prefix
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Prefix (String, String)",
+                                          route_map
+                                            | String
+                                            | doc "Route Map (String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Networks (List - Object)
+                                        
+                                        Elements:
+                                        - prefix (required)
+                                        - route_map
+                                        - backdoor
+                                      "%
+                                      | optional,
+                                    redistribute_connected
+                                      | Bool
+                                      | doc "Redistribute Connected (Boolean)"
+                                      | optional,
+                                    redistribute_static
+                                      | Bool
+                                      | doc "Redistribute Static (Boolean)"
+                                      | optional,
+                                    vrfs
+                                      | Array
+                                        {
+                                          advertise_l2vpn_evpn
+                                            | Bool
+                                            | doc "Advertise L2Vpn Evpn (Boolean)"
+                                            | optional,
+                                          networks
+                                            | Array
+                                              {
+                                                backdoor
+                                                  | Bool
+                                                  | doc "Backdoor (Boolean)"
+                                                  | optional,
+                                                evpn
+                                                  | Bool
+                                                  | doc "Evpn (Boolean)"
+                                                  | optional,
+                                                prefix
+                                                  | _js2n__-prdslib.contract_from_predicate
+                                                    (_js2n__-prdslib.anyOf
                                                       [
                                                         _js2n__-prdslib.isType
                                                           '"String",
-                                                        _js2n__-prdslib.strings.pattern
-                                                          "^.*[\\$\\%]\\{.*$"
-                                                      ]
-                                                  ])
-                                              | doc "Soft Reconfiguration (String, String)"
-                                              | optional,
-                                          }
-                                        | doc m%"
-                                          Neighbors (List - Object)
-                                          
-                                          Elements:
-                                          - ip (required)
-                                          - activate
-                                          - send_community
-                                          - route_reflector_client
-                                          - soft_reconfiguration
-                                        "%
-                                        | optional,
-                                    }
-                                    | doc m%"
-                                      L2Vpn Evpn (Object)
-                                      
-                                      Elements:
-                                      - neighbors
-                                    "%
-                                    | optional,
-                                }
+                                                        _js2n__-prdslib.allOf
+                                                          [
+                                                            _js2n__-prdslib.isType
+                                                              '"String",
+                                                            _js2n__-prdslib.strings.pattern
+                                                              "^.*[\\$\\%]\\{.*$"
+                                                          ]
+                                                      ])
+                                                  | doc "Prefix (String, String)",
+                                                route_map
+                                                  | String
+                                                  | doc "Route Map (String)"
+                                                  | optional,
+                                              }
+                                            | doc m%"
+                                              Networks (List - Object)
+                                              
+                                              Elements:
+                                              - prefix (required)
+                                              - route_map
+                                              - backdoor
+                                              - evpn
+                                            "%
+                                            | optional,
+                                          redistribute_connected
+                                            | Bool
+                                            | doc "Redistribute Connected (Boolean)"
+                                            | optional,
+                                          redistribute_static
+                                            | Bool
+                                            | doc "Redistribute Static (Boolean)"
+                                            | optional,
+                                          vrf | String | doc "VRF (String)",
+                                        }
+                                      | doc m%"
+                                        VRFs (List - Object)
+                                        
+                                        Elements:
+                                        - vrf (required)
+                                        - advertise_l2vpn_evpn
+                                        - redistribute_connected
+                                        - redistribute_static
+                                        - networks
+                                      "%
+                                      | optional,
+                                  }
+                                  | doc m%"
+                                    IPv6 Unicast (Object)
+                                    
+                                    Elements:
+                                    - redistribute_connected
+                                    - redistribute_static
+                                    - networks
+                                    - vrfs
+                                    - neighbors
+                                  "%
+                                  | optional,
+                                l2vpn_evpn
+                                  | {
+                                    neighbors
+                                      | Array
+                                        {
+                                          activate
+                                            | Bool
+                                            | doc "Activate (Boolean)"
+                                            | optional,
+                                          ip
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "IP (String, String)",
+                                          route_reflector_client
+                                            | Bool
+                                            | doc "Route Reflector Client (Boolean)"
+                                            | optional,
+                                          send_community
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [
+                                                          "both",
+                                                          "extended",
+                                                          "standard"
+                                                        ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Send Community (String, String)"
+                                            | optional,
+                                          soft_reconfiguration
+                                            | _js2n__-prdslib.contract_from_predicate
+                                              (_js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "inbound" ]
+                                                    ],
+                                                  _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.strings.pattern
+                                                        "^.*[\\$\\%]\\{.*$"
+                                                    ]
+                                                ])
+                                            | doc "Soft Reconfiguration (String, String)"
+                                            | optional,
+                                        }
+                                      | doc m%"
+                                        Neighbors (List - Object)
+                                        
+                                        Elements:
+                                        - ip (required)
+                                        - activate
+                                        - send_community
+                                        - route_reflector_client
+                                        - soft_reconfiguration
+                                      "%
+                                      | optional,
+                                  }
+                                  | doc m%"
+                                    L2Vpn Evpn (Object)
+                                    
+                                    Elements:
+                                    - neighbors
+                                  "%
+                                  | optional,
+                              }
                               | doc m%"
-                                Address Families (List - Object)
+                                Address Family (Object)
                                 
                                 Elements:
                                 - ipv4_unicast
@@ -92799,7 +92858,7 @@ let rec _js2n__-refsenv
                             - default_ipv4_unicast
                             - log_neighbor_changes
                             - router_id_loopback
-                            - address_families
+                            - address_family
                             - neighbors
                           "%
                           | optional,
@@ -99052,337 +99111,361 @@ let rec _js2n__-refsenv
                         | Bool
                         | doc "Calendar Valid (Boolean)"
                         | optional,
-                      summer_time_date
-                        | Bool
-                        | doc "Summer Time Date (Boolean)"
-                        | optional,
-                      summer_time_date_end_day
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.allOf
+                      summer_time
+                        | {
+                          date | Bool | doc "Date (Boolean)" | optional,
+                          date_end_day
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 31,
+                                      _js2n__-prdslib.numbers.minimum 1
+                                    ],
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
+                                    ]
+                                ])
+                            | doc "Date End Day (Integer, String)"
+                            | optional,
+                          date_end_month
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "Jan",
+                                          "Feb",
+                                          "Mar",
+                                          "Apr",
+                                          "May",
+                                          "Jun",
+                                          "Jul",
+                                          "Aug",
+                                          "Sep",
+                                          "Oct",
+                                          "Nov",
+                                          "Dec"
+                                        ]
+                                    ],
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
+                                    ]
+                                ])
+                            | doc "Date End Month (String, String)"
+                            | optional,
+                          date_end_time
+                            | String
+                            | doc "Date End Time (String)"
+                            | optional,
+                          date_end_year
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
                                 [
                                   _js2n__-prdslib.isType 'Integer,
-                                  _js2n__-prdslib.numbers.maximum 31,
-                                  _js2n__-prdslib.numbers.minimum 1
-                                ],
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Date End Day (Integer, String)"
-                        | optional,
-                      summer_time_date_end_month
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum
+                                  _js2n__-prdslib.allOf
                                     [
-                                      "Jan",
-                                      "Feb",
-                                      "Mar",
-                                      "Apr",
-                                      "May",
-                                      "Jun",
-                                      "Jul",
-                                      "Aug",
-                                      "Sep",
-                                      "Oct",
-                                      "Nov",
-                                      "Dec"
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
                                     ]
-                                ],
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Date End Month (String, String)"
-                        | optional,
-                      summer_time_date_end_time
-                        | String
-                        | doc "Summer Time Date End Time (String)"
-                        | optional,
-                      summer_time_date_end_year
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.isType 'Integer,
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Date End Year (Integer, String)"
-                        | optional,
-                      summer_time_date_offset
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.isType 'Integer,
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Date Offset (Integer, String)"
-                        | optional,
-                      summer_time_date_start_day
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.allOf
+                                ])
+                            | doc "Date End Year (Integer, String)"
+                            | optional,
+                          date_offset
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
                                 [
                                   _js2n__-prdslib.isType 'Integer,
-                                  _js2n__-prdslib.numbers.maximum 31,
-                                  _js2n__-prdslib.numbers.minimum 1
-                                ],
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Date Start Day (Integer, String)"
-                        | optional,
-                      summer_time_date_start_month
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum
+                                  _js2n__-prdslib.allOf
                                     [
-                                      "Jan",
-                                      "Feb",
-                                      "Mar",
-                                      "Apr",
-                                      "May",
-                                      "Jun",
-                                      "Jul",
-                                      "Aug",
-                                      "Sep",
-                                      "Oct",
-                                      "Nov",
-                                      "Dec"
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
                                     ]
-                                ],
-                              _js2n__-prdslib.allOf
+                                ])
+                            | doc "Date Offset (Integer, String)"
+                            | optional,
+                          date_start_day
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
                                 [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Date Start Month (String, String)"
-                        | optional,
-                      summer_time_date_start_time
-                        | String
-                        | doc "Summer Time Date Start Time (String)"
-                        | optional,
-                      summer_time_date_start_year
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.isType 'Integer,
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Date Start Year (Integer, String)"
-                        | optional,
-                      summer_time_recurring
-                        | Bool
-                        | doc "Summer Time Recurring (Boolean)"
-                        | optional,
-                      summer_time_recurring_end_month
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum
+                                  _js2n__-prdslib.allOf
                                     [
-                                      "Jan",
-                                      "Feb",
-                                      "Mar",
-                                      "Apr",
-                                      "May",
-                                      "Jun",
-                                      "Jul",
-                                      "Aug",
-                                      "Sep",
-                                      "Oct",
-                                      "Nov",
-                                      "Dec"
-                                    ]
-                                ],
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Recurring End Month (String, String)"
-                        | optional,
-                      summer_time_recurring_end_time
-                        | String
-                        | doc "Summer Time Recurring End Time (String)"
-                        | optional,
-                      summer_time_recurring_end_week
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.isType 'Integer,
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Recurring End Week (Integer, String)"
-                        | optional,
-                      summer_time_recurring_end_weekday
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 31,
+                                      _js2n__-prdslib.numbers.minimum 1
+                                    ],
+                                  _js2n__-prdslib.allOf
                                     [
-                                      "Sun",
-                                      "Mon",
-                                      "Tue",
-                                      "Wed",
-                                      "Thu",
-                                      "Fri",
-                                      "Sat"
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
                                     ]
-                                ],
-                              _js2n__-prdslib.allOf
+                                ])
+                            | doc "Date Start Day (Integer, String)"
+                            | optional,
+                          date_start_month
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
                                 [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Recurring End Weekday (String, String)"
-                        | optional,
-                      summer_time_recurring_offset
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.isType 'Integer,
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Recurring Offset (Integer, String)"
-                        | optional,
-                      summer_time_recurring_start_month
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum
+                                  _js2n__-prdslib.allOf
                                     [
-                                      "Jan",
-                                      "Feb",
-                                      "Mar",
-                                      "Apr",
-                                      "May",
-                                      "Jun",
-                                      "Jul",
-                                      "Aug",
-                                      "Sep",
-                                      "Oct",
-                                      "Nov",
-                                      "Dec"
-                                    ]
-                                ],
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Recurring Start Month (String, String)"
-                        | optional,
-                      summer_time_recurring_start_time
-                        | String
-                        | doc "Summer Time Recurring Start Time (String)"
-                        | optional,
-                      summer_time_recurring_start_week
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.isType 'Integer,
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Recurring Start Week (Integer, String)"
-                        | optional,
-                      summer_time_recurring_start_weekday
-                        | _js2n__-prdslib.contract_from_predicate
-                          (_js2n__-prdslib.anyOf
-                            [
-                              _js2n__-prdslib.allOf
-                                [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "Jan",
+                                          "Feb",
+                                          "Mar",
+                                          "Apr",
+                                          "May",
+                                          "Jun",
+                                          "Jul",
+                                          "Aug",
+                                          "Sep",
+                                          "Oct",
+                                          "Nov",
+                                          "Dec"
+                                        ]
+                                    ],
+                                  _js2n__-prdslib.allOf
                                     [
-                                      "Sun",
-                                      "Mon",
-                                      "Tue",
-                                      "Wed",
-                                      "Thu",
-                                      "Fri",
-                                      "Sat"
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
                                     ]
-                                ],
-                              _js2n__-prdslib.allOf
+                                ])
+                            | doc "Date Start Month (String, String)"
+                            | optional,
+                          date_start_time
+                            | String
+                            | doc "Date Start Time (String)"
+                            | optional,
+                          date_start_year
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
                                 [
-                                  _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.strings.pattern
-                                    "^.*[\\$\\%]\\{.*$"
-                                ]
-                            ])
-                        | doc "Summer Time Recurring Start Weekday (String, String)"
-                        | optional,
-                      summer_time_zone
-                        | String
-                        | doc "Summer Time Zone (String)"
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
+                                    ]
+                                ])
+                            | doc "Date Start Year (Integer, String)"
+                            | optional,
+                          recurring
+                            | Bool
+                            | doc "Recurring (Boolean)"
+                            | optional,
+                          recurring_end_month
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "Jan",
+                                          "Feb",
+                                          "Mar",
+                                          "Apr",
+                                          "May",
+                                          "Jun",
+                                          "Jul",
+                                          "Aug",
+                                          "Sep",
+                                          "Oct",
+                                          "Nov",
+                                          "Dec"
+                                        ]
+                                    ],
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
+                                    ]
+                                ])
+                            | doc "Recurring End Month (String, String)"
+                            | optional,
+                          recurring_end_time
+                            | String
+                            | doc "Recurring End Time (String)"
+                            | optional,
+                          recurring_end_week
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
+                                    ]
+                                ])
+                            | doc "Recurring End Week (Integer, String)"
+                            | optional,
+                          recurring_end_weekday
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "Sun",
+                                          "Mon",
+                                          "Tue",
+                                          "Wed",
+                                          "Thu",
+                                          "Fri",
+                                          "Sat"
+                                        ]
+                                    ],
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
+                                    ]
+                                ])
+                            | doc "Recurring End Weekday (String, String)"
+                            | optional,
+                          recurring_offset
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
+                                    ]
+                                ])
+                            | doc "Recurring Offset (Integer, String)"
+                            | optional,
+                          recurring_start_month
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "Jan",
+                                          "Feb",
+                                          "Mar",
+                                          "Apr",
+                                          "May",
+                                          "Jun",
+                                          "Jul",
+                                          "Aug",
+                                          "Sep",
+                                          "Oct",
+                                          "Nov",
+                                          "Dec"
+                                        ]
+                                    ],
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
+                                    ]
+                                ])
+                            | doc "Recurring Start Month (String, String)"
+                            | optional,
+                          recurring_start_time
+                            | String
+                            | doc "Recurring Start Time (String)"
+                            | optional,
+                          recurring_start_week
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
+                                    ]
+                                ])
+                            | doc "Recurring Start Week (Integer, String)"
+                            | optional,
+                          recurring_start_weekday
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [
+                                          "Sun",
+                                          "Mon",
+                                          "Tue",
+                                          "Wed",
+                                          "Thu",
+                                          "Fri",
+                                          "Sat"
+                                        ]
+                                    ],
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.strings.pattern
+                                        "^.*[\\$\\%]\\{.*$"
+                                    ]
+                                ])
+                            | doc "Recurring Start Weekday (String, String)"
+                            | optional,
+                          zone | String | doc "Zone (String)" | optional,
+                        }
+                        | doc m%"
+                          Summer Time (Object)
+                          
+                          Elements:
+                          - zone
+                          - date
+                          - date_start_day
+                          - date_start_month
+                          - date_start_year
+                          - date_start_time
+                          - date_end_day
+                          - date_end_month
+                          - date_end_year
+                          - date_end_time
+                          - date_offset
+                          - recurring
+                          - recurring_start_week
+                          - recurring_start_weekday
+                          - recurring_start_month
+                          - recurring_start_time
+                          - recurring_end_week
+                          - recurring_end_weekday
+                          - recurring_end_month
+                          - recurring_end_time
+                          - recurring_offset
+                        "%
                         | optional,
                     }
                     | doc m%"
@@ -99390,27 +99473,7 @@ let rec _js2n__-refsenv
                       
                       Elements:
                       - calendar_valid
-                      - summer_time_zone
-                      - summer_time_date
-                      - summer_time_date_start_day
-                      - summer_time_date_start_month
-                      - summer_time_date_start_year
-                      - summer_time_date_start_time
-                      - summer_time_date_end_day
-                      - summer_time_date_end_month
-                      - summer_time_date_end_year
-                      - summer_time_date_end_time
-                      - summer_time_date_offset
-                      - summer_time_recurring
-                      - summer_time_recurring_start_week
-                      - summer_time_recurring_start_weekday
-                      - summer_time_recurring_start_month
-                      - summer_time_recurring_start_time
-                      - summer_time_recurring_end_week
-                      - summer_time_recurring_end_weekday
-                      - summer_time_recurring_end_month
-                      - summer_time_recurring_end_time
-                      - summer_time_recurring_offset
+                      - summer_time
                     "%
                     | optional,
                   community_lists
@@ -106533,6 +106596,10 @@ let rec _js2n__-refsenv
                                   ])
                               | doc "Prematch (String, String)"
                               | optional,
+                            subscriber
+                              | Bool
+                              | doc "Subscriber (Boolean)"
+                              | optional,
                             type
                               | _js2n__-prdslib.contract_from_predicate
                                 (_js2n__-prdslib.anyOf
@@ -106559,6 +106626,7 @@ let rec _js2n__-refsenv
                           Elements:
                           - name (required)
                           - type
+                          - subscriber
                           - prematch
                           - match_authorization_status_authorized
                           - match_result_type_aaa_timeout
@@ -109070,1168 +109138,1171 @@ let rec _js2n__-refsenv
                     | {
                       bgp
                         | {
-                          address_families
-                            | Array
-                              {
-                                ipv4_unicast
-                                  | {
-                                    aggregate_addresses
-                                      | Array
-                                        {
-                                          address
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.allOf
+                          address_family
+                            | {
+                              ipv4_unicast
+                                | {
+                                  aggregate_addresses
+                                    | Array
+                                      {
+                                        address
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Address (String, String)",
+                                        mask
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Mask (String, String)",
+                                      }
+                                    | doc m%"
+                                      Aggregate Addresses (List - Object)
+                                      
+                                      Elements:
+                                      - address (required)
+                                      - mask (required)
+                                    "%
+                                    | optional,
+                                  neighbors
+                                    | Array
+                                      {
+                                        activate
+                                          | Bool
+                                          | doc "Activate (Boolean)"
+                                          | optional,
+                                        default_originate
+                                          | Bool
+                                          | doc "Default Originate (Boolean)"
+                                          | optional,
+                                        default_originate_route_map
+                                          | String
+                                          | doc "Default Originate Route Map (String)"
+                                          | optional,
+                                        ip
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "IP (String, String)",
+                                        route_maps
+                                          | Array
+                                            {
+                                              direction
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
                                                     [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Address (String, String)",
-                                          mask
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Mask (String, String)",
-                                        }
-                                      | doc m%"
-                                        Aggregate Addresses (List - Object)
-                                        
-                                        Elements:
-                                        - address (required)
-                                        - mask (required)
-                                      "%
-                                      | optional,
-                                    neighbors
-                                      | Array
-                                        {
-                                          activate
-                                            | Bool
-                                            | doc "Activate (Boolean)"
-                                            | optional,
-                                          default_originate
-                                            | Bool
-                                            | doc "Default Originate (Boolean)"
-                                            | optional,
-                                          default_originate_route_map
-                                            | String
-                                            | doc "Default Originate Route Map (String)"
-                                            | optional,
-                                          ip
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "IP (String, String)",
-                                          route_maps
-                                            | Array
-                                              {
-                                                direction
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.enum
-                                                              [ "in", "out" ]
-                                                          ],
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Direction (String, String)",
-                                                name
-                                                  | String
-                                                  | doc "Name (String)",
-                                              }
-                                            | doc m%"
-                                              Route Maps (List - Object)
-                                              
-                                              Elements:
-                                              - direction (required)
-                                              - name (required)
-                                            "%
-                                            | optional,
-                                          route_reflector_client
-                                            | Bool
-                                            | doc "Route Reflector Client (Boolean)"
-                                            | optional,
-                                          send_community
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.enum
+                                                      _js2n__-prdslib.allOf
                                                         [
-                                                          "both",
-                                                          "extended",
-                                                          "standard"
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [ "in", "out" ]
+                                                        ],
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
                                                         ]
-                                                    ],
-                                                  _js2n__-prdslib.allOf
+                                                    ])
+                                                | doc "Direction (String, String)",
+                                              name
+                                                | String
+                                                | doc "Name (String)",
+                                            }
+                                          | doc m%"
+                                            Route Maps (List - Object)
+                                            
+                                            Elements:
+                                            - direction (required)
+                                            - name (required)
+                                          "%
+                                          | optional,
+                                        route_reflector_client
+                                          | Bool
+                                          | doc "Route Reflector Client (Boolean)"
+                                          | optional,
+                                        send_community
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [
+                                                        "both",
+                                                        "extended",
+                                                        "standard"
+                                                      ]
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Send Community (String, String)"
+                                          | optional,
+                                        soft_reconfiguration
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [ "inbound" ]
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Soft Reconfiguration (String, String)"
+                                          | optional,
+                                      }
+                                    | doc m%"
+                                      Neighbors (List - Object)
+                                      
+                                      Elements:
+                                      - ip (required)
+                                      - activate
+                                      - send_community
+                                      - route_reflector_client
+                                      - soft_reconfiguration
+                                      - default_originate
+                                      - default_originate_route_map
+                                      - route_maps
+                                    "%
+                                    | optional,
+                                  networks
+                                    | Array
+                                      {
+                                        backdoor
+                                          | Bool
+                                          | doc "Backdoor (Boolean)"
+                                          | optional,
+                                        mask
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Mask (String, String)"
+                                          | optional,
+                                        network
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Network (String, String)",
+                                        route_map
+                                          | String
+                                          | doc "Route Map (String)"
+                                          | optional,
+                                      }
+                                    | doc m%"
+                                      Networks (List - Object)
+                                      
+                                      Elements:
+                                      - network (required)
+                                      - mask
+                                      - route_map
+                                      - backdoor
+                                    "%
+                                    | optional,
+                                  redistribute_connected
+                                    | Bool
+                                    | doc "Redistribute Connected (Boolean)"
+                                    | optional,
+                                  redistribute_static
+                                    | Bool
+                                    | doc "Redistribute Static (Boolean)"
+                                    | optional,
+                                  vrfs
+                                    | Array
+                                      {
+                                        advertise_l2vpn_evpn
+                                          | Bool
+                                          | doc "Advertise L2Vpn Evpn (Boolean)"
+                                          | optional,
+                                        aggregate_addresses
+                                          | Array
+                                            {
+                                              address
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
                                                     [
                                                       _js2n__-prdslib.isType
                                                         '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Send Community (String, String)"
-                                            | optional,
-                                          soft_reconfiguration
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.allOf
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Address (String, String)",
+                                              mask
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
                                                     [
                                                       _js2n__-prdslib.isType
                                                         '"String",
-                                                      _js2n__-prdslib.enum
-                                                        [ "inbound" ]
-                                                    ],
-                                                  _js2n__-prdslib.allOf
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Mask (String, String)",
+                                            }
+                                          | doc m%"
+                                            Aggregate Addresses (List - Object)
+                                            
+                                            Elements:
+                                            - address (required)
+                                            - mask (required)
+                                          "%
+                                          | optional,
+                                        neighbors
+                                          | Array
+                                            {
+                                              activate
+                                                | Bool
+                                                | doc "Activate (Boolean)"
+                                                | optional,
+                                              advertisement_interval
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Integer,
+                                                          _js2n__-prdslib.numbers.maximum
+                                                            600
+                                                        ],
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Advertisement Interval (Integer, String)"
+                                                | optional,
+                                              cluster_id
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
                                                     [
                                                       _js2n__-prdslib.isType
                                                         '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Soft Reconfiguration (String, String)"
-                                            | optional,
-                                        }
-                                      | doc m%"
-                                        Neighbors (List - Object)
-                                        
-                                        Elements:
-                                        - ip (required)
-                                        - activate
-                                        - send_community
-                                        - route_reflector_client
-                                        - soft_reconfiguration
-                                        - default_originate
-                                        - default_originate_route_map
-                                        - route_maps
-                                      "%
-                                      | optional,
-                                    networks
-                                      | Array
-                                        {
-                                          backdoor
-                                            | Bool
-                                            | doc "Backdoor (Boolean)"
-                                            | optional,
-                                          mask
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.allOf
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Cluster ID (String, String)"
+                                                | optional,
+                                              default_originate
+                                                | Bool
+                                                | doc "Default Originate (Boolean)"
+                                                | optional,
+                                              default_originate_route_map
+                                                | String
+                                                | doc "Default Originate Route Map (String)"
+                                                | optional,
+                                              description
+                                                | String
+                                                | doc "Description (String)"
+                                                | optional,
+                                              disable_connected_check
+                                                | Bool
+                                                | doc "Disable Connected Check (Boolean)"
+                                                | optional,
+                                              ebgp_multihop
+                                                | Bool
+                                                | doc "Ebgp Multihop (Boolean)"
+                                                | optional,
+                                              ebgp_multihop_max_hop
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Integer,
+                                                          _js2n__-prdslib.numbers.maximum
+                                                            255,
+                                                          _js2n__-prdslib.numbers.minimum
+                                                            1
+                                                        ],
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Ebgp Multihop Max Hop (Integer, String)"
+                                                | optional,
+                                              fall_over_bfd
+                                                | Bool
+                                                | doc "Fall Over BFD (Boolean)"
+                                                | optional,
+                                              fall_over_bfd_check_control_plane_failure
+                                                | Bool
+                                                | doc "Fall Over BFD Check Control Plane Failure (Boolean)"
+                                                | optional,
+                                              fall_over_bfd_multi_hop
+                                                | Bool
+                                                | doc "Fall Over BFD Multi Hop (Boolean)"
+                                                | optional,
+                                              fall_over_bfd_single_hop
+                                                | Bool
+                                                | doc "Fall Over BFD Single Hop (Boolean)"
+                                                | optional,
+                                              fall_over_bfd_strict_mode
+                                                | Bool
+                                                | doc "Fall Over BFD Strict Mode (Boolean)"
+                                                | optional,
+                                              fall_over_default_route_map
+                                                | String
+                                                | doc "Fall Over Default Route Map (String)"
+                                                | optional,
+                                              fall_over_maximum_metric_route_map
+                                                | String
+                                                | doc "Fall Over Maximum Metric Route Map (String)"
+                                                | optional,
+                                              ha_mode_graceful_restart
+                                                | Bool
+                                                | doc "Ha Mode Graceful Restart (Boolean)"
+                                                | optional,
+                                              ip
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
                                                     [
                                                       _js2n__-prdslib.isType
                                                         '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Mask (String, String)"
-                                            | optional,
-                                          network
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.allOf
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "IP (String, String)",
+                                              local_as
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
                                                     [
                                                       _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Network (String, String)",
-                                          route_map
-                                            | String
-                                            | doc "Route Map (String)"
-                                            | optional,
-                                        }
-                                      | doc m%"
-                                        Networks (List - Object)
-                                        
-                                        Elements:
-                                        - network (required)
-                                        - mask
-                                        - route_map
-                                        - backdoor
-                                      "%
-                                      | optional,
-                                    redistribute_connected
-                                      | Bool
-                                      | doc "Redistribute Connected (Boolean)"
-                                      | optional,
-                                    redistribute_static
-                                      | Bool
-                                      | doc "Redistribute Static (Boolean)"
-                                      | optional,
-                                    vrfs
-                                      | Array
-                                        {
-                                          advertise_l2vpn_evpn
-                                            | Bool
-                                            | doc "Advertise L2Vpn Evpn (Boolean)"
-                                            | optional,
-                                          aggregate_addresses
-                                            | Array
-                                              {
-                                                address
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.allOf
+                                                        'Integer,
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Local AS (Integer, String)"
+                                                | optional,
+                                              local_as_dual_as
+                                                | Bool
+                                                | doc "Local AS Dual AS (Boolean)"
+                                                | optional,
+                                              local_as_no_prepend
+                                                | Bool
+                                                | doc "Local AS No Prepend (Boolean)"
+                                                | optional,
+                                              local_as_replace_as
+                                                | Bool
+                                                | doc "Local AS Replace AS (Boolean)"
+                                                | optional,
+                                              log_neighbor_changes
+                                                | Bool
+                                                | doc "Log Neighbor Changes (Boolean)"
+                                                | optional,
+                                              next_hop_self
+                                                | Bool
+                                                | doc "Next Hop Self (Boolean)"
+                                                | optional,
+                                              next_hop_self_all
+                                                | Bool
+                                                | doc "Next Hop Self All (Boolean)"
+                                                | optional,
+                                              password
+                                                | String
+                                                | doc "Password (String)"
+                                                | optional,
+                                              password_type
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Integer,
+                                                          _js2n__-prdslib.numbers.maximum
+                                                            7
+                                                        ],
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Password Type (Integer, String)"
+                                                | optional,
+                                              remote_as
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Integer,
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Remote AS (Integer, String)",
+                                              route_maps
+                                                | Array
+                                                  {
+                                                    direction
+                                                      | _js2n__-prdslib.contract_from_predicate
+                                                        (_js2n__-prdslib.anyOf
                                                           [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Address (String, String)",
-                                                mask
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Mask (String, String)",
-                                              }
-                                            | doc m%"
-                                              Aggregate Addresses (List - Object)
-                                              
-                                              Elements:
-                                              - address (required)
-                                              - mask (required)
-                                            "%
-                                            | optional,
-                                          neighbors
-                                            | Array
-                                              {
-                                                activate
-                                                  | Bool
-                                                  | doc "Activate (Boolean)"
-                                                  | optional,
-                                                advertisement_interval
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              'Integer,
-                                                            _js2n__-prdslib.numbers.maximum
-                                                              600
-                                                          ],
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Advertisement Interval (Integer, String)"
-                                                  | optional,
-                                                cluster_id
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Cluster ID (String, String)"
-                                                  | optional,
-                                                default_originate
-                                                  | Bool
-                                                  | doc "Default Originate (Boolean)"
-                                                  | optional,
-                                                default_originate_route_map
-                                                  | String
-                                                  | doc "Default Originate Route Map (String)"
-                                                  | optional,
-                                                description
-                                                  | String
-                                                  | doc "Description (String)"
-                                                  | optional,
-                                                disable_connected_check
-                                                  | Bool
-                                                  | doc "Disable Connected Check (Boolean)"
-                                                  | optional,
-                                                ebgp_multihop
-                                                  | Bool
-                                                  | doc "Ebgp Multihop (Boolean)"
-                                                  | optional,
-                                                ebgp_multihop_max_hop
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              'Integer,
-                                                            _js2n__-prdslib.numbers.maximum
-                                                              255,
-                                                            _js2n__-prdslib.numbers.minimum
-                                                              1
-                                                          ],
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Ebgp Multihop Max Hop (Integer, String)"
-                                                  | optional,
-                                                fall_over_bfd_check_control_plane_failure
-                                                  | Bool
-                                                  | doc "Fall Over BFD Check Control Plane Failure (Boolean)"
-                                                  | optional,
-                                                fall_over_bfd_multi_hop
-                                                  | Bool
-                                                  | doc "Fall Over BFD Multi Hop (Boolean)"
-                                                  | optional,
-                                                fall_over_bfd_single_hop
-                                                  | Bool
-                                                  | doc "Fall Over BFD Single Hop (Boolean)"
-                                                  | optional,
-                                                fall_over_bfd_strict_mode
-                                                  | Bool
-                                                  | doc "Fall Over BFD Strict Mode (Boolean)"
-                                                  | optional,
-                                                fall_over_default_route_map
-                                                  | String
-                                                  | doc "Fall Over Default Route Map (String)"
-                                                  | optional,
-                                                fall_over_maximum_metric_route_map
-                                                  | String
-                                                  | doc "Fall Over Maximum Metric Route Map (String)"
-                                                  | optional,
-                                                ha_mode_graceful_restart
-                                                  | Bool
-                                                  | doc "Ha Mode Graceful Restart (Boolean)"
-                                                  | optional,
-                                                ip
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "IP (String, String)",
-                                                local_as
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          'Integer,
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Local AS (Integer, String)"
-                                                  | optional,
-                                                local_as_dual_as
-                                                  | Bool
-                                                  | doc "Local AS Dual AS (Boolean)"
-                                                  | optional,
-                                                local_as_no_prepend
-                                                  | Bool
-                                                  | doc "Local AS No Prepend (Boolean)"
-                                                  | optional,
-                                                local_as_replace_as
-                                                  | Bool
-                                                  | doc "Local AS Replace AS (Boolean)"
-                                                  | optional,
-                                                log_neighbor_changes
-                                                  | Bool
-                                                  | doc "Log Neighbor Changes (Boolean)"
-                                                  | optional,
-                                                next_hop_self
-                                                  | Bool
-                                                  | doc "Next Hop Self (Boolean)"
-                                                  | optional,
-                                                next_hop_self_all
-                                                  | Bool
-                                                  | doc "Next Hop Self All (Boolean)"
-                                                  | optional,
-                                                password
-                                                  | String
-                                                  | doc "Password (String)"
-                                                  | optional,
-                                                password_type
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              'Integer,
-                                                            _js2n__-prdslib.numbers.maximum
-                                                              7
-                                                          ],
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Password Type (Integer, String)"
-                                                  | optional,
-                                                remote_as
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          'Integer,
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Remote AS (Integer, String)",
-                                                route_maps
-                                                  | Array
-                                                    {
-                                                      direction
-                                                        | _js2n__-prdslib.contract_from_predicate
-                                                          (_js2n__-prdslib.anyOf
-                                                            [
-                                                              _js2n__-prdslib.allOf
-                                                                [
-                                                                  _js2n__-prdslib.isType
-                                                                    '"String",
-                                                                  _js2n__-prdslib.enum
-                                                                    [
-                                                                      "in",
-                                                                      "out"
-                                                                    ]
-                                                                ],
-                                                              _js2n__-prdslib.allOf
-                                                                [
-                                                                  _js2n__-prdslib.isType
-                                                                    '"String",
-                                                                  _js2n__-prdslib.strings.pattern
-                                                                    "^.*[\\$\\%]\\{.*$"
-                                                                ]
-                                                            ])
-                                                        | doc "Direction (String, String)",
-                                                      name
-                                                        | String
-                                                        | doc "Name (String)",
-                                                    }
-                                                  | doc m%"
-                                                    Route Maps (List - Object)
-                                                    
-                                                    Elements:
-                                                    - direction (required)
-                                                    - name (required)
-                                                  "%
-                                                  | optional,
-                                                route_reflector_client
-                                                  | Bool
-                                                  | doc "Route Reflector Client (Boolean)"
-                                                  | optional,
-                                                send_community
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.enum
+                                                            _js2n__-prdslib.allOf
                                                               [
-                                                                "both",
-                                                                "extended",
-                                                                "standard"
+                                                                _js2n__-prdslib.isType
+                                                                  '"String",
+                                                                _js2n__-prdslib.enum
+                                                                  [
+                                                                    "in",
+                                                                    "out"
+                                                                  ]
+                                                              ],
+                                                            _js2n__-prdslib.allOf
+                                                              [
+                                                                _js2n__-prdslib.isType
+                                                                  '"String",
+                                                                _js2n__-prdslib.strings.pattern
+                                                                  "^.*[\\$\\%]\\{.*$"
                                                               ]
-                                                          ],
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Send Community (String, String)"
-                                                  | optional,
-                                                shutdown
-                                                  | Bool
-                                                  | doc "Shutdown (Boolean)"
-                                                  | optional,
-                                                soft_reconfiguration
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.enum
-                                                              [ "inbound" ]
-                                                          ],
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Soft Reconfiguration (String, String)"
-                                                  | optional,
-                                                timers_holdtime
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              'Integer,
-                                                            _js2n__-prdslib.numbers.maximum
-                                                              3600
-                                                          ],
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Timers Holdtime (Integer, String)"
-                                                  | optional,
-                                                timers_keepalive
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              'Integer,
-                                                            _js2n__-prdslib.numbers.maximum
-                                                              3600
-                                                          ],
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Timers Keepalive (Integer, String)"
-                                                  | optional,
-                                                timers_minimum_holdtime
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              'Integer,
-                                                            _js2n__-prdslib.numbers.maximum
-                                                              3600
-                                                          ],
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Timers Minimum Holdtime (Integer, String)"
-                                                  | optional,
-                                                ttl_security_hops
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              'Integer,
-                                                            _js2n__-prdslib.numbers.maximum
-                                                              254
-                                                          ],
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "TTL Security Hops (Integer, String)"
-                                                  | optional,
-                                                update_source_loopback
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          'Integer,
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Update Source Loopback (Integer, String)"
-                                                  | optional,
-                                              }
-                                            | doc m%"
-                                              Neighbors (List - Object)
-                                              
-                                              Elements:
-                                              - ip (required)
-                                              - remote_as (required)
-                                              - description
-                                              - shutdown
-                                              - cluster_id
-                                              - log_neighbor_changes
-                                              - password_type
-                                              - password
-                                              - timers_keepalive
-                                              - timers_holdtime
-                                              - timers_minimum_holdtime
-                                              - fall_over_default_route_map
-                                              - fall_over_bfd_multi_hop
-                                              - fall_over_bfd_single_hop
-                                              - fall_over_bfd_check_control_plane_failure
-                                              - fall_over_bfd_strict_mode
-                                              - fall_over_maximum_metric_route_map
-                                              - disable_connected_check
-                                              - ttl_security_hops
-                                              - local_as
-                                              - local_as_no_prepend
-                                              - local_as_replace_as
-                                              - local_as_dual_as
-                                              - update_source_loopback
-                                              - activate
-                                              - send_community
-                                              - route_reflector_client
-                                              - soft_reconfiguration
-                                              - default_originate
-                                              - default_originate_route_map
-                                              - route_maps
-                                              - ebgp_multihop
-                                              - ebgp_multihop_max_hop
-                                              - ha_mode_graceful_restart
-                                              - next_hop_self
-                                              - next_hop_self_all
-                                              - advertisement_interval
-                                            "%
-                                            | optional,
-                                          networks
-                                            | Array
-                                              {
-                                                backdoor
-                                                  | Bool
-                                                  | doc "Backdoor (Boolean)"
-                                                  | optional,
-                                                evpn
-                                                  | Bool
-                                                  | doc "Evpn (Boolean)"
-                                                  | optional,
-                                                mask
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Mask (String, String)"
-                                                  | optional,
-                                                network
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Network (String, String)",
-                                                route_map
-                                                  | String
-                                                  | doc "Route Map (String)"
-                                                  | optional,
-                                              }
-                                            | doc m%"
-                                              Networks (List - Object)
-                                              
-                                              Elements:
-                                              - network (required)
-                                              - mask
-                                              - route_map
-                                              - backdoor
-                                              - evpn
-                                            "%
-                                            | optional,
-                                          redistribute_connected
-                                            | Bool
-                                            | doc "Redistribute Connected (Boolean)"
-                                            | optional,
-                                          redistribute_static
-                                            | Bool
-                                            | doc "Redistribute Static (Boolean)"
-                                            | optional,
-                                          router_id_loopback
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Integer,
-                                                  _js2n__-prdslib.allOf
+                                                          ])
+                                                      | doc "Direction (String, String)",
+                                                    name
+                                                      | String
+                                                      | doc "Name (String)",
+                                                  }
+                                                | doc m%"
+                                                  Route Maps (List - Object)
+                                                  
+                                                  Elements:
+                                                  - direction (required)
+                                                  - name (required)
+                                                "%
+                                                | optional,
+                                              route_reflector_client
+                                                | Bool
+                                                | doc "Route Reflector Client (Boolean)"
+                                                | optional,
+                                              send_community
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
                                                     [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Router ID Loopback (Integer, String)"
-                                            | optional,
-                                          vrf | String | doc "VRF (String)",
-                                        }
-                                      | doc m%"
-                                        VRFs (List - Object)
-                                        
-                                        Elements:
-                                        - vrf (required)
-                                        - advertise_l2vpn_evpn
-                                        - redistribute_connected
-                                        - router_id_loopback
-                                        - aggregate_addresses
-                                        - redistribute_static
-                                        - networks
-                                        - neighbors
-                                      "%
-                                      | optional,
-                                  }
-                                  | doc m%"
-                                    Ipv4 Unicast (Object)
-                                    
-                                    Elements:
-                                    - redistribute_connected
-                                    - redistribute_static
-                                    - aggregate_addresses
-                                    - networks
-                                    - neighbors
-                                    - vrfs
-                                  "%
-                                  | optional,
-                                ipv6_unicast
-                                  | {
-                                    neighbors
-                                      | Array
-                                        {
-                                          activate
-                                            | Bool
-                                            | doc "Activate (Boolean)"
-                                            | optional,
-                                          default_originate
-                                            | Bool
-                                            | doc "Default Originate (Boolean)"
-                                            | optional,
-                                          default_originate_route_map
-                                            | String
-                                            | doc "Default Originate Route Map (String)"
-                                            | optional,
-                                          ip
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "IP (String, String)",
-                                          route_reflector_client
-                                            | Bool
-                                            | doc "Route Reflector Client (Boolean)"
-                                            | optional,
-                                          send_community
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.enum
+                                                      _js2n__-prdslib.allOf
                                                         [
-                                                          "both",
-                                                          "extended",
-                                                          "standard"
-                                                        ]
-                                                    ],
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Send Community (String, String)"
-                                            | optional,
-                                          soft_reconfiguration
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.enum
-                                                        [ "inbound" ]
-                                                    ],
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Soft Reconfiguration (String, String)"
-                                            | optional,
-                                        }
-                                      | doc m%"
-                                        Neighbors (List - Object)
-                                        
-                                        Elements:
-                                        - ip (required)
-                                        - activate
-                                        - send_community
-                                        - route_reflector_client
-                                        - soft_reconfiguration
-                                        - default_originate
-                                        - default_originate_route_map
-                                      "%
-                                      | optional,
-                                    networks
-                                      | Array
-                                        {
-                                          backdoor
-                                            | Bool
-                                            | doc "Backdoor (Boolean)"
-                                            | optional,
-                                          prefix
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Prefix (String, String)",
-                                          route_map
-                                            | String
-                                            | doc "Route Map (String)"
-                                            | optional,
-                                        }
-                                      | doc m%"
-                                        Networks (List - Object)
-                                        
-                                        Elements:
-                                        - prefix (required)
-                                        - route_map
-                                        - backdoor
-                                      "%
-                                      | optional,
-                                    redistribute_connected
-                                      | Bool
-                                      | doc "Redistribute Connected (Boolean)"
-                                      | optional,
-                                    redistribute_static
-                                      | Bool
-                                      | doc "Redistribute Static (Boolean)"
-                                      | optional,
-                                    vrfs
-                                      | Array
-                                        {
-                                          advertise_l2vpn_evpn
-                                            | Bool
-                                            | doc "Advertise L2Vpn Evpn (Boolean)"
-                                            | optional,
-                                          networks
-                                            | Array
-                                              {
-                                                backdoor
-                                                  | Bool
-                                                  | doc "Backdoor (Boolean)"
-                                                  | optional,
-                                                evpn
-                                                  | Bool
-                                                  | doc "Evpn (Boolean)"
-                                                  | optional,
-                                                prefix
-                                                  | _js2n__-prdslib.contract_from_predicate
-                                                    (_js2n__-prdslib.anyOf
-                                                      [
-                                                        _js2n__-prdslib.isType
-                                                          '"String",
-                                                        _js2n__-prdslib.allOf
-                                                          [
-                                                            _js2n__-prdslib.isType
-                                                              '"String",
-                                                            _js2n__-prdslib.strings.pattern
-                                                              "^.*[\\$\\%]\\{.*$"
-                                                          ]
-                                                      ])
-                                                  | doc "Prefix (String, String)",
-                                                route_map
-                                                  | String
-                                                  | doc "Route Map (String)"
-                                                  | optional,
-                                              }
-                                            | doc m%"
-                                              Networks (List - Object)
-                                              
-                                              Elements:
-                                              - prefix (required)
-                                              - route_map
-                                              - backdoor
-                                              - evpn
-                                            "%
-                                            | optional,
-                                          redistribute_connected
-                                            | Bool
-                                            | doc "Redistribute Connected (Boolean)"
-                                            | optional,
-                                          redistribute_static
-                                            | Bool
-                                            | doc "Redistribute Static (Boolean)"
-                                            | optional,
-                                          vrf | String | doc "VRF (String)",
-                                        }
-                                      | doc m%"
-                                        VRFs (List - Object)
-                                        
-                                        Elements:
-                                        - vrf (required)
-                                        - advertise_l2vpn_evpn
-                                        - redistribute_connected
-                                        - redistribute_static
-                                        - networks
-                                      "%
-                                      | optional,
-                                  }
-                                  | doc m%"
-                                    IPv6 Unicast (Object)
-                                    
-                                    Elements:
-                                    - redistribute_connected
-                                    - redistribute_static
-                                    - networks
-                                    - vrfs
-                                    - neighbors
-                                  "%
-                                  | optional,
-                                l2vpn_evpn
-                                  | {
-                                    neighbors
-                                      | Array
-                                        {
-                                          activate
-                                            | Bool
-                                            | doc "Activate (Boolean)"
-                                            | optional,
-                                          ip
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    '"String",
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "IP (String, String)",
-                                          route_reflector_client
-                                            | Bool
-                                            | doc "Route Reflector Client (Boolean)"
-                                            | optional,
-                                          send_community
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.enum
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [
+                                                              "both",
+                                                              "extended",
+                                                              "standard"
+                                                            ]
+                                                        ],
+                                                      _js2n__-prdslib.allOf
                                                         [
-                                                          "both",
-                                                          "extended",
-                                                          "standard"
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
                                                         ]
-                                                    ],
-                                                  _js2n__-prdslib.allOf
+                                                    ])
+                                                | doc "Send Community (String, String)"
+                                                | optional,
+                                              shutdown
+                                                | Bool
+                                                | doc "Shutdown (Boolean)"
+                                                | optional,
+                                              soft_reconfiguration
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.enum
+                                                            [ "inbound" ]
+                                                        ],
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Soft Reconfiguration (String, String)"
+                                                | optional,
+                                              timers_holdtime
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Integer,
+                                                          _js2n__-prdslib.numbers.maximum
+                                                            3600
+                                                        ],
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Timers Holdtime (Integer, String)"
+                                                | optional,
+                                              timers_keepalive
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Integer,
+                                                          _js2n__-prdslib.numbers.maximum
+                                                            3600
+                                                        ],
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Timers Keepalive (Integer, String)"
+                                                | optional,
+                                              timers_minimum_holdtime
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Integer,
+                                                          _js2n__-prdslib.numbers.maximum
+                                                            3600
+                                                        ],
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Timers Minimum Holdtime (Integer, String)"
+                                                | optional,
+                                              ttl_security_hops
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            'Integer,
+                                                          _js2n__-prdslib.numbers.maximum
+                                                            254
+                                                        ],
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "TTL Security Hops (Integer, String)"
+                                                | optional,
+                                              update_source_loopback
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        'Integer,
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Update Source Loopback (Integer, String)"
+                                                | optional,
+                                            }
+                                          | doc m%"
+                                            Neighbors (List - Object)
+                                            
+                                            Elements:
+                                            - ip (required)
+                                            - remote_as (required)
+                                            - description
+                                            - shutdown
+                                            - cluster_id
+                                            - log_neighbor_changes
+                                            - password_type
+                                            - password
+                                            - timers_keepalive
+                                            - timers_holdtime
+                                            - timers_minimum_holdtime
+                                            - fall_over_default_route_map
+                                            - fall_over_bfd
+                                            - fall_over_bfd_multi_hop
+                                            - fall_over_bfd_single_hop
+                                            - fall_over_bfd_check_control_plane_failure
+                                            - fall_over_bfd_strict_mode
+                                            - fall_over_maximum_metric_route_map
+                                            - disable_connected_check
+                                            - ttl_security_hops
+                                            - local_as
+                                            - local_as_no_prepend
+                                            - local_as_replace_as
+                                            - local_as_dual_as
+                                            - update_source_loopback
+                                            - activate
+                                            - send_community
+                                            - route_reflector_client
+                                            - soft_reconfiguration
+                                            - default_originate
+                                            - default_originate_route_map
+                                            - route_maps
+                                            - ebgp_multihop
+                                            - ebgp_multihop_max_hop
+                                            - ha_mode_graceful_restart
+                                            - next_hop_self
+                                            - next_hop_self_all
+                                            - advertisement_interval
+                                          "%
+                                          | optional,
+                                        networks
+                                          | Array
+                                            {
+                                              backdoor
+                                                | Bool
+                                                | doc "Backdoor (Boolean)"
+                                                | optional,
+                                              evpn
+                                                | Bool
+                                                | doc "Evpn (Boolean)"
+                                                | optional,
+                                              mask
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
                                                     [
                                                       _js2n__-prdslib.isType
                                                         '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Send Community (String, String)"
-                                            | optional,
-                                          soft_reconfiguration
-                                            | _js2n__-prdslib.contract_from_predicate
-                                              (_js2n__-prdslib.anyOf
-                                                [
-                                                  _js2n__-prdslib.allOf
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Mask (String, String)"
+                                                | optional,
+                                              network
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
                                                     [
                                                       _js2n__-prdslib.isType
                                                         '"String",
-                                                      _js2n__-prdslib.enum
-                                                        [ "inbound" ]
-                                                    ],
-                                                  _js2n__-prdslib.allOf
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Network (String, String)",
+                                              route_map
+                                                | String
+                                                | doc "Route Map (String)"
+                                                | optional,
+                                            }
+                                          | doc m%"
+                                            Networks (List - Object)
+                                            
+                                            Elements:
+                                            - network (required)
+                                            - mask
+                                            - route_map
+                                            - backdoor
+                                            - evpn
+                                          "%
+                                          | optional,
+                                        redistribute_connected
+                                          | Bool
+                                          | doc "Redistribute Connected (Boolean)"
+                                          | optional,
+                                        redistribute_static
+                                          | Bool
+                                          | doc "Redistribute Static (Boolean)"
+                                          | optional,
+                                        router_id_loopback
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType 'Integer,
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Router ID Loopback (Integer, String)"
+                                          | optional,
+                                        vrf | String | doc "VRF (String)",
+                                      }
+                                    | doc m%"
+                                      VRFs (List - Object)
+                                      
+                                      Elements:
+                                      - vrf (required)
+                                      - advertise_l2vpn_evpn
+                                      - redistribute_connected
+                                      - router_id_loopback
+                                      - aggregate_addresses
+                                      - redistribute_static
+                                      - networks
+                                      - neighbors
+                                    "%
+                                    | optional,
+                                }
+                                | doc m%"
+                                  Ipv4 Unicast (Object)
+                                  
+                                  Elements:
+                                  - redistribute_connected
+                                  - redistribute_static
+                                  - aggregate_addresses
+                                  - networks
+                                  - neighbors
+                                  - vrfs
+                                "%
+                                | optional,
+                              ipv6_unicast
+                                | {
+                                  neighbors
+                                    | Array
+                                      {
+                                        activate
+                                          | Bool
+                                          | doc "Activate (Boolean)"
+                                          | optional,
+                                        default_originate
+                                          | Bool
+                                          | doc "Default Originate (Boolean)"
+                                          | optional,
+                                        default_originate_route_map
+                                          | String
+                                          | doc "Default Originate Route Map (String)"
+                                          | optional,
+                                        ip
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "IP (String, String)",
+                                        route_reflector_client
+                                          | Bool
+                                          | doc "Route Reflector Client (Boolean)"
+                                          | optional,
+                                        send_community
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [
+                                                        "both",
+                                                        "extended",
+                                                        "standard"
+                                                      ]
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Send Community (String, String)"
+                                          | optional,
+                                        soft_reconfiguration
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [ "inbound" ]
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Soft Reconfiguration (String, String)"
+                                          | optional,
+                                      }
+                                    | doc m%"
+                                      Neighbors (List - Object)
+                                      
+                                      Elements:
+                                      - ip (required)
+                                      - activate
+                                      - send_community
+                                      - route_reflector_client
+                                      - soft_reconfiguration
+                                      - default_originate
+                                      - default_originate_route_map
+                                    "%
+                                    | optional,
+                                  networks
+                                    | Array
+                                      {
+                                        backdoor
+                                          | Bool
+                                          | doc "Backdoor (Boolean)"
+                                          | optional,
+                                        prefix
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Prefix (String, String)",
+                                        route_map
+                                          | String
+                                          | doc "Route Map (String)"
+                                          | optional,
+                                      }
+                                    | doc m%"
+                                      Networks (List - Object)
+                                      
+                                      Elements:
+                                      - prefix (required)
+                                      - route_map
+                                      - backdoor
+                                    "%
+                                    | optional,
+                                  redistribute_connected
+                                    | Bool
+                                    | doc "Redistribute Connected (Boolean)"
+                                    | optional,
+                                  redistribute_static
+                                    | Bool
+                                    | doc "Redistribute Static (Boolean)"
+                                    | optional,
+                                  vrfs
+                                    | Array
+                                      {
+                                        advertise_l2vpn_evpn
+                                          | Bool
+                                          | doc "Advertise L2Vpn Evpn (Boolean)"
+                                          | optional,
+                                        networks
+                                          | Array
+                                            {
+                                              backdoor
+                                                | Bool
+                                                | doc "Backdoor (Boolean)"
+                                                | optional,
+                                              evpn
+                                                | Bool
+                                                | doc "Evpn (Boolean)"
+                                                | optional,
+                                              prefix
+                                                | _js2n__-prdslib.contract_from_predicate
+                                                  (_js2n__-prdslib.anyOf
                                                     [
                                                       _js2n__-prdslib.isType
                                                         '"String",
-                                                      _js2n__-prdslib.strings.pattern
-                                                        "^.*[\\$\\%]\\{.*$"
-                                                    ]
-                                                ])
-                                            | doc "Soft Reconfiguration (String, String)"
-                                            | optional,
-                                        }
-                                      | doc m%"
-                                        Neighbors (List - Object)
-                                        
-                                        Elements:
-                                        - ip (required)
-                                        - activate
-                                        - send_community
-                                        - route_reflector_client
-                                        - soft_reconfiguration
-                                      "%
-                                      | optional,
-                                  }
-                                  | doc m%"
-                                    L2Vpn Evpn (Object)
-                                    
-                                    Elements:
-                                    - neighbors
-                                  "%
-                                  | optional,
-                              }
+                                                      _js2n__-prdslib.allOf
+                                                        [
+                                                          _js2n__-prdslib.isType
+                                                            '"String",
+                                                          _js2n__-prdslib.strings.pattern
+                                                            "^.*[\\$\\%]\\{.*$"
+                                                        ]
+                                                    ])
+                                                | doc "Prefix (String, String)",
+                                              route_map
+                                                | String
+                                                | doc "Route Map (String)"
+                                                | optional,
+                                            }
+                                          | doc m%"
+                                            Networks (List - Object)
+                                            
+                                            Elements:
+                                            - prefix (required)
+                                            - route_map
+                                            - backdoor
+                                            - evpn
+                                          "%
+                                          | optional,
+                                        redistribute_connected
+                                          | Bool
+                                          | doc "Redistribute Connected (Boolean)"
+                                          | optional,
+                                        redistribute_static
+                                          | Bool
+                                          | doc "Redistribute Static (Boolean)"
+                                          | optional,
+                                        vrf | String | doc "VRF (String)",
+                                      }
+                                    | doc m%"
+                                      VRFs (List - Object)
+                                      
+                                      Elements:
+                                      - vrf (required)
+                                      - advertise_l2vpn_evpn
+                                      - redistribute_connected
+                                      - redistribute_static
+                                      - networks
+                                    "%
+                                    | optional,
+                                }
+                                | doc m%"
+                                  IPv6 Unicast (Object)
+                                  
+                                  Elements:
+                                  - redistribute_connected
+                                  - redistribute_static
+                                  - networks
+                                  - vrfs
+                                  - neighbors
+                                "%
+                                | optional,
+                              l2vpn_evpn
+                                | {
+                                  neighbors
+                                    | Array
+                                      {
+                                        activate
+                                          | Bool
+                                          | doc "Activate (Boolean)"
+                                          | optional,
+                                        ip
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "IP (String, String)",
+                                        route_reflector_client
+                                          | Bool
+                                          | doc "Route Reflector Client (Boolean)"
+                                          | optional,
+                                        send_community
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [
+                                                        "both",
+                                                        "extended",
+                                                        "standard"
+                                                      ]
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Send Community (String, String)"
+                                          | optional,
+                                        soft_reconfiguration
+                                          | _js2n__-prdslib.contract_from_predicate
+                                            (_js2n__-prdslib.anyOf
+                                              [
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.enum
+                                                      [ "inbound" ]
+                                                  ],
+                                                _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"String",
+                                                    _js2n__-prdslib.strings.pattern
+                                                      "^.*[\\$\\%]\\{.*$"
+                                                  ]
+                                              ])
+                                          | doc "Soft Reconfiguration (String, String)"
+                                          | optional,
+                                      }
+                                    | doc m%"
+                                      Neighbors (List - Object)
+                                      
+                                      Elements:
+                                      - ip (required)
+                                      - activate
+                                      - send_community
+                                      - route_reflector_client
+                                      - soft_reconfiguration
+                                    "%
+                                    | optional,
+                                }
+                                | doc m%"
+                                  L2Vpn Evpn (Object)
+                                  
+                                  Elements:
+                                  - neighbors
+                                "%
+                                | optional,
+                            }
                             | doc m%"
-                              Address Families (List - Object)
+                              Address Family (Object)
                               
                               Elements:
                               - ipv4_unicast
@@ -110595,7 +110666,7 @@ let rec _js2n__-refsenv
                           - default_ipv4_unicast
                           - log_neighbor_changes
                           - router_id_loopback
-                          - address_families
+                          - address_family
                           - neighbors
                         "%
                         | optional,
@@ -215887,6 +215958,119 @@ let rec _js2n__-refsenv
               - activated_policy
             "%
             | optional,
+          configuration_groups
+            | Array
+              {
+                cli_profile
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.strings.pattern "^[^&<>! \"]{1,128}$"
+                      ])
+                  | doc "CLI Profile (String)"
+                  | optional,
+                description | String | doc "Description (String)" | optional,
+                device_tags
+                  | Array
+                    {
+                      features
+                        | Array (
+                          _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^&<>! \"]{1,128}$"
+                              ])
+                        )
+                        | doc "Features (List - String)"
+                        | optional,
+                      name
+                        | _js2n__-prdslib.contract_from_predicate
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^[^&<>! \"]{1,128}$"
+                            ])
+                        | doc "Name (String)",
+                    }
+                  | doc m%"
+                    Device Tags (List - Object)
+                    
+                    Elements:
+                    - name (required)
+                    - features
+                  "%
+                  | optional,
+                name
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.strings.pattern "^[^&<>! \"]{1,128}$"
+                      ])
+                  | doc "Name (String)",
+                other_profile
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.strings.pattern "^[^&<>! \"]{1,128}$"
+                      ])
+                  | doc "Other Profile (String)"
+                  | optional,
+                policy_object_profile
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.strings.pattern "^[^&<>! \"]{1,128}$"
+                      ])
+                  | doc "Policy Object Profile (String)"
+                  | optional,
+                service_profile
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.strings.pattern "^[^&<>! \"]{1,128}$"
+                      ])
+                  | doc "Service Profile (String)"
+                  | optional,
+                system_profile
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.strings.pattern "^[^&<>! \"]{1,128}$"
+                      ])
+                  | doc "System Profile (String)",
+                transport_profile
+                  | _js2n__-prdslib.contract_from_predicate
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.strings.pattern "^[^&<>! \"]{1,128}$"
+                      ])
+                  | doc "Transport Profile (String)",
+              }
+            | doc m%"
+              Configuration Groups (List - Object)
+              
+              Elements:
+              - name (required)
+              - description
+              - cli_profile
+              - device_tags
+              - other_profile
+              - policy_object_profile
+              - service_profile
+              - system_profile (required)
+              - transport_profile (required)
+            "%
+            | optional,
           edge_device_templates
             | Array
               {
@@ -239553,8 +239737,7 @@ let rec _js2n__-refsenv
                           | doc m%"
                             Proxy Type (String)
                             - Allowed values: none, pac, static
-                          "%
-                          | optional,
+                          "%,
                         static_proxy_host
                           | _js2n__-prdslib.contract_from_predicate
                             (_js2n__-prdslib.allOf
@@ -239646,7 +239829,7 @@ let rec _js2n__-refsenv
                         - name_server_ip_variable
                         - pac_proxy_url
                         - pac_proxy_url_variable
-                        - proxy_type
+                        - proxy_type (required)
                         - static_proxy_host
                         - static_proxy_host_variable
                         - static_proxy_port
@@ -240268,7 +240451,7 @@ let rec _js2n__-refsenv
                       - entries (required)
                     "%
                     | optional,
-                  mirror_lists
+                  mirrors
                     | Array
                       {
                         description
@@ -240298,7 +240481,7 @@ let rec _js2n__-refsenv
                           "%,
                       }
                     | doc m%"
-                      Mirror Lists (List - Object)
+                      Mirrors (List - Object)
                       
                       Elements:
                       - name (required)
@@ -240537,7 +240720,7 @@ let rec _js2n__-refsenv
                   - ipv4_prefix_lists
                   - ipv6_data_prefix_lists
                   - ipv6_prefix_lists
-                  - mirror_lists
+                  - mirrors
                   - policers
                   - standard_community_lists
                   - tloc_lists
@@ -255858,6 +256041,23 @@ let rec _js2n__-refsenv
                   | Array
                     {
                       chassis_id | String | doc "Chassis ID (String)",
+                      configuration_group
+                        | _js2n__-prdslib.contract_from_predicate
+                          (_js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^[^<>!&\" ]{1,128}$"
+                            ])
+                        | doc "Configuration Group (String)"
+                        | optional,
+                      configuration_group_deploy
+                        | Bool
+                        | doc m%"
+                          Configuration Group Deploy (Boolean)
+                          - Default value: true
+                        "%
+                        | optional,
                       device_template
                         | _js2n__-prdslib.contract_from_predicate
                           (_js2n__-prdslib.allOf
@@ -255866,7 +256066,8 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.strings.pattern
                                 "^[^<>!&\" ]{1,128}$"
                             ])
-                        | doc "Device Template (String)",
+                        | doc "Device Template (String)"
+                        | optional,
                       device_variables
                         | {  .. }
                         | doc m%"
@@ -255990,15 +256191,31 @@ let rec _js2n__-refsenv
                         | doc m%"
                           Model (String)
                           - Allowed values: ASR-1001-HX, ASR-1001-X, ASR-1002-HX, ASR-1002-X, ASR-1006-X, C1101-4P, C1101-4PLTEP, C1101-4PLTEPW, C1109-2PLTEGB, C1109-2PLTEUS, C1109-2PLTEVZ, C1109-4PLTE2P, C1109-4PLTE2PW, C1111-4P, C1111-4PLTEEA, C1111-4PLTELA, C1111-4PW, C1111-8P, C1111-8PLTEEA, C1111-8PLTEEAW, C1111-8PLTELA, C1111-8PLTELAW, C1111-8PW, C1111X-8P, C1112-8P, C1112-8PLTEEA, C1112-8PLTEEAWE, C1112-8PWE, C1113-8P, C1113-8PLTEEA, C1113-8PLTEEAW, C1113-8PLTELA, C1113-8PLTELAWZ, C1113-8PLTEW, C1113-8PM, C1113-8PMLTEEA, C1113-8PMWE, C1113-8PW, C1116-4P, C1116-4PLTEEA, C1116-4PLTEEAWE, C1116-4PWE, C1117-4P, C1117-4PLTEEA, C1117-4PLTEEAW, C1117-4PLTELA, C1117-4PLTELAWZ, C1117-4PM, C1117-4PMLTEEA, C1117-4PMLTEEAWE, C1117-4PMWE, C1117-4PW, C1118-8P, C1121-4P, C1121-4PLTEP, C1121-8P, C1121-8PLTEP, C1121-8PLTEPW, C1121X-8P, C1121X-8PLTEP, C1121X-8PLTEPW, C1126-8PLTEP, C1126X-8PLTEP, C1127-8PLTEP, C1127-8PMLTEP, C1127X-8PLTEP, C1127X-8PMLTEP, C1128-8PLTEP, C1131-8PLTEPW, C1131-8PW, C1131X-8PLTEPW, C1131X-8PW, C1161-8P, C1161-8PLTEP, C1161X-8P, C1161X-8PLTEP, C8000V, C8200-1N-4T, C8200L-1N-4T, C8300-1N1S-4T2X, C8300-1N1S-6T, C8300-2N2S-4T2X, C8300-2N2S-6T, C8500-12X, C8500-12X4QC, C8500-20X6C, C8500L-8S4X, IR-1101, IR-1821, IR-1831, IR-1833, IR-1835, IR-8140H, IR-8140H-P, IR-8340, ISR-4221, ISR-4221X, ISR-4321, ISR-4331, ISR-4351, ISR-4431, ISR-4451-X, ISR-4461, ISR1100-4G-XE, ISR1100-4GLTEGB-XE, ISR1100-4GLTENA-XE, ISR1100-6G-XE, ISR1100X-4G-XE, ISR1100X-6G-XE
-                        "%,
+                        "%
+                        | optional,
+                      tags
+                        | Array (
+                          _js2n__-prdslib.contract_from_predicate
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.strings.pattern
+                                  "^[^<>!&\" ]{1,128}$"
+                              ])
+                        )
+                        | doc "Tags (List - String)"
+                        | optional,
                     }
                   | doc m%"
                     Routers (List - Object)
                     
                     Elements:
                     - chassis_id (required)
-                    - model (required)
-                    - device_template (required)
+                    - configuration_group
+                    - configuration_group_deploy
+                    - tags
+                    - model
+                    - device_template
                     - device_variables
                   "%,
               }
@@ -256022,8 +256239,9 @@ let rec _js2n__-refsenv
           - sites
           - multi_region_fabric
           - centralized_policies
-          - feature_profiles
           - security_policies
+          - configuration_groups
+          - feature_profiles
         "%
         | optional,
       vxlan
@@ -257177,6 +257395,79 @@ let rec _js2n__-refsenv
                           | Bool
                           | doc "ARP Suppress (Boolean)"
                           | optional,
+                        child_fabrics
+                          | Array
+                            {
+                              dhcp_loopback_id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 1023
+                                    ])
+                                | doc m%"
+                                  DHCP Loopback ID (Integer)
+                                  - Maximum value: 1023
+                                "%
+                                | optional,
+                              dhcp_servers
+                                | Array
+                                  {
+                                    ip_address
+                                      | String
+                                      | doc m%"
+                                        IP Address (String)
+                                        - IPv4 or IPv6 address
+                                      "%,
+                                    vrf | String | doc "VRF (String)",
+                                  }
+                                | doc m%"
+                                  DHCP Servers (List - Object)
+                                  
+                                  Elements:
+                                  - ip_address (required)
+                                  - vrf (required)
+                                "%
+                                | optional,
+                              l3gw_on_border
+                                | Bool
+                                | doc "L3Gw On Border (Boolean)"
+                                | optional,
+                              multicast_group_address
+                                | String
+                                | doc m%"
+                                  Multicast Group Address (String)
+                                  - IPv4 or IPv6 address
+                                "%
+                                | optional,
+                              name | String | doc "Name (String)",
+                              netflow_enable
+                                | Bool
+                                | doc "Netflow Enable (Boolean)"
+                                | optional,
+                              trm_enable
+                                | Bool
+                                | doc "Trm Enable (Boolean)"
+                                | optional,
+                              vlan_netflow_monitor
+                                | String
+                                | doc "Vlan Netflow Monitor (String)"
+                                | optional,
+                            }
+                          | doc m%"
+                            Child Fabrics (List - Object)
+                            
+                            Elements:
+                            - name (required)
+                            - dhcp_loopback_id
+                            - dhcp_servers
+                            - multicast_group_address
+                            - trm_enable
+                            - netflow_enable
+                            - vlan_netflow_monitor
+                            - l3gw_on_border
+                          "%
+                          | optional,
                         dhcp_loopback_id
                           | _js2n__-prdslib.contract_from_predicate
                             (_js2n__-prdslib.allOf
@@ -257361,6 +257652,7 @@ let rec _js2n__-refsenv
                       - secondary_ip_addresses
                       - trm_enable
                       - vlan_netflow_monitor
+                      - child_fabrics
                       - network_attach_group
                     "%
                     | optional,
@@ -257443,6 +257735,122 @@ let rec _js2n__-refsenv
                           | doc m%"
                             BGP Password Encryption Type (Integer)
                             - Allowed values: 3, 7
+                          "%
+                          | optional,
+                        child_fabrics
+                          | Array
+                            {
+                              adv_default_routes
+                                | Bool
+                                | doc "Adv Default Routes (Boolean)"
+                                | optional,
+                              adv_host_routes
+                                | Bool
+                                | doc "Adv Host Routes (Boolean)"
+                                | optional,
+                              bgp_password
+                                | String
+                                | doc "BGP Password (String)"
+                                | optional,
+                              bgp_password_encryption_type
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.enum [ 3, 7 ]
+                                    ])
+                                | doc m%"
+                                  BGP Password Encryption Type (Integer)
+                                  - Allowed values: 3, 7
+                                "%
+                                | optional,
+                              export_mvpn_rt
+                                | String
+                                | doc "Export Mvpn Rt (String)"
+                                | optional,
+                              import_mvpn_rt
+                                | String
+                                | doc "Import Mvpn Rt (String)"
+                                | optional,
+                              name | String | doc "Name (String)",
+                              netflow_enable
+                                | Bool
+                                | doc "Netflow Enable (Boolean)"
+                                | optional,
+                              netflow_monitor
+                                | String
+                                | doc "Netflow Monitor (String)"
+                                | optional,
+                              no_rp | Bool | doc "No Rp (Boolean)" | optional,
+                              overlay_multicast_group
+                                | String
+                                | doc "Overlay Multicast Group (String)"
+                                | optional,
+                              rp_address
+                                | String
+                                | doc m%"
+                                  Rp Address (String)
+                                  - IPv4 or IPv6 address
+                                "%
+                                | optional,
+                              rp_external
+                                | Bool
+                                | doc "Rp External (Boolean)"
+                                | optional,
+                              rp_loopback_id
+                                | _js2n__-prdslib.contract_from_predicate
+                                  (_js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Integer,
+                                      _js2n__-prdslib.numbers.maximum 1023
+                                    ])
+                                | doc m%"
+                                  Rp Loopback ID (Integer)
+                                  - Maximum value: 1023
+                                "%
+                                | optional,
+                              static_default_route
+                                | Bool
+                                | doc "Static Default Route (Boolean)"
+                                | optional,
+                              trm_bgw_msite
+                                | Bool
+                                | doc "Trm Bgw Msite (Boolean)"
+                                | optional,
+                              trm_enable
+                                | Bool
+                                | doc "Trm Enable (Boolean)"
+                                | optional,
+                              underlay_mcast_ip
+                                | String
+                                | doc m%"
+                                  Underlay Mcast IP (String)
+                                  - IPv4 or IPv6 address
+                                "%
+                                | optional,
+                            }
+                          | doc m%"
+                            Child Fabrics (List - Object)
+                            
+                            Elements:
+                            - name (required)
+                            - adv_host_routes
+                            - adv_default_routes
+                            - static_default_route
+                            - bgp_password
+                            - bgp_password_encryption_type
+                            - netflow_enable
+                            - netflow_monitor
+                            - trm_enable
+                            - trm_bgw_msite
+                            - no_rp
+                            - rp_external
+                            - rp_address
+                            - rp_loopback_id
+                            - underlay_mcast_ip
+                            - overlay_multicast_group
+                            - import_mvpn_rt
+                            - export_mvpn_rt
                           "%
                           | optional,
                         disable_rt_auto
@@ -257674,6 +258082,7 @@ let rec _js2n__-refsenv
                       - trm_enable
                       - trm_bgw_msite
                       - underlay_mcast_ip
+                      - child_fabrics
                       - vrf_attach_group
                     "%
                     | optional,
@@ -257997,6 +258406,79 @@ let rec _js2n__-refsenv
                       | Bool
                       | doc "ARP Suppress (Boolean)"
                       | optional,
+                    child_fabrics
+                      | Array
+                        {
+                          dhcp_loopback_id
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.numbers.maximum 1023
+                                ])
+                            | doc m%"
+                              DHCP Loopback ID (Integer)
+                              - Maximum value: 1023
+                            "%
+                            | optional,
+                          dhcp_servers
+                            | Array
+                              {
+                                ip_address
+                                  | String
+                                  | doc m%"
+                                    IP Address (String)
+                                    - IPv4 or IPv6 address
+                                  "%,
+                                vrf | String | doc "VRF (String)",
+                              }
+                            | doc m%"
+                              DHCP Servers (List - Object)
+                              
+                              Elements:
+                              - ip_address (required)
+                              - vrf (required)
+                            "%
+                            | optional,
+                          l3gw_on_border
+                            | Bool
+                            | doc "L3Gw On Border (Boolean)"
+                            | optional,
+                          multicast_group_address
+                            | String
+                            | doc m%"
+                              Multicast Group Address (String)
+                              - IPv4 or IPv6 address
+                            "%
+                            | optional,
+                          name | String | doc "Name (String)",
+                          netflow_enable
+                            | Bool
+                            | doc "Netflow Enable (Boolean)"
+                            | optional,
+                          trm_enable
+                            | Bool
+                            | doc "Trm Enable (Boolean)"
+                            | optional,
+                          vlan_netflow_monitor
+                            | String
+                            | doc "Vlan Netflow Monitor (String)"
+                            | optional,
+                        }
+                      | doc m%"
+                        Child Fabrics (List - Object)
+                        
+                        Elements:
+                        - name (required)
+                        - dhcp_loopback_id
+                        - dhcp_servers
+                        - multicast_group_address
+                        - trm_enable
+                        - netflow_enable
+                        - vlan_netflow_monitor
+                        - l3gw_on_border
+                      "%
+                      | optional,
                     dhcp_loopback_id
                       | _js2n__-prdslib.contract_from_predicate
                         (_js2n__-prdslib.allOf
@@ -258198,6 +258680,7 @@ let rec _js2n__-refsenv
                   - secondary_ip_addresses
                   - trm_enable
                   - vlan_netflow_monitor
+                  - child_fabrics
                   - network_attach_group
                 "%
                 | optional,
@@ -258286,6 +258769,122 @@ let rec _js2n__-refsenv
                       | doc m%"
                         BGP Password Encryption Type (Integer)
                         - Allowed values: 3, 7
+                      "%
+                      | optional,
+                    child_fabrics
+                      | Array
+                        {
+                          adv_default_routes
+                            | Bool
+                            | doc "Adv Default Routes (Boolean)"
+                            | optional,
+                          adv_host_routes
+                            | Bool
+                            | doc "Adv Host Routes (Boolean)"
+                            | optional,
+                          bgp_password
+                            | String
+                            | doc "BGP Password (String)"
+                            | optional,
+                          bgp_password_encryption_type
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.enum [ 3, 7 ]
+                                ])
+                            | doc m%"
+                              BGP Password Encryption Type (Integer)
+                              - Allowed values: 3, 7
+                            "%
+                            | optional,
+                          export_mvpn_rt
+                            | String
+                            | doc "Export Mvpn Rt (String)"
+                            | optional,
+                          import_mvpn_rt
+                            | String
+                            | doc "Import Mvpn Rt (String)"
+                            | optional,
+                          name | String | doc "Name (String)",
+                          netflow_enable
+                            | Bool
+                            | doc "Netflow Enable (Boolean)"
+                            | optional,
+                          netflow_monitor
+                            | String
+                            | doc "Netflow Monitor (String)"
+                            | optional,
+                          no_rp | Bool | doc "No Rp (Boolean)" | optional,
+                          overlay_multicast_group
+                            | String
+                            | doc "Overlay Multicast Group (String)"
+                            | optional,
+                          rp_address
+                            | String
+                            | doc m%"
+                              Rp Address (String)
+                              - IPv4 or IPv6 address
+                            "%
+                            | optional,
+                          rp_external
+                            | Bool
+                            | doc "Rp External (Boolean)"
+                            | optional,
+                          rp_loopback_id
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Integer,
+                                  _js2n__-prdslib.numbers.maximum 1023
+                                ])
+                            | doc m%"
+                              Rp Loopback ID (Integer)
+                              - Maximum value: 1023
+                            "%
+                            | optional,
+                          static_default_route
+                            | Bool
+                            | doc "Static Default Route (Boolean)"
+                            | optional,
+                          trm_bgw_msite
+                            | Bool
+                            | doc "Trm Bgw Msite (Boolean)"
+                            | optional,
+                          trm_enable
+                            | Bool
+                            | doc "Trm Enable (Boolean)"
+                            | optional,
+                          underlay_mcast_ip
+                            | String
+                            | doc m%"
+                              Underlay Mcast IP (String)
+                              - IPv4 or IPv6 address
+                            "%
+                            | optional,
+                        }
+                      | doc m%"
+                        Child Fabrics (List - Object)
+                        
+                        Elements:
+                        - name (required)
+                        - adv_host_routes
+                        - adv_default_routes
+                        - static_default_route
+                        - bgp_password
+                        - bgp_password_encryption_type
+                        - netflow_enable
+                        - netflow_monitor
+                        - trm_enable
+                        - trm_bgw_msite
+                        - no_rp
+                        - rp_external
+                        - rp_address
+                        - rp_loopback_id
+                        - underlay_mcast_ip
+                        - overlay_multicast_group
+                        - import_mvpn_rt
+                        - export_mvpn_rt
                       "%
                       | optional,
                     disable_rt_auto
@@ -258557,6 +259156,7 @@ let rec _js2n__-refsenv
                   - trm_enable
                   - trm_bgw_msite
                   - underlay_mcast_ip
+                  - child_fabrics
                   - vrf_attach_group
                 "%
                 | optional,
@@ -264594,10 +265194,10 @@ let rec _js2n__-refsenv
                   
                   Elements:
                   - dest_fabric (required)
-                  - source_device (required)
                   - dest_device (required)
-                  - source_interface (required)
                   - dest_interface
+                  - source_device (required)
+                  - source_interface (required)
                   - local_ip (required)
                   - neighbor_ip (required)
                   - bgp_section
@@ -264606,7 +265206,13 @@ let rec _js2n__-refsenv
               fabric_links
                 | Array
                   {
-                    admin_state | Bool | doc "Admin State (Boolean)" | optional,
+                    admin_state
+                      | Bool
+                      | doc m%"
+                        Admin State (Boolean)
+                        - Default value: true
+                      "%
+                      | optional,
                     dest_device | String | doc "Dest Device (String)",
                     dest_interface
                       | _js2n__-prdslib.contract_from_predicate
@@ -264631,6 +265237,7 @@ let rec _js2n__-refsenv
                           ])
                       | doc m%"
                         MTU (Integer)
+                        - Default value: 9216
                         - Minimum value: 1500
                         - Maximum value: 9216
                       "%
@@ -264657,13 +265264,13 @@ let rec _js2n__-refsenv
                   Elements:
                   - source_device (required)
                   - source_interface (required)
+                  - source_description
                   - dest_device (required)
                   - dest_interface (required)
-                  - template (required)
-                  - mtu
-                  - source_description
                   - destination_description
+                  - template (required)
                   - admin_state
+                  - mtu
                 "%
                 | optional,
               switches

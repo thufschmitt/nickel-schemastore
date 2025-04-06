@@ -191516,7 +191516,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.enum [ "REGIONAL", "EDGE" ]
+                              _js2n__-prdslib.enum
+                                [ "REGIONAL", "EDGE", "PRIVATE" ]
                             ]
                         ],
                   MutualTlsAuthentication =
@@ -191524,6 +191525,8 @@ let rec _js2n__-refsenv
                   NormalizeBasePath = _js2n__-prdslib.isType '"Bool",
                   OwnershipVerificationCertificateArn =
                     _js2n__-prdslib.isType '"String",
+                  Policy =
+                    _js2n__-refsenv."_js2n__-:definitions/PassThroughProp!predicate",
                   Route53 =
                     _js2n__-refsenv."_js2n__-:definitions/samtranslator__internal__schema_source__aws_serverless_api__Route53!predicate",
                   SecurityPolicy = _js2n__-prdslib.isType '"String",

@@ -31116,7 +31116,6 @@ let rec _js2n__-refsenv
                                                                                         [
                                                                                           "category",
                                                                                           "confidence",
-                                                                                          "confidenceLabel",
                                                                                           "status"
                                                                                         ],
                                                                                       _js2n__-prdslib.records.record
@@ -31183,18 +31182,6 @@ let rec _js2n__-refsenv
                                                                                           confidence =
                                                                                             _js2n__-prdslib.isType
                                                                                                 '"Number",
-                                                                                          confidenceLabel =
-                                                                                            _js2n__-prdslib.allOf
-                                                                                                [
-                                                                                                  _js2n__-prdslib.isType
-                                                                                                    '"String",
-                                                                                                  _js2n__-prdslib.enum
-                                                                                                    [
-                                                                                                      "HIGH",
-                                                                                                      "MEDIUM",
-                                                                                                      "LOW"
-                                                                                                    ]
-                                                                                                ],
                                                                                           status =
                                                                                             _js2n__-prdslib.allOf
                                                                                                 [

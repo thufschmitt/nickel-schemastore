@@ -1039,4 +1039,5 @@
 "Open Know-How" = import "out/Open Know-How.ncl",
 "Contextive Glossary" = import "out/Contextive Glossary.ncl",
 "Google Digital Assetlinks" = import "out/Google Digital Assetlinks.ncl",
+"Pylock" = import "out/Pylock.ncl",
 }
