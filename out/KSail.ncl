@@ -1061,7 +1061,7 @@ let rec _js2n__-refsenv
                                       provider =
                                         _js2n__-prdslib.enum [ "Docker" ],
                                       secretManager =
-                                        _js2n__-prdslib.enum [ "None", "SOPS" ],
+                                        _js2n__-prdslib.isType '"Bool",
                                     } {} true _js2n__-prdslib.always
                                 ],
                           secretManager =
@@ -1103,12 +1103,13 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType 'Record,
                                   _js2n__-prdslib.records.record
                                     {
-                                      lintOnUp = _js2n__-prdslib.isType '"Bool",
-                                      lintOnUpdate =
-                                        _js2n__-prdslib.isType '"Bool",
                                       reconcileOnUp =
                                         _js2n__-prdslib.isType '"Bool",
                                       reconcileOnUpdate =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      validateOnUp =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      validateOnUpdate =
                                         _js2n__-prdslib.isType '"Bool",
                                     } {} true _js2n__-prdslib.always
                                 ],

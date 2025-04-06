@@ -906,7 +906,7 @@ let rec _js2n__-refsenv
       _version
         | std.enum.TagOrString
         | [|
-          '"1.72.2",
+          '"1.72.0",
           '"1.71.0",
           '"1.70.1",
           '"1.69.0",

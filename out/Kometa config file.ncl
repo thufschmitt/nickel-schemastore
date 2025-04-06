@@ -1358,6 +1358,7 @@ let rec _js2n__-refsenv
                               "genre",
                               "golden",
                               "imdb",
+                              "letterboxd",
                               "myanimelist",
                               "network",
                               "nfr",
@@ -1511,6 +1512,7 @@ let rec _js2n__-refsenv
                               "genre",
                               "golden",
                               "imdb",
+                              "letterboxd",
                               "myanimelist",
                               "network",
                               "nfr",
@@ -1617,7 +1619,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record {}
                 {
-                  "^(?!plex|tmdb|tautulli|webhooks|omdb|mdblist|notifiarr|gotify|anidb|radarr|sonarr|trakt|mal).+$" =
+                  "^(?!plex|tmdb|tautulli|webhooks|omdb|mdblist|notifiarr|gotify|ntfy|anidb|radarr|sonarr|trakt|mal).+$" =
                     _js2n__-prdslib.records.record
                         {
                           collection_files =
@@ -1749,6 +1751,18 @@ let rec _js2n__-refsenv
                 { apikey = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/ntfy-api!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "token", "topic", "url" ],
+              _js2n__-prdslib.records.record
+                {
+                  token = _js2n__-prdslib.isType '"String",
+                  topic = _js2n__-prdslib.isType '"String",
+                  url = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/omdb-api!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1797,6 +1811,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record
                             {
                               configured = _js2n__-prdslib.isType '"Bool",
+                              ignore_empty_smart_collections =
+                                _js2n__-prdslib.isType '"Bool",
                               less = _js2n__-prdslib.isType 'Integer,
                               managed = _js2n__-prdslib.isType '"Bool",
                             } {} true _js2n__-prdslib.always
@@ -1923,42 +1939,30 @@ let rec _js2n__-refsenv
                             [ "default", "hide", "hide_items", "show_items" ]
                         ],
                   mass_content_rating_update =
-                    _js2n__-prdslib.anyOf
+                    _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"String",
-                              _js2n__-prdslib.enum
-                                [
-                                  "mdb",
-                                  "mdb_commonsense",
-                                  "mdb_commonsense0",
-                                  "omdb",
-                                  "mal",
-                                  "lock",
-                                  "unlock",
-                                  "remove",
-                                  "reset"
-                                ]
-                            ],
-                          _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType '"Array",
-                              _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.enum
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.anyOf
                                   [
-                                    "mdb",
-                                    "mdb_commonsense",
-                                    "mdb_commonsense0",
-                                    "omdb",
-                                    "mal",
-                                    "lock",
-                                    "unlock",
-                                    "remove",
-                                    "reset"
-                                  ]),
-                              _js2n__-prdslib.arrays.uniqueItems
-                            ]
+                                    _js2n__-prdslib.enum
+                                      [
+                                        "mdb",
+                                        "mdb_commonsense",
+                                        "mdb_commonsense0",
+                                        "omdb",
+                                        "mal",
+                                        "lock",
+                                        "unlock",
+                                        "remove",
+                                        "reset"
+                                      ],
+                                    _js2n__-prdslib.strings.pattern ".*"
+                                  ]
+                              ])
                         ],
                   mass_critic_rating_update =
                     _js2n__-prdslib.anyOf
@@ -2172,26 +2176,38 @@ let rec _js2n__-refsenv
                             [
                               _js2n__-prdslib.isType '"Array",
                               _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.enum
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    "tmdb",
-                                    "tvdb",
-                                    "imdb",
-                                    "omdb",
-                                    "anidb",
-                                    "anidb_3_0",
-                                    "anidb_2_5",
-                                    "anidb_2_0",
-                                    "anidb_1_5",
-                                    "anidb_1_0",
-                                    "anidb_0_5",
-                                    "mal",
-                                    "lock",
-                                    "unlock",
-                                    "remove",
-                                    "reset"
-                                  ]),
-                              _js2n__-prdslib.arrays.uniqueItems
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "tmdb",
+                                            "tvdb",
+                                            "imdb",
+                                            "omdb",
+                                            "anidb",
+                                            "anidb_3_0",
+                                            "anidb_2_5",
+                                            "anidb_2_0",
+                                            "anidb_1_5",
+                                            "anidb_1_0",
+                                            "anidb_0_5",
+                                            "mal",
+                                            "lock",
+                                            "unlock",
+                                            "remove",
+                                            "reset"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"Array",
+                                        _js2n__-prdslib.arrays.arrayOf
+                                          (_js2n__-prdslib.isType '"String")
+                                      ]
+                                  ])
                             ]
                         ],
                   mass_imdb_parental_labels =
@@ -2204,19 +2220,28 @@ let rec _js2n__-refsenv
                   mass_original_title_update =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [
-                              "anidb",
-                              "anidb_official",
-                              "mal",
-                              "mal_english",
-                              "mal_japanese",
-                              "lock",
-                              "unlock",
-                              "remove",
-                              "reset"
-                            ]
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.enum
+                                      [
+                                        "anidb",
+                                        "anidb_official",
+                                        "mal",
+                                        "mal_english",
+                                        "mal_japanese",
+                                        "lock",
+                                        "unlock",
+                                        "remove",
+                                        "reset"
+                                      ],
+                                    _js2n__-prdslib.strings.pattern ".*"
+                                  ]
+                              ])
                         ],
                   mass_originally_available_update =
                     _js2n__-prdslib.anyOf
@@ -2798,7 +2823,7 @@ let rec _js2n__-refsenv
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
-                                "^(\\d+)(,(\\d+))*$"
+                                "^\\d{1,8}(\\s*,\\s*\\d{1,8})*$"
                             ],
                           _js2n__-prdslib.isType 'Integer
                         ],
@@ -2810,7 +2835,7 @@ let rec _js2n__-refsenv
                             [
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.strings.pattern
-                                "^(tt\\d{7})(,(tt\\d{7}))*$"
+                                "^(tt\\d{7,8})(,(tt\\d{7,8}))*$"
                             ],
                           _js2n__-prdslib.allOf
                             [
@@ -2819,7 +2844,8 @@ let rec _js2n__-refsenv
                                 (_js2n__-prdslib.allOf
                                   [
                                     _js2n__-prdslib.isType '"String",
-                                    _js2n__-prdslib.strings.pattern "^tt\\d{7}$"
+                                    _js2n__-prdslib.strings.pattern
+                                      "^tt\\d{7,8}$"
                                   ]),
                               _js2n__-prdslib.arrays.minItems 1
                             ]
@@ -2920,6 +2946,7 @@ let rec _js2n__-refsenv
                   show_missing_season_assets = _js2n__-prdslib.isType '"Bool",
                   show_options = _js2n__-prdslib.isType '"Bool",
                   show_unconfigured = _js2n__-prdslib.isType '"Bool",
+                  show_unfiltered = _js2n__-prdslib.isType '"Bool",
                   show_unmanaged = _js2n__-prdslib.isType '"Bool",
                   sync_mode = _js2n__-prdslib.enum [ "sync", "append" ],
                   tvdb_language =
@@ -3391,7 +3418,7 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.strings.pattern "^tt\\d{7}$"
+                          _js2n__-prdslib.strings.pattern "^tt\\d{7,8}$"
                         ],
                   sep_style =
                     _js2n__-prdslib.allOf
@@ -3537,6 +3564,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "horizontal", "vertical" ]
                         ],
+                  hide_text = _js2n__-prdslib.isType '"Bool",
                   horizontal_align =
                     _js2n__-prdslib.allOf
                         [
@@ -3544,10 +3572,10 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "left", "center", "right" ]
                         ],
                   horizontal_offset =
-                    _js2n__-prdslib.allOf
+                    _js2n__-prdslib.anyOf
                         [
-                          _js2n__-prdslib.isType 'Integer,
-                          _js2n__-prdslib.numbers.minimum 0
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Integer
                         ],
                   horizontal_position =
                     _js2n__-prdslib.allOf
@@ -3564,6 +3592,21 @@ let rec _js2n__-refsenv
                               "right2"
                             ]
                         ],
+                  horizontal_spacing = _js2n__-prdslib.isType 'Integer,
+                  initial_horizontal_align =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "left", "center", "right" ]
+                        ],
+                  initial_horizontal_offset = _js2n__-prdslib.isType 'Integer,
+                  initial_vertical_align =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "top", "center", "bottom" ]
+                        ],
+                  initial_vertical_offset = _js2n__-prdslib.isType 'Integer,
                   languages =
                     _js2n__-prdslib.allOf
                         [
@@ -3876,6 +3919,32 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum [ "tmdb", "plex" ]
                         ],
+                  scale_height =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Integer
+                            ],
+                          _js2n__-prdslib.numbers.exclusiveMinimum 1
+                        ],
+                  scale_width =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Integer
+                            ],
+                          _js2n__-prdslib.numbers.exclusiveMinimum 1
+                        ],
+                  size =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "small", "big" ]
+                        ],
                   stroke_color =
                     _js2n__-prdslib.allOf
                         [
@@ -3943,10 +4012,10 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "top", "center", "bottom" ]
                         ],
                   vertical_offset =
-                    _js2n__-prdslib.allOf
+                    _js2n__-prdslib.anyOf
                         [
-                          _js2n__-prdslib.isType 'Integer,
-                          _js2n__-prdslib.numbers.minimum 0
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Integer
                         ],
                   vertical_position =
                     _js2n__-prdslib.allOf
@@ -3965,6 +4034,7 @@ let rec _js2n__-refsenv
                               "bottom3"
                             ]
                         ],
+                  vertical_spacing = _js2n__-prdslib.isType 'Integer,
                 }
                 {
                   "^back_align_.*$" =
@@ -4056,7 +4126,11 @@ let rec _js2n__-refsenv
                   "^horizontal_offset_.*$" =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Integer
+                            ],
                           _js2n__-prdslib.numbers.minimum 0
                         ],
                   "^limit_.*$" =
@@ -4249,14 +4323,18 @@ let rec _js2n__-refsenv
                   "^vertical_offset_.*$" =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType 'Integer,
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.isType 'Integer
+                            ],
                           _js2n__-prdslib.numbers.minimum 0
                         ],
                   "^weight_.*$" = _js2n__-prdslib.isType 'Integer,
                 } false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/tmdb-api!predicate"
-        | doc "API Information to connect to TMDB; REQUIRED for the script to run"
+        | doc "API Information to connect to TMDb; REQUIRED for the script to run"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -4882,6 +4960,7 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/mdblist-api!predicate",
               notifiarr =
                 _js2n__-refsenv."_js2n__-:definitions/notifiarr-api!predicate",
+              ntfy = _js2n__-refsenv."_js2n__-:definitions/ntfy-api!predicate",
               omdb = _js2n__-refsenv."_js2n__-:definitions/omdb-api!predicate",
               plex =
                 _js2n__-refsenv."_js2n__-:definitions/plex-server!predicate",

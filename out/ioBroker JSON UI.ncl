@@ -1188,6 +1188,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "module" ]
                         ],
                   confirm = _js2n__-prdslib.always,
+                  custom = _js2n__-prdslib.isType 'Record,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
                   defaultFunc = _js2n__-prdslib.always,
@@ -1789,6 +1790,14 @@ let rec _js2n__-refsenv
                   noTranslation = _js2n__-prdslib.always,
                   oid = _js2n__-prdslib.isType '"String",
                   readOnly = _js2n__-prdslib.isType '"Bool",
+                  setOnEnterKey = _js2n__-prdslib.isType '"Bool",
+                  showEnterButton =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
+                        ],
                   size = _js2n__-prdslib.always,
                   sm = _js2n__-prdslib.always,
                   step = _js2n__-prdslib.isType '"Number",

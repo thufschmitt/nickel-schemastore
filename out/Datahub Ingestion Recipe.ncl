@@ -2098,6 +2098,13 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   enabled = _js2n__-prdslib.isType '"Bool",
+                  fail_safe_threshold =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Number",
+                          _js2n__-prdslib.numbers.maximum 100,
+                          _js2n__-prdslib.numbers.minimum 0
+                        ],
                   remove_stale_metadata = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
@@ -4241,8 +4248,12 @@ let rec _js2n__-refsenv
                   collections_as_tags = _js2n__-prdslib.isType '"Bool",
                   component_title_pattern =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
+                  datahub_page_size = _js2n__-prdslib.isType 'Integer,
                   env = _js2n__-prdslib.isType '"String",
                   include_components = _js2n__-prdslib.isType '"Bool",
+                  include_lineage = _js2n__-prdslib.isType '"Bool",
+                  lineage_end_time = _js2n__-prdslib.isType '"String",
+                  lineage_start_time = _js2n__-prdslib.isType '"String",
                   page_size = _js2n__-prdslib.isType 'Integer,
                   patch_metadata = _js2n__-prdslib.isType '"Bool",
                   platform_instance = _js2n__-prdslib.isType '"String",
@@ -5715,6 +5726,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   include_workspace_name_in_dataset_urn =
                     _js2n__-prdslib.isType '"Bool",
+                  incremental_lineage = _js2n__-prdslib.isType '"Bool",
                   m_query_parse_timeout = _js2n__-prdslib.isType 'Integer,
                   modified_since = _js2n__-prdslib.isType '"String",
                   native_query_parsing = _js2n__-prdslib.isType '"Bool",
@@ -5750,6 +5762,8 @@ let rec _js2n__-refsenv
                   tenant_id = _js2n__-prdslib.isType '"String",
                   workspace_id_as_urn_part = _js2n__-prdslib.isType '"Bool",
                   workspace_id_pattern =
+                    _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
+                  workspace_name_pattern =
                     _js2n__-refsenv."_js2n__-:definitions/AllowDenyPattern!predicate",
                   workspace_type_filter =
                     _js2n__-prdslib.allOf
@@ -5824,6 +5838,7 @@ let rec _js2n__-refsenv
                   ingest_dashboards = _js2n__-prdslib.isType '"Bool",
                   ingest_datasets = _js2n__-prdslib.isType '"Bool",
                   manager_uri = _js2n__-prdslib.isType '"String",
+                  max_threads = _js2n__-prdslib.isType 'Integer,
                   options = _js2n__-prdslib.isType 'Record,
                   password = _js2n__-prdslib.isType '"String",
                   platform_instance = _js2n__-prdslib.isType '"String",
@@ -7008,6 +7023,7 @@ let rec _js2n__-refsenv
                   ingest_charts = _js2n__-prdslib.isType '"Bool",
                   ingest_dashboards = _js2n__-prdslib.isType '"Bool",
                   ingest_datasets = _js2n__-prdslib.isType '"Bool",
+                  max_threads = _js2n__-prdslib.isType 'Integer,
                   options = _js2n__-prdslib.isType 'Record,
                   password = _js2n__-prdslib.isType '"String",
                   platform_instance = _js2n__-prdslib.isType '"String",

@@ -1334,6 +1334,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} true
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  forceUpdateVersion = _js2n__-prdslib.isType '"Bool",
                   name = _js2n__-prdslib.isType '"String",
                   region = _js2n__-prdslib.isType '"String",
                   tags =
@@ -1622,8 +1623,8 @@ let rec _js2n__-refsenv
                               "Ubuntu2404",
                               "UbuntuPro2204",
                               "Ubuntu2204",
+                              "UbuntuPro2004",
                               "Ubuntu2004",
-                              "Ubuntu1804",
                               "Bottlerocket",
                               "WindowsServer2019CoreContainer",
                               "WindowsServer2019FullContainer",
@@ -1787,8 +1788,8 @@ let rec _js2n__-refsenv
                               "Ubuntu2404",
                               "UbuntuPro2204",
                               "Ubuntu2204",
+                              "UbuntuPro2004",
                               "Ubuntu2004",
-                              "Ubuntu1804",
                               "Bottlerocket",
                               "WindowsServer2019CoreContainer",
                               "WindowsServer2019FullContainer",

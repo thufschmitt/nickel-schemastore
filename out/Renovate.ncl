@@ -2835,7 +2835,7 @@ let rec _js2n__-refsenv
                         "gomodSkipVendor",
                         "gomodVendor",
                         "helmUpdateSubChartArchives",
-                        "kustomizeInflateHelmArchives",
+                        "kustomizeInflateHelmCharts",
                         "npmDedupe",
                         "pnpmDedupe",
                         "yarnDedupeFewer",
