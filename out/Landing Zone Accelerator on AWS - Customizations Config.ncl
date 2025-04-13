@@ -1306,6 +1306,7 @@ let rec _js2n__-refsenv
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/ICloudFormationStack!contract"
               | optional,
+            createCfnStackSetExecutionRole | Bool | optional,
             serviceCatalogPortfolios
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/IPortfolioConfig!contract"
@@ -1320,6 +1321,14 @@ let rec _js2n__-refsenv
             applications
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/IAppConfigItem!contract"
+              | optional,
+            createCfnStackSetExecutionRole
+              | Bool
+              | doc m%"
+                Defines whether or not the StackSetExecution role is created in all workload accounts and if the StackSetAdmin role is created in the management account. If you are using stacksets and set the value to false, you will need to ensure that the roles are created.
+                
+                Default value is true.
+              "%
               | optional,
             customizations
               | _js2n__-refsenv."_js2n__-:definitions/ICustomizationConfig!contract"

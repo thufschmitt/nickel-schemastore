@@ -1074,6 +1074,8 @@ let rec _js2n__-refsenv
                           noIcons = _js2n__-prdslib.isType '"Bool",
                           reactive = _js2n__-prdslib.isType '"Bool",
                           skin = _js2n__-prdslib.isType '"String",
+                          splashless = _js2n__-prdslib.isType '"Bool",
+                          useFullGVRTitle = _js2n__-prdslib.isType '"Bool",
                         } {} false _js2n__-prdslib.never
                     ],
             } {} false _js2n__-prdslib.never),

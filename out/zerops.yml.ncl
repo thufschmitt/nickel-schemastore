@@ -933,10 +933,12 @@ let rec _js2n__-refsenv
                                 "3.18",
                                 "3.19",
                                 "3.20",
+                                "3.21",
                                 "alpine@3.17",
                                 "alpine@3.18",
                                 "alpine@3.19",
                                 "alpine@3.20",
+                                "alpine@3.21",
                                 "alpine@latest",
                                 "bun@1.1",
                                 "bun@1.1.34",
@@ -981,6 +983,9 @@ let rec _js2n__-refsenv
                                 "python@3.11",
                                 "python@3.12",
                                 "python@latest",
+                                "ruby@3.2",
+                                "ruby@3.3",
+                                "ruby@3.4",
                                 "rust@1",
                                 "rust@1.78",
                                 "rust@1.80",
@@ -1006,10 +1011,12 @@ let rec _js2n__-refsenv
                                       "3.18",
                                       "3.19",
                                       "3.20",
+                                      "3.21",
                                       "alpine@3.17",
                                       "alpine@3.18",
                                       "alpine@3.19",
                                       "alpine@3.20",
+                                      "alpine@3.21",
                                       "alpine@latest",
                                       "bun@1.1",
                                       "bun@1.1.34",
@@ -1054,6 +1061,9 @@ let rec _js2n__-refsenv
                                       "python@3.11",
                                       "python@3.12",
                                       "python@latest",
+                                      "ruby@3.2",
+                                      "ruby@3.3",
+                                      "ruby@3.4",
                                       "rust@1",
                                       "rust@1.78",
                                       "rust@1.80",
@@ -1216,6 +1226,10 @@ let rec _js2n__-refsenv
                     '"rust@1.78",
                     '"rust@1",
                     '"runtime@latest",
+                    '"ruby@latest",
+                    '"ruby@3.4",
+                    '"ruby@3.3",
+                    '"ruby@3.2",
                     '"python@latest",
                     '"python@3.12",
                     '"python@3.11",
@@ -1270,10 +1284,12 @@ let rec _js2n__-refsenv
                     '"bun@1.1.34",
                     '"bun@1.1",
                     '"alpine@latest",
+                    '"alpine@3.21",
                     '"alpine@3.20",
                     '"alpine@3.19",
                     '"alpine@3.18",
                     '"alpine@3.17",
+                    '"3.21",
                     '"3.20",
                     '"3.19",
                     '"3.18",
@@ -1431,6 +1447,27 @@ let rec _js2n__-refsenv
                   | optional,
                 routing
                   | {
+                    cors
+                      | String
+                      | doc "Content of default Access-Control headers (Allow-Origin, Allow-Methods, Allow-Headers and Expose-Headers), e.g. \"'*' always\""
+                      | optional,
+                    headers
+                      | Array
+                        {
+                          for
+                            | String
+                            | doc "Relative path to be matched against request location. May contain * at the end for prefix-based match.",
+                          values
+                            | _js2n__-prdslib.contract_from_predicate
+                              (_js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record {} {} true
+                                    (_js2n__-prdslib.isType '"String")
+                                ])
+                            | doc "Header name as Key and raw content as Value, e.g. \"Access-Control-Allow-Origin\": \"'*' always\"",
+                        }
+                      | optional,
                     redirects
                       | Array
                         {

@@ -2280,6 +2280,33 @@ let rec _js2n__-refsenv
                         ],
                   profiles =
                     _js2n__-refsenv."_js2n__-:definitions/list_of_strings!predicate",
+                  provider =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              options =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^.+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.isType
+                                                    '"Number",
+                                                  _js2n__-prdslib.isType 'Null
+                                                ],
+                                        } true _js2n__-prdslib.always
+                                    ],
+                              type = _js2n__-prdslib.isType '"String",
+                            } { "^x-" = _js2n__-prdslib.always, } false
+                            _js2n__-prdslib.never
+                        ],
                   pull_policy =
                     _js2n__-prdslib.allOf
                         [
@@ -2402,6 +2429,21 @@ let rec _js2n__-refsenv
                                               ],
                                         consistency =
                                           _js2n__-prdslib.isType '"String",
+                                        image =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    subpath =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                  }
+                                                  {
+                                                    "^x-" =
+                                                      _js2n__-prdslib.always,
+                                                  } false _js2n__-prdslib.never
+                                              ],
                                         read_only =
                                           _js2n__-prdslib.anyOf
                                               [
@@ -2445,13 +2487,28 @@ let rec _js2n__-refsenv
                                                       _js2n__-prdslib.always,
                                                   } false _js2n__-prdslib.never
                                               ],
-                                        type = _js2n__-prdslib.isType '"String",
+                                        type =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.enum
+                                                  [
+                                                    "bind",
+                                                    "volume",
+                                                    "tmpfs",
+                                                    "cluster",
+                                                    "image"
+                                                  ]
+                                              ],
                                         volume =
                                           _js2n__-prdslib.allOf
                                               [
                                                 _js2n__-prdslib.isType 'Record,
                                                 _js2n__-prdslib.records.record
                                                   {
+                                                    labels =
+                                                      _js2n__-refsenv."_js2n__-:definitions/list_or_dict!predicate",
                                                     nocopy =
                                                       _js2n__-prdslib.anyOf
                                                           [

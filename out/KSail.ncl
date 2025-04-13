@@ -1046,7 +1046,8 @@ let rec _js2n__-refsenv
                                       configPath =
                                         _js2n__-prdslib.isType '"String",
                                       deploymentTool =
-                                        _js2n__-prdslib.enum [ "Flux" ],
+                                        _js2n__-prdslib.enum
+                                            [ "Kubectl", "Flux" ],
                                       distribution =
                                         _js2n__-prdslib.enum
                                             [ "Native", "K3s" ],
@@ -1061,7 +1062,7 @@ let rec _js2n__-refsenv
                                       provider =
                                         _js2n__-prdslib.enum [ "Docker" ],
                                       secretManager =
-                                        _js2n__-prdslib.enum [ "None", "SOPS" ],
+                                        _js2n__-prdslib.isType '"Bool",
                                     } {} true _js2n__-prdslib.always
                                 ],
                           secretManager =
@@ -1080,13 +1081,8 @@ let rec _js2n__-refsenv
                                                     _js2n__-prdslib.isType
                                                         '"Bool",
                                                   publicKey =
-                                                    _js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.isType
-                                                            'Null
-                                                        ],
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   showAllKeysInListings =
                                                     _js2n__-prdslib.isType
                                                         '"Bool",
@@ -1103,13 +1099,15 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType 'Record,
                                   _js2n__-prdslib.records.record
                                     {
-                                      lintOnUp = _js2n__-prdslib.isType '"Bool",
-                                      lintOnUpdate =
-                                        _js2n__-prdslib.isType '"Bool",
                                       reconcileOnUp =
                                         _js2n__-prdslib.isType '"Bool",
                                       reconcileOnUpdate =
                                         _js2n__-prdslib.isType '"Bool",
+                                      validateOnUp =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      validateOnUpdate =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      verbose = _js2n__-prdslib.isType '"Bool",
                                     } {} true _js2n__-prdslib.always
                                 ],
                         } {} true _js2n__-prdslib.always

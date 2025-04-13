@@ -934,6 +934,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "email", "name" ],
               _js2n__-prdslib.records.record
                 {
+                  accountAlias =
+                    _js2n__-refsenv."_js2n__-:definitions/NonEmptyNoSpaceString!predicate",
                   description =
                     _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!predicate",
                   email =
@@ -1005,6 +1007,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "email", "name" ],
               _js2n__-prdslib.records.record
                 {
+                  accountAlias =
+                    _js2n__-refsenv."_js2n__-:definitions/NonEmptyNoSpaceString!predicate",
                   description =
                     _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!predicate",
                   email =

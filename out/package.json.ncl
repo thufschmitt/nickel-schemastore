@@ -1821,6 +1821,32 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/scriptsVersionBefore!predicate",
                         } {} true (_js2n__-prdslib.isType '"String")
                     ],
+              stackblitz =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record
+                        {
+                          compileTrigger =
+                            _js2n__-prdslib.oneOf
+                                [
+                                  _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "auto", "keystroke", "save" ]
+                                    ]
+                                ],
+                          env = _js2n__-prdslib.isType 'Record,
+                          installDependencies = _js2n__-prdslib.isType '"Bool",
+                          startCommand =
+                            _js2n__-prdslib.anyOf
+                                [
+                                  _js2n__-prdslib.isType '"String",
+                                  _js2n__-prdslib.isType '"Bool"
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
               stylelint = _js2n__-prdslib.always,
               type =
                 _js2n__-prdslib.allOf
