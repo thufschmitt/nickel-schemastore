@@ -1101,7 +1101,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "BINARY", "JSON", "TEXT" ]
+                          _js2n__-prdslib.enum
+                            [ "BINARY", "JSON", "TEXT", "EXCEL", "CSV" ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1117,7 +1118,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "BINARY", "JSON", "TEXT" ]
+                          _js2n__-prdslib.enum
+                            [ "BINARY", "JSON", "TEXT", "EXCEL", "CSV" ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1529,7 +1531,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "BINARY", "JSON", "TEXT" ]
+                          _js2n__-prdslib.enum
+                            [ "BINARY", "JSON", "TEXT", "EXCEL", "CSV" ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1545,7 +1548,8 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "BINARY", "JSON", "TEXT" ]
+                          _js2n__-prdslib.enum
+                            [ "BINARY", "JSON", "TEXT", "EXCEL", "CSV" ]
                         ],
                 } {} false _js2n__-prdslib.never
             ],
@@ -1770,6 +1774,9 @@ let rec _js2n__-refsenv
                               [
                                 "ALL",
                                 "INVALID_INPUT",
+                                "CANCELLED",
+                                "TERMINATED",
+                                "TIMEOUT",
                                 "STEP_DATA_LIMIT_EXCEEDED",
                                 "STEP_NO_CHOICE_MATCHED",
                                 "STEP_PERMISSION_DENIED",
@@ -1924,6 +1931,34 @@ let rec _js2n__-refsenv
                   retryCount = _js2n__-prdslib.isType 'Integer,
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/yawl.StartWorkflow!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "workflowId" ],
+              _js2n__-prdslib.records.record
+                {
+                  executionInput = _js2n__-prdslib.isType '"String",
+                  input = _js2n__-prdslib.isType '"String",
+                  next = _js2n__-prdslib.isType '"String",
+                  output = _js2n__-prdslib.isType '"String",
+                  retryPolicy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.RetryPolicy!predicate"
+                        ],
+                  timeout =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.strings.pattern
+                            "^([0-9]+\\.?[0-9]*|\\.[0-9]+)s$"
+                        ],
+                  workflowId = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/yawl.Step!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2044,6 +2079,12 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.records.required [ "disk" ],
                       _js2n__-prdslib.records.record {} {} true
                         _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "workflow" ],
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
                     ]
                 ],
               _js2n__-prdslib.records.record
@@ -2161,6 +2202,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} false
                             _js2n__-prdslib.never,
                           _js2n__-refsenv."_js2n__-:definitions/yawl.Wait!predicate"
+                        ],
+                  workflow =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.records.record {} {} false
+                            _js2n__-prdslib.never,
+                          _js2n__-refsenv."_js2n__-:definitions/yawl.StartWorkflow!predicate"
                         ],
                   ydbDocument =
                     _js2n__-prdslib.allOf

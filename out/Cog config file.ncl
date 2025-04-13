@@ -909,6 +909,10 @@ let rec _js2n__-refsenv
             | String
             | doc "Cog automatically picks the correct version of cuDNN to install, but this lets you override it for whatever reason."
             | optional,
+          fast
+            | Bool
+            | doc "A flag to enable the experimental fast-push feature from a config level."
+            | optional,
           gpu
             | Bool
             | doc "Enable GPUs for this model. When enabled, the [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) base image will be used, and Cog will automatically figure out what versions of CUDA and cuDNN to use based on the version of Python, PyTorch, and Tensorflow that you are using."

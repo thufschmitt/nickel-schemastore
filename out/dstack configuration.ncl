@@ -927,6 +927,7 @@ let rec _js2n__-refsenv
               DATACRUNCH (BackendType): DataCrunch
               KUBERNETES (BackendType): Kubernetes
               LAMBDA (BackendType): Lambda Cloud
+              NEBIUS (BackendType): Nebius AI Cloud
               OCI (BackendType): Oracle Cloud Infrastructure
               RUNPOD (BackendType): Runpod Cloud
               TENSORDOCK (BackendType): TensorDock Marketplace
@@ -948,6 +949,7 @@ let rec _js2n__-refsenv
                   "lambda",
                   "local",
                   "remote",
+                  "nebius",
                   "oci",
                   "runpod",
                   "tensordock",
@@ -987,6 +989,13 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/CreationPolicy!predicate",
                   entrypoint = _js2n__-prdslib.isType '"String",
                   env = _js2n__-refsenv."_js2n__-:definitions/Env!predicate",
+                  fleets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   home_dir = _js2n__-prdslib.isType '"String",
                   ide =
                     _js2n__-prdslib.anyOf
@@ -1718,6 +1727,13 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/CreationPolicy!predicate",
                   entrypoint = _js2n__-prdslib.isType '"String",
                   env = _js2n__-refsenv."_js2n__-:definitions/Env!predicate",
+                  fleets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   gateway =
                     _js2n__-prdslib.anyOf
                         [
@@ -1950,6 +1966,13 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/CreationPolicy!predicate",
                   entrypoint = _js2n__-prdslib.isType '"String",
                   env = _js2n__-refsenv."_js2n__-:definitions/Env!predicate",
+                  fleets =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   home_dir = _js2n__-prdslib.isType '"String",
                   idle_duration =
                     _js2n__-prdslib.anyOf
