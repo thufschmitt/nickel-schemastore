@@ -969,7 +969,7 @@ let rec _js2n__-refsenv
                   key = _js2n__-prdslib.isType '"String",
                   key-size = _js2n__-prdslib.isType 'Integer,
                   validity-duration = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/certificate-config!predicate"
         | doc "Node's Certificate configuration option"
@@ -989,7 +989,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   validity-duration = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/config-config!predicate"
         | doc "containerlab config engine parameters"
@@ -997,8 +997,8 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
-                { vars = _js2n__-prdslib.isType 'Record, } {} true
-                _js2n__-prdslib.always
+                { vars = _js2n__-prdslib.isType 'Record, } {} false
+                _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/dns-config!predicate"
         | doc "Node's DNS configuration option"
@@ -1031,7 +1031,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String"),
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/extras-config!predicate"
         | doc "node's extra configurations"
@@ -1050,7 +1050,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.minItems 1,
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/healthcheck-config!predicate"
         | doc "Node's Healthcheck configuration option"
@@ -1070,7 +1070,7 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   timeout = _js2n__-prdslib.isType 'Integer,
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/link-config!predicate"
         | doc "link configuration container"
@@ -1093,7 +1093,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.uniqueItems
                         ],
                   vars = _js2n__-prdslib.isType 'Record,
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/node-config!predicate"
         | doc "topology node configuration container"
@@ -1237,16 +1237,9 @@ let rec _js2n__-refsenv
                               ".+" =
                                 _js2n__-prdslib.anyOf
                                     [
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"String",
-                                          _js2n__-prdslib.arrays.minItems 1
-                                        ],
-                                      _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType '"Number",
-                                          _js2n__-prdslib.arrays.minItems 1
-                                        ]
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.isType '"Number",
+                                      _js2n__-prdslib.isType '"Bool"
                                     ],
                             } true _js2n__-prdslib.always
                         ],
@@ -1479,16 +1472,41 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:definitions/stage-exec!predicate"
         | doc "per-stage exec configuration"
-        = _js2n__-prdslib.allOf
+        = _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record
-                {
-                  on-enter =
-                    _js2n__-refsenv."_js2n__-:definitions/stage-exec-list!predicate",
-                  on-exit =
-                    _js2n__-refsenv."_js2n__-:definitions/stage-exec-list!predicate",
-                } {} true _js2n__-prdslib.always
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record
+                    {
+                      on-enter =
+                        _js2n__-refsenv."_js2n__-:definitions/stage-exec-list!predicate",
+                      on-exit =
+                        _js2n__-refsenv."_js2n__-:definitions/stage-exec-list!predicate",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required [ "command", "phase" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            command = _js2n__-prdslib.isType '"String",
+                            phase =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.enum
+                                      [ "on-enter", "on-exit" ]
+                                  ],
+                            target = _js2n__-prdslib.isType '"String",
+                          } {} false _js2n__-prdslib.never
+                      ])
+                ]
             ],
       "_js2n__-:definitions/stage-exec-list!predicate"
         | doc "list of commands to execute"
@@ -1657,7 +1675,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.numbers.minimum 1
                         ],
                   network = _js2n__-prdslib.isType '"String",
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ])
         | doc "configuration container for management network"
         | optional,
@@ -1676,7 +1694,7 @@ let rec _js2n__-refsenv
                 {
                   certificate-authority =
                     _js2n__-refsenv."_js2n__-:definitions/certificate-authority-config!predicate",
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ])
         | doc "Global containerlab settings"
         | optional,
@@ -1800,7 +1818,7 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
                               xrd =
                                 _js2n__-refsenv."_js2n__-:definitions/node-config!predicate",
-                            } {} true _js2n__-prdslib.always
+                            } {} false _js2n__-prdslib.never
                         ],
                   links =
                     _js2n__-prdslib.allOf
@@ -1824,7 +1842,7 @@ let rec _js2n__-refsenv
                                     ],
                             } true _js2n__-prdslib.always
                         ],
-                } {} true _js2n__-prdslib.always
+                } {} false _js2n__-prdslib.never
             ])
         | doc "topology configuration container",
     }

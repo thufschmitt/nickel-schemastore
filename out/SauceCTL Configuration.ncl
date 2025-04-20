@@ -1703,27 +1703,6 @@ let rec _js2n__-refsenv
                                       _js2n__-prdslib.isType '"String",
                                     key = _js2n__-prdslib.isType '"String",
                                     record = _js2n__-prdslib.isType '"Bool",
-                                    reporters =
-                                      _js2n__-prdslib.allOf
-                                          [
-                                            _js2n__-prdslib.isType '"Array",
-                                            _js2n__-prdslib.numbers.minimum 0,
-                                            _js2n__-prdslib.arrays.arrayOf
-                                              (_js2n__-prdslib.allOf
-                                                [
-                                                  _js2n__-prdslib.isType
-                                                    'Record,
-                                                  _js2n__-prdslib.records.record
-                                                    {
-                                                      name =
-                                                        _js2n__-prdslib.isType
-                                                            '"String",
-                                                      options =
-                                                        _js2n__-prdslib.always,
-                                                    } {} false
-                                                    _js2n__-prdslib.never
-                                                ])
-                                          ],
                                     version =
                                       _js2n__-prdslib.enum
                                           [

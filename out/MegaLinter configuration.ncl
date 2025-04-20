@@ -2804,6 +2804,10 @@ let rec _js2n__-refsenv
           _js2n__-refsenv."_js2n__-:definitions/enum_descriptor_keys!contract"
         | doc "If ENABLE is not set, all descriptors are activated by default. If set, all linters of listed descriptors will be activated by default"
         | optional,
+      ENABLE_ERRORS_LINTERS
+        | Array _js2n__-refsenv."_js2n__-:definitions/enum_linter_keys!contract"
+        | doc "If ENABLE_ERRORS_LINTERS is set, only the listed linters will be considered as blocking"
+        | optional,
       ENABLE_LINTERS
         | Array _js2n__-refsenv."_js2n__-:definitions/enum_linter_keys!contract"
         | doc "If ENABLE_LINTERS is set, only listed linters will be processed"

@@ -1836,21 +1836,64 @@ let rec _js2n__-refsenv
                             } true _js2n__-prdslib.always
                         ],
                   mass_added_at_update =
-                    _js2n__-prdslib.allOf
+                    _js2n__-prdslib.anyOf
                         [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
+                          _js2n__-prdslib.allOf
                             [
-                              "tmdb",
-                              "tvdb",
-                              "omdb",
-                              "mdb",
-                              "anidb",
-                              "mal",
-                              "lock",
-                              "unlock",
-                              "remove",
-                              "reset"
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.enum
+                                [
+                                  "tmdb",
+                                  "tvdb",
+                                  "omdb",
+                                  "mdb",
+                                  "mdb_digital",
+                                  "anidb",
+                                  "mal",
+                                  "lock",
+                                  "unlock",
+                                  "remove",
+                                  "reset"
+                                ]
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^\\d{4}-\\d{2}-\\d{2}$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.anyOf
+                                  [
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "tmdb",
+                                            "tvdb",
+                                            "omdb",
+                                            "mdb",
+                                            "mdb_digital",
+                                            "anidb",
+                                            "mal",
+                                            "lock",
+                                            "unlock",
+                                            "remove",
+                                            "reset"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^\\d{4}-\\d{2}-\\d{2}$"
+                                      ]
+                                  ]),
+                              _js2n__-prdslib.arrays.uniqueItems
                             ]
                         ],
                   mass_audience_rating_update =
@@ -1862,29 +1905,36 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.enum
                                 [
-                                  "tmdb",
+                                  "anidb_average",
+                                  "anidb_rating",
+                                  "anidb_score",
                                   "imdb",
-                                  "trakt_user",
-                                  "omdb",
+                                  "lock",
+                                  "mal",
                                   "mdb",
                                   "mdb_average",
                                   "mdb_imdb",
+                                  "mdb_letterboxd",
                                   "mdb_metacritic",
                                   "mdb_metacriticuser",
-                                  "mdb_trakt",
+                                  "mdb_myanimelist",
                                   "mdb_tomatoes",
                                   "mdb_tomatoesaudience",
                                   "mdb_tmdb",
-                                  "mdb_letterboxd",
-                                  "mdb_myanimelist",
-                                  "anidb_rating",
-                                  "anidb_average",
-                                  "anidb_score",
-                                  "mal",
-                                  "lock",
-                                  "unlock",
+                                  "mdb_trakt",
+                                  "omdb",
+                                  "omdb_metascore",
+                                  "omdb_tomatoes",
+                                  "plex_imdb",
+                                  "plex_tmdb",
+                                  "plex_tomatoes",
+                                  "plex_tomatoesaudience",
                                   "remove",
-                                  "reset"
+                                  "reset",
+                                  "tmdb",
+                                  "trakt",
+                                  "trakt_user",
+                                  "unlock"
                                 ]
                             ],
                           _js2n__-prdslib.allOf
@@ -1895,29 +1945,36 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.enum
                                       [
-                                        "tmdb",
+                                        "anidb_average",
+                                        "anidb_rating",
+                                        "anidb_score",
                                         "imdb",
-                                        "trakt_user",
-                                        "omdb",
+                                        "lock",
+                                        "mal",
                                         "mdb",
                                         "mdb_average",
                                         "mdb_imdb",
+                                        "mdb_letterboxd",
                                         "mdb_metacritic",
                                         "mdb_metacriticuser",
-                                        "mdb_trakt",
+                                        "mdb_myanimelist",
                                         "mdb_tomatoes",
                                         "mdb_tomatoesaudience",
                                         "mdb_tmdb",
-                                        "mdb_letterboxd",
-                                        "mdb_myanimelist",
-                                        "anidb_rating",
-                                        "anidb_average",
-                                        "anidb_score",
-                                        "mal",
-                                        "lock",
-                                        "unlock",
+                                        "mdb_trakt",
+                                        "omdb",
+                                        "omdb_metascore",
+                                        "omdb_tomatoes",
+                                        "plex_imdb",
+                                        "plex_tmdb",
+                                        "plex_tomatoes",
+                                        "plex_tomatoesaudience",
                                         "remove",
-                                        "reset"
+                                        "reset",
+                                        "tmdb",
+                                        "trakt",
+                                        "trakt_user",
+                                        "unlock"
                                       ],
                                     _js2n__-prdslib.isType '"Number"
                                   ]),
@@ -1927,9 +1984,20 @@ let rec _js2n__-refsenv
                   mass_background_update =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [ "tmdb", "plex", "lock", "unlock" ]
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              episodes = _js2n__-prdslib.isType '"Bool",
+                              ignore_locked = _js2n__-prdslib.isType '"Bool",
+                              seasons = _js2n__-prdslib.isType '"Bool",
+                              source =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "tmdb", "plex", "lock", "unlock" ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
                         ],
                   mass_collection_mode =
                     _js2n__-prdslib.allOf
@@ -1973,29 +2041,36 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.enum
                                 [
-                                  "tmdb",
+                                  "anidb_average",
+                                  "anidb_rating",
+                                  "anidb_score",
                                   "imdb",
-                                  "trakt_user",
-                                  "omdb",
+                                  "lock",
+                                  "mal",
                                   "mdb",
                                   "mdb_average",
                                   "mdb_imdb",
+                                  "mdb_letterboxd",
                                   "mdb_metacritic",
                                   "mdb_metacriticuser",
-                                  "mdb_trakt",
+                                  "mdb_myanimelist",
                                   "mdb_tomatoes",
                                   "mdb_tomatoesaudience",
                                   "mdb_tmdb",
-                                  "mdb_letterboxd",
-                                  "mdb_myanimelist",
-                                  "anidb_rating",
-                                  "anidb_average",
-                                  "anidb_score",
-                                  "mal",
-                                  "lock",
-                                  "unlock",
+                                  "mdb_trakt",
+                                  "omdb",
+                                  "omdb_metascore",
+                                  "omdb_tomatoes",
+                                  "plex_imdb",
+                                  "plex_tmdb",
+                                  "plex_tomatoes",
+                                  "plex_tomatoesaudience",
                                   "remove",
-                                  "reset"
+                                  "reset",
+                                  "tmdb",
+                                  "trakt",
+                                  "trakt_user",
+                                  "unlock"
                                 ]
                             ],
                           _js2n__-prdslib.allOf
@@ -2006,29 +2081,36 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.enum
                                       [
-                                        "tmdb",
+                                        "anidb_average",
+                                        "anidb_rating",
+                                        "anidb_score",
                                         "imdb",
-                                        "trakt_user",
-                                        "omdb",
+                                        "lock",
+                                        "mal",
                                         "mdb",
                                         "mdb_average",
                                         "mdb_imdb",
+                                        "mdb_letterboxd",
                                         "mdb_metacritic",
                                         "mdb_metacriticuser",
-                                        "mdb_trakt",
+                                        "mdb_myanimelist",
                                         "mdb_tomatoes",
                                         "mdb_tomatoesaudience",
                                         "mdb_tmdb",
-                                        "mdb_letterboxd",
-                                        "mdb_myanimelist",
-                                        "anidb_rating",
-                                        "anidb_average",
-                                        "anidb_score",
-                                        "mal",
-                                        "lock",
-                                        "unlock",
+                                        "mdb_trakt",
+                                        "omdb",
+                                        "omdb_metascore",
+                                        "omdb_tomatoes",
+                                        "plex_imdb",
+                                        "plex_tmdb",
+                                        "plex_tomatoes",
+                                        "plex_tomatoesaudience",
                                         "remove",
-                                        "reset"
+                                        "reset",
+                                        "tmdb",
+                                        "trakt",
+                                        "trakt_user",
+                                        "unlock"
                                       ],
                                     _js2n__-prdslib.isType '"Number"
                                   ]),
@@ -2044,11 +2126,35 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.enum
                                 [
-                                  "tmdb",
+                                  "anidb_average",
+                                  "anidb_rating",
+                                  "anidb_score",
                                   "imdb",
                                   "lock",
+                                  "mal",
+                                  "mdb",
+                                  "mdb_average",
+                                  "mdb_imdb",
+                                  "mdb_letterboxd",
+                                  "mdb_metacritic",
+                                  "mdb_metacriticuser",
+                                  "mdb_myanimelist",
+                                  "mdb_tomatoes",
+                                  "mdb_tomatoesaudience",
+                                  "mdb_tmdb",
+                                  "mdb_trakt",
+                                  "omdb",
+                                  "omdb_metascore",
+                                  "omdb_tomatoes",
+                                  "plex_imdb",
+                                  "plex_tmdb",
+                                  "plex_tomatoes",
+                                  "plex_tomatoesaudience",
                                   "remove",
                                   "reset",
+                                  "tmdb",
+                                  "trakt",
+                                  "trakt_user",
                                   "unlock"
                                 ]
                             ],
@@ -2060,11 +2166,35 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.enum
                                       [
-                                        "tmdb",
+                                        "anidb_average",
+                                        "anidb_rating",
+                                        "anidb_score",
                                         "imdb",
                                         "lock",
+                                        "mal",
+                                        "mdb",
+                                        "mdb_average",
+                                        "mdb_imdb",
+                                        "mdb_letterboxd",
+                                        "mdb_metacritic",
+                                        "mdb_metacriticuser",
+                                        "mdb_myanimelist",
+                                        "mdb_tomatoes",
+                                        "mdb_tomatoesaudience",
+                                        "mdb_tmdb",
+                                        "mdb_trakt",
+                                        "omdb",
+                                        "omdb_metascore",
+                                        "omdb_tomatoes",
+                                        "plex_imdb",
+                                        "plex_tmdb",
+                                        "plex_tomatoes",
+                                        "plex_tomatoesaudience",
                                         "remove",
                                         "reset",
+                                        "tmdb",
+                                        "trakt",
+                                        "trakt_user",
                                         "unlock"
                                       ],
                                     _js2n__-prdslib.isType '"Number"
@@ -2081,11 +2211,35 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.enum
                                 [
-                                  "tmdb",
+                                  "anidb_average",
+                                  "anidb_rating",
+                                  "anidb_score",
                                   "imdb",
                                   "lock",
+                                  "mal",
+                                  "mdb",
+                                  "mdb_average",
+                                  "mdb_imdb",
+                                  "mdb_letterboxd",
+                                  "mdb_metacritic",
+                                  "mdb_metacriticuser",
+                                  "mdb_myanimelist",
+                                  "mdb_tomatoes",
+                                  "mdb_tomatoesaudience",
+                                  "mdb_tmdb",
+                                  "mdb_trakt",
+                                  "omdb",
+                                  "omdb_metascore",
+                                  "omdb_tomatoes",
+                                  "plex_imdb",
+                                  "plex_tmdb",
+                                  "plex_tomatoes",
+                                  "plex_tomatoesaudience",
                                   "remove",
                                   "reset",
+                                  "tmdb",
+                                  "trakt",
+                                  "trakt_user",
                                   "unlock"
                                 ]
                             ],
@@ -2097,11 +2251,35 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.enum
                                       [
-                                        "tmdb",
+                                        "anidb_average",
+                                        "anidb_rating",
+                                        "anidb_score",
                                         "imdb",
                                         "lock",
+                                        "mal",
+                                        "mdb",
+                                        "mdb_average",
+                                        "mdb_imdb",
+                                        "mdb_letterboxd",
+                                        "mdb_metacritic",
+                                        "mdb_metacriticuser",
+                                        "mdb_myanimelist",
+                                        "mdb_tomatoes",
+                                        "mdb_tomatoesaudience",
+                                        "mdb_tmdb",
+                                        "mdb_trakt",
+                                        "omdb",
+                                        "omdb_metascore",
+                                        "omdb_tomatoes",
+                                        "plex_imdb",
+                                        "plex_tmdb",
+                                        "plex_tomatoes",
+                                        "plex_tomatoesaudience",
                                         "remove",
                                         "reset",
+                                        "tmdb",
+                                        "trakt",
+                                        "trakt_user",
                                         "unlock"
                                       ],
                                     _js2n__-prdslib.isType '"Number"
@@ -2118,11 +2296,35 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.enum
                                 [
-                                  "tmdb",
+                                  "anidb_average",
+                                  "anidb_rating",
+                                  "anidb_score",
                                   "imdb",
                                   "lock",
+                                  "mal",
+                                  "mdb",
+                                  "mdb_average",
+                                  "mdb_imdb",
+                                  "mdb_letterboxd",
+                                  "mdb_metacritic",
+                                  "mdb_metacriticuser",
+                                  "mdb_myanimelist",
+                                  "mdb_tomatoes",
+                                  "mdb_tomatoesaudience",
+                                  "mdb_tmdb",
+                                  "mdb_trakt",
+                                  "omdb",
+                                  "omdb_metascore",
+                                  "omdb_tomatoes",
+                                  "plex_imdb",
+                                  "plex_tmdb",
+                                  "plex_tomatoes",
+                                  "plex_tomatoesaudience",
                                   "remove",
                                   "reset",
+                                  "tmdb",
+                                  "trakt",
+                                  "trakt_user",
                                   "unlock"
                                 ]
                             ],
@@ -2134,11 +2336,35 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.enum
                                       [
-                                        "tmdb",
+                                        "anidb_average",
+                                        "anidb_rating",
+                                        "anidb_score",
                                         "imdb",
                                         "lock",
+                                        "mal",
+                                        "mdb",
+                                        "mdb_average",
+                                        "mdb_imdb",
+                                        "mdb_letterboxd",
+                                        "mdb_metacritic",
+                                        "mdb_metacriticuser",
+                                        "mdb_myanimelist",
+                                        "mdb_tomatoes",
+                                        "mdb_tomatoesaudience",
+                                        "mdb_tmdb",
+                                        "mdb_trakt",
+                                        "omdb",
+                                        "omdb_metascore",
+                                        "omdb_tomatoes",
+                                        "plex_imdb",
+                                        "plex_tmdb",
+                                        "plex_tomatoes",
+                                        "plex_tomatoesaudience",
                                         "remove",
                                         "reset",
+                                        "tmdb",
+                                        "trakt",
+                                        "trakt_user",
                                         "unlock"
                                       ],
                                     _js2n__-prdslib.isType '"Number"
@@ -2255,6 +2481,7 @@ let rec _js2n__-refsenv
                                   "tvdb",
                                   "omdb",
                                   "mdb",
+                                  "mdb_digital",
                                   "anidb",
                                   "mal",
                                   "lock",
@@ -2265,20 +2492,40 @@ let rec _js2n__-refsenv
                             ],
                           _js2n__-prdslib.allOf
                             [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^\\d{4}-\\d{2}-\\d{2}$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
                               _js2n__-prdslib.isType '"Array",
                               _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.enum
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    "tmdb",
-                                    "tvdb",
-                                    "omdb",
-                                    "mdb",
-                                    "anidb",
-                                    "mal",
-                                    "lock",
-                                    "unlock",
-                                    "remove",
-                                    "reset"
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "tmdb",
+                                            "tvdb",
+                                            "omdb",
+                                            "mdb",
+                                            "mdb_digital",
+                                            "anidb",
+                                            "mal",
+                                            "lock",
+                                            "unlock",
+                                            "remove",
+                                            "reset"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.strings.pattern
+                                          "^\\d{4}-\\d{2}-\\d{2}$"
+                                      ]
                                   ]),
                               _js2n__-prdslib.arrays.uniqueItems
                             ]
@@ -2286,9 +2533,21 @@ let rec _js2n__-refsenv
                   mass_poster_update =
                     _js2n__-prdslib.allOf
                         [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum
-                            [ "tmdb", "plex", "lock", "unlock" ]
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              episodes = _js2n__-prdslib.isType '"Bool",
+                              ignore_locked = _js2n__-prdslib.isType '"Bool",
+                              ignore_overlays = _js2n__-prdslib.isType '"Bool",
+                              seasons = _js2n__-prdslib.isType '"Bool",
+                              source =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-prdslib.enum
+                                        [ "tmdb", "plex", "lock", "unlock" ]
+                                    ],
+                            } {} false _js2n__-prdslib.never
                         ],
                   mass_studio_update =
                     _js2n__-prdslib.anyOf
@@ -2311,15 +2570,23 @@ let rec _js2n__-refsenv
                             [
                               _js2n__-prdslib.isType '"Array",
                               _js2n__-prdslib.arrays.arrayOf
-                                (_js2n__-prdslib.enum
+                                (_js2n__-prdslib.anyOf
                                   [
-                                    "anidb",
-                                    "mal",
-                                    "tmdb",
-                                    "lock",
-                                    "unlock",
-                                    "remove",
-                                    "reset"
+                                    _js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.enum
+                                          [
+                                            "anidb",
+                                            "mal",
+                                            "tmdb",
+                                            "lock",
+                                            "unlock",
+                                            "remove",
+                                            "reset"
+                                          ]
+                                      ],
+                                    _js2n__-prdslib.isType '"String"
                                   ]),
                               _js2n__-prdslib.arrays.uniqueItems
                             ]
@@ -2333,29 +2600,36 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"String",
                               _js2n__-prdslib.enum
                                 [
-                                  "tmdb",
+                                  "anidb_average",
+                                  "anidb_rating",
+                                  "anidb_score",
                                   "imdb",
-                                  "trakt_user",
-                                  "omdb",
+                                  "lock",
+                                  "mal",
                                   "mdb",
                                   "mdb_average",
                                   "mdb_imdb",
+                                  "mdb_letterboxd",
                                   "mdb_metacritic",
                                   "mdb_metacriticuser",
-                                  "mdb_trakt",
+                                  "mdb_myanimelist",
                                   "mdb_tomatoes",
                                   "mdb_tomatoesaudience",
                                   "mdb_tmdb",
-                                  "mdb_letterboxd",
-                                  "mdb_myanimelist",
-                                  "anidb_rating",
-                                  "anidb_average",
-                                  "anidb_score",
-                                  "mal",
-                                  "lock",
-                                  "unlock",
+                                  "mdb_trakt",
+                                  "omdb",
+                                  "omdb_metascore",
+                                  "omdb_tomatoes",
+                                  "plex_imdb",
+                                  "plex_tmdb",
+                                  "plex_tomatoes",
+                                  "plex_tomatoesaudience",
                                   "remove",
-                                  "reset"
+                                  "reset",
+                                  "tmdb",
+                                  "trakt",
+                                  "trakt_user",
+                                  "unlock"
                                 ]
                             ],
                           _js2n__-prdslib.allOf
@@ -2366,29 +2640,36 @@ let rec _js2n__-refsenv
                                   [
                                     _js2n__-prdslib.enum
                                       [
-                                        "tmdb",
+                                        "anidb_average",
+                                        "anidb_rating",
+                                        "anidb_score",
                                         "imdb",
-                                        "trakt_user",
-                                        "omdb",
+                                        "lock",
+                                        "mal",
                                         "mdb",
                                         "mdb_average",
                                         "mdb_imdb",
+                                        "mdb_letterboxd",
                                         "mdb_metacritic",
                                         "mdb_metacriticuser",
-                                        "mdb_trakt",
+                                        "mdb_myanimelist",
                                         "mdb_tomatoes",
                                         "mdb_tomatoesaudience",
                                         "mdb_tmdb",
-                                        "mdb_letterboxd",
-                                        "mdb_myanimelist",
-                                        "anidb_rating",
-                                        "anidb_average",
-                                        "anidb_score",
-                                        "mal",
-                                        "lock",
-                                        "unlock",
+                                        "mdb_trakt",
+                                        "omdb",
+                                        "omdb_metascore",
+                                        "omdb_tomatoes",
+                                        "plex_imdb",
+                                        "plex_tmdb",
+                                        "plex_tomatoes",
+                                        "plex_tomatoesaudience",
                                         "remove",
-                                        "reset"
+                                        "reset",
+                                        "tmdb",
+                                        "trakt",
+                                        "trakt_user",
+                                        "unlock"
                                       ],
                                     _js2n__-prdslib.isType '"Number"
                                   ]),
@@ -2420,10 +2701,22 @@ let rec _js2n__-refsenv
                             } {} true _js2n__-prdslib.always
                         ],
                   radarr_add_all = _js2n__-prdslib.isType '"Bool",
-                  radarr_remove_by_tag = _js2n__-prdslib.isType '"String",
+                  radarr_remove_by_tag =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   remove_title_parentheses = _js2n__-prdslib.isType '"Bool",
                   sonarr_add_all = _js2n__-prdslib.isType '"Bool",
-                  sonarr_remove_by_tag = _js2n__-prdslib.isType '"String",
+                  sonarr_remove_by_tag =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
                   split_duplicates = _js2n__-prdslib.isType '"Bool",
                   update_blank_track_titles = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never

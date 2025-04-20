@@ -1,4 +1,8 @@
 {
+"Upsun config" = import "out/Upsun config.ncl",
+"Platform.sh application" = import "out/Platform.sh application.ncl",
+"Platform.sh routes" = import "out/Platform.sh routes.ncl",
+"Platform.sh services" = import "out/Platform.sh services.ncl",
 "1Password SSH Agent Config" = import "out/1Password SSH Agent Config.ncl",
 "Application Accelerator" = import "out/Application Accelerator.ncl",
 "gRPC API Gateway & OpenAPI Config" = import "out/gRPC API Gateway & OpenAPI Config.ncl",
@@ -1039,4 +1043,6 @@
 "Open Know-How" = import "out/Open Know-How.ncl",
 "Contextive Glossary" = import "out/Contextive Glossary.ncl",
 "Google Digital Assetlinks" = import "out/Google Digital Assetlinks.ncl",
+"Pylock" = import "out/Pylock.ncl",
+"Stylua Config" = import "out/Stylua Config.ncl",
 }
