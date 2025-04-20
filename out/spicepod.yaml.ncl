@@ -917,6 +917,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} true
                             _js2n__-refsenv."_js2n__-:definitions/IndexType!predicate"
                         ],
+                  metrics =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Metrics!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   mode = _js2n__-refsenv."_js2n__-:definitions/Mode2!predicate",
                   on_conflict =
                     _js2n__-prdslib.allOf
@@ -1079,6 +1085,12 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/CacheKeyType!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "plan", "sql" ]
+            ],
       "_js2n__-:definitions/Catalog!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1119,6 +1131,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
                             _js2n__-prdslib.always
+                        ],
+                  metrics =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Metrics!predicate",
+                          _js2n__-prdslib.isType 'Null
                         ],
                   name = _js2n__-prdslib.isType '"String",
                   params =
@@ -1352,6 +1370,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} true
                             _js2n__-prdslib.always
                         ],
+                  metrics =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Metrics!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   mode = _js2n__-refsenv."_js2n__-:definitions/Mode!predicate",
                   name = _js2n__-prdslib.isType '"String",
                   params =
@@ -1451,6 +1475,12 @@ let rec _js2n__-refsenv
                             _js2n__-refsenv."_js2n__-:definitions/ModelFile!predicate"
                         ],
                   from = _js2n__-prdslib.isType '"String",
+                  metrics =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Metrics!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   name = _js2n__-prdslib.isType '"String",
                   params =
                     _js2n__-prdslib.allOf
@@ -1480,6 +1510,12 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  metrics =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Metrics!predicate",
                           _js2n__-prdslib.isType 'Null
                         ],
                   name = _js2n__-prdslib.isType '"String",
@@ -1513,6 +1549,33 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "enabled", "unique" ]
+            ],
+      "_js2n__-:definitions/Metric!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  name = _js2n__-prdslib.isType '"String",
+                } {} true _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/Metrics!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "metrics" ],
+              _js2n__-prdslib.records.record
+                {
+                  metrics =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/Metric!predicate"
+                        ],
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/Mode!predicate" =
         _js2n__-prdslib.allOf
@@ -1567,6 +1630,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record {} {} true
                             _js2n__-prdslib.always
+                        ],
+                  metrics =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Metrics!predicate",
+                          _js2n__-prdslib.isType 'Null
                         ],
                   name = _js2n__-prdslib.isType '"String",
                   params =
@@ -1680,6 +1749,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  cache_key_type =
+                    _js2n__-refsenv."_js2n__-:definitions/CacheKeyType!predicate",
                   cache_max_size =
                     _js2n__-prdslib.anyOf
                         [
@@ -1903,6 +1974,12 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   from = _js2n__-prdslib.isType '"String",
+                  metrics =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Metrics!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   name = _js2n__-prdslib.isType '"String",
                   params =
                     _js2n__-prdslib.allOf

@@ -903,6 +903,8 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.records.record
             {
+              apiServerTimeout = _js2n__-prdslib.isType '"String",
+              defaultView = _js2n__-prdslib.isType '"String",
               disablePodCounting = _js2n__-prdslib.isType '"Bool",
               imageScans =
                 _js2n__-prdslib.allOf
@@ -1074,6 +1076,8 @@ let rec _js2n__-refsenv
                           noIcons = _js2n__-prdslib.isType '"Bool",
                           reactive = _js2n__-prdslib.isType '"Bool",
                           skin = _js2n__-prdslib.isType '"String",
+                          splashless = _js2n__-prdslib.isType '"Bool",
+                          useFullGVRTitle = _js2n__-prdslib.isType '"Bool",
                         } {} false _js2n__-prdslib.never
                     ],
             } {} false _js2n__-prdslib.never),
