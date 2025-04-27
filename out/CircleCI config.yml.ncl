@@ -1546,6 +1546,7 @@ let rec _js2n__-refsenv
                             } {} false _js2n__-prdslib.never
                         ],
                   name = _js2n__-prdslib.isType '"String",
+                  override-with = _js2n__-prdslib.isType '"String",
                   requires =
                     _js2n__-prdslib.allOf
                         [

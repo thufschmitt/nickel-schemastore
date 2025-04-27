@@ -1027,7 +1027,46 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.record {} {} true
+              _js2n__-prdslib.records.record {}
+                {
+                  "(amd64|arm64|armhf|i386|ppc64el|riscv64|s390x)" =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType 'Null,
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.required [ "build-on" ],
+                              _js2n__-prdslib.records.record
+                                {
+                                  build-for =
+                                    _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ]
+                                        ],
+                                  build-on =
+                                    _js2n__-prdslib.anyOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.allOf
+                                            [
+                                              _js2n__-prdslib.isType '"Array",
+                                              _js2n__-prdslib.arrays.arrayOf
+                                                (_js2n__-prdslib.isType
+                                                  '"String")
+                                            ]
+                                        ],
+                                } {} true _js2n__-prdslib.always
+                            ]
+                        ],
+                } true
                 (_js2n__-prdslib.oneOf
                   [ _js2n__-prdslib.isType 'Null, _js2n__-prdslib.always ])
             ]),

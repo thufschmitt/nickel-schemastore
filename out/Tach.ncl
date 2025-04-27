@@ -971,8 +971,24 @@ let rec _js2n__-refsenv
         | doc "List of interface configurations"
         | optional,
       layers
-        | Array (String)
-        | doc "List of layers in hierarchical order (highest to lowest)"
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.oneOf
+              [
+                _js2n__-prdslib.isType '"String",
+                _js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.required [ "name" ],
+                    _js2n__-prdslib.records.record
+                      {
+                        closed = _js2n__-prdslib.isType '"Bool",
+                        name = _js2n__-prdslib.isType '"String",
+                      } {} false _js2n__-prdslib.never
+                  ]
+              ])
+        )
+        | doc "List of layers in hierarchical order (highest to lowest). Each layer can be specified as a string (shorthand) or an object with name and optional closed property."
         | optional,
       modules
         | Array (

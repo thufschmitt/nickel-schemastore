@@ -1587,6 +1587,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  host_ip =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   idle_timeout =
                     _js2n__-prdslib.allOf
                         [
@@ -2795,7 +2801,7 @@ let rec _js2n__-refsenv
           
           Runs `endswith` on the binary path (so `bash` would apply to any binary ending with `bash` while `/usr/bin/bash` would apply only for that binary).
           
-          ```json { "sip_binaries": "bash;python" } ```
+          ```json { "sip_binaries": ["bash", "python"] } ```
         "%
         | optional,
       skip_build_tools
@@ -2820,9 +2826,9 @@ let rec _js2n__-refsenv
         | doc m%"
           Allows mirrord to skip unwanted processes.
           
-          Useful when process A spawns process B, and the user wants mirrord to operate only on process B. Accepts a single value, or multiple values separated by `;`.
+          Useful when process A spawns process B, and the user wants mirrord to operate only on process B. Accepts a single value, or an array of values.
           
-          ```json { "skip_processes": "bash;node" } ```
+          ```json { "skip_processes": ["bash", "node"] } ```
         "%
         | optional,
       target

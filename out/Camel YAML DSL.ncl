@@ -11931,13 +11931,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum
-                            [
-                              "Fastjson",
-                              "Gson",
-                              "Jackson",
-                              "Johnzon",
-                              "Jsonb"
-                            ]
+                            [ "Fastjson", "Gson", "Jackson", "Jsonb" ]
                         ],
                   moduleClassNames = _js2n__-prdslib.isType '"String",
                   moduleRefs = _js2n__-prdslib.isType '"String",

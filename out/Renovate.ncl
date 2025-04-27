@@ -1382,7 +1382,11 @@ let rec _js2n__-refsenv
       constraints
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.isType '"String")
+            ])
         | doc "Configuration object to define language or manager version constraints."
         | optional,
       constraintsFiltering
@@ -2709,6 +2713,8 @@ let rec _js2n__-refsenv
                     replacementName = _js2n__-prdslib.isType '"String",
                     replacementNameTemplate = _js2n__-prdslib.isType '"String",
                     replacementVersion = _js2n__-prdslib.isType '"String",
+                    replacementVersionTemplate =
+                      _js2n__-prdslib.isType '"String",
                     sourceDirectory = _js2n__-prdslib.isType '"String",
                     sourceUrl = _js2n__-prdslib.isType '"String",
                   } {} true _js2n__-prdslib.always
@@ -2835,7 +2841,7 @@ let rec _js2n__-refsenv
                         "gomodSkipVendor",
                         "gomodVendor",
                         "helmUpdateSubChartArchives",
-                        "kustomizeInflateHelmArchives",
+                        "kustomizeInflateHelmCharts",
                         "npmDedupe",
                         "pnpmDedupe",
                         "yarnDedupeFewer",
