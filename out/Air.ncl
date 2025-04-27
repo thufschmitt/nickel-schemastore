@@ -951,6 +951,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  skip =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/Skip!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/IndentStyle!predicate" =
@@ -1014,6 +1020,25 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Integer,
               _js2n__-prdslib.numbers.maximum 320,
               _js2n__-prdslib.numbers.minimum 1
+            ],
+      "_js2n__-:definitions/Skip!predicate"
+        | doc m%"
+          Function names that are automatically skipped without the need for a `fmt: skip` comment.
+          
+          # Notes
+          
+          Internally wrapped in an [Arc] for cheap cloning, since we know the function names are immutable and can be shared. Must be an [Arc] because settings are shared across threads when doing parallel file discovery.
+          
+          Clippy recommends [Arc] wrapping the immutable `[String]` over the mutable `Vec<String>` because with [Arc] you are basically promising not to mutate the inner object, and [Arc] provides a special `From<Vec<T>> for Arc<[T]>` for exactly this use case, which we invoke in [Skip::new()].
+          
+          # Safety
+          
+          This vector is sorted at creation, for use with binary search during lookups.
+        "%
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
             ],
     }
     in

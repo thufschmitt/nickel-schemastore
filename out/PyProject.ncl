@@ -1239,7 +1239,7 @@ let rec _js2n__-refsenv
                                 [
                                   _js2n__-prdslib.isType '"String",
                                   _js2n__-prdslib.strings.pattern
-                                    "^v?((([0-9]+)!)?([0-9]+(\\.[0-9]+)*)([-_\\.]?(alpha|a|beta|b|preview|pre|c|rc)[-_\\.]?([0-9]+)?)?((-([0-9]+))|([-_\\.]?(post|rev|r)[-_\\.]?([0-9]+)?))?([-_\\.]?(dev)[-_\\.]?([0-9]+)?)?)(\\+([a-z0-9]+([-_\\.][a-z0-9]+)*))?$"
+                                    "^v?((([0-9]+)!)?([0-9]+(\\.[0-9]+)*)([-_\\.]?(alpha|a|beta|b|preview|pre|c|rc)[-_\\.]?([0-9]+)?)?((-([0-9]+))|([-_\\.]?(post|rev|r)[-_\\.]?([0-9]+)?))?([-_\\.]?(dev)[-_\\.]?([0-9]+)?)?)(\\+([a-zA-Z0-9]+([-_\\.][a-zA-Z0-9]+)*))?$"
                                 ],
                         } {} false _js2n__-prdslib.never,
                       _js2n__-prdslib.records.dependencies

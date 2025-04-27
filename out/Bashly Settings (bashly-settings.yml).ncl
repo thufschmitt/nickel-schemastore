@@ -1013,6 +1013,46 @@ let rec _js2n__-refsenv
           https://bashly.dev/usage/settings/#env
         "%
         | optional,
+      function_names
+        | {
+          initialize
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc m%"
+              Name for the initialize() function
+              https://bashly.dev/usage/settings/#function_names
+            "%
+            | optional,
+          run
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"String",
+                      _js2n__-prdslib.strings.minLength 1
+                    ],
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc m%"
+              Name for the run() function
+              https://bashly.dev/usage/settings/#function_names
+            "%
+            | optional,
+        }
+        | doc m%"
+          Choose different names for some of the internal functions.
+          https://bashly.dev/usage/settings/#function_names
+        "%
+        | optional,
       lib_dir
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf

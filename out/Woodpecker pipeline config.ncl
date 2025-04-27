@@ -930,7 +930,7 @@ let rec _js2n__-refsenv
                   ]
               ]),
       "_js2n__-:definitions/clone_settings!predicate"
-        | doc "Change the settings of your clone plugin. Read more: https://woodpecker-ci.org/plugins/Git%20Clone"
+        | doc "Change the settings of your clone plugin. Read more: https://woodpecker-ci.org/plugins/git-clone"
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,

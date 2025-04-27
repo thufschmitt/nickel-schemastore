@@ -930,6 +930,12 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.strings.pattern
                                   "^[-a-zA-Z0-9]*$"
                               ],
+                        github_user_id =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Integer,
+                                _js2n__-prdslib.strings.pattern "^[0-9]*$"
+                              ],
                         name = _js2n__-prdslib.isType '"String",
                       } {} true _js2n__-prdslib.always
                   ]),
