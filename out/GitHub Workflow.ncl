@@ -1637,10 +1637,14 @@ let rec _js2n__-refsenv
           Selects the types of activity that will trigger a workflow run. Most GitHub events are triggered by more than one type of activity. For example, the event for the release resource is triggered when a release is published, unpublished, created, edited, deleted, or prereleased. The types keyword enables you to narrow down activity that causes the workflow to run. When only one activity type triggers a webhook event, the types keyword is unnecessary.
           You can use an array of event types. For more information about each event and their activity types, see https://help.github.com/en/articles/events-that-trigger-workflows#webhook-events.
         "%
-        = _js2n__-prdslib.allOf
+        = _js2n__-prdslib.oneOf
             [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.minItems 1
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.minItems 1
+                ],
+              _js2n__-prdslib.isType '"String"
             ],
       "_js2n__-:definitions/workflowDispatchInput!predicate"
         | doc "A string identifier to associate with the input. The value of <input_id> is a map of the input's metadata. The <input_id> must be a unique identifier within the inputs object. The <input_id> must start with a letter or _ and contain only alphanumeric characters, -, or _."
@@ -2457,20 +2461,14 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.records.record {}
                                     {
                                       "^[_a-zA-Z][a-zA-Z0-9_-]*$" =
-                                        _js2n__-prdslib.allOf
-                                            [
-                                              _js2n__-prdslib.records.required
-                                                [ "required" ],
-                                              _js2n__-prdslib.records.record
-                                                {
-                                                  description =
-                                                    _js2n__-prdslib.isType
-                                                        '"String",
-                                                  required =
-                                                    _js2n__-prdslib.isType
-                                                        '"Bool",
-                                                } {} false _js2n__-prdslib.never
-                                            ],
+                                        _js2n__-prdslib.records.record
+                                            {
+                                              description =
+                                                _js2n__-prdslib.isType
+                                                    '"String",
+                                              required =
+                                                _js2n__-prdslib.isType '"Bool",
+                                            } {} false _js2n__-prdslib.never,
                                     } false _js2n__-prdslib.never,
                             } {} true _js2n__-prdslib.always,
                       workflow_dispatch =

@@ -2923,11 +2923,14 @@ let rec _js2n__-refsenv
                   "AIR0",
                   "AIR00",
                   "AIR001",
+                  "AIR002",
                   "AIR3",
                   "AIR30",
                   "AIR301",
                   "AIR302",
-                  "AIR303",
+                  "AIR31",
+                  "AIR311",
+                  "AIR312",
                   "ALL",
                   "ANN",
                   "ANN0",
@@ -4008,6 +4011,7 @@ let rec _js2n__-refsenv
                   "RUF10",
                   "RUF100",
                   "RUF101",
+                  "RUF102",
                   "RUF2",
                   "RUF20",
                   "RUF200",
@@ -5120,7 +5124,7 @@ let rec _js2n__-refsenv
           
           If both are specified, `target-version` takes precedence over `requires-python`. See [_Inferring the Python version_](https://docs.astral.sh/ruff/configuration/#inferring-the-python-version) for a complete description of how the `target-version` is determined when left unspecified.
           
-          Note that a stub file can [sometimes make use of a typing feature](https://typing.readthedocs.io/en/latest/spec/distributing.html#syntax) before it is available at runtime, as long as the stub does not make use of new *syntax*. For example, a type checker will understand `int | str` in a stub as being a `Union` type annotation, even if the type checker is run using Python 3.9, despite the fact that the `|` operator can only be used to create union types at runtime on Python 3.10+. As such, Ruff will often recommend newer features in a stub file than it would for an equivalent runtime file with the same target version.
+          Note that a stub file can [sometimes make use of a typing feature](https://typing.python.org/en/latest/spec/distributing.html#syntax) before it is available at runtime, as long as the stub does not make use of new *syntax*. For example, a type checker will understand `int | str` in a stub as being a `Union` type annotation, even if the type checker is run using Python 3.9, despite the fact that the `|` operator can only be used to create union types at runtime on Python 3.10+. As such, Ruff will often recommend newer features in a stub file than it would for an equivalent runtime file with the same target version.
         "%
         | optional,
       task-tags

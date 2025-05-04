@@ -931,6 +931,8 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.propertyNames
+                        (_js2n__-prdslib.strings.minLength 1),
                       _js2n__-prdslib.records.record {} {} true
                         (_js2n__-prdslib.anyOf
                           [
@@ -946,6 +948,8 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.propertyNames
+                        (_js2n__-prdslib.strings.minLength 1),
                       _js2n__-prdslib.records.record {} {} true
                         (_js2n__-prdslib.anyOf
                           [
@@ -984,6 +988,8 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.propertyNames
+                        (_js2n__-prdslib.strings.minLength 1),
                       _js2n__-prdslib.records.record {} {} true
                         _js2n__-prdslib.always
                     ],
@@ -991,6 +997,8 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.propertyNames
+                        (_js2n__-prdslib.strings.minLength 1),
                       _js2n__-prdslib.records.record {} {} true
                         (_js2n__-prdslib.anyOf
                           [
@@ -1008,6 +1016,8 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.propertyNames
+                        (_js2n__-prdslib.strings.minLength 1),
                       _js2n__-prdslib.records.record {} {} true
                         (_js2n__-prdslib.anyOf
                           [
@@ -1030,6 +1040,8 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.propertyNames
+                        (_js2n__-prdslib.strings.minLength 1),
                       _js2n__-prdslib.records.record {} {} true
                         _js2n__-prdslib.always
                     ],
@@ -1037,6 +1049,8 @@ let rec _js2n__-refsenv
                 _js2n__-prdslib.allOf
                     [
                       _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.propertyNames
+                        _js2n__-prdslib.always,
                       _js2n__-prdslib.records.record {}
                         {
                           "^[^\\s\\$]+$" =
@@ -1045,13 +1059,25 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.always,
                                   _js2n__-prdslib.allOf
                                     [
+                                      _js2n__-prdslib.isType '"Array",
+                                      _js2n__-prdslib.arrays.arrayOf
+                                        _js2n__-prdslib.always
+                                    ],
+                                  _js2n__-prdslib.allOf
+                                    [
                                       _js2n__-prdslib.isType '"String",
                                       _js2n__-prdslib.strings.minLength 1
                                     ]
                                 ],
                         } true _js2n__-prdslib.always
                     ],
-              tool = _js2n__-prdslib.isType 'Record,
+              tool =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.record {} {} true
+                        _js2n__-prdslib.always
+                    ],
               workspace = _js2n__-prdslib.always,
             } {} false _js2n__-prdslib.never
         ])
