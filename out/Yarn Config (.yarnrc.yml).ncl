@@ -1156,6 +1156,7 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.isType '"String",
                       _js2n__-prdslib.enum [ "public", "restricted" ]
                     ],
+              npmPublishProvenance = _js2n__-prdslib.isType '"Bool",
               npmPublishRegistry = _js2n__-prdslib.isType '"String",
               npmRegistries =
                 _js2n__-prdslib.allOf

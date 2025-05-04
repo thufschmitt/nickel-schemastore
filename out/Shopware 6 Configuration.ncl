@@ -1852,10 +1852,6 @@ let rec _js2n__-refsenv
               | {
                 available_theme_provider | String | optional,
                 config_loader_id | String | optional,
-                file_delete_delay
-                  | std.number.Integer
-                  | doc "Delay in seconds until old theme files will be deleted after a new theme compile"
-                  | optional,
                 theme_path_builder_id | String | optional,
               }
               | optional,

@@ -973,6 +973,21 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
+      "_js2n__-:definitions/NestedMapValue_for_String!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-refsenv."_js2n__-:definitions/NestedMap_for_String!predicate",
+              _js2n__-prdslib.isType 'Null
+            ],
+      "_js2n__-:definitions/NestedMap_for_String!predicate"
+        | doc "A multilevel key map"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                _js2n__-refsenv."_js2n__-:definitions/NestedMapValue_for_String!predicate"
+            ],
       "_js2n__-:definitions/Run!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1087,6 +1102,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.always,
                           _js2n__-prdslib.isType 'Null
                         ],
+                  label =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/NestedMap_for_String!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   root =
                     _js2n__-prdslib.anyOf
                         [
@@ -1104,6 +1125,16 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Null
                         ],
                   user =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.anyOf
+                            [
+                              _js2n__-prdslib.always,
+                              _js2n__-prdslib.isType 'Null
+                            ],
+                          _js2n__-prdslib.isType 'Null
+                        ],
+                  volume =
                     _js2n__-prdslib.anyOf
                         [
                           _js2n__-prdslib.always,

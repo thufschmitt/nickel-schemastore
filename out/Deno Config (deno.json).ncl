@@ -940,6 +940,15 @@ let rec _js2n__-refsenv
               (_js2n__-prdslib.isType '"Bool")
             | doc "Emit design-type metadata for decorated declarations in source files."
             | optional,
+          erasableSyntaxOnly
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Bool",
+                  _js2n__-prdslib.isType 'Null
+                ])
+            | doc "Do not allow runtime constructs that are not part of ECMAScript."
+            | optional,
           exactOptionalPropertyTypes
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.isType '"Bool")
@@ -1136,6 +1145,12 @@ let rec _js2n__-refsenv
         | optional,
       fmt
         | {
+          bracePosition
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum
+                [ "maintain", "sameLine", "nextLine", "sameLineUnlessHanging" ])
+            | doc "The position of opening braces for blocks in JavaScript and TypeScript."
+            | optional,
           exclude
             | Array (String)
             | doc "List of files, directories or globs that will not be formatted."
@@ -1148,9 +1163,38 @@ let rec _js2n__-refsenv
             | Number
             | doc "The number of characters for an indent."
             | optional,
+          "jsx.bracketPosition"
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum [ "maintain", "sameLine", "nextLine" ])
+            | doc "If the end angle bracket of a jsx open element or self closing element should be on the same or next line when the attributes span multiple lines."
+            | optional,
+          "jsx.forceNewLineSurroundingContent"
+            | Bool
+            | doc "Forces newlines surrounding the content of JSX elements."
+            | optional,
+          "jsx.multiLineParens"
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum [ "never", "prefer", "always" ])
+            | doc "Surrounds the top-most JSX element or fragment in parentheses when it spans multiple lines."
+            | optional,
           lineWidth
             | Number
             | doc "The width of a line the printer will try to stay under. Note that the printer may exceed this width in certain cases."
+            | optional,
+          newLineKind
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum [ "auto", "crlf", "lf", "system" ])
+            | doc "The newline character to use."
+            | optional,
+          nextControlFlowPosition
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum [ "maintain", "sameLine", "nextLine" ])
+            | doc "Where to place the next control flow within a control flow statement in JavaScript and TypeScript."
+            | optional,
+          operatorPosition
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum [ "maintain", "sameLine", "nextLine" ])
+            | doc "Where to place the operator for expressions that span multiple lines in JavaScript and TypeScript."
             | optional,
           options
             | {
@@ -1187,13 +1231,48 @@ let rec _js2n__-refsenv
               (_js2n__-prdslib.enum [ "always", "never", "preserve" ])
             | doc "Define how prose should be wrapped in Markdown files."
             | optional,
+          quoteProps
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum [ "asNeeded", "consistent", "preserve" ])
+            | doc "Change when properties in objects are quoted in JavaScript and TypeScript."
+            | optional,
           semiColons
             | Bool
             | doc "Whether to prefer using semicolons."
             | optional,
+          singleBodyPosition
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum
+                [ "maintain", "sameLine", "nextLine", "sameLineUnlessHanging" ])
+            | doc "The position of the body in single body blocks in JavaScript and TypeScript."
+            | optional,
           singleQuote
             | Bool
             | doc "Whether to use single quote (true) or double quote (false) for quotation."
+            | optional,
+          spaceAround
+            | Bool
+            | doc "Whether to place spaces around enclosed expressions in JavaScript and TypeScript."
+            | optional,
+          spaceSurroundingProperties
+            | Bool
+            | doc "Whether to add a space surrounding the properties of single line object-like nodes in JavaScript and TypeScript."
+            | optional,
+          trailingCommas
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum [ "never", "always", "onlyMultiLine" ])
+            | doc "Whether to add trailing commas in JavaScript and TypeScript."
+            | optional,
+          "typeLiteral.separatorKind"
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum [ "comma", "semiColon" ])
+            | doc "The kind of separator to use in type literals."
+            | optional,
+          useBraces
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.enum
+                [ "maintain", "whenNotSingleLine", "always", "preferNone" ])
+            | doc "Whether to use braces for if statements, for statements, and while statements in JavaScript and TypeScript."
             | optional,
           useTabs
             | Bool

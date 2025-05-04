@@ -937,7 +937,7 @@ let rec _js2n__-refsenv
             label | String | optional,
             maturity
               | std.enum.TagOrString
-              | [| 'low, 'medium, 'high |]
+              | [| 'medium, 'low, 'high |]
               | optional,
             meta | {  .. } | optional,
             name | String,
@@ -970,7 +970,7 @@ let rec _js2n__-refsenv
             tags | Dyn | optional,
             type
               | std.enum.TagOrString
-              | [| 'application, 'ml, 'analysis, 'notebook, 'dashboard |],
+              | [| 'notebook, 'ml, 'dashboard, 'application, 'analysis |],
             url | String | optional,
             ..
           }
@@ -1075,16 +1075,16 @@ let rec _js2n__-refsenv
                     type =
                       _js2n__-prdslib.enum
                           [
-                            "SIMPLE",
-                            "RATIO",
-                            "CUMULATIVE",
-                            "DERIVED",
                             "CONVERSION",
-                            "simple",
-                            "ratio",
+                            "conversion",
+                            "CUMULATIVE",
                             "cumulative",
+                            "DERIVED",
                             "derived",
-                            "conversion"
+                            "RATIO",
+                            "ratio",
+                            "SIMPLE",
+                            "simple"
                           ],
                     type_params = _js2n__-prdslib.isType 'Record,
                   } {} false _js2n__-prdslib.never
@@ -1403,7 +1403,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"String",
-                                _js2n__-prdslib.enum [ "dict", "sql", "csv" ]
+                                _js2n__-prdslib.enum [ "csv", "dict", "sql" ]
                               ],
                       } {} true _js2n__-prdslib.always
                   ]),
@@ -1438,7 +1438,7 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.allOf
                                 [
                                   _js2n__-prdslib.isType '"String",
-                                  _js2n__-prdslib.enum [ "dict", "csv", "sql" ]
+                                  _js2n__-prdslib.enum [ "csv", "dict", "sql" ]
                                 ],
                           input = _js2n__-prdslib.isType '"String",
                         } {} true _js2n__-prdslib.always

@@ -898,90 +898,104 @@ let _js2n__-prdslib
 let rec _js2n__-refsenv
     = {}
     in
-  {
-      cacheTtl
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Integer,
-              _js2n__-prdslib.numbers.minimum 0
-            ])
-        | doc "Remove cached HTTP responses older than cacheTtl seconds old. Specifying 0 clears and disables cache completely"
-        | optional,
-      customCatalog
-        | {
-          schemas
-            | Array
-              {
-                description
-                  | String
-                  | doc "A description of the schema"
-                  | optional,
-                fileMatch
-                  | _js2n__-prdslib.contract_from_predicate
-                    (_js2n__-prdslib.allOf
-                      [
-                        _js2n__-prdslib.isType '"Array",
-                        _js2n__-prdslib.arrays.arrayOf
-                          (_js2n__-prdslib.isType '"String"),
-                        _js2n__-prdslib.arrays.uniqueItems
-                      ])
-                  | doc "A Minimatch glob expression for matching up file names with a schema.",
-                location
-                  | String
-                  | doc "A URL or local file path for the schema location",
-                name | String | doc "The name of the schema",
-                parser
-                  | String
-                  | doc "A custom parser to use for files matching fileMatch instead of trying to infer the correct parser from the filename. 'json', 'json5', 'toml' and 'yaml' are always valid. Plugins may define additional values which are valid here."
-                  | optional,
-              }
-            | doc "A list of JSON schema references.",
-          ..
-        }
-        | doc "A custom schema catalog. This catalog will be searched ahead of any custom catalogs passed using --catalogs or SchemaStore.org"
-        | optional,
-      format
-        | String
-        | doc "Output format for validation results. 'text' and 'json' are always valid. Plugins may define additional values which are valid here."
-        | optional,
-      ignoreErrors
-        | Bool
-        | doc "Exit with code 0 even if an error was encountered. True means a non-zero exit code is only issued if validation could be completed successfully and one or more files were invalid"
-        | optional,
-      patterns
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String"),
-              _js2n__-prdslib.arrays.minItems 1,
-              _js2n__-prdslib.arrays.uniqueItems
-            ])
-        | doc "One or more filenames or glob patterns describing local file or files to validate"
-        | optional,
-      plugins
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType '"Array",
-              _js2n__-prdslib.arrays.arrayOf
-                (_js2n__-prdslib.allOf
-                  [
-                    _js2n__-prdslib.isType '"String",
-                    _js2n__-prdslib.strings.pattern "^(package:|file:)"
-                  ]),
-              _js2n__-prdslib.arrays.uniqueItems
-            ])
-        | doc "An array of strings describing v8r plugins to load"
-        | optional,
-      verbose
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Integer,
-              _js2n__-prdslib.numbers.minimum 0
-            ])
-        | doc "Level of verbose logging. 0 is standard, higher numbers are more verbose"
-        | optional,
-    }
+  _js2n__-prdslib.contract_from_predicate
+      (_js2n__-prdslib.allOf
+        [
+          _js2n__-prdslib.isType 'Record,
+          _js2n__-prdslib.not
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.records.required [ "format", "outputFormat" ],
+                _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+              ]),
+          _js2n__-prdslib.records.record
+            {
+              "$schema" = _js2n__-prdslib.isType '"String",
+              cacheTtl =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Integer,
+                      _js2n__-prdslib.numbers.minimum 0
+                    ],
+              customCatalog =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Record,
+                      _js2n__-prdslib.records.required [ "schemas" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          schemas =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.allOf
+                                      [
+                                        _js2n__-prdslib.isType 'Record,
+                                        _js2n__-prdslib.records.required
+                                          [ "fileMatch", "location", "name" ],
+                                        _js2n__-prdslib.records.record
+                                          {
+                                            description =
+                                              _js2n__-prdslib.isType '"String",
+                                            fileMatch =
+                                              _js2n__-prdslib.allOf
+                                                  [
+                                                    _js2n__-prdslib.isType
+                                                      '"Array",
+                                                    _js2n__-prdslib.arrays.arrayOf
+                                                      (_js2n__-prdslib.isType
+                                                        '"String"),
+                                                    _js2n__-prdslib.arrays.uniqueItems
+                                                  ],
+                                            location =
+                                              _js2n__-prdslib.isType '"String",
+                                            name =
+                                              _js2n__-prdslib.isType '"String",
+                                            parser =
+                                              _js2n__-prdslib.isType '"String",
+                                          } {} false _js2n__-prdslib.never
+                                      ])
+                                ],
+                        } {} true _js2n__-prdslib.always
+                    ],
+              format = _js2n__-prdslib.isType '"String",
+              ignoreErrors = _js2n__-prdslib.isType '"Bool",
+              ignorePatternFiles =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String"),
+                      _js2n__-prdslib.arrays.uniqueItems
+                    ],
+              outputFormat = _js2n__-prdslib.isType '"String",
+              patterns =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.isType '"String"),
+                      _js2n__-prdslib.arrays.minItems 1,
+                      _js2n__-prdslib.arrays.uniqueItems
+                    ],
+              plugins =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType '"Array",
+                      _js2n__-prdslib.arrays.arrayOf
+                        (_js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.strings.pattern "^(package:|file:)"
+                          ]),
+                      _js2n__-prdslib.arrays.uniqueItems
+                    ],
+              verbose =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.isType 'Integer,
+                      _js2n__-prdslib.numbers.minimum 0
+                    ],
+            } {} false _js2n__-prdslib.never
+        ])

@@ -1482,6 +1482,7 @@ let rec _js2n__-refsenv
                                       ])
                                 ],
                           generateEnv = _js2n__-prdslib.isType '"Bool",
+                          generateMCP = _js2n__-prdslib.isType '"Bool",
                           hookDependencies =
                             _js2n__-prdslib.allOf
                                 [

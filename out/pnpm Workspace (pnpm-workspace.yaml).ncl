@@ -973,6 +973,10 @@ let rec _js2n__-refsenv
         | Bool
         | doc "When true, installation won't fail if some of the patches from the \"patchedDependencies\" field were not applied."
         | optional,
+      allowUnusedPatches
+        | Bool
+        | doc "When true, installation won't fail if some of the patches from the \"patchedDependencies\" field were not applied. (Previously named \"allowNonAppliedPatches\")"
+        | optional,
       allowedDeprecatedVersions
         | {  .. }
         | doc "A list of deprecated versions that the warnings are suppressed."
@@ -1070,6 +1074,10 @@ let rec _js2n__-refsenv
       configDependencies
         | {  .. }
         | doc "Configurational dependencies are installed before all the other types of dependencies (before 'dependencies', 'devDependencies', 'optionalDependencies')."
+        | optional,
+      dangerouslyAllowAllBuilds
+        | Bool
+        | doc "If set to true, all build scripts (e.g. preinstall, install, postinstall) from dependencies will run automatically, without requiring approval."
         | optional,
       dedupeDirectDeps
         | Bool
@@ -1191,6 +1199,10 @@ let rec _js2n__-refsenv
         | Bool
         | doc "Do not execute any scripts of the installed packages. Scripts of the projects are executed."
         | optional,
+      ignorePatchFailures
+        | Bool
+        | doc "Default is undefined. Errors out when a patch with an exact version or version range fails. Ignores failures from name-only patches. When true, prints a warning instead of failing when any patch cannot be applied. When false, errors out for any patch failure."
+        | optional,
       ignorePnpmfile
         | Bool
         | doc ".pnpmfile.cjs will be ignored. Useful together with --ignore-scripts when you want to make sure that no script gets executed during install."
@@ -1202,6 +1214,10 @@ let rec _js2n__-refsenv
       ignoreWorkspaceCycles
         | Bool
         | doc "When set to true, no workspace cycle warnings will be printed."
+        | optional,
+      ignoreWorkspaceRootCheck
+        | Bool
+        | doc "Adding a new dependency to the root workspace package fails, unless the --ignore-workspace-root-check or -w flag is used."
         | optional,
       ignoredBuiltDependencies
         | Array (String)
@@ -1388,7 +1404,6 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String"),
-              _js2n__-prdslib.arrays.minItems 1,
               _js2n__-prdslib.arrays.uniqueItems
             ])
         | doc "Workspace package paths. Glob patterns are supported"

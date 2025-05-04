@@ -1049,7 +1049,7 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.allOf
                           [
                             _js2n__-prdslib.isType '"String",
-                            _js2n__-prdslib.const "jcllib"
+                            _js2n__-prdslib.enum [ "jcllib", "proclib" ]
                           ],
                     type =
                       _js2n__-prdslib.allOf
@@ -1126,6 +1126,7 @@ let rec _js2n__-refsenv
                   commandDataSet = _js2n__-prdslib.isType '"String",
                   commandParameters = _js2n__-prdslib.isType '"String",
                   outputDataSet = _js2n__-prdslib.isType '"String",
+                  programDataSet = _js2n__-prdslib.isType '"String",
                   tempDataHLQ = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],

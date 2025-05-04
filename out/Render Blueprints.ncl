@@ -1488,7 +1488,8 @@ let rec _js2n__-refsenv
                   "static",
                   "dpg",
                   "job",
-                  "redis"
+                  "redis",
+                  "keyvalue"
                 ]
             ],
       "_js2n__-:definitions/staticService!predicate" =
