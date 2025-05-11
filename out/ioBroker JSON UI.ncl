@@ -1188,6 +1188,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "module" ]
                         ],
                   confirm = _js2n__-prdslib.always,
+                  custom = _js2n__-prdslib.isType 'Record,
                   darkStyle = _js2n__-prdslib.always,
                   "default" = _js2n__-prdslib.always,
                   defaultFunc = _js2n__-prdslib.always,
@@ -1486,10 +1487,10 @@ let rec _js2n__-refsenv
                   tooltip = _js2n__-prdslib.always,
                   type = _js2n__-prdslib.always,
                   unit =
-                    _js2n__-prdslib.anyOf
+                    _js2n__-prdslib.oneOf
                         [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.isType '"String"
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
                         ],
                   validator = _js2n__-prdslib.always,
                   validatorErrorText = _js2n__-prdslib.always,
@@ -1716,6 +1717,7 @@ let rec _js2n__-refsenv
                   showProcess = _js2n__-prdslib.isType '"Bool",
                   sm = _js2n__-prdslib.always,
                   style = _js2n__-prdslib.always,
+                  timeout = _js2n__-prdslib.isType '"Number",
                   tooltip = _js2n__-prdslib.always,
                   type = _js2n__-prdslib.always,
                   useNative = _js2n__-prdslib.isType '"Bool",
@@ -1789,6 +1791,14 @@ let rec _js2n__-refsenv
                   noTranslation = _js2n__-prdslib.always,
                   oid = _js2n__-prdslib.isType '"String",
                   readOnly = _js2n__-prdslib.isType '"Bool",
+                  setOnEnterKey = _js2n__-prdslib.isType '"Bool",
+                  showEnterButton =
+                    _js2n__-prdslib.oneOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
+                        ],
                   size = _js2n__-prdslib.always,
                   sm = _js2n__-prdslib.always,
                   step = _js2n__-prdslib.isType '"Number",
@@ -1800,10 +1810,10 @@ let rec _js2n__-refsenv
                   trueTextStyle = _js2n__-prdslib.isType 'Record,
                   type = _js2n__-prdslib.always,
                   unit =
-                    _js2n__-prdslib.anyOf
+                    _js2n__-prdslib.oneOf
                         [
-                          _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.isType '"String"
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
                         ],
                   variant =
                     _js2n__-prdslib.allOf
@@ -2526,10 +2536,11 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.records.required [ "type" ],
                                   _js2n__-prdslib.records.record
                                     {
-                                      accept = _js2n__-prdslib.isType '"String",
+                                      accept = _js2n__-prdslib.isType 'Record,
                                       allowSaveWithError =
                                         _js2n__-prdslib.always,
                                       attr = _js2n__-prdslib.always,
+                                      base64 = _js2n__-prdslib.isType '"Bool",
                                       confirm = _js2n__-prdslib.always,
                                       crop = _js2n__-prdslib.isType '"Bool",
                                       darkStyle = _js2n__-prdslib.always,
@@ -2901,10 +2912,10 @@ let rec _js2n__-refsenv
                                   tooltip = _js2n__-prdslib.always,
                                   type = _js2n__-prdslib.always,
                                   unit =
-                                    _js2n__-prdslib.anyOf
+                                    _js2n__-prdslib.oneOf
                                         [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.isType '"String"
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
                                         ],
                                   validator = _js2n__-prdslib.always,
                                   validatorErrorText = _js2n__-prdslib.always,
@@ -3148,6 +3159,7 @@ let rec _js2n__-refsenv
                                   label = _js2n__-prdslib.always,
                                   lg = _js2n__-prdslib.always,
                                   md = _js2n__-prdslib.always,
+                                  multiple = _js2n__-prdslib.isType '"Bool",
                                   newLine = _js2n__-prdslib.always,
                                   noMultiEdit = _js2n__-prdslib.always,
                                   noTranslation = _js2n__-prdslib.always,
@@ -3164,6 +3176,9 @@ let rec _js2n__-refsenv
                                                   [ "label", "value" ],
                                                 _js2n__-prdslib.records.record
                                                   {
+                                                    group =
+                                                      _js2n__-prdslib.isType
+                                                          '"Bool",
                                                     hidden =
                                                       _js2n__-prdslib.isType
                                                           '"String",
@@ -3175,6 +3190,8 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.never
                                               ])
                                         ],
+                                  showAllValues =
+                                    _js2n__-prdslib.isType '"Bool",
                                   sm = _js2n__-prdslib.always,
                                   sort = _js2n__-prdslib.always,
                                   style = _js2n__-prdslib.always,
@@ -3828,10 +3845,10 @@ let rec _js2n__-refsenv
                                   tooltip = _js2n__-prdslib.always,
                                   type = _js2n__-prdslib.always,
                                   unit =
-                                    _js2n__-prdslib.anyOf
+                                    _js2n__-prdslib.oneOf
                                         [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.isType '"String"
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
                                         ],
                                   width = _js2n__-prdslib.always,
                                   xl = _js2n__-prdslib.always,
@@ -4390,7 +4407,7 @@ let rec _js2n__-refsenv
                                           ],
                                   } {} false _js2n__-prdslib.never
                               ],
-                        darkStyle = _js2n__-prdslib.isType '"String",
+                        darkStyle = _js2n__-prdslib.isType 'Record,
                         "default" = _js2n__-prdslib.always,
                         defaultFunc =
                           _js2n__-prdslib.oneOf
@@ -4450,7 +4467,12 @@ let rec _js2n__-refsenv
                         showSecondAddAt = _js2n__-prdslib.isType '"Number",
                         sm = _js2n__-prdslib.isType '"Number",
                         style = _js2n__-prdslib.isType 'Record,
-                        tooltip = _js2n__-prdslib.isType '"String",
+                        tooltip =
+                          _js2n__-prdslib.oneOf
+                              [
+                                _js2n__-prdslib.isType '"String",
+                                _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
+                              ],
                         type =
                           _js2n__-refsenv."_js2n__-:definitions/componentType!predicate",
                         validator = _js2n__-prdslib.isType '"String",
@@ -5342,9 +5364,12 @@ let rec _js2n__-refsenv
                                               {
                                                 accept =
                                                   _js2n__-prdslib.isType
-                                                      '"String",
+                                                      'Record,
                                                 allowSaveWithError =
                                                   _js2n__-prdslib.always,
+                                                base64 =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
                                                 confirm =
                                                   _js2n__-prdslib.always,
                                                 crop =
@@ -5558,12 +5583,11 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 type = _js2n__-prdslib.always,
                                                 unit =
-                                                  _js2n__-prdslib.anyOf
+                                                  _js2n__-prdslib.oneOf
                                                       [
                                                         _js2n__-prdslib.isType
-                                                          'Record,
-                                                        _js2n__-prdslib.isType
-                                                          '"String"
+                                                          '"String",
+                                                        _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
                                                       ],
                                                 validator =
                                                   _js2n__-prdslib.always,
@@ -5766,6 +5790,9 @@ let rec _js2n__-refsenv
                                                 label = _js2n__-prdslib.always,
                                                 lg = _js2n__-prdslib.always,
                                                 md = _js2n__-prdslib.always,
+                                                multiple =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
                                                 newLine =
                                                   _js2n__-prdslib.always,
                                                 noMultiEdit =
@@ -5791,6 +5818,9 @@ let rec _js2n__-refsenv
                                                                 ],
                                                               _js2n__-prdslib.records.record
                                                                 {
+                                                                  group =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Bool",
                                                                   hidden =
                                                                     _js2n__-prdslib.isType
                                                                         '"String",
@@ -5802,6 +5832,9 @@ let rec _js2n__-refsenv
                                                                 _js2n__-prdslib.never
                                                             ])
                                                       ],
+                                                showAllValues =
+                                                  _js2n__-prdslib.isType
+                                                      '"Bool",
                                                 sm = _js2n__-prdslib.always,
                                                 style = _js2n__-prdslib.always,
                                                 tooltip =
@@ -6620,12 +6653,11 @@ let rec _js2n__-refsenv
                                                   _js2n__-prdslib.always,
                                                 type = _js2n__-prdslib.always,
                                                 unit =
-                                                  _js2n__-prdslib.anyOf
+                                                  _js2n__-prdslib.oneOf
                                                       [
                                                         _js2n__-prdslib.isType
-                                                          'Record,
-                                                        _js2n__-prdslib.isType
-                                                          '"String"
+                                                          '"String",
+                                                        _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
                                                       ],
                                                 xl = _js2n__-prdslib.always,
                                                 xs = _js2n__-prdslib.always,
@@ -7061,7 +7093,7 @@ let rec _js2n__-refsenv
                                                 } {} false _js2n__-prdslib.never
                                             ],
                                       darkStyle =
-                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.isType 'Record,
                                       "default" = _js2n__-prdslib.always,
                                       defaultFunc =
                                         _js2n__-prdslib.oneOf
@@ -7139,7 +7171,11 @@ let rec _js2n__-refsenv
                                       sm = _js2n__-prdslib.isType '"Number",
                                       style = _js2n__-prdslib.isType 'Record,
                                       tooltip =
-                                        _js2n__-prdslib.isType '"String",
+                                        _js2n__-prdslib.oneOf
+                                            [
+                                              _js2n__-prdslib.isType '"String",
+                                              _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
+                                            ],
                                       type =
                                         _js2n__-refsenv."_js2n__-:definitions/componentType!predicate",
                                       validator =
@@ -7725,10 +7761,10 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.records.required [ "type" ],
                                     _js2n__-prdslib.records.record
                                       {
-                                        accept =
-                                          _js2n__-prdslib.isType '"String",
+                                        accept = _js2n__-prdslib.isType 'Record,
                                         allowSaveWithError =
                                           _js2n__-prdslib.always,
+                                        base64 = _js2n__-prdslib.isType '"Bool",
                                         confirm = _js2n__-prdslib.always,
                                         crop = _js2n__-prdslib.isType '"Bool",
                                         darkStyle = _js2n__-prdslib.always,
@@ -7876,10 +7912,11 @@ let rec _js2n__-refsenv
                                         tooltip = _js2n__-prdslib.always,
                                         type = _js2n__-prdslib.always,
                                         unit =
-                                          _js2n__-prdslib.anyOf
+                                          _js2n__-prdslib.oneOf
                                               [
-                                                _js2n__-prdslib.isType 'Record,
-                                                _js2n__-prdslib.isType '"String"
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
                                               ],
                                         validator = _js2n__-prdslib.always,
                                         validatorErrorText =
@@ -8037,6 +8074,8 @@ let rec _js2n__-refsenv
                                         label = _js2n__-prdslib.always,
                                         lg = _js2n__-prdslib.always,
                                         md = _js2n__-prdslib.always,
+                                        multiple =
+                                          _js2n__-prdslib.isType '"Bool",
                                         newLine = _js2n__-prdslib.always,
                                         noMultiEdit = _js2n__-prdslib.always,
                                         noTranslation = _js2n__-prdslib.always,
@@ -8054,6 +8093,9 @@ let rec _js2n__-refsenv
                                                         [ "label", "value" ],
                                                       _js2n__-prdslib.records.record
                                                         {
+                                                          group =
+                                                            _js2n__-prdslib.isType
+                                                                '"Bool",
                                                           hidden =
                                                             _js2n__-prdslib.isType
                                                                 '"String",
@@ -8065,6 +8107,8 @@ let rec _js2n__-refsenv
                                                         _js2n__-prdslib.never
                                                     ])
                                               ],
+                                        showAllValues =
+                                          _js2n__-prdslib.isType '"Bool",
                                         sm = _js2n__-prdslib.always,
                                         style = _js2n__-prdslib.always,
                                         tooltip = _js2n__-prdslib.always,
@@ -8670,10 +8714,11 @@ let rec _js2n__-refsenv
                                         tooltip = _js2n__-prdslib.always,
                                         type = _js2n__-prdslib.always,
                                         unit =
-                                          _js2n__-prdslib.anyOf
+                                          _js2n__-prdslib.oneOf
                                               [
-                                                _js2n__-prdslib.isType 'Record,
-                                                _js2n__-prdslib.isType '"String"
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
                                               ],
                                         xl = _js2n__-prdslib.always,
                                         xs = _js2n__-prdslib.always,
@@ -9010,7 +9055,7 @@ let rec _js2n__-refsenv
                                                 ],
                                         } {} false _js2n__-prdslib.never
                                     ],
-                              darkStyle = _js2n__-prdslib.isType '"String",
+                              darkStyle = _js2n__-prdslib.isType 'Record,
                               "default" = _js2n__-prdslib.always,
                               defaultFunc =
                                 _js2n__-prdslib.oneOf
@@ -9074,7 +9119,12 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.isType '"Number",
                               sm = _js2n__-prdslib.isType '"Number",
                               style = _js2n__-prdslib.isType 'Record,
-                              tooltip = _js2n__-prdslib.isType '"String",
+                              tooltip =
+                                _js2n__-prdslib.oneOf
+                                    [
+                                      _js2n__-prdslib.isType '"String",
+                                      _js2n__-refsenv."_js2n__-:definitions/multilingual!predicate"
+                                    ],
                               type =
                                 _js2n__-refsenv."_js2n__-:definitions/componentType!predicate",
                               validator = _js2n__-prdslib.isType '"String",

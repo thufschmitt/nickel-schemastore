@@ -1063,6 +1063,10 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/IAwsConfigRuleSet!contract"
               | doc "AWS Config rule sets"
               | optional,
+            useServiceLinkedRole
+              | Bool
+              | doc "Indicates whether to create the Configuration Recorder with a service linked role. If not specified, AWS Config will use a custom IAM role created by LZA. For new deployments, it is recommended to set this setting to true. For more information, see https://docs.aws.amazon.com/config/latest/developerguide/using-service-linked-roles.html"
+              | optional,
           },
       "_js2n__-:definitions/IAwsConfigAggregation!contract"
         | doc m%"
@@ -1107,7 +1111,7 @@ let rec _js2n__-refsenv
               | optional,
             delegatedAdminAccount
               | _js2n__-refsenv."_js2n__-:definitions/NonEmptyString!contract"
-              | doc "Designated administrator account name for accelerator security services. AWS organizations designate a member account as a delegated administrator for the organization users and roles from that account can perform administrative actions for security services like Macie, GuardDuty, Detective and Security Hub. Without designated administrator account administrative tasks for security services are performed only by users or roles in the organization's management account. This helps you to separate management of the organization from management of these security services. Accelerator use Audit account as designated administrator account.",
+              | doc "Designated administrator account name for accelerator security services. AWS organizations designate a member account as a delegated administrator for the organization users and roles from that account can perform administrative actions for security services like Macie, GuardDuty, Detective and Security Hub. Without designated administrator account administrative tasks for security services are performed only by users or roles in the organization's management account. This helps you to separate management of the organization from management of these security services. Accelerator currently supports using the Audit account **only** as the delegated administrator account.",
             detective
               | _js2n__-refsenv."_js2n__-:definitions/IDetectiveConfig!contract"
               | doc "(OPTIONAL) Amazon Detective Configuration"
@@ -1474,6 +1478,10 @@ let rec _js2n__-refsenv
                 Note: The delegated admin account defined in centralSecurityServices will always have GuardDuty enabled
               "%
               | optional,
+            ec2Protection
+              | _js2n__-refsenv."_js2n__-:definitions/IGuardDutyEc2ProtectionConfig!contract"
+              | doc "(OPTIONAL) AWS GuardDuty EC2 Protection configuration."
+              | optional,
             eksProtection
               | _js2n__-refsenv."_js2n__-:definitions/IGuardDutyEksProtectionConfig!contract"
               | doc "(OPTIONAL) AWS GuardDuty EKS Protection configuration."
@@ -1490,14 +1498,36 @@ let rec _js2n__-refsenv
             exportConfiguration
               | _js2n__-refsenv."_js2n__-:definitions/IGuardDutyExportFindingsConfig!contract"
               | doc "AWS GuardDuty Export Findings configuration.",
+            lambdaProtection
+              | _js2n__-refsenv."_js2n__-:definitions/IGuardDutyLambdaProtectionConfig!contract"
+              | doc "(OPTIONAL) AWS GuardDuty Lambda Protection configuration."
+              | optional,
             lifecycleRules
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/ILifecycleRule!contract"
               | doc "(OPTIONAL) Declaration of a S3 Lifecycle rule."
               | optional,
+            rdsProtection
+              | _js2n__-refsenv."_js2n__-:definitions/IGuardDutyRdsProtectionConfig!contract"
+              | doc "(OPTIONAL) AWS GuardDuty RDS Protection configuration."
+              | optional,
             s3Protection
               | _js2n__-refsenv."_js2n__-:definitions/IGuardDutyS3ProtectionConfig!contract"
               | doc "AWS GuardDuty S3 Protection configuration.",
+          },
+      "_js2n__-:definitions/IGuardDutyEc2ProtectionConfig!contract"
+        | doc "AWS GuardDuty EC2 Malware Protection configuration."
+        = {
+            enable
+              | Bool
+              | doc "Indicates whether AWS GuardDuty EC2 Malware Protection is enabled.",
+            excludeRegions
+              | Array _js2n__-refsenv."_js2n__-:definitions/Region!contract"
+              | doc "(OPTIONAL) List of AWS Region names to be excluded from configuring Amazon GuardDuty EC2 Malware Protection"
+              | optional,
+            keepSnapshots
+              | Bool
+              | doc "Indicates whether AWS GuardDuty EC2 Malware Protection should retain snapshots on findings.",
           },
       "_js2n__-:definitions/IGuardDutyEksProtectionConfig!contract"
         | doc "AWS GuardDuty EKS Protection configuration."
@@ -1508,6 +1538,10 @@ let rec _js2n__-refsenv
             excludeRegions
               | Array _js2n__-refsenv."_js2n__-:definitions/Region!contract"
               | doc "(OPTIONAL) List of AWS Region names to be excluded from configuring Amazon GuardDuty EKS Protection"
+              | optional,
+            manageAgent
+              | Bool
+              | doc "Indicates whether AWS GuardDuty EKS Agent is managed."
               | optional,
           },
       "_js2n__-:definitions/IGuardDutyExportFindingsConfig!contract"
@@ -1535,6 +1569,28 @@ let rec _js2n__-refsenv
             overrideGuardDutyPrefix
               | _js2n__-refsenv."_js2n__-:definitions/IPrefixConfig!contract"
               | doc "(OPTIONAL) AWS GuardDuty Prefix for centralized logging path."
+              | optional,
+          },
+      "_js2n__-:definitions/IGuardDutyLambdaProtectionConfig!contract"
+        | doc "AWS GuardDuty Lambda Malware Protection configuration."
+        = {
+            enable
+              | Bool
+              | doc "Indicates whether AWS GuardDuty Lambda Malware Protection is enabled.",
+            excludeRegions
+              | Array _js2n__-refsenv."_js2n__-:definitions/Region!contract"
+              | doc "(OPTIONAL) List of AWS Region names to be excluded from configuring Amazon GuardDuty Lambda Malware Protection"
+              | optional,
+          },
+      "_js2n__-:definitions/IGuardDutyRdsProtectionConfig!contract"
+        | doc "AWS GuardDuty RDS Malware Protection configuration."
+        = {
+            enable
+              | Bool
+              | doc "Indicates whether AWS GuardDuty RDS Malware Protection is enabled.",
+            excludeRegions
+              | Array _js2n__-refsenv."_js2n__-:definitions/Region!contract"
+              | doc "(OPTIONAL) List of AWS Region names to be excluded from configuring Amazon GuardDuty RDS Malware Protection"
               | optional,
           },
       "_js2n__-:definitions/IGuardDutyS3ProtectionConfig!contract"

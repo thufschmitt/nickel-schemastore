@@ -25522,6 +25522,13 @@ let rec _js2n__-refsenv
                                         } {} true _js2n__-prdslib.always
                                     ])
                               ],
+                        businessEntityTitles =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
                         country =
                           _js2n__-prdslib.allOf
                               [
@@ -31116,7 +31123,6 @@ let rec _js2n__-refsenv
                                                                                         [
                                                                                           "category",
                                                                                           "confidence",
-                                                                                          "confidenceLabel",
                                                                                           "status"
                                                                                         ],
                                                                                       _js2n__-prdslib.records.record
@@ -31183,18 +31189,6 @@ let rec _js2n__-refsenv
                                                                                           confidence =
                                                                                             _js2n__-prdslib.isType
                                                                                                 '"Number",
-                                                                                          confidenceLabel =
-                                                                                            _js2n__-prdslib.allOf
-                                                                                                [
-                                                                                                  _js2n__-prdslib.isType
-                                                                                                    '"String",
-                                                                                                  _js2n__-prdslib.enum
-                                                                                                    [
-                                                                                                      "HIGH",
-                                                                                                      "MEDIUM",
-                                                                                                      "LOW"
-                                                                                                    ]
-                                                                                                ],
                                                                                           status =
                                                                                             _js2n__-prdslib.allOf
                                                                                                 [

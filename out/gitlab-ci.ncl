@@ -1390,6 +1390,21 @@ let rec _js2n__-refsenv
                               _js2n__-prdslib.isType '"Array",
                               _js2n__-prdslib.arrays.minItems 1
                             ],
+                      kubernetes =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType 'Record,
+                              _js2n__-prdslib.records.record
+                                {
+                                  user =
+                                    _js2n__-prdslib.allOf
+                                        [
+                                          _js2n__-prdslib.isType '"String",
+                                          _js2n__-prdslib.strings.maxLength 255,
+                                          _js2n__-prdslib.strings.minLength 1
+                                        ],
+                                } {} false _js2n__-prdslib.never
+                            ],
                       name =
                         _js2n__-prdslib.allOf
                             [
@@ -2507,7 +2522,7 @@ let rec _js2n__-refsenv
                 ]
             ],
       "_js2n__-:definitions/parallel_matrix!predicate"
-        | doc "Use the `needs:parallel:matrix` keyword to specify parallelized jobs needed to be completed for the job to run. [Learn More](https://docs.gitlab.com/ee/ci/yaml/#needsparallelmatrix)"
+        | doc "Use the `needs:parallel:matrix` keyword to specify parallelized jobs needed to be completed for the job to run. [Learn More](https://docs.gitlab.com/ci/yaml/#needsparallelmatrix)"
         = _js2n__-prdslib.oneOf
             [
               _js2n__-prdslib.allOf
@@ -2921,6 +2936,24 @@ let rec _js2n__-refsenv
                                     _js2n__-prdslib.arrays.arrayOf
                                       (_js2n__-prdslib.isType '"String"),
                                     _js2n__-prdslib.arrays.minItems 1
+                                  ],
+                            kubernetes =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType 'Record,
+                                    _js2n__-prdslib.records.record
+                                      {
+                                        user =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.strings.maxLength
+                                                  255,
+                                                _js2n__-prdslib.strings.minLength
+                                                  1
+                                              ],
+                                      } {} false _js2n__-prdslib.never
                                   ],
                             name =
                               _js2n__-prdslib.allOf

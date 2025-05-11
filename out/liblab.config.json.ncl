@@ -1018,9 +1018,8 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.isType '"String",
       "_js2n__-:properties/languageOptions/properties/csharp/properties/homepage!predicate" =
         _js2n__-prdslib.isType '"String",
-      "_js2n__-:properties/languageOptions/properties/csharp/properties/hookDependencies!predicate"
-        | doc "A dependency that should be installed for the hook"
-        = _js2n__-prdslib.allOf
+      "_js2n__-:properties/languageOptions/properties/csharp/properties/hookDependencies!predicate" =
+        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
@@ -1069,6 +1068,59 @@ let rec _js2n__-refsenv
                         name = _js2n__-prdslib.isType '"String",
                       } {} false _js2n__-prdslib.never
                   ])
+            ],
+      "_js2n__-:properties/languageOptions/properties/typescript!predicate"
+        | doc "TypeScript specific options"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  additionalConstructorParameters =
+                    _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/go/properties/additionalConstructorParameters!predicate",
+                  authors =
+                    _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/authors!predicate",
+                  bundle = _js2n__-prdslib.isType '"Bool",
+                  denoteCommon = _js2n__-prdslib.isType '"Bool",
+                  exportClassDefault = _js2n__-prdslib.isType '"Bool",
+                  generateEnumAs =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "union", "enum" ]
+                        ],
+                  githubRepoName =
+                    _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/githubRepoName!predicate",
+                  homepage =
+                    _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/homepage!predicate",
+                  hookDependencies =
+                    _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/hookDependencies!predicate",
+                  httpClient =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "axios", "fetch", "https" ]
+                        ],
+                  ignoreFiles =
+                    _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/ignoreFiles!predicate",
+                  liblabVersion =
+                    _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/liblabVersion!predicate",
+                  namingStrategy =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum
+                            [ "default", "originalPropertyNames" ]
+                        ],
+                  npmName = _js2n__-prdslib.isType '"String",
+                  npmOrg = _js2n__-prdslib.isType '"String",
+                  renameIllegalModelProperties =
+                    _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/renameIllegalModelProperties!predicate",
+                  sdkVersion =
+                    _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/sdkVersion!predicate",
+                  targetBranch =
+                    _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/targetBranch!predicate",
+                } {} false _js2n__-prdslib.never
             ],
     }
     in
@@ -1919,6 +1971,8 @@ let rec _js2n__-refsenv
                                         _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/targetBranch!predicate",
                                     } {} false _js2n__-prdslib.never
                                 ],
+                          mcp =
+                            _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/typescript!predicate",
                           php =
                             _js2n__-prdslib.allOf
                                 [
@@ -2171,13 +2225,14 @@ let rec _js2n__-refsenv
                                 "go",
                                 "terraform",
                                 "swift",
-                                "php"
+                                "php",
+                                "mcp"
                               ]
-                          ]),
-                      _js2n__-prdslib.arrays.minItems 1
+                          ])
                     ],
               liblabVersion =
                 _js2n__-refsenv."_js2n__-:properties/languageOptions/properties/csharp/properties/liblabVersion!predicate",
+              mcpServer = _js2n__-prdslib.isType '"Bool",
               publishing =
                 _js2n__-prdslib.allOf
                     [

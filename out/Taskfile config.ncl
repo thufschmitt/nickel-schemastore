@@ -991,7 +991,7 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "sources" ]
+              _js2n__-prdslib.enum [ "sources", "generates" ]
             ],
       "_js2n__-:definitions/for_cmds_call!predicate" =
         _js2n__-prdslib.allOf

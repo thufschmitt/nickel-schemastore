@@ -2046,6 +2046,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  database = _js2n__-prdslib.isType '"Bool",
                   name = _js2n__-prdslib.isType '"String",
                   namespace = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
@@ -2612,6 +2613,8 @@ let rec _js2n__-refsenv
                 {
                   configMapKeyRef =
                     _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.ConfigMapKeySelector!predicate",
+                  database =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.workflow.v1alpha1.SyncDatabaseRef!predicate",
                   namespace = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
@@ -2688,6 +2691,15 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 { duration = _js2n__-prdslib.isType '"String", } {} true
+                _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.workflow.v1alpha1.SyncDatabaseRef!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "key" ],
+              _js2n__-prdslib.records.record
+                { key = _js2n__-prdslib.isType '"String", } {} true
                 _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.argoproj.workflow.v1alpha1.Synchronization!predicate"

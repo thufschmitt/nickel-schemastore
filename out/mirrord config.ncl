@@ -1291,6 +1291,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  override_host_ip =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/CopyTargetFileConfig!predicate" =
@@ -1587,6 +1593,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  host_ip =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   idle_timeout =
                     _js2n__-prdslib.allOf
                         [
@@ -2480,6 +2492,8 @@ let rec _js2n__-refsenv
           Specifies the running pod (or deployment) to mirror.
           
           Supports: - `targetless` - `pod/{pod-name}[/container/{container-name}]`; - `deployment/{deployment-name}[/container/{container-name}]`; - `rollout/{rollout-name}[/container/{container-name}]`; - `job/{job-name}[/container/{container-name}]`; - `cronjob/{cronjob-name}[/container/{container-name}]`; - `statefulset/{statefulset-name}[/container/{container-name}]`; - `service/{service-name}[/container/{container-name}]`; - `replicaset/{replicaset-name}[/container/{container-name}]`;
+          
+          Used to derive `TargetType` via the strum crate
         "%
         = _js2n__-prdslib.anyOf
             [
@@ -2795,7 +2809,7 @@ let rec _js2n__-refsenv
           
           Runs `endswith` on the binary path (so `bash` would apply to any binary ending with `bash` while `/usr/bin/bash` would apply only for that binary).
           
-          ```json { "sip_binaries": "bash;python" } ```
+          ```json { "sip_binaries": ["bash", "python"] } ```
         "%
         | optional,
       skip_build_tools
@@ -2820,9 +2834,22 @@ let rec _js2n__-refsenv
         | doc m%"
           Allows mirrord to skip unwanted processes.
           
-          Useful when process A spawns process B, and the user wants mirrord to operate only on process B. Accepts a single value, or multiple values separated by `;`.
+          Useful when process A spawns process B, and the user wants mirrord to operate only on process B. Accepts a single value, or an array of values.
           
-          ```json { "skip_processes": "bash;node" } ```
+          ```json { "skip_processes": ["bash", "node"] } ```
+        "%
+        | optional,
+      skip_sip
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/VecOrSingle_for_String!predicate",
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc m%"
+          Allows mirrord to skip patching (macOS SIP) unwanted processes.
+          
+          When patching is skipped, mirrord will no longer be able to load into the process and its child processes.
         "%
         | optional,
       target

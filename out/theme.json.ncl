@@ -3005,7 +3005,7 @@ let rec _js2n__-refsenv
         | optional,
       description
         | String
-        | doc "Description of the global styles variation."
+        | doc "Description of the styles variation."
         | optional,
       patterns
         | Array (String)
@@ -3051,7 +3051,7 @@ let rec _js2n__-refsenv
         | optional,
       slug
         | String
-        | doc "Slug of the global styles variation. If not defined, the kebab-case title will be used."
+        | doc "Slug of the styles variation. If not defined, the kebab-case title will be used."
         | optional,
       styles
         | _js2n__-prdslib.contract_from_predicate
@@ -3106,7 +3106,7 @@ let rec _js2n__-refsenv
         | optional,
       title
         | String
-        | doc "Title of the global styles variation. If not defined, the file name will be used."
+        | doc "Title of the styles variation. If not defined, the file name will be used."
         | optional,
       version
         | _js2n__-prdslib.contract_from_predicate

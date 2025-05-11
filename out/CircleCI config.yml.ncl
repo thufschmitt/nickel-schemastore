@@ -1546,6 +1546,8 @@ let rec _js2n__-refsenv
                             } {} false _js2n__-prdslib.never
                         ],
                   name = _js2n__-prdslib.isType '"String",
+                  override-with = _js2n__-prdslib.isType '"String",
+                  plan_name = _js2n__-prdslib.isType '"String",
                   requires =
                     _js2n__-prdslib.allOf
                         [
@@ -1599,7 +1601,9 @@ let rec _js2n__-refsenv
                                   ]
                               ])
                         ],
-                  type = _js2n__-prdslib.enum [ "approval" ],
+                  type =
+                    _js2n__-prdslib.enum
+                        [ "approval", "build", "no-op", "release" ],
                 } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/jobs!predicate"

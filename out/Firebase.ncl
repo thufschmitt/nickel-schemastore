@@ -1628,6 +1628,56 @@ let rec _js2n__-refsenv
     in
   {
       "$schema" | String | optional,
+      apphosting
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.required
+                    [ "backendId", "ignore", "rootDir" ],
+                  _js2n__-prdslib.records.record
+                    {
+                      alwaysDeployFromSource = _js2n__-prdslib.isType '"Bool",
+                      backendId = _js2n__-prdslib.isType '"String",
+                      ignore =
+                        _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"Array",
+                              _js2n__-prdslib.arrays.arrayOf
+                                (_js2n__-prdslib.isType '"String")
+                            ],
+                      rootDir = _js2n__-prdslib.isType '"String",
+                    } {} false _js2n__-prdslib.never
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.records.required
+                          [ "backendId", "ignore", "rootDir" ],
+                        _js2n__-prdslib.records.record
+                          {
+                            alwaysDeployFromSource =
+                              _js2n__-prdslib.isType '"Bool",
+                            backendId = _js2n__-prdslib.isType '"String",
+                            ignore =
+                              _js2n__-prdslib.allOf
+                                  [
+                                    _js2n__-prdslib.isType '"Array",
+                                    _js2n__-prdslib.arrays.arrayOf
+                                      (_js2n__-prdslib.isType '"String")
+                                  ],
+                            rootDir = _js2n__-prdslib.isType '"String",
+                          } {} false _js2n__-prdslib.never
+                      ])
+                ]
+            ])
+        | optional,
       database
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
