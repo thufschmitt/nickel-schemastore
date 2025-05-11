@@ -995,7 +995,8 @@ let rec _js2n__-refsenv
                                         _js2n__-prdslib.isType 'Integer,
                                       name = _js2n__-prdslib.isType '"String",
                                       provider =
-                                        _js2n__-prdslib.enum [ "Docker" ],
+                                        _js2n__-prdslib.enum
+                                            [ "Docker", "Podman" ],
                                     } {} true _js2n__-prdslib.always
                                 ],
                           mirrorRegistries =
@@ -1017,7 +1018,8 @@ let rec _js2n__-refsenv
                                             name =
                                               _js2n__-prdslib.isType '"String",
                                             provider =
-                                              _js2n__-prdslib.enum [ "Docker" ],
+                                              _js2n__-prdslib.enum
+                                                  [ "Docker", "Podman" ],
                                             proxy =
                                               _js2n__-prdslib.allOf
                                                   [
@@ -1042,26 +1044,52 @@ let rec _js2n__-refsenv
                                     {
                                       cni =
                                         _js2n__-prdslib.enum
-                                            [ "Default", "Cilium" ],
+                                            [ "Default", "Cilium", "None" ],
                                       configPath =
                                         _js2n__-prdslib.isType '"String",
-                                      deploymentTool =
-                                        _js2n__-prdslib.enum [ "Flux" ],
-                                      distribution =
+                                      containerEngine =
                                         _js2n__-prdslib.enum
-                                            [ "Native", "K3s" ],
+                                            [ "Docker", "Podman" ],
+                                      csi =
+                                        _js2n__-prdslib.enum
+                                            [
+                                              "Default",
+                                              "LocalPathProvisioner",
+                                              "None"
+                                            ],
+                                      deploymentTool =
+                                        _js2n__-prdslib.enum
+                                            [ "Kubectl", "Flux" ],
+                                      distribution =
+                                        _js2n__-prdslib.enum [ "Kind", "K3d" ],
                                       distributionConfigPath =
                                         _js2n__-prdslib.isType '"String",
                                       editor =
                                         _js2n__-prdslib.enum [ "Nano", "Vim" ],
+                                      gatewayController =
+                                        _js2n__-prdslib.enum
+                                            [ "Default", "None" ],
+                                      ingressController =
+                                        _js2n__-prdslib.enum
+                                            [ "Default", "Traefik", "None" ],
                                       kustomizationPath =
                                         _js2n__-prdslib.isType '"String",
+                                      metricsServer =
+                                        _js2n__-prdslib.isType '"Bool",
                                       mirrorRegistries =
                                         _js2n__-prdslib.isType '"Bool",
-                                      provider =
-                                        _js2n__-prdslib.enum [ "Docker" ],
                                       secretManager =
                                         _js2n__-prdslib.enum [ "None", "SOPS" ],
+                                    } {} true _js2n__-prdslib.always
+                                ],
+                          publication =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType 'Record,
+                                  _js2n__-prdslib.records.record
+                                    {
+                                      publishOnUpdate =
+                                        _js2n__-prdslib.isType '"Bool",
                                     } {} true _js2n__-prdslib.always
                                 ],
                           secretManager =
@@ -1080,13 +1108,8 @@ let rec _js2n__-refsenv
                                                     _js2n__-prdslib.isType
                                                         '"Bool",
                                                   publicKey =
-                                                    _js2n__-prdslib.anyOf
-                                                        [
-                                                          _js2n__-prdslib.isType
-                                                            '"String",
-                                                          _js2n__-prdslib.isType
-                                                            'Null
-                                                        ],
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   showAllKeysInListings =
                                                     _js2n__-prdslib.isType
                                                         '"Bool",
@@ -1103,13 +1126,15 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.isType 'Record,
                                   _js2n__-prdslib.records.record
                                     {
-                                      lintOnUp = _js2n__-prdslib.isType '"Bool",
-                                      lintOnUpdate =
-                                        _js2n__-prdslib.isType '"Bool",
                                       reconcileOnUp =
                                         _js2n__-prdslib.isType '"Bool",
                                       reconcileOnUpdate =
                                         _js2n__-prdslib.isType '"Bool",
+                                      validateOnUp =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      validateOnUpdate =
+                                        _js2n__-prdslib.isType '"Bool",
+                                      verbose = _js2n__-prdslib.isType '"Bool",
                                     } {} true _js2n__-prdslib.always
                                 ],
                         } {} true _js2n__-prdslib.always

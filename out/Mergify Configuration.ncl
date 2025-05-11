@@ -923,6 +923,14 @@ let rec _js2n__-refsenv
       shared
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.isType 'Null ])
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    _js2n__-prdslib.always
+                ],
+              _js2n__-prdslib.isType 'Null
+            ])
         | optional,
     }

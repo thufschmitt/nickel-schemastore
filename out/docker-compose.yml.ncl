@@ -897,8 +897,9 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/blkio_limit!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/blkio_limit!predicate"
+        | doc "Block IO limit for a specific device."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -912,8 +913,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/blkio_weight!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/blkio_weight!predicate"
+        | doc "Block IO weight for a specific device."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -927,8 +929,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/command!predicate" =
-        _js2n__-prdslib.oneOf
+      "_js2n__-:definitions/command!predicate"
+        | doc "Command to run in the container, which can be specified as a string (shell form) or array (exec form)."
+        = _js2n__-prdslib.oneOf
             [
               _js2n__-prdslib.isType 'Null,
               _js2n__-prdslib.isType '"String",
@@ -939,8 +942,9 @@ let rec _js2n__-refsenv
                     (_js2n__-prdslib.isType '"String")
                 ]
             ],
-      "_js2n__-:definitions/config!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/config!predicate"
+        | doc "Config configuration for the Compose application."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -968,8 +972,9 @@ let rec _js2n__-refsenv
                 } { "^x-" = _js2n__-prdslib.always, } false
                 _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/deployment!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/deployment!predicate"
+        | doc "Deployment configuration for the service."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.anyOf
                 [
@@ -1171,8 +1176,9 @@ let rec _js2n__-refsenv
                 } { "^x-" = _js2n__-prdslib.always, } false
                 _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/development!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/development!predicate"
+        | doc "Development configuration for the service, used for development workflows."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.anyOf
                 [
@@ -1221,8 +1227,9 @@ let rec _js2n__-refsenv
                 } { "^x-" = _js2n__-prdslib.always, } false
                 _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/devices!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/devices!predicate"
+        | doc "Device reservations for containers, allowing services to access specific hardware devices."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
@@ -1279,8 +1286,9 @@ let rec _js2n__-refsenv
                       ])
                 ]
             ],
-      "_js2n__-:definitions/extra_hosts!predicate" =
-        _js2n__-prdslib.oneOf
+      "_js2n__-:definitions/extra_hosts!predicate"
+        | doc "Additional hostnames to be defined in the container's /etc/hosts file."
+        = _js2n__-prdslib.oneOf
             [
               _js2n__-prdslib.allOf
                 [
@@ -1308,8 +1316,9 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.arrays.uniqueItems
                 ]
             ],
-      "_js2n__-:definitions/generic_resources!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/generic_resources!predicate"
+        | doc "User-defined resources for services, allowing services to reserve specialized hardware resources."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
@@ -1375,8 +1384,9 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.never
                 ]
             ],
-      "_js2n__-:definitions/healthcheck!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/healthcheck!predicate"
+        | doc "Configuration options to determine whether the container is healthy."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1411,8 +1421,9 @@ let rec _js2n__-refsenv
                 } { "^x-" = _js2n__-prdslib.always, } false
                 _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/include!predicate" =
-        _js2n__-prdslib.oneOf
+      "_js2n__-:definitions/include!predicate"
+        | doc "Compose application or sub-projects to be included."
+        = _js2n__-prdslib.oneOf
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.allOf
@@ -1439,15 +1450,17 @@ let rec _js2n__-refsenv
                     (_js2n__-prdslib.isType '"String")
                 ]
             ],
-      "_js2n__-:definitions/list_of_strings!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/list_of_strings!predicate"
+        | doc "A list of unique string values."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String"),
               _js2n__-prdslib.arrays.uniqueItems
             ],
-      "_js2n__-:definitions/list_or_dict!predicate" =
-        _js2n__-prdslib.oneOf
+      "_js2n__-:definitions/list_or_dict!predicate"
+        | doc "Either a dictionary mapping keys to values, or a list of strings."
+        = _js2n__-prdslib.oneOf
             [
               _js2n__-prdslib.allOf
                 [
@@ -1472,8 +1485,9 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.arrays.uniqueItems
                 ]
             ],
-      "_js2n__-:definitions/network!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/network!predicate"
+        | doc "Network configuration for the Compose application."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.anyOf
                 [
@@ -1600,8 +1614,9 @@ let rec _js2n__-refsenv
                 } { "^x-" = _js2n__-prdslib.always, } false
                 _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/secret!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/secret!predicate"
+        | doc "Secret configuration for the Compose application."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1643,8 +1658,9 @@ let rec _js2n__-refsenv
                 } { "^x-" = _js2n__-prdslib.always, } false
                 _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/service!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/service!predicate"
+        | doc "Configuration for a service."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -2162,6 +2178,9 @@ let rec _js2n__-refsenv
                                                   gw_priority =
                                                     _js2n__-prdslib.isType
                                                         '"Number",
+                                                  interface_name =
+                                                    _js2n__-prdslib.isType
+                                                        '"String",
                                                   ipv4_address =
                                                     _js2n__-prdslib.isType
                                                         '"String",
@@ -2280,6 +2299,33 @@ let rec _js2n__-refsenv
                         ],
                   profiles =
                     _js2n__-refsenv."_js2n__-:definitions/list_of_strings!predicate",
+                  provider =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record
+                            {
+                              options =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^.+$" =
+                                            _js2n__-prdslib.anyOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.isType
+                                                    '"Number",
+                                                  _js2n__-prdslib.isType 'Null
+                                                ],
+                                        } true _js2n__-prdslib.always
+                                    ],
+                              type = _js2n__-prdslib.isType '"String",
+                            } { "^x-" = _js2n__-prdslib.always, } false
+                            _js2n__-prdslib.never
+                        ],
                   pull_policy =
                     _js2n__-prdslib.allOf
                         [
@@ -2402,6 +2448,21 @@ let rec _js2n__-refsenv
                                               ],
                                         consistency =
                                           _js2n__-prdslib.isType '"String",
+                                        image =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType 'Record,
+                                                _js2n__-prdslib.records.record
+                                                  {
+                                                    subpath =
+                                                      _js2n__-prdslib.isType
+                                                          '"String",
+                                                  }
+                                                  {
+                                                    "^x-" =
+                                                      _js2n__-prdslib.always,
+                                                  } false _js2n__-prdslib.never
+                                              ],
                                         read_only =
                                           _js2n__-prdslib.anyOf
                                               [
@@ -2445,13 +2506,29 @@ let rec _js2n__-refsenv
                                                       _js2n__-prdslib.always,
                                                   } false _js2n__-prdslib.never
                                               ],
-                                        type = _js2n__-prdslib.isType '"String",
+                                        type =
+                                          _js2n__-prdslib.allOf
+                                              [
+                                                _js2n__-prdslib.isType
+                                                  '"String",
+                                                _js2n__-prdslib.enum
+                                                  [
+                                                    "bind",
+                                                    "volume",
+                                                    "tmpfs",
+                                                    "cluster",
+                                                    "npipe",
+                                                    "image"
+                                                  ]
+                                              ],
                                         volume =
                                           _js2n__-prdslib.allOf
                                               [
                                                 _js2n__-prdslib.isType 'Record,
                                                 _js2n__-prdslib.records.record
                                                   {
+                                                    labels =
+                                                      _js2n__-refsenv."_js2n__-:definitions/list_or_dict!predicate",
                                                     nocopy =
                                                       _js2n__-prdslib.anyOf
                                                           [
@@ -2487,8 +2564,9 @@ let rec _js2n__-refsenv
                 } { "^x-" = _js2n__-prdslib.always, } false
                 _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/service_config_or_secret!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/service_config_or_secret!predicate"
+        | doc "Configuration for service configs or secrets, defining how they are mounted in the container."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
@@ -2515,8 +2593,9 @@ let rec _js2n__-refsenv
                       ]
                   ])
             ],
-      "_js2n__-:definitions/service_hook!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/service_hook!predicate"
+        | doc "Configuration for service lifecycle hooks, which are commands executed at specific points in a container's lifecycle."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "command" ],
@@ -2537,14 +2616,16 @@ let rec _js2n__-refsenv
                 } { "^x-" = _js2n__-prdslib.always, } false
                 _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/string_or_list!predicate" =
-        _js2n__-prdslib.oneOf
+      "_js2n__-:definitions/string_or_list!predicate"
+        | doc "Either a single string or a list of strings."
+        = _js2n__-prdslib.oneOf
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-refsenv."_js2n__-:definitions/list_of_strings!predicate"
             ],
-      "_js2n__-:definitions/ulimits!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/ulimits!predicate"
+        | doc "Container ulimit options, controlling resource limits for processes inside the container."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record {}
@@ -2582,8 +2663,9 @@ let rec _js2n__-refsenv
                         ],
                 } true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/volume!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/volume!predicate"
+        | doc "Volume configuration for the Compose application."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.anyOf
                 [

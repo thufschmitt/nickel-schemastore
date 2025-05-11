@@ -1281,6 +1281,7 @@ let rec _js2n__-refsenv
                 {
                   path = _js2n__-prdslib.isType '"String",
                   pattern = _js2n__-prdslib.isType '"String",
+                  source = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
     }
@@ -1299,79 +1300,16 @@ let rec _js2n__-refsenv
                   _js2n__-prdslib.records.required [ "version" ],
                   _js2n__-prdslib.records.record
                     {
-                      build =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.record
-                                {
-                                  hooks =
-                                    _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.records.record
-                                            {
-                                              vcs =
-                                                _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        'Record,
-                                                      _js2n__-prdslib.records.record
-                                                        {
-                                                          version-file =
-                                                            _js2n__-prdslib.isType
-                                                                '"String",
-                                                        } {} true
-                                                        _js2n__-prdslib.always
-                                                    ],
-                                            } {} true _js2n__-prdslib.always
-                                        ],
-                                } {} true _js2n__-prdslib.always
-                            ],
-                      metadata =
-                        _js2n__-prdslib.allOf
-                            [
-                              _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.record
-                                {
-                                  hooks =
-                                    _js2n__-prdslib.allOf
-                                        [
-                                          _js2n__-prdslib.isType 'Record,
-                                          _js2n__-prdslib.records.record
-                                            {
-                                              vcs =
-                                                _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        'Record,
-                                                      _js2n__-prdslib.records.record
-                                                        {
-                                                          urls =
-                                                            _js2n__-prdslib.allOf
-                                                                [
-                                                                  _js2n__-prdslib.isType
-                                                                    'Record,
-                                                                  _js2n__-prdslib.records.record
-                                                                    {} {} true
-                                                                    (_js2n__-prdslib.isType
-                                                                      '"String")
-                                                                ],
-                                                        } {} true
-                                                        _js2n__-prdslib.always
-                                                    ],
-                                            } {} true _js2n__-prdslib.always
-                                        ],
-                                } {} true _js2n__-prdslib.always
-                            ],
                       version =
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.required [ "source" ],
+                              _js2n__-prdslib.records.required [ "path" ],
                               _js2n__-prdslib.records.record
-                                { source = _js2n__-prdslib.const "vcs", } {}
-                                true _js2n__-prdslib.always
+                                {
+                                  path = _js2n__-prdslib.isType '"String",
+                                  pattern = _js2n__-prdslib.isType '"String",
+                                } {} true _js2n__-prdslib.always
                             ],
                     } {} true _js2n__-prdslib.always
                 ],
@@ -1384,12 +1322,10 @@ let rec _js2n__-refsenv
                         _js2n__-prdslib.allOf
                             [
                               _js2n__-prdslib.isType 'Record,
-                              _js2n__-prdslib.records.required [ "path" ],
+                              _js2n__-prdslib.records.required [ "source" ],
                               _js2n__-prdslib.records.record
-                                {
-                                  path = _js2n__-prdslib.isType '"String",
-                                  pattern = _js2n__-prdslib.isType '"String",
-                                } {} true _js2n__-prdslib.always
+                                { source = _js2n__-prdslib.isType '"String", }
+                                {} true _js2n__-prdslib.always
                             ],
                     } {} true _js2n__-prdslib.always
                 ]

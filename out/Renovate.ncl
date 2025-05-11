@@ -911,10 +911,6 @@ let rec _js2n__-refsenv
         | Array (String)
         | doc "Additional reviewers for Pull Requests (in contrast to `reviewers`, this option adds to the existing reviewer list, rather than replacing it)."
         | optional,
-      allowCommandTemplating
-        | Bool
-        | doc "Set this to `false` to disable template compilation for post-upgrade commands."
-        | optional,
       allowCustomCrateRegistries
         | Bool
         | doc "Set this to `true` to allow custom crate registries."
@@ -1230,6 +1226,51 @@ let rec _js2n__-refsenv
         | [| 'prerelease, 'patch, 'minor, 'major |]
         | doc "Bump the version in the package file being updated."
         | optional,
+      bumpVersions
+        | Array (
+          _js2n__-prdslib.contract_from_predicate
+            (_js2n__-prdslib.allOf
+              [
+                _js2n__-prdslib.isType 'Record,
+                _js2n__-prdslib.records.record
+                  {
+                    bumpType = _js2n__-prdslib.isType '"String",
+                    description =
+                      _js2n__-prdslib.oneOf
+                          [
+                            _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                            _js2n__-prdslib.isType '"String"
+                          ],
+                    filePatterns =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                    matchStrings =
+                      _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              (_js2n__-prdslib.isType '"String")
+                          ],
+                    name =
+                      _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType '"String",
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                  } {} true _js2n__-prdslib.always
+              ])
+        )
+        | doc "A list of bumpVersion config options to bump generic version numbers."
+        | optional,
       bun
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1377,12 +1418,16 @@ let rec _js2n__-refsenv
         | optional,
       configWarningReuseIssue
         | Bool
-        | doc "Set this to `false` to make Renovate create a new issue for each config warning, instead of reopening or reusing an existing issue."
+        | doc "Set this to `true` to make Renovate reuse/reopen an existing closed Config Warning issue, instead of opening a new one each time."
         | optional,
       constraints
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
-            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true
+                (_js2n__-prdslib.isType '"String")
+            ])
         | doc "Configuration object to define language or manager version constraints."
         | optional,
       constraintsFiltering
@@ -1763,20 +1808,6 @@ let rec _js2n__-refsenv
         | std.enum.TagOrString
         | [| 'pr, 'branch, 'off |]
         | doc "Controls if and when changelogs/release notes are fetched."
-        | optional,
-      fileMatch
-        | _js2n__-prdslib.contract_from_predicate
-          (_js2n__-prdslib.oneOf
-            [
-              _js2n__-prdslib.allOf
-                [
-                  _js2n__-prdslib.isType '"Array",
-                  _js2n__-prdslib.arrays.arrayOf
-                    (_js2n__-prdslib.isType '"String")
-                ],
-              _js2n__-prdslib.isType '"String"
-            ])
-        | doc "RegEx (`re2`) pattern for matching manager files."
         | optional,
       filterUnavailableUsers
         | Bool
@@ -2302,6 +2333,20 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
         | doc "Configuration to apply when an update type is `major`."
         | optional,
+      managerFilePatterns
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.oneOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.isType '"String")
+                ],
+              _js2n__-prdslib.isType '"String"
+            ])
+        | doc "RegEx (`re2`) and glob patterns for matching manager files."
+        | optional,
       maven
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -2709,6 +2754,8 @@ let rec _js2n__-refsenv
                     replacementName = _js2n__-prdslib.isType '"String",
                     replacementNameTemplate = _js2n__-prdslib.isType '"String",
                     replacementVersion = _js2n__-prdslib.isType '"String",
+                    replacementVersionTemplate =
+                      _js2n__-prdslib.isType '"String",
                     sourceDirectory = _js2n__-prdslib.isType '"String",
                     sourceUrl = _js2n__-prdslib.isType '"String",
                   } {} true _js2n__-prdslib.always
@@ -2835,7 +2882,7 @@ let rec _js2n__-refsenv
                         "gomodSkipVendor",
                         "gomodVendor",
                         "helmUpdateSubChartArchives",
-                        "kustomizeInflateHelmArchives",
+                        "kustomizeInflateHelmCharts",
                         "npmDedupe",
                         "pnpmDedupe",
                         "yarnDedupeFewer",
@@ -3097,6 +3144,12 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String")
             ])
         | doc "List of URLs to try for dependency lookup. Package manager specific."
+        | optional,
+      renovate-config-presets
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [ _js2n__-prdslib.isType 'Record, _js2n__-prdslib.always ])
+        | doc "Configuration object for the renovate-config-presets manager"
         | optional,
       replacement
         | _js2n__-prdslib.contract_from_predicate
@@ -3447,6 +3500,7 @@ let rec _js2n__-refsenv
                       "hex",
                       "ivy",
                       "kubernetes-api",
+                      "lambda-node",
                       "loose",
                       "maven",
                       "nixpkgs",

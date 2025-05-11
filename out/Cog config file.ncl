@@ -909,6 +909,10 @@ let rec _js2n__-refsenv
             | String
             | doc "Cog automatically picks the correct version of cuDNN to install, but this lets you override it for whatever reason."
             | optional,
+          fast
+            | Bool
+            | doc "A flag to enable the experimental fast-push feature from a config level."
+            | optional,
           gpu
             | Bool
             | doc "Enable GPUs for this model. When enabled, the [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) base image will be used, and Cog will automatically figure out what versions of CUDA and cuDNN to use based on the version of Python, PyTorch, and Tensorflow that you are using."
@@ -926,6 +930,10 @@ let rec _js2n__-refsenv
                     (_js2n__-prdslib.isType '"String")
                 ])
             | doc "A list of setup commands to run in the environment before your Python packages are installed."
+            | optional,
+          python_overrides
+            | String
+            | doc "A file in the format of pip requirements that specifies python overrides."
             | optional,
           python_packages
             | _js2n__-prdslib.contract_from_predicate
@@ -1037,6 +1045,25 @@ let rec _js2n__-refsenv
             | doc "The maximum number of concurrent predictions.",
         }
         | doc "The concurrency settings for the model."
+        | optional,
+      environment
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.anyOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.isType 'Null
+                ],
+              _js2n__-prdslib.arrays.arrayOf
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType '"String",
+                    _js2n__-prdslib.strings.pattern
+                      "^[A-Za-z_][A-Za-z0-9_]*=[^\\s]+$"
+                  ])
+            ])
+        | doc "A list of environment variables to make available during builds and at runtime, in the format `NAME=value`"
         | optional,
       image
         | String
