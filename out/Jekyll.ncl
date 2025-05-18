@@ -2074,6 +2074,42 @@ let rec _js2n__-refsenv
         | optional,
       sass
         | {
+          fatal_deprecations
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.strings.minLength 1
+                      ]),
+                  _js2n__-prdslib.arrays.uniqueItems
+                ])
+            | doc m%"
+              An array of deprecations or versions to treat as fatal.
+              https://github.com/jekyll/jekyll-sass-converter#configuration-options
+            "%
+            | optional,
+          future_deprecations
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.strings.minLength 1
+                      ]),
+                  _js2n__-prdslib.arrays.uniqueItems
+                ])
+            | doc m%"
+              An array of active deprecations to ignore.
+              https://github.com/jekyll/jekyll-sass-converter#configuration-options
+            "%
+            | optional,
           load_paths
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.allOf
@@ -2103,6 +2139,24 @@ let rec _js2n__-refsenv
             | String
             | doc m%"
               The path with Sass partials
+              https://github.com/jekyll/jekyll-sass-converter#configuration-options
+            "%
+            | optional,
+          silence_deprecations
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"String",
+                        _js2n__-prdslib.strings.minLength 1
+                      ]),
+                  _js2n__-prdslib.arrays.uniqueItems
+                ])
+            | doc m%"
+              An array of future deprecations to opt into early.
               https://github.com/jekyll/jekyll-sass-converter#configuration-options
             "%
             | optional,

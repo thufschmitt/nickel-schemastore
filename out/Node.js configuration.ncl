@@ -899,6 +899,7 @@ let rec _js2n__-refsenv
     = {}
     in
   {
+      "$schema" | String | optional,
       nodeOptions
         | {
           addons | Bool | optional,
@@ -940,6 +941,7 @@ let rec _js2n__-refsenv
             | optional,
           allow-wasi | Bool | optional,
           allow-worker | Bool | optional,
+          async-context-frame | Bool | optional,
           conditions
             | _js2n__-prdslib.contract_from_predicate
               (_js2n__-prdslib.oneOf
@@ -989,7 +991,6 @@ let rec _js2n__-refsenv
           enable-source-maps | Bool | optional,
           entry-url | Bool | optional,
           experimental-addon-modules | Bool | optional,
-          experimental-async-context-frame | Bool | optional,
           experimental-detect-module | Bool | optional,
           experimental-eventsource | Bool | optional,
           experimental-global-navigator | Bool | optional,
@@ -1140,6 +1141,7 @@ let rec _js2n__-refsenv
                 ])
             | optional,
           test-coverage-lines | Number | optional,
+          test-global-setup | String | optional,
           test-isolation | String | optional,
           test-name-pattern
             | _js2n__-prdslib.contract_from_predicate

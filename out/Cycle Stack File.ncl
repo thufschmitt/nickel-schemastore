@@ -1970,7 +1970,8 @@ let rec _js2n__-refsenv
                                                                                                         _js2n__-prdslib.enum
                                                                                                           [
                                                                                                             "latency",
-                                                                                                            "random"
+                                                                                                            "random",
+                                                                                                            "fixed"
                                                                                                           ]
                                                                                                       ],
                                                                                                     _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate",
@@ -2742,7 +2743,8 @@ let rec _js2n__-refsenv
                                                                                         _js2n__-prdslib.enum
                                                                                           [
                                                                                             "random",
-                                                                                            "round-robin"
+                                                                                            "round-robin",
+                                                                                            "source-ip"
                                                                                           ]
                                                                                       ],
                                                                                     _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate"
@@ -3450,7 +3452,8 @@ let rec _js2n__-refsenv
                                                                                         _js2n__-prdslib.enum
                                                                                           [
                                                                                             "latency",
-                                                                                            "random"
+                                                                                            "random",
+                                                                                            "fixed"
                                                                                           ]
                                                                                       ],
                                                                                     _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate",
@@ -4220,7 +4223,8 @@ let rec _js2n__-refsenv
                                                                         _js2n__-prdslib.enum
                                                                           [
                                                                             "random",
-                                                                            "round-robin"
+                                                                            "round-robin",
+                                                                            "source-ip"
                                                                           ]
                                                                       ],
                                                                     _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate"
@@ -5797,7 +5801,31 @@ let rec _js2n__-refsenv
                                                                           ],
                                                                         _js2n__-prdslib.records.record
                                                                           {
+                                                                            expose_cgroups =
+                                                                              _js2n__-prdslib.oneOf
+                                                                                  [
+                                                                                    _js2n__-prdslib.anyOf
+                                                                                      [
+                                                                                        _js2n__-prdslib.isType
+                                                                                          '"Bool",
+                                                                                        _js2n__-prdslib.isType
+                                                                                          'Null
+                                                                                      ],
+                                                                                    _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate"
+                                                                                  ],
                                                                             expose_proc =
+                                                                              _js2n__-prdslib.oneOf
+                                                                                  [
+                                                                                    _js2n__-prdslib.anyOf
+                                                                                      [
+                                                                                        _js2n__-prdslib.isType
+                                                                                          '"Bool",
+                                                                                        _js2n__-prdslib.isType
+                                                                                          'Null
+                                                                                      ],
+                                                                                    _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate"
+                                                                                  ],
+                                                                            power_management =
                                                                               _js2n__-prdslib.oneOf
                                                                                   [
                                                                                     _js2n__-prdslib.anyOf
@@ -7518,6 +7546,18 @@ let rec _js2n__-refsenv
                                                                       '"Bool",
                                                                     _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate"
                                                                   ],
+                                                            gid =
+                                                              _js2n__-prdslib.oneOf
+                                                                  [
+                                                                    _js2n__-prdslib.anyOf
+                                                                      [
+                                                                        _js2n__-prdslib.isType
+                                                                          'Integer,
+                                                                        _js2n__-prdslib.isType
+                                                                          'Null
+                                                                      ],
+                                                                    _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate"
+                                                                  ],
                                                             path =
                                                               _js2n__-prdslib.oneOf
                                                                   [
@@ -7525,6 +7565,30 @@ let rec _js2n__-refsenv
                                                                       [
                                                                         _js2n__-prdslib.isType
                                                                           '"String",
+                                                                        _js2n__-prdslib.isType
+                                                                          'Null
+                                                                      ],
+                                                                    _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate"
+                                                                  ],
+                                                            permissions =
+                                                              _js2n__-prdslib.oneOf
+                                                                  [
+                                                                    _js2n__-prdslib.anyOf
+                                                                      [
+                                                                        _js2n__-prdslib.isType
+                                                                          '"String",
+                                                                        _js2n__-prdslib.isType
+                                                                          'Null
+                                                                      ],
+                                                                    _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate"
+                                                                  ],
+                                                            uid =
+                                                              _js2n__-prdslib.oneOf
+                                                                  [
+                                                                    _js2n__-prdslib.anyOf
+                                                                      [
+                                                                        _js2n__-prdslib.isType
+                                                                          'Integer,
                                                                         _js2n__-prdslib.isType
                                                                           'Null
                                                                       ],
@@ -8892,7 +8956,8 @@ let rec _js2n__-refsenv
                                                                                                                                                                     _js2n__-prdslib.enum
                                                                                                                                                                       [
                                                                                                                                                                         "latency",
-                                                                                                                                                                        "random"
+                                                                                                                                                                        "random",
+                                                                                                                                                                        "fixed"
                                                                                                                                                                       ]
                                                                                                                                                                   ],
                                                                                                                                                                 _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate",
@@ -9664,7 +9729,8 @@ let rec _js2n__-refsenv
                                                                                                                                                     _js2n__-prdslib.enum
                                                                                                                                                       [
                                                                                                                                                         "random",
-                                                                                                                                                        "round-robin"
+                                                                                                                                                        "round-robin",
+                                                                                                                                                        "source-ip"
                                                                                                                                                       ]
                                                                                                                                                   ],
                                                                                                                                                 _js2n__-refsenv."_js2n__-:properties/about/oneOf/1!predicate"

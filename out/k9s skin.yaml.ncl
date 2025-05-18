@@ -984,7 +984,10 @@ let rec _js2n__-refsenv
             | optional,
           info
             | {
+              cpuColor | String | optional,
               fgColor | String | optional,
+              k9sRevColor | String | optional,
+              memColor | String | optional,
               sectionColor | String | optional,
               ..
             }

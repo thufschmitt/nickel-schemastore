@@ -1084,6 +1084,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "inline" ]
                         ],
                   splitting = _js2n__-prdslib.isType '"Bool",
+                  swc = _js2n__-prdslib.isType 'Record,
                   target =
                     _js2n__-prdslib.oneOf
                         [

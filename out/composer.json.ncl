@@ -1304,11 +1304,29 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Record,
                           _js2n__-prdslib.records.record
                             {
+                              reference =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.anyOf
+                                        [ _js2n__-prdslib.isType '"String" ],
+                                      _js2n__-prdslib.enum
+                                        [ "none", "config", "auto" ]
+                                    ],
+                              relative =
+                                _js2n__-prdslib.anyOf
+                                    [ _js2n__-prdslib.isType '"Bool" ],
                               symlink =
                                 _js2n__-prdslib.anyOf
                                     [
                                       _js2n__-prdslib.isType '"Bool",
                                       _js2n__-prdslib.isType 'Null
+                                    ],
+                              versions =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {} {} true
+                                        (_js2n__-prdslib.isType '"String")
                                     ],
                             } {} true _js2n__-prdslib.always
                         ],
@@ -1734,6 +1752,21 @@ let rec _js2n__-refsenv
           classmap-authoritative
             | Bool
             | doc "If true, the composer autoloader will not scan the filesystem for classes that are not found in the class map, defaults to false."
+            | optional,
+          custom-headers
+            | _js2n__-prdslib.contract_from_predicate
+              (_js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType 'Record,
+                  _js2n__-prdslib.records.record {} {} true
+                    (_js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.isType '"Array",
+                        _js2n__-prdslib.arrays.arrayOf
+                          (_js2n__-prdslib.isType '"String")
+                      ])
+                ])
+            | doc "Custom HTTP headers for specific domains."
             | optional,
           data-dir
             | String
@@ -2431,7 +2464,7 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.strings.pattern
-                "^v?\\d+(\\.\\d+){0,3}(-(dev|(patch|p|alpha|a|beta|b|RC)\\d*))?$|^dev-.*$"
+                "^[vV]?\\d+(?:[.-]\\d+){0,3}[._-]?(?:(?:[sS][tT][aA][bB][lL][eE]|[bB][eE][tT][aA]|[bB]|[rR][cC]|[aA][lL][pP][hH][aA]|[aA]|[pP][aA][tT][cC][hH]|[pP][lL]|[pP])(?:(?:[.-]?\\d+)*+)?)?(?:[.-]?[dD][eE][vV]|\\.x-dev)?(?:\\+.*)?$|^dev-.*$"
             ])
         | doc "Package version, see https://getcomposer.org/doc/04-schema.md#version for more info on valid schemes."
         | optional,
