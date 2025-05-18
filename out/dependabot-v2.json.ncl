@@ -926,6 +926,7 @@ let rec _js2n__-refsenv
               "github-actions",
               "gomod",
               "gradle",
+              "helm",
               "maven",
               "mix",
               "npm",
@@ -1000,7 +1001,16 @@ let rec _js2n__-refsenv
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
-              _js2n__-prdslib.enum [ "daily", "weekly", "monthly" ]
+              _js2n__-prdslib.enum
+                [
+                  "daily",
+                  "weekly",
+                  "monthly",
+                  "quarterly",
+                  "semiannually",
+                  "yearly",
+                  "cron"
+                ]
             ],
       "_js2n__-:definitions/timezone!predicate" =
         _js2n__-prdslib.allOf
@@ -1981,9 +1991,26 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.allOf
                         [
                           _js2n__-prdslib.isType 'Record,
-                          _js2n__-prdslib.records.required [ "interval" ],
+                          _js2n__-prdslib.ifThenElse
+                            (_js2n__-prdslib.records.record
+                              { interval = _js2n__-prdslib.const "cron", } {}
+                              true _js2n__-prdslib.always)
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.records.required
+                                  [ "cronjob", "interval" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ])
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.records.required [ "interval" ],
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ]),
                           _js2n__-prdslib.records.record
                             {
+                              cronjob = _js2n__-prdslib.isType '"String",
                               day =
                                 _js2n__-refsenv."_js2n__-:definitions/schedule-day!predicate",
                               interval =

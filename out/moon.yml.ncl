@@ -1522,6 +1522,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  cacheKey =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   cacheLifetime =
                     _js2n__-prdslib.anyOf
                         [
@@ -1621,6 +1627,12 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType '"Bool",
                           _js2n__-prdslib.isType 'Null
                         ],
+                  "priority" =
+                    _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-refsenv."_js2n__-:definitions/TaskPriority!predicate",
+                          _js2n__-prdslib.isType 'Null
+                        ],
                   retryCount =
                     _js2n__-prdslib.anyOf
                         [
@@ -1693,6 +1705,13 @@ let rec _js2n__-refsenv
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "server", "watcher" ]
+            ],
+      "_js2n__-:definitions/TaskPriority!predicate"
+        | doc "The priority levels a task can be bucketed into."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "critical", "high", "normal", "low" ]
             ],
       "_js2n__-:definitions/TaskType!predicate"
         | doc "The type of task."

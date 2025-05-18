@@ -1075,6 +1075,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/RootBoundariesConfig!predicate",
                   cacheDir =
                     _js2n__-refsenv."_js2n__-:definitions/RelativeUnixPath!predicate",
+                  concurrency = _js2n__-prdslib.isType '"String",
                   daemon = _js2n__-prdslib.isType '"Bool",
                   dangerouslyDisablePackageManagerCheck =
                     _js2n__-prdslib.isType '"Bool",
@@ -1105,6 +1106,7 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/EnvWildcard!predicate"
                             ]
                         ],
+                  noUpdateNotifier = _js2n__-prdslib.isType '"Bool",
                   remoteCache =
                     _js2n__-refsenv."_js2n__-:definitions/RemoteCache!predicate",
                   tasks =

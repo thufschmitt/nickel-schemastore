@@ -937,7 +937,7 @@ let rec _js2n__-refsenv
                 [
                   _js2n__-prdslib.isType '"String",
                   _js2n__-prdslib.enum
-                    [ "seqera", "openai", "anthropic", "custom" ]
+                    [ "seqera", "openai", "anthropic", "aws_bedrock", "custom" ]
                 ],
               _js2n__-prdslib.isType 'Null
             ])

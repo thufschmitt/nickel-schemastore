@@ -1393,8 +1393,8 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/OnIncompatibleSchemaChange!predicate",
                   shards =
                     _js2n__-refsenv."_js2n__-:definitions/ShardTemplate!predicate",
-                  sourceCapture =
-                    _js2n__-refsenv."_js2n__-:definitions/SourceCapture!predicate",
+                  source =
+                    _js2n__-refsenv."_js2n__-:definitions/SourceType!predicate",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/MaterializationEndpoint!predicate"
@@ -1640,39 +1640,49 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/FullSource!predicate",
               _js2n__-refsenv."_js2n__-:definitions/Collection!predicate"
             ],
-      "_js2n__-:definitions/SourceCapture!predicate" =
-        _js2n__-prdslib.anyOf
-            [
-              _js2n__-refsenv."_js2n__-:definitions/Capture!predicate",
-              _js2n__-refsenv."_js2n__-:definitions/SourceCaptureDef!predicate"
-            ],
-      "_js2n__-:definitions/SourceCaptureDef!predicate"
-        | doc "SourceCaptureDef specifies configuration for source captures"
+      "_js2n__-:definitions/SourceDef!predicate"
+        | doc "Specifies configuration for source captures, and defaults for new bindings that are added to the materialization. Changing these defaults has no effect on existing bindings."
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "capture" ],
               _js2n__-prdslib.records.record
                 {
                   capture =
                     _js2n__-refsenv."_js2n__-:definitions/Capture!predicate",
                   deltaUpdates = _js2n__-prdslib.isType '"Bool",
-                  targetSchema =
-                    _js2n__-refsenv."_js2n__-:definitions/SourceCaptureSchemaMode!predicate",
+                  targetNaming =
+                    _js2n__-refsenv."_js2n__-:definitions/TargetNaming!predicate",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/SourceCaptureSchemaMode!predicate" =
-        _js2n__-prdslib.oneOf
+      "_js2n__-:definitions/SourceType!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/Capture!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/SourceDef!predicate"
+            ],
+      "_js2n__-:definitions/TargetNaming!predicate"
+        | doc "How to name target resources (database tables, for example) for materializing a given Collection."
+        = _js2n__-prdslib.oneOf
             [
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.enum [ "leaveEmpty" ]
+                  _js2n__-prdslib.enum [ "noSchema" ]
                 ],
               _js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.enum [ "fromSourceName" ]
+                  _js2n__-prdslib.enum [ "withSchema" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "prefixSchema" ]
+                ],
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "prefixNonDefaultSchema" ]
                 ]
             ],
       "_js2n__-:definitions/TestDef!predicate"

@@ -1014,6 +1014,11 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.isType 'Integer)
         | doc "Maximum number of tasks to run. This is useful when a task in the sequence can dymanically add more tasks. 0 means no limit."
         | optional,
+      mdp
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.isType '"String")
+        | doc ".mdp file of a finished simulation for starting directly with a reaction"
+        | optional,
       mdrun_prefix
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.isType '"String")

@@ -2622,20 +2622,19 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   bulkheadEnabled = _js2n__-prdslib.isType '"Bool",
-                  bulkheadExecutorService = _js2n__-prdslib.isType '"String",
                   bulkheadMaxConcurrentCalls = _js2n__-prdslib.isType '"Number",
                   bulkheadWaitingTaskQueue = _js2n__-prdslib.isType '"Number",
-                  circuitBreaker = _js2n__-prdslib.isType '"String",
                   delay = _js2n__-prdslib.isType '"String",
                   failureRatio = _js2n__-prdslib.isType '"Number",
                   id = _js2n__-prdslib.isType '"String",
                   requestVolumeThreshold = _js2n__-prdslib.isType '"Number",
                   successThreshold = _js2n__-prdslib.isType '"Number",
+                  threadOffloadExecutorService =
+                    _js2n__-prdslib.isType '"String",
                   timeoutDuration = _js2n__-prdslib.isType '"String",
                   timeoutEnabled = _js2n__-prdslib.isType '"Bool",
                   timeoutPoolSize = _js2n__-prdslib.isType '"Number",
-                  timeoutScheduledExecutorService =
-                    _js2n__-prdslib.isType '"String",
+                  typedGuard = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:items/definitions/org.apache.camel.model.FilterDefinition!predicate"
@@ -8928,7 +8927,7 @@ let rec _js2n__-refsenv
                       _js2n__-prdslib.records.record
                         {
                           langChain4jLineTokenizer =
-                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jTokenizerDefinition!predicate",
+                            _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jLineTokenizerDefinition!predicate",
                         } {} true _js2n__-prdslib.always
                     ],
                   _js2n__-prdslib.allOf
@@ -11931,13 +11930,7 @@ let rec _js2n__-refsenv
                         [
                           _js2n__-prdslib.isType '"String",
                           _js2n__-prdslib.enum
-                            [
-                              "Fastjson",
-                              "Gson",
-                              "Jackson",
-                              "Johnzon",
-                              "Jsonb"
-                            ]
+                            [ "Fastjson", "Gson", "Jackson", "Jsonb" ]
                         ],
                   moduleClassNames = _js2n__-prdslib.isType '"String",
                   moduleRefs = _js2n__-prdslib.isType '"String",
@@ -13953,6 +13946,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.required [ "specification" ],
               _js2n__-prdslib.records.record
                 {
+                  apiContextPath = _js2n__-prdslib.isType '"String",
                   description = _js2n__-prdslib.isType '"String",
                   disabled = _js2n__-prdslib.isType '"Bool",
                   id = _js2n__-prdslib.isType '"String",
@@ -14461,7 +14455,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.rest.ApiKeyDefinition!predicate",
                   basicAuth =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.rest.BasicAuthDefinition!predicate",
-                  bearer =
+                  bearerToken =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.rest.BearerTokenDefinition!predicate",
                   mutualTLS =
                     _js2n__-refsenv."_js2n__-:items/definitions/org.apache.camel.model.rest.MutualTLSDefinition!predicate",
@@ -14502,6 +14496,25 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jLineTokenizerDefinition!predicate"
+        | doc "Camel AI: Tokenizer for splitting line by line."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
+              _js2n__-prdslib.records.record
+                {
+                  id = _js2n__-prdslib.isType '"String",
+                  maxOverlap = _js2n__-prdslib.isType '"Number",
+                  maxTokens = _js2n__-prdslib.isType '"Number",
+                  tokenizerType =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"String",
+                          _js2n__-prdslib.enum [ "OPEN_AI", "AZURE", "QWEN" ]
+                        ],
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jParagraphTokenizerDefinition!predicate"
         | doc "Camel AI: Tokenizer for splitting by paragraphs."
         = _js2n__-prdslib.allOf
@@ -14524,24 +14537,6 @@ let rec _js2n__-refsenv
       "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jSentenceTokenizerDefinition!predicate"
         | doc "Camel AI: Tokenizer for splitting by sentences."
         = _js2n__-prdslib.allOf
-            [
-              _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],
-              _js2n__-prdslib.records.record
-                {
-                  id = _js2n__-prdslib.isType '"String",
-                  maxOverlap = _js2n__-prdslib.isType '"Number",
-                  maxTokens = _js2n__-prdslib.isType '"Number",
-                  tokenizerType =
-                    _js2n__-prdslib.allOf
-                        [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.enum [ "OPEN_AI", "AZURE", "QWEN" ]
-                        ],
-                } {} false _js2n__-prdslib.never
-            ],
-      "_js2n__-:items/definitions/org.apache.camel.model.tokenizer.LangChain4jTokenizerDefinition!predicate" =
-        _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "maxOverlap", "maxTokens" ],

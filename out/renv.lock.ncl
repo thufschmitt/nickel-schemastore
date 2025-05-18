@@ -901,7 +901,7 @@ let rec _js2n__-refsenv
   {
       Bioconductor
         | { Version | String | doc "Release of Bioconductor", .. }
-        | doc ""
+        | doc "Bioconductor release used in the project"
         | optional,
       Packages
         | _js2n__-prdslib.contract_from_predicate
@@ -915,6 +915,43 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.records.required [ "Package" ],
                     _js2n__-prdslib.records.record
                       {
+                        Author = _js2n__-prdslib.isType '"String",
+                        "Authors@R" = _js2n__-prdslib.isType '"String",
+                        Biarch = _js2n__-prdslib.isType '"String",
+                        BugReports = _js2n__-prdslib.isType '"String",
+                        ByteCompile = _js2n__-prdslib.isType '"String",
+                        "Config/Needs/website" =
+                          _js2n__-prdslib.isType '"String",
+                        "Config/autostyle/rmd" =
+                          _js2n__-prdslib.isType '"String",
+                        "Config/autostyle/scope" =
+                          _js2n__-prdslib.isType '"String",
+                        "Config/autostyle/strict" =
+                          _js2n__-prdslib.isType '"String",
+                        "Config/testthat/edition" =
+                          _js2n__-prdslib.isType '"String",
+                        "Config/testthat/parallel" =
+                          _js2n__-prdslib.isType '"String",
+                        "Config/testthat/start-first" =
+                          _js2n__-prdslib.isType '"String",
+                        Copyright = _js2n__-prdslib.isType '"String",
+                        Date = _js2n__-prdslib.isType '"String",
+                        Depends =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        Description = _js2n__-prdslib.isType '"String",
+                        Encoding = _js2n__-prdslib.isType '"String",
+                        Enhances =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
                         Hash =
                           _js2n__-prdslib.allOf
                               [
@@ -922,6 +959,24 @@ let rec _js2n__-refsenv
                                 _js2n__-prdslib.strings.pattern
                                   "^[a-fA-F0-9]{32}$"
                               ],
+                        Imports =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        Language = _js2n__-prdslib.isType '"String",
+                        License = _js2n__-prdslib.isType '"String",
+                        LinkingTo =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                        Maintainer = _js2n__-prdslib.isType '"String",
+                        NeedsCompilation = _js2n__-prdslib.isType '"String",
                         Package = _js2n__-prdslib.isType '"String",
                         RemoteHost = _js2n__-prdslib.isType '"String",
                         RemotePkgPlatform = _js2n__-prdslib.isType '"String",
@@ -933,15 +988,21 @@ let rec _js2n__-refsenv
                         RemoteType = _js2n__-prdslib.isType '"String",
                         RemoteUsername = _js2n__-prdslib.isType '"String",
                         Repository = _js2n__-prdslib.isType '"String",
-                        Requirements =
+                        RoxygenNote = _js2n__-prdslib.isType '"String",
+                        Source = _js2n__-prdslib.isType '"String",
+                        Suggests =
                           _js2n__-prdslib.allOf
                               [
                                 _js2n__-prdslib.isType '"Array",
                                 _js2n__-prdslib.arrays.arrayOf
                                   (_js2n__-prdslib.isType '"String")
                               ],
-                        Source = _js2n__-prdslib.isType '"String",
+                        SystemRequirements = _js2n__-prdslib.isType '"String",
+                        Title = _js2n__-prdslib.isType '"String",
+                        Type = _js2n__-prdslib.isType '"String",
+                        URL = _js2n__-prdslib.isType '"String",
                         Version = _js2n__-prdslib.isType '"String",
+                        VignetteBuilder = _js2n__-prdslib.isType '"String",
                         biocViews = _js2n__-prdslib.isType '"String",
                       } {} true _js2n__-prdslib.always
                   ])
