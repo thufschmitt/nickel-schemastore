@@ -944,6 +944,27 @@ let rec _js2n__-refsenv
             ],
       "_js2n__-:definitions/dependencies!contract" =
         Array _js2n__-refsenv."_js2n__-:definitions/bs-dependency!contract",
+      "_js2n__-:definitions/editor!contract" =
+        {
+            autocomplete
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.isType 'Record,
+                    _js2n__-prdslib.records.record {}
+                      {
+                        "^[a-zA-Z0-9_.]+$" =
+                          _js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ],
+                      } true _js2n__-prdslib.always
+                  ])
+              | doc "A mapping to extend the autocompletion for a given type with an array of modules. E.g. `{ \"int\": [\"IntUtils\", \"IntExt\"] }` will extend the autocompletion of the `int` type with the values from `IntUtils` and `IntExt` modules."
+              | optional,
+          },
       "_js2n__-:definitions/gentype-specs!contract"
         | doc "path to gentype, path resolution is similar to ReScript"
         = { path | String | optional, .. },
@@ -1200,6 +1221,10 @@ let rec _js2n__-refsenv
         | Bool
         | doc "Ignore generators, cut the dependency on generator tools"
         | optional,
+      editor
+        | _js2n__-refsenv."_js2n__-:definitions/editor!contract"
+        | doc "Configure editor functionality, like modules that should be included in autocompletions for given (built-in) types."
+        | optional,
       external-stdlib
         | String
         | doc "Use the external stdlib library instead of the one shipped with the compiler package"
@@ -1272,7 +1297,7 @@ let rec _js2n__-refsenv
             | optional,
           number
             | String
-            | doc "Default: \"+a-4-9-20-40-41-42-50-61-102\". Go [here](https://rescript-lang.org/docs/manual/latest/warning-numbers) for the meanings of the warning flags"
+            | doc "Default: \"+a-4-9-20-41-50-102\". Go [here](https://rescript-lang.org/docs/manual/latest/warning-numbers) for the meanings of the warning flags"
             | optional,
           ..
         }

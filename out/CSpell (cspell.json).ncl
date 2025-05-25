@@ -1011,6 +1011,7 @@ let rec _js2n__-refsenv
               _js2n__-refsenv."_js2n__-:definitions/DictionaryDefinitionCustom!predicate",
               _js2n__-refsenv."_js2n__-:definitions/DictionaryDefinitionAugmented!predicate",
               _js2n__-refsenv."_js2n__-:definitions/DictionaryDefinitionInline!predicate",
+              _js2n__-refsenv."_js2n__-:definitions/DictionaryDefinitionSimple!predicate",
               _js2n__-refsenv."_js2n__-:definitions/DictionaryDefinitionAlternate!predicate"
             ],
       "_js2n__-:definitions/DictionaryDefinitionAlternate!predicate"
@@ -1024,11 +1025,13 @@ let rec _js2n__-refsenv
                   description = _js2n__-prdslib.isType '"String",
                   file =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryPath!predicate",
+                  ignoreForbiddenWords = _js2n__-prdslib.isType '"Bool",
                   name =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryId!predicate",
                   noSuggest = _js2n__-prdslib.isType '"Bool",
                   repMap =
                     _js2n__-refsenv."_js2n__-:definitions/ReplaceMap!predicate",
+                  supportNonStrictSearches = _js2n__-prdslib.isType '"Bool",
                   type =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryFileTypes!predicate",
                   useCompounds = _js2n__-prdslib.isType '"Bool",
@@ -1045,6 +1048,7 @@ let rec _js2n__-refsenv
                   description = _js2n__-prdslib.isType '"String",
                   dictionaryInformation =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryInformation!predicate",
+                  ignoreForbiddenWords = _js2n__-prdslib.isType '"Bool",
                   name =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryId!predicate",
                   noSuggest = _js2n__-prdslib.isType '"Bool",
@@ -1052,6 +1056,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryPath!predicate",
                   repMap =
                     _js2n__-refsenv."_js2n__-:definitions/ReplaceMap!predicate",
+                  supportNonStrictSearches = _js2n__-prdslib.isType '"Bool",
                   type =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryFileTypes!predicate",
                   useCompounds = _js2n__-prdslib.isType '"Bool",
@@ -1071,6 +1076,7 @@ let rec _js2n__-refsenv
                 {
                   addWords = _js2n__-prdslib.isType '"Bool",
                   description = _js2n__-prdslib.isType '"String",
+                  ignoreForbiddenWords = _js2n__-prdslib.isType '"Bool",
                   name =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryId!predicate",
                   noSuggest = _js2n__-prdslib.isType '"Bool",
@@ -1089,6 +1095,7 @@ let rec _js2n__-refsenv
                                 _js2n__-refsenv."_js2n__-:definitions/CustomDictionaryScope!predicate"
                             ]
                         ],
+                  supportNonStrictSearches = _js2n__-prdslib.isType '"Bool",
                   type =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryFileTypes!predicate",
                   useCompounds = _js2n__-prdslib.isType '"Bool",
@@ -1118,6 +1125,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  ignoreForbiddenWords = _js2n__-prdslib.isType '"Bool",
                   ignoreWords =
                     _js2n__-prdslib.allOf
                         [
@@ -1137,6 +1145,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  supportNonStrictSearches = _js2n__-prdslib.isType '"Bool",
                   type =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryFileTypes!predicate",
                   useCompounds = _js2n__-prdslib.isType '"Bool",
@@ -1164,6 +1173,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  ignoreForbiddenWords = _js2n__-prdslib.isType '"Bool",
                   ignoreWords =
                     _js2n__-prdslib.allOf
                         [
@@ -1183,6 +1193,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  supportNonStrictSearches = _js2n__-prdslib.isType '"Bool",
                   type =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryFileTypes!predicate",
                   useCompounds = _js2n__-prdslib.isType '"Bool",
@@ -1210,6 +1221,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  ignoreForbiddenWords = _js2n__-prdslib.isType '"Bool",
                   ignoreWords =
                     _js2n__-prdslib.allOf
                         [
@@ -1229,6 +1241,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  supportNonStrictSearches = _js2n__-prdslib.isType '"Bool",
                   type =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryFileTypes!predicate",
                   useCompounds = _js2n__-prdslib.isType '"Bool",
@@ -1256,6 +1269,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  ignoreForbiddenWords = _js2n__-prdslib.isType '"Bool",
                   ignoreWords =
                     _js2n__-prdslib.allOf
                         [
@@ -1275,6 +1289,7 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  supportNonStrictSearches = _js2n__-prdslib.isType '"Bool",
                   type =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryFileTypes!predicate",
                   useCompounds = _js2n__-prdslib.isType '"Bool",
@@ -1295,6 +1310,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   description = _js2n__-prdslib.isType '"String",
+                  ignoreForbiddenWords = _js2n__-prdslib.isType '"Bool",
                   name =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryId!predicate",
                   noSuggest = _js2n__-prdslib.isType '"Bool",
@@ -1302,6 +1318,28 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryPath!predicate",
                   repMap =
                     _js2n__-refsenv."_js2n__-:definitions/ReplaceMap!predicate",
+                  supportNonStrictSearches = _js2n__-prdslib.isType '"Bool",
+                  type =
+                    _js2n__-refsenv."_js2n__-:definitions/DictionaryFileTypes!predicate",
+                  useCompounds = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/DictionaryDefinitionSimple!predicate"
+        | doc "An Empty Dictionary Definition"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "name" ],
+              _js2n__-prdslib.records.record
+                {
+                  description = _js2n__-prdslib.isType '"String",
+                  ignoreForbiddenWords = _js2n__-prdslib.isType '"Bool",
+                  name =
+                    _js2n__-refsenv."_js2n__-:definitions/DictionaryId!predicate",
+                  noSuggest = _js2n__-prdslib.isType '"Bool",
+                  repMap =
+                    _js2n__-refsenv."_js2n__-:definitions/ReplaceMap!predicate",
+                  supportNonStrictSearches = _js2n__-prdslib.isType '"Bool",
                   type =
                     _js2n__-refsenv."_js2n__-:definitions/DictionaryFileTypes!predicate",
                   useCompounds = _js2n__-prdslib.isType '"Bool",
@@ -1622,6 +1660,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.arrays.arrayOf
                             (_js2n__-prdslib.isType '"String")
                         ],
+                  unknownWords =
+                    _js2n__-refsenv."_js2n__-:definitions/UnknownWordsOptions!predicate",
                   words =
                     _js2n__-prdslib.allOf
                         [
@@ -1772,6 +1812,8 @@ let rec _js2n__-refsenv
                         ],
                   suggestionNumChanges = _js2n__-prdslib.isType '"Number",
                   suggestionsTimeout = _js2n__-prdslib.isType '"Number",
+                  unknownWords =
+                    _js2n__-refsenv."_js2n__-:definitions/UnknownWordsOptions!predicate",
                   usePnP = _js2n__-prdslib.isType '"Bool",
                   words =
                     _js2n__-prdslib.allOf
@@ -1968,6 +2010,18 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.arrays.arrayOf
                 _js2n__-refsenv."_js2n__-:definitions/SuggestionCostMapDef!predicate"
             ],
+      "_js2n__-:definitions/UnknownWordsOptions!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum
+                [
+                  "report-all",
+                  "report-simple",
+                  "report-common-typos",
+                  "report-flagged"
+                ]
+            ],
       "_js2n__-:definitions/Version!predicate" =
         _js2n__-prdslib.anyOf
             [
@@ -2162,6 +2216,8 @@ let rec _js2n__-refsenv
                     ],
               suggestionNumChanges = _js2n__-prdslib.isType '"Number",
               suggestionsTimeout = _js2n__-prdslib.isType '"Number",
+              unknownWords =
+                _js2n__-refsenv."_js2n__-:definitions/UnknownWordsOptions!predicate",
               useGitignore = _js2n__-prdslib.isType '"Bool",
               usePnP = _js2n__-prdslib.isType '"Bool",
               userWords =

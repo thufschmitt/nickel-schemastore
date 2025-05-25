@@ -1981,6 +1981,13 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} true
                             _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.S3Artifact!predicate"
                         ],
+                  mns =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.MNSEventSource!predicate"
+                        ],
                   mqtt =
                     _js2n__-prdslib.allOf
                         [
@@ -2649,6 +2656,8 @@ let rec _js2n__-refsenv
                   partition = _js2n__-prdslib.isType '"String",
                   sasl =
                     _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SASLConfig!predicate",
+                  schemaRegistry =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.SchemaRegistryConfig!predicate",
                   tls =
                     _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.TLSConfig!predicate",
                   topic = _js2n__-prdslib.isType '"String",
@@ -2715,6 +2724,25 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 { intervalSeconds = _js2n__-prdslib.isType 'Integer, } {} true
                 _js2n__-prdslib.always
+            ],
+      "_js2n__-:definitions/io.argoproj.events.v1alpha1.MNSEventSource!predicate"
+        | doc "MNSEventSource refers to event-source for AlibabaCloud MNS related events"
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.required [ "queue" ],
+              _js2n__-prdslib.records.record
+                {
+                  accessKey =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                  endpoint = _js2n__-prdslib.isType '"String",
+                  filter =
+                    _js2n__-refsenv."_js2n__-:definitions/io.argoproj.events.v1alpha1.EventSourceFilter!predicate",
+                  jsonBody = _js2n__-prdslib.isType '"Bool",
+                  queue = _js2n__-prdslib.isType '"String",
+                  secretKey =
+                    _js2n__-refsenv."_js2n__-:definitions/io.k8s.api.core.v1.SecretKeySelector!predicate",
+                } {} true _js2n__-prdslib.always
             ],
       "_js2n__-:definitions/io.argoproj.events.v1alpha1.MQTTEventSource!predicate"
         | doc "MQTTEventSource refers to event-source for MQTT related events"
@@ -3461,7 +3489,7 @@ let rec _js2n__-refsenv
         = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
-              _js2n__-prdslib.records.required [ "schemaId", "url" ],
+              _js2n__-prdslib.records.required [ "url" ],
               _js2n__-prdslib.records.record
                 {
                   auth =

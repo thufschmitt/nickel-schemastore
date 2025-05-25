@@ -905,6 +905,12 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
         | doc "Anonymize samples"
         | optional,
+      ai_auth_type
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
+        | doc "AI auth type"
+        | optional,
       ai_custom_context_window
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
@@ -929,6 +935,18 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | doc "AI model"
         | optional,
+      ai_prompt_full
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
+        | doc "Prompt for full AI summary, put before the report details when sent to the provider"
+        | optional,
+      ai_prompt_short
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
+        | doc "Prompt for short AI summary, put before the report details when sent to the provider"
+        | optional,
       ai_provider
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
@@ -937,11 +955,17 @@ let rec _js2n__-refsenv
                 [
                   _js2n__-prdslib.isType '"String",
                   _js2n__-prdslib.enum
-                    [ "seqera", "openai", "anthropic", "custom" ]
+                    [ "seqera", "openai", "anthropic", "aws_bedrock", "custom" ]
                 ],
               _js2n__-prdslib.isType 'Null
             ])
         | doc "AI provider"
+        | optional,
+      ai_retries
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType 'Integer, _js2n__-prdslib.isType 'Null ])
+        | doc "AI retries"
         | optional,
       ai_summary
         | _js2n__-prdslib.contract_from_predicate
@@ -1111,6 +1135,12 @@ let rec _js2n__-refsenv
             [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
         | doc "Export plots"
         | optional,
+      export_plots_timeout
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [ _js2n__-prdslib.isType 'Integer, _js2n__-prdslib.isType 'Null ])
+        | doc "Export plots timeout"
+        | optional,
       extra_fn_clean_exts
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
@@ -1240,6 +1270,15 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
         | doc "Overwrite existing reports"
+        | optional,
+      general_stats_columns
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {} {} true _js2n__-prdslib.always
+            ])
+        | doc "Configuration for general stats columns per module. Keys are module IDs."
         | optional,
       highlight_colors
         | _js2n__-prdslib.contract_from_predicate
@@ -1374,8 +1413,8 @@ let rec _js2n__-refsenv
       megaqc_url
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.anyOf
-            [ _js2n__-prdslib.isType '"Bool", _js2n__-prdslib.isType 'Null ])
-        | doc "Upload to MegaQC"
+            [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
+        | doc "MegaQC URL to upload to"
         | optional,
       no_ai
         | _js2n__-prdslib.contract_from_predicate
@@ -1406,6 +1445,27 @@ let rec _js2n__-refsenv
           (_js2n__-prdslib.anyOf
             [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.isType 'Null ])
         | doc "Pandoc template"
+        | optional,
+      parquet_format
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"String",
+                  _js2n__-prdslib.enum [ "long", "wide" ]
+                ],
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc m%"
+          Parquet table format. Long format has columns 'sample_name', 'metric_name' and 'val_raw', 
+                  'val_raw_type', 'val_str'. To select values for a certain metric, you need to filter based on its name. In contrast, 
+                  the wide format has columns named after metrics, prefixed with table name and optional namespace. It's easier to 
+                  for analytics, however, might hit limits on the maximal number of columns in certain edge cases, as well as
+                  have potential issues in case of mixed types (i.e. if some values are non-numeric, as Parquet requires a column 
+                  to have a single type).
+                  
+        "%
         | optional,
       plots_defer_loading_numseries
         | _js2n__-prdslib.contract_from_predicate
@@ -1575,6 +1635,34 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Null
             ])
         | doc "Sample names to ignore (regex)"
+        | optional,
+      sample_names_only_include
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.isType '"String")
+                ],
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc "Sample names to include"
+        | optional,
+      sample_names_only_include_re
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.anyOf
+            [
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    (_js2n__-prdslib.isType '"String")
+                ],
+              _js2n__-prdslib.isType 'Null
+            ])
+        | doc "Sample names to include (regex)"
         | optional,
       sample_names_rename
         | _js2n__-prdslib.contract_from_predicate
@@ -1767,7 +1855,16 @@ let rec _js2n__-refsenv
                 [
                   _js2n__-prdslib.isType 'Record,
                   _js2n__-prdslib.records.record {} {} true
-                    _js2n__-prdslib.always
+                    (_js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.always,
+                        _js2n__-prdslib.allOf
+                          [
+                            _js2n__-prdslib.isType '"Array",
+                            _js2n__-prdslib.arrays.arrayOf
+                              _js2n__-prdslib.always
+                          ]
+                      ])
                 ],
               _js2n__-prdslib.isType 'Null
             ])

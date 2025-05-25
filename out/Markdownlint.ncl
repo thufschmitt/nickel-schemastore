@@ -1170,7 +1170,18 @@ let rec _js2n__-refsenv
                         { punctuation = _js2n__-prdslib.isType '"String", } {}
                         false _js2n__-prdslib.never
                     ],
-              MD027 = _js2n__-prdslib.isType '"Bool",
+              MD027 =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                      _js2n__-prdslib.records.record
+                        { list_items = _js2n__-prdslib.isType '"Bool", } {}
+                        false _js2n__-prdslib.never
+                    ],
               MD028 = _js2n__-prdslib.isType '"Bool",
               MD029 =
                 _js2n__-prdslib.allOf
@@ -1322,6 +1333,7 @@ let rec _js2n__-refsenv
                         ],
                       _js2n__-prdslib.records.record
                         {
+                          allow_preamble = _js2n__-prdslib.isType '"Bool",
                           front_matter_title = _js2n__-prdslib.isType '"String",
                           level =
                             _js2n__-prdslib.allOf
@@ -1352,7 +1364,7 @@ let rec _js2n__-refsenv
                                       [
                                         _js2n__-prdslib.isType '"String",
                                         _js2n__-prdslib.strings.pattern
-                                          "^(\\*|\\+|#{1,6} .*)$"
+                                          "^(\\*|\\+|\\?|#{1,6}\\s+\\S.*)$"
                                       ])
                                 ],
                           match_case = _js2n__-prdslib.isType '"Bool",
@@ -1466,8 +1478,10 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Record
                         ],
                       _js2n__-prdslib.records.record
-                        { ignore_case = _js2n__-prdslib.isType '"Bool", } {}
-                        false _js2n__-prdslib.never
+                        {
+                          ignore_case = _js2n__-prdslib.isType '"Bool",
+                          ignored_pattern = _js2n__-prdslib.isType '"String",
+                        } {} false _js2n__-prdslib.never
                     ],
               MD052 =
                 _js2n__-prdslib.allOf
@@ -1478,8 +1492,16 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Record
                         ],
                       _js2n__-prdslib.records.record
-                        { shortcut_syntax = _js2n__-prdslib.isType '"Bool", } {}
-                        false _js2n__-prdslib.never
+                        {
+                          ignored_labels =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          shortcut_syntax = _js2n__-prdslib.isType '"Bool",
+                        } {} false _js2n__-prdslib.never
                     ],
               MD053 =
                 _js2n__-prdslib.allOf
@@ -1545,6 +1567,25 @@ let rec _js2n__-refsenv
                     ],
               MD056 = _js2n__-prdslib.isType '"Bool",
               MD058 = _js2n__-prdslib.isType '"Bool",
+              MD059 =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                      _js2n__-prdslib.records.record
+                        {
+                          prohibited_texts =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
               accessibility = _js2n__-prdslib.isType '"Bool",
               atx = _js2n__-prdslib.isType '"Bool",
               atx_closed = _js2n__-prdslib.isType '"Bool",
@@ -1642,6 +1683,25 @@ let rec _js2n__-refsenv
                     ],
               commands-show-output = _js2n__-prdslib.isType '"Bool",
               "default" = _js2n__-prdslib.isType '"Bool",
+              descriptive-link-text =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                      _js2n__-prdslib.records.record
+                        {
+                          prohibited_texts =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                        } {} false _js2n__-prdslib.never
+                    ],
               emphasis = _js2n__-prdslib.isType '"Bool",
               emphasis-style =
                 _js2n__-prdslib.allOf
@@ -1698,6 +1758,7 @@ let rec _js2n__-refsenv
                         ],
                       _js2n__-prdslib.records.record
                         {
+                          allow_preamble = _js2n__-prdslib.isType '"Bool",
                           front_matter_title = _js2n__-prdslib.isType '"String",
                           level =
                             _js2n__-prdslib.allOf
@@ -1718,6 +1779,7 @@ let rec _js2n__-refsenv
                         ],
                       _js2n__-prdslib.records.record
                         {
+                          allow_preamble = _js2n__-prdslib.isType '"Bool",
                           front_matter_title = _js2n__-prdslib.isType '"String",
                           level =
                             _js2n__-prdslib.allOf
@@ -1820,8 +1882,10 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Record
                         ],
                       _js2n__-prdslib.records.record
-                        { ignore_case = _js2n__-prdslib.isType '"Bool", } {}
-                        false _js2n__-prdslib.never
+                        {
+                          ignore_case = _js2n__-prdslib.isType '"Bool",
+                          ignored_pattern = _js2n__-prdslib.isType '"String",
+                        } {} false _js2n__-prdslib.never
                     ],
               link-image-reference-definitions =
                 _js2n__-prdslib.allOf
@@ -1992,7 +2056,18 @@ let rec _js2n__-refsenv
                         } {} false _js2n__-prdslib.never
                     ],
               no-multiple-space-atx = _js2n__-prdslib.isType '"Bool",
-              no-multiple-space-blockquote = _js2n__-prdslib.isType '"Bool",
+              no-multiple-space-blockquote =
+                _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.anyOf
+                        [
+                          _js2n__-prdslib.isType '"Bool",
+                          _js2n__-prdslib.isType 'Record
+                        ],
+                      _js2n__-prdslib.records.record
+                        { list_items = _js2n__-prdslib.isType '"Bool", } {}
+                        false _js2n__-prdslib.never
+                    ],
               no-multiple-space-closed-atx = _js2n__-prdslib.isType '"Bool",
               no-reversed-links = _js2n__-prdslib.isType '"Bool",
               no-space-in-code = _js2n__-prdslib.isType '"Bool",
@@ -2086,8 +2161,16 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.isType 'Record
                         ],
                       _js2n__-prdslib.records.record
-                        { shortcut_syntax = _js2n__-prdslib.isType '"Bool", } {}
-                        false _js2n__-prdslib.never
+                        {
+                          ignored_labels =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
+                          shortcut_syntax = _js2n__-prdslib.isType '"Bool",
+                        } {} false _js2n__-prdslib.never
                     ],
               required-headings =
                 _js2n__-prdslib.allOf
@@ -2108,7 +2191,7 @@ let rec _js2n__-refsenv
                                       [
                                         _js2n__-prdslib.isType '"String",
                                         _js2n__-prdslib.strings.pattern
-                                          "^(\\*|\\+|#{1,6} .*)$"
+                                          "^(\\*|\\+|\\?|#{1,6}\\s+\\S.*)$"
                                       ])
                                 ],
                           match_case = _js2n__-prdslib.isType '"Bool",

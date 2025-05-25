@@ -968,6 +968,7 @@ let rec _js2n__-refsenv
                               "1.21",
                               "1.22",
                               "1.23",
+                              "1.24",
                               "latest"
                             ],
                       nodejs =
@@ -1005,7 +1006,7 @@ let rec _js2n__-refsenv
                               "mambaforge-23.11",
                               "mambaforge-latest"
                             ],
-                      ruby = _js2n__-prdslib.enum [ "3.3", "latest" ],
+                      ruby = _js2n__-prdslib.enum [ "3.3", "3.4", "latest" ],
                       rust =
                         _js2n__-prdslib.enum
                             [
@@ -1016,6 +1017,7 @@ let rec _js2n__-refsenv
                               "1.75",
                               "1.78",
                               "1.82",
+                              "1.86",
                               "latest"
                             ],
                     } {} false _js2n__-prdslib.never

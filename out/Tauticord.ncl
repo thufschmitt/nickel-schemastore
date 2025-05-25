@@ -902,17 +902,7 @@ let rec _js2n__-refsenv
             (_js2n__-prdslib.allOf
               [
                 _js2n__-prdslib.isType 'Record,
-                _js2n__-prdslib.records.required
-                  [
-                    "Albums",
-                    "Artists",
-                    "Episodes",
-                    "Libraries",
-                    "Movies",
-                    "Name",
-                    "Series",
-                    "Tracks"
-                  ],
+                _js2n__-prdslib.records.required [ "Libraries", "Name" ],
                 _js2n__-prdslib.records.record
                   {
                     Albums =
@@ -1033,17 +1023,7 @@ let rec _js2n__-refsenv
             (_js2n__-prdslib.allOf
               [
                 _js2n__-prdslib.isType 'Record,
-                _js2n__-prdslib.records.required
-                  [
-                    "Albums",
-                    "AlternateName",
-                    "Artists",
-                    "Episodes",
-                    "Movies",
-                    "Name",
-                    "Series",
-                    "Tracks"
-                  ],
+                _js2n__-prdslib.records.required [ "AlternateName", "Name" ],
                 _js2n__-prdslib.records.record
                   {
                     Albums =

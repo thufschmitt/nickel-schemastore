@@ -1091,6 +1091,7 @@ let rec _js2n__-refsenv
               | optional,
             componentId | String | optional,
             continueOnError | Bool | optional,
+            developerId | String | optional,
             developerName | String | optional,
             downloadUrl | String | optional,
             extraProperties
@@ -1129,6 +1130,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/CommitAuthor!predicate",
                   componentId = _js2n__-prdslib.isType '"String",
                   continueOnError = _js2n__-prdslib.isType '"Bool",
+                  developerId = _js2n__-prdslib.isType '"String",
                   developerName = _js2n__-prdslib.isType '"String",
                   downloadUrl = _js2n__-prdslib.isType '"String",
                   extraProperties =
@@ -1350,6 +1352,19 @@ let rec _js2n__-refsenv
                   longFileMode =
                     _js2n__-refsenv."_js2n__-:definitions/TarMode!predicate",
                   timestamp = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Archiving!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  active =
+                    _js2n__-refsenv."_js2n__-:definitions/Active!predicate",
+                  enabled = _js2n__-prdslib.isType '"Bool",
+                  format =
+                    _js2n__-refsenv."_js2n__-:definitions/Format-1!predicate",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/ArticleAnnouncer!contract" =
@@ -2709,6 +2724,14 @@ let rec _js2n__-refsenv
                   "NATIVE_PACKAGE"
                 ]
             ],
+      "_js2n__-:definitions/DockerCommand!contract" =
+        std.contract.Sequence [ std.enum.TagOrString, [| 'PODMAN, 'DOCKER |] ],
+      "_js2n__-:definitions/DockerCommand!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "DOCKER", "PODMAN" ]
+            ],
       "_js2n__-:definitions/DockerPackager!contract" =
         {
             active
@@ -2718,6 +2741,9 @@ let rec _js2n__-refsenv
             buildArgs | Array (String) | optional,
             buildx
               | _js2n__-refsenv."_js2n__-:definitions/Buildx!contract"
+              | optional,
+            command
+              | _js2n__-refsenv."_js2n__-:definitions/DockerCommand!contract"
               | optional,
             commitAuthor
               | _js2n__-refsenv."_js2n__-:definitions/CommitAuthor!contract"
@@ -2792,6 +2818,8 @@ let rec _js2n__-refsenv
                         ],
                   buildx =
                     _js2n__-refsenv."_js2n__-:definitions/Buildx!predicate",
+                  command =
+                    _js2n__-refsenv."_js2n__-:definitions/DockerCommand!predicate",
                   commitAuthor =
                     _js2n__-refsenv."_js2n__-:definitions/CommitAuthor!predicate",
                   continueOnError = _js2n__-prdslib.isType '"Bool",
@@ -2928,6 +2956,8 @@ let rec _js2n__-refsenv
                         ],
                   buildx =
                     _js2n__-refsenv."_js2n__-:definitions/Buildx!predicate",
+                  command =
+                    _js2n__-refsenv."_js2n__-:definitions/DockerCommand!predicate",
                   extraProperties =
                     _js2n__-refsenv."_js2n__-:definitions/Properties!predicate",
                   imageNames =
@@ -3398,6 +3428,7 @@ let rec _js2n__-refsenv
               | optional,
             componentId | String | optional,
             continueOnError | Bool | optional,
+            developerId | String | optional,
             developerName | String | optional,
             downloadUrl | String | optional,
             extraProperties
@@ -3441,6 +3472,7 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/CommitAuthor!predicate",
                   componentId = _js2n__-prdslib.isType '"String",
                   continueOnError = _js2n__-prdslib.isType '"Bool",
+                  developerId = _js2n__-prdslib.isType '"String",
                   developerName = _js2n__-prdslib.isType '"String",
                   downloadUrl = _js2n__-prdslib.isType '"String",
                   extraProperties =
@@ -3531,6 +3563,148 @@ let rec _js2n__-refsenv
                   token = _js2n__-prdslib.isType '"String",
                   username = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ForgejoMavenDeployer!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  active =
+                    _js2n__-refsenv."_js2n__-:definitions/Active!predicate",
+                  applyMavenCentralRules = _js2n__-prdslib.isType '"Bool",
+                  artifactOverrides =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ArtifactOverride!predicate"
+                        ],
+                  authorization =
+                    _js2n__-refsenv."_js2n__-:definitions/Authorization!predicate",
+                  checksums = _js2n__-prdslib.isType '"Bool",
+                  connectTimeout = _js2n__-prdslib.isType 'Integer,
+                  extraProperties =
+                    _js2n__-refsenv."_js2n__-:definitions/Properties!predicate",
+                  javadocJar = _js2n__-prdslib.isType '"Bool",
+                  password = _js2n__-prdslib.isType '"String",
+                  readTimeout = _js2n__-prdslib.isType 'Integer,
+                  sign = _js2n__-prdslib.isType '"Bool",
+                  snapshotSupported = _js2n__-prdslib.isType '"Bool",
+                  sourceJar = _js2n__-prdslib.isType '"Bool",
+                  stagingRepositories =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  url = _js2n__-prdslib.isType '"String",
+                  username = _js2n__-prdslib.isType '"String",
+                  verifyPom = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ForgejoMavenDeployerMap!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]?$" =
+                    _js2n__-refsenv."_js2n__-:definitions/ForgejoMavenDeployer!predicate",
+                } true
+                _js2n__-refsenv."_js2n__-:definitions/ForgejoMavenDeployer!predicate"
+            ],
+      "_js2n__-:definitions/ForgejoReleaser!contract" =
+        {
+            apiEndpoint | String | optional,
+            artifacts | Bool | optional,
+            branch | String | optional,
+            branchPush | String | optional,
+            catalogs | Bool | optional,
+            changelog
+              | _js2n__-refsenv."_js2n__-:definitions/Changelog!contract"
+              | optional,
+            checksums | Bool | optional,
+            commitAuthor
+              | _js2n__-refsenv."_js2n__-:definitions/CommitAuthor!contract"
+              | optional,
+            commitUrl | String | optional,
+            connectTimeout | std.number.Integer | optional,
+            downloadUrl | String | optional,
+            draft | Bool | optional,
+            enabled | Bool | optional,
+            files | Bool | optional,
+            host | String | optional,
+            issueTrackerUrl | String | optional,
+            issues
+              | _js2n__-refsenv."_js2n__-:definitions/Issues!contract"
+              | optional,
+            latestReleaseUrl | String | optional,
+            milestone
+              | _js2n__-refsenv."_js2n__-:definitions/Milestone!contract"
+              | optional,
+            name | String | optional,
+            overwrite | Bool | optional,
+            owner | String | optional,
+            prerelease
+              | _js2n__-refsenv."_js2n__-:definitions/Prerelease!contract"
+              | optional,
+            previousTagName | String | optional,
+            readTimeout | std.number.Integer | optional,
+            releaseName | String | optional,
+            releaseNotesUrl | String | optional,
+            repoCloneUrl | String | optional,
+            repoUrl | String | optional,
+            sign | Bool | optional,
+            signatures | Bool | optional,
+            skipRelease | Bool | optional,
+            skipTag | Bool | optional,
+            srcUrl | String | optional,
+            tagName | String | optional,
+            token | String | optional,
+            update
+              | _js2n__-refsenv."_js2n__-:definitions/Update!contract"
+              | optional,
+            uploadAssets
+              | _js2n__-refsenv."_js2n__-:definitions/Active!contract"
+              | optional,
+            username | String | optional,
+          },
+      "_js2n__-:definitions/ForgejoUploader!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  active =
+                    _js2n__-refsenv."_js2n__-:definitions/Active!predicate",
+                  artifacts = _js2n__-prdslib.isType '"Bool",
+                  catalogs = _js2n__-prdslib.isType '"Bool",
+                  checksums = _js2n__-prdslib.isType '"Bool",
+                  connectTimeout = _js2n__-prdslib.isType 'Integer,
+                  extraProperties =
+                    _js2n__-refsenv."_js2n__-:definitions/Properties!predicate",
+                  files = _js2n__-prdslib.isType '"Bool",
+                  host = _js2n__-prdslib.isType '"String",
+                  owner = _js2n__-prdslib.isType '"String",
+                  packageName = _js2n__-prdslib.isType '"String",
+                  packageVersion = _js2n__-prdslib.isType '"String",
+                  readTimeout = _js2n__-prdslib.isType 'Integer,
+                  signatures = _js2n__-prdslib.isType '"Bool",
+                  token = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/ForgejoUploaderMap!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]?$" =
+                    _js2n__-refsenv."_js2n__-:definitions/ForgejoUploader!predicate",
+                } true
+                _js2n__-refsenv."_js2n__-:definitions/ForgejoUploader!predicate"
             ],
       "_js2n__-:definitions/Format-1!predicate" =
         _js2n__-prdslib.allOf
@@ -3937,6 +4111,9 @@ let rec _js2n__-refsenv
               | _js2n__-refsenv."_js2n__-:definitions/Issues!contract"
               | optional,
             latestReleaseUrl | String | optional,
+            makeLatest
+              | _js2n__-refsenv."_js2n__-:definitions/MakeLatest!contract"
+              | optional,
             milestone
               | _js2n__-refsenv."_js2n__-:definitions/Milestone!contract"
               | optional,
@@ -4611,7 +4788,7 @@ let rec _js2n__-refsenv
               | optional,
           },
       "_js2n__-:definitions/JReleaserModel!contract"
-        | doc "JReleaser 1.17.0"
+        | doc "JReleaser 1.18.0"
         = {
             announce
               | _js2n__-refsenv."_js2n__-:definitions/Announce!contract"
@@ -5835,6 +6012,9 @@ let rec _js2n__-refsenv
                   username = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/MakeLatest!contract" =
+        std.contract.Sequence
+            [ std.enum.TagOrString, [| 'LEGACY, 'TRUE, 'FALSE |] ],
       "_js2n__-:definitions/Map(String,DebAssembler)!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -6032,6 +6212,23 @@ let rec _js2n__-refsenv
                       ]
                   ])
               | optional,
+            forgejo
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/ForgejoMavenDeployerMap!predicate",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-refsenv."_js2n__-:definitions/ForgejoMavenDeployer!predicate"
+                      ]
+                  ])
+              | optional,
             gitea
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.allOf
@@ -6114,6 +6311,23 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.records.record {} {} true
                           _js2n__-refsenv."_js2n__-:definitions/Nexus2MavenDeployer!predicate"
+                      ]
+                  ])
+              | optional,
+            nexus3
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/Nexus3MavenDeployerMap!predicate",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-refsenv."_js2n__-:definitions/Nexus3MavenDeployer!predicate"
                       ]
                   ])
               | optional,
@@ -6220,8 +6434,8 @@ let rec _js2n__-refsenv
                   active =
                     _js2n__-refsenv."_js2n__-:definitions/Active!predicate",
                   applyDefaultMatrix = _js2n__-prdslib.isType '"Bool",
-                  archiveFormat =
-                    _js2n__-refsenv."_js2n__-:definitions/Format-1!predicate",
+                  archiving =
+                    _js2n__-refsenv."_js2n__-:definitions/Archiving!predicate",
                   args =
                     _js2n__-prdslib.allOf
                         [
@@ -6389,6 +6603,57 @@ let rec _js2n__-refsenv
                     _js2n__-refsenv."_js2n__-:definitions/Nexus2MavenDeployer!predicate",
                 } true
                 _js2n__-refsenv."_js2n__-:definitions/Nexus2MavenDeployer!predicate"
+            ],
+      "_js2n__-:definitions/Nexus3MavenDeployer!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  active =
+                    _js2n__-refsenv."_js2n__-:definitions/Active!predicate",
+                  applyMavenCentralRules = _js2n__-prdslib.isType '"Bool",
+                  artifactOverrides =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/ArtifactOverride!predicate"
+                        ],
+                  authorization =
+                    _js2n__-refsenv."_js2n__-:definitions/Authorization!predicate",
+                  checksums = _js2n__-prdslib.isType '"Bool",
+                  connectTimeout = _js2n__-prdslib.isType 'Integer,
+                  extraProperties =
+                    _js2n__-refsenv."_js2n__-:definitions/Properties!predicate",
+                  javadocJar = _js2n__-prdslib.isType '"Bool",
+                  password = _js2n__-prdslib.isType '"String",
+                  readTimeout = _js2n__-prdslib.isType 'Integer,
+                  sign = _js2n__-prdslib.isType '"Bool",
+                  snapshotSupported = _js2n__-prdslib.isType '"Bool",
+                  sourceJar = _js2n__-prdslib.isType '"Bool",
+                  stagingRepositories =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  url = _js2n__-prdslib.isType '"String",
+                  username = _js2n__-prdslib.isType '"String",
+                  verifyPom = _js2n__-prdslib.isType '"Bool",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/Nexus3MavenDeployerMap!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record {}
+                {
+                  "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]?$" =
+                    _js2n__-refsenv."_js2n__-:definitions/Nexus3MavenDeployer!predicate",
+                } true
+                _js2n__-refsenv."_js2n__-:definitions/Nexus3MavenDeployer!predicate"
             ],
       "_js2n__-:definitions/OpenCollectiveAnnouncer!contract" =
         {
@@ -6784,6 +7049,9 @@ let rec _js2n__-refsenv
         {
             codeberg
               | _js2n__-refsenv."_js2n__-:definitions/CodebergReleaser!contract"
+              | optional,
+            forgejo
+              | _js2n__-refsenv."_js2n__-:definitions/ForgejoReleaser!contract"
               | optional,
             generic
               | _js2n__-refsenv."_js2n__-:definitions/GenericGitReleaser!contract"
@@ -8107,6 +8375,23 @@ let rec _js2n__-refsenv
                           ],
                         _js2n__-prdslib.records.record {} {} true
                           _js2n__-refsenv."_js2n__-:definitions/ArtifactoryUploader!predicate"
+                      ]
+                  ])
+              | optional,
+            forgejo
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-refsenv."_js2n__-:definitions/ForgejoUploaderMap!predicate",
+                    _js2n__-prdslib.allOf
+                      [
+                        _js2n__-prdslib.anyOf
+                          [
+                            _js2n__-prdslib.isType 'Record,
+                            _js2n__-prdslib.isType 'Null
+                          ],
+                        _js2n__-prdslib.records.record {} {} true
+                          _js2n__-refsenv."_js2n__-:definitions/ForgejoUploader!predicate"
                       ]
                   ])
               | optional,

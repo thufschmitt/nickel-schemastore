@@ -901,8 +901,8 @@ let rec _js2n__-refsenv
   {
       apiVersion
         | std.enum.TagOrString
-        | [| '"v2.2.0", '"v2.2.1", '"v2.2.2", '"v3.0.0", '"v3.0.1" |]
-        | doc "Version of the standard used to build data contract. Default value is v3.0.1.",
+        | [| '"v2.2.0", '"v2.2.1", '"v2.2.2", '"v3.0.0", '"v3.0.1", '"v3.0.2" |]
+        | doc "Version of the standard used to build data contract. Default value is v3.0.2.",
       authoritativeDefinitions | Dyn | optional,
       contractCreatedTs
         | String
