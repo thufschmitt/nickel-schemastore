@@ -897,6 +897,13 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
+      "_js2n__-:definitions/autoDeployTrigger!predicate"
+        | doc "Sets the automatic deploy behavior for a Git-based service."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "off", "commit", "checksPass" ]
+            ],
       "_js2n__-:definitions/buildFilter!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -928,6 +935,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   autoDeploy = _js2n__-prdslib.isType '"Bool",
+                  autoDeployTrigger =
+                    _js2n__-refsenv."_js2n__-:definitions/autoDeployTrigger!predicate",
                   branch = _js2n__-prdslib.isType '"String",
                   buildCommand = _js2n__-prdslib.isType '"String",
                   buildFilter =
@@ -1365,6 +1374,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   autoDeploy = _js2n__-prdslib.isType '"Bool",
+                  autoDeployTrigger =
+                    _js2n__-refsenv."_js2n__-:definitions/autoDeployTrigger!predicate",
                   branch = _js2n__-prdslib.isType '"String",
                   buildCommand = _js2n__-prdslib.isType '"String",
                   buildFilter =
@@ -1488,7 +1499,8 @@ let rec _js2n__-refsenv
                   "static",
                   "dpg",
                   "job",
-                  "redis"
+                  "redis",
+                  "keyvalue"
                 ]
             ],
       "_js2n__-:definitions/staticService!predicate" =
@@ -1499,6 +1511,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   autoDeploy = _js2n__-prdslib.isType '"Bool",
+                  autoDeployTrigger =
+                    _js2n__-refsenv."_js2n__-:definitions/autoDeployTrigger!predicate",
                   branch = _js2n__-prdslib.isType '"String",
                   buildCommand = _js2n__-prdslib.isType '"String",
                   buildFilter =

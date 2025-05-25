@@ -8505,6 +8505,152 @@ let rec _js2n__-refsenv
                                                                                                               _js2n__-prdslib.numbers.minimum
                                                                                                                 5
                                                                                                             ],
+                                                                                                      waitingForFirstConnectTimeoutMinutes =
+                                                                                                        _js2n__-prdslib.allOf
+                                                                                                            [
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                'Integer,
+                                                                                                              _js2n__-prdslib.numbers.minimum
+                                                                                                                5
+                                                                                                            ],
+                                                                                                    }
+                                                                                                    {}
+                                                                                                    true
+                                                                                                    _js2n__-prdslib.always
+                                                                                                ],
+                                                                                          cacheControlSettings =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    'Record,
+                                                                                                  _js2n__-prdslib.records.record
+                                                                                                    {
+                                                                                                      dash =
+                                                                                                        _js2n__-prdslib.allOf
+                                                                                                            [
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                'Record,
+                                                                                                              _js2n__-prdslib.records.record
+                                                                                                                {
+                                                                                                                  templateManifest =
+                                                                                                                    _js2n__-prdslib.allOf
+                                                                                                                        [
+                                                                                                                          _js2n__-prdslib.isType
+                                                                                                                            'Record,
+                                                                                                                          _js2n__-prdslib.records.record
+                                                                                                                            {
+                                                                                                                              cacheControl =
+                                                                                                                                _js2n__-prdslib.isType
+                                                                                                                                    '"String",
+                                                                                                                            }
+                                                                                                                            {}
+                                                                                                                            true
+                                                                                                                            _js2n__-prdslib.always
+                                                                                                                        ],
+                                                                                                                  timelineManifest =
+                                                                                                                    _js2n__-prdslib.allOf
+                                                                                                                        [
+                                                                                                                          _js2n__-prdslib.isType
+                                                                                                                            'Record,
+                                                                                                                          _js2n__-prdslib.records.record
+                                                                                                                            {
+                                                                                                                              cacheControl =
+                                                                                                                                _js2n__-prdslib.isType
+                                                                                                                                    '"String",
+                                                                                                                            }
+                                                                                                                            {}
+                                                                                                                            true
+                                                                                                                            _js2n__-prdslib.always
+                                                                                                                        ],
+                                                                                                                }
+                                                                                                                {}
+                                                                                                                true
+                                                                                                                _js2n__-prdslib.always
+                                                                                                            ],
+                                                                                                      hls =
+                                                                                                        _js2n__-prdslib.allOf
+                                                                                                            [
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                'Record,
+                                                                                                              _js2n__-prdslib.records.record
+                                                                                                                {
+                                                                                                                  multiVariantPlaylist =
+                                                                                                                    _js2n__-prdslib.allOf
+                                                                                                                        [
+                                                                                                                          _js2n__-prdslib.isType
+                                                                                                                            'Record,
+                                                                                                                          _js2n__-prdslib.records.record
+                                                                                                                            {
+                                                                                                                              cacheControl =
+                                                                                                                                _js2n__-prdslib.isType
+                                                                                                                                    '"String",
+                                                                                                                            }
+                                                                                                                            {}
+                                                                                                                            true
+                                                                                                                            _js2n__-prdslib.always
+                                                                                                                        ],
+                                                                                                                  variantPlaylist =
+                                                                                                                    _js2n__-prdslib.allOf
+                                                                                                                        [
+                                                                                                                          _js2n__-prdslib.isType
+                                                                                                                            'Record,
+                                                                                                                          _js2n__-prdslib.records.record
+                                                                                                                            {
+                                                                                                                              cacheControl =
+                                                                                                                                _js2n__-prdslib.isType
+                                                                                                                                    '"String",
+                                                                                                                            }
+                                                                                                                            {}
+                                                                                                                            true
+                                                                                                                            _js2n__-prdslib.always
+                                                                                                                        ],
+                                                                                                                }
+                                                                                                                {}
+                                                                                                                true
+                                                                                                                _js2n__-prdslib.always
+                                                                                                            ],
+                                                                                                      segments =
+                                                                                                        _js2n__-prdslib.allOf
+                                                                                                            [
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                'Record,
+                                                                                                              _js2n__-prdslib.records.record
+                                                                                                                {
+                                                                                                                  initSegment =
+                                                                                                                    _js2n__-prdslib.allOf
+                                                                                                                        [
+                                                                                                                          _js2n__-prdslib.isType
+                                                                                                                            'Record,
+                                                                                                                          _js2n__-prdslib.records.record
+                                                                                                                            {
+                                                                                                                              cacheControl =
+                                                                                                                                _js2n__-prdslib.isType
+                                                                                                                                    '"String",
+                                                                                                                            }
+                                                                                                                            {}
+                                                                                                                            true
+                                                                                                                            _js2n__-prdslib.always
+                                                                                                                        ],
+                                                                                                                  mediaSegment =
+                                                                                                                    _js2n__-prdslib.allOf
+                                                                                                                        [
+                                                                                                                          _js2n__-prdslib.isType
+                                                                                                                            'Record,
+                                                                                                                          _js2n__-prdslib.records.record
+                                                                                                                            {
+                                                                                                                              cacheControl =
+                                                                                                                                _js2n__-prdslib.isType
+                                                                                                                                    '"String",
+                                                                                                                            }
+                                                                                                                            {}
+                                                                                                                            true
+                                                                                                                            _js2n__-prdslib.always
+                                                                                                                        ],
+                                                                                                                }
+                                                                                                                {}
+                                                                                                                true
+                                                                                                                _js2n__-prdslib.always
+                                                                                                            ],
                                                                                                     }
                                                                                                     {}
                                                                                                     true
@@ -8526,6 +8672,40 @@ let rec _js2n__-refsenv
                                                                                                           ],
                                                                                                         _js2n__-prdslib.records.record
                                                                                                           {
+                                                                                                            adMarkerSettings =
+                                                                                                              _js2n__-prdslib.allOf
+                                                                                                                  [
+                                                                                                                    _js2n__-prdslib.isType
+                                                                                                                      'Record,
+                                                                                                                    _js2n__-prdslib.records.record
+                                                                                                                      {
+                                                                                                                        eventStreamSignalling =
+                                                                                                                          _js2n__-prdslib.allOf
+                                                                                                                              [
+                                                                                                                                _js2n__-prdslib.isType
+                                                                                                                                  '"String",
+                                                                                                                                _js2n__-prdslib.enum
+                                                                                                                                  [
+                                                                                                                                    "xml",
+                                                                                                                                    "xml+bin"
+                                                                                                                                  ]
+                                                                                                                              ],
+                                                                                                                        periodOption =
+                                                                                                                          _js2n__-prdslib.allOf
+                                                                                                                              [
+                                                                                                                                _js2n__-prdslib.isType
+                                                                                                                                  '"String",
+                                                                                                                                _js2n__-prdslib.enum
+                                                                                                                                  [
+                                                                                                                                    "single-period",
+                                                                                                                                    "multi-period"
+                                                                                                                                  ]
+                                                                                                                              ],
+                                                                                                                      }
+                                                                                                                      {}
+                                                                                                                      true
+                                                                                                                      _js2n__-prdslib.always
+                                                                                                                  ],
                                                                                                             availabilityStartTimeMode =
                                                                                                               _js2n__-prdslib.allOf
                                                                                                                   [
@@ -8557,6 +8737,53 @@ let rec _js2n__-refsenv
                                                                                                           true
                                                                                                           _js2n__-prdslib.always
                                                                                                       ])
+                                                                                                ],
+                                                                                          esamSettings =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    'Record,
+                                                                                                  _js2n__-prdslib.records.record
+                                                                                                    {
+                                                                                                      acquisitionPointIdentity =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            '"String",
+                                                                                                      adAvailOffset =
+                                                                                                        _js2n__-prdslib.allOf
+                                                                                                            [
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                'Integer,
+                                                                                                              _js2n__-prdslib.numbers.minimum
+                                                                                                                0
+                                                                                                            ],
+                                                                                                      poisEndpoint =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            '"String",
+                                                                                                      poisEndpointCredentials =
+                                                                                                        _js2n__-prdslib.allOf
+                                                                                                            [
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                'Record,
+                                                                                                              _js2n__-prdslib.records.record
+                                                                                                                {
+                                                                                                                  password =
+                                                                                                                    _js2n__-prdslib.isType
+                                                                                                                        '"String",
+                                                                                                                  username =
+                                                                                                                    _js2n__-prdslib.isType
+                                                                                                                        '"String",
+                                                                                                                }
+                                                                                                                {}
+                                                                                                                true
+                                                                                                                _js2n__-prdslib.always
+                                                                                                            ],
+                                                                                                      zoneIdentity =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            '"String",
+                                                                                                    }
+                                                                                                    {}
+                                                                                                    true
+                                                                                                    _js2n__-prdslib.always
                                                                                                 ],
                                                                                           hlsManifests =
                                                                                             _js2n__-prdslib.allOf
@@ -8611,6 +8838,33 @@ let rec _js2n__-refsenv
                                                                                                                       'Record,
                                                                                                                     _js2n__-prdslib.records.record
                                                                                                                       {
+                                                                                                                        programDateTimePlacement =
+                                                                                                                          _js2n__-prdslib.allOf
+                                                                                                                              [
+                                                                                                                                _js2n__-prdslib.isType
+                                                                                                                                  'Record,
+                                                                                                                                _js2n__-prdslib.records.record
+                                                                                                                                  {
+                                                                                                                                    interval =
+                                                                                                                                      _js2n__-prdslib.isType
+                                                                                                                                          'Integer,
+                                                                                                                                    programDateTimePlacementMode =
+                                                                                                                                      _js2n__-prdslib.allOf
+                                                                                                                                          [
+                                                                                                                                            _js2n__-prdslib.isType
+                                                                                                                                              '"String",
+                                                                                                                                            _js2n__-prdslib.enum
+                                                                                                                                              [
+                                                                                                                                                "ONCE_PER_PLAYLIST",
+                                                                                                                                                "SEGMENTS_INTERVAL",
+                                                                                                                                                "SECONDS_INTERVAL"
+                                                                                                                                              ]
+                                                                                                                                          ],
+                                                                                                                                  }
+                                                                                                                                  {}
+                                                                                                                                  true
+                                                                                                                                  _js2n__-prdslib.always
+                                                                                                                              ],
                                                                                                                         programDateTimeSource =
                                                                                                                           _js2n__-prdslib.allOf
                                                                                                                               [
@@ -9075,6 +9329,151 @@ let rec _js2n__-refsenv
                                                                                       _js2n__-prdslib.numbers.minimum
                                                                                         5
                                                                                     ],
+                                                                              waitingForFirstConnectTimeoutMinutes =
+                                                                                _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Integer,
+                                                                                      _js2n__-prdslib.numbers.minimum
+                                                                                        5
+                                                                                    ],
+                                                                            } {}
+                                                                            true
+                                                                            _js2n__-prdslib.always
+                                                                        ],
+                                                                  cacheControlSettings =
+                                                                    _js2n__-prdslib.allOf
+                                                                        [
+                                                                          _js2n__-prdslib.isType
+                                                                            'Record,
+                                                                          _js2n__-prdslib.records.record
+                                                                            {
+                                                                              dash =
+                                                                                _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          templateManifest =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    'Record,
+                                                                                                  _js2n__-prdslib.records.record
+                                                                                                    {
+                                                                                                      cacheControl =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            '"String",
+                                                                                                    }
+                                                                                                    {}
+                                                                                                    true
+                                                                                                    _js2n__-prdslib.always
+                                                                                                ],
+                                                                                          timelineManifest =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    'Record,
+                                                                                                  _js2n__-prdslib.records.record
+                                                                                                    {
+                                                                                                      cacheControl =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            '"String",
+                                                                                                    }
+                                                                                                    {}
+                                                                                                    true
+                                                                                                    _js2n__-prdslib.always
+                                                                                                ],
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ],
+                                                                              hls =
+                                                                                _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          multiVariantPlaylist =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    'Record,
+                                                                                                  _js2n__-prdslib.records.record
+                                                                                                    {
+                                                                                                      cacheControl =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            '"String",
+                                                                                                    }
+                                                                                                    {}
+                                                                                                    true
+                                                                                                    _js2n__-prdslib.always
+                                                                                                ],
+                                                                                          variantPlaylist =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    'Record,
+                                                                                                  _js2n__-prdslib.records.record
+                                                                                                    {
+                                                                                                      cacheControl =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            '"String",
+                                                                                                    }
+                                                                                                    {}
+                                                                                                    true
+                                                                                                    _js2n__-prdslib.always
+                                                                                                ],
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ],
+                                                                              segments =
+                                                                                _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          initSegment =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    'Record,
+                                                                                                  _js2n__-prdslib.records.record
+                                                                                                    {
+                                                                                                      cacheControl =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            '"String",
+                                                                                                    }
+                                                                                                    {}
+                                                                                                    true
+                                                                                                    _js2n__-prdslib.always
+                                                                                                ],
+                                                                                          mediaSegment =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    'Record,
+                                                                                                  _js2n__-prdslib.records.record
+                                                                                                    {
+                                                                                                      cacheControl =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            '"String",
+                                                                                                    }
+                                                                                                    {}
+                                                                                                    true
+                                                                                                    _js2n__-prdslib.always
+                                                                                                ],
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ],
                                                                             } {}
                                                                             true
                                                                             _js2n__-prdslib.always
@@ -9095,6 +9494,40 @@ let rec _js2n__-refsenv
                                                                                   ],
                                                                                 _js2n__-prdslib.records.record
                                                                                   {
+                                                                                    adMarkerSettings =
+                                                                                      _js2n__-prdslib.allOf
+                                                                                          [
+                                                                                            _js2n__-prdslib.isType
+                                                                                              'Record,
+                                                                                            _js2n__-prdslib.records.record
+                                                                                              {
+                                                                                                eventStreamSignalling =
+                                                                                                  _js2n__-prdslib.allOf
+                                                                                                      [
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                          '"String",
+                                                                                                        _js2n__-prdslib.enum
+                                                                                                          [
+                                                                                                            "xml",
+                                                                                                            "xml+bin"
+                                                                                                          ]
+                                                                                                      ],
+                                                                                                periodOption =
+                                                                                                  _js2n__-prdslib.allOf
+                                                                                                      [
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                          '"String",
+                                                                                                        _js2n__-prdslib.enum
+                                                                                                          [
+                                                                                                            "single-period",
+                                                                                                            "multi-period"
+                                                                                                          ]
+                                                                                                      ],
+                                                                                              }
+                                                                                              {}
+                                                                                              true
+                                                                                              _js2n__-prdslib.always
+                                                                                          ],
                                                                                     availabilityStartTimeMode =
                                                                                       _js2n__-prdslib.allOf
                                                                                           [
@@ -9126,6 +9559,52 @@ let rec _js2n__-refsenv
                                                                                   true
                                                                                   _js2n__-prdslib.always
                                                                               ])
+                                                                        ],
+                                                                  esamSettings =
+                                                                    _js2n__-prdslib.allOf
+                                                                        [
+                                                                          _js2n__-prdslib.isType
+                                                                            'Record,
+                                                                          _js2n__-prdslib.records.record
+                                                                            {
+                                                                              acquisitionPointIdentity =
+                                                                                _js2n__-prdslib.isType
+                                                                                    '"String",
+                                                                              adAvailOffset =
+                                                                                _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Integer,
+                                                                                      _js2n__-prdslib.numbers.minimum
+                                                                                        0
+                                                                                    ],
+                                                                              poisEndpoint =
+                                                                                _js2n__-prdslib.isType
+                                                                                    '"String",
+                                                                              poisEndpointCredentials =
+                                                                                _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          password =
+                                                                                            _js2n__-prdslib.isType
+                                                                                                '"String",
+                                                                                          username =
+                                                                                            _js2n__-prdslib.isType
+                                                                                                '"String",
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ],
+                                                                              zoneIdentity =
+                                                                                _js2n__-prdslib.isType
+                                                                                    '"String",
+                                                                            } {}
+                                                                            true
+                                                                            _js2n__-prdslib.always
                                                                         ],
                                                                   hlsManifests =
                                                                     _js2n__-prdslib.allOf
@@ -9180,6 +9659,33 @@ let rec _js2n__-refsenv
                                                                                               'Record,
                                                                                             _js2n__-prdslib.records.record
                                                                                               {
+                                                                                                programDateTimePlacement =
+                                                                                                  _js2n__-prdslib.allOf
+                                                                                                      [
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                          'Record,
+                                                                                                        _js2n__-prdslib.records.record
+                                                                                                          {
+                                                                                                            interval =
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                  'Integer,
+                                                                                                            programDateTimePlacementMode =
+                                                                                                              _js2n__-prdslib.allOf
+                                                                                                                  [
+                                                                                                                    _js2n__-prdslib.isType
+                                                                                                                      '"String",
+                                                                                                                    _js2n__-prdslib.enum
+                                                                                                                      [
+                                                                                                                        "ONCE_PER_PLAYLIST",
+                                                                                                                        "SEGMENTS_INTERVAL",
+                                                                                                                        "SECONDS_INTERVAL"
+                                                                                                                      ]
+                                                                                                                  ],
+                                                                                                          }
+                                                                                                          {}
+                                                                                                          true
+                                                                                                          _js2n__-prdslib.always
+                                                                                                      ],
                                                                                                 programDateTimeSource =
                                                                                                   _js2n__-prdslib.allOf
                                                                                                       [
@@ -11639,6 +12145,9 @@ let rec _js2n__-refsenv
                                                                               segmentNamingTemplate =
                                                                                 _js2n__-prdslib.isType
                                                                                     '"String",
+                                                                              signalScte35AsEmsg =
+                                                                                _js2n__-prdslib.isType
+                                                                                    '"Bool",
                                                                               streamConditionsMode =
                                                                                 _js2n__-prdslib.allOf
                                                                                     [
@@ -12987,21 +13496,6 @@ let rec _js2n__-refsenv
                                                                                               true
                                                                                               _js2n__-prdslib.always
                                                                                           ])
-                                                                                    ],
-                                                                              timeCode =
-                                                                                _js2n__-prdslib.allOf
-                                                                                    [
-                                                                                      _js2n__-prdslib.isType
-                                                                                        'Record,
-                                                                                      _js2n__-prdslib.records.record
-                                                                                        {
-                                                                                          timeCodeStart =
-                                                                                            _js2n__-prdslib.isType
-                                                                                                '"String",
-                                                                                        }
-                                                                                        {}
-                                                                                        true
-                                                                                        _js2n__-prdslib.always
                                                                                     ],
                                                                             } {}
                                                                             true
@@ -16996,8 +17490,17 @@ let rec _js2n__-refsenv
                                                       "AZURE_US_NORTH_CENTRAL",
                                                       "AZURE_UK_SOUTH",
                                                       "AKAMAI_BR_GRU",
+                                                      "AKAMAI_ES_MAD",
                                                       "AKAMAI_FR_PAR",
+                                                      "AKAMAI_ID_CGK",
+                                                      "AKAMAI_IN_MAA",
+                                                      "AKAMAI_IT_MIL",
                                                       "AKAMAI_JP_OSA",
+                                                      "AKAMAI_NL_AMS",
+                                                      "AKAMAI_SE_STO",
+                                                      "AKAMAI_US_LAX",
+                                                      "AKAMAI_US_MIA",
+                                                      "AKAMAI_US_ORD",
                                                       "AKAMAI_US_SEA",
                                                       "OCI_EU_FRANKFURT_1",
                                                       "OCI_US_ASHBURN_1",
@@ -17103,8 +17606,17 @@ let rec _js2n__-refsenv
                                                                   "AZURE_US_NORTH_CENTRAL",
                                                                   "AZURE_UK_SOUTH",
                                                                   "AKAMAI_BR_GRU",
+                                                                  "AKAMAI_ES_MAD",
                                                                   "AKAMAI_FR_PAR",
+                                                                  "AKAMAI_ID_CGK",
+                                                                  "AKAMAI_IN_MAA",
+                                                                  "AKAMAI_IT_MIL",
                                                                   "AKAMAI_JP_OSA",
+                                                                  "AKAMAI_NL_AMS",
+                                                                  "AKAMAI_SE_STO",
+                                                                  "AKAMAI_US_LAX",
+                                                                  "AKAMAI_US_MIA",
+                                                                  "AKAMAI_US_ORD",
                                                                   "AKAMAI_US_SEA",
                                                                   "OCI_EU_FRANKFURT_1",
                                                                   "OCI_US_ASHBURN_1",
@@ -17214,8 +17726,17 @@ let rec _js2n__-refsenv
                                                       "AZURE_US_NORTH_CENTRAL",
                                                       "AZURE_UK_SOUTH",
                                                       "AKAMAI_BR_GRU",
+                                                      "AKAMAI_ES_MAD",
                                                       "AKAMAI_FR_PAR",
+                                                      "AKAMAI_ID_CGK",
+                                                      "AKAMAI_IN_MAA",
+                                                      "AKAMAI_IT_MIL",
                                                       "AKAMAI_JP_OSA",
+                                                      "AKAMAI_NL_AMS",
+                                                      "AKAMAI_SE_STO",
+                                                      "AKAMAI_US_LAX",
+                                                      "AKAMAI_US_MIA",
+                                                      "AKAMAI_US_ORD",
                                                       "AKAMAI_US_SEA",
                                                       "OCI_EU_FRANKFURT_1",
                                                       "OCI_US_ASHBURN_1",
@@ -17340,6 +17861,47 @@ let rec _js2n__-refsenv
                                                                   infrastructureId =
                                                                     _js2n__-prdslib.isType
                                                                         '"String",
+                                                                } {} true
+                                                                _js2n__-prdslib.always
+                                                            ],
+                                                    } {} true
+                                                    _js2n__-prdslib.always
+                                                ],
+                                        } true _js2n__-prdslib.always
+                                    ],
+                              scte35Triggers =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record {}
+                                        {
+                                          "^[A-Za-z0-9_-]+$" =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    'Record,
+                                                  _js2n__-prdslib.records.required
+                                                    [ "properties" ],
+                                                  _js2n__-prdslib.records.record
+                                                    {
+                                                      properties =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                'Record,
+                                                              _js2n__-prdslib.records.required
+                                                                [
+                                                                  "base64EncodedMetadata",
+                                                                  "time"
+                                                                ],
+                                                              _js2n__-prdslib.records.record
+                                                                {
+                                                                  base64EncodedMetadata =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"String",
+                                                                  time =
+                                                                    _js2n__-prdslib.isType
+                                                                        '"Number",
                                                                 } {} true
                                                                 _js2n__-prdslib.always
                                                             ],
@@ -17642,6 +18204,172 @@ let rec _js2n__-refsenv
                                                     'Record,
                                                   _js2n__-prdslib.records.record
                                                     {
+                                                      aiSceneAnalysis =
+                                                        _js2n__-prdslib.allOf
+                                                            [
+                                                              _js2n__-prdslib.isType
+                                                                'Record,
+                                                              _js2n__-prdslib.records.record
+                                                                {
+                                                                  aiService =
+                                                                    _js2n__-prdslib.allOf
+                                                                        [
+                                                                          _js2n__-prdslib.isType
+                                                                            'Record,
+                                                                          _js2n__-prdslib.records.record
+                                                                            {
+                                                                              provider =
+                                                                                _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        '"String",
+                                                                                      _js2n__-prdslib.enum
+                                                                                        [
+                                                                                          "GOOGLE"
+                                                                                        ]
+                                                                                    ],
+                                                                            } {}
+                                                                            true
+                                                                            _js2n__-prdslib.always
+                                                                        ],
+                                                                  features =
+                                                                    _js2n__-prdslib.allOf
+                                                                        [
+                                                                          _js2n__-prdslib.isType
+                                                                            'Record,
+                                                                          _js2n__-prdslib.records.record
+                                                                            {
+                                                                              assetDescription =
+                                                                                _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          filename =
+                                                                                            _js2n__-prdslib.isType
+                                                                                                '"String",
+                                                                                          outputs =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    '"Array",
+                                                                                                  _js2n__-prdslib.arrays.arrayOf
+                                                                                                    (_js2n__-prdslib.allOf
+                                                                                                      [
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                          'Record,
+                                                                                                        _js2n__-prdslib.records.required
+                                                                                                          [
+                                                                                                            "outputId",
+                                                                                                            "outputPath"
+                                                                                                          ],
+                                                                                                        _js2n__-prdslib.records.record
+                                                                                                          {
+                                                                                                            acl =
+                                                                                                              _js2n__-prdslib.allOf
+                                                                                                                  [
+                                                                                                                    _js2n__-prdslib.isType
+                                                                                                                      '"Array",
+                                                                                                                    _js2n__-prdslib.arrays.arrayOf
+                                                                                                                      (_js2n__-prdslib.allOf
+                                                                                                                        [
+                                                                                                                          _js2n__-prdslib.isType
+                                                                                                                            'Record,
+                                                                                                                          _js2n__-prdslib.records.required
+                                                                                                                            [
+                                                                                                                              "permission"
+                                                                                                                            ],
+                                                                                                                          _js2n__-prdslib.records.record
+                                                                                                                            {
+                                                                                                                              permission =
+                                                                                                                                _js2n__-prdslib.allOf
+                                                                                                                                    [
+                                                                                                                                      _js2n__-prdslib.isType
+                                                                                                                                        '"String",
+                                                                                                                                      _js2n__-prdslib.enum
+                                                                                                                                        [
+                                                                                                                                          "PUBLIC_READ",
+                                                                                                                                          "PRIVATE"
+                                                                                                                                        ]
+                                                                                                                                    ],
+                                                                                                                              scope =
+                                                                                                                                _js2n__-prdslib.isType
+                                                                                                                                    '"String",
+                                                                                                                            }
+                                                                                                                            {}
+                                                                                                                            true
+                                                                                                                            _js2n__-prdslib.always
+                                                                                                                        ])
+                                                                                                                  ],
+                                                                                                            outputId =
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                  '"String",
+                                                                                                            outputPath =
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                  '"String",
+                                                                                                          }
+                                                                                                          {}
+                                                                                                          true
+                                                                                                          _js2n__-prdslib.always
+                                                                                                      ])
+                                                                                                ],
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ],
+                                                                              automaticAdPlacement =
+                                                                                _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          schedule =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    '"Array",
+                                                                                                  _js2n__-prdslib.arrays.arrayOf
+                                                                                                    (_js2n__-prdslib.allOf
+                                                                                                      [
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                          'Record,
+                                                                                                        _js2n__-prdslib.records.record
+                                                                                                          {
+                                                                                                            duration =
+                                                                                                              _js2n__-prdslib.allOf
+                                                                                                                  [
+                                                                                                                    _js2n__-prdslib.isType
+                                                                                                                      '"Number",
+                                                                                                                    _js2n__-prdslib.numbers.minimum
+                                                                                                                      0
+                                                                                                                  ],
+                                                                                                            maxDeviation =
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                  '"Number",
+                                                                                                            position =
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                  '"Number",
+                                                                                                          }
+                                                                                                          {}
+                                                                                                          true
+                                                                                                          _js2n__-prdslib.always
+                                                                                                      ])
+                                                                                                ],
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ],
+                                                                            } {}
+                                                                            true
+                                                                            _js2n__-prdslib.always
+                                                                        ],
+                                                                } {} true
+                                                                _js2n__-prdslib.always
+                                                            ],
                                                       encodingMode =
                                                         _js2n__-prdslib.allOf
                                                             [
@@ -18424,6 +19152,424 @@ let rec _js2n__-refsenv
                                                                 'Record,
                                                               _js2n__-prdslib.records.record
                                                                 {
+                                                                  assa =
+                                                                    _js2n__-prdslib.allOf
+                                                                        [
+                                                                          _js2n__-prdslib.isType
+                                                                            'Record,
+                                                                          _js2n__-prdslib.records.record
+                                                                            {}
+                                                                            {
+                                                                              "^[A-Za-z0-9_-]+$" =
+                                                                                _js2n__-prdslib.allOf
+                                                                                    [
+                                                                                      _js2n__-prdslib.isType
+                                                                                        'Record,
+                                                                                      _js2n__-prdslib.records.required
+                                                                                        [
+                                                                                          "properties"
+                                                                                        ],
+                                                                                      _js2n__-prdslib.records.record
+                                                                                        {
+                                                                                          properties =
+                                                                                            _js2n__-prdslib.allOf
+                                                                                                [
+                                                                                                  _js2n__-prdslib.isType
+                                                                                                    'Record,
+                                                                                                  _js2n__-prdslib.records.required
+                                                                                                    [
+                                                                                                      "characterEncoding",
+                                                                                                      "id",
+                                                                                                      "input"
+                                                                                                    ],
+                                                                                                  _js2n__-prdslib.records.record
+                                                                                                    {
+                                                                                                      characterEncoding =
+                                                                                                        _js2n__-prdslib.allOf
+                                                                                                            [
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                '"String",
+                                                                                                              _js2n__-prdslib.enum
+                                                                                                                [
+                                                                                                                  "ANSI_X3.4-1968",
+                                                                                                                  "ANSI_X3.4-1986",
+                                                                                                                  "ARABIC",
+                                                                                                                  "ARMSCII-8",
+                                                                                                                  "ASCII",
+                                                                                                                  "ASMO-708",
+                                                                                                                  "BIG-5",
+                                                                                                                  "BIG-FIVE",
+                                                                                                                  "BIG5",
+                                                                                                                  "BIG5-HKSCS",
+                                                                                                                  "BIG5-HKSCS:1999",
+                                                                                                                  "BIG5-HKSCS:2001",
+                                                                                                                  "BIG5-HKSCS:2004",
+                                                                                                                  "BIG5-HKSCS:2008",
+                                                                                                                  "BIG5HKSCS",
+                                                                                                                  "BIGFIVE",
+                                                                                                                  "C99",
+                                                                                                                  "CHAR",
+                                                                                                                  "CHINESE",
+                                                                                                                  "CN",
+                                                                                                                  "CN-BIG5",
+                                                                                                                  "CN-GB",
+                                                                                                                  "CN-GB-ISOIR165",
+                                                                                                                  "CP1131",
+                                                                                                                  "CP1133",
+                                                                                                                  "CP1250",
+                                                                                                                  "CP1251",
+                                                                                                                  "CP1252",
+                                                                                                                  "CP1253",
+                                                                                                                  "CP1254",
+                                                                                                                  "CP1255",
+                                                                                                                  "CP1256",
+                                                                                                                  "CP1257",
+                                                                                                                  "CP1258",
+                                                                                                                  "CP1361",
+                                                                                                                  "CP154",
+                                                                                                                  "CP367",
+                                                                                                                  "CP819",
+                                                                                                                  "CP850",
+                                                                                                                  "CP862",
+                                                                                                                  "CP866",
+                                                                                                                  "CP874",
+                                                                                                                  "CP932",
+                                                                                                                  "CP936",
+                                                                                                                  "CP949",
+                                                                                                                  "CP950",
+                                                                                                                  "CSASCII",
+                                                                                                                  "CSBIG5",
+                                                                                                                  "CSEUCKR",
+                                                                                                                  "CSEUCPKDFMTJAPANESE",
+                                                                                                                  "CSEUCTW",
+                                                                                                                  "CSGB2312",
+                                                                                                                  "CSHALFWIDTHKATAKANA",
+                                                                                                                  "CSHPROMAN8",
+                                                                                                                  "CSIBM866",
+                                                                                                                  "CSISO14JISC6220RO",
+                                                                                                                  "CSISO159JISX02121990",
+                                                                                                                  "CSISO2022CN",
+                                                                                                                  "CSISO2022JP",
+                                                                                                                  "CSISO2022JP2",
+                                                                                                                  "CSISO2022KR",
+                                                                                                                  "CSISO57GB1988",
+                                                                                                                  "CSISO58GB231280",
+                                                                                                                  "CSISO87JISX0208",
+                                                                                                                  "CSISOLATIN1",
+                                                                                                                  "CSISOLATIN2",
+                                                                                                                  "CSISOLATIN3",
+                                                                                                                  "CSISOLATIN4",
+                                                                                                                  "CSISOLATIN5",
+                                                                                                                  "CSISOLATIN6",
+                                                                                                                  "CSISOLATINARABIC",
+                                                                                                                  "CSISOLATINCYRILLIC",
+                                                                                                                  "CSISOLATINGREEK",
+                                                                                                                  "CSISOLATINHEBREW",
+                                                                                                                  "CSKOI8R",
+                                                                                                                  "CSKSC56011987",
+                                                                                                                  "CSKZ1048",
+                                                                                                                  "CSMACINTOSH",
+                                                                                                                  "CSPC850MULTILINGUAL",
+                                                                                                                  "CSPC862LATINHEBREW",
+                                                                                                                  "CSPTCP154",
+                                                                                                                  "CSSHIFTJIS",
+                                                                                                                  "CSUCS4",
+                                                                                                                  "CSUNICODE",
+                                                                                                                  "CSUNICODE11",
+                                                                                                                  "CSUNICODE11UTF7",
+                                                                                                                  "CSVISCII",
+                                                                                                                  "CYRILLIC",
+                                                                                                                  "CYRILLIC-ASIAN",
+                                                                                                                  "ECMA-114",
+                                                                                                                  "ECMA-118",
+                                                                                                                  "ELOT_928",
+                                                                                                                  "EUC-CN",
+                                                                                                                  "EUC-JP",
+                                                                                                                  "EUC-KR",
+                                                                                                                  "EUC-TW",
+                                                                                                                  "EUCCN",
+                                                                                                                  "EUCJP",
+                                                                                                                  "EUCKR",
+                                                                                                                  "EUCTW",
+                                                                                                                  "EXTENDED_UNIX_CODE_PACKED_FORMAT_FOR_JAPANESE",
+                                                                                                                  "GB_1988-80",
+                                                                                                                  "GB_2312-80",
+                                                                                                                  "GB18030",
+                                                                                                                  "GB2312",
+                                                                                                                  "GBK",
+                                                                                                                  "GEORGIAN-ACADEMY",
+                                                                                                                  "GEORGIAN-PS",
+                                                                                                                  "GREEK",
+                                                                                                                  "GREEK8",
+                                                                                                                  "HEBREW",
+                                                                                                                  "HP-ROMAN8",
+                                                                                                                  "HZ",
+                                                                                                                  "HZ-GB-2312",
+                                                                                                                  "IBM-CP1133",
+                                                                                                                  "IBM367",
+                                                                                                                  "IBM819",
+                                                                                                                  "IBM850",
+                                                                                                                  "IBM862",
+                                                                                                                  "IBM866",
+                                                                                                                  "ISO-10646-UCS-2",
+                                                                                                                  "ISO-10646-UCS-4",
+                                                                                                                  "ISO-2022-CN",
+                                                                                                                  "ISO-2022-CN-EXT",
+                                                                                                                  "ISO-2022-JP",
+                                                                                                                  "ISO-2022-JP-1",
+                                                                                                                  "ISO-2022-JP-2",
+                                                                                                                  "ISO-2022-KR",
+                                                                                                                  "ISO-8859-1",
+                                                                                                                  "ISO-8859-10",
+                                                                                                                  "ISO-8859-11",
+                                                                                                                  "ISO-8859-13",
+                                                                                                                  "ISO-8859-14",
+                                                                                                                  "ISO-8859-15",
+                                                                                                                  "ISO-8859-16",
+                                                                                                                  "ISO-8859-2",
+                                                                                                                  "ISO-8859-3",
+                                                                                                                  "ISO-8859-4",
+                                                                                                                  "ISO-8859-5",
+                                                                                                                  "ISO-8859-6",
+                                                                                                                  "ISO-8859-7",
+                                                                                                                  "ISO-8859-8",
+                                                                                                                  "ISO-8859-9",
+                                                                                                                  "ISO-CELTIC",
+                                                                                                                  "ISO-IR-100",
+                                                                                                                  "ISO-IR-101",
+                                                                                                                  "ISO-IR-109",
+                                                                                                                  "ISO-IR-110",
+                                                                                                                  "ISO-IR-126",
+                                                                                                                  "ISO-IR-127",
+                                                                                                                  "ISO-IR-138",
+                                                                                                                  "ISO-IR-14",
+                                                                                                                  "ISO-IR-144",
+                                                                                                                  "ISO-IR-148",
+                                                                                                                  "ISO-IR-149",
+                                                                                                                  "ISO-IR-157",
+                                                                                                                  "ISO-IR-159",
+                                                                                                                  "ISO-IR-165",
+                                                                                                                  "ISO-IR-166",
+                                                                                                                  "ISO-IR-179",
+                                                                                                                  "ISO-IR-199",
+                                                                                                                  "ISO-IR-203",
+                                                                                                                  "ISO-IR-226",
+                                                                                                                  "ISO-IR-57",
+                                                                                                                  "ISO-IR-58",
+                                                                                                                  "ISO-IR-6",
+                                                                                                                  "ISO-IR-87",
+                                                                                                                  "ISO_646.IRV:1991",
+                                                                                                                  "ISO_8859-1:1987",
+                                                                                                                  "ISO_8859-10:1992",
+                                                                                                                  "ISO_8859-14:1998",
+                                                                                                                  "ISO_8859-15:1998",
+                                                                                                                  "ISO_8859-16:2001",
+                                                                                                                  "ISO_8859-2:1987",
+                                                                                                                  "ISO_8859-3:1988",
+                                                                                                                  "ISO_8859-4:1988",
+                                                                                                                  "ISO_8859-5:1988",
+                                                                                                                  "ISO_8859-6:1987",
+                                                                                                                  "ISO_8859-7:1987",
+                                                                                                                  "ISO_8859-7:2003",
+                                                                                                                  "ISO_8859-8:1988",
+                                                                                                                  "ISO_8859-9:1989",
+                                                                                                                  "ISO646-CN",
+                                                                                                                  "ISO646-JP",
+                                                                                                                  "ISO646-US",
+                                                                                                                  "ISO8859-1",
+                                                                                                                  "ISO8859-10",
+                                                                                                                  "ISO8859-11",
+                                                                                                                  "ISO8859-13",
+                                                                                                                  "ISO8859-14",
+                                                                                                                  "ISO8859-15",
+                                                                                                                  "ISO8859-16",
+                                                                                                                  "ISO8859-2",
+                                                                                                                  "ISO8859-3",
+                                                                                                                  "ISO8859-4",
+                                                                                                                  "ISO8859-5",
+                                                                                                                  "ISO8859-6",
+                                                                                                                  "ISO8859-7",
+                                                                                                                  "ISO8859-8",
+                                                                                                                  "ISO8859-9",
+                                                                                                                  "JAVA",
+                                                                                                                  "JIS_C6220-1969-RO",
+                                                                                                                  "JIS_C6226-1983",
+                                                                                                                  "JIS_X0201",
+                                                                                                                  "JIS_X0208",
+                                                                                                                  "JIS_X0208-1983",
+                                                                                                                  "JIS_X0208-1990",
+                                                                                                                  "JIS_X0212",
+                                                                                                                  "JIS_X0212-1990",
+                                                                                                                  "JIS_X0212.1990-0",
+                                                                                                                  "JIS0208",
+                                                                                                                  "JISX0201-1976",
+                                                                                                                  "JOHAB",
+                                                                                                                  "JP",
+                                                                                                                  "KOI8-R",
+                                                                                                                  "KOI8-RU",
+                                                                                                                  "KOI8-T",
+                                                                                                                  "KOI8-U",
+                                                                                                                  "KOREAN",
+                                                                                                                  "KS_C_5601-1987",
+                                                                                                                  "KS_C_5601-1989",
+                                                                                                                  "KSC_5601",
+                                                                                                                  "KZ-1048",
+                                                                                                                  "L1",
+                                                                                                                  "L10",
+                                                                                                                  "L2",
+                                                                                                                  "L3",
+                                                                                                                  "L4",
+                                                                                                                  "L5",
+                                                                                                                  "L6",
+                                                                                                                  "L7",
+                                                                                                                  "L8",
+                                                                                                                  "LATIN-9",
+                                                                                                                  "LATIN1",
+                                                                                                                  "LATIN10",
+                                                                                                                  "LATIN2",
+                                                                                                                  "LATIN3",
+                                                                                                                  "LATIN4",
+                                                                                                                  "LATIN5",
+                                                                                                                  "LATIN6",
+                                                                                                                  "LATIN7",
+                                                                                                                  "LATIN8",
+                                                                                                                  "MAC",
+                                                                                                                  "MACARABIC",
+                                                                                                                  "MACCENTRALEUROPE",
+                                                                                                                  "MACCROATIAN",
+                                                                                                                  "MACCYRILLIC",
+                                                                                                                  "MACGREEK",
+                                                                                                                  "MACHEBREW",
+                                                                                                                  "MACICELAND",
+                                                                                                                  "MACINTOSH",
+                                                                                                                  "MACROMAN",
+                                                                                                                  "MACROMANIA",
+                                                                                                                  "MACTHAI",
+                                                                                                                  "MACTURKISH",
+                                                                                                                  "MACUKRAINE",
+                                                                                                                  "MS-ANSI",
+                                                                                                                  "MS-ARAB",
+                                                                                                                  "MS-CYRL",
+                                                                                                                  "MS-EE",
+                                                                                                                  "MS-GREEK",
+                                                                                                                  "MS-HEBR",
+                                                                                                                  "MS-TURK",
+                                                                                                                  "MS_KANJI",
+                                                                                                                  "MS936",
+                                                                                                                  "MULELAO-1",
+                                                                                                                  "NEXTSTEP",
+                                                                                                                  "PT154",
+                                                                                                                  "PTCP154",
+                                                                                                                  "R8",
+                                                                                                                  "RK1048",
+                                                                                                                  "ROMAN8",
+                                                                                                                  "SHIFT-JIS",
+                                                                                                                  "SJIS",
+                                                                                                                  "STRK1048-2002",
+                                                                                                                  "TCVN",
+                                                                                                                  "TCVN-5712",
+                                                                                                                  "TCVN5712-1",
+                                                                                                                  "TCVN5712-1:1993",
+                                                                                                                  "TIS-620",
+                                                                                                                  "TIS620",
+                                                                                                                  "TIS620-0",
+                                                                                                                  "TIS620.2529-1",
+                                                                                                                  "TIS620.2533-0",
+                                                                                                                  "TIS620.2533-1",
+                                                                                                                  "UCS-2",
+                                                                                                                  "UCS-2-INTERNAL",
+                                                                                                                  "UCS-2-SWAPPED",
+                                                                                                                  "UCS-2BE",
+                                                                                                                  "UCS-2LE",
+                                                                                                                  "UCS-4",
+                                                                                                                  "UCS-4-INTERNAL",
+                                                                                                                  "UCS-4-SWAPPED",
+                                                                                                                  "UCS-4BE",
+                                                                                                                  "UCS-4LE",
+                                                                                                                  "UHC",
+                                                                                                                  "UNICODE-1-1",
+                                                                                                                  "UNICODE-1-1-UTF-7",
+                                                                                                                  "UNICODEBIG",
+                                                                                                                  "UNICODELITTLE",
+                                                                                                                  "US",
+                                                                                                                  "US-ASCII",
+                                                                                                                  "UTF-16",
+                                                                                                                  "UTF-16BE",
+                                                                                                                  "UTF-16LE",
+                                                                                                                  "UTF-32",
+                                                                                                                  "UTF-32BE",
+                                                                                                                  "UTF-32LE",
+                                                                                                                  "UTF-7",
+                                                                                                                  "UTF-8",
+                                                                                                                  "VISCII",
+                                                                                                                  "VISCII1.1-1",
+                                                                                                                  "WCHAR_T",
+                                                                                                                  "WINBALTRIM",
+                                                                                                                  "WINDOWS-1250",
+                                                                                                                  "WINDOWS-1251",
+                                                                                                                  "WINDOWS-1252",
+                                                                                                                  "WINDOWS-1253",
+                                                                                                                  "WINDOWS-1254",
+                                                                                                                  "WINDOWS-1255",
+                                                                                                                  "WINDOWS-1256",
+                                                                                                                  "WINDOWS-1257",
+                                                                                                                  "WINDOWS-1258",
+                                                                                                                  "WINDOWS-874",
+                                                                                                                  "WINDOWS-936",
+                                                                                                                  "X0201",
+                                                                                                                  "X0208",
+                                                                                                                  "X0212"
+                                                                                                                ]
+                                                                                                            ],
+                                                                                                      customData =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            'Record,
+                                                                                                      description =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            '"String",
+                                                                                                      id =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            'Record,
+                                                                                                      input =
+                                                                                                        _js2n__-prdslib.allOf
+                                                                                                            [
+                                                                                                              _js2n__-prdslib.isType
+                                                                                                                'Record,
+                                                                                                              _js2n__-prdslib.records.required
+                                                                                                                [
+                                                                                                                  "inputId",
+                                                                                                                  "inputPath"
+                                                                                                                ],
+                                                                                                              _js2n__-prdslib.records.record
+                                                                                                                {
+                                                                                                                  inputId =
+                                                                                                                    _js2n__-prdslib.isType
+                                                                                                                        '"String",
+                                                                                                                  inputPath =
+                                                                                                                    _js2n__-prdslib.isType
+                                                                                                                        '"String",
+                                                                                                                }
+                                                                                                                {}
+                                                                                                                true
+                                                                                                                _js2n__-prdslib.always
+                                                                                                            ],
+                                                                                                      name =
+                                                                                                        _js2n__-prdslib.isType
+                                                                                                            '"String",
+                                                                                                    }
+                                                                                                    {}
+                                                                                                    true
+                                                                                                    _js2n__-prdslib.always
+                                                                                                ],
+                                                                                        }
+                                                                                        {}
+                                                                                        true
+                                                                                        _js2n__-prdslib.always
+                                                                                    ],
+                                                                            }
+                                                                            true
+                                                                            _js2n__-prdslib.always
+                                                                        ],
                                                                   dvbsub =
                                                                     _js2n__-prdslib.allOf
                                                                         [
@@ -19885,6 +21031,12 @@ let rec _js2n__-refsenv
                                                                             'Record,
                                                                           _js2n__-prdslib.records.record
                                                                             {
+                                                                              codecBufsizeFactor =
+                                                                                _js2n__-prdslib.isType
+                                                                                    '"Number",
+                                                                              codecMaxBitrateFactor =
+                                                                                _js2n__-prdslib.isType
+                                                                                    '"Number",
                                                                               fixedResolutionAndBitrateSettings =
                                                                                 _js2n__-prdslib.allOf
                                                                                     [
@@ -22613,7 +23765,7 @@ let rec _js2n__-refsenv
                                           _js2n__-prdslib.isType 'Record,
                                           _js2n__-prdslib.records.required
                                             [
-                                              "encodingDefinitionId",
+                                              "encodingTemplate",
                                               "targetPoolSize"
                                             ],
                                           _js2n__-prdslib.records.record
@@ -22623,44 +23775,12 @@ let rec _js2n__-refsenv
                                               description =
                                                 _js2n__-prdslib.isType
                                                     '"String",
-                                              encodingDefinitionId =
+                                              encodingTemplate =
                                                 _js2n__-prdslib.isType
                                                     '"String",
-                                              errorEncodings =
-                                                _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        'Integer,
-                                                      _js2n__-prdslib.numbers.minimum
-                                                        0
-                                                    ],
                                               name =
                                                 _js2n__-prdslib.isType
                                                     '"String",
-                                              poolStatus =
-                                                _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        '"String",
-                                                      _js2n__-prdslib.enum
-                                                        [ "HEALTHY", "ERROR" ]
-                                                    ],
-                                              preparingEncodings =
-                                                _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        'Integer,
-                                                      _js2n__-prdslib.numbers.minimum
-                                                        0
-                                                    ],
-                                              readyEncodings =
-                                                _js2n__-prdslib.allOf
-                                                    [
-                                                      _js2n__-prdslib.isType
-                                                        'Integer,
-                                                      _js2n__-prdslib.numbers.minimum
-                                                        0
-                                                    ],
                                               targetPoolSize =
                                                 _js2n__-prdslib.allOf
                                                     [
@@ -22830,6 +23950,28 @@ let rec _js2n__-refsenv
                                                           encodingId =
                                                             _js2n__-prdslib.isType
                                                                 '"String",
+                                                          generatorVersion =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.enum
+                                                                    [
+                                                                      "LEGACY",
+                                                                      "V2"
+                                                                    ]
+                                                                ],
+                                                          iso8601TimestampFormat =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.enum
+                                                                    [
+                                                                      "LONG",
+                                                                      "SHORT"
+                                                                    ]
+                                                                ],
                                                           manifestName =
                                                             _js2n__-prdslib.isType
                                                                 '"String",
@@ -24880,6 +26022,22 @@ let rec _js2n__-refsenv
                                               description =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              generatorVersion =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "LEGACY", "V2" ]
+                                                    ],
+                                              iso8601TimestampFormat =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "LONG", "SHORT" ]
+                                                    ],
                                               manifestName =
                                                 _js2n__-prdslib.isType
                                                     '"String",
@@ -25131,6 +26289,17 @@ let rec _js2n__-refsenv
                                                           encodingId =
                                                             _js2n__-prdslib.isType
                                                                 '"String",
+                                                          generatorVersion =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.enum
+                                                                    [
+                                                                      "LEGACY",
+                                                                      "V2"
+                                                                    ]
+                                                                ],
                                                           hlsMasterPlaylistVersion =
                                                             _js2n__-prdslib.allOf
                                                                 [
@@ -25877,6 +27046,14 @@ let rec _js2n__-refsenv
                                               description =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              generatorVersion =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "LEGACY", "V2" ]
+                                                    ],
                                               hlsMasterPlaylistVersion =
                                                 _js2n__-prdslib.allOf
                                                     [
@@ -26382,6 +27559,17 @@ let rec _js2n__-refsenv
                                                           encodingId =
                                                             _js2n__-prdslib.isType
                                                                 '"String",
+                                                          generatorVersion =
+                                                            _js2n__-prdslib.allOf
+                                                                [
+                                                                  _js2n__-prdslib.isType
+                                                                    '"String",
+                                                                  _js2n__-prdslib.enum
+                                                                    [
+                                                                      "LEGACY",
+                                                                      "V2"
+                                                                    ]
+                                                                ],
                                                           name =
                                                             _js2n__-prdslib.isType
                                                                 '"String",
@@ -26573,6 +27761,14 @@ let rec _js2n__-refsenv
                                               description =
                                                 _js2n__-prdslib.isType
                                                     '"String",
+                                              generatorVersion =
+                                                _js2n__-prdslib.allOf
+                                                    [
+                                                      _js2n__-prdslib.isType
+                                                        '"String",
+                                                      _js2n__-prdslib.enum
+                                                        [ "LEGACY", "V2" ]
+                                                    ],
                                               name =
                                                 _js2n__-prdslib.isType
                                                     '"String",

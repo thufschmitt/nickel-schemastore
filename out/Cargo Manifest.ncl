@@ -1262,6 +1262,13 @@ let rec _js2n__-refsenv
           [environment variable](https://doc.rust-lang.org/cargo/reference/environment-variables.html) or the [`build.incremental`](https://doc.rust-lang.org/cargo/reference/config.html#buildincremental) config variable.
         "%
         = _js2n__-prdslib.isType '"Bool",
+      "_js2n__-:definitions/Inherits!predicate"
+        | doc "In addition to the built-in profiles, additional custom profiles can be defined."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "dev", "test", "bench", "release" ]
+            ],
       "_js2n__-:definitions/Keywords!predicate"
         | doc m%"
           The `keywords` field is an array of strings that describe this package. This
@@ -1743,7 +1750,8 @@ let rec _js2n__-refsenv
                   dir-name = _js2n__-prdslib.isType '"String",
                   incremental =
                     _js2n__-refsenv."_js2n__-:definitions/Incremental!predicate",
-                  inherits = _js2n__-prdslib.isType '"String",
+                  inherits =
+                    _js2n__-refsenv."_js2n__-:definitions/Inherits!predicate",
                   lto = _js2n__-refsenv."_js2n__-:definitions/Lto!predicate",
                   opt-level =
                     _js2n__-refsenv."_js2n__-:definitions/OptLevel!predicate",

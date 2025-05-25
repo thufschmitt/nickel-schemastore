@@ -1557,8 +1557,6 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.records.record {} {} true
                             (_js2n__-prdslib.isType '"String")
                         ],
-                  default_max_hours_before_termination =
-                    _js2n__-prdslib.isType 'Integer,
                   default_resources_per_workspace_container =
                     _js2n__-prdslib.allOf
                         [
@@ -1593,8 +1591,6 @@ let rec _js2n__-refsenv
                             (_js2n__-prdslib.isType '"String")
                         ],
                   max_active_hours_before_stop =
-                    _js2n__-prdslib.isType 'Integer,
-                  max_hours_before_termination_limit =
                     _js2n__-prdslib.isType 'Integer,
                   max_resources_per_workspace =
                     _js2n__-prdslib.allOf

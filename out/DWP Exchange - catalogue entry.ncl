@@ -1053,7 +1053,7 @@ let rec _js2n__-refsenv
               (_js2n__-prdslib.allOf
                 [
                   _js2n__-prdslib.isType '"String",
-                  _js2n__-prdslib.strings.maxLength 35,
+                  _js2n__-prdslib.strings.maxLength 60,
                   _js2n__-prdslib.strings.minLength 2
                 ])
             | optional,

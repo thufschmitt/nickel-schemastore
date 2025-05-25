@@ -1016,22 +1016,22 @@ let rec _js2n__-refsenv
             | {
               plex_path
                 | String
-                | doc "The path for the Plex Media Server to use to access auto-generated prerolls"
-                | optional,
+                | doc "The path for the Plex Media Server to use to access auto-generated prerolls",
               recently_added
                 | {
                   count
                     | _js2n__-refsenv."_js2n__-:definitions/positiveInteger!contract"
-                    | doc "The number of recently added media to include as prerolls"
-                    | optional,
+                    | doc "The number of recently added media to include as prerolls",
                   enabled
                     | _js2n__-refsenv."_js2n__-:definitions/enabled!contract"
-                    | doc "Whether auto generation from recently added media is enabled"
+                    | doc "Whether auto generation from recently added media is enabled",
+                  trailer_cutoff_year
+                    | _js2n__-refsenv."_js2n__-:definitions/positiveInteger!contract"
+                    | doc "The year to use as a cutoff for trailers. Default is 1980"
                     | optional,
                   ..
                 }
-                | doc "Settings for auto-generating prerolls from recently added media"
-                | optional,
+                | doc "Settings for auto-generating prerolls from recently added media",
               ..
             }
             | doc "Settings for auto-generating prerolls"

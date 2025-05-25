@@ -1579,6 +1579,22 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.arrays.uniqueItems
                   ])
               | optional,
+            stats
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.allOf
+                  [
+                    _js2n__-prdslib.anyOf
+                      [
+                        _js2n__-prdslib.isType 'Record,
+                        _js2n__-prdslib.isType 'Null
+                      ],
+                    _js2n__-prdslib.records.record
+                      {
+                        enabled = _js2n__-prdslib.isType '"Bool",
+                        time_span = _js2n__-prdslib.isType 'Integer,
+                      } {} false _js2n__-prdslib.never
+                  ])
+              | optional,
           },
       "_js2n__-:definitions/number_range!contract" =
         {
@@ -1852,10 +1868,6 @@ let rec _js2n__-refsenv
               | {
                 available_theme_provider | String | optional,
                 config_loader_id | String | optional,
-                file_delete_delay
-                  | std.number.Integer
-                  | doc "Delay in seconds until old theme files will be deleted after a new theme compile"
-                  | optional,
                 theme_path_builder_id | String | optional,
               }
               | optional,

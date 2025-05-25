@@ -1239,8 +1239,23 @@ let rec _js2n__-refsenv
                   ks-version =
                     _js2n__-prdslib.anyOf
                         [
-                          _js2n__-prdslib.isType '"String",
-                          _js2n__-prdslib.isType '"Number"
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.isType '"String",
+                              _js2n__-prdslib.strings.pattern
+                                "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(\\.(0|[1-9][0-9]*))?$"
+                            ],
+                          _js2n__-prdslib.allOf
+                            [
+                              _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Number",
+                                  _js2n__-prdslib.numbers.minimum 0.1
+                                ],
+                              _js2n__-prdslib.not
+                                (_js2n__-prdslib.enum
+                                  [ 0.1, 0.2, 0.3, 0.4, 0.5 ])
+                            ]
                         ],
                   license = _js2n__-prdslib.isType '"String",
                   title = _js2n__-prdslib.isType '"String",

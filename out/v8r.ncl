@@ -899,6 +899,7 @@ let rec _js2n__-refsenv
     = {}
     in
   {
+      "$schema" | String | optional,
       cacheTtl
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -941,13 +942,23 @@ let rec _js2n__-refsenv
         }
         | doc "A custom schema catalog. This catalog will be searched ahead of any custom catalogs passed using --catalogs or SchemaStore.org"
         | optional,
-      format
-        | String
-        | doc "Output format for validation results. 'text' and 'json' are always valid. Plugins may define additional values which are valid here."
-        | optional,
       ignoreErrors
         | Bool
         | doc "Exit with code 0 even if an error was encountered. True means a non-zero exit code is only issued if validation could be completed successfully and one or more files were invalid"
+        | optional,
+      ignorePatternFiles
+        | _js2n__-prdslib.contract_from_predicate
+          (_js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"Array",
+              _js2n__-prdslib.arrays.arrayOf (_js2n__-prdslib.isType '"String"),
+              _js2n__-prdslib.arrays.uniqueItems
+            ])
+        | doc "A list of files containing glob patterns to ignore"
+        | optional,
+      outputFormat
+        | String
+        | doc "Output format for validation results. 'text' and 'json' are always valid. Plugins may define additional values which are valid here."
         | optional,
       patterns
         | _js2n__-prdslib.contract_from_predicate
