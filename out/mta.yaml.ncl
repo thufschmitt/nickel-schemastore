@@ -935,10 +935,18 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.isType '"String",
                             _js2n__-prdslib.enum
                               [
-                                "application.before-stop.live",
-                                "application.before-stop.idle",
-                                "application.after-stop.live",
-                                "application.after-stop.idle"
+                                "deploy.application.before-stop",
+                                "blue-green.application.before-stop.idle",
+                                "blue-green.application.before-stop.live",
+                                "deploy.application.after-stop",
+                                "blue-green.application.after-stop.idle",
+                                "blue-green.application.after-stop.live",
+                                "deploy.application.before-unmap-routes",
+                                "blue-green.application.before-unmap-routes.live",
+                                "blue-green.application.before-unmap-routes.idle",
+                                "deploy.application.before-start",
+                                "blue-green.application.before-start.idle",
+                                "blue-green.application.before-start.live"
                               ]
                           ])
                     ])

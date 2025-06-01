@@ -936,6 +936,38 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/AnsibleOnDestroy!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  command-arguments = _js2n__-prdslib.isType '"String",
+                  inputs =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            _js2n__-refsenv."_js2n__-:definitions/GrainInput!predicate"
+                        ],
+                  inventory-file =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType 'Record,
+                          _js2n__-prdslib.records.record {} {} true
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType 'Record,
+                                _js2n__-prdslib.records.record {} {} true
+                                  _js2n__-prdslib.always
+                              ])
+                        ],
+                  scripts =
+                    _js2n__-refsenv."_js2n__-:definitions/GrainScripts!predicate",
+                  source =
+                    _js2n__-refsenv."_js2n__-:definitions/GrainSpecSourceObject!predicate",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/Backend!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -965,6 +997,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  allowed-formats = _js2n__-prdslib.isType '"Array",
                   allowed-values =
                     _js2n__-prdslib.allOf
                         [
@@ -992,6 +1025,8 @@ let rec _js2n__-refsenv
                             "^((.+)(,\\s*)?)+[^,]$"
                         ],
                   description = _js2n__-prdslib.isType '"String",
+                  max-files = _js2n__-prdslib.isType 'Integer,
+                  max-size-MB = _js2n__-prdslib.isType '"Number",
                   overrides =
                     _js2n__-prdslib.allOf
                         [
@@ -1044,7 +1079,8 @@ let rec _js2n__-refsenv
                               "credentials",
                               "parameter",
                               "env",
-                              "input-source"
+                              "input-source",
+                              "file"
                             ]
                         ],
                   validation-description = _js2n__-prdslib.isType '"String",
@@ -1278,6 +1314,7 @@ let rec _js2n__-refsenv
                   runner-namespace = _js2n__-prdslib.isType '"String",
                   service-account = _js2n__-prdslib.isType '"String",
                   storage-size = _js2n__-prdslib.isType 'Integer,
+                  use-storage = _js2n__-prdslib.isType '"Bool",
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/GrainSpecObject!predicate" =
@@ -1359,6 +1396,8 @@ let rec _js2n__-refsenv
                           _js2n__-prdslib.enum [ "data" ]
                         ],
                   namespace = _js2n__-prdslib.isType '"String",
+                  on-destroy =
+                    _js2n__-refsenv."_js2n__-:definitions/AnsibleOnDestroy!predicate",
                   outputs =
                     _js2n__-prdslib.allOf
                         [
@@ -1626,6 +1665,7 @@ let rec _js2n__-refsenv
                       {
                         branch = _js2n__-prdslib.isType '"String",
                         commit = _js2n__-prdslib.isType '"String",
+                        name = _js2n__-prdslib.isType '"String",
                         path = _js2n__-prdslib.isType '"String",
                         source = _js2n__-prdslib.isType '"String",
                       } {} false _js2n__-prdslib.never
@@ -1854,6 +1894,7 @@ let rec _js2n__-refsenv
                               "Environment Extended",
                               "Collaborator Added",
                               "Environment Idle",
+                              "Parameters Modified",
                               "drift detected",
                               "updates detected",
                               "approval request approved",
@@ -1866,7 +1907,8 @@ let rec _js2n__-refsenv
                               "environment force ended",
                               "environment extended",
                               "collaborator added",
-                              "environment idle"
+                              "environment idle",
+                              "parameters modified"
                             ]
                         ]),
                     _js2n__-prdslib.arrays.uniqueItems,

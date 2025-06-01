@@ -1738,7 +1738,8 @@ let rec _js2n__-refsenv
                           "xenial",
                           "bionic",
                           "focal",
-                          "jammy"
+                          "jammy",
+                          "noble"
                         ],
                   elixir =
                     _js2n__-prdslib.oneOf

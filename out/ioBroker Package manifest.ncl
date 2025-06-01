@@ -2291,6 +2291,14 @@ let rec _js2n__-refsenv
                                         [ "components", "i18n", "url" ],
                                       _js2n__-prdslib.records.record
                                         {
+                                          bundlerType =
+                                            _js2n__-prdslib.allOf
+                                                [
+                                                  _js2n__-prdslib.isType
+                                                    '"String",
+                                                  _js2n__-prdslib.enum
+                                                    [ "module" ]
+                                                ],
                                           components =
                                             _js2n__-prdslib.allOf
                                                 [

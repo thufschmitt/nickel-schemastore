@@ -1453,20 +1453,20 @@ let rec _js2n__-refsenv
                                     [
                                       _js2n__-prdslib.enum
                                         [
-                                          "CommonJS",
-                                          "AMD",
-                                          "System",
-                                          "UMD",
-                                          "ES6",
-                                          "ES2015",
-                                          "ES2020",
-                                          "ESNext",
-                                          "None",
-                                          "ES2022",
-                                          "Node16",
-                                          "Node18",
-                                          "NodeNext",
-                                          "Preserve"
+                                          "commonjs",
+                                          "amd",
+                                          "system",
+                                          "umd",
+                                          "es6",
+                                          "es2015",
+                                          "es2020",
+                                          "esnext",
+                                          "none",
+                                          "es2022",
+                                          "node16",
+                                          "node18",
+                                          "nodenext",
+                                          "preserve"
                                         ],
                                       _js2n__-prdslib.strings.pattern
                                         "^([Cc][Oo][Mm][Mm][Oo][Nn][Jj][Ss]|[AaUu][Mm][Dd]|[Ss][Yy][Ss][Tt][Ee][Mm]|[Ee][Ss]([356]|20(1[567]|2[02])|[Nn][Ee][Xx][Tt])|[Nn][Oo][dD][Ee]1[68]|[Nn][Oo][Dd][Ee][Nn][Ee][Xx][Tt]|[Nn][Oo][Nn][Ee]|[Pp][Rr][Ee][Ss][Ee][Rr][Vv][Ee])$"
@@ -1867,20 +1867,20 @@ let rec _js2n__-refsenv
                                     [
                                       _js2n__-prdslib.enum
                                         [
-                                          "ES3",
-                                          "ES5",
-                                          "ES6",
-                                          "ES2015",
-                                          "ES2016",
-                                          "ES2017",
-                                          "ES2018",
-                                          "ES2019",
-                                          "ES2020",
-                                          "ES2021",
-                                          "ES2022",
-                                          "ES2023",
-                                          "ES2024",
-                                          "ESNext"
+                                          "es3",
+                                          "es5",
+                                          "es6",
+                                          "es2015",
+                                          "es2016",
+                                          "es2017",
+                                          "es2018",
+                                          "es2019",
+                                          "es2020",
+                                          "es2021",
+                                          "es2022",
+                                          "es2023",
+                                          "es2024",
+                                          "esnext"
                                         ],
                                       _js2n__-prdslib.strings.pattern
                                         "^([Ee][Ss]([356]|(20(1[56789]|2[01234]))|[Nn][Ee][Xx][Tt]))$"

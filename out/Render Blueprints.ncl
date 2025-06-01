@@ -897,8 +897,16 @@ let _js2n__-prdslib
   in
 let rec _js2n__-refsenv
     = {
-      "_js2n__-:definitions/buildFilter!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/autoDeployTrigger!predicate"
+        | doc "Sets the automatic deploy behavior for a Git-based service."
+        = _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType '"String",
+              _js2n__-prdslib.enum [ "off", "commit", "checksPass" ]
+            ],
+      "_js2n__-:definitions/buildFilter!predicate"
+        | doc "File paths in the service's repo to include or ignore when determining whether to trigger an automatic build. Especially useful for monorepos."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -919,8 +927,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/cronService!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/cronService!predicate"
+        | doc "A cron job service that runs on a schedule."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required
@@ -928,6 +937,8 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.records.record
                 {
                   autoDeploy = _js2n__-prdslib.isType '"Bool",
+                  autoDeployTrigger =
+                    _js2n__-refsenv."_js2n__-:definitions/autoDeployTrigger!predicate",
                   branch = _js2n__-prdslib.isType '"String",
                   buildCommand = _js2n__-prdslib.isType '"String",
                   buildFilter =
@@ -964,17 +975,30 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/database!contract" =
-        {
-            databaseName | String | optional,
+      "_js2n__-:definitions/database!contract"
+        | doc "A PostgreSQL database instance."
+        = {
+            databaseName
+              | String
+              | doc "The name of your database within the PostgreSQL instance. If omitted, Render automatically generates a name based on the instance name."
+              | optional,
             diskSizeGB
               | _js2n__-refsenv."_js2n__-:definitions/diskSizeGB!contract"
               | optional,
-            highAvailability | { enabled | Bool, } | optional,
+            highAvailability
+              | {
+                enabled
+                  | Bool
+                  | doc "Whether to enable high availability for the database.",
+              }
+              | doc "High availability configuration for the database."
+              | optional,
             ipAllowList
               | _js2n__-refsenv."_js2n__-:definitions/ipAllowList!contract"
               | optional,
-            name | String,
+            name
+              | String
+              | doc "The PostgreSQL instance's name. Must be unique within the Blueprint.",
             plan
               | _js2n__-refsenv."_js2n__-:definitions/plan!contract"
               | optional,
@@ -989,18 +1013,24 @@ let rec _js2n__-refsenv
               | optional,
             previewPlan
               | _js2n__-refsenv."_js2n__-:definitions/plan!contract"
+              | doc "The instance type to use for this database in preview environments."
               | optional,
             readReplicas
               | Array
                 _js2n__-refsenv."_js2n__-:definitions/readReplica!contract"
+              | doc "Read replicas for the database instance."
               | optional,
             region
               | _js2n__-refsenv."_js2n__-:definitions/region!contract"
               | optional,
-            user | String | optional,
+            user
+              | String
+              | doc "The name of the PostgreSQL user to create for your instance. If omitted, Render automatically generates a name based on the instance name."
+              | optional,
           },
-      "_js2n__-:definitions/disk!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/disk!predicate"
+        | doc "Persistent disk configuration for a service."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "mountPath", "name" ],
@@ -1016,23 +1046,26 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/diskSizeGB!contract" =
-        _js2n__-prdslib.contract_from_predicate
+      "_js2n__-:definitions/diskSizeGB!contract"
+        | doc "The disk size in GB. Must be either 1 or a multiple of 5."
+        = _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.allOf
               [
                 _js2n__-prdslib.isType 'Integer,
                 _js2n__-prdslib.numbers.minimum 1
               ]),
-      "_js2n__-:definitions/envVar!predicate" =
-        _js2n__-prdslib.anyOf
+      "_js2n__-:definitions/envVar!predicate"
+        | doc "An environment variable definition."
+        = _js2n__-prdslib.anyOf
             [
               _js2n__-refsenv."_js2n__-:definitions/envVarFromKeyValue!predicate",
               _js2n__-refsenv."_js2n__-:definitions/envVarFromDatabase!predicate",
               _js2n__-refsenv."_js2n__-:definitions/envVarFromService!predicate",
               _js2n__-refsenv."_js2n__-:definitions/envVarFromGroup!predicate"
             ],
-      "_js2n__-:definitions/envVarFromDatabase!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/envVarFromDatabase!predicate"
+        | doc "An environment variable that references a property of a database."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "fromDatabase", "key" ],
@@ -1053,8 +1086,9 @@ let rec _js2n__-refsenv
                   key = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/envVarFromGroup!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/envVarFromGroup!predicate"
+        | doc "An environment variable that references an environment group."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "fromGroup" ],
@@ -1062,8 +1096,9 @@ let rec _js2n__-refsenv
                 { fromGroup = _js2n__-prdslib.isType '"String", } {} false
                 _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/envVarFromKeyValue!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/envVarFromKeyValue!predicate"
+        | doc "An environment variable with a direct value or special configuration."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "key" ],
@@ -1086,8 +1121,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/envVarFromService!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/envVarFromService!predicate"
+        | doc "An environment variable that references a property or environment variable of another service."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "fromService", "key" ],
@@ -1110,8 +1146,9 @@ let rec _js2n__-refsenv
                   key = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/envVarGroup!contract" =
-        _js2n__-prdslib.contract_from_predicate
+      "_js2n__-:definitions/envVarGroup!contract"
+        | doc "An environment group containing multiple environment variables."
+        = _js2n__-prdslib.contract_from_predicate
             (_js2n__-prdslib.allOf
               [
                 _js2n__-prdslib.records.required [ "envVars", "name" ],
@@ -1127,8 +1164,9 @@ let rec _js2n__-refsenv
                     name = _js2n__-prdslib.isType '"String",
                   } {} false _js2n__-prdslib.never
               ]),
-      "_js2n__-:definitions/header!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/header!predicate"
+        | doc "HTTP response header configuration for static sites."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "name", "path", "value" ],
@@ -1139,8 +1177,9 @@ let rec _js2n__-refsenv
                   value = _js2n__-prdslib.isType '"String",
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/image!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/image!predicate"
+        | doc "Configuration for pulling a prebuilt Docker image from a registry."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "url" ],
@@ -1151,10 +1190,22 @@ let rec _js2n__-refsenv
                   url = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/ipAllowList!contract" =
-        Array { description | String | optional, source | String, .. },
-      "_js2n__-:definitions/ipAllowList!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/ipAllowList!contract"
+        | doc "List of IP addresses or CIDR blocks that are allowed to access the service externally."
+        = Array
+            {
+              description
+                | String
+                | doc "Optional description for this IP allow list entry."
+                | optional,
+              source
+                | String
+                | doc "The IP address or CIDR block to allow access from.",
+              ..
+            },
+      "_js2n__-:definitions/ipAllowList!predicate"
+        | doc "List of IP addresses or CIDR blocks that are allowed to access the service externally."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"Array",
               _js2n__-prdslib.arrays.arrayOf
@@ -1169,8 +1220,9 @@ let rec _js2n__-refsenv
                       } {} true _js2n__-prdslib.always
                   ])
             ],
-      "_js2n__-:definitions/plan!contract" =
-        std.contract.Sequence
+      "_js2n__-:definitions/plan!contract"
+        | doc "The instance type for the service or database."
+        = std.contract.Sequence
             [
               std.enum.TagOrString,
               [|
@@ -1205,8 +1257,9 @@ let rec _js2n__-refsenv
                 'free
               |]
             ],
-      "_js2n__-:definitions/plan!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/plan!predicate"
+        | doc "The instance type for the service or database."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
@@ -1242,19 +1295,23 @@ let rec _js2n__-refsenv
                   "accelerated-1024gb"
                 ]
             ],
-      "_js2n__-:definitions/previewsGeneration!contract" =
-        std.contract.Sequence
+      "_js2n__-:definitions/previewsGeneration!contract"
+        | doc "The preview generation mode."
+        = std.contract.Sequence
             [ std.enum.TagOrString, [| 'off, 'manual, 'automatic |] ],
-      "_js2n__-:definitions/previewsGeneration!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/previewsGeneration!predicate"
+        | doc "The preview generation mode."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum [ "automatic", "manual", "off" ]
             ],
-      "_js2n__-:definitions/readReplica!contract" =
-        { name | String | optional, },
-      "_js2n__-:definitions/redisServer!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/readReplica!contract"
+        | doc "A read replica configuration for a database."
+        = { name | String | doc "The name of the read replica." | optional, },
+      "_js2n__-:definitions/redisServer!predicate"
+        | doc "A Render Key Value (Redis) instance."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required
@@ -1278,21 +1335,24 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/region!contract" =
-        std.contract.Sequence
+      "_js2n__-:definitions/region!contract"
+        | doc "The geographic region where the service or database will be deployed."
+        = std.contract.Sequence
             [
               std.enum.TagOrString,
               [| 'virginia, 'singapore, 'frankfurt, 'ohio, 'oregon |]
             ],
-      "_js2n__-:definitions/region!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/region!predicate"
+        | doc "The geographic region where the service or database will be deployed."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
                 [ "oregon", "ohio", "frankfurt", "singapore", "virginia" ]
             ],
-      "_js2n__-:definitions/registryCredential!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/registryCredential!predicate"
+        | doc "Registry credentials for accessing private Docker images."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.records.required [ "fromRegistryCreds" ],
               _js2n__-prdslib.records.record
@@ -1308,8 +1368,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/rootPreviews!contract" =
-        {
+      "_js2n__-:definitions/rootPreviews!contract"
+        | doc "Preview environment configuration at the Blueprint level."
+        = {
             expireAfterDays
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.allOf
@@ -1317,13 +1378,16 @@ let rec _js2n__-refsenv
                     _js2n__-prdslib.isType 'Integer,
                     _js2n__-prdslib.numbers.minimum 1
                   ])
+              | doc "The number of days to retain a preview environment that receives no updates."
               | optional,
             generation
               | _js2n__-refsenv."_js2n__-:definitions/previewsGeneration!contract"
+              | doc "The generation mode to use for preview environments."
               | optional,
           },
-      "_js2n__-:definitions/route!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/route!predicate"
+        | doc "Redirect or rewrite route configuration for static sites."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required
@@ -1340,8 +1404,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} true _js2n__-prdslib.always
             ],
-      "_js2n__-:definitions/runtime!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/runtime!predicate"
+        | doc "The runtime environment for the service."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
@@ -1357,14 +1422,17 @@ let rec _js2n__-refsenv
                   "static"
                 ]
             ],
-      "_js2n__-:definitions/serverService!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/serverService!predicate"
+        | doc "A web service, private service, or background worker."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "name", "runtime", "type" ],
               _js2n__-prdslib.records.record
                 {
                   autoDeploy = _js2n__-prdslib.isType '"Bool",
+                  autoDeployTrigger =
+                    _js2n__-refsenv."_js2n__-:definitions/autoDeployTrigger!predicate",
                   branch = _js2n__-prdslib.isType '"String",
                   buildCommand = _js2n__-prdslib.isType '"String",
                   buildFilter =
@@ -1464,8 +1532,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/servicePreviews!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/servicePreviews!predicate"
+        | doc "Pull request preview configuration for a service."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1475,8 +1544,9 @@ let rec _js2n__-refsenv
                   plan = _js2n__-refsenv."_js2n__-:definitions/plan!predicate",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/serviceType!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/serviceType!predicate"
+        | doc "The type of service for environment variable references."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType '"String",
               _js2n__-prdslib.enum
@@ -1488,17 +1558,21 @@ let rec _js2n__-refsenv
                   "static",
                   "dpg",
                   "job",
-                  "redis"
+                  "redis",
+                  "keyvalue"
                 ]
             ],
-      "_js2n__-:definitions/staticService!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/staticService!predicate"
+        | doc "A static site service."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.required [ "name", "type" ],
               _js2n__-prdslib.records.record
                 {
                   autoDeploy = _js2n__-prdslib.isType '"Bool",
+                  autoDeployTrigger =
+                    _js2n__-refsenv."_js2n__-:definitions/autoDeployTrigger!predicate",
                   branch = _js2n__-prdslib.isType '"String",
                   buildCommand = _js2n__-prdslib.isType '"String",
                   buildFilter =
@@ -1553,8 +1627,9 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/staticServicePreviews!predicate" =
-        _js2n__-prdslib.allOf
+      "_js2n__-:definitions/staticServicePreviews!predicate"
+        | doc "Pull request preview configuration for a static site."
+        = _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
@@ -1568,14 +1643,20 @@ let rec _js2n__-refsenv
   {
       databases
         | Array _js2n__-refsenv."_js2n__-:definitions/database!contract"
+        | doc "A list of PostgreSQL databases to manage with the Blueprint."
         | optional,
       envVarGroups
         | Array _js2n__-refsenv."_js2n__-:definitions/envVarGroup!contract"
+        | doc "A list of environment groups to manage with the Blueprint."
         | optional,
       previews
         | _js2n__-refsenv."_js2n__-:definitions/rootPreviews!contract"
+        | doc "Preview environment configuration for the Blueprint."
         | optional,
-      previewsEnabled | Bool | optional,
+      previewsEnabled
+        | Bool
+        | doc "Whether to enable preview environments. Deprecated - use previews.generation instead."
+        | optional,
       previewsExpireAfterDays
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
@@ -1583,6 +1664,7 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType 'Integer,
               _js2n__-prdslib.numbers.minimum 1
             ])
+        | doc "Number of days to retain preview environments. Deprecated - use previews.expireAfterDays instead."
         | optional,
       services
         | Array (
@@ -1595,10 +1677,12 @@ let rec _js2n__-refsenv
                 _js2n__-refsenv."_js2n__-:definitions/staticService!predicate"
               ])
         )
+        | doc "A list of non-PostgreSQL services to manage with the Blueprint."
         | optional,
       version
         | _js2n__-prdslib.contract_from_predicate
           (_js2n__-prdslib.allOf
             [ _js2n__-prdslib.isType '"String", _js2n__-prdslib.const "1" ])
+        | doc "The version of the Blueprint specification."
         | optional,
     }

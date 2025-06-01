@@ -977,6 +977,13 @@ let rec _js2n__-refsenv
                                   _js2n__-prdslib.arrays.arrayOf
                                     (_js2n__-prdslib.isType '"String")
                                 ],
+                          additionalModules =
+                            _js2n__-prdslib.allOf
+                                [
+                                  _js2n__-prdslib.isType '"Array",
+                                  _js2n__-prdslib.arrays.arrayOf
+                                    (_js2n__-prdslib.isType '"String")
+                                ],
                           customAssets =
                             _js2n__-prdslib.allOf
                                 [

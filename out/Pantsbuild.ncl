@@ -961,9 +961,6 @@ let rec _js2n__-refsenv
                           loop = _js2n__-prdslib.isType '"Bool",
                           loop_max = _js2n__-prdslib.isType '"Number",
                           named_caches_dir = _js2n__-prdslib.isType '"String",
-                          native_options_validation =
-                            _js2n__-prdslib.enum
-                                [ "ignore", "warning", "error" ],
                           pants_bin_name = _js2n__-prdslib.isType '"String",
                           pants_config_files = _js2n__-prdslib.isType '"Array",
                           pants_distdir = _js2n__-prdslib.isType '"String",
@@ -1324,6 +1321,8 @@ let rec _js2n__-refsenv
                           executable_search_paths =
                             _js2n__-prdslib.isType '"Array",
                           optional_tools = _js2n__-prdslib.isType '"Array",
+                          publish_noninteractively =
+                            _js2n__-prdslib.isType '"Bool",
                           registries =
                             _js2n__-prdslib.oneOf
                                 [
@@ -1799,10 +1798,12 @@ let rec _js2n__-refsenv
                           executable_search_paths =
                             _js2n__-prdslib.isType '"Array",
                           known_versions = _js2n__-prdslib.isType '"Array",
+                          optional_tools = _js2n__-prdslib.isType '"Array",
                           package_manager = _js2n__-prdslib.isType '"String",
                           package_managers = _js2n__-prdslib.isType 'Record,
                           resolves = _js2n__-prdslib.isType 'Record,
                           search_path = _js2n__-prdslib.isType '"Array",
+                          tools = _js2n__-prdslib.isType '"Array",
                           url_platform_mapping = _js2n__-prdslib.isType 'Record,
                           url_template = _js2n__-prdslib.isType '"String",
                           version = _js2n__-prdslib.isType '"String",
@@ -1927,8 +1928,11 @@ let rec _js2n__-refsenv
                     [
                       _js2n__-prdslib.isType 'Record,
                       _js2n__-prdslib.records.record
-                        { output = _js2n__-prdslib.isType '"String", } {} true
-                        _js2n__-prdslib.always
+                        {
+                          noninteractive_process_output =
+                            _js2n__-prdslib.enum [ "all", "failed", "none" ],
+                          output = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
                     ],
               py-constraints =
                 _js2n__-prdslib.allOf

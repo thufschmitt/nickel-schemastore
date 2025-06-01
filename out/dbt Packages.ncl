@@ -925,9 +925,9 @@ let rec _js2n__-refsenv
                             version =
                               _js2n__-prdslib.anyOf
                                   [
-                                    _js2n__-prdslib.isType '"String",
+                                    _js2n__-prdslib.isType '"Array",
                                     _js2n__-prdslib.isType '"Number",
-                                    _js2n__-prdslib.isType '"Array"
+                                    _js2n__-prdslib.isType '"String"
                                   ],
                           } {} false _js2n__-prdslib.never
                       ],

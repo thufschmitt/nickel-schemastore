@@ -1311,6 +1311,33 @@ let rec _js2n__-refsenv
                         ],
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/PushTriggerMapItemModelCommitsCondition!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.oneOf
+                [
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "pattern" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          last_commit = _js2n__-prdslib.isType '"Bool",
+                          pattern = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
+                    ],
+                  _js2n__-prdslib.allOf
+                    [
+                      _js2n__-prdslib.records.required [ "regex" ],
+                      _js2n__-prdslib.records.record
+                        {
+                          last_commit = _js2n__-prdslib.isType '"Bool",
+                          regex = _js2n__-prdslib.isType '"String",
+                        } {} true _js2n__-prdslib.always
+                    ]
+                ],
+              _js2n__-prdslib.records.record {} {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/PushTriggerModel!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -1326,13 +1353,13 @@ let rec _js2n__-refsenv
                   changed_files =
                     _js2n__-prdslib.oneOf
                         [
-                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/PushTriggerMapItemModelCommitsCondition!predicate",
                           _js2n__-prdslib.isType '"String"
                         ],
                   commit_message =
                     _js2n__-prdslib.oneOf
                         [
-                          _js2n__-refsenv."_js2n__-:definitions/TriggerMapItemModelRegexCondition!predicate",
+                          _js2n__-refsenv."_js2n__-:definitions/PushTriggerMapItemModelCommitsCondition!predicate",
                           _js2n__-prdslib.isType '"String"
                         ],
                   enabled = _js2n__-prdslib.isType '"Bool",

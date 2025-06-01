@@ -1047,7 +1047,6 @@ let rec _js2n__-refsenv
                 "G110",
                 "G111",
                 "G112",
-                "G113",
                 "G114",
                 "G115",
                 "G201",
@@ -1098,6 +1097,7 @@ let rec _js2n__-refsenv
                 "fieldalignment",
                 "findcall",
                 "framepointer",
+                "httpmux",
                 "httpresponse",
                 "ifaceassert",
                 "loopclosure",
@@ -1145,6 +1145,7 @@ let rec _js2n__-refsenv
               "fieldalignment",
               "findcall",
               "framepointer",
+              "httpmux",
               "httpresponse",
               "ifaceassert",
               "loopclosure",
@@ -1207,6 +1208,7 @@ let rec _js2n__-refsenv
                     "fatcontext",
                     "forbidigo",
                     "forcetypeassert",
+                    "funcorder",
                     "funlen",
                     "ginkgolinter",
                     "gocheckcompilerdirectives",
@@ -1270,7 +1272,6 @@ let rec _js2n__-refsenv
                     "stylecheck",
                     "tagalign",
                     "tagliatelle",
-                    "tenv",
                     "testableexamples",
                     "testifylint",
                     "testpackage",
@@ -1321,6 +1322,7 @@ let rec _js2n__-refsenv
                   "fatcontext",
                   "forbidigo",
                   "forcetypeassert",
+                  "funcorder",
                   "funlen",
                   "ginkgolinter",
                   "gocheckcompilerdirectives",
@@ -1384,7 +1386,6 @@ let rec _js2n__-refsenv
                   "stylecheck",
                   "tagalign",
                   "tagliatelle",
-                  "tenv",
                   "testableexamples",
                   "testifylint",
                   "testpackage",
@@ -1472,6 +1473,7 @@ let rec _js2n__-refsenv
                 "redefines-builtin-id",
                 "redundant-build-tag",
                 "redundant-import-alias",
+                "redundant-test-main-exit",
                 "string-format",
                 "string-of-int",
                 "struct-tag",
@@ -1903,6 +1905,17 @@ let rec _js2n__-refsenv
               | doc "List of identifiers to forbid (written using `regexp`)"
               | optional,
           },
+      "_js2n__-:definitions/settings/definitions/funcorderSettings!contract" =
+        {
+            constructor
+              | Bool
+              | doc "Checks that constructors are placed after the structure declaration."
+              | optional,
+            struct-method
+              | Bool
+              | doc "Checks if the exported methods of a structure are placed before the non-exported ones."
+              | optional,
+          },
       "_js2n__-:definitions/settings/definitions/funlenSettings!contract" =
         {
             ignore-comments
@@ -2027,12 +2040,20 @@ let rec _js2n__-refsenv
           },
       "_js2n__-:definitions/settings/definitions/goconstSettings!contract" =
         {
+            eval-const-expressions
+              | Bool
+              | doc "Evaluates of constant expressions like Prefix + \"suffix\""
+              | optional,
+            find-duplicates
+              | Bool
+              | doc "Detects constants with identical values"
+              | optional,
             ignore-calls
               | Bool
               | doc "Ignore when constant is not used as function argument"
               | optional,
-            ignore-strings
-              | String
+            ignore-string-values
+              | Array (String)
               | doc "Exclude strings matching the given regular expression"
               | optional,
             match-constant
@@ -2981,6 +3002,11 @@ let rec _js2n__-refsenv
               | Bool
               | doc "Enforce using key-value pairs only (incompatible with attr-only)."
               | optional,
+            msg-style
+              | _js2n__-prdslib.contract_from_predicate
+                (_js2n__-prdslib.enum [ "", "lowercased", "capitalized" ])
+              | doc "Enforce message style."
+              | optional,
             no-global
               | _js2n__-prdslib.contract_from_predicate
                 (_js2n__-prdslib.enum [ "", "all", "default" ])
@@ -3254,13 +3280,6 @@ let rec _js2n__-refsenv
                   | doc "Use the struct field name to check the name of the struct tag."
                   | optional,
               }
-              | optional,
-          },
-      "_js2n__-:definitions/settings/definitions/tenvSettings!contract" =
-        {
-            all
-              | Bool
-              | doc "The option `all` will run against whole test files (`_test.go`) regardless of method/function signatures."
               | optional,
           },
       "_js2n__-:definitions/settings/definitions/testifylintSettings!contract" =
@@ -3624,6 +3643,10 @@ let rec _js2n__-refsenv
             ignore-sigs
               | Array (String)
               | doc "An array of strings which specify substrings of signatures to ignore."
+              | optional,
+            report-internal-errors
+              | Bool
+              | doc "Determines whether wrapcheck should report errors returned from inside the package."
               | optional,
           },
       "_js2n__-:definitions/settings/definitions/wslSettings!contract" =
@@ -4053,6 +4076,7 @@ let rec _js2n__-refsenv
       "_js2n__-:definitions/tagliatelle-cases!predicate" =
         _js2n__-prdslib.enum
             [
+              "",
               "camel",
               "pascal",
               "kebab",
@@ -4083,6 +4107,7 @@ let rec _js2n__-refsenv
                   (_js2n__-prdslib.enum [ "strict", "lax", "disable" ])
                 | optional,
               paths | Array (String) | optional,
+              warn-unused | Bool | optional,
             }
             | optional,
           settings
@@ -4303,6 +4328,9 @@ let rec _js2n__-refsenv
               forbidigo
                 | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/forbidigoSettings!contract"
                 | optional,
+              funcorder
+                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/funcorderSettings!contract"
+                | optional,
               funlen
                 | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/funlenSettings!contract"
                 | optional,
@@ -4450,9 +4478,6 @@ let rec _js2n__-refsenv
               tagliatelle
                 | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/tagliatelleSettings!contract"
                 | optional,
-              tenv
-                | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/tenvSettings!contract"
-                | optional,
               testifylint
                 | _js2n__-refsenv."_js2n__-:definitions/settings/definitions/testifylintSettings!contract"
                 | optional,
@@ -4546,6 +4571,7 @@ let rec _js2n__-refsenv
             }
             | doc "Output formats to use."
             | optional,
+          path-mode | String | optional,
           path-prefix
             | String
             | doc "Add a prefix to the output file references."

@@ -1069,7 +1069,41 @@ let rec _js2n__-refsenv
                   version_format = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/CConfig!predicate" =
+      "_js2n__-:definitions/CMakeConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  detect_extensions =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  detect_files =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  detect_folders =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  disabled = _js2n__-prdslib.isType '"Bool",
+                  format = _js2n__-prdslib.isType '"String",
+                  style = _js2n__-prdslib.isType '"String",
+                  symbol = _js2n__-prdslib.isType '"String",
+                  version_format = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/CcConfig_for_CConfigMarker!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -1115,12 +1149,24 @@ let rec _js2n__-refsenv
                   version_format = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
-      "_js2n__-:definitions/CMakeConfig!predicate" =
+      "_js2n__-:definitions/CcConfig_for_CppConfigMarker!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
               _js2n__-prdslib.records.record
                 {
+                  commands =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.allOf
+                              [
+                                _js2n__-prdslib.isType '"Array",
+                                _js2n__-prdslib.arrays.arrayOf
+                                  (_js2n__-prdslib.isType '"String")
+                              ])
+                        ],
                   detect_extensions =
                     _js2n__-prdslib.allOf
                         [
@@ -1233,6 +1279,7 @@ let rec _js2n__-refsenv
                   disabled = _js2n__-prdslib.isType '"Bool",
                   format = _js2n__-prdslib.isType '"String",
                   ignore_base = _js2n__-prdslib.isType '"Bool",
+                  ignore_pixi_envs = _js2n__-prdslib.isType '"Bool",
                   style = _js2n__-prdslib.isType '"String",
                   symbol = _js2n__-prdslib.isType '"String",
                   truncation_length =
@@ -1605,6 +1652,17 @@ let rec _js2n__-refsenv
               _js2n__-prdslib.isType '"Bool",
               _js2n__-prdslib.isType '"String"
             ],
+      "_js2n__-:definitions/Either_for_Either_for_String_and_Array_of_String_and_Array_of_Either_for_String_and_Array_of_String!predicate" =
+        _js2n__-prdslib.anyOf
+            [
+              _js2n__-refsenv."_js2n__-:definitions/Either_for_String_and_Array_of_String!predicate",
+              _js2n__-prdslib.allOf
+                [
+                  _js2n__-prdslib.isType '"Array",
+                  _js2n__-prdslib.arrays.arrayOf
+                    _js2n__-refsenv."_js2n__-:definitions/Either_for_String_and_Array_of_String!predicate"
+                ]
+            ],
       "_js2n__-:definitions/Either_for_String_and_Array_of_String!predicate" =
         _js2n__-prdslib.anyOf
             [
@@ -1951,6 +2009,7 @@ let rec _js2n__-refsenv
                   typechanged = _js2n__-prdslib.isType '"String",
                   untracked = _js2n__-prdslib.isType '"String",
                   up_to_date = _js2n__-prdslib.isType '"String",
+                  use_git_executable = _js2n__-prdslib.isType '"Bool",
                   windows_starship =
                     _js2n__-prdslib.anyOf
                         [
@@ -2524,6 +2583,41 @@ let rec _js2n__-refsenv
                   truncation_symbol = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/MiseConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  detect_extensions =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  detect_files =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  detect_folders =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  disabled = _js2n__-prdslib.isType '"Bool",
+                  format = _js2n__-prdslib.isType '"String",
+                  healthy_symbol = _js2n__-prdslib.isType '"String",
+                  style = _js2n__-prdslib.isType '"String",
+                  symbol = _js2n__-prdslib.isType '"String",
+                  unhealthy_symbol = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/MojoConfig!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2558,6 +2652,18 @@ let rec _js2n__-refsenv
                 } {} false _js2n__-prdslib.never
             ],
       "_js2n__-:definitions/NatsConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  disabled = _js2n__-prdslib.isType '"Bool",
+                  format = _js2n__-prdslib.isType '"String",
+                  style = _js2n__-prdslib.isType '"String",
+                  symbol = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
+      "_js2n__-:definitions/NetnsConfig!predicate" =
         _js2n__-prdslib.allOf
             [
               _js2n__-prdslib.isType 'Record,
@@ -2884,6 +2990,29 @@ let rec _js2n__-refsenv
                   truncation_symbol = _js2n__-prdslib.isType '"String",
                 } {} false _js2n__-prdslib.never
             ],
+      "_js2n__-:definitions/PixiConfig!predicate" =
+        _js2n__-prdslib.allOf
+            [
+              _js2n__-prdslib.isType 'Record,
+              _js2n__-prdslib.records.record
+                {
+                  detect_files =
+                    _js2n__-prdslib.allOf
+                        [
+                          _js2n__-prdslib.isType '"Array",
+                          _js2n__-prdslib.arrays.arrayOf
+                            (_js2n__-prdslib.isType '"String")
+                        ],
+                  disabled = _js2n__-prdslib.isType '"Bool",
+                  format = _js2n__-prdslib.isType '"String",
+                  pixi_binary =
+                    _js2n__-refsenv."_js2n__-:definitions/Either_for_String_and_Array_of_String!predicate",
+                  show_default_environment = _js2n__-prdslib.isType '"Bool",
+                  style = _js2n__-prdslib.isType '"String",
+                  symbol = _js2n__-prdslib.isType '"String",
+                  version_format = _js2n__-prdslib.isType '"String",
+                } {} false _js2n__-prdslib.never
+            ],
       "_js2n__-:definitions/PulumiConfig!predicate" =
         _js2n__-prdslib.allOf
             [
@@ -2971,7 +3100,7 @@ let rec _js2n__-refsenv
                   pyenv_prefix = _js2n__-prdslib.isType '"String",
                   pyenv_version_name = _js2n__-prdslib.isType '"Bool",
                   python_binary =
-                    _js2n__-refsenv."_js2n__-:definitions/Either_for_String_and_Array_of_String!predicate",
+                    _js2n__-refsenv."_js2n__-:definitions/Either_for_Either_for_String_and_Array_of_String_and_Array_of_Either_for_String_and_Array_of_String!predicate",
                   style = _js2n__-prdslib.isType '"String",
                   symbol = _js2n__-prdslib.isType '"String",
                   version_format = _js2n__-prdslib.isType '"String",
@@ -3679,7 +3808,7 @@ let rec _js2n__-refsenv
         | optional,
       c
         | _js2n__-prdslib.contract_from_predicate
-          _js2n__-refsenv."_js2n__-:definitions/CConfig!predicate"
+          _js2n__-refsenv."_js2n__-:definitions/CcConfig_for_CConfigMarker!predicate"
         | optional,
       character
         | _js2n__-prdslib.contract_from_predicate
@@ -3714,6 +3843,10 @@ let rec _js2n__-refsenv
           _js2n__-refsenv."_js2n__-:definitions/ContainerConfig!predicate"
         | optional,
       continuation_prompt | String | optional,
+      cpp
+        | _js2n__-prdslib.contract_from_predicate
+          _js2n__-refsenv."_js2n__-:definitions/CcConfig_for_CppConfigMarker!predicate"
+        | optional,
       crystal
         | _js2n__-prdslib.contract_from_predicate
           _js2n__-refsenv."_js2n__-:definitions/CrystalConfig!predicate"
@@ -3894,6 +4027,10 @@ let rec _js2n__-refsenv
         | _js2n__-prdslib.contract_from_predicate
           _js2n__-refsenv."_js2n__-:definitions/MesonConfig!predicate"
         | optional,
+      mise
+        | _js2n__-prdslib.contract_from_predicate
+          _js2n__-refsenv."_js2n__-:definitions/MiseConfig!predicate"
+        | optional,
       mojo
         | _js2n__-prdslib.contract_from_predicate
           _js2n__-refsenv."_js2n__-:definitions/MojoConfig!predicate"
@@ -3901,6 +4038,10 @@ let rec _js2n__-refsenv
       nats
         | _js2n__-prdslib.contract_from_predicate
           _js2n__-refsenv."_js2n__-:definitions/NatsConfig!predicate"
+        | optional,
+      netns
+        | _js2n__-prdslib.contract_from_predicate
+          _js2n__-refsenv."_js2n__-:definitions/NetnsConfig!predicate"
         | optional,
       nim
         | _js2n__-prdslib.contract_from_predicate
@@ -3968,6 +4109,10 @@ let rec _js2n__-refsenv
       pijul_channel
         | _js2n__-prdslib.contract_from_predicate
           _js2n__-refsenv."_js2n__-:definitions/PijulConfig!predicate"
+        | optional,
+      pixi
+        | _js2n__-prdslib.contract_from_predicate
+          _js2n__-refsenv."_js2n__-:definitions/PixiConfig!predicate"
         | optional,
       profiles
         | _js2n__-prdslib.contract_from_predicate

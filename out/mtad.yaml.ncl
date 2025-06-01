@@ -935,11 +935,6 @@ let rec _js2n__-refsenv
                             _js2n__-prdslib.isType '"String",
                             _js2n__-prdslib.enum
                               [
-                                "application.before-stop.live",
-                                "application.before-stop.idle",
-                                "application.after-stop.live",
-                                "application.after-stop.idle",
-                                "application.before-unmap-routes",
                                 "deploy.application.before-stop",
                                 "blue-green.application.before-stop.idle",
                                 "blue-green.application.before-stop.live",
@@ -1428,6 +1423,22 @@ let rec _js2n__-refsenv
               | optional,
             ..
           },
+      "_js2n__-:definitions/resource-fail-on-service-update!contract" =
+        {
+            parameters
+              | Bool
+              | doc "Specifies whether the deployment should fail if updating the service instance parameters fails."
+              | optional,
+            plan
+              | Bool
+              | doc "Specifies whether the deployment should fail if updating the service plan fails."
+              | optional,
+            tags
+              | Bool
+              | doc "Specifies whether the deployment should fail if updating the service tags fails."
+              | optional,
+            ..
+          },
       "_js2n__-:definitions/resource-parameters!contract" =
         {
             apply-namespace
@@ -1437,6 +1448,10 @@ let rec _js2n__-refsenv
             config
               | {  .. }
               | doc "Map value, containing the service creation configuration, for example, url and user credentials (user and password)."
+              | optional,
+            fail-on-service-update
+              | _js2n__-refsenv."_js2n__-:definitions/resource-fail-on-service-update!contract"
+              | doc "Map value specifying which service components (parameters, plan, tags) should cause the deployment to fail if their update fails."
               | optional,
             provider-id
               | String

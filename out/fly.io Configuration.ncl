@@ -1373,6 +1373,7 @@ let rec _js2n__-refsenv
                                       "immediate"
                                     ]
                                 ],
+                          wait_timeout = _js2n__-prdslib.isType '"String",
                         } {} false _js2n__-prdslib.never
                     ],
               env =

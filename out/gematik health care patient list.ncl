@@ -976,6 +976,26 @@ let rec _js2n__-refsenv
                                         ],
                                       _js2n__-prdslib.isType 'Integer
                                     ],
+                              deliveryAddress =
+                                _js2n__-prdslib.allOf
+                                    [
+                                      _js2n__-prdslib.isType 'Record,
+                                      _js2n__-prdslib.records.record
+                                        {
+                                          city =
+                                            _js2n__-prdslib.isType '"String",
+                                          country =
+                                            _js2n__-prdslib.isType '"String",
+                                          houseNumber =
+                                            _js2n__-prdslib.isType '"String",
+                                          postalCode =
+                                            _js2n__-prdslib.isType '"String",
+                                          streetName =
+                                            _js2n__-prdslib.isType '"String",
+                                        } {} false _js2n__-prdslib.never
+                                    ],
+                              gender =
+                                _js2n__-prdslib.enum [ "w", "m", "d", "x" ],
                               insurance = _js2n__-prdslib.isType '"String",
                               kvnr = _js2n__-prdslib.isType '"String",
                               name =
@@ -986,6 +1006,8 @@ let rec _js2n__-refsenv
                                         [ "family", "given" ],
                                       _js2n__-prdslib.records.record
                                         {
+                                          alt =
+                                            _js2n__-prdslib.isType '"String",
                                           family =
                                             _js2n__-prdslib.isType '"String",
                                           given =

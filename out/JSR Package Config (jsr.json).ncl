@@ -922,6 +922,7 @@ let rec _js2n__-refsenv
                     } true _js2n__-prdslib.always
                 ]
             ]),
+      license | String | doc "The license of this JSR package." | optional,
       name | String | doc "The name of this JSR package. Must be scoped",
       publish
         | {
